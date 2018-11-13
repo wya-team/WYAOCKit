@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'WYAKit_Example' do
+  pod 'WYAKit', :path => '../'
+
+  target 'WYAKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

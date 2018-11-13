@@ -1,0 +1,6 @@
+framework module WYAKit {
+  umbrella header "WYAKit-umbrella.h"
+
+  export *
+  module * { export * }
+}
