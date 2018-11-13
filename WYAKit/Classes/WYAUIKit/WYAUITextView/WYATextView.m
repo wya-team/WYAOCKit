@@ -8,6 +8,14 @@
 #import "WYATextView.h"
 
 @interface WYATextView ()<UITextViewDelegate>
+
+/**
+ 占位文字
+ */
+@property (nonatomic, copy)   NSString * placeHold;
+@property (nonatomic, strong) UIColor * placeHoldColor;
+@property (nonatomic, assign) CGFloat  placeHoldFont;
+
 @property (nonatomic, copy)   NSString * lastPlaceHold;
 @end
 
@@ -43,10 +51,14 @@
     return self;
 }
 
--(void)setPlaceHold:(NSString *)placeHold{
-    self.text = placeHold;
-    self.textColor = random(234, 234, 234, 1);
-    self.lastPlaceHold = placeHold;
+#pragma mark --- Method
+-(void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont{
+    self.text = placeHoldString;
+    self.lastPlaceHold = placeHoldString;
+    self.textColor = placeHoldColor;
+    _placeHoldColor = placeHoldColor;
+    self.font = FONT(placeHoldFont);
+    _placeHoldFont = placeHoldFont;
 }
 
 #pragma mark --- UITextViewDelegate
@@ -54,6 +66,7 @@
     if ([textView.text isEqualToString:self.lastPlaceHold]) {
         textView.text = @"";
         textView.textColor = [UIColor blackColor];
+        textView.font = FONT(17);
     }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldBeginEditing:textView];
@@ -62,9 +75,16 @@
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    if ([textView.text isEqualToString:self.lastPlaceHold]) {
+    if (textView.text.length<1) {
         textView.text = self.lastPlaceHold;
-        textView.textColor = [UIColor blackColor];
+        textView.textColor = _placeHoldColor;
+        textView.font = FONT(_placeHoldFont);
+    }else{
+        if ([textView.text isEqualToString:self.lastPlaceHold]) {
+            textView.text = self.lastPlaceHold;
+            textView.textColor = _placeHoldColor;
+            textView.font = FONT(_placeHoldFont);
+        }
     }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldEndEditing:textView];
@@ -79,9 +99,7 @@
     
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    if ([textView.text isEqualToString:self.lastPlaceHold]) {
-        textView.text = @"";
-    }
+    
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
         [self.wya_delegate wya_TextViewDidEndEditing:textView];
     }
@@ -95,6 +113,24 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView{
+    
+    CGRect frame = textView.frame;
+    CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
+    CGSize size = [textView sizeThatFits:constraintSize];
+    if (size.height<=frame.size.height) {
+    
+    }else{
+        if (size.height >= self.textViewMaxHeight)
+        {
+            size.height = self.textViewMaxHeight;
+            textView.scrollEnabled = YES;   // 允许滚动
+        }
+        else
+        {
+            textView.scrollEnabled = NO;    // 不允许滚动
+        }
+    }
+    textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
         [self.wya_delegate wya_TextViewDidChange:textView];
     }

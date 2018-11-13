@@ -6,13 +6,13 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYACameraViewController.h"
+#import "WYACameraViewControllerO.h"
 
-@interface WYACameraViewController ()
+@interface WYACameraViewControllerO ()
 
 @end
 
-@implementation WYACameraViewController
+@implementation WYACameraViewControllerO
 
 - (void)viewDidLoad {
     [super viewDidLoad];

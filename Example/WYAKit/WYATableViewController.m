@@ -88,7 +88,9 @@
 
 -(NSArray *)array{
     if (!_array) {
-        _array = [NSArray arrayWithObjects:@"WYATableViewController", nil];
+        _array = [NSArray arrayWithObjects:@"WYATextViewController",
+                                           @"WYAIMGCodeViewController",
+                                           nil];
     }
     return _array;
 }
