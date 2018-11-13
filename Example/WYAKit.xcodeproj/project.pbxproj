@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2176D10321998534000CA10D /* WYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2176D10221998534000CA10D /* WYAdd.m */; };
-		2176D10A219A5CE3000CA10D /* WYATools in Resources */ = {isa = PBXBuildFile; fileRef = 2176D108219A5CE3000CA10D /* WYATools */; };
-		2176D10B219A5CE3000CA10D /* WYAUIKit in Resources */ = {isa = PBXBuildFile; fileRef = 2176D109219A5CE3000CA10D /* WYAUIKit */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -42,10 +39,6 @@
 /* Begin PBXFileReference section */
 		04D1ACF52C5DE7EAAB1AC8A3 /* WYAKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WYAKit.podspec; path = ../WYAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		2176D10121998534000CA10D /* WYAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAdd.h; sourceTree = "<group>"; };
-		2176D10221998534000CA10D /* WYAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAdd.m; sourceTree = "<group>"; };
-		2176D108219A5CE3000CA10D /* WYATools */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WYATools; sourceTree = "<group>"; };
-		2176D109219A5CE3000CA10D /* WYAUIKit */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WYAUIKit; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -102,6 +95,124 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2176D10C219A6019000CA10D /* WYAUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				2176D10D219A6019000CA10D /* WYAProgressView */,
+				2176D10E219A6019000CA10D /* WYAToastView */,
+				2176D10F219A6019000CA10D /* WYAUITextView */,
+				2176D110219A6019000CA10D /* WYAShareView */,
+				2176D111219A6019000CA10D /* WYAUIPickerView */,
+				2176D112219A6019000CA10D /* WYAPageViewController */,
+				2176D113219A6019000CA10D /* WYAIMGCode */,
+				2176D114219A6019000CA10D /* WYABannerView */,
+				2176D115219A6019000CA10D /* WYAUIAlert */,
+			);
+			path = WYAUIKit;
+			sourceTree = "<group>";
+		};
+		2176D10D219A6019000CA10D /* WYAProgressView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAProgressView;
+			sourceTree = "<group>";
+		};
+		2176D10E219A6019000CA10D /* WYAToastView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAToastView;
+			sourceTree = "<group>";
+		};
+		2176D10F219A6019000CA10D /* WYAUITextView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAUITextView;
+			sourceTree = "<group>";
+		};
+		2176D110219A6019000CA10D /* WYAShareView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAShareView;
+			sourceTree = "<group>";
+		};
+		2176D111219A6019000CA10D /* WYAUIPickerView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAUIPickerView;
+			sourceTree = "<group>";
+		};
+		2176D112219A6019000CA10D /* WYAPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAPageViewController;
+			sourceTree = "<group>";
+		};
+		2176D113219A6019000CA10D /* WYAIMGCode */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAIMGCode;
+			sourceTree = "<group>";
+		};
+		2176D114219A6019000CA10D /* WYABannerView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYABannerView;
+			sourceTree = "<group>";
+		};
+		2176D115219A6019000CA10D /* WYAUIAlert */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAUIAlert;
+			sourceTree = "<group>";
+		};
+		2176D116219A6019000CA10D /* WYATools */ = {
+			isa = PBXGroup;
+			children = (
+				2176D117219A6019000CA10D /* WYAPhotoBrowser */,
+				2176D118219A6019000CA10D /* WYADownloader */,
+				2176D119219A6019000CA10D /* WYACamera */,
+				2176D11A219A6019000CA10D /* WYAVideoPlayer */,
+			);
+			path = WYATools;
+			sourceTree = "<group>";
+		};
+		2176D117219A6019000CA10D /* WYAPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		2176D118219A6019000CA10D /* WYADownloader */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYADownloader;
+			sourceTree = "<group>";
+		};
+		2176D119219A6019000CA10D /* WYACamera */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYACamera;
+			sourceTree = "<group>";
+		};
+		2176D11A219A6019000CA10D /* WYAVideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = WYAVideoPlayer;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -144,10 +255,8 @@
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* WYAViewController.h */,
 				6003F5A6195388D20070C39A /* WYAViewController.m */,
-				2176D10121998534000CA10D /* WYAdd.h */,
-				2176D10221998534000CA10D /* WYAdd.m */,
-				2176D108219A5CE3000CA10D /* WYATools */,
-				2176D109219A5CE3000CA10D /* WYAUIKit */,
+				2176D116219A6019000CA10D /* WYATools */,
+				2176D10C219A6019000CA10D /* WYAUIKit */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -287,8 +396,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2176D10A219A5CE3000CA10D /* WYATools in Resources */,
-				2176D10B219A5CE3000CA10D /* WYAUIKit in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
@@ -371,7 +478,6 @@
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* WYAViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
-				2176D10321998534000CA10D /* WYAdd.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
