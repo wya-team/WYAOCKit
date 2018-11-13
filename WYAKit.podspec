@@ -40,8 +40,10 @@ TODO: Add long description of the pod here.
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-
-   s.dependency 'Masonry', '~> 1.1.0'
+  
+  s.prefix_header_file = 'WYAKit/Classes/WYAHelp/WYAKitConfigePrefix.pch'
+  
+  s.dependency 'Masonry', '~> 1.1.0'
    s.dependency 'FMDB','~>2.7.2'
    s.dependency 'JQFMDB','~>1.1.6'
    s.dependency 'YYText'
