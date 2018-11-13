@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D28F21EAC2EB4F3149DDB24BFBE5EC57"
-               BlueprintName = "WYAKit"
+               BlueprintIdentifier = "01B52F53C563BB35B7989239BE79A18B"
+               BlueprintName = "FMDB"
                ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "WYAKit.framework">
+               BuildableName = "FMDB.framework">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
