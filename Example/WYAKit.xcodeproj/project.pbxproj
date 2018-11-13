@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21470BCF219AB04F0099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BCE219AB04F0099CB6F /* 0.png */; };
+		21470BD1219AB0540099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BD0219AB0540099CB6F /* 0.png */; };
+		21470BD3219AB05A0099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BD2219AB05A0099CB6F /* 0.png */; };
+		21470BD5219AB0600099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BD4219AB0600099CB6F /* 0.png */; };
+		21470BD7219AB0640099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BD6219AB0640099CB6F /* 0.png */; };
+		21470BD9219AB06C0099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BD8219AB06C0099CB6F /* 0.png */; };
+		21470BDB219AB0700099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BDA219AB0700099CB6F /* 0.png */; };
+		21470BDD219AB0750099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BDC219AB0750099CB6F /* 0.png */; };
+		21470BDF219AB07F0099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BDE219AB07F0099CB6F /* 0.png */; };
+		21470BE1219AB0840099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BE0219AB0840099CB6F /* 0.png */; };
+		21470BE3219AB0890099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BE2219AB0890099CB6F /* 0.png */; };
+		21470BE5219AB0920099CB6F /* 0.png in Resources */ = {isa = PBXBuildFile; fileRef = 21470BE4219AB0920099CB6F /* 0.png */; };
+		21470BE8219AB0B00099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BE7219AB0B00099CB6F /* WYATextViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -40,6 +53,20 @@
 /* Begin PBXFileReference section */
 		04D1ACF52C5DE7EAAB1AC8A3 /* WYAKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WYAKit.podspec; path = ../WYAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		21470BCE219AB04F0099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BD0219AB0540099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BD2219AB05A0099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BD4219AB0600099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 0.png; path = ../WYAProgressView/0.png; sourceTree = "<group>"; };
+		21470BD6219AB0640099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BD8219AB06C0099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BDA219AB0700099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BDC219AB0750099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BDE219AB07F0099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BE0219AB0840099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BE2219AB0890099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 0.png; sourceTree = "<group>"; };
+		21470BE4219AB0920099CB6F /* 0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = 0.png; path = "../../../../../../../../Downloads/Swift-30-Projects-master/Project 05 - Artistry/Artistry/Assets.xcassets/0.imageset/0.png"; sourceTree = "<group>"; };
+		21470BE6219AB0B00099CB6F /* WYATextViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATextViewController.h; sourceTree = "<group>"; };
+		21470BE7219AB0B00099CB6F /* WYATextViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATextViewController.m; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -98,6 +125,140 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21470B94219AAF4F0099CB6F /* WYAUIKit */ = {
+			isa = PBXGroup;
+			children = (
+				21470B95219AAF4F0099CB6F /* WYAProgressView */,
+				21470B98219AAF4F0099CB6F /* WYAToastView */,
+				21470B9B219AAF4F0099CB6F /* WYAUITextView */,
+				21470B9E219AAF4F0099CB6F /* WYAShareView */,
+				21470BA1219AAF4F0099CB6F /* WYAUIPickerView */,
+				21470BA4219AAF4F0099CB6F /* WYAPageViewController */,
+				21470BA7219AAF4F0099CB6F /* WYAIMGCode */,
+				21470BAA219AAF4F0099CB6F /* WYABannerView */,
+				21470BAD219AAF4F0099CB6F /* WYAUIAlert */,
+			);
+			name = WYAUIKit;
+			path = ../../WYAKit/Classes/WYAUIKit;
+			sourceTree = "<group>";
+		};
+		21470B95219AAF4F0099CB6F /* WYAProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BCE219AB04F0099CB6F /* 0.png */,
+			);
+			path = WYAProgressView;
+			sourceTree = "<group>";
+		};
+		21470B98219AAF4F0099CB6F /* WYAToastView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BD0219AB0540099CB6F /* 0.png */,
+			);
+			path = WYAToastView;
+			sourceTree = "<group>";
+		};
+		21470B9B219AAF4F0099CB6F /* WYAUITextView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BE6219AB0B00099CB6F /* WYATextViewController.h */,
+				21470BE7219AB0B00099CB6F /* WYATextViewController.m */,
+			);
+			path = WYAUITextView;
+			sourceTree = "<group>";
+		};
+		21470B9E219AAF4F0099CB6F /* WYAShareView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BD2219AB05A0099CB6F /* 0.png */,
+			);
+			path = WYAShareView;
+			sourceTree = "<group>";
+		};
+		21470BA1219AAF4F0099CB6F /* WYAUIPickerView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BD4219AB0600099CB6F /* 0.png */,
+			);
+			path = WYAUIPickerView;
+			sourceTree = "<group>";
+		};
+		21470BA4219AAF4F0099CB6F /* WYAPageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				21470BD6219AB0640099CB6F /* 0.png */,
+			);
+			path = WYAPageViewController;
+			sourceTree = "<group>";
+		};
+		21470BA7219AAF4F0099CB6F /* WYAIMGCode */ = {
+			isa = PBXGroup;
+			children = (
+				21470BD8219AB06C0099CB6F /* 0.png */,
+			);
+			path = WYAIMGCode;
+			sourceTree = "<group>";
+		};
+		21470BAA219AAF4F0099CB6F /* WYABannerView */ = {
+			isa = PBXGroup;
+			children = (
+				21470BDA219AB0700099CB6F /* 0.png */,
+			);
+			path = WYABannerView;
+			sourceTree = "<group>";
+		};
+		21470BAD219AAF4F0099CB6F /* WYAUIAlert */ = {
+			isa = PBXGroup;
+			children = (
+				21470BDC219AB0750099CB6F /* 0.png */,
+			);
+			path = WYAUIAlert;
+			sourceTree = "<group>";
+		};
+		21470BB0219AAF4F0099CB6F /* WYATools */ = {
+			isa = PBXGroup;
+			children = (
+				21470BB1219AAF4F0099CB6F /* WYAPhotoBrowser */,
+				21470BB4219AAF4F0099CB6F /* WYADownloader */,
+				21470BB7219AAF4F0099CB6F /* WYACamera */,
+				21470BBA219AAF4F0099CB6F /* WYAVideoPlayer */,
+			);
+			name = WYATools;
+			path = ../../WYAKit/Classes/WYATools;
+			sourceTree = "<group>";
+		};
+		21470BB1219AAF4F0099CB6F /* WYAPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				21470BDE219AB07F0099CB6F /* 0.png */,
+			);
+			path = WYAPhotoBrowser;
+			sourceTree = "<group>";
+		};
+		21470BB4219AAF4F0099CB6F /* WYADownloader */ = {
+			isa = PBXGroup;
+			children = (
+				21470BE0219AB0840099CB6F /* 0.png */,
+			);
+			path = WYADownloader;
+			sourceTree = "<group>";
+		};
+		21470BB7219AAF4F0099CB6F /* WYACamera */ = {
+			isa = PBXGroup;
+			children = (
+				21470BE4219AB0920099CB6F /* 0.png */,
+			);
+			path = WYACamera;
+			sourceTree = "<group>";
+		};
+		21470BBA219AAF4F0099CB6F /* WYAVideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				21470BE2219AB0890099CB6F /* 0.png */,
+			);
+			path = WYAVideoPlayer;
+			sourceTree = "<group>";
+		};
 		6003F581195388D10070C39A = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +304,8 @@
 				95C8686F219A8380001036EB /* WYATableViewController.h */,
 				95C8686E219A8380001036EB /* WYATableViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
+				21470BB0219AAF4F0099CB6F /* WYATools */,
+				21470B94219AAF4F0099CB6F /* WYAUIKit */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 			);
@@ -281,8 +444,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21470BDD219AB0750099CB6F /* 0.png in Resources */,
+				21470BDB219AB0700099CB6F /* 0.png in Resources */,
+				21470BD5219AB0600099CB6F /* 0.png in Resources */,
+				21470BD1219AB0540099CB6F /* 0.png in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				21470BD7219AB0640099CB6F /* 0.png in Resources */,
+				21470BE3219AB0890099CB6F /* 0.png in Resources */,
+				21470BCF219AB04F0099CB6F /* 0.png in Resources */,
+				21470BE5219AB0920099CB6F /* 0.png in Resources */,
+				21470BD3219AB05A0099CB6F /* 0.png in Resources */,
+				21470BD9219AB06C0099CB6F /* 0.png in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
+				21470BE1219AB0840099CB6F /* 0.png in Resources */,
+				21470BDF219AB07F0099CB6F /* 0.png in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 			);
@@ -372,6 +547,7 @@
 			files = (
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* WYAViewController.m in Sources */,
+				21470BE8219AB0B00099CB6F /* WYATextViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				95C86870219A8380001036EB /* WYATableViewController.m in Sources */,
 			);
