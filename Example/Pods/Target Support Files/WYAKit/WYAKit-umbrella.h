@@ -56,7 +56,6 @@
 #import "asdad.h"
 #import "PickView.h"
 #import "WYATextView.h"
-#import "WYATextViewController.h"
 
 FOUNDATION_EXPORT double WYAKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char WYAKitVersionString[];

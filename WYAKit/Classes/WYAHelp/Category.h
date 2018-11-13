@@ -37,5 +37,6 @@
 #import "NSObject+Swizzle.h"
 #import "NSObject+Category.h"
 #import "NSObject+PerformBlock.h"
-
+/**********************/
+#import <Masonry/Masonry.h>
 #endif /* Category_h */
