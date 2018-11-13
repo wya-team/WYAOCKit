@@ -18,6 +18,7 @@
     self = [super init];
     if (self) {
         self.delegate = self;
+        _textViewMaxHeight = 60.f;
     }
     return self;
 }
@@ -27,6 +28,17 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.delegate = self;
+        _textViewMaxHeight = 60.f;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame textContainer:(nullable NSTextContainer *)textContainer
+{
+    self = [super initWithFrame:frame textContainer:textContainer];
+    if (self) {
+        self.delegate = self;
+        _textViewMaxHeight = 60.f;
     }
     return self;
 }
@@ -34,11 +46,15 @@
 -(void)setPlaceHold:(NSString *)placeHold{
     self.text = placeHold;
     self.textColor = random(234, 234, 234, 1);
+    self.lastPlaceHold = placeHold;
 }
 
 #pragma mark --- UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
-    
+    if ([textView.text isEqualToString:self.lastPlaceHold]) {
+        textView.text = @"";
+        textView.textColor = [UIColor blackColor];
+    }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldBeginEditing:textView];
     }
@@ -46,6 +62,10 @@
 }
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    if ([textView.text isEqualToString:self.lastPlaceHold]) {
+        textView.text = self.lastPlaceHold;
+        textView.textColor = [UIColor blackColor];
+    }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldEndEditing:textView];
     }
@@ -59,6 +79,9 @@
     
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
+    if ([textView.text isEqualToString:self.lastPlaceHold]) {
+        textView.text = @"";
+    }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
         [self.wya_delegate wya_TextViewDidEndEditing:textView];
     }
