@@ -28,7 +28,7 @@
 #import "Toast.h"
 #import "asdad.h"
 #import "PickView.h"
-#import "TextView.h"
+#import "WYATextView.h"
 
 FOUNDATION_EXPORT double WYAKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char WYAKitVersionString[];
