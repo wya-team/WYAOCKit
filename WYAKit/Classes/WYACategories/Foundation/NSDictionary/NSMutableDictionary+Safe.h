@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSMutableDictionary (Safe)
-- (void)safeSetObject:(id)aObj forKey:(id<NSCopying>)aKey;
+- (void)wya_safeSetObject:(id)aObj forKey:(id<NSCopying>)aKey;
 
-- (id)safeObjectForKey:(id<NSCopying>)aKey;
+- (id)wya_safeObjectForKey:(id<NSCopying>)aKey;
 @end

@@ -1,9 +1,9 @@
 //
 //  NSArray+Sudoku.m
-//  WexWeiCaiFu
+//  WYA_iOS_Scaffold
 //
-//  Created by 星星 on 16/8/8.
-//  Copyright © 2016年 SinaPay. All rights reserved.
+//  Created by 李世航 on 18/7/8.
+//  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
 #import "NSArray+Sudoku.h"
@@ -11,7 +11,7 @@
 
 @implementation NSArray (Sudoku)
 
-- (MAS_VIEW *)star_commonSuperviewOfViews
+- (MAS_VIEW *)wya_star_commonSuperviewOfViews
 {
     if (self.count == 1) {
         return ((MAS_VIEW *)self.firstObject).superview;
@@ -34,7 +34,7 @@
     return commonSuperview;
 }
 
-- (void)mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
+- (void)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
                                     fixedItemHeight:(CGFloat)fixedItemHeight
                                           warpCount:(NSInteger)warpCount
                                          topSpacing:(CGFloat)topSpacing
@@ -51,7 +51,7 @@
         return;
     }
 
-    MAS_VIEW * tempSuperView = [self star_commonSuperviewOfViews];
+    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
 
     NSInteger rowCount = self.count % warpCount == 0 ? self.count / warpCount : self.count / warpCount + 1;
 
@@ -101,7 +101,7 @@
     }
 }
 
-- (void)mas_distributeSudokuViewsWithFixedLineSpacing:(CGFloat)fixedLineSpacing
+- (void)wya_mas_distributeSudokuViewsWithFixedLineSpacing:(CGFloat)fixedLineSpacing
                                 fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
                                             warpCount:(NSInteger)warpCount
                                            topSpacing:(CGFloat)topSpacing
@@ -109,10 +109,10 @@
                                           leadSpacing:(CGFloat)leadSpacing
                                           tailSpacing:(CGFloat)tailSpacing
 {
-    [self mas_distributeSudokuViewsWithFixedItemWidth:0 fixedItemHeight:0 fixedLineSpacing:fixedLineSpacing fixedInteritemSpacing:fixedInteritemSpacing warpCount:warpCount topSpacing:topSpacing bottomSpacing:bottomSpacing leadSpacing:leadSpacing tailSpacing:tailSpacing];
+    [self wya_mas_distributeSudokuViewsWithFixedItemWidth:0 fixedItemHeight:0 fixedLineSpacing:fixedLineSpacing fixedInteritemSpacing:fixedInteritemSpacing warpCount:warpCount topSpacing:topSpacing bottomSpacing:bottomSpacing leadSpacing:leadSpacing tailSpacing:tailSpacing];
 }
 
-- (NSArray *)mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
+- (NSArray *)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
                                          fixedItemHeight:(CGFloat)fixedItemHeight
                                         fixedLineSpacing:(CGFloat)fixedLineSpacing
                                    fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
@@ -130,7 +130,7 @@
         return self.copy;
     }
 
-    MAS_VIEW * tempSuperView = [self star_commonSuperviewOfViews];
+    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
 
     NSArray * tempViews = self.copy;
     if (warpCount > self.count) {

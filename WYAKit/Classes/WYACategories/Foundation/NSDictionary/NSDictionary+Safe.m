@@ -9,7 +9,7 @@
 #import "NSDictionary+Safe.h"
 
 @implementation NSDictionary (Safe)
-- (id)safeObjectForKey:(NSString *)key
+- (id)wya_safeObjectForKey:(NSString *)key
 {
     if (key == nil || [self isKindOfClass:[NSNull class]]) {
         return nil;
@@ -21,7 +21,7 @@
     return object;
 }
 
-- (void)safeSetValue:(id)object forKey:(id)key
+- (void)wya_safeSetValue:(id)object forKey:(id)key
 {
     if ([key isKindOfClass:[NSNull class]]) {
         return;
@@ -33,7 +33,7 @@
     }
 }
 
-- (id)objectForKeyCustom:(id)aKey
+- (id)wya_objectForKeyCustom:(id)aKey
 {
     id object = nil;
 
@@ -44,13 +44,13 @@
 
     // 保证key必须为字符串
     if (aKey && [aKey isKindOfClass:[NSString class]]) {
-        object = [self objectForKeyCustom:aKey];
+        object = [self wya_objectForKeyCustom:aKey];
     }
 
     return object;
 }
 
-- (id)safeKeyForValue:(id)value
+- (id)wya_safeKeyForValue:(id)value
 {
     for (id key in self.allKeys) {
         if ([value isEqual:[self objectForKey:key]]) {

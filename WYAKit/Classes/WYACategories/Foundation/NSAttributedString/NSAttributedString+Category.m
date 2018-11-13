@@ -10,7 +10,7 @@
 #import <CoreText/CoreText.h>
 
 @implementation NSAttributedString (Category)
-- (CGFloat)heightWithContainWidth:(CGFloat)width
+- (CGFloat)wya_heightWithContainWidth:(CGFloat)width
 {
     int total_height = 0;
     CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString ((CFAttributedStringRef)self);

@@ -17,7 +17,7 @@
  @param color 颜色
  @param font 字体大小
  */
-- (void)setPlaceholedr:(NSString *)placeholedr color:(UIColor *)color font:(CGFloat)font;
+- (void)wya_setPlaceholedr:(NSString *)placeholedr color:(UIColor *)color font:(CGFloat)font;
 
 /**
  设置左视图文字
@@ -26,29 +26,29 @@
  @param color 颜色
  @param font 字体大小
  */
-- (void)setLeftViewWithText:(NSString *)text textColor:(UIColor *)color font:(CGFloat)font;
+- (void)wya_setLeftViewWithText:(NSString *)text textColor:(UIColor *)color font:(CGFloat)font;
 
 /**
  设置左视图图片
 
  @param imageNamed 图片名字
  */
-- (void)setLeftViewImageWithImageNamed:(NSString *)imageNamed;
+- (void)wya_setLeftViewImageWithImageNamed:(NSString *)imageNamed;
 
 /**
  设置右视图图片
 
  @param imageNamed 图片名字
  */
-- (void)setRightViewImageWithImageNamed:(NSString *)imageNamed;
+- (void)wya_setRightViewImageWithImageNamed:(NSString *)imageNamed;
 
-- (void)setRightButtonWithView:(UIButton *)button;
+- (void)wya_setRightButtonWithView:(UIButton *)button;
 /**
  设置下划线样式的textFiled
 
  @param color 下划线颜色
  */
-- (void)setTextFiledTypeStyleLineWithColor:(UIColor *)color;
+- (void)wya_setTextFiledTypeStyleLineWithColor:(UIColor *)color;
 
 /**
  设置用户名输入框
@@ -57,7 +57,7 @@
  @param font 字体大小
  @param backGroundColor 背景色
  */
-- (void)setUserNameTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
+- (void)wya_setUserNameTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
 
 /**
  设置密码输入框
@@ -66,5 +66,5 @@
  @param font 字体大小
  @param backGroundColor 背景色
  */
-- (void)setPasswordTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
+- (void)wya_setPasswordTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
 @end

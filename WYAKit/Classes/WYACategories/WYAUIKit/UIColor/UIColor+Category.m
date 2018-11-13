@@ -9,7 +9,7 @@
 #import "UIColor+Category.h"
 
 @implementation UIColor (Category)
-+ (UIColor *)hex:(NSString *)hexString
++ (UIColor *)wya_hex:(NSString *)hexString
 {
     NSString * cString = [[hexString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
 
@@ -42,12 +42,12 @@
                                alpha:1.0f];
 }
 
-+ (UIColor *)colorWithRGB:(NSUInteger)aRGB
++ (UIColor *)wya_colorWithRGB:(NSUInteger)aRGB
 {
     return [UIColor colorWithRed:((float)((aRGB & 0xFF0000) >> 16)) / 255.0 green:((float)((aRGB & 0xFF00) >> 8)) / 255.0 blue:((float)(aRGB & 0xFF)) / 255.0 alpha:1.0];
 }
 
-+ (UIColor *)colorRGBonvertToHSB:(UIColor *)color withBrighnessDelta:(CGFloat)delta
++ (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withBrighnessDelta:(CGFloat)delta
 {
     CGFloat hue = 0.0f;
     CGFloat saturation = 0.0f;
@@ -61,7 +61,7 @@
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
 }
 
-+ (UIColor *)colorRGBonvertToHSB:(UIColor *)color withAlphaDelta:(CGFloat)delta
++ (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withAlphaDelta:(CGFloat)delta
 {
     CGFloat hue = 0.0f;
     CGFloat saturation = 0.0f;
@@ -75,12 +75,12 @@
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
 }
 @end
-UIColor * rgb (CGFloat red, CGFloat green, CGFloat blue)
+UIColor * wya_rgb (CGFloat red, CGFloat green, CGFloat blue)
 {
     return [UIColor colorWithRed:red / 255.0 green:green / 255.0 blue:blue / 255.0 alpha:1];
 }
 
-UIColor * rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha)
+UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha)
 {
     return [UIColor colorWithRed:red / 255.0 green:green / 255.0 blue:blue / 255.0 alpha:alpha];
 }

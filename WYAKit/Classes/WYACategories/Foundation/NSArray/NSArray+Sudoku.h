@@ -1,9 +1,9 @@
 //
 //  NSArray+Sudoku.h
-//  WexWeiCaiFu
+//  WYA_iOS_Scaffold
 //
-//  Created by 星星 on 16/8/8.
-//  Copyright © 2016年 SinaPay. All rights reserved.
+//  Created by 李世航 on 18/7/8.
+//  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
 //#import "MASConstraintMaker.h"
@@ -23,7 +23,7 @@
  *  @param leadSpacing     左间距
  *  @param tailSpacing     右间距
  */
-- (void)mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
+- (void)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
                                     fixedItemHeight:(CGFloat)fixedItemHeight
                                           warpCount:(NSInteger)warpCount
                                          topSpacing:(CGFloat)topSpacing
@@ -42,7 +42,7 @@
  *  @param leadSpacing           左间距
  *  @param tailSpacing           右间距
  */
-- (void)mas_distributeSudokuViewsWithFixedLineSpacing:(CGFloat)fixedLineSpacing
+- (void)wya_mas_distributeSudokuViewsWithFixedLineSpacing:(CGFloat)fixedLineSpacing
                                 fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
                                             warpCount:(NSInteger)warpCount
                                            topSpacing:(CGFloat)topSpacing
@@ -71,7 +71,7 @@
  *  @return 一般情况下会返回[self copy], 如果warpCount大于[self count]，则会返回一个被空白view填充过的数组，可以让你循环调用removeFromSuperview或者干一些其他的事情;
  *  @return Normal will return [self copy], If warpCount bigger than [self count] , It will return a empty views filled array, you could enumerate [subview removeFromSuperview] or do other things;
  */
-- (NSArray *)mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
+- (NSArray *)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
                                          fixedItemHeight:(CGFloat)fixedItemHeight
                                         fixedLineSpacing:(CGFloat)fixedLineSpacing
                                    fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
