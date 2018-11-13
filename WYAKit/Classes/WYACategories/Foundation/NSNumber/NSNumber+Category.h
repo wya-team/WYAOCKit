@@ -11,7 +11,7 @@
 @interface NSNumber (Category)
 
 /** 返回自己对应的罗马数字 */
-- (NSString *)romanNumeral;
+- (NSString *)wya_romanNumeral;
 
 /**
  四舍五入
@@ -19,7 +19,7 @@
  @param digit 限制最大位数
  @return 结果
  */
-- (NSNumber *)doRoundWithDigit:(NSUInteger)digit;
+- (NSNumber *)wya_doRoundWithDigit:(NSUInteger)digit;
 
 /**
  取上整
@@ -27,7 +27,7 @@
  @param digit 限制最大位数
  @return 结果
  */
-- (NSNumber *)doCeilWithDigit:(NSUInteger)digit;
+- (NSNumber *)wya_doCeilWithDigit:(NSUInteger)digit;
 
 /**
  取下整
@@ -35,6 +35,6 @@
  @param digit 限制最大位数
  @return 结果
  */
-- (NSNumber *)doFloorWithDigit:(NSUInteger)digit;
+- (NSNumber *)wya_doFloorWithDigit:(NSUInteger)digit;
 
 @end

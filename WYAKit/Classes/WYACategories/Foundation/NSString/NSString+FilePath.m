@@ -10,36 +10,36 @@
 
 @implementation NSString (FilePath)
 
-+ (NSString *)homePath
++ (NSString *)wya_homePath
 {
     return NSHomeDirectory ();
 }
 
-+ (NSString *)appPath
++ (NSString *)wya_appPath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains (NSApplicationDirectory, NSUserDomainMask, YES);
     return [paths objectAtIndex:0];
 }
 
-+ (NSString *)docPath
++ (NSString *)wya_docPath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths objectAtIndex:0];
 }
 
-+ (NSString *)libPrefPath
++ (NSString *)wya_libPrefPath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] stringByAppendingFormat:@"/Preference"];
 }
 
-+ (NSString *)libCachePath
++ (NSString *)wya_libCachePath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths objectAtIndex:0] stringByAppendingFormat:@"/Caches"];
 }
 
-+ (NSString *)tmpPath
++ (NSString *)wya_tmpPath
 {
     return [NSHomeDirectory () stringByAppendingFormat:@"/tmp"];
 }

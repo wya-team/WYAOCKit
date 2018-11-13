@@ -14,5 +14,5 @@
  *
  *  @return json 字符串
  */
-- (NSString *)TransToJSONString;
+- (NSString *)wya_TransToJSONString;
 @end

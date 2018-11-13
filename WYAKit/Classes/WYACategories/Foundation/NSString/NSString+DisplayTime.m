@@ -9,7 +9,7 @@
 #import "NSString+DisplayTime.h"
 
 @implementation NSString (DisplayTime)
-+ (NSString *)compareCurrentTime:(NSTimeInterval)compareDate
++ (NSString *)wya_compareCurrentTime:(NSTimeInterval)compareDate
 {
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:compareDate / 1000];
 
@@ -55,7 +55,7 @@
 
     return result;
 }
-+ (NSString *)getDateStringWithTimestamp:(NSTimeInterval)timestamp
++ (NSString *)wya_getDateStringWithTimestamp:(NSTimeInterval)timestamp
 {
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:timestamp / 1000];
     NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
@@ -69,7 +69,7 @@
     return [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)referenceYear, (long)referenceMonth, (long)referenceDay];
 }
 
-+ (NSString *)getStringWithTimestamp:(NSTimeInterval)timestamp formatter:(NSString *)formatter
++ (NSString *)wya_getStringWithTimestamp:(NSTimeInterval)timestamp formatter:(NSString *)formatter
 {
     if ([NSString stringWithFormat:@"%@", @(timestamp)].length == 13) {
         timestamp /= 1000.0f;

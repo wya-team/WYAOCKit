@@ -59,24 +59,5 @@
  */
 + (CGFloat)getWidthWithTitle:(NSString *)title font:(UIFont *)font;
 
-/**
- “注“方块字
- */
-- (void)labelTextForZhu;
-
-/**
- “到“方块字
- */
-- (void)labelTextForDao;
-
-/**
- “似“方块字
- */
-- (void)labelTextForSi;
-
-/**
- “合“方块字
- */
-- (void)labelTextForHe;
 
 @end

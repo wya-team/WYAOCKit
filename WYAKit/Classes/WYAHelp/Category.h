@@ -37,6 +37,9 @@
 #import "NSObject+Swizzle.h"
 #import "NSObject+Category.h"
 #import "NSObject+PerformBlock.h"
-/**********************/
+/*********** 第三方依赖库 ***********/
 #import <Masonry/Masonry.h>
+#import <JQFMDB/JQFMDB.h>
+#import <YYText/YYText.h>
+#import <FMDB/FMDB.h>
 #endif /* Category_h */

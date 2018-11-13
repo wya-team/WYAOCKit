@@ -16,5 +16,5 @@
  @param width AttributedString Width
  @return AttributedString height
  */
-- (CGFloat)heightWithContainWidth:(CGFloat)width;
+- (CGFloat)wya_heightWithContainWidth:(CGFloat)width;
 @end

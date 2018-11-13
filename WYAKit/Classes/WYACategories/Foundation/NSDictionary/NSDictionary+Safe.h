@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface NSDictionary (Safe)
-- (id)safeObjectForKey:(NSString *)key;
+- (id)wya_safeObjectForKey:(NSString *)key;
 
-- (void)safeSetValue:(id)object forKey:(id)key;
+- (void)wya_safeSetValue:(id)object forKey:(id)key;
 
-- (id)objectForKeyCustom:(id)aKey;
+- (id)wya_objectForKeyCustom:(id)aKey;
 
-- (id)safeKeyForValue:(id)value;
+- (id)wya_safeKeyForValue:(id)value;
 @end

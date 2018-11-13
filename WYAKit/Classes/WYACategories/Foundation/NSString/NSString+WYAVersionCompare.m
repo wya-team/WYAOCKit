@@ -9,7 +9,7 @@
 #import "NSString+WYAVersionCompare.h"
 
 @implementation NSString (WYAVersionCompare)
-+ (NSInteger)compareVersion:(NSString *)v1 to:(NSString *)v2
++ (NSInteger)wya_compareVersion:(NSString *)v1 to:(NSString *)v2
 {
     // 都为空，相等，返回0
     if (!v1 && !v2) {

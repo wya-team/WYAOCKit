@@ -10,7 +10,7 @@
 #import <CommonCrypto/CommonDigest.h>
 
 @implementation NSString (MD5)
-- (NSString *)md5WithString
+- (NSString *)wya_md5WithString
 {
     if (self == nil || [self length] == 0) {
         return nil;
@@ -29,16 +29,16 @@
     return outputString;
 }
 
-- (NSString *)to16MD5
+- (NSString *)wya_to16MD5
 {
     if (self == nil || [self length] == 0) {
         return nil;
     }
 
-    return [[self md5WithString] substringWithRange:NSMakeRange (8, 16)];
+    return [[self wya_md5WithString] substringWithRange:NSMakeRange (8, 16)];
 }
 
-- (NSString *)sha1
+- (NSString *)wya_sha1
 {
     if (self == nil || [self length] == 0) {
         return nil;
@@ -55,7 +55,7 @@
     return [ms copy];
 }
 
-- (NSString *)sha256
+- (NSString *)wya_sha256
 {
     if (self == nil || [self length] == 0) {
         return nil;
@@ -72,7 +72,7 @@
     return [ms copy];
 }
 
-- (NSString *)sha512
+- (NSString *)wya_sha512
 {
     if (self == nil || [self length] == 0) {
         return nil;

@@ -89,44 +89,4 @@
     return label.frame.size.width;
 }
 
-- (void)labelTextForZhu
-{
-    self.text = @"注";
-    self.textColor = [UIColor hex:@"#e32626"];
-    self.font = FONT (10);
-    self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor hex:@"#e32626"].CGColor;
-    self.textAlignment = NSTextAlignmentCenter;
-}
-
-- (void)labelTextForDao
-{
-    self.text = @"到";
-    self.textColor = [UIColor hex:@"#ab4df3"];
-    self.font = FONT (10);
-    self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor hex:@"#ab4df3"].CGColor;
-    self.textAlignment = NSTextAlignmentCenter;
-}
-
-- (void)labelTextForSi
-{
-    self.text = @"似";
-    self.textColor = [UIColor hex:@"#0d08c2"];
-    self.font = FONT (10);
-    self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor hex:@"#0d08c2"].CGColor;
-    self.textAlignment = NSTextAlignmentCenter;
-}
-
-- (void)labelTextForHe
-{
-    self.text = @"合";
-    self.textColor = [UIColor hex:@"#2e8105"];
-    self.font = FONT (10);
-    self.layer.borderWidth = 0.5;
-    self.layer.borderColor = [UIColor hex:@"#2e8105"].CGColor;
-    self.textAlignment = NSTextAlignmentCenter;
-}
-
 @end

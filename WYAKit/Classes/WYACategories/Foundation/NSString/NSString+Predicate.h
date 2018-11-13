@@ -15,68 +15,68 @@
 
  @return YES or NO
  */
-- (BOOL)isValidMobileNumber;
+- (BOOL)wya_isValidMobileNumber;
 
 /**
  是否是由字母数字下划线中文组成2位到8位
 
  @return YES or NO
  */
-- (BOOL)isValidRealName;
+- (BOOL)wya_isValidRealName;
 
 /**
  是否只有中文
 
  @return YES or NO
  */
-- (BOOL)isOnlyChinese;
+- (BOOL)wya_isOnlyChinese;
 
 /**
  有效的验证码(根据需求进行位数修改)这里是4位
 
  */
-- (BOOL)isValidVerifyCode;
+- (BOOL)wya_isValidVerifyCode;
 
 /**
  有效的银行卡号
 
  */
-- (BOOL)isValidBankCardNumber;
+- (BOOL)wya_isValidBankCardNumber;
 
 /**
  有效的邮箱
 
  */
-- (BOOL)isValidEmail;
+- (BOOL)wya_isValidEmail;
 
 /**
  有效的字母数字密码
  */
-- (BOOL)isValidAlphaNumberPassword;
+- (BOOL)wya_isValidAlphaNumberPassword;
 
 /**
  检测有效身份证 15位
  */
-- (BOOL)isValidIdentifyFifteen;
+- (BOOL)wya_isValidIdentifyFifteen;
 
 /**
  检测有效身份证 18位
  */
-- (BOOL)isValidIdentifyEighteen;
+- (BOOL)wya_isValidIdentifyEighteen;
 
 /**
  车牌号的有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)isCarNumber;
+- (BOOL)wya_isCarNumber;
 
 /**
  简单的身份证有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)simpleVerifyIdentityCardNum;
+- (BOOL)wya_simpleVerifyIdentityCardNum;
 
 /**
  精确的身份证号码有效性检测
@@ -84,54 +84,54 @@
  @param value 精确的身份证号码有效性检测
  @return yes 有效  no 无效
  */
-+ (BOOL)accurateVerifyIDCardNumber:(NSString *)value;
++ (BOOL)wya_accurateVerifyIDCardNumber:(NSString *)value;
 
 /**
  银行卡的有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)bankCardluhmCheck;
+- (BOOL)wya_bankCardluhmCheck;
 
 /**
  IP地址有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)isIPAddress;
+- (BOOL)wya_isIPAddress;
 
 /**
  Mac地址有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)isMacAddress;
+- (BOOL)wya_isMacAddress;
 
 /**
  网址有效性
  
  @return yes 有效  no 无效
  */
-- (BOOL)isValidUrl;
+- (BOOL)wya_isValidUrl;
 
 /**
  邮政编码
  
  @return yes 有效  no 无效
  */
-- (BOOL)isValidPostalcode;
+- (BOOL)wya_isValidPostalcode;
 
 /**
  工商税号
  
  @return yes 有效  no 无效
  */
-- (BOOL)isValidTaxNo;
+- (BOOL)wya_isValidTaxNo;
 
 /**
  限制只能输入数字
  */
-- (BOOL)isOnlyNumber;
+- (BOOL)wya_isOnlyNumber;
 @end
 
 /**

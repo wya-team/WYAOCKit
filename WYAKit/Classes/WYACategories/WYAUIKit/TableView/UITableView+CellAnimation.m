@@ -9,7 +9,7 @@
 #import "UITableView+CellAnimation.h"
 
 @implementation UITableView (CellAnimation)
-- (void)moveAnimation
+- (void)wya_moveAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -24,7 +24,7 @@
     }
 }
 
-- (void)alphaAnimation
+- (void)wya_alphaAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -38,7 +38,7 @@
     }
 }
 
-- (void)fallAnimation
+- (void)wya_fallAnimation
 {
     NSArray * cells = self.visibleCells;
 
@@ -55,7 +55,7 @@
     }
 }
 
-- (void)shakeAnimation
+- (void)wya_shakeAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -73,7 +73,7 @@
     }
 }
 
-- (void)overTurnAnimation
+- (void)wya_overTurnAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -90,7 +90,7 @@
     }
 }
 
-- (void)toTopAnimation
+- (void)wya_toTopAnimation
 {
     NSArray * cells = self.visibleCells;
 
@@ -107,7 +107,7 @@
     }
 }
 
-- (void)springListAnimation
+- (void)wya_springListAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -125,7 +125,7 @@
     }
 }
 
-- (void)shrinkToTopAnimation
+- (void)wya_shrinkToTopAnimation
 {
     NSArray * cells = self.visibleCells;
     for (int i = 0; i < cells.count; i++) {
@@ -138,7 +138,7 @@
     }
 }
 
-- (void)layDownAnimation
+- (void)wya_layDownAnimation
 {
     NSArray * cells = self.visibleCells;
     NSMutableArray * rectArr = [[NSMutableArray alloc] init];
@@ -162,7 +162,7 @@
     }
 }
 
-- (void)roteAnimation
+- (void)wya_roteAnimation
 {
     NSArray * cells = self.visibleCells;
     CABasicAnimation * animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.y"];

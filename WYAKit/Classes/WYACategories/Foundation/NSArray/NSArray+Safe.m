@@ -9,7 +9,7 @@
 #import "NSArray+Safe.h"
 
 @implementation NSArray (Safe)
-+ (instancetype)safeArrayWithObject:(id)object
++ (instancetype)wya_safeArrayWithObject:(id)object
 {
     if (object == nil) {
         return [self array];
@@ -18,7 +18,7 @@
     }
 }
 
-- (id)safeObjectAtIndex:(NSUInteger)index
+- (id)wya_safeObjectAtIndex:(NSUInteger)index
 {
     if (index >= self.count) {
         return nil;
@@ -27,7 +27,7 @@
     }
 }
 
-- (NSUInteger)safeIndexOfObject:(id)anObject
+- (NSUInteger)wya_safeIndexOfObject:(id)anObject
 {
     if (anObject == nil) {
         return NSNotFound;
@@ -36,7 +36,7 @@
     }
 }
 
-- (NSArray *)safeSubarrayWithRange:(NSRange)range
+- (NSArray *)wya_safeSubarrayWithRange:(NSRange)range
 {
     NSUInteger location = range.location;
     NSUInteger length = range.length;
@@ -44,7 +44,7 @@
         //超过了边界,就获取从loction开始所有的item
         if ((location + length) > self.count) {
             length = (self.count - location);
-            return [self safeSubarrayWithRange:NSMakeRange (location, length)];
+            return [self wya_safeSubarrayWithRange:NSMakeRange (location, length)];
         }
 
         return nil;

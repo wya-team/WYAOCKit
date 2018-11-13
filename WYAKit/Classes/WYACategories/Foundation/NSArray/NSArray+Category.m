@@ -9,13 +9,13 @@
 #import "NSArray+Category.h"
 
 @implementation NSArray (Category)
-- (NSString *)transToJSONString
+- (NSString *)wya_transToJSONString
 {
     NSData * paramsJSONData = [NSJSONSerialization dataWithJSONObject:self options:0 error:nil];
     return [[NSString alloc] initWithData:paramsJSONData encoding:NSUTF8StringEncoding];
 }
 
-- (NSArray *)reverseArray
+- (NSArray *)wya_reverseArray
 {
     NSMutableArray * arrayTemp = [NSMutableArray arrayWithCapacity:[self count]];
     NSEnumerator * enumerator = [self reverseObjectEnumerator];

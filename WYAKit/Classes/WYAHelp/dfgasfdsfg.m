@@ -9,7 +9,9 @@
 
 @implementation dfgasfdsfg
 - (void)print{
-
+    NSArray * str = @[@"sdfgds",@"123"];
+    [str wya_transToJSONString];
+    
 }
 /*
 // Only override drawRect: if you perform custom drawing.

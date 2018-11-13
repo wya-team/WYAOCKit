@@ -10,17 +10,19 @@
 
 @interface NSArray (Category)
 
+
 /**
  数组转成json 字符串
 
+
  @return json字符串
  */
-- (NSString *)transToJSONString;
+- (NSString *)wya_transToJSONString;
 
 /**
  反转数组
  
  @return 完成反转的数组
  */
-- (NSArray *)reverseArray;
+- (NSArray *)wya_reverseArray;
 @end

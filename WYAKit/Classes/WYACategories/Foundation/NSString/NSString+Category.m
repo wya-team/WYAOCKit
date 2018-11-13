@@ -9,7 +9,7 @@
 #import "NSString+Category.h"
 
 @implementation NSString (Category)
-+ (NSString *)getSecrectStringWithPhoneNumber:(NSString *)phoneNum
++ (NSString *)wya_getSecrectStringWithPhoneNumber:(NSString *)phoneNum
 {
     if (phoneNum.length == 11) {
         NSMutableString * newStr = [NSMutableString stringWithString:phoneNum];
@@ -20,7 +20,7 @@
     return nil;
 }
 
-+ (NSString *)getSecrectStringWithAccountNo:(NSString *)accountNo
++ (NSString *)wya_getSecrectStringWithAccountNo:(NSString *)accountNo
 {
     NSMutableString * newStr = [NSMutableString stringWithString:accountNo];
     NSRange range = NSMakeRange (4, 8);
@@ -30,7 +30,7 @@
     return newStr;
 }
 
-+ (NSString *)stringMobileFormat:(NSString *)mobile
++ (NSString *)wya_stringMobileFormat:(NSString *)mobile
 {
     if (mobile.length == 11) {
         NSMutableString * value = [[NSMutableString alloc] initWithString:mobile];
@@ -42,7 +42,7 @@
     return nil;
 }
 
-+ (NSString *)stringChineseFormat:(double)value
++ (NSString *)wya_stringChineseFormat:(double)value
 {
     if (value / 100000000 >= 1) {
         return [NSString stringWithFormat:@"%.0f亿", value / 100000000];
@@ -53,27 +53,27 @@
     }
 }
 
-+ (NSString *)countNumAndChangeformat:(NSString *)num
++ (NSString *)wya_countNumAndChangeformat:(NSString *)num
 {
     NSNumberFormatter * moneyFormatter = [[NSNumberFormatter alloc] init];
     moneyFormatter.positiveFormat = @"###,###";
     //如要增加小数点请自行修改为@"###,###,##"
-    return [moneyFormatter stringFromNumber:[num toNumber]];
+    return [moneyFormatter stringFromNumber:[num wya_toNumber]];
 }
 
-- (CGFloat)heightWithFontSize:(CGFloat)fontSize width:(CGFloat)width
+- (CGFloat)wya_heightWithFontSize:(CGFloat)fontSize width:(CGFloat)width
 {
     NSDictionary * attrs = @{NSFontAttributeName : FONT (fontSize)};
     return [self boundingRectWithSize:CGSizeMake (width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.height + fontSize;
 }
 
-- (CGFloat)widthWithFontSize:(CGFloat)fontSize height:(CGFloat)maxHeight
+- (CGFloat)wya_widthWithFontSize:(CGFloat)fontSize height:(CGFloat)maxHeight
 {
     NSDictionary * attrs = @{NSFontAttributeName : FONT (fontSize)};
     return [self boundingRectWithSize:CGSizeMake (0, maxHeight) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.width + fontSize;
 }
 
-- (NSNumber *)toNumber
+- (NSNumber *)wya_toNumber
 {
     NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
@@ -82,7 +82,7 @@
 }
 
 /*抹除运费小数末尾的0*/
-- (NSString *)removeUnwantedZero
+- (NSString *)wya_removeUnwantedZero
 {
     if ([[self substringWithRange:NSMakeRange (self.length - 3, 3)] isEqualToString:@"000"]) {
         return [self substringWithRange:NSMakeRange (0, self.length - 4)]; // 多一个小数点
@@ -96,12 +96,12 @@
 }
 
 //去掉前后空格
-- (NSString *)trimmedString
+- (NSString *)wya_trimmedString
 {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
 }
 
-- (BOOL)isContainChineseInUTF8CodeingFormat
+- (BOOL)wya_isContainChineseInUTF8CodeingFormat
 {
     NSUInteger length = [self length];
     for (NSUInteger i = 0; i < length; i++) {
@@ -115,7 +115,7 @@
     return NO;
 }
 
-- (BOOL)isContainChineseInGBKCodeingFormat
+- (BOOL)wya_isContainChineseInGBKCodeingFormat
 {
     for (int i = 0; i < self.length; i++) {
         unichar ch = [self characterAtIndex:i];
@@ -126,7 +126,7 @@
     return NO;
 }
 
-- (NSInteger)chineseCountOfStringInGBKCodeingFormat
+- (NSInteger)wya_chineseCountOfStringInGBKCodeingFormat
 {
     int ChineseCount = 0;
 
@@ -145,7 +145,7 @@
     return ChineseCount;
 }
 
-- (unsigned long long)fileSize
+- (unsigned long long)wya_fileSize
 {
     // 总大小
     unsigned long long size = 0;
@@ -169,12 +169,12 @@
     return size;
 }
 
-- (NSString *)stringByStrippingHTML
+- (NSString *)wya_stringByStrippingHTML
 {
     return [self stringByReplacingOccurrencesOfString:@"<[^>]+>" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, self.length)];
 }
 
-- (NSString *)stringByRemovingScriptsAndStrippingHTML
+- (NSString *)wya_stringByRemovingScriptsAndStrippingHTML
 {
     NSMutableString * mString = [self mutableCopy];
     NSError * error;
@@ -183,15 +183,15 @@
     for (NSTextCheckingResult * match in [matches reverseObjectEnumerator]) {
         [mString replaceCharactersInRange:match.range withString:@""];
     }
-    return [mString stringByStrippingHTML];
+    return [mString wya_stringByStrippingHTML];
 }
 
-- (NSString *)trimmingWhitespace
+- (NSString *)wya_trimmingWhitespace
 {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 }
 
-- (NSString *)trimmingWhitespaceAndNewlines
+- (NSString *)wya_trimmingWhitespaceAndNewlines
 {
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
