@@ -3,20 +3,35 @@
   "version": "0.1.0",
   "summary": "A short description of WYAKit.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/1228506851@qq.com/WYAKit",
+  "homepage": "https://github.com/wya-team/WYAOCKit.git",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "1228506851@qq.com": "1228506851@qq.com"
+    "WYATeam": "Lsh"
   },
   "source": {
-    "git": "https://github.com/1228506851@qq.com/WYAKit.git",
+    "git": "https://github.com/wya-team/WYAOCKit.git",
     "tag": "0.1.0"
   },
   "platforms": {
     "ios": "8.0"
   },
-  "source_files": "WYAKit/Classes/**/*"
+  "source_files": "WYAKit/Classes/**/*",
+  "static_framework": true,
+  "dependencies": {
+    "Masonry": [
+      "~> 1.1.0"
+    ],
+    "FMDB": [
+      "~>2.7.2"
+    ],
+    "JQFMDB": [
+      "~>1.1.6"
+    ],
+    "YYText": [
+
+    ]
+  }
 }
