@@ -31,6 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYATextView : UITextView
 
 @property (nonatomic, weak) id<WYATextViewDelegate> wya_delegate;
+@property (nonatomic, copy)   NSString * placeHold;
 @end
 
 NS_ASSUME_NONNULL_END

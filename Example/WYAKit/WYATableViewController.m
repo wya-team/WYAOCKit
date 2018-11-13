@@ -47,6 +47,11 @@
 }
 
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.navigationController pushViewController:[[NSClassFromString(self.array[indexPath.row]) alloc]init] animated:YES];
+}
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -83,7 +88,7 @@
 
 -(NSArray *)array{
     if (!_array) {
-        _array = [NSArray arrayWithObjects:@"", nil];
+        _array = [NSArray arrayWithObjects:@"WYATableViewController", nil];
     }
     return _array;
 }
