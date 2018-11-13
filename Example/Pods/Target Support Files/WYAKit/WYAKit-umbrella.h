@@ -10,6 +10,8 @@
 #endif
 #endif
 
+#import "WYAdd.h"
+#import "sdwd.h"
 
 FOUNDATION_EXPORT double WYAKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char WYAKitVersionString[];

@@ -10,13 +10,12 @@
 		03DED63AEDC4C84E5BFEBED21BF77DB5 /* Pods-WYAKit_Example-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0E9EDBBF39A4C29E371CDA20C39D5A01 /* Pods-WYAKit_Example-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		07A15863D72D7D805B3B45E68C209E2E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		3C0B5CF1E26AF32C6C289F3BA8642C67 /* Pods-WYAKit_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C1E6C0D434DB7419D62446E25196CA3 /* Pods-WYAKit_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3D3A82AC841FF46A8749D748001BB643 /* WYAKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3CBC14A5DCBAABFF811D064E7AFD0C45 /* WYAKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		411C3CB816CE3A49BDA48B522E96EB6F /* WYAKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C9F2FD3E69B3EAB30B18391619AA000 /* WYAKit-dummy.m */; };
 		54318A6A941113FC7ED24345F05055A1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
 		54478AD4DBB91A2C3D6E0DFE87EFBED0 /* Pods-WYAKit_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 110F8FADF3C059E8EE1ED8466616A986 /* Pods-WYAKit_Example-dummy.m */; };
 		7BFB5CD0A461F9B115D0105AC86FAF1C /* Pods-WYAKit_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B561FA851826AB15892C0E3611DD233A /* Pods-WYAKit_Tests-dummy.m */; };
-		BF56B20268456B88DD20EB9171098E63 /* ReplaceMe.m in Sources */ = {isa = PBXBuildFile; fileRef = EAFBB4ADC8D00B8E5C301C20565E020F /* ReplaceMe.m */; };
-		D2093FB71D0FCCE3F7C8D88AE1A7EFA7 /* WYAKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E584612F4D1E759C5776F877D7EC3107 /* WYAKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DB169EFF0D02EB42A67B98A47B21D2CE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */; };
-		EA5878B8823EE35D0FB84A3CDBBF6D30 /* WYAKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 80A19A1BBD76D9504F866D883173A486 /* WYAKit-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,38 +39,36 @@
 		04C13B021B4521EA189FF5C269601C06 /* Pods-WYAKit_Tests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WYAKit_Tests-acknowledgements.plist"; sourceTree = "<group>"; };
 		0E9EDBBF39A4C29E371CDA20C39D5A01 /* Pods-WYAKit_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WYAKit_Example-umbrella.h"; sourceTree = "<group>"; };
 		110F8FADF3C059E8EE1ED8466616A986 /* Pods-WYAKit_Example-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WYAKit_Example-dummy.m"; sourceTree = "<group>"; };
-		19AA8985790867A20F3347798E13B417 /* WYAKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WYAKit-prefix.pch"; sourceTree = "<group>"; };
 		1CC323CA96FE20AFD9BE59B4A1C746C8 /* Pods-WYAKit_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WYAKit_Example.modulemap"; sourceTree = "<group>"; };
-		1F8D6A6D62C6467897D71CA103D5D924 /* WYAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = WYAKit.framework; path = WYAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F8D6A6D62C6467897D71CA103D5D924 /* WYAKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WYAKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		277426B3574B9E4E2FFF33C5EA9EC517 /* Pods-WYAKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WYAKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		29FB2DED6579E34EBFBCDB45F07069E9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		57335A71C48F964FF8A0ED15E702C58F /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
+		30256850D1CEC39AF6E7740FFBC2EA82 /* WYAKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WYAKit-prefix.pch"; sourceTree = "<group>"; };
+		3C9F2FD3E69B3EAB30B18391619AA000 /* WYAKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WYAKit-dummy.m"; sourceTree = "<group>"; };
+		3CBC14A5DCBAABFF811D064E7AFD0C45 /* WYAKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WYAKit-umbrella.h"; sourceTree = "<group>"; };
 		5E15F3830B85A9C430A7CF9ED8B1513D /* Pods-WYAKit_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WYAKit_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		61B74243CE45FE29C81F2ECB28C72BDD /* Pods-WYAKit_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WYAKit_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		6371668C30007C0404913686DB8AEDC7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6604A7D69453B4569E4E4827FB9155A9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		68A2BD853C5D2D7AD893FC29566044C9 /* WYAKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WYAKit.modulemap; sourceTree = "<group>"; };
+		66F210D65B2D349170797C0C61B3919F /* WYAKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; path = WYAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		7151A4112B6375147F1253AAA0DA86FD /* Pods-WYAKit_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WYAKit_Example-resources.sh"; sourceTree = "<group>"; };
-		7283D5BFC1527F2DC6BA4EB4F4793C8F /* WYAKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WYAKit.xcconfig; sourceTree = "<group>"; };
 		7B29D567603267C43B0BA2417AC4462B /* Pods-WYAKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WYAKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		7C1E6C0D434DB7419D62446E25196CA3 /* Pods-WYAKit_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WYAKit_Tests-umbrella.h"; sourceTree = "<group>"; };
-		80A19A1BBD76D9504F866D883173A486 /* WYAKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WYAKit-dummy.m"; sourceTree = "<group>"; };
 		80A1E0F1FA280E89ED2638825D2ABCB8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		98865911E00B6513152A4EC21CD89EF5 /* Pods-WYAKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WYAKit_Tests.modulemap"; sourceTree = "<group>"; };
-		ACB4D11E55721223A50ADCF0012F109E /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_WYAKit_Example.framework; path = "Pods-WYAKit_Example.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AC3EB93D9DDEF0E235B7E33EA023EF33 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ACB4D11E55721223A50ADCF0012F109E /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE8871E21D262934A05053363533ECDB /* Pods-WYAKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WYAKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		B561FA851826AB15892C0E3611DD233A /* Pods-WYAKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WYAKit_Tests-dummy.m"; sourceTree = "<group>"; };
-		BB33413285836C00370016BB0DCA30AC /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		C17303A23C3A761573CA1652A2A6BF8A /* WYAKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WYAKit.modulemap; sourceTree = "<group>"; };
 		C6D5B58ACB57E3D70EC2B004DD7BE417 /* Pods-WYAKit_Tests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WYAKit_Tests-frameworks.sh"; sourceTree = "<group>"; };
 		C96C5634AEED711E262BB7D238EE8889 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		D0CBFA11A797BAB9505FD65C98688C34 /* Pods-WYAKit_Example-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WYAKit_Example-acknowledgements.plist"; sourceTree = "<group>"; };
+		DC91FD283A245AADF3FBE4090A09F9B4 /* WYAKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WYAKit.xcconfig; sourceTree = "<group>"; };
 		DF4EB8153FEF8837D409E9FE1963D74E /* Pods-WYAKit_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WYAKit_Example-frameworks.sh"; sourceTree = "<group>"; };
-		E548C8CA23A3A0E424F0AFE7A332A3D3 /* WYAKit.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; path = WYAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		E584612F4D1E759C5776F877D7EC3107 /* WYAKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WYAKit-umbrella.h"; sourceTree = "<group>"; };
 		E893F2204F63B9E3FB228D92D751D698 /* Pods-WYAKit_Tests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WYAKit_Tests-resources.sh"; sourceTree = "<group>"; };
-		EAFBB4ADC8D00B8E5C301C20565E020F /* ReplaceMe.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ReplaceMe.m; path = WYAKit/Classes/ReplaceMe.m; sourceTree = "<group>"; };
-		FE09DC832FA9A1E0D1717ECBAE082BFA /* Pods_WYAKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_WYAKit_Tests.framework; path = "Pods-WYAKit_Tests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FBCEF04268F383C0CD56778C7FCFACC3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FE09DC832FA9A1E0D1717ECBAE082BFA /* Pods_WYAKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,18 +99,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C77AC8E04EC9257BD6A14D08337DAFA /* Support Files */ = {
+		3E475B0F5204A41AA1D3236C6103F36D /* WYAKit */ = {
 			isa = PBXGroup;
 			children = (
-				6371668C30007C0404913686DB8AEDC7 /* Info.plist */,
-				68A2BD853C5D2D7AD893FC29566044C9 /* WYAKit.modulemap */,
-				7283D5BFC1527F2DC6BA4EB4F4793C8F /* WYAKit.xcconfig */,
-				80A19A1BBD76D9504F866D883173A486 /* WYAKit-dummy.m */,
-				19AA8985790867A20F3347798E13B417 /* WYAKit-prefix.pch */,
-				E584612F4D1E759C5776F877D7EC3107 /* WYAKit-umbrella.h */,
+				B5C2C4D90F4056C0222ADC45BD1DB492 /* Pod */,
+				A76F57094C7F558CFB96393D7A68E4E9 /* Support Files */,
 			);
-			name = "Support Files";
-			path = "Example/Pods/Target Support Files/WYAKit";
+			name = WYAKit;
+			path = ../..;
 			sourceTree = "<group>";
 		};
 		56B082237A9BE1A0BE121FB55E989695 /* Products */ = {
@@ -126,23 +119,23 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		704D673434E74BD73089F8D1B3E18966 /* Development Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A059079F7CC607A6AB52483CF2AA76F5 /* WYAKit */,
-			);
-			name = "Development Pods";
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
-				704D673434E74BD73089F8D1B3E18966 /* Development Pods */,
+				8620918609CAAEE8842EA25A7AC034D7 /* Development Pods */,
 				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
 				56B082237A9BE1A0BE121FB55E989695 /* Products */,
 				FB495EA3E70A7B3671874F24CF2D7AAB /* Targets Support Files */,
 			);
+			sourceTree = "<group>";
+		};
+		8620918609CAAEE8842EA25A7AC034D7 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3E475B0F5204A41AA1D3236C6103F36D /* WYAKit */,
+			);
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		897F2A79644E8956E57E4DADEB095558 /* Pods-WYAKit_Tests */ = {
@@ -163,15 +156,17 @@
 			path = "Target Support Files/Pods-WYAKit_Tests";
 			sourceTree = "<group>";
 		};
-		A059079F7CC607A6AB52483CF2AA76F5 /* WYAKit */ = {
+		A76F57094C7F558CFB96393D7A68E4E9 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				EAFBB4ADC8D00B8E5C301C20565E020F /* ReplaceMe.m */,
-				EAE9031D08696C2389AD65727E569C04 /* Pod */,
-				2C77AC8E04EC9257BD6A14D08337DAFA /* Support Files */,
+				C17303A23C3A761573CA1652A2A6BF8A /* WYAKit.modulemap */,
+				DC91FD283A245AADF3FBE4090A09F9B4 /* WYAKit.xcconfig */,
+				3C9F2FD3E69B3EAB30B18391619AA000 /* WYAKit-dummy.m */,
+				30256850D1CEC39AF6E7740FFBC2EA82 /* WYAKit-prefix.pch */,
+				3CBC14A5DCBAABFF811D064E7AFD0C45 /* WYAKit-umbrella.h */,
 			);
-			name = WYAKit;
-			path = ../..;
+			name = "Support Files";
+			path = "Example/Pods/Target Support Files/WYAKit";
 			sourceTree = "<group>";
 		};
 		A830C47D5317F1D397904D9F5FEEB4C2 /* Pods-WYAKit_Example */ = {
@@ -192,6 +187,16 @@
 			path = "Target Support Files/Pods-WYAKit_Example";
 			sourceTree = "<group>";
 		};
+		B5C2C4D90F4056C0222ADC45BD1DB492 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				AC3EB93D9DDEF0E235B7E33EA023EF33 /* LICENSE */,
+				FBCEF04268F383C0CD56778C7FCFACC3 /* README.md */,
+				66F210D65B2D349170797C0C61B3919F /* WYAKit.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
 		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -208,16 +213,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		EAE9031D08696C2389AD65727E569C04 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				57335A71C48F964FF8A0ED15E702C58F /* LICENSE */,
-				BB33413285836C00370016BB0DCA30AC /* README.md */,
-				E548C8CA23A3A0E424F0AFE7A332A3D3 /* WYAKit.podspec */,
-			);
-			name = Pod;
-			sourceTree = "<group>";
-		};
 		FB495EA3E70A7B3671874F24CF2D7AAB /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,11 +225,11 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0BA05D559F881B0AAFEB3390B967E797 /* Headers */ = {
+		13ED5F902CD47E3ADEB0EA68AADF0D4E /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2093FB71D0FCCE3F7C8D88AE1A7EFA7 /* WYAKit-umbrella.h in Headers */,
+				3D3A82AC841FF46A8749D748001BB643 /* WYAKit-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,9 +256,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9F0E87D26F9BFE12450F459A3C6D1DCB /* Build configuration list for PBXNativeTarget "WYAKit" */;
 			buildPhases = (
-				FE420A98CE417A5BF535EF8F0165586F /* Sources */,
+				AABC85FA2C571D36A763C5500A077626 /* Sources */,
 				C2196B2C087C9D4880347F798F6FEF7D /* Frameworks */,
-				0BA05D559F881B0AAFEB3390B967E797 /* Headers */,
+				13ED5F902CD47E3ADEB0EA68AADF0D4E /* Headers */,
 			);
 			buildRules = (
 			);
@@ -347,20 +342,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		AABC85FA2C571D36A763C5500A077626 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				411C3CB816CE3A49BDA48B522E96EB6F /* WYAKit-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C7E03F88B38F041AD1F0EC3737928C32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				7BFB5CD0A461F9B115D0105AC86FAF1C /* Pods-WYAKit_Tests-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FE420A98CE417A5BF535EF8F0165586F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BF56B20268456B88DD20EB9171098E63 /* ReplaceMe.m in Sources */,
-				EA5878B8823EE35D0FB84A3CDBBF6D30 /* WYAKit-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,9 +410,9 @@
 			};
 			name = Release;
 		};
-		4A98B80DA8550120CF97564AEEA27702 /* Debug */ = {
+		3D2B6297243735AACE1D6CD24D59B63D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7283D5BFC1527F2DC6BA4EB4F4793C8F /* WYAKit.xcconfig */;
+			baseConfigurationReference = DC91FD283A245AADF3FBE4090A09F9B4 /* WYAKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -430,10 +424,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREFIX_HEADER = "Target Support Files/WYAKit/WYAKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/WYAKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/WYAKit/WYAKit.modulemap";
 				PRODUCT_MODULE_NAME = WYAKit;
 				PRODUCT_NAME = WYAKit;
@@ -601,9 +595,9 @@
 			};
 			name = Release;
 		};
-		E52622869C959133C147AFBCB5002C47 /* Release */ = {
+		DA147FCD80AB5C01FF0C2AFC7A53B414 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7283D5BFC1527F2DC6BA4EB4F4793C8F /* WYAKit.xcconfig */;
+			baseConfigurationReference = DC91FD283A245AADF3FBE4090A09F9B4 /* WYAKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -615,10 +609,10 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				GCC_PREFIX_HEADER = "Target Support Files/WYAKit/WYAKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/WYAKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/WYAKit/WYAKit.modulemap";
 				PRODUCT_MODULE_NAME = WYAKit;
 				PRODUCT_NAME = WYAKit;
@@ -713,8 +707,8 @@
 		9F0E87D26F9BFE12450F459A3C6D1DCB /* Build configuration list for PBXNativeTarget "WYAKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4A98B80DA8550120CF97564AEEA27702 /* Debug */,
-				E52622869C959133C147AFBCB5002C47 /* Release */,
+				3D2B6297243735AACE1D6CD24D59B63D /* Debug */,
+				DA147FCD80AB5C01FF0C2AFC7A53B414 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
