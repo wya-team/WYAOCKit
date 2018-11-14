@@ -15,7 +15,6 @@
 		21470C0C219ABF4A0099CB6F /* WYAPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C0B219ABF4A0099CB6F /* WYAPageViewController.m */; };
 		21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */; };
 		21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C11219ABF640099CB6F /* WYABannerViewController.m */; };
-		21470C18219ABF890099CB6F /* WYAPhotoBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C17219ABF890099CB6F /* WYAPhotoBrowserViewController.m */; };
 		21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */; };
 		21470C1E219ABFA10099CB6F /* WYACameraViewControllerO.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1D219ABFA10099CB6F /* WYACameraViewControllerO.m */; };
 		21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */; };
@@ -71,8 +70,6 @@
 		21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAIMGCodeViewController.m; sourceTree = "<group>"; };
 		21470C10219ABF640099CB6F /* WYABannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerViewController.h; sourceTree = "<group>"; };
 		21470C11219ABF640099CB6F /* WYABannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerViewController.m; sourceTree = "<group>"; };
-		21470C16219ABF890099CB6F /* WYAPhotoBrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPhotoBrowserViewController.h; sourceTree = "<group>"; };
-		21470C17219ABF890099CB6F /* WYAPhotoBrowserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPhotoBrowserViewController.m; sourceTree = "<group>"; };
 		21470C19219ABF960099CB6F /* WYADownloaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloaderViewController.h; sourceTree = "<group>"; };
 		21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloaderViewController.m; sourceTree = "<group>"; };
 		21470C1C219ABFA10099CB6F /* WYACameraViewControllerO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraViewControllerO.h; sourceTree = "<group>"; };
@@ -155,8 +152,6 @@
 		21470BED219ABE880099CB6F /* WYAPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
-				21470C16219ABF890099CB6F /* WYAPhotoBrowserViewController.h */,
-				21470C17219ABF890099CB6F /* WYAPhotoBrowserViewController.m */,
 			);
 			path = WYAPhotoBrowser;
 			sourceTree = "<group>";
@@ -444,6 +439,9 @@
 				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = WYATeam;
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = J5265ZP7QT;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -589,7 +587,6 @@
 				21470C09219ABF380099CB6F /* WYAUIPickerViewViewController.m in Sources */,
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
-				21470C18219ABF890099CB6F /* WYAPhotoBrowserViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* WYAViewController.m in Sources */,
 				21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */,
 				21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */,
@@ -730,6 +727,7 @@
 			baseConfigurationReference = C1DE651882EDC196658DAD96 /* Pods-WYAKit_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = J5265ZP7QT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WYAKit/WYAKit-Prefix.pch";
 				INFOPLIST_FILE = "WYAKit/WYAKit-Info.plist";
@@ -745,6 +743,7 @@
 			baseConfigurationReference = 801C2E365940271D211968FE /* Pods-WYAKit_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = J5265ZP7QT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "WYAKit/WYAKit-Prefix.pch";
 				INFOPLIST_FILE = "WYAKit/WYAKit-Info.plist";

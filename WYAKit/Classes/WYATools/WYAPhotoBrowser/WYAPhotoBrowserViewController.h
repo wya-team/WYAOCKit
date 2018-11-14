@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImagePickerViewController : UIViewController
+@interface WYAPhotoBrowserViewController : UIViewController
 
 @property (nonatomic, copy) void(^selectedImages)(NSArray<UIImage *> *images);
 @property (nonatomic, assign) NSInteger maxCount;

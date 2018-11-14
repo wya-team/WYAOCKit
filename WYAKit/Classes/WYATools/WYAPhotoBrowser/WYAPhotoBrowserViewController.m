@@ -40,7 +40,7 @@
 //    PHFetchResult *assetsFetchResults = [PHAsset fetchAssetsWithOptions:options];
 //    NSLog(@"ass==%@,ass.count==%d ",assetsFetchResults, assetsFetchResults.count);
 
-#import "ImagePickerViewController.h"
+#import "WYAPhotoBrowserViewController.h"
 #import <Photos/Photos.h>
 #import "ImagePickerCollectionViewCell.h"
 
@@ -49,7 +49,7 @@
 #import "ImageTypeView.h"
 #import "ImagePicker.h"
 
-@interface ImagePickerViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, ImageTypeDelegate>
+@interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, ImageTypeDelegate>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -62,7 +62,7 @@
 @property (nonatomic, strong) ImagePicker * imagePickerManager;
 @end
 
-@implementation ImagePickerViewController
+@implementation WYAPhotoBrowserViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

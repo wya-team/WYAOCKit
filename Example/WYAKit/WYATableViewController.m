@@ -92,6 +92,7 @@
                                            @"WYAIMGCodeViewController",
                                            @"WYAUIAlertViewController",
                                            @"WYABannerViewController",
+                                           @"WYAPhotoBrowserViewController",
                                            nil];
     }
     return _array;

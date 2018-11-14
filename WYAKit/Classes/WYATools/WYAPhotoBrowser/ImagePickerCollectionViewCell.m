@@ -25,8 +25,8 @@
         [self.contentView addSubview:_imageV];
         
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_button setImage:[UIImage imageNamed:@"对号"] forState:UIControlStateNormal];
-        [_button setImage:[UIImage imageNamed:@"对号_blue"] forState:UIControlStateSelected];
+        [_button setImage:[UIImage loadBundleImage:@"对号" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_button setImage:[UIImage loadBundleImage:@"对号_blue" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
         [_button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         _button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:_button];
