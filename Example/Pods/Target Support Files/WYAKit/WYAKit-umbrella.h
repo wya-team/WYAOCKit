@@ -49,6 +49,15 @@
 #import "WYACameraViewController.h"
 #import "WYAQRCodeViewController.h"
 #import "TempB.h"
+
+#import "TempA.h"
+#import "TempD.h"
+#import "WYABanner.h"
+#import "ImgCOde.h"
+#import "WYAMenuItem.h"
+#import "WYAProgressView.h"
+#import "WYAPageController.h"
+
 #import "controlView.h"
 #import "ImagePicker.h"
 #import "ImagePickerCollectionViewCell.h"

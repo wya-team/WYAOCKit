@@ -1,13 +1,13 @@
 //
-//  Page.m
-//  Pods-WYAKit_Example
+//  WYAMenuItem.m
+//  Masonry
 //
-//  Created by 李俊恒 on 2018/11/13.
+//  Created by 李俊恒 on 2018/11/10.
 //
 
-#import "Page.h"
+#import "WYAMenuItem.h"
 
-@implementation Page
+@implementation WYAMenuItem
 
 /*
 // Only override drawRect: if you perform custom drawing.
