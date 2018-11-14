@@ -33,14 +33,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id<WYATextViewDelegate> wya_delegate;
 
 /**
- 占位文字
- */
-@property (nonatomic, copy)   NSString * placeHold;
-
-/**
  最大高度
  */
 @property (nonatomic, assign) float  textViewMaxHeight;
+
+/**
+ 设置textView的PlaceHolder
+
+ @param placeHoldString 文字
+ @param placeHoldColor 颜色
+ @param placeHoldFont 大小
+ */
+-(void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont;
+
 @end
 
 NS_ASSUME_NONNULL_END

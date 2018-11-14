@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYACameraViewController : UIViewController
+@interface WYACameraViewControllerO : UIViewController
 
 @end
 
