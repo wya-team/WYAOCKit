@@ -43,12 +43,12 @@
 #import "ImagePickerViewController.h"
 #import <Photos/Photos.h>
 #import "ImagePickerCollectionViewCell.h"
-#import "ImageMakeConfig.h"
+
 
 #import "controlView.h"
 #import "ImageTypeView.h"
 #import "ImagePicker.h"
-#import "WYAImageScrollViewController.h"
+
 @interface ImagePickerViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, ImageTypeDelegate>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
@@ -74,7 +74,7 @@
     [self.view addSubview:self.controlV];
     
     [self.view addSubview:self.collectionView];
-    self.collectionView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-TopHeight-49);
+    self.collectionView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-WYATopHeight-49);
 
     [self.view addSubview:self.typeView];
     _dataSource = [NSMutableArray arrayWithCapacity:0];
@@ -127,7 +127,7 @@
 
 - (controlView *)controlV{
     if (!_controlV) {
-        _controlV = [[controlView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-TopHeight-49, SCREEN_WIDTH, 49)];
+        _controlV = [[controlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYATopHeight-49, ScreenWidth, 49)];
     }
     return _controlV;
 }
@@ -146,7 +146,7 @@
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 1;
         layout.minimumInteritemSpacing = 1;
-        layout.itemSize = CGSizeMake((SCREEN_WIDTH-5)/4, (SCREEN_WIDTH-5)/4);
+        layout.itemSize = CGSizeMake((ScreenWidth-5)/4, (ScreenWidth-5)/4);
         layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1);
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
@@ -207,8 +207,8 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 //    ImageCollectionViewCell * cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
     ImagePickerCollectionViewCell * cell = (ImagePickerCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    WYAImageScrollViewController * vc = [[WYAImageScrollViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    WYAImageScrollViewController * vc = [[WYAImageScrollViewController alloc]init];
+//    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

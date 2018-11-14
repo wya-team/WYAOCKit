@@ -7,7 +7,7 @@
 //
 
 #import "controlView.h"
-#import "ImageMakeConfig.h"
+
 @interface controlView ()
 
 @property (nonatomic, strong) UIButton * previewButton;
@@ -40,7 +40,7 @@
         [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
         [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
-        self.doneButton.frame = CGRectMake(SCREEN_WIDTH-60, 15, 45, frame.size.height-30);
+        self.doneButton.frame = CGRectMake(ScreenWidth-60, 15, 45, frame.size.height-30);
         [self.doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.doneButton];
     }

@@ -6,9 +6,6 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-//#import "MASConstraintMaker.h"
-//#import "MASUtilities.h"
-//#import "MASViewAttribute.h"
 
 @interface NSArray (Sudoku)
 
@@ -72,12 +69,12 @@
  *  @return Normal will return [self copy], If warpCount bigger than [self count] , It will return a empty views filled array, you could enumerate [subview removeFromSuperview] or do other things;
  */
 - (NSArray *)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
-                                         fixedItemHeight:(CGFloat)fixedItemHeight
-                                        fixedLineSpacing:(CGFloat)fixedLineSpacing
-                                   fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
-                                               warpCount:(NSInteger)warpCount
-                                              topSpacing:(CGFloat)topSpacing
-                                           bottomSpacing:(CGFloat)bottomSpacing
-                                             leadSpacing:(CGFloat)leadSpacing
-                                             tailSpacing:(CGFloat)tailSpacing;
+                                             fixedItemHeight:(CGFloat)fixedItemHeight
+                                            fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                       fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                   warpCount:(NSInteger)warpCount
+                                                  topSpacing:(CGFloat)topSpacing
+                                               bottomSpacing:(CGFloat)bottomSpacing
+                                                 leadSpacing:(CGFloat)leadSpacing
+                                                 tailSpacing:(CGFloat)tailSpacing;
 @end

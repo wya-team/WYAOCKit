@@ -90,6 +90,8 @@
     if (!_array) {
         _array = [NSArray arrayWithObjects:@"WYATextViewController",
                                            @"WYAIMGCodeViewController",
+                                           @"WYAUIAlertViewController",
+                                           @"WYABannerViewController",
                                            nil];
     }
     return _array;

@@ -7,7 +7,7 @@
 //
 
 #import "WYAPopupDismissAnimator.h"
-#import "WYAPopupController.h"
+#import "WYAAlertController.h"
 
 @implementation WYAPopupDismissAnimator
 
@@ -74,7 +74,7 @@
 }
 
 - (void)contractHorizontalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
@@ -88,7 +88,7 @@
 }
 
 - (void)contractVerticalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
@@ -102,7 +102,7 @@
 }
 
 - (void)slideDownAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
@@ -116,21 +116,34 @@
 }
 
 - (void)slideUpAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
-    NSTimeInterval duration = [self transitionDuration:transitionContext];
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         fromVC.backgroundButton.alpha = 0;
-                         fromVC.alertView.center = CGPointMake(fromVC.view.center.x, -fromVC.alertView.frame.size.height/2.0);
-                     }
-                     completion:^(BOOL finished) {
-                         [transitionContext completeTransition:YES];
-                     }];
+    if (fromVC.popStyle == WYAPopDefault) {
+        NSTimeInterval duration = [self transitionDuration:transitionContext];
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             fromVC.backgroundButton.alpha = 0;
+                             fromVC.alertView.center = CGPointMake(fromVC.view.center.x, -fromVC.alertView.frame.size.height/2.0);
+                         }
+                         completion:^(BOOL finished) {
+                             [transitionContext completeTransition:YES];
+                         }];
+        
+    }else if (fromVC.popStyle == WYAPopBottom) {
+        NSTimeInterval duration = [self transitionDuration:transitionContext];
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             fromVC.backgroundButton.alpha = as_backgroundAlpha;
+                             fromVC.alertView.frame = CGRectMake((fromVC.view.wya_width-fromVC.alertView.wya_width)/2, ScreenHeight, fromVC.alertView.wya_width, fromVC.alertView.wya_height);
+                         }
+                         completion:^(BOOL finished) {
+                             [transitionContext completeTransition:YES];
+                         }];
+    }
 }
 
 - (void)slideLeftAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration
@@ -144,7 +157,7 @@
 }
 
 - (void)slideRightAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
     [UIView animateWithDuration:duration

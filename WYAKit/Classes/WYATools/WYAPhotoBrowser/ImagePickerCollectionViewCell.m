@@ -7,7 +7,6 @@
 //
 
 #import "ImagePickerCollectionViewCell.h"
-#import "ImageMakeConfig.h"
 
 @interface ImagePickerCollectionViewCell ()
 
