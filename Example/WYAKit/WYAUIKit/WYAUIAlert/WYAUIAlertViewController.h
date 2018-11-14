@@ -2,7 +2,7 @@
 //  WYAUIAlertViewController.h
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/11/13.
+//  Created by 李世航 on 2018/11/14.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAUIAlertViewController : UIViewController
+@interface WYAUIAlertViewController : UITableViewController
 
 @end
 

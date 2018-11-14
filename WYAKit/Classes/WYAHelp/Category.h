@@ -15,6 +15,7 @@
 #import "UIButton+Category.h"
 #import "UIView+WYALayout.h"
 #import "UIColor+Category.h"
+#import "UIImage+Catagory.h"
 /***************** FoundationCategory ***************/
 #import "NSMutableDictionary+Safe.h"
 #import "NSDictionary+Category.h"

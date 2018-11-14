@@ -20,6 +20,11 @@
   },
   "source_files": "WYAKit/Classes/**/*",
   "static_framework": true,
+  "resource_bundles": {
+    "WYAKit": [
+      "WYAKit/Assets/*.xcassets"
+    ]
+  },
   "prefix_header_file": "WYAKit/Classes/WYAHelp/WYAKitConfigePrefix.pch",
   "dependencies": {
     "Masonry": [

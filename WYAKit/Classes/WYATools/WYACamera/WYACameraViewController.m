@@ -3,7 +3,6 @@
 #import "WYACameraViewController.h"
 #import "WYACameraTool.h"
 #import "WYACameraRecordProcessView.h"
-#import "ImageMakeConfig.h"
 
 #define kVideoMaxTime   15.0 //录制时间长度
 
@@ -147,8 +146,8 @@
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(runLoopTheMovie:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
             [self.placeholdImageView addSubview:self.backButton];
             [self.placeholdImageView addSubview:self.sureButton];
-            self.backButton.center = CGPointMake(50, SCREEN_HEIGHT-self.backButton.bounds.size.height-50);
-            self.sureButton.center = CGPointMake(SCREEN_WIDTH-50, SCREEN_HEIGHT-self.backButton.bounds.size.height-50);
+            self.backButton.center = CGPointMake(50, ScreenHeight-self.backButton.bounds.size.height-50);
+            self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
         }
     }
     
@@ -173,8 +172,8 @@
         [self.view addSubview:self.placeholdImageView];
         [self.placeholdImageView addSubview:self.backButton];
         [self.placeholdImageView addSubview:self.sureButton];
-        self.backButton.center = CGPointMake(50, SCREEN_HEIGHT-self.backButton.bounds.size.height-50);
-        self.sureButton.center = CGPointMake(SCREEN_WIDTH-50, SCREEN_HEIGHT-self.backButton.bounds.size.height-50);
+        self.backButton.center = CGPointMake(50, ScreenHeight-self.backButton.bounds.size.height-50);
+        self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
     }];
 }
 

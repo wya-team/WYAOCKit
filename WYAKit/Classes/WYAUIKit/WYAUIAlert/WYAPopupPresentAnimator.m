@@ -7,7 +7,7 @@
 //
 
 #import "WYAPopupPresentAnimator.h"
-#import "WYAPopupController.h"
+#import "WYAAlertController.h"
 
 @implementation WYAPopupPresentAnimator
 
@@ -71,7 +71,7 @@
 }
 
 - (void)systemAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.alpha = 0;
     toVC.alertView.transform = CGAffineTransformMakeScale(1.3, 1.3);
@@ -109,7 +109,7 @@
 }
 
 - (void)bounceAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.alpha = 0;
     toVC.alertView.transform = CGAffineTransformMakeScale(0, 0);
@@ -130,7 +130,7 @@
 }
 
 - (void)expandHorizontalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.alpha = 0;
     toVC.alertView.transform = CGAffineTransformMakeScale(0, 1);
@@ -151,7 +151,7 @@
 }
 
 - (void)expandVerticalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.alpha = 0;
     toVC.alertView.transform = CGAffineTransformMakeScale(1, 0);
@@ -172,7 +172,7 @@
 }
 
 - (void)slideDownAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.center = CGPointMake(toVC.view.center.x, -toVC.alertView.frame.size.height/2.0);
     
@@ -191,26 +191,43 @@
 }
 
 - (void)slideUpAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
-    toVC.alertView.center = CGPointMake(toVC.view.center.x, toVC.view.frame.size.height+toVC.alertView.frame.size.height/2.0);
+    if (toVC.popStyle == WYAPopDefault) {
+        toVC.alertView.center = CGPointMake(toVC.view.center.x, toVC.view.frame.size.height+toVC.alertView.frame.size.height/2.0);
+        
+        UIView *containerView = [transitionContext containerView];
+        [containerView addSubview:toVC.view];
+        
+        NSTimeInterval duration = [self transitionDuration:transitionContext];
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             toVC.backgroundButton.alpha = as_backgroundAlpha;
+                             toVC.alertView.center = toVC.view.center;
+                         }
+                         completion:^(BOOL finished) {
+                             [transitionContext completeTransition:YES];
+                         }];
+    }else if (toVC.popStyle == WYAPopBottom) {
+        toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight, toVC.alertView.wya_width, toVC.alertView.wya_height);
+        UIView *containerView = [transitionContext containerView];
+        [containerView addSubview:toVC.view];
+        
+        NSTimeInterval duration = [self transitionDuration:transitionContext];
+        [UIView animateWithDuration:duration
+                         animations:^{
+                             toVC.backgroundButton.alpha = as_backgroundAlpha;
+                             toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight-toVC.alertView.wya_height, toVC.alertView.wya_width, toVC.alertView.wya_height);
+                         }
+                         completion:^(BOOL finished) {
+                             [transitionContext completeTransition:YES];
+                         }];
+    }
     
-    UIView *containerView = [transitionContext containerView];
-    [containerView addSubview:toVC.view];
-    
-    NSTimeInterval duration = [self transitionDuration:transitionContext];
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         toVC.backgroundButton.alpha = as_backgroundAlpha;
-                         toVC.alertView.center = toVC.view.center;
-                     }
-                     completion:^(BOOL finished) {
-                         [transitionContext completeTransition:YES];
-                     }];
 }
 
 - (void)slideLeftAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.center = CGPointMake(toVC.view.frame.size.width+toVC.alertView.frame.size.width/2.0, toVC.view.center.y);
     
@@ -229,7 +246,7 @@
 }
 
 - (void)slideRightAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
-    WYAPopupController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.center = CGPointMake(-toVC.alertView.frame.size.width/2.0, toVC.view.center.y);
     

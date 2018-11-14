@@ -34,9 +34,9 @@ TODO: Add long description of the pod here.
   
   s.static_framework = true
   
-  # s.resource_bundles = {
-  #   'WYAKit' => ['WYAKit/Assets/*.png']
-  # }
+   s.resource_bundles = {
+     'WYAKit' => ['WYAKit/Assets/*.xcassets']
+   }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
