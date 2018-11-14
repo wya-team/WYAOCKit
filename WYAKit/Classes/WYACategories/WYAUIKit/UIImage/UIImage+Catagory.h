@@ -22,4 +22,13 @@
 
 + (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image;
 
+
+/**
+ 将颜色转化为图片
+
+ @param color UIColor对象
+ @return Image对象
+ */
++ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color;
+
 @end
