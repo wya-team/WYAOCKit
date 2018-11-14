@@ -61,6 +61,7 @@
 #import "WYAImageBrowserCell.h"
 #import "WYAIMGCode.h"
 #import "WYAMenuItem.h"
+#import "WYAMenuView.h"
 #import "WYAProgressView.h"
 #import "WYAPageController.h"
 #import "ALert.h"
