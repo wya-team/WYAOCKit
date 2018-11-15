@@ -58,12 +58,6 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
 
 - (NSMutableArray *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
-- (void)screenAssetWithFilter:(AssetCollectionType)collectionType
-       AssetCollectionSubType:(AssetCollectionSubType)subType
-               CollectionSort:(AssetCollectionSort)collectionSort
-                    assetSort:(AssetSort)assetSort
-                   ImageBlock:(void(^)(UIImage * image))imageBlock;
-
 - (NSMutableArray *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
 
 - (NSMutableArray *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;

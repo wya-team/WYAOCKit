@@ -7,7 +7,7 @@
 //
 
 #import "WYATableViewController.h"
-
+#import <WYAKit/WYAPhotoBrowserViewController.h>
 @interface WYATableViewController ()
 @property (nonatomic, strong) NSArray * array;
 @end
@@ -49,7 +49,15 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationController pushViewController:[[NSClassFromString(self.array[indexPath.row]) alloc]init] animated:YES];
+    NSString * classString = self.array[indexPath.row];
+    if ([classString isEqualToString:@"WYAPhotoBrowserViewController"]) {
+        WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
+        vc.maxCount =5;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [self.navigationController pushViewController:[[NSClassFromString(classString) alloc]init] animated:YES];
+    }
+    
 }
 
 /*

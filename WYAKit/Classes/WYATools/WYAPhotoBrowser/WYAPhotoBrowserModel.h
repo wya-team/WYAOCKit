@@ -9,7 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class PHAsset;
+
 @interface WYAPhotoBrowserModel : NSObject
+
+@property (nonatomic, strong) PHAsset * asset;//资源
+@property (nonatomic, strong) UIImage * cacheImage; //缓存图片
+@property (nonatomic, assign) BOOL  selected;
+
+
 
 @end
 
