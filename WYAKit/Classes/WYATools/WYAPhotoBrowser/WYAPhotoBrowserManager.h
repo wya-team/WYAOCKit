@@ -52,11 +52,17 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
     AssetMediaTypeAudio,
 };
 
-@interface ImagePicker : NSObject
+@interface WYAPhotoBrowserManager : NSObject
 
 @property (nonatomic, assign) AssetMediaType  mediaType;
 
 - (NSMutableArray *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
+
+- (void)screenAssetWithFilter:(AssetCollectionType)collectionType
+       AssetCollectionSubType:(AssetCollectionSubType)subType
+               CollectionSort:(AssetCollectionSort)collectionSort
+                    assetSort:(AssetSort)assetSort
+                   ImageBlock:(void(^)(UIImage * image))imageBlock;
 
 - (NSMutableArray *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
 

@@ -17,7 +17,7 @@
 
 @end
 
-@interface ImageTypeView : UIView
+@interface WYAPhotoTypeView : UIView
 
 @property (nonatomic, weak) id<ImageTypeDelegate> delegate;
 

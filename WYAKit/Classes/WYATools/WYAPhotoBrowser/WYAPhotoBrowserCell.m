@@ -6,15 +6,15 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "ImagePickerCollectionViewCell.h"
+#import "WYAPhotoBrowserCell.h"
 
-@interface ImagePickerCollectionViewCell ()
+@interface WYAPhotoBrowserCell ()
 
 @property (nonatomic, strong) UIButton * button;
 
 @end
 
-@implementation ImagePickerCollectionViewCell
+@implementation WYAPhotoBrowserCell
 
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];

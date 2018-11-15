@@ -42,12 +42,12 @@
 
 #import "WYAPhotoBrowserViewController.h"
 #import <Photos/Photos.h>
-#import "ImagePickerCollectionViewCell.h"
+#import "WYAPhotoBrowserCell.h"
 
 
 #import "controlView.h"
-#import "ImageTypeView.h"
-#import "ImagePicker.h"
+#import "WYAPhotoTypeView.h"
+#import "WYAPhotoBrowserManager.h"
 
 @interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, ImageTypeDelegate>
 
@@ -56,10 +56,10 @@
 @property (nonatomic, strong) NSMutableDictionary * cells;
 @property (nonatomic, strong) controlView * controlV;
 @property (nonatomic, strong) NSMutableArray * images;
-@property (nonatomic, strong) ImageTypeView * typeView;
+@property (nonatomic, strong) WYAPhotoTypeView * typeView;
 @property (nonatomic, strong) NSMutableArray * datas;
 @property (nonatomic, strong) UIButton * button;
-@property (nonatomic, strong) ImagePicker * imagePickerManager;
+@property (nonatomic, strong) WYAPhotoBrowserManager * imagePickerManager;
 @end
 
 @implementation WYAPhotoBrowserViewController
@@ -77,15 +77,27 @@
     self.collectionView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-WYATopHeight-49);
 
     [self.view addSubview:self.typeView];
-    _dataSource = [NSMutableArray arrayWithCapacity:0];
+    self.dataSource = [NSMutableArray arrayWithCapacity:0];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSMutableArray * array = [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            _dataSource = array;
+            self.dataSource = array;
             [self.collectionView reloadData];
         });
     });
+    
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate ImageBlock:^(UIImage *image) {
+//            [self.dataSource addObject:image];
+//            dispatch_sync(dispatch_get_main_queue(), ^{
+//                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+//            });
+//            
+//        }];
+//    });
+    
+    
     
     [self.typeView reload];
     [self performBlock];
@@ -97,9 +109,9 @@
     // Dispose of any resources that can be recreated.
 }
 
--(ImagePicker *)imagePickerManager{
+-(WYAPhotoBrowserManager *)imagePickerManager{
     if (!_imagePickerManager) {
-        _imagePickerManager = [[ImagePicker alloc]init];
+        _imagePickerManager = [[WYAPhotoBrowserManager alloc]init];
     }
     return _imagePickerManager;
 }
@@ -132,9 +144,9 @@
     return _controlV;
 }
 
--(ImageTypeView *)typeView{
+-(WYAPhotoTypeView *)typeView{
     if (!_typeView) {
-        _typeView = [[ImageTypeView alloc]initWithFrame:self.view.frame];
+        _typeView = [[WYAPhotoTypeView alloc]initWithFrame:self.view.frame];
         _typeView.hidden = YES;
         _typeView.delegate = self;
     }
@@ -152,7 +164,7 @@
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        [_collectionView registerClass:[ImagePickerCollectionViewCell class] forCellWithReuseIdentifier:@"image"];
+        [_collectionView registerClass:[WYAPhotoBrowserCell class] forCellWithReuseIdentifier:@"image"];
 //        [_collectionView registerNib:[UINib nibWithNibName:@"ImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;
@@ -172,13 +184,13 @@
 #pragma mark --- UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _dataSource.count;
+    return self.dataSource.count;
 }
 
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    ImagePickerCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
+    WYAPhotoBrowserCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
     
 //    __block ImagePickerCollectionViewCell * pickCell = cell;
 //    cell.selectImage = ^(BOOL seleted) {
@@ -197,8 +209,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0){
-    ImagePickerCollectionViewCell * imageCell = (ImagePickerCollectionViewCell *)cell;
-    id obj = _dataSource[indexPath.item];
+    WYAPhotoBrowserCell * imageCell = (WYAPhotoBrowserCell *)cell;
+    id obj = self.dataSource[indexPath.item];
     if ([obj isKindOfClass:[UIImage class]]) {
         imageCell.imageV.image = (UIImage *)obj;
     }
@@ -206,7 +218,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 //    ImageCollectionViewCell * cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    ImagePickerCollectionViewCell * cell = (ImagePickerCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    WYAPhotoBrowserCell * cell = (WYAPhotoBrowserCell *)[collectionView cellForItemAtIndexPath:indexPath];
 //    WYAImageScrollViewController * vc = [[WYAImageScrollViewController alloc]init];
 //    [self.navigationController pushViewController:vc animated:YES];
     
