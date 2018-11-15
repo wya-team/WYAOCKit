@@ -193,7 +193,7 @@
 - (void)slideUpAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
     WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
-    if (toVC.popStyle == WYAPopDefault) {
+    if (toVC.alertStyle == WYAAlertStyleDefalut) {
         toVC.alertView.center = CGPointMake(toVC.view.center.x, toVC.view.frame.size.height+toVC.alertView.frame.size.height/2.0);
         
         UIView *containerView = [transitionContext containerView];
@@ -208,7 +208,7 @@
                          completion:^(BOOL finished) {
                              [transitionContext completeTransition:YES];
                          }];
-    }else if (toVC.popStyle == WYAPopBottom) {
+    }else if (toVC.alertStyle == WYAAlertStyleSheet || toVC.alertStyle == WYAAlertStyleCustom) {
         toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight, toVC.alertView.wya_width, toVC.alertView.wya_height);
         UIView *containerView = [transitionContext containerView];
         [containerView addSubview:toVC.view];

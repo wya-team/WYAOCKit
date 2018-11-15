@@ -80,7 +80,7 @@
 
     
     
-    if (self.popStyle == WYAPopBottom) {
+    if (self.alertStyle == WYAAlertStyleSheet || self.alertStyle == WYAAlertStyleCustom) {
         // 设置 alertView 在屏幕底部
         [NSLayoutConstraint constraintWithItem:_alertView
                                      attribute:NSLayoutAttributeBottom
@@ -167,12 +167,12 @@
 /** 默认转场初始化 */
 + (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
                                     Message:(NSString * _Nullable)message
-                                   PopStyle:(WYAPopStyle)popStyle
+                                 AlertStyle:(WYAAlertStyle)alertStyle
 {
     WYAAlertController *alertController = [[WYAAlertController alloc] init];
     alertController.presentStyle = WYAPopupPresentStyleSystem;
     alertController.dismissStyle = WYAPopupDismissStyleFadeOut;
-    alertController.popStyle = popStyle;
+    alertController.alertStyle = alertStyle;
     alertController.alertView = [[WYAAlertView alloc] initWithTitle:title message:message];
     ((WYAAlertView *)(alertController.alertView)).controller = alertController;
     return alertController;
@@ -183,13 +183,13 @@
                                     Message:(NSString * _Nullable)message
                                PresentStyle:(WYAPopupPresentStyle)presentStyle
                                DismissStyle:(WYAPopupDismissStyle)dismissStyle
-                                   PopStyle:(WYAPopStyle)popStyle
+                                 AlertStyle:(WYAAlertStyle)alertStyle
 {
     
     WYAAlertController *alertController = [[WYAAlertController alloc] init];
     alertController.presentStyle = presentStyle;
     alertController.dismissStyle = dismissStyle;
-    alertController.popStyle = popStyle;
+    alertController.alertStyle = alertStyle;
     alertController.alertView = [[WYAAlertView alloc] initWithTitle:title message:message];
     ((WYAAlertView *)(alertController.alertView)).controller = alertController;
     return alertController;
@@ -197,24 +197,24 @@
 
 + (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message
-                                        PopStyle:(WYAPopStyle)popStyle
+                                      AlertStyle:(WYAAlertStyle)alertStyle
 {
     WYAAlertController *alertController = [[WYAAlertController alloc] init];
     alertController.presentStyle = WYAPopupPresentStyleSlideUp;
     alertController.dismissStyle = WYAPopupDismissStyleSlideDown;
-    alertController.popStyle = popStyle;
+    alertController.alertStyle = alertStyle;
     alertController.alertView = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
     ((WYAAlertSheetView *)(alertController.alertView)).controller = alertController;
     return alertController;
 }
 
 + (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
-                                        PopStyle:(WYAPopStyle)popStyle
+                                      AlertStyle:(WYAAlertStyle)alertStyle
 {
     WYAAlertController *alertController = [[WYAAlertController alloc] init];
     alertController.presentStyle = WYAPopupPresentStyleSlideUp;
     alertController.dismissStyle = WYAPopupDismissStyleSlideDown;
-    alertController.popStyle = popStyle;
+    alertController.alertStyle = alertStyle;
     alertController.alertView = view;
     return alertController;
 }

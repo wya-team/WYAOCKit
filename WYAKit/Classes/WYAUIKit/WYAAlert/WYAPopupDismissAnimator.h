@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "WYAPopupHeader.h"
+#import "WYAStyle.h"
 
 @interface WYAPopupDismissAnimator : NSObject<UIViewControllerAnimatedTransitioning>
 

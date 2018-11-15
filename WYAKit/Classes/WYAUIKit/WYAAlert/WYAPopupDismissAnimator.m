@@ -118,7 +118,7 @@
 - (void)slideUpAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
     WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     
-    if (fromVC.popStyle == WYAPopDefault) {
+    if (fromVC.alertStyle == WYAAlertStyleDefalut) {
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         [UIView animateWithDuration:duration
                          animations:^{
@@ -129,7 +129,7 @@
                              [transitionContext completeTransition:YES];
                          }];
         
-    }else if (fromVC.popStyle == WYAPopBottom) {
+    }else if (fromVC.alertStyle == WYAAlertStyleSheet || fromVC.alertStyle == WYAAlertStyleCustom) {
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         [UIView animateWithDuration:duration
                          animations:^{

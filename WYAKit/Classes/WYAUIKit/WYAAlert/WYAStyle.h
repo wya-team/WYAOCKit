@@ -33,9 +33,10 @@ typedef NS_ENUM(NSInteger, WYAPopupDismissStyle) {
     WYAPopupDismissStyleSlideRight,          // 向右划出
 };
 
-typedef NS_ENUM(NSInteger, WYAPopStyle) {
-    WYAPopDefault,
-    WYAPopBottom,
+typedef NS_ENUM(NSInteger, WYAAlertStyle) {
+    WYAAlertStyleDefalut,
+    WYAAlertStyleSheet,
+    WYAAlertStyleCustom,
 };
 
 #endif /* WYAPopupHeader_h */

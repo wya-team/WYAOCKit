@@ -1,7 +1,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WYAAlertAction.h"
-#import "WYAPopupHeader.h"
+#import "WYAStyle.h"
 
 /** 灰色背景透明度 */
 static const CGFloat as_backgroundAlpha = 0.4;
@@ -24,7 +24,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
 /** dismiss 转场风格 */
 @property (nonatomic, assign)WYAPopupDismissStyle dismissStyle;
 
-@property (nonatomic, assign) WYAPopStyle    popStyle; //自定义弹出视图
+@property (nonatomic, assign) WYAAlertStyle    alertStyle; //自定义弹出视图
 
 
 /**
@@ -55,7 +55,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
                                     Message:(NSString * _Nullable)message
                                PresentStyle:(WYAPopupPresentStyle)presentStyle
                                DismissStyle:(WYAPopupDismissStyle)dismissStyle
-                                   PopStyle:(WYAPopStyle)popStyle;
+                                 AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
  默认转场初始化方法
@@ -66,7 +66,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  */
 + (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
                                     Message:(NSString * _Nullable)message
-                                   PopStyle:(WYAPopStyle)popStyle;
+                                 AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
  alertSheetView初始化方法
@@ -77,7 +77,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  */
 + (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message
-                                        PopStyle:(WYAPopStyle)popStyle;
+                                      AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
  自定义弹出视图（视图需使用bounds属性确定大小，事件，按钮需自行添加）
@@ -86,5 +86,5 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @return alert控制器
  */
 + (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
-                                        PopStyle:(WYAPopStyle)popStyle;
+                                      AlertStyle:(WYAAlertStyle)alertStyle;
 @end

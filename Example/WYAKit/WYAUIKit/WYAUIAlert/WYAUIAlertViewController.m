@@ -78,7 +78,7 @@
     
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
-            WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"哈哈哈" Message:@"内容信息" PopStyle:WYAPopBottom];
+            WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"哈哈哈" Message:@"内容信息" AlertStyle:WYAAlertStyleSheet];
             // 创建 action
             WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"确定" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Default"); }];
             
@@ -91,12 +91,13 @@
         view.backgroundColor = [UIColor redColor];
         view.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
 
-        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view PopStyle:WYAPopBottom];
+        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustom];
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     WYAAlertController *alert = [WYAAlertController wya_AlertWithTitle:@"警告！警告！💥"
-                                                               Message:@"逗你玩儿呢 ~ 😜" PopStyle:WYAPopDefault];
+                                                               Message:@"逗你玩儿呢 ~ 😜"
+                                                            AlertStyle:WYAAlertStyleDefalut];
     alert.backgroundButton.enabled = NO;
     
     // 创建 action
