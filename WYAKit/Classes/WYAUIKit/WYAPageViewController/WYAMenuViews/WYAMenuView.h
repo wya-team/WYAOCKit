@@ -125,6 +125,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)wya_menuView:(WYAMenuView *)menu titleAtIndex:(NSInteger)index;
 @optional
+/**
+ *  角标 (例如消息提醒的小红点) 的数据源方法，在 WMPageController 中实现这个方法来为 menuView 提供一个 badgeView
+ 需要在返回的时候同时设置角标的 frame 属性，该 frame 为相对于 menuItem 的位置
+ *
+ *  @param index 角标的序号
+ *
+ *  @return 返回一个设置好 frame 的角标视图
+ */
+- (UIView *)wya_menuView:(WYAMenuView *)menu badgeViewAtIndex:(NSInteger)index;
 
 /**
  用于定制WYAMenuItem,可以传出initialMenuItem 进行修改定制，也可以返回自己创建的子类，需要注意的士m，此时的item的frame是不确定的，所以请不要根据此时的frame做计算。如果需要根据frame修改，请使用代理
@@ -147,7 +156,41 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat  progressViewBottomSpace;
 
 @property (nonatomic, weak) id<WYAMenuViewDelegate> delegate;
+@property (nonatomic, weak) id<WYAMenuViewDataSource> dataSource;
 
+@property (nonatomic, weak) UIView * leftView;
+@property (nonatomic, weak) UIView * rightView;
+@property (nonatomic, copy) NSString * fontName;
+@property (nonatomic, weak) UIScrollView * scrollView;
+
+/**
+ 进度条的速度因数，默认为15，越小越快，大于0
+ */
+@property (nonatomic, assign) CGFloat  speedFactor;
+@property (nonatomic, assign) CGFloat  progressViewCornerRadius;
+@property (nonatomic, assign) BOOL  progressViewIsNaughty;
+@property (nonatomic, assign) BOOL  showOnNavigationBar;
+
+- (void)wya_slidMenuAtProgress:(CGFloat)progress;
+- (void)wya_selectItemAtIndex:(NSInteger)index;
+- (void)wya_resetFrames;
+- (void)wya_reload;
+- (void)wya_updateTitle:(NSString *)title atIndex:(NSInteger)index anWidth:(BOOL)update;
+- (void)wya_updateAttributeTitle:(NSAttributedString *)title atIndex:(NSInteger)index andWidth:(BOOL)update;
+- (WYAMenuItem *)wya_itemAtIndex:(NSInteger)index;
+
+/**
+ 立即刷新menuView的contentOffset，使得title居中
+ */
+- (void)wya_refreshContentOffset;
+- (void)wya_deselectedItemsIfNeeded;
+
+/**
+ 更新交角标视图，如果要移除，在wya_menuView:bageViewAtIndex:中返回nil即可
+
+ @param index index
+ */
+- (void)updateBadgeViewAtIndex:(NSInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END
