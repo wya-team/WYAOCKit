@@ -6,23 +6,23 @@
 
 - ~~WYAUI~~
 
-- WYATools
-    - ~~WYACamera~~
+ WYATools
+    - WYACamera
 
-    - ~~WYAPhotoBrowser~~
+    - WYAPhotoBrowser
 
-    - ~~WYAVideoPlayer~~
+    - WYAVideoPlayer
 
     - WYADownloader
     
 - WYAUIKit 
-    - ~~WYABannerView~~
+    - WYABannerView
 
     - ~~WYAIMGCode~~
 
     - WYAPageViewController
 
-    - ~~WYAUIAlert~~
+    - WYAUIAlert
 
     - WYAToastView
 
