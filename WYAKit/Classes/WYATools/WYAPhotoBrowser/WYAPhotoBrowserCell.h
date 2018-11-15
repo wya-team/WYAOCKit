@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class WYAPhotoBrowserModel;
+
 @interface WYAPhotoBrowserCell : UICollectionViewCell
+
+@property (nonatomic, strong) WYAPhotoBrowserModel * model;
 @property (nonatomic, strong) UIImageView * imageV;
+@property (nonatomic, strong) UIButton * button;
+
 @property (nonatomic, copy) void(^selectImage)(BOOL seleted);
 
 -  (void)uncheckButton;

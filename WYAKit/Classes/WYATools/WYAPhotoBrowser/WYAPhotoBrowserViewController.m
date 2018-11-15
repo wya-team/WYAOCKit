@@ -80,23 +80,11 @@
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSMutableArray * array = [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+        self.dataSource = [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            self.dataSource = array;
             [self.collectionView reloadData];
         });
     });
-    
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate ImageBlock:^(UIImage *image) {
-//            [self.dataSource addObject:image];
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-//                [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
-//            });
-//            
-//        }];
-//    });
-    
     
     
     [self.typeView reload];
@@ -165,7 +153,6 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         [_collectionView registerClass:[WYAPhotoBrowserCell class] forCellWithReuseIdentifier:@"image"];
-//        [_collectionView registerNib:[UINib nibWithNibName:@"ImageCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;
 }
@@ -192,28 +179,27 @@
     
     WYAPhotoBrowserCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
     
-//    __block ImagePickerCollectionViewCell * pickCell = cell;
-//    cell.selectImage = ^(BOOL seleted) {
-//        if (seleted) {
-//            if (self.images.count >= self.maxCount) {
-//                [self showAlert];
-//                [pickCell uncheckButton];
-//                return ;
-//            }
-//            [self.images addObject:pickCell.imageV.image];
-//        }else{
-//            [pickCell uncheckButton];
-//        }
-//    };
+    
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0){
     WYAPhotoBrowserCell * imageCell = (WYAPhotoBrowserCell *)cell;
-    id obj = self.dataSource[indexPath.item];
-    if ([obj isKindOfClass:[UIImage class]]) {
-        imageCell.imageV.image = (UIImage *)obj;
-    }
+    imageCell.model = self.dataSource[indexPath.row];
+    __block WYAPhotoBrowserCell * pickCell = imageCell;
+    imageCell.selectImage = ^(BOOL seleted) {
+        
+        if (seleted) {
+            if (self.images.count >= self.maxCount) {
+                [self showAlert];
+                [pickCell uncheckButton];
+                return ;
+            }
+            [self.images addObject:pickCell.imageV.image];
+        }else{
+            [pickCell uncheckButton];
+        }
+    };
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
