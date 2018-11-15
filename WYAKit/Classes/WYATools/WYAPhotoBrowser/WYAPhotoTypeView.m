@@ -7,15 +7,15 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "ImageTypeView.h"
+#import "WYAPhotoTypeView.h"
 #import <Photos/Photos.h>
-@interface ImageTypeView ()<UITableViewDelegate, UITableViewDataSource>
+@interface WYAPhotoTypeView ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * table;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @end
 
-@implementation ImageTypeView
+@implementation WYAPhotoTypeView
 
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];

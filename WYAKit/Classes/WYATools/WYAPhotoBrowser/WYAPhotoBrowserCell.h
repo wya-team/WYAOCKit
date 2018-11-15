@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImagePickerCollectionViewCell : UICollectionViewCell
+@interface WYAPhotoBrowserCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView * imageV;
 @property (nonatomic, copy) void(^selectImage)(BOOL seleted);
 
