@@ -5,8 +5,8 @@
 //  Created by 李世航 on 2018/11/15.
 //
 
-#import "WYAKitConfig.h"
+#import "WYAKitInstance.h"
 
-@implementation WYAKitConfig
+@implementation WYAKitInstance
 
 @end
