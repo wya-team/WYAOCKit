@@ -12,6 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 @class WYAAlertAction;
 
 @interface WYAAlertSheetView : UIView
+
+@property (nonatomic, assign) CGFloat  height;
+
 /** 保存当前的视图控制器，用来dismiss */
 @property (nonatomic, weak, nullable)UIViewController *controller;
 

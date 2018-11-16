@@ -74,7 +74,7 @@
     WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
     toVC.alertView.alpha = 0;
-    toVC.alertView.transform = CGAffineTransformMakeScale(1.3, 1.3);
+//    toVC.alertView.transform = CGAffineTransformMakeScale(1.3, 1.3);
     
     UIView *containerView = [transitionContext containerView];
     [containerView addSubview:toVC.view];
@@ -84,7 +84,7 @@
                      animations:^{
                          toVC.backgroundButton.alpha = as_backgroundAlpha;
                          toVC.alertView.alpha = 1;
-                         toVC.alertView.transform = CGAffineTransformIdentity;
+//                         toVC.alertView.transform = CGAffineTransformIdentity;
                      }
                      completion:^(BOOL finished) {
                          [transitionContext completeTransition:YES];
@@ -208,7 +208,7 @@
                          completion:^(BOOL finished) {
                              [transitionContext completeTransition:YES];
                          }];
-    }else if (toVC.alertStyle == WYAAlertStyleSheet || toVC.alertStyle == WYAAlertStyleCustom) {
+    }else if (toVC.alertStyle == WYAAlertStyleSheet || toVC.alertStyle == WYAAlertStyleCustomSheet) {
         toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight, toVC.alertView.wya_width, toVC.alertView.wya_height);
         UIView *containerView = [transitionContext containerView];
         [containerView addSubview:toVC.view];
