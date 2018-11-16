@@ -190,7 +190,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param index index
  */
-- (void)updateBadgeViewAtIndex:(NSInteger)index;
+- (void)wya_updateBadgeViewAtIndex:(NSInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END
