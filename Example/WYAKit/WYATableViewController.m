@@ -8,6 +8,10 @@
 
 #import "WYATableViewController.h"
 #import <WYAKit/WYAPhotoBrowserViewController.h>
+#import <WYAKit/WYADrawerViewController.h>
+#import "WYALeftViewController.h"
+#import "WYACenterViewController.h"
+#import "WYARightViewController.h"
 @interface WYATableViewController ()
 @property (nonatomic, strong) NSArray * array;
 @end
@@ -54,6 +58,9 @@
         WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
         vc.maxCount =5;
         [self.navigationController pushViewController:vc animated:YES];
+    }else if ([classString isEqualToString:@"WYADrawerViewController"]) {
+        WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYACenterViewController alloc] init] LeftViewController:[[WYALeftViewController alloc] init] RightViewController:[[WYARightViewController alloc] init]];
+        [self.navigationController pushViewController:drawer animated:YES];
     }else{
         [self.navigationController pushViewController:[[NSClassFromString(classString) alloc]init] animated:YES];
     }
@@ -101,7 +108,8 @@
                                            @"WYAUIAlertViewController",
                                            @"WYABannerViewController",
                                            @"WYAPhotoBrowserViewController",
-                                            @"WYAPopViewController",
+                                           @"WYAPopViewController",
+                                           @"WYADrawerViewController",
                                            nil];
     }
     return _array;
