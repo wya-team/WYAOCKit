@@ -129,7 +129,7 @@
                              [transitionContext completeTransition:YES];
                          }];
         
-    }else if (fromVC.alertStyle == WYAAlertStyleSheet || fromVC.alertStyle == WYAAlertStyleCustom) {
+    }else if (fromVC.alertStyle == WYAAlertStyleSheet || fromVC.alertStyle == WYAAlertStyleCustomSheet) {
         NSTimeInterval duration = [self transitionDuration:transitionContext];
         [UIView animateWithDuration:duration
                          animations:^{

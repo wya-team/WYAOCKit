@@ -101,6 +101,7 @@
                                            @"WYAUIAlertViewController",
                                            @"WYABannerViewController",
                                            @"WYAPhotoBrowserViewController",
+                                            @"WYAPopViewController",
                                            nil];
     }
     return _array;

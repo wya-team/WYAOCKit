@@ -1,10 +1,3 @@
-//
-//  ASPopupHeader.h
-//  ASPopupControllerDemo
-//
-//  Created by wya on 16/11/3.
-//  Copyright © 2016年 code. All rights reserved.
-//
 
 #ifndef WYAPopupHeader_h
 #define WYAPopupHeader_h
@@ -36,7 +29,20 @@ typedef NS_ENUM(NSInteger, WYAPopupDismissStyle) {
 typedef NS_ENUM(NSInteger, WYAAlertStyle) {
     WYAAlertStyleDefalut,
     WYAAlertStyleSheet,
-    WYAAlertStyleCustom,
+    WYAAlertStyleCustomAlert,
+    WYAAlertStyleCustomSheet,
+};
+
+
+/**
+ 只有在WYAAlertStyleDefalut模式下有效
+
+ - WYAAlertLayoutStyleHorizontal: 水平
+ - WYAAlertStyleSheetVertical: 垂直
+ */
+typedef NS_ENUM(NSInteger, WYAAlertLayoutStyle) {
+    WYAAlertLayoutStyleHorizontal,
+    WYAAlertLayoutStyleVertical,
 };
 
 #endif /* WYAPopupHeader_h */

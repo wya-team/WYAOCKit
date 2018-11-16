@@ -7,16 +7,19 @@
 
 #import "WYAAlertSheetView.h"
 #import "WYAAlertAction.h"
-#import <YYText/YYLabel.h>
+
 @interface WYAAlertSheetView ()
 @property (nonatomic, strong) UIView * containerView;
 @property (nonatomic, strong) UIButton * cancelButton;
 @property (nonatomic, strong) UIView * titleView;
 @property (nonatomic, strong) UIView * buttonView;
-@property (nonatomic, strong) YYLabel * titleLabel;
+@property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * messageLabel;
 @property (nonatomic, strong) NSMutableArray * buttons;
 @property (nonatomic, strong) NSMutableArray<WYAAlertAction *> * actions;
+
+@property (nonatomic, assign) CGFloat  labelPadding;
+
 @end
 
 @implementation WYAAlertSheetView
@@ -25,6 +28,9 @@
 {
     self = [super init];
     if (self) {
+        
+        self.labelPadding = 30*SizeAdapter;
+        
         self.containerView = [[UIView alloc]init];
         self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.1];
         self.containerView.layer.cornerRadius = 4.f;
@@ -33,7 +39,7 @@
         
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [self.cancelButton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [self.cancelButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1 alpha:1] forState:UIControlStateNormal];
         [self.cancelButton setBackgroundColor:[UIColor whiteColor]];
         [self.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
         self.cancelButton.layer.cornerRadius = 4.f;
@@ -41,14 +47,14 @@
         [self.containerView addSubview:self.cancelButton];
         
         self.titleView = [[UIView alloc]init];
+        self.titleView.backgroundColor = [UIColor whiteColor];
         [self.containerView addSubview:self.titleView];
         
-        self.titleLabel = [[YYLabel alloc]init];
+        self.titleLabel = [[UILabel alloc]init];
         self.titleLabel.text = title;
         self.titleLabel.textColor = [UIColor lightGrayColor];
         self.titleLabel.font = FONT(15);
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
-        self.titleLabel.textVerticalAlignment = YYTextVerticalAlignmentBottom;
         self.titleLabel.backgroundColor = [UIColor whiteColor];
         [self.titleView addSubview:self.titleLabel];
         
@@ -73,25 +79,19 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-        CGFloat height = [self.messageLabel.text wya_heightWithFontSize:13 width:ScreenWidth-10];
-        CGFloat maxHeight = 40+self.buttons.count*40+5+40+10+0.5;
-        make.height.mas_equalTo(maxHeight+height);
-    }];
-    
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(5, 5, 5, 5));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
     
     [self.cancelButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self.containerView);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(40*SizeAdapter);
     }];
     
     [self.buttonView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.containerView);
         make.bottom.mas_equalTo(self.cancelButton.mas_top).with.offset(-5);
-        make.height.mas_equalTo(self.buttons.count*40);
+        make.height.mas_equalTo(self.buttons.count*40*SizeAdapter).priorityHigh();
     }];
     
     [self.buttonView.subviews wya_mas_distributeSudokuViewsWithFixedItemWidth:0
@@ -110,13 +110,31 @@
     }];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(self.titleView);
-        make.height.mas_equalTo(40);
+        make.left.mas_equalTo(self.titleView.mas_left).with.offset(self.labelPadding);
+        make.right.mas_equalTo(self.titleView.mas_right).with.offset(-self.labelPadding);
+        make.top.mas_equalTo(self.titleView.mas_top).with.offset(0);
+        if (self.titleLabel.text && self.titleLabel.text.length>0) {
+            CGFloat height = [self.titleLabel.text wya_heightWithFontSize:15 width:ScreenWidth-2*self.labelPadding];
+            make.height.mas_equalTo(height);
+        }else{
+            make.height.mas_equalTo(0);
+        }
+        
     }];
     
     [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(self.titleView);
-        make.top.mas_equalTo(self.titleLabel.mas_bottom);
+        make.left.mas_equalTo(self.titleView.mas_left).with.offset(self.labelPadding);
+        make.right.mas_equalTo(self.titleView.mas_right).with.offset(-self.labelPadding);
+        
+        make.bottom.mas_equalTo(self.titleView.mas_bottom);
+        if (self.messageLabel.text && self.messageLabel.text.length>0) {
+            CGFloat height = [self.messageLabel.text wya_heightWithFontSize:15 width:ScreenWidth-2*self.labelPadding];
+            make.height.mas_equalTo(height);
+            make.top.mas_equalTo(self.titleLabel.mas_bottom);
+        }else{
+            make.height.mas_equalTo(0);
+            make.top.mas_equalTo(self.titleLabel.mas_bottom);
+        }
     }];
 }
 
@@ -125,8 +143,6 @@
     for (UIView * view in self.buttonView.subviews) {
         [view removeFromSuperview];
     }
-    
-
     
     // 添加到 action 数组
     [self.actions addObject:action];
@@ -195,6 +211,11 @@
         _actions = [NSMutableArray arrayWithCapacity:0];
     }
     return _actions;
+}
+
+-(CGFloat)height{
+    [self layoutIfNeeded];
+    return self.containerView.wya_height;
 }
 
 /*

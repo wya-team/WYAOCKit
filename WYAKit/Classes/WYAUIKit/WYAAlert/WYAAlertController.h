@@ -10,26 +10,65 @@ static const CGFloat as_backgroundAlpha = 0.4;
 
 @interface WYAAlertController : UIViewController
 
-/** alert 视图 */
-@property (nonnull, nonatomic, strong)UIView *alertView;
+@property (nonnull, nonatomic, strong)UIView *alertView;//alert 视图
 
 /**
  外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）
  */
 @property (nonnull, nonatomic, strong)UIButton *backgroundButton;
-
-/** present 转场风格 */
-@property (nonatomic, assign)WYAPopupPresentStyle presentStyle;
-
-/** dismiss 转场风格 */
-@property (nonatomic, assign)WYAPopupDismissStyle dismissStyle;
-
+@property (nonatomic, assign)WYAPopupPresentStyle presentStyle;//present 转场风格
+@property (nonatomic, assign)WYAPopupDismissStyle dismissStyle;//dismiss 转场风格
 @property (nonatomic, assign) WYAAlertStyle    alertStyle; //自定义弹出视图
+
+///**
+// 自定义转场初始化方法
+//
+// @param title 标题
+// @param message 消息
+// @param presentStyle 转场风格
+// @param dismissStyle 转场风格
+// @return alert控制器
+// */
+//+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
+//                                    Message:(NSString * _Nullable)message
+//                               PresentStyle:(WYAPopupPresentStyle)presentStyle
+//                               DismissStyle:(WYAPopupDismissStyle)dismissStyle
+//                                 AlertStyle:(WYAAlertStyle)alertStyle;
+
+/**
+ 默认转场初始化方法
+
+ @param title 标题
+ @param message 消息
+ @return alert控制器
+ */
++ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
+                                    Message:(NSString * _Nullable)message
+                           AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle;
+
+/**
+ alertSheetView初始化方法
+
+ @param title 标题
+ @param message 消息
+ @return alert控制器
+ */
++ (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
+                                         Message:(NSString * _Nullable)message;
+
+/**
+ 自定义弹出视图（视图需确定Size大小，事件，按钮需自行添加）
+
+ @param view 自定义视图
+ @return alert控制器
+ */
++ (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
+                                      AlertStyle:(WYAAlertStyle)alertStyle;
 
 
 /**
  添加 action
-
+ 
  @param action action
  */
 - (void)wya_AddAction:(WYAAlertAction * _Nonnull)action;
@@ -41,50 +80,5 @@ static const CGFloat as_backgroundAlpha = 0.4;
  */
 - (void)wya_AddActions:(NSArray<WYAAlertAction *> * _Nonnull)actions;
 
-
-/**
- 自定义转场初始化方法
-
- @param title 标题
- @param message 消息
- @param presentStyle 转场风格
- @param dismissStyle 转场风格
- @return alert控制器
- */
-+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
-                                    Message:(NSString * _Nullable)message
-                               PresentStyle:(WYAPopupPresentStyle)presentStyle
-                               DismissStyle:(WYAPopupDismissStyle)dismissStyle
-                                 AlertStyle:(WYAAlertStyle)alertStyle;
-
-/**
- 默认转场初始化方法
-
- @param title 标题
- @param message 消息
- @return alert控制器
- */
-+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
-                                    Message:(NSString * _Nullable)message
-                                 AlertStyle:(WYAAlertStyle)alertStyle;
-
-/**
- alertSheetView初始化方法
-
- @param title 标题
- @param message 消息
- @return alert控制器
- */
-+ (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
-                                         Message:(NSString * _Nullable)message
-                                      AlertStyle:(WYAAlertStyle)alertStyle;
-
-/**
- 自定义弹出视图（视图需使用bounds属性确定大小，事件，按钮需自行添加）
-
- @param view 自定义视图
- @return alert控制器
- */
-+ (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
-                                      AlertStyle:(WYAAlertStyle)alertStyle;
+- (void)wya_AddTextField:(UITextField *)textField;
 @end

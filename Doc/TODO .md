@@ -24,7 +24,7 @@
 
 - WYAPageViewController
 
-- WYAUIAlert
+- ~~WYAUIAlert~~
 
 - WYAToastView
 
