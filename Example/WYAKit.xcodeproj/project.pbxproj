@@ -23,6 +23,9 @@
 		21470C8D219BB2370099CB6F /* WYAUIAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21470C8B219BB2370099CB6F /* WYAUIAlertViewController.xib */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
+		21470CB8219EBABF0099CB6F /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CB7219EBABF0099CB6F /* WYALeftViewController.m */; };
+		21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBA219EBACD0099CB6F /* WYACenterViewController.m */; };
+		21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBD219EBAD80099CB6F /* WYARightViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -87,6 +90,12 @@
 		21470CA8219E93D30099CB6F /* WYAPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopViewController.m; sourceTree = "<group>"; };
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
 		21470CAB219E94630099CB6F /* WYATestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATestViewController.m; sourceTree = "<group>"; };
+		21470CB6219EBABF0099CB6F /* WYALeftViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALeftViewController.h; sourceTree = "<group>"; };
+		21470CB7219EBABF0099CB6F /* WYALeftViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALeftViewController.m; sourceTree = "<group>"; };
+		21470CB9219EBACD0099CB6F /* WYACenterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACenterViewController.h; sourceTree = "<group>"; };
+		21470CBA219EBACD0099CB6F /* WYACenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACenterViewController.m; sourceTree = "<group>"; };
+		21470CBC219EBAD80099CB6F /* WYARightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARightViewController.h; sourceTree = "<group>"; };
+		21470CBD219EBAD80099CB6F /* WYARightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYARightViewController.m; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -194,6 +203,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				21470CB5219EBA8F0099CB6F /* WYADrawerViewController */,
 				21470CA6219E93B10099CB6F /* PopViewController */,
 				21470BF2219ABE880099CB6F /* WYAProgressView */,
 				21470BF3219ABE880099CB6F /* WYAToastView */,
@@ -309,6 +319,19 @@
 				21470CAB219E94630099CB6F /* WYATestViewController.m */,
 			);
 			path = PopViewController;
+			sourceTree = "<group>";
+		};
+		21470CB5219EBA8F0099CB6F /* WYADrawerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				21470CB6219EBABF0099CB6F /* WYALeftViewController.h */,
+				21470CB7219EBABF0099CB6F /* WYALeftViewController.m */,
+				21470CB9219EBACD0099CB6F /* WYACenterViewController.h */,
+				21470CBA219EBACD0099CB6F /* WYACenterViewController.m */,
+				21470CBC219EBAD80099CB6F /* WYARightViewController.h */,
+				21470CBD219EBAD80099CB6F /* WYARightViewController.m */,
+			);
+			path = WYADrawerViewController;
 			sourceTree = "<group>";
 		};
 		6003F581195388D10070C39A = {
@@ -620,14 +643,17 @@
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* WYAViewController.m in Sources */,
 				21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */,
+				21470CB8219EBABF0099CB6F /* WYALeftViewController.m in Sources */,
 				21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */,
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
+				21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */,
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				21470C06219ABF270099CB6F /* WYAShareViewController.m in Sources */,
 				95C86870219A8380001036EB /* WYATableViewController.m in Sources */,
 				21470C0C219ABF4A0099CB6F /* WYAPageViewController.m in Sources */,
+				21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */,
 				21470C1E219ABFA10099CB6F /* WYACameraViewControllerO.m in Sources */,
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,

@@ -12,6 +12,7 @@
 
 @interface WYAAlertController ()<UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) WYAInteractive * interactive;
+@property (nonatomic, strong) UIView * bottomView;
 @end
 
 @implementation WYAAlertController
@@ -29,6 +30,9 @@
         [self.backgroundButton addTarget:self action:@selector(dismissBackgroundView:) forControlEvents:UIControlEventTouchUpInside];
 
 //        self.interactive = [[WYAInteractive alloc]init];
+        
+        self.bottomView = [[UIView alloc]init];
+        self.bottomView.backgroundColor = [UIColor whiteColor];
         
     }
     return self;
@@ -105,6 +109,13 @@
     [self.backgroundButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    
+    [self.view addSubview:self.bottomView];
+    [self.bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(self.view);
+        make.height.mas_equalTo(WYABottomHeight);
+    }];
+    
     [self.view addSubview:self.alertView];
     
     
