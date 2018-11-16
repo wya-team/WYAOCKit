@@ -138,7 +138,7 @@
 }
 - (UIColor *)lineColor{
     if (!_lineColor) {
-        _lineColor = [self colorForState:WYAMenuItemStateSelected atindex:0];
+        _lineColor = [self colorForState:WYAMenuItemStateSelected atIndex:0];
     }
     return _lineColor;
 }
@@ -164,10 +164,10 @@
 }
 
 - (UIView *)badgeViewAtIndex:(NSInteger)index{
-    if (![self.dataSource respondsToSelector:@selector(menuView:badgeViewAtIndex:)]) {
+    if (![self.dataSource respondsToSelector:@selector(wya_menuView:badgeViewAtIndex:)]) {
         return nil;
     }
-    UIView *badgeView = [self.dataSource menuView:self badgeViewAtIndex:index];
+    UIView *badgeView = [self.dataSource wya_menuView:self badgeViewAtIndex:index];
     if (!badgeView) {
         return nil;
     }
@@ -193,9 +193,9 @@
         [obj removeFromSuperview];
     }];
     
-    [self addItems];
-    [self makeStyle];
-    [self addBadgeViews];
+//    [self addItems];
+//    [self makeStyle];
+//    [self addBadgeViews];
 }
 
 - (void)wya_slidMenuAtProgress:(CGFloat)progress{
@@ -308,4 +308,81 @@
     [self wya_selectItemAtIndex:self.selectIndex];
 }
 
+- (void)wya_resetFrames{
+    CGRect frame = self.bounds;
+    if (self.rightView) {
+        CGRect rightFrame = self.rightView.frame;
+        rightFrame.origin.x = frame.size.width - rightFrame.size.width;
+        self.rightView.frame = rightFrame;
+        frame.size.width -= rightFrame.size.width;
+    }
+    
+    if (self.leftView) {
+        CGRect leftFrame = self.leftView.frame;
+        leftFrame.origin.x = 0;
+        self.leftView.frame = leftFrame;
+        frame.origin.x += leftFrame.size.width;
+        frame.size.width -= leftFrame.size.width;
+    }
+    
+    frame.origin.x += self.contentMargin;
+    frame.size.width -= self.contentMargin * 2;
+    self.scrollView.frame = frame;
+    [self resetFramesFromIndex:0];
+}
+
+- (void)resetFramesFormIndex:(NSInteger)index{
+    [self.frames removeAllObjects];
+//    [self calculateItemFrames];
+    for (NSInteger i = index; i < self.titlesCount ; i++) {
+//        [self resetItemFrame:i];
+//        [self resetBadgeFrame:i];
+    }
+    if (!self.progressView.superview) {return;}
+    
+//    self.progressView.frame = [self caculateProgressViewFrame];
+    self.progressView.cornerRadius = self.progressViewCornerRadius;
+//    self.progressView.itemFrames = [self converProgressWidthsToFrames];
+    [self.progressView setNeedsDisplay];
+    
+}
+
+- (CGRect)calculateProgressViewFrame{
+    switch (self.style) {
+        case WYAMenuViewStyleDefault:{
+            return CGRectZero;
+        }
+        case WYAMenuViewStyleLine:
+        case WYAMenuViewStyleTriangle:{
+            return CGRectMake(0, self.frame.size.height - self.progressHeight - self.progressViewBottomSpace, self.scrollView.contentSize.width, self.progressHeight);
+        }
+        case WYAMenuViewStyleFloodHollow:
+        case WYAMenuViewStyleSegmented:
+        case WYAMenuViewStyleFlood:{
+            return CGRectMake(0, (self.frame.size.height - self.progressHeight)/2, self.scrollView.contentSize.width, self.progressHeight);
+        }
+    }
+}
+- (void)resetItemFrame:(NSInteger)index{
+    WYAMenuItem * item = (WYAMenuItem *)[self viewWithTag:(WYAMENUITEM_TAG_OFFSET + index)];
+    CGRect frame = [self.frames[index] CGRectValue];
+    item.frame = frame;
+    if ([self.delegate respondsToSelector:@selector(wya_menuView:didLayoutItemFrame:atIndex:)]) {
+        [self.delegate wya_menuView:self didLayoutItemFrame:item atIndex:index];
+    }
+}
+
+- (void)resetBadgeFrame:(NSInteger)index{
+    CGRect frame = [self.frames[index] CGRectValue];
+    UIView * badgeView = [self.scrollView viewWithTag:(WYABADGEVIEW_TAG_OFFSET + index)];
+    if (badgeView) {
+        CGRect badgeFrame = [self badgeViewAtIndex:index].frame;
+        badgeFrame.origin.x += frame.origin.x;
+        badgeView.frame = badgeFrame;
+    }
+}
+
+- (NSArray *)convertProgressWidthsToFrames{
+    
+}
 @end
