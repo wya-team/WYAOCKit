@@ -7,7 +7,7 @@
 //
 
 #import "WYACenterViewController.h"
-
+#import <WYAKit/WYADrawerViewController.h>
 @interface WYACenterViewController ()
 
 @end
@@ -18,7 +18,30 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = NSStringFromClass([self class]);
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundColor:[UIColor redColor]];
+    [button addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
+    button.frame = CGRectMake(0, 88, 50, 50);
+    [self.view addSubview:button];
+    
+    UIButton * button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button1 setBackgroundColor:[UIColor redColor]];
+    [button1 addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+    button1.frame = CGRectMake(self.view.frame.size.width-50, 88, 50, 50);
+    [self.view addSubview:button1];
+}
+
+-(void)buttonClick{
+    WYADrawerViewController * vc = (WYADrawerViewController *)self.parentViewController;
+    [vc leftViewControllerMove];
+}
+
+-(void)btnClick{
+    WYADrawerViewController * vc = (WYADrawerViewController *)self.parentViewController;
+    [vc rightViewControllerMove];
 }
 
 /*

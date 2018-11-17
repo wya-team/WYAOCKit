@@ -15,6 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
                           LeftViewController:(UIViewController *)leftViewController
                          RightViewController:(UIViewController *)rightViewController;
 
+-(void)leftViewControllerMove;
+-(void)rightViewControllerMove;
+@end
+
+@interface WYAContainerView : UIView
+
 @end
 
 NS_ASSUME_NONNULL_END
