@@ -487,12 +487,23 @@
         }
         CGRect frame = CGRectMake(contentWidth, 0, itemW, self.frame.size.height);
         // 记录frame
-        [self.frames addObject:NSValue valueWithCGRect:frame];
+        [self.frames addObject:[NSValue valueWithCGRect:frame]];
         contentWidth += itemW + [self itemMarginAtIndex:i+1];
     }
     // 如果总宽度小于屏幕宽度，重新计算frame,为Item间添加间距
-    if (con) {
-        <#statements#>
+    if (contentWidth < self.scrollView.frame.size.width) {
+        CGFloat distance = self.scrollView.frame.size.width - contentWidth;
+        CGFloat (^shiftDis)(int);
+        switch (self.layoutMode) {
+            case WYAMenuViewLayoutModeScatter:
+                {
+                    CGFloat gap = distance/(self.titlesCount + 1);
+                    shiftDis = ^CGFloat(int index){return  gap * (index + 1);};
+                    break;
+                }
+            default:
+                break;
+        }
     }
 }
 - (CGFloat)itemMarginAtIndex:(NSInteger)index {
