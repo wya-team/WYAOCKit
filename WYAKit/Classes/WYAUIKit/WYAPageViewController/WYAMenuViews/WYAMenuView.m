@@ -480,7 +480,20 @@
 // （这里与上面的-addItems做了重复的操作 不是很合理）
 - (void)caclculateItemFrames{
     CGFloat contentWidth = [self itemMarginAtIndex:0];
-    
+    for (int i = 0; i < self.titlesCount; i++) {
+        CGFloat itemW = 60.0;
+        if ([self.delegate respondsToSelector:@selector(wya_menuView:widthForItemAtIndex:)]) {
+           itemW = [self.delegate wya_menuView:self widthForItemAtIndex:i];
+        }
+        CGRect frame = CGRectMake(contentWidth, 0, itemW, self.frame.size.height);
+        // 记录frame
+        [self.frames addObject:NSValue valueWithCGRect:frame];
+        contentWidth += itemW + [self itemMarginAtIndex:i+1];
+    }
+    // 如果总宽度小于屏幕宽度，重新计算frame,为Item间添加间距
+    if (con) {
+        <#statements#>
+    }
 }
 - (CGFloat)itemMarginAtIndex:(NSInteger)index {
     if ([self.delegate respondsToSelector:@selector(wya_menuView:itemMarginAtIndex:)]) {
