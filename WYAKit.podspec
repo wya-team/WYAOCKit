@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'WYAKit'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of WYAKit.'
+  s.summary          = 'WYAKit组件库'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -44,7 +44,7 @@ TODO: Add long description of the pod here.
   s.prefix_header_file = 'WYAKit/Classes/WYAHelp/WYAKitConfigePrefix.pch'
   
   s.dependency 'Masonry', '~> 1.1.0'
-   s.dependency 'FMDB','~>2.7.2'
-   s.dependency 'JQFMDB','~>1.1.6'
-   s.dependency 'YYText'
+  s.dependency 'FMDB', '~>2.7.2'
+  s.dependency 'JQFMDB', '~>1.1.6'
+  s.dependency 'YYText'
 end

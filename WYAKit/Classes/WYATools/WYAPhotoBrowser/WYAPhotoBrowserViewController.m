@@ -193,11 +193,13 @@
             if (self.images.count >= self.maxCount) {
                 [self showAlert];
                 [pickCell uncheckButton];
+                [self.images removeObject:pickCell.imageV.image];
                 return ;
             }
             [self.images addObject:pickCell.imageV.image];
         }else{
             [pickCell uncheckButton];
+            [self.images removeObject:pickCell.imageV.image];
         }
     };
 }

@@ -62,7 +62,7 @@
 
 - WYAPageViewController
 
-- ~~WYAUIAlert~~ (ActopnSheet, Modal)
+- ~~WYAUIAlert~~ (ActoinSheet, Modal)
 
 - WYAToastView
 

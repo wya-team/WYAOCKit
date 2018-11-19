@@ -21,7 +21,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor whiteColor];
         
         _imageV = [[UIImageView alloc]init];
         [self.contentView addSubview:_imageV];
@@ -54,7 +54,7 @@
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
             opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-            [manager requestImageForAsset:model.asset targetSize:self.imageV.wya_size contentMode:PHImageContentModeAspectFit options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            [manager requestImageForAsset:model.asset targetSize:self.imageV.wya_size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.imageV.image = result;
                 model.cacheImage = result;
             }];

@@ -132,6 +132,7 @@
             
         }];
     }else{
+        self.bottomView.hidden = YES;
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(self.view.mas_centerX);
             make.centerY.mas_equalTo(self.view.mas_centerY);
