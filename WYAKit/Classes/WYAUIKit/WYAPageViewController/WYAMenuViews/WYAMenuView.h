@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (WYAMenuItem *)wya_menuView:(WYAMenuView *)meun initialMenuItem:(WYAMenuItem *)initialMenuItem atIndex:(NSInteger)index;
 @end
 
-@interface WYAMenuView : UIView
+@interface WYAMenuView : UIView<WYAMenuItemDelegate>
 @property (nonatomic, strong) NSArray * progressWidths;
 @property (nonatomic, weak) WYAProgressView * progressView;
 @property (nonatomic, assign) CGFloat  progressHeight;

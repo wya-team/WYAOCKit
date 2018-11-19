@@ -328,7 +328,7 @@
     frame.origin.x += self.contentMargin;
     frame.size.width -= self.contentMargin * 2;
     self.scrollView.frame = frame;
-    [self resetFramesFromIndex:0];
+    [self resetFramesFormIndex:0];
 }
 
 - (void)resetFramesFormIndex:(NSInteger)index{
@@ -383,6 +383,109 @@
 }
 
 - (NSArray *)convertProgressWidthsToFrames{
+    if(!self.frames.count){NSAssert(NO, @"BUG SHOULDN'T COME HERE!");}
+
+    if (self.progressWidths.count < self.titlesCount) {return self.frames;}
+
+    NSMutableArray * progressFrames = [NSMutableArray array];
+    NSInteger count = (self.frames.count < self.progressWidths.count) ? self.frames.count : self.progressWidths.count;
+    for (int i = 0; i < count; i++) {
+        CGRect itemFrame = [self.frames[i] CGRectValue];
+        CGFloat progressWidth = [self.progressWidths[i] floatValue];
+        CGFloat x = itemFrame.origin.x + (itemFrame.size.width - progressWidth) / 2;
+        CGRect progressFrame = CGRectMake(x, itemFrame.origin.y, progressWidth, 0);
+        [progressFrames addObject:[NSValue valueWithCGRect:progressFrame]];
+    }
+    return progressFrames.copy;
+}
+
+- (void)addBadgeViews{
+    for (int i = 0; i < self.titlesCount; i++) {
+        [self addBadgeViewAtIndex:i];
+    }
+}
+- (void)addBadgeViewAtIndex:(NSInteger)index {
+    UIView * badgeView = [self badgeViewAtIndex:index];
+    if (badgeView) {
+        [self.scrollView addSubview:badgeView];
+    }
+}
+
+- (void)makeStyle{
+    CGRect frame = [self calculateProgressViewFrame];
+    if (CGRectEqualToRect(frame, CGRectZero)) {return;}
+//    [self addProgressViewWithFrame:frame
+//                        isTriangle:(self.style == WMMenuViewStyleTriangle)
+//                         hasBorder:(self.style == WMMenuViewStyleSegmented)
+//                            hollow:(self.style == WMMenuViewStyleFloodHollow)
+//                      cornerRadius:self.progressViewCornerRadius];
+}
+- (void)wya_deselectedItemsIfNeeded{
+    [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![obj isKindOfClass:[WYAMenuItem class]] || obj == self.selItem) { return ;}
+        [(WYAMenuItem *)obj wya_setSelected:NO withAnimation:NO];
+    }];
+}
+
+- (void)addScrollView{
+    CGFloat width = self.frame.size.width - self.contentMargin * 2;
+    CGFloat height = self.frame.size.height;
+    CGRect frame = CGRectMake(self.contentMargin, 0, width, height);
+    UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:frame];
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.backgroundColor = [UIColor clearColor];
+    scrollView.scrollsToTop = NO;
+    if (@available (iOS 11.0 ,*)) {
+        scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    [self addSubview:scrollView];
+    self.scrollView = scrollView;
+}
+
+- (void)addItems{
+    [self caclculateItemFrames];
+    for (int i = 0; i < self.titlesCount; i++) {
+        CGRect frame = [self.frames[i] CGRectValue];
+        WYAMenuItem * item = [[WYAMenuItem alloc]initWithFrame:frame];
+        item.tag = (i + WYAMENUITEM_TAG_OFFSET);
+        item.delegate = self;
+        item.text = [self.dataSource wya_menuView:self titleAtIndex:i];
+        item.textAlignment = NSTextAlignmentCenter;
+        item.userInteractionEnabled = YES;
+        item.backgroundColor = [UIColor clearColor];
+        item.normalSize = [self sizeForState:WYAMenuItemStateNormal atIndex:i];
+        item.selectedSize  = [self sizeForState:WYAMenuItemStateSelected atIndex:i];
+        item.normalColor   = [self colorForState:WYAMenuItemStateNormal atIndex:i];
+        item.selectedColor = [self colorForState:WYAMenuItemStateSelected atIndex:i];
+        item.speedFactor   = self.speedFactor;
+        if (self.fontName) {
+            item.font = [UIFont fontWithName:self.fontName size:item.selectedSize];
+        }else{
+            item.font = [UIFont systemFontOfSize:item.selectedSize];
+        }
+        if ([self.dataSource respondsToSelector:@selector(wya_menuView:initialMenuItem:atIndex:)]) {
+            item = [self.dataSource wya_menuView:self initialMenuItem:item atIndex:i];
+        }
+        if (i == 0) {
+            [item wya_setSelected:YES withAnimation:NO];
+            self.selItem = item;
+        } else {
+            [item wya_setSelected:NO withAnimation:NO];
+        }
+        [self.scrollView addSubview:item];
+    }
+}
+// 计算所有item的frame值，主要是为了是适配所有的item的宽度和小于屏幕宽的情况
+// （这里与上面的-addItems做了重复的操作 不是很合理）
+- (void)caclculateItemFrames{
+    CGFloat contentWidth = [self itemMarginAtIndex:0];
     
+}
+- (CGFloat)itemMarginAtIndex:(NSInteger)index {
+    if ([self.delegate respondsToSelector:@selector(wya_menuView:itemMarginAtIndex:)]) {
+        return [self.delegate wya_menuView:self itemMarginAtIndex:index];
+    }
+    return 0.0;
 }
 @end
