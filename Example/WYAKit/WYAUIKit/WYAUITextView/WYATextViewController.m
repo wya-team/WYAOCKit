@@ -21,9 +21,11 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(0, 100, 100, 30)];
-    textView.backgroundColor = [UIColor redColor];
-    [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor redColor] PlaceHoldFont:15.f];
+    WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 100)];
+    [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
+    textView.textViewWordsCount = 1000;
+    textView.layer.borderColor = [UIColor grayColor].CGColor;
+    textView.layer.borderWidth = 0.5;
     [self.view addSubview:textView];
 }
 

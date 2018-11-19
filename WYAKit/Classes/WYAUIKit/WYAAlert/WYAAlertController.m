@@ -2,10 +2,7 @@
 #import "WYAAlertController.h"
 #import "WYAAlertView.h"
 #import "WYAAlertSheetView.h"
-// Present
 #import "WYAPopupPresentAnimator.h"
-
-// Dismiss
 #import "WYAPopupDismissAnimator.h"
 #import "WYAInteractive.h"
 
@@ -53,23 +50,6 @@
     alertController.dismissStyle = WYAPopupDismissStyleFadeOut;
     return alertController;
 }
-
-///** 标准初始化方法 */
-//+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
-//                                    Message:(NSString * _Nullable)message
-//                               PresentStyle:(WYAPopupPresentStyle)presentStyle
-//                               DismissStyle:(WYAPopupDismissStyle)dismissStyle
-//                                 AlertStyle:(WYAAlertStyle)alertStyle
-//{
-//
-//    WYAAlertController *alertController = [[WYAAlertController alloc] init];
-//    alertController.presentStyle = presentStyle;
-//    alertController.dismissStyle = dismissStyle;
-//    alertController.alertStyle = alertStyle;
-//    alertController.alertView = [[WYAAlertView alloc] initWithTitle:title message:message];
-//    ((WYAAlertView *)(alertController.alertView)).controller = alertController;
-//    return alertController;
-//}
 
 + (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message

@@ -28,15 +28,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface WYATextView : UITextView
+@interface WYATextView : UIView
 
 @property (nonatomic, weak) id<WYATextViewDelegate> wya_delegate;
 
-/**
- 最大高度
- */
-@property (nonatomic, assign) float  textViewMaxHeight;
-
+@property (nonatomic, copy)   NSString * title;//标题
+@property (nonatomic, assign) BOOL  showTitle; //default is YES
+@property (nonatomic, assign) BOOL  showWordsCount; // default is YES
+@property (nonatomic, assign) float  textViewMaxHeight;//最大高度
+@property (nonatomic, assign) NSUInteger  textViewWordsCount;//最大字数
+@property (nonatomic, readonly) UITextView * textView;
 /**
  设置textView的PlaceHolder
 
