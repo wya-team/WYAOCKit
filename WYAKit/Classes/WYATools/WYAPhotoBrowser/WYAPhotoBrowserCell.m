@@ -54,10 +54,9 @@
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
             opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-            [manager requestImageDataForAsset:model.asset options:opi resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                UIImage * image = [UIImage imageWithData:imageData];
-                self.imageV.image = image;
-                model.cacheImage = image;
+            [manager requestImageForAsset:model.asset targetSize:self.imageV.wya_size contentMode:PHImageContentModeAspectFit options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                self.imageV.image = result;
+                model.cacheImage = result;
             }];
         }
         self.button.selected = model.selected;

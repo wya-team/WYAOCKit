@@ -56,7 +56,7 @@
     popover.permittedArrowDirections = UIPopoverArrowDirectionAny;//设置箭头位置
     popover.sourceView = button;//设置目标视图
     popover.sourceRect = button.bounds;//弹出视图显示位置
-    popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色(效果图里红色区域)
+    popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
     [self presentViewController:test animated:YES completion:nil];
     
 
