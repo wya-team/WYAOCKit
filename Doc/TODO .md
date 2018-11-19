@@ -10,7 +10,7 @@
 
 - WYACamera
 
-- WYAPhotoBrowser
+- WYAPhotoBrowser (imagePicker)
 
 - WYAVideoPlayer
 
@@ -22,37 +22,61 @@
 
 - WYATabBar
 
+- WYATabs
+
+- WYASegmentedControl
+
+- WYAPoppver
+
 - WYAPagination
 
 - WYAMenu
 
-- WYACell
+- WYAButton
+
+- WYACheckbox
+
+- WYARadio
+
+- WYASwitch
+
+- WYASearchBar
+
+- WYACell (inputItem, accordion, list, Card, Grid)
 
 - WYANoticeBar
 
+- WYAStepper
+
+- WYASlidder
+
+- WYABadge
+
+- WYATag
+
 - WYASteps
 
-- WYASlider
-
-- WYABannerView
+- WYABannerView (Carousel)
 
 - ~~WYAIMGCode~~
 
 - WYAPageViewController
 
-- ~~WYAUIAlert~~
+- ~~WYAUIAlert~~ (ActopnSheet, Modal)
 
 - WYAToastView
 
 - WYAShareView
 
-- WYAProgressView
+- WYAProgressView (ActivityIndicator, Progress)
     
 - WYAUIPickerView
 
-- ~~WYAUITextView~~
+- ~~WYAUITextView~~ (TextatraItem)
     
-- WYADrawerViewController
+- WYADrawerViewController (Drawer)
+    
+- WYAKeyboard
     
 #### WYAClearCache
 
