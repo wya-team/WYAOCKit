@@ -10,7 +10,10 @@
 #import "WYAPhotoBrowserModel.h"
 @implementation WYAPhotoBrowserManager
 
-- (NSMutableArray *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort{
+- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithFilter:(AssetCollectionType)collectionType
+                                           AssetCollectionSubType:(AssetCollectionSubType)subType
+                                                   CollectionSort:(AssetCollectionSort)collectionSort
+                                                        assetSort:(AssetSort)assetSort{
     
     
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
@@ -121,7 +124,9 @@
 }
 
 
-- (NSMutableArray *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort{
+- (NSMutableArray<PHAssetCollection *> *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
+                                                  AssetCollectionSubType:(AssetCollectionSubType)subType
+                                                          CollectionSort:(AssetCollectionSort)collectionSort{
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
@@ -197,7 +202,10 @@
     return datas;
 }
 
-- (NSMutableArray *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort{
+- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
+                                                              AssetCollectionSubType:(PHAssetCollectionSubtype)subType
+                                                                      CollectionSort:(AssetCollectionSort)collectionSort
+                                                                           assetSort:(AssetSort)assetSort{
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
@@ -251,14 +259,10 @@
                     for (NSInteger aaa = 0; aaa<smartSubResult.count; aaa++) {
                         
                         PHAsset * assert = (PHAsset *)smartSubResult[aaa];
-                        PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
-                        opi.synchronous = YES; //默认no，异步加载
-                        opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-                        opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-                        [manager requestImageDataForAsset:assert options:opi resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                            UIImage * image = [UIImage imageWithData:imageData];
-                            [datas addObject:image];
-                        }];
+                        WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc]init];
+                        model.asset = assert;
+                        model.selected = NO;
+                        [datas addObject:model];
                     }
                 }
                 

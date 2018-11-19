@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
+
+@class WYAPhotoBrowserModel;
+
 // PHAssetCollectionTypeAlbum          (可能是自己创建的相册)
 // PHAssetCollectionTypeSmartAlbum     （相簿）
 // PHAssetCollectionTypeMoment          (照片)
@@ -56,10 +59,36 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
 
 @property (nonatomic, assign) AssetMediaType  mediaType;
 
-- (NSMutableArray *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
+/**
+ 获取图片资源
 
-- (NSMutableArray *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
+ @param collectionType 集合类型
+ @param subType 子集合类型
+ @param collectionSort 集合排序方式
+ @param assetSort 子集合排序方式
+ @return 图片数组
+ */
+- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
-- (NSMutableArray *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
+/**
+ 获取相册分组
+
+ @param collectionType 集合类型
+ @param subType 子集合类型
+ @param collectionSort 集合排序方式
+ @return 集合数组
+ */
+- (NSMutableArray<PHAssetCollection *> *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
+
+/**
+ 获取对应的图片资源
+
+ @param collectionType 集合类型
+ @param subType 子集合类型
+ @param collectionSort 集合排序方式
+ @param assetSort 子集合排序方式
+ @return 图片数组
+ */
+- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
 @end

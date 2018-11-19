@@ -36,6 +36,8 @@
 
 - ~~WYAUITextView~~
     
+- WYADrawerViewController
+    
 #### WYAClearCache
 
 #### WYACompareVersion
