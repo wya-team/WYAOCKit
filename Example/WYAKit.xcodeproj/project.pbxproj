@@ -26,8 +26,6 @@
 		21470CB8219EBABF0099CB6F /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CB7219EBABF0099CB6F /* WYALeftViewController.m */; };
 		21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBA219EBACD0099CB6F /* WYACenterViewController.m */; };
 		21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBD219EBAD80099CB6F /* WYARightViewController.m */; };
-		21A8730E21A2455D007F2921 /* AntDesiginMobile 1.0.sketch in Resources */ = {isa = PBXBuildFile; fileRef = 21A8730D21A2455D007F2921 /* AntDesiginMobile 1.0.sketch */; };
-		21A8731021A24568007F2921 /* AntDesiginMobile 1.0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 21A8730F21A24568007F2921 /* AntDesiginMobile 1.0.pdf */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -98,8 +96,6 @@
 		21470CBA219EBACD0099CB6F /* WYACenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACenterViewController.m; sourceTree = "<group>"; };
 		21470CBC219EBAD80099CB6F /* WYARightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARightViewController.h; sourceTree = "<group>"; };
 		21470CBD219EBAD80099CB6F /* WYARightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYARightViewController.m; sourceTree = "<group>"; };
-		21A8730D21A2455D007F2921 /* AntDesiginMobile 1.0.sketch */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AntDesiginMobile 1.0.sketch"; sourceTree = "<group>"; };
-		21A8730F21A24568007F2921 /* AntDesiginMobile 1.0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "AntDesiginMobile 1.0.pdf"; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -309,8 +305,6 @@
 			isa = PBXGroup;
 			children = (
 				956D1E79219D7929006A40AB /* TODO .md */,
-				21A8730D21A2455D007F2921 /* AntDesiginMobile 1.0.sketch */,
-				21A8730F21A24568007F2921 /* AntDesiginMobile 1.0.pdf */,
 			);
 			name = Doc;
 			path = ../Doc;
@@ -530,10 +524,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21A8730E21A2455D007F2921 /* AntDesiginMobile 1.0.sketch in Resources */,
 				21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				21A8731021A24568007F2921 /* AntDesiginMobile 1.0.pdf in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,

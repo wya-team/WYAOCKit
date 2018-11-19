@@ -18,6 +18,22 @@
     
 #### WYAUIKit 
 
+- WYANavBar
+
+- WYATabBar
+
+- WYAPagination
+
+- WYAMenu
+
+- WYACell
+
+- WYANoticeBar
+
+- WYASteps
+
+- WYASlider
+
 - WYABannerView
 
 - ~~WYAIMGCode~~
