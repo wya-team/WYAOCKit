@@ -21,15 +21,7 @@
     [super viewDidLoad];
     
     self.title = NSStringFromClass([self class]);
-//    self.systemTitleArray = @[@"PresentSystem & DismissFadeOut",
-//                              @"PresentBounce & DismissFadeOut",
-//                              @"PresentFadeIn & DismissFadeOut",
-//                              @"PresentExpand & DismissContract(Horizontal)",
-//                              @"PresentExpand & DismissContract(Vertical)",
-//                              @"PresentSlideDown & DismissSlideDown",
-//                              @"PresentSlideUp & DismissSlideUp",
-//                              @"PresentSlideLeft & DismissSlideLeft",
-//                              @"PresentSlideRight & DismissSlideRight"];
+
     self.systemAlertTitleArray = @[@"只有一个按钮",
                                    @"默认样式",
                                    @"加输入框的alert",
@@ -119,12 +111,17 @@
             [alert wya_AddAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
         }else if (indexPath.row == 2) {
+            UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 15, 40)];
+            
             UITextField * tf = [[UITextField alloc]init];
             tf.layer.borderColor = [UIColor grayColor].CGColor;
             tf.layer.borderWidth = 0.5;
             tf.layer.cornerRadius = 4.f;
             tf.layer.masksToBounds = YES;
             tf.placeholder = @"给朋友留言";
+            tf.font = [UIFont systemFontOfSize:15];
+            tf.leftView = view;
+            tf.leftViewMode = UITextFieldViewModeAlways;
             WYAAlertController *alert = [WYAAlertController wya_AlertWithTitle:@"操作失败"
                                                                        Message:@"账号或密码不一致，请重试"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];

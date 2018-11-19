@@ -20,20 +20,6 @@ static const CGFloat as_backgroundAlpha = 0.4;
 @property (nonatomic, assign)WYAPopupDismissStyle dismissStyle;//dismiss 转场风格
 @property (nonatomic, assign) WYAAlertStyle    alertStyle; //自定义弹出视图
 
-///**
-// 自定义转场初始化方法
-//
-// @param title 标题
-// @param message 消息
-// @param presentStyle 转场风格
-// @param dismissStyle 转场风格
-// @return alert控制器
-// */
-//+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
-//                                    Message:(NSString * _Nullable)message
-//                               PresentStyle:(WYAPopupPresentStyle)presentStyle
-//                               DismissStyle:(WYAPopupDismissStyle)dismissStyle
-//                                 AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
  默认转场初始化方法
@@ -80,5 +66,10 @@ static const CGFloat as_backgroundAlpha = 0.4;
  */
 - (void)wya_AddActions:(NSArray<WYAAlertAction *> * _Nonnull)actions;
 
+/**
+ 添加输入框
+
+ @param textField 输入框
+ */
 - (void)wya_AddTextField:(UITextField *)textField;
 @end

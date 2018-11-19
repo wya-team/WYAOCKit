@@ -32,9 +32,7 @@
         self.labelPadding = 30*SizeAdapter;
         
         self.containerView = [[UIView alloc]init];
-        self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.1];
-        self.containerView.layer.cornerRadius = 4.f;
-        self.containerView.layer.masksToBounds = YES;
+        self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.7];
         [self addSubview:self.containerView];
         
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -42,8 +40,6 @@
         [self.cancelButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1 alpha:1] forState:UIControlStateNormal];
         [self.cancelButton setBackgroundColor:[UIColor whiteColor]];
         [self.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
-        self.cancelButton.layer.cornerRadius = 4.f;
-        self.cancelButton.layer.masksToBounds = YES;
         [self.containerView addSubview:self.cancelButton];
         
         self.titleView = [[UIView alloc]init];
@@ -85,13 +81,13 @@
     
     [self.cancelButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.bottom.mas_equalTo(self.containerView);
-        make.height.mas_equalTo(40*SizeAdapter);
+        make.height.mas_equalTo(44*SizeAdapter);
     }];
     
     [self.buttonView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.containerView);
         make.bottom.mas_equalTo(self.cancelButton.mas_top).with.offset(-5);
-        make.height.mas_equalTo(self.buttons.count*40*SizeAdapter).priorityHigh();
+        make.height.mas_equalTo(self.buttons.count*50*SizeAdapter).priorityHigh();
     }];
     
     [self.buttonView.subviews wya_mas_distributeSudokuViewsWithFixedItemWidth:0
@@ -112,12 +108,14 @@
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.titleView.mas_left).with.offset(self.labelPadding);
         make.right.mas_equalTo(self.titleView.mas_right).with.offset(-self.labelPadding);
-        make.top.mas_equalTo(self.titleView.mas_top).with.offset(0);
+        
         if (self.titleLabel.text && self.titleLabel.text.length>0) {
             CGFloat height = [self.titleLabel.text wya_heightWithFontSize:15 width:ScreenWidth-2*self.labelPadding];
             make.height.mas_equalTo(height);
+            make.top.mas_equalTo(self.titleView.mas_top).with.offset(5*SizeAdapter);
         }else{
             make.height.mas_equalTo(0);
+            make.top.mas_equalTo(self.titleView.mas_top).with.offset(0);
         }
         
     }];

@@ -84,18 +84,13 @@
     self.messageLabel.font = FONT(13);
     self.messageLabel.textColor = random(103, 103, 103, 1);
     
-    self.line.backgroundColor = random(153, 153, 153, 1);
-    self.buttonView.backgroundColor = random(153, 153, 153, 1);
+    self.line.backgroundColor = random(203, 203, 203, 1);
+    self.buttonView.backgroundColor = random(203, 203, 203, 1);
     return self;
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
-//    [self mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.width.mas_equalTo(ScreenWidth-self->containerPadding);
-//        make.height.mas_lessThanOrEqualTo(ScreenHeight-100*SizeAdapter);
-//    }];
     
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX);
@@ -108,7 +103,7 @@
         make.left.mas_equalTo(self.containerView.mas_left).with.offset(self->labelPadding/2);
         make.right.mas_equalTo(self.containerView.mas_right).with.offset(-(self->labelPadding/2));
         if (self.titleLabel.text && self.titleLabel.text.length>0) {
-            make.top.mas_equalTo(self.containerView.mas_top).with.offset(20*SizeAdapter);
+            make.top.mas_equalTo(self.containerView.mas_top).with.offset(15*SizeAdapter);
             CGFloat titleHeight = [self.titleLabel.text wya_heightWithFontSize:17 width:ScreenWidth-self->containerPadding-self->labelPadding]-8.5*SizeAdapter;
             make.height.mas_equalTo(titleHeight);
         }else{
@@ -124,7 +119,7 @@
             if (self.titleLabel.text && self.titleLabel.text.length>0) {
                 make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(6.5*SizeAdapter);
             }else{
-                make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(20*SizeAdapter);
+                make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(15*SizeAdapter);
             }
             CGFloat titleHeight = [self.messageLabel.text wya_heightWithFontSize:13 width:ScreenWidth-self->containerPadding-self->labelPadding]-6.5*SizeAdapter;
             make.height.mas_equalTo(titleHeight);
@@ -169,7 +164,7 @@
     }
     
     [self.buttonView.subviews wya_mas_distributeSudokuViewsWithFixedItemWidth:0
-                                                              fixedItemHeight:40*SizeAdapter
+                                                              fixedItemHeight:50*SizeAdapter
                                                              fixedLineSpacing:lineSpacing
                                                         fixedInteritemSpacing:itemSpecing
                                                                     warpCount:newLine
@@ -244,11 +239,11 @@
     [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
     [actionButton setBackgroundImage:self.grayImage forState:UIControlStateHighlighted];
     if (action.style == WYAAlertActionStyleDestructive) {
-        [actionButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [actionButton setTitleColor:random(244, 51, 60, 1) forState:UIControlStateNormal];
     } else if (action.style == WYAAlertActionStyleCancel) {
-        [actionButton setTitleColor:random(103, 103, 103, 1) forState:UIControlStateNormal];
+        [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     } else {
-        [actionButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0/255.0 blue:1 alpha:1] forState:UIControlStateNormal];
+        [actionButton setTitleColor:[UIColor colorWithRed:16.0/255.0 green:142.0/255.0 blue:233.0/255.0 alpha:1] forState:UIControlStateNormal];
     }
     [actionButton addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     
