@@ -8,9 +8,13 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYAPageController;
 @interface UIViewController (WYAPageController)
 
+/**
+ 获取控制器所在的WYAPageController
+ */
+@property (nonatomic, nullable, strong, readonly) WYAPageController * wya_PageController;
 @end
 
 NS_ASSUME_NONNULL_END
