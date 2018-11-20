@@ -54,7 +54,7 @@
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
             opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-            [manager requestImageForAsset:model.asset targetSize:self.imageV.wya_size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            [manager requestImageForAsset:model.asset targetSize:self.imageV.cmam_size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.imageV.image = result;
                 model.cacheImage = result;
             }];

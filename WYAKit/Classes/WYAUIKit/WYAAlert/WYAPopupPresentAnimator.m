@@ -209,7 +209,7 @@
                              [transitionContext completeTransition:YES];
                          }];
     }else if (toVC.alertStyle == WYAAlertStyleSheet || toVC.alertStyle == WYAAlertStyleCustomSheet) {
-        toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight, toVC.alertView.wya_width, toVC.alertView.wya_height);
+        toVC.alertView.frame = CGRectMake((toVC.view.cmam_width-toVC.alertView.cmam_width)/2, ScreenHeight, toVC.alertView.cmam_width, toVC.alertView.cmam_height);
         UIView *containerView = [transitionContext containerView];
         [containerView addSubview:toVC.view];
         
@@ -217,7 +217,7 @@
         [UIView animateWithDuration:duration
                          animations:^{
                              toVC.backgroundButton.alpha = as_backgroundAlpha;
-                             toVC.alertView.frame = CGRectMake((toVC.view.wya_width-toVC.alertView.wya_width)/2, ScreenHeight-toVC.alertView.wya_height, toVC.alertView.wya_width, toVC.alertView.wya_height);
+                             toVC.alertView.frame = CGRectMake((toVC.view.cmam_width-toVC.alertView.cmam_width)/2, ScreenHeight-toVC.alertView.cmam_height, toVC.alertView.cmam_width, toVC.alertView.cmam_height);
                          }
                          completion:^(BOOL finished) {
                              [transitionContext completeTransition:YES];

@@ -17,8 +17,8 @@
 }
 - (void)wya_setLeftViewWithText:(NSString *)text textColor:(UIColor *)color font:(CGFloat)font
 {
-    CGFloat width = [text wya_widthWithFontSize:font height:self.wya_height];
-    UILabel * leftLabel = [[UILabel alloc] initWithFrame:CGRectMake (0, 0, width, self.wya_height)];
+    CGFloat width = [text wya_widthWithFontSize:font height:self.cmam_height];
+    UILabel * leftLabel = [[UILabel alloc] initWithFrame:CGRectMake (0, 0, width, self.cmam_height)];
     leftLabel.text = text;
     leftLabel.textColor = color;
     leftLabel.font = FONT (font);
@@ -49,10 +49,10 @@
     UIView * lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor wya_hex:@"#e8e8e8"];
     [self addSubview:lineView];
-    lineView.wya_left = 0;
-    lineView.wya_width = self.wya_width;
-    lineView.wya_height = 1;
-    lineView.wya_bottom = self.wya_height + 10 * SizeAdapter;
+    lineView.cmam_left = 0;
+    lineView.cmam_width = self.cmam_width;
+    lineView.cmam_height = 1;
+    lineView.cmam_bottom = self.cmam_height + 10 * SizeAdapter;
 }
 - (void)wya_setUserNameTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor
 {

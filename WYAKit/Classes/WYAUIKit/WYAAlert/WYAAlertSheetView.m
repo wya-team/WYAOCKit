@@ -213,7 +213,7 @@
 
 -(CGFloat)height{
     [self layoutIfNeeded];
-    return self.containerView.wya_height;
+    return self.containerView.cmam_height;
 }
 
 /*

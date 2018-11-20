@@ -73,7 +73,7 @@
 
 -(UIPageControl *)pageControl{
     if (!_pageControl) {
-        _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake((self.wya_width-100)/2, self.wya_height-100, 100, 30)];
+        _pageControl = [[UIPageControl alloc]initWithFrame:CGRectMake((self.cmam_width-100)/2, self.cmam_height-100, 100, 30)];
         _pageControl.currentPageIndicatorTintColor = [UIColor redColor];
         _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
         _pageControl.hidesForSinglePage = YES;
