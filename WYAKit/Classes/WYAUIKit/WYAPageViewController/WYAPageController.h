@@ -103,12 +103,64 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, weak) id<WYAPageControllerDataSource> dateSource;
 
 /**
- *  Values and keys can set properties when initialize child controlelr (it's KVC)
  *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
  使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")
  */
 @property (nonatomic, strong) NSMutableArray <id> * values;
 @property (nonatomic, strong) NSMutableArray<NSArray *> * keys;
+
+/**
+ *  各个控制器的 class, 例如:[UITableViewController class]
+ */
+@property (nonatomic, copy, nullable) NSArray<Class> * ViewControllerClasses;
+
+/**
+ 各个控制器的标题
+ */
+@property (nonatomic, copy, nullable) NSArray<NSString *> * titles;
+@property (nonatomic, strong, readonly) UIViewController * currentViewController;
+
+/**
+ 设置选中几号item
+ */
+@property (nonatomic, assign) int  selectIndex;
+
+/**
+ 点击的MenuItem是否出发滚动效果动画
+ */
+@property (nonatomic, assign) BOOL  pageAnimatable;
+
+/**
+ 是否通过字符串内容自动计算MenuItem的宽度，默认为NO
+ */
+@property (nonatomic, assign) BOOL  automaticallyCalculatesItemWidths;
+
+/**
+ 是否可以滑动切换，默认是YES
+ */
+@property (nonatomic, assign) BOOL  scrollEnable;
+
+/**
+ 标题选中时的尺寸
+ */
+@property (nonatomic, assign) CGFloat  titleSizeSelected;
+
+/**
+ 标题未选中时的尺寸
+ */
+@property (nonatomic, assign) CGFloat  titleSizeNormal;
+
+/**
+ *  标题选中时的颜色, 颜色是可动画的.
+ */
+@property (nonatomic, strong) UIColor * titleColorSelected;
+
+/**
+ *  标题非选择时的颜色, 颜色是可动画的.
+ */
+@property (nonatomic, strong) UIColor * titleColorNormal;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

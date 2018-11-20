@@ -9,7 +9,7 @@
 #import "UIView+WYALayout.h"
 
 @implementation UIView (WYALayout)
-- (UIImage *)wya_snapshotImage
+- (UIImage *)cmam_snapshotImage
 {
     UIGraphicsBeginImageContextWithOptions (self.bounds.size, self.opaque, 0);
     [self.layer renderInContext:UIGraphicsGetCurrentContext ()];
@@ -18,10 +18,10 @@
     return snap;
 }
 
-- (UIImage *)wya_snapshotImageAfterScreenUpdates:(BOOL)afterUpdates
+- (UIImage *)cmam_snapshotImageAfterScreenUpdates:(BOOL)afterUpdates
 {
     if (![self respondsToSelector:@selector (drawViewHierarchyInRect:afterScreenUpdates:)]) {
-        return [self wya_snapshotImage];
+        return [self cmam_snapshotImage];
     }
     UIGraphicsBeginImageContextWithOptions (self.bounds.size, self.opaque, 0);
     [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:afterUpdates];
@@ -30,7 +30,7 @@
     return snap;
 }
 
-- (NSData *)wya_snapshotPDF
+- (NSData *)cmam_snapshotPDF
 {
     CGRect bounds = self.bounds;
     NSMutableData * data = [NSMutableData data];
@@ -48,7 +48,7 @@
     return data;
 }
 
-- (void)wya_setLayerShadow:(UIColor *)color offset:(CGSize)offset radius:(CGFloat)radius
+- (void)cmam_setLayerShadow:(UIColor *)color offset:(CGSize)offset radius:(CGFloat)radius
 {
     self.layer.shadowColor = color.CGColor;
     self.layer.shadowOffset = offset;
@@ -58,7 +58,7 @@
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
-- (void)wya_removeAllSubviews
+- (void)cmam_removeAllSubviews
 {
     //[self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     while (self.subviews.count) {
@@ -66,7 +66,7 @@
     }
 }
 
-- (UIViewController *)wya_viewController
+- (UIViewController *)cmam_viewController
 {
     for (UIView * view = self; view; view = view.superview) {
         UIResponder * nextResponder = [view nextResponder];
@@ -77,7 +77,7 @@
     return nil;
 }
 
-- (CGFloat)wya_visibleAlpha
+- (CGFloat)cmam_visibleAlpha
 {
     if ([self isKindOfClass:[UIWindow class]]) {
         if (self.hidden) return 0;
@@ -97,7 +97,7 @@
     return alpha;
 }
 
-- (CGPoint)wya_convertPoint:(CGPoint)point toViewOrWindow:(UIView *)view
+- (CGPoint)cmam_convertPoint:(CGPoint)point toViewOrWindow:(UIView *)view
 {
     if (!view) {
         if ([self isKindOfClass:[UIWindow class]]) {
@@ -116,7 +116,7 @@
     return point;
 }
 
-- (CGPoint)wya_convertPoint:(CGPoint)point fromViewOrWindow:(UIView *)view
+- (CGPoint)cmam_convertPoint:(CGPoint)point fromViewOrWindow:(UIView *)view
 {
     if (!view) {
         if ([self isKindOfClass:[UIWindow class]]) {
@@ -135,7 +135,7 @@
     return point;
 }
 
-- (CGRect)wya_convertRect:(CGRect)rect toViewOrWindow:(UIView *)view
+- (CGRect)cmam_convertRect:(CGRect)rect toViewOrWindow:(UIView *)view
 {
     if (!view) {
         if ([self isKindOfClass:[UIWindow class]]) {
@@ -155,7 +155,7 @@
     return rect;
 }
 
-- (CGRect)wya_convertRect:(CGRect)rect fromViewOrWindow:(UIView *)view
+- (CGRect)cmam_convertRect:(CGRect)rect fromViewOrWindow:(UIView *)view
 {
     if (!view) {
         if ([self isKindOfClass:[UIWindow class]]) {
@@ -174,126 +174,126 @@
     return rect;
 }
 
-- (CGFloat)wya_left
+- (CGFloat)cmam_left
 {
     return self.frame.origin.x;
 }
 
-- (void)setwya_left:(CGFloat)x
+- (void)setCmam_left:(CGFloat)x
 {
     CGRect frame = self.frame;
     frame.origin.x = x;
     self.frame = frame;
 }
 
-- (CGFloat)wya_top
+- (CGFloat)cmam_top
 {
     return self.frame.origin.y;
 }
 
-- (void)setwya_top:(CGFloat)y
+- (void)setCmam_top:(CGFloat)y
 {
     CGRect frame = self.frame;
     frame.origin.y = y;
     self.frame = frame;
 }
 
-- (CGFloat)wya_right
+- (CGFloat)cmam_right
 {
     return self.frame.origin.x + self.frame.size.width;
 }
 
-- (void)setwya_right:(CGFloat)right
+- (void)setCmam_right:(CGFloat)right
 {
     CGRect frame = self.frame;
     frame.origin.x = right - frame.size.width;
     self.frame = frame;
 }
 
-- (CGFloat)wya_bottom
+- (CGFloat)cmam_bottom
 {
     return self.frame.origin.y + self.frame.size.height;
 }
 
-- (void)setwya_bottom:(CGFloat)bottom
+- (void)setCmam_bottom:(CGFloat)bottom
 {
     CGRect frame = self.frame;
     frame.origin.y = bottom - frame.size.height;
     self.frame = frame;
 }
 
-- (CGFloat)wya_width
+- (CGFloat)cmam_width
 {
     return self.frame.size.width;
 }
 
-- (void)setwya_width:(CGFloat)width
+- (void)setCmam_width:(CGFloat)width
 {
     CGRect frame = self.frame;
     frame.size.width = width;
     self.frame = frame;
 }
 
-- (CGFloat)wya_height
+- (CGFloat)cmam_height
 {
     return self.frame.size.height;
 }
 
-- (void)setwya_height:(CGFloat)height
+- (void)setCmam_height:(CGFloat)height
 {
     CGRect frame = self.frame;
     frame.size.height = height;
     self.frame = frame;
 }
 
-- (CGFloat)wya_centerX
+- (CGFloat)cmam_centerX
 {
     return self.center.x;
 }
 
-- (void)setwya_centerX:(CGFloat)centerX
+- (void)setCmam_centerX:(CGFloat)centerX
 {
     self.center = CGPointMake (centerX, self.center.y);
 }
 
-- (CGFloat)wya_centerY
+- (CGFloat)cmam_centerY
 {
     return self.center.y;
 }
 
-- (void)setwya_centerY:(CGFloat)centerY
+- (void)setCmam_centerY:(CGFloat)centerY
 {
     self.center = CGPointMake (self.center.x, centerY);
 }
 
-- (CGPoint)wya_origin
+- (CGPoint)cmam_origin
 {
     return self.frame.origin;
 }
 
-- (void)setwya_origin:(CGPoint)origin
+- (void)setCmam_origin:(CGPoint)origin
 {
     CGRect frame = self.frame;
     frame.origin = origin;
     self.frame = frame;
 }
 
-- (CGSize)wya_size
+- (CGSize)cmam_size
 {
     return self.frame.size;
 }
 
-- (void)setwya_size:(CGSize)size
+- (void)setCmam_size:(CGSize)size
 {
     CGRect frame = self.frame;
     frame.size = size;
     self.frame = frame;
 }
 
-+ (void)wya_showOscillatoryAnimationWithLayer:(CALayer * _Nullable)layer type:(WYAOscillatoryAnimationType)type
++ (void)cmam_showOscillatoryAnimationWithLayer:(CALayer * _Nullable)layer type:(CMAMOscillatoryAnimationType)type
 {
-    NSNumber * animationScale1 = type == WYAOscillatoryAnimationToBigger ? @(1.15) : @(0.5);
-    NSNumber * animationScale2 = type == WYAOscillatoryAnimationToBigger ? @(0.92) : @(1.15);
+    NSNumber * animationScale1 = type == CMAMOscillatoryAnimationToBigger ? @(1.15) : @(0.5);
+    NSNumber * animationScale2 = type == CMAMOscillatoryAnimationToBigger ? @(0.92) : @(1.15);
 
     [UIView animateWithDuration:0.15 delay:0 options:UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionCurveEaseInOut animations:^{
         [layer setValue:animationScale1 forKeyPath:@"transform.scale"];

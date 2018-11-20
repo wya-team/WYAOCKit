@@ -134,7 +134,7 @@
         [UIView animateWithDuration:duration
                          animations:^{
                              fromVC.backgroundButton.alpha = as_backgroundAlpha;
-                             fromVC.alertView.frame = CGRectMake((fromVC.view.wya_width-fromVC.alertView.wya_width)/2, ScreenHeight, fromVC.alertView.wya_width, fromVC.alertView.wya_height);
+                             fromVC.alertView.frame = CGRectMake((fromVC.view.cmam_width-fromVC.alertView.cmam_width)/2, ScreenHeight, fromVC.alertView.cmam_width, fromVC.alertView.cmam_height);
                          }
                          completion:^(BOOL finished) {
                              [transitionContext completeTransition:YES];

@@ -107,7 +107,7 @@
             if ([self.alertView isMemberOfClass:[WYAAlertSheetView class]]) {
                 make.height.mas_equalTo(((WYAAlertSheetView *)self.alertView).height);
             }else{
-                make.height.mas_equalTo(self.alertView.wya_height);
+                make.height.mas_equalTo(self.alertView.cmam_height);
             }
             
         }];
@@ -119,7 +119,7 @@
             if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
                 make.size.mas_equalTo(CGSizeMake(((WYAAlertView *)self.alertView).width, ((WYAAlertView *)self.alertView).height));
             }else{
-                make.size.mas_equalTo(CGSizeMake(self.alertView.wya_width, self.alertView.wya_height));
+                make.size.mas_equalTo(CGSizeMake(self.alertView.cmam_width, self.alertView.cmam_height));
             }
             
         }];
