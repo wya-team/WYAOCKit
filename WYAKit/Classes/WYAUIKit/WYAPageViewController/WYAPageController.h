@@ -76,10 +76,39 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  */
 - (void)wya_pageController:(WYAPageController *)pageController lazyLoadViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
 
+/**
+ 当一个视图控制器被缓存时调用。如果某些数据不可重用，您可以清除它。
+
+ @param pageController  parent controller
+ @param viewController viewController 会被缓存
+ @param info  A dictionary that includes some infos, such as: `index` / `title`
+ */
+- (void)wya_pageController:(WYAPageController *)pageController willCachedViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+
+/**
+ 当一个视图控制器出现在用户的视线中时调用。如果需要的话，做一些准备工作。
+
+ @param pageController parent controller
+ @param viewController The viewController entirely displayed
+ @param info A dictionary that includes some infos, such as: `index` / `title`
+ */
+- (void)wya_pageController:(WYAPageController *)pageController didEnterViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+
 @end
 
 @interface WYAPageController : UIViewController
+<WYAMenuViewDataSource,WYAMenuViewDelegate,UIScrollViewDelegate,WYAPageControllerDelegate,WYAPageControllerDataSource>
 
+@property (nonatomic, weak) id<WYAPageControllerDelegate> delegate;
+@property (nonatomic, weak) id<WYAPageControllerDataSource> dateSource;
+
+/**
+ *  Values and keys can set properties when initialize child controlelr (it's KVC)
+ *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
+ 使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")
+ */
+@property (nonatomic, strong) NSMutableArray <id> * values;
+@property (nonatomic, strong) NSMutableArray<NSArray *> * keys;
 @end
 
 NS_ASSUME_NONNULL_END
