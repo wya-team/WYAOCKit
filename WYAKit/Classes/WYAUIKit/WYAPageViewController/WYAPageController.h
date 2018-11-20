@@ -44,9 +44,39 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 @required
 
+/**
+ 实现此数据源方法，以便自定义您自己的contentView的frame
 
+ @param pageController parentController
+ @param contentView contentView 每个都是子控制器的父视图
+ @return contentView 的frame
+ */
+- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameContentView:(WYAPageScrollView *)contentView;
+
+/**
+ 实现此数据源方法，以便自定义您自己的MenuView的frame
+
+ @param pageController parentController
+ @param menuView 菜单视图
+ @return menuView的frane
+ */
+- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameForMenuView:(WYAMenuView *)menuView;
 @end
 
+@protocol WYAPageControllerDelegate <NSObject>
+
+@optional
+
+/**
+ 如果子控制器比较重，则在此方法中进行一些工作。此方法仅在控制器初始化并停止滚动时调用。(这意味着，如果控制器被缓存，并且没有释放，则永远不会调用此方法。)
+
+ @param pageController  parent controller
+ @param viewController 视图控制器在滚动停止时首先出现。
+ @param info A dictionary that includes some infos, such as: `index` / `title`
+ */
+- (void)wya_pageController:(WYAPageController *)pageController lazyLoadViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+
+@end
 
 @interface WYAPageController : UIViewController
 
