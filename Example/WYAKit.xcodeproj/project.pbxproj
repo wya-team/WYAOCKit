@@ -27,6 +27,7 @@
 		21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBA219EBACD0099CB6F /* WYACenterViewController.m */; };
 		21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBD219EBAD80099CB6F /* WYARightViewController.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
+		21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -99,6 +100,8 @@
 		21470CBD219EBAD80099CB6F /* WYARightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYARightViewController.m; sourceTree = "<group>"; };
 		21A8731721A3956B007F2921 /* WYAPaginationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPaginationViewController.h; sourceTree = "<group>"; };
 		21A8731821A3956B007F2921 /* WYAPaginationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPaginationViewController.m; sourceTree = "<group>"; };
+		21A8732021A3A67C007F2921 /* WYAChooseMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAChooseMenuViewController.h; sourceTree = "<group>"; };
+		21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAChooseMenuViewController.m; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -206,6 +209,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				21A8731F21A3A65D007F2921 /* WYAChooseMenu */,
 				21A8731621A39550007F2921 /* WYAPaginationView */,
 				21470CB5219EBA8F0099CB6F /* WYADrawerViewController */,
 				21470CA6219E93B10099CB6F /* PopViewController */,
@@ -345,6 +349,15 @@
 				21A8731821A3956B007F2921 /* WYAPaginationViewController.m */,
 			);
 			path = WYAPaginationView;
+			sourceTree = "<group>";
+		};
+		21A8731F21A3A65D007F2921 /* WYAChooseMenu */ = {
+			isa = PBXGroup;
+			children = (
+				21A8732021A3A67C007F2921 /* WYAChooseMenuViewController.h */,
+				21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */,
+			);
+			path = WYAChooseMenu;
 			sourceTree = "<group>";
 		};
 		6003F581195388D10070C39A = {
@@ -662,6 +675,7 @@
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
 				21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */,
+				21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */,
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				21470C06219ABF270099CB6F /* WYAShareViewController.m in Sources */,

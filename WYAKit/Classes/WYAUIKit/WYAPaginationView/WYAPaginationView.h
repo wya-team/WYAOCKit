@@ -20,6 +20,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface WYAPaginationView : UIView
+
+@property (nonatomic, strong) UIButton * leftButton;
+@property (nonatomic, strong) UIButton * rightButton;
+@property (nonatomic, strong) UILabel * titleLabel;
+
 @property (nonatomic, weak) id<WYAPaginationViewDelegate> wya_Delegate;
 
 /**

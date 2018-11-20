@@ -111,6 +111,7 @@
                                            @"WYAPopViewController",
                                            @"WYADrawerViewController",
                                             @"WYAPaginationViewController",
+                                            @"WYAChooseMenuViewController",
                                            nil];
     }
     return _array;
