@@ -26,6 +26,7 @@
 		21470CB8219EBABF0099CB6F /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CB7219EBABF0099CB6F /* WYALeftViewController.m */; };
 		21470CBB219EBACD0099CB6F /* WYACenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBA219EBACD0099CB6F /* WYACenterViewController.m */; };
 		21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CBD219EBAD80099CB6F /* WYARightViewController.m */; };
+		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -96,6 +97,8 @@
 		21470CBA219EBACD0099CB6F /* WYACenterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACenterViewController.m; sourceTree = "<group>"; };
 		21470CBC219EBAD80099CB6F /* WYARightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARightViewController.h; sourceTree = "<group>"; };
 		21470CBD219EBAD80099CB6F /* WYARightViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYARightViewController.m; sourceTree = "<group>"; };
+		21A8731721A3956B007F2921 /* WYAPaginationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPaginationViewController.h; sourceTree = "<group>"; };
+		21A8731821A3956B007F2921 /* WYAPaginationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPaginationViewController.m; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -203,6 +206,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				21A8731621A39550007F2921 /* WYAPaginationView */,
 				21470CB5219EBA8F0099CB6F /* WYADrawerViewController */,
 				21470CA6219E93B10099CB6F /* PopViewController */,
 				21470BF2219ABE880099CB6F /* WYAProgressView */,
@@ -332,6 +336,15 @@
 				21470CBD219EBAD80099CB6F /* WYARightViewController.m */,
 			);
 			path = WYADrawerViewController;
+			sourceTree = "<group>";
+		};
+		21A8731621A39550007F2921 /* WYAPaginationView */ = {
+			isa = PBXGroup;
+			children = (
+				21A8731721A3956B007F2921 /* WYAPaginationViewController.h */,
+				21A8731821A3956B007F2921 /* WYAPaginationViewController.m */,
+			);
+			path = WYAPaginationView;
 			sourceTree = "<group>";
 		};
 		6003F581195388D10070C39A = {
@@ -638,6 +651,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */,
 				21470C09219ABF380099CB6F /* WYAUIPickerViewViewController.m in Sources */,
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,

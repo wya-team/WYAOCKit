@@ -110,6 +110,7 @@
                                            @"WYAPhotoBrowserViewController",
                                            @"WYAPopViewController",
                                            @"WYADrawerViewController",
+                                            @"WYAPaginationViewController",
                                            nil];
     }
     return _array;
