@@ -14,6 +14,7 @@
 #import "UILabel+Category.h"
 #import "UIButton+Category.h"
 #import "UIView+WYALayout.h"
+#import "UIView+WYAToast.h"
 #import "UIColor+Category.h"
 #import "UIImage+Catagory.h"
 /***************** FoundationCategory ***************/

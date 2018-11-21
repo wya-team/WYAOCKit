@@ -48,4 +48,6 @@ TODO: Add long description of the pod here.
   s.dependency 'FMDB', '~>2.7.2'
   s.dependency 'JQFMDB', '~>1.1.6'
   s.dependency 'YYText'
+  s.dependency 'YYImage'
+  s.dependency 'SVGKit'
 end

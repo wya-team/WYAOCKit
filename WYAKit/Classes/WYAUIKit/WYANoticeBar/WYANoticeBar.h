@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage * noticeButtonImage;
 @property (nonatomic, strong) UIImage * rightButtonImage;
 @property (nonatomic, strong) UIColor * noticeBackgroundColor;
-- (void)start;
-- (void)stop;
+- (void)wya_start;
+- (void)wya_stop;
 @end
 
 NS_ASSUME_NONNULL_END
