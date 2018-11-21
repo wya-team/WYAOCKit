@@ -114,6 +114,7 @@
                                            @"WYAChooseMenuViewController",
                                            @"WYASliderViewController",
                                            @"WYANoticeViewController",
+                                           @"WYAToastViewController",
                                            nil];
     }
     return _array;
