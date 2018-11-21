@@ -43,7 +43,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  @param pageController parentController
  @return child controllers's count
  */
-- (NSInteger)wya_numbersOfCHildControllersInPageController:(WYAPageController *)pageController;
+- (NSInteger)wya_numbersOfChildControllersInPageController:(WYAPageController *)pageController;
 
 /**
  返回要在索引处显示的控制器。如果实现了这些方法，就可以轻松地设置属性。
@@ -108,6 +108,15 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 - (void)wya_pageController:(WYAPageController *)pageController willCachedViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
 
 /**
+ *  di
+ *
+ *  @param pageController The parent controller (WMPageController)
+ *  @param viewController The viewController will appear.
+ *  @param info           A dictionary that includes some infos, such as: `index` / `title`
+ */
+- (void)wya_pageController:(WYAPageController *)pageController willEnterViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+
+/**
  当一个视图控制器出现在用户的视线中时调用。如果需要的话，做一些准备工作。
 
  @param pageController parent controller
@@ -122,7 +131,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 <WYAMenuViewDataSource,WYAMenuViewDelegate,UIScrollViewDelegate,WYAPageControllerDelegate,WYAPageControllerDataSource>
 
 @property (nonatomic, weak) id<WYAPageControllerDelegate> delegate;
-@property (nonatomic, weak) id<WYAPageControllerDataSource> dateSource;
+@property (nonatomic, weak) id<WYAPageControllerDataSource> dataSource;
 
 /**
  *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
@@ -272,6 +281,12 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  顶部菜单栏各个item的间隙，因为包括头为两端，所以确保他的数量等于控制器数量+1，默认间距为0
  */
 @property (nonatomic, copy, nullable) NSArray<NSNumber *> * itemsMargins;
+
+/**
+ *  set itemMargin if all margins are the same, default is 0
+ 如果各个间隙都想同，设置该属性，默认为 0
+ */
+@property (nonatomic, assign) CGFloat itemMargin;
 
 /**
  progressView到menuview底部的距离
