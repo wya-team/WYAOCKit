@@ -28,7 +28,7 @@
 
 - WYAPoppver
 
-- WYAPagination
+- ~~WYAPagination~~
 
 - WYAMenu
 
@@ -44,11 +44,11 @@
 
 - WYACell (inputItem, accordion, list, Card, Grid)
 
-- WYANoticeBar
+- ~~WYANoticeBar~~
 
 - WYAStepper
 
-- WYASlidder
+- ~~WYASlidder~~
 
 - WYABadge
 

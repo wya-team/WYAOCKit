@@ -38,15 +38,16 @@
 }
 
 -(void)createUI{
-    self.showTitle = YES;
-    self.showWordsCount = YES;
     
     [self addSubview:self.titleLabel];
     [self addSubview:self.noteLabel];
     _textView = [[UITextView alloc]init];
     _textView.delegate = self;
-    self.textViewWordsCount = 100;
     [self addSubview:_textView];
+    
+    self.showTitle = YES;
+    self.showWordsCount = YES;
+    self.textViewWordsCount = 100;
 }
 
 #pragma mark --- Private Method
@@ -72,7 +73,7 @@
         }
         
         make.top.right.mas_equalTo(self);
-        if (self.showWordsCount == NO) {
+        if (self.showWordsCount == YES) {
             make.bottom.mas_equalTo(self.noteLabel.mas_top);
         }else {
             make.bottom.mas_equalTo(self.mas_bottom);

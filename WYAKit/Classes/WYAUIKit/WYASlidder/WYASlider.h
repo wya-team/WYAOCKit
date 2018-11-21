@@ -9,52 +9,65 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger, WYASlideStyle) {
-    WYASlideStyleSingle,//单向
-    WYASlideStyleDouble,//双向
+typedef NS_ENUM(NSInteger, WYASliderStyle) {
+    WYASliderStyleSingle,//单向
+    WYASliderStyleDouble,//双向
 };
 
 @interface WYASlider : UIView
 
-/**
- 设置最小值
- */
-@property (nonatomic,assign)CGFloat minNum;
+@property (nonatomic, assign) WYASliderStyle  sliderStyle;
 
 /**
- 设置最大值
- */
-@property (nonatomic,assign)CGFloat maxNum;
-
-/**
- 设置min 颜色
+ 设置min进度条颜色
  */
 @property (nonatomic,weak)UIColor *minTintColor;
 
 /**
- 设置max 颜色
+ 设置max进度条颜色(当在WYASliderStyleSingle模式下该样式无效)
  */
 @property (nonatomic,weak)UIColor *maxTintColor;
 
 /**
- 设置 中间 颜色
+ 设置总进度条颜色
  */
 @property (nonatomic,weak)UIColor *mainTintColor;
 
-@property (nonatomic, strong) UIButton * minButton;//显示较小的数button
-@property (nonatomic, strong) UIButton * maxButton;//显示较大的数button
+/**
+ 是否隐藏提示文字或图片
+ */
+@property (nonatomic, assign) BOOL  showNoteLabel;
 
 /**
- 当前最小值
+ 设置最小值（当showNoteLabel==NO时无效）
+ */
+@property (nonatomic, copy)   NSString * minText;
+
+/**
+ 设置最大值（当showNoteLabel==NO时无效）
+ */
+@property (nonatomic, copy)   NSString * maxText;
+
+/**
+ 设置最小值（当showNoteLabel==NO时无效）
+ */
+@property (nonatomic, strong) UIImage * minImage;
+
+/**
+ 设置最大值（当showNoteLabel==NO时无效）
+ */
+@property (nonatomic, strong) UIImage * maxImage;
+
+
+/**
+ 当前最小值(当在WYASliderStyleSingle模式下该样式无效)
  */
 @property (nonatomic,assign)CGFloat  currentMinValue;
 
 /**
- 当前最大值
+ 当前最大值(当在WYASliderStyleSingle模式下显示当前移动的值0~1)
  */
 @property (nonatomic,assign)CGFloat  currentMaxValue;
-
-
 
 @end
 

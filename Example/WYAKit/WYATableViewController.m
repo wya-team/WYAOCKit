@@ -113,6 +113,7 @@
                                            @"WYAPaginationViewController",
                                            @"WYAChooseMenuViewController",
                                            @"WYASliderViewController",
+                                           @"WYANoticeViewController",
                                            nil];
     }
     return _array;

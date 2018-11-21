@@ -8,6 +8,8 @@
 #import "WYASlider.h"
 
 @interface WYASlider ()
+@property (nonatomic, strong) UIButton * minButton;//显示较小的数button
+@property (nonatomic, strong) UIButton * maxButton;//显示较大的数button
 @property (nonatomic, strong) UIView * minSliderLine;
 @property (nonatomic, strong) UIView * maxSliderLine;
 @property (nonatomic, strong) UIView * mainSliderLine;
@@ -15,9 +17,8 @@
 @property (nonatomic, assign) CGFloat  CurrentMaxNum;
 @property (nonatomic, strong) UIButton * minSlider;//min 滑块
 @property (nonatomic, strong) UIButton * maxSlider;//max 滑块
-
-@property (nonatomic, assign) CGFloat  constOffY;
 @property (nonatomic, assign) CGFloat  tatol;
+@property (nonatomic, assign) CGFloat  padding;
 @end
 
 @implementation WYASlider
@@ -45,32 +46,31 @@
     [super layoutSubviews];
     [self.minButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.left.mas_equalTo(self.mas_left);
-        make.size.mas_equalTo(CGSizeMake(30*SizeAdapter, 20*SizeAdapter));
+        make.left.mas_equalTo(self.mas_left).with.offset(self.padding);
+        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 20*SizeAdapter));
     }];
     
     [self.maxButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.right.mas_equalTo(self.mas_right);
-        make.size.mas_equalTo(CGSizeMake(30*SizeAdapter, 20*SizeAdapter));
+        make.right.mas_equalTo(self.mas_right).with.offset(-self.padding);
+        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 20*SizeAdapter));
     }];
     
     [self.mainSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.left.mas_equalTo(self.minButton.mas_right).with.offset(5*SizeAdapter);
-        make.right.mas_equalTo(self.maxButton.mas_left).with.offset(-5*SizeAdapter);
+        if (self.showNoteLabel) {
+            make.left.mas_equalTo(self.minButton.mas_right).with.offset(self.padding);
+            make.right.mas_equalTo(self.maxButton.mas_left).with.offset(-self.padding);
+        }else{
+            make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
+            make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
+        }
+        
         make.height.mas_equalTo(1*SizeAdapter);
     }];
     
     [self.minSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mainSliderLine.mas_left);
-        make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
-        make.height.mas_equalTo(1*SizeAdapter);
-        make.width.mas_greaterThanOrEqualTo(0);
-    }];
-    
-    [self.maxSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.mainSliderLine.mas_right);
         make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
         make.height.mas_equalTo(1*SizeAdapter);
         make.width.mas_greaterThanOrEqualTo(0);
@@ -82,39 +82,35 @@
         make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
     }];
     
-    [self.maxSlider mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.maxSliderLine.mas_centerY);
-        make.centerX.mas_equalTo(self.maxSliderLine.mas_left);
-        make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
-    }];
+    if (self.sliderStyle == WYASliderStyleDouble) {
+        [self.maxSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.mainSliderLine.mas_right);
+            make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
+            make.height.mas_equalTo(1*SizeAdapter);
+            make.width.mas_greaterThanOrEqualTo(0);
+        }];
+        
+        [self.maxSlider mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.maxSliderLine.mas_centerY);
+            make.centerX.mas_equalTo(self.maxSliderLine.mas_left);
+            make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
+        }];
+    }
+    
 }
 
 #pragma mark --- Setter
--(void)setMinNum:(CGFloat)minNum
-{
-//    _minNum = minNum;
-//    _tatol = (_maxNum - _minNum)/(self.width - 40.0f);
-//    if (_tatol < 0) {
-//        _tatol = -_tatol;
-//    }
-//
-//    _minLabel.text = [NSString stringWithFormat:@"%.3f%@",minNum,_unit];
-//    _currentMinValue = minNum;
+-(void)setSliderStyle:(WYASliderStyle)sliderStyle{
+    _sliderStyle = sliderStyle;
+    if (sliderStyle == WYASliderStyleSingle) {
+        [self.maxSliderLine removeFromSuperview];
+        [self.maxSlider removeFromSuperview];
+        
+    }else if (sliderStyle == WYASliderStyleDouble) {
+        
+    }
+    [self layoutIfNeeded];
 }
-
--(void)setMaxNum:(CGFloat)maxNum
-{
-//    _maxNum = maxNum;
-//    _tatol = (_maxNum - _minNum)/(self.width - 40.0f);
-//    if (_tatol < 0) {
-//        _tatol = -_tatol;
-//    }
-//    _maxLabel.text = [NSString stringWithFormat:@"%.3f%@",maxNum,_unit];
-//    _currentMaxValue = maxNum;
-}
-
-
-
 -(void)setMinTintColor:(UIColor *)minTintColor
 {
     _minTintColor = minTintColor;
@@ -131,6 +127,32 @@
 {
     _mainTintColor = mainTintColor;
     self.mainSliderLine.backgroundColor = mainTintColor;
+}
+
+-(void)setMinText:(NSString *)minText{
+    [self.minButton setTitle:minText forState:UIControlStateNormal];
+}
+
+-(void)setMaxText:(NSString *)maxText{
+    [self.maxButton setTitle:maxText forState:UIControlStateNormal];
+}
+
+-(void)setMinImage:(UIImage *)minImage{
+    [self.minButton setImage:minImage forState:UIControlStateNormal];
+}
+
+-(void)setMaxImage:(UIImage *)maxImage{
+    [self.maxButton setImage:maxImage forState:UIControlStateNormal];
+}
+
+-(void)setShowNoteLabel:(BOOL)showNoteLabel{
+    _showNoteLabel = showNoteLabel;
+    if (showNoteLabel == NO) {
+        self.minButton.hidden = YES;
+        self.maxButton.hidden = YES;
+        self.padding = 0;
+    }
+    [self layoutIfNeeded];
 }
 
 #pragma mark --- Getter
@@ -163,7 +185,7 @@
         _minSlider = [UIButton buttonWithType:UIButtonTypeCustom];
         _minSlider.backgroundColor = [UIColor whiteColor];
         _minSlider.showsTouchWhenHighlighted = YES;
-        _minSlider.layer.cornerRadius = 10.f;
+        _minSlider.layer.cornerRadius = 10*SizeAdapter;
         _minSlider.layer.masksToBounds = YES;
         _minSlider.layer.borderColor = [UIColor darkGrayColor].CGColor;
         _minSlider.layer.borderWidth = 0.5;
@@ -192,6 +214,8 @@
     if (!_minButton) {
         _minButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _minButton.enabled = NO;
+        [_minButton setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
+        _minButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _minButton;
 }
@@ -200,6 +224,8 @@
     if (!_maxButton) {
         _maxButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _maxButton.enabled = NO;
+        [_maxButton setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
+        _maxButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _maxButton;
 }
@@ -207,9 +233,6 @@
 #pragma mark --- Private Method
 - (void)createUI
 {
-    self.minNum = 0.0;
-    self.maxNum = 0.0;
-    
     [self addSubview:self.minButton];
     [self addSubview:self.maxButton];
     [self addSubview:self.mainSliderLine];
@@ -219,8 +242,8 @@
     [self addSubview:self.minSlider];
     [self addSubview:self.maxSlider];
     
-    self.constOffY = self.wya_centerY;
-    
+    self.padding = 5*SizeAdapter;
+    self.showNoteLabel = YES;
     
 }
 
@@ -232,20 +255,41 @@
         center = pgr.view.center;
     }
     pgr.view.center = CGPointMake(center.x + point.x, center.y + point.y);
-    pgr.view.wya_centerY = self.constOffY;
+    pgr.view.cmam_centerY = self.cmam_height/2;
     
-    if (pgr.view.wya_right > self.maxSlider.wya_left) {
-        pgr.view.wya_right = self.maxSlider.wya_left;
+    CGFloat aaa ;
+    if (self.showNoteLabel) {
+        aaa = 2*self.padding+self.minButton.cmam_width;
     }else{
-        if (pgr.view.wya_centerX < 10) {
-            pgr.view.wya_centerX = 10;
-        }
-        if (pgr.view.wya_centerX > self.wya_width-10) {
-            pgr.view.wya_centerX = self.wya_width-10;
-        }
+        aaa = 5*SizeAdapter;
     }
-    self.minSliderLine.frame = CGRectMake(self.minSliderLine.wya_left, self.minSliderLine.wya_top,  pgr.view.wya_centerX-self.minSliderLine.wya_left, self.minSliderLine.wya_height);
-    [self valueMinChange:pgr.view.wya_right];
+    if (self.sliderStyle == WYASliderStyleSingle) {
+        if (pgr.view.cmam_right > self.mainSliderLine.cmam_right+self.minSlider.cmam_width/2) {
+            pgr.view.cmam_right = self.mainSliderLine.cmam_right+self.minSlider.cmam_width/2;
+        }else{
+            if (pgr.view.cmam_centerX < aaa) {
+                pgr.view.cmam_centerX = aaa;
+            }
+//            if (pgr.view.cmam_centerX > self.cmam_width-aaa) {
+//                pgr.view.cmam_centerX = self.cmam_width-aaa;
+//            }
+        }
+        self.minSliderLine.frame = CGRectMake(self.minSliderLine.cmam_left, self.minSliderLine.cmam_top,  pgr.view.cmam_centerX-self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
+    }else if ( self.sliderStyle == WYASliderStyleDouble) {
+        if (pgr.view.cmam_right > self.maxSlider.cmam_left) {
+            pgr.view.cmam_right = self.maxSlider.cmam_left;
+        }else{
+            if (pgr.view.cmam_centerX < aaa) {
+                pgr.view.cmam_centerX = aaa;
+            }
+            if (pgr.view.cmam_centerX > self.cmam_width-aaa) {
+                pgr.view.cmam_centerX = self.cmam_width-aaa;
+            }
+        }
+        self.minSliderLine.frame = CGRectMake(self.minSliderLine.cmam_left, self.minSliderLine.cmam_top,  pgr.view.cmam_centerX-self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
+    }
+    
+    [self valueMinChange:pgr.view.cmam_right];
 }
 
 - (void)panMaxSliderButton:(UIPanGestureRecognizer *)pgr
@@ -256,33 +300,46 @@
         center = pgr.view.center;
     }
     pgr.view.center = CGPointMake(center.x + point.x, center.y + point.y);
-    pgr.view.wya_centerY = self.constOffY;
-    
-    if (pgr.view.wya_left < self.minSlider.wya_right) {
-        pgr.view.wya_left = self.minSlider.wya_right;
+    pgr.view.cmam_centerY = self.cmam_height/2;
+    CGFloat aaa;
+    if (self.showNoteLabel == YES) {
+        aaa = 2*self.padding+self.minButton.cmam_width;
     }else{
-        if (pgr.view.wya_centerX < 10) {
-            pgr.view.wya_centerX = 10;
+        aaa = 5*SizeAdapter;
+    }
+    if (pgr.view.cmam_left < self.minSlider.cmam_right) {
+        pgr.view.cmam_left = self.minSlider.cmam_right;
+    }else{
+        if (pgr.view.cmam_centerX < aaa) {
+            pgr.view.cmam_centerX = aaa;
         }
-        if (pgr.view.wya_centerX > self.wya_width-10) {
-            pgr.view.wya_centerX = self.wya_width-10;
+        if (pgr.view.cmam_centerX > self.cmam_width-aaa) {
+            pgr.view.cmam_centerX = self.cmam_width-aaa;
         }
     }
-    self.maxSliderLine.frame = CGRectMake(pgr.view.wya_centerX, self.maxSliderLine.wya_top, self.wya_width-pgr.view.wya_centerX-10, self.maxSliderLine.wya_height);
-    [self valueMaxChange:pgr.view.wya_left];
+    self.maxSliderLine.frame = CGRectMake(pgr.view.cmam_centerX, self.maxSliderLine.cmam_top, self.cmam_width-pgr.view.cmam_centerX-aaa, self.maxSliderLine.cmam_height);
+    [self valueMaxChange:pgr.view.cmam_left];
 }
 
 - (void)valueMinChange:(CGFloat)num
 {
+//    NSString * string = [NSString stringWithFormat:@"%.2f", self.minSliderLine.cmam_width/self.mainSliderLine.cmam_width];
     
-    [self.minButton setTitle:[NSString stringWithFormat:@"%.f",self.minNum + (self.tatol * (num-20.0))] forState:UIControlStateNormal];
-    self.currentMinValue = self.minNum + (self.tatol * (num-20.0));
+    if (self.sliderStyle == WYASliderStyleSingle) {
+//        [self.maxButton setTitle:string forState:UIControlStateNormal];
+        self.currentMaxValue = self.minSliderLine.cmam_width/self.mainSliderLine.cmam_width;
+    }else if (self.sliderStyle == WYASliderStyleDouble) {
+//        [self.minButton setTitle:string forState:UIControlStateNormal];
+        self.currentMinValue = self.minSliderLine.cmam_width/self.mainSliderLine.cmam_width;
+    }
+    
 }
 
 - (void)valueMaxChange:(CGFloat)num
 {
-    [self.maxButton setTitle:[NSString stringWithFormat:@"%.f",self.minNum +(self.tatol * (num-20.0))] forState:UIControlStateNormal];
-    self.currentMaxValue = _minNum +(self.tatol * (num-20.0));
+//    NSString * string = [NSString stringWithFormat:@"%.2f",self.maxSliderLine.cmam_width/self.mainSliderLine.cmam_width];
+//    [self.maxButton setTitle:string forState:UIControlStateNormal];
+    self.currentMaxValue = self.maxSliderLine.cmam_width/self.mainSliderLine.cmam_width;
     
 }
 

@@ -19,8 +19,26 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    WYASlider * slider = [[WYASlider alloc]initWithFrame:CGRectMake(50, 100, self.view.frame.size.width-50, 30)];
+    WYASlider * slider = [[WYASlider alloc]initWithFrame:CGRectMake(30, 100, self.view.frame.size.width-60, 30)];
+    slider.showNoteLabel = NO;
     [self.view addSubview:slider];
+    
+    WYASlider * slider1 = [[WYASlider alloc]initWithFrame:CGRectMake(10, 200, self.view.frame.size.width-20, 30)];
+    slider1.minText = @"0.0";
+    slider1.maxText = @"100.0";
+    [self.view addSubview:slider1];
+    
+    
+    WYASlider * slider2 = [[WYASlider alloc]initWithFrame:CGRectMake(10, 300, self.view.frame.size.width-20, 30)];
+    slider2.minImage = [UIImage imageNamed:@"喇叭"];
+    slider2.maxImage = [UIImage imageNamed:@"大喇叭"];
+    [self.view addSubview:slider2];
+    
+    WYASlider * slider3 = [[WYASlider alloc]initWithFrame:CGRectMake(10, 400, self.view.frame.size.width-20, 30)];
+    slider3.sliderStyle = WYASliderStyleDouble;
+    slider3.minText = @"0.0";
+    slider3.maxText = @"100.0";
+    [self.view addSubview:slider3];
 }
 
 /*
