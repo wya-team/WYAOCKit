@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAUIPickerViewViewController : UIViewController
+@interface WYAPickerViewController : UIViewController
 
 @end
 

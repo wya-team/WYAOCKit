@@ -6,17 +6,27 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYAUIPickerViewViewController.h"
-
-@interface WYAUIPickerViewViewController ()
+#import "WYAPickerViewController.h"
+#import <WYAKit/WYAPickerView.h>
+@interface WYAPickerViewController ()
 
 @end
 
-@implementation WYAUIPickerViewViewController
+@implementation WYAPickerViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (IBAction)buttonClick:(id)sender {
+    WYAPickerView * pickerView = [[WYAPickerView alloc]init];
+    pickerView.delegate = self;
+    pickerView.cancelButtonColor = [UIColor redColor];
+    pickerView.sureButtonColor = [UIColor redColor];
+    pickerView.pickerHeight = 300;
+    pickerView.dataSource = @[@"haha",@"hehe"];
+    [pickerView show];
 }
 
 /*
