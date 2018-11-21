@@ -116,6 +116,7 @@
                                            @"WYANoticeViewController",
                                            @"WYAToastViewController",
                                            @"WYAPageViewController",
+                                           @"WYAPickerViewController",
                                            nil];
     }
     return _array;
