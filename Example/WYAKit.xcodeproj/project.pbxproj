@@ -30,6 +30,7 @@
 		21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */; };
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
+		21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21A8737021A542FE007F2921 /* WYAToastViewController.xib */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -108,6 +109,7 @@
 		21A8735121A3E1F0007F2921 /* WYASliderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASliderViewController.m; sourceTree = "<group>"; };
 		21A8735D21A4F502007F2921 /* WYANoticeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANoticeViewController.h; sourceTree = "<group>"; };
 		21A8735E21A4F502007F2921 /* WYANoticeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANoticeViewController.m; sourceTree = "<group>"; };
+		21A8737021A542FE007F2921 /* WYAToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAToastViewController.xib; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -248,6 +250,7 @@
 			children = (
 				21470C01219ABF180099CB6F /* WYAToastViewController.h */,
 				21470C02219ABF180099CB6F /* WYAToastViewController.m */,
+				21A8737021A542FE007F2921 /* WYAToastViewController.xib */,
 			);
 			path = WYAToastView;
 			sourceTree = "<group>";
@@ -582,6 +585,7 @@
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				21470C8D219BB2370099CB6F /* WYAUIAlertViewController.xib in Resources */,
+				21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -646,18 +650,24 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/JQFMDB/JQFMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
+				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
 				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JQFMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

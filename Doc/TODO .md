@@ -64,11 +64,11 @@
 
 - ~~WYAUIAlert~~ (ActoinSheet, Modal)
 
-- WYAToastView
+- WYAToastView (ActivityIndicator, Toast)
 
 - WYAShareView
 
-- WYAProgressView (ActivityIndicator, Progress)
+- WYAProgressView (Progress)
     
 - WYAUIPickerView
 

@@ -44,10 +44,10 @@
     [self.view addSubview:bar3];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [bar start];
-        [bar1 start];
-        [bar2 start];
-        [bar3 start];
+        [bar wya_start];
+        [bar1 wya_start];
+        [bar2 wya_start];
+        [bar3 wya_start];
     });
 }
 

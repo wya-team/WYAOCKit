@@ -7,7 +7,7 @@
 //
 
 #import "WYAToastViewController.h"
-
+#import <WYAKit/UIView+WYAToast.h>
 @interface WYAToastViewController ()
 
 @end
@@ -17,6 +17,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+- (IBAction)buttonActionCenter:(id)sender {
+    
+    [UIView wya_ShowCenterToastWithMessage:@"中心提示框"];
+    
+}
+- (IBAction)buttonActionBottom:(id)sender {
+    [UIView wya_ShowBottomToastWithMessage:@"底部提示框"];
+    
+}
+
+- (IBAction)buttonToast:(id)sender {
+    [UIView wya_ToastWithMessage:@"正在加载" ImageString:@"ink" imageType:WYAToastImageTypeGIF SourceInWYAKitBundle:NO AutoDismiss:YES];
+}
+- (IBAction)buttonToastAutoDismiss:(id)sender {
+    [UIView wya_ToastWithMessage:@"正在加载" ImageString:@"ink" imageType:WYAToastImageTypeGIF SourceInWYAKitBundle:NO AutoDismiss:NO];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView wya_DismissToast];
+    });
 }
 
 /*

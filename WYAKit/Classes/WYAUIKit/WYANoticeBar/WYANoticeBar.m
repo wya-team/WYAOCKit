@@ -135,7 +135,7 @@
 }
 
 
-- (void)start{
+- (void)wya_start{
     isStop = NO;
     if (self.titleLabelArray.count<2) { return ; }
     UILabel* lbindex0 = self.titleLabelArray[0];
@@ -151,7 +151,7 @@
     
 }
 
-- (void)stop{
+- (void)wya_stop{
     isStop = YES;
 }
 
