@@ -10,6 +10,27 @@
 #import "WYAOneTableViewController.h"
 #import "WYATwoTableViewController.h"
 #import "WYAThreeTableViewController.h"
+#define SizeAdapter ScreenWidth/375
+//获取设备的物理高度
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+//获取设备的物理宽度
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+//获取设备的物理宽高
+#define ScreenBounds [UIScreen mainScreen].bounds
+
+#define WYAiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define RectStatus  [[UIApplication sharedApplication] statusBarFrame]
+
+#define WYAStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
+
+#define WYANavBarHeight 44.0
+
+#define WYATabBarHeight (WYAStatusBarHeight > 20 ? 83 : 49)
+
+#define WYABottomHeight (WYAStatusBarHeight > 20 ? 34 : 0)
+
+#define WYATopHeight (WYAStatusBarHeight + WYANavBarHeight)
 @interface WYACustomPageController ()
 @property (nonatomic, strong) UIView *redView;
 @end
@@ -48,9 +69,9 @@
 }
 - (NSString *)wya_pageController:(WYAPageController *)pageController titleAtIndex:(NSInteger)index {
     switch (index % 3) {
-        case 0: return @"LIST";
+        case 0: return @"LISTsdfvasfadsf";
         case 1: return @"INTRODUCTION";
-        case 2: return @"IMAGES";
+        case 2: return @"IMAGESsdfasdfasfadsfas";
     }
     return @"NONE";
 }
@@ -71,15 +92,22 @@
 - (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameForMenuView:(WYAMenuView *)menuView{
     if (self.menuViewPosition == WYAMenuViewPositionBottom) {
         menuView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
-        return CGRectMake(0, self.view.frame.size.height - 44, self.view.frame.size.width, 44);
+        return CGRectMake(0, self.view.frame.size.height - WYATabBarHeight, ScreenWidth, WYATabBarHeight);
     }
     CGFloat leftMargin = self.showOnNavigationBar ? 50 : 0;
     CGFloat originY = self.showOnNavigationBar ? 0 : CGRectGetMaxY(self.navigationController.navigationBar.frame);
-    return CGRectMake(leftMargin, originY, self.view.frame.size.width - 2*leftMargin, 44);
+    return CGRectMake(leftMargin, originY, self.view.frame.size.width - 2*leftMargin, WYANavBarHeight);
 }
 
 - (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameContentView:(WYAPageScrollView *)contentView{
-    return CGRectMake(0, 88, self.view.frame.size.width, self.view.frame.size.height - 88 - 83);
+    if (self.menuViewPosition == WYAMenuViewPositionBottom) {
+        return CGRectMake(0, WYATopHeight, self.view.frame.size.width, self.view.frame.size.height - WYATopHeight - WYATabBarHeight);
+    }
+    CGFloat originY = CGRectGetMaxY([self wya_pageController:pageController preferredFrameForMenuView:self.menuView]);
+    if (self.menuViewStyle == WYAMenuViewStyleTriangle) {
+        originY += self.redView.frame.size.height;
+    }
+    return CGRectMake(0, originY, self.view.frame.size.width, self.view.frame.size.height - originY);
 }
 
 @end

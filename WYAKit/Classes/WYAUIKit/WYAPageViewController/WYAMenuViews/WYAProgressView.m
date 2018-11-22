@@ -43,6 +43,12 @@
     }
     CADisplayLink * link = [CADisplayLink displayLinkWithTarget:self selector:@selector(wya_progressChanged)];
     [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    _link = link;
+}
+- (void)setProgress:(CGFloat)progress{
+    if (self.progress == progress) return;
+    _progress = progress;
+    [self setNeedsDisplay];
 }
 - (void)wya_progressChanged{
     if (_gap > 0.000001) {
@@ -60,6 +66,7 @@
 }
 - (void)drawRect:(CGRect)rect{
     // Drawing Code
+    [super drawRect:rect];
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGFloat height = self.frame.size.height;
     int index = (int)self.progress;
