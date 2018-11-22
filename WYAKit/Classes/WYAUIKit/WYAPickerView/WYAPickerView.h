@@ -9,47 +9,32 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, WYAPickerViewStyle) {
+    WYAPickerViewStyleSingle,
+    WYAPickerViewStyleDouble,
+    WYAPickerViewStyleThree,
+};
+
 @protocol WYAPickerViewDelegate <NSObject>
 
 @required
-- (void)singleWithPickerView:(UIView *)pickerView ResultString:(NSString *)result;
+
+/**
+ 返回选择结果
+
+ @param pickerView self
+ @param result 返回结果为字符串用@"-"隔开
+ */
+- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result;
 
 @end
 
 @interface WYAPickerView : UIView
 
 @property (nonatomic, weak)   id <WYAPickerViewDelegate> delegate;
+@property (nonatomic, weak) UIViewController * viewController;
 
-/**
- 取消按钮正常状态字体颜色
- */
-@property (nonatomic, strong) UIColor * cancelButtonColor;
-
-/**
- 取消按钮正常状态字体大小
- */
-@property (nonatomic, strong) UIFont * cancelButtonFont;
-
-/**
- 确定按钮正常状态字体颜色
- */
-@property (nonatomic, strong) UIColor * sureButtonColor;
-
-/**
- 确定按钮正常状态字体大小
- */
-@property (nonatomic, strong) UIFont * sureButtonFont;
-
-/**
- 标题字体颜色
- */
-@property (nonatomic, strong) UIColor * titleColor;
-
-/**
- 标题字体大小
- */
-@property (nonatomic, strong) UIFont * titleFont;
-
+@property (nonatomic, assign) WYAPickerViewStyle  pickerViewStyle;
 /**
  设置pickerView整体字体颜色
  */
@@ -70,9 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat    pickerItemHeight;
 
-@property (nonatomic, strong) NSArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * fristDataArray;
+@property (nonatomic, strong) NSMutableArray * secondDataArray;
+@property (nonatomic, strong) NSMutableArray * threeDataArray;
 
-- (void)show;
+-(CGFloat)getPickerViewHeight;
+
 @end
 
 NS_ASSUME_NONNULL_END
