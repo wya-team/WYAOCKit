@@ -8,6 +8,7 @@
 
 #import "WYAPickerViewController.h"
 #import <WYAKit/WYAPickerView.h>
+#import <WYAKit/WYAAlertController.h>
 @interface WYAPickerViewController ()
 
 @end
@@ -20,13 +21,16 @@
 }
 
 - (IBAction)buttonClick:(id)sender {
+    
+    
+    
     WYAPickerView * pickerView = [[WYAPickerView alloc]init];
     pickerView.delegate = self;
-    pickerView.cancelButtonColor = [UIColor redColor];
-    pickerView.sureButtonColor = [UIColor redColor];
-    pickerView.pickerHeight = 150;
-    pickerView.dataSource = @[@"haha",@"hehe"];
-    [pickerView show];
+    pickerView.pickerHeight = 300;
+    pickerView.dataSource = @[@"haha",@"hehe",@"A",@"B",@"C"];
+    
+    WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*

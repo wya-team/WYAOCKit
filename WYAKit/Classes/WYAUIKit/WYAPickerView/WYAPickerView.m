@@ -6,6 +6,7 @@
 //
 
 #import "WYAPickerView.h"
+#import "WYAPaginationView.h"
 
 static CGFloat pickerViewHeight = 220.0;
 
@@ -14,15 +15,9 @@ static CGFloat titleHeight = 50.0;
 @interface WYAPickerView ()
 @property (nonatomic, strong) UIView * contentView;
 
-@property (nonatomic, strong) UIView * titleView;
+@property (nonatomic, strong) WYAPaginationView * titleView;
 
 @property (nonatomic, strong) UIPickerView * pickView;
-
-@property (nonatomic, strong) UIButton * cancelButton;
-
-@property (nonatomic, strong) UIButton * sureButton;
-
-@property (nonatomic, strong) UILabel * titleLabel;
 
 @property (nonatomic, copy) NSString * resultString;
 @end
@@ -34,9 +29,7 @@ static CGFloat titleHeight = 50.0;
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
         
-        [self.titleView addSubview:self.cancelButton];
-        [self.titleView addSubview:self.sureButton];
-        [self.titleView addSubview:self.titleLabel];
+        
         [self.contentView addSubview:self.titleView];
         [self.contentView addSubview:self.pickView];
         [self addSubview:self.contentView];
@@ -51,17 +44,21 @@ static CGFloat titleHeight = 50.0;
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    self.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    [self.contentView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+    }];
     
-    self.contentView.frame = CGRectMake(0, ScreenHeight, ScreenWidth, titleHeight+(self.pickerHeight>titleHeight? self.pickerHeight:pickerViewHeight));
-    self.titleView.frame = CGRectMake(0, 0, ScreenWidth, titleHeight);
+    [self.titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.mas_equalTo(self.contentView);
+        make.height.mas_equalTo(titleHeight);
+    }];
     
-    self.cancelButton.frame = CGRectMake(5, (titleHeight-30)/2, 40, 30);
-    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.cancelButton.frame)+10, (titleHeight-30)/2, ScreenWidth-CGRectGetMaxX(self.cancelButton.frame)-30-40, 30);
-    self.sureButton.frame = CGRectMake(ScreenWidth-45, (titleHeight-30)/2, 40, 30);
+    [self.pickView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(self.contentView);
+        make.top.mas_equalTo(self.titleView.mas_bottom);
+        make.height.mas_equalTo(self.pickerHeight? self.pickerHeight : pickerViewHeight);
+    }];
     
-    
-    self.pickView.frame = CGRectMake(0, titleHeight, ScreenWidth, self.pickerHeight? self.pickerHeight:pickerViewHeight);
 }
 
 #pragma mark UIPickerViewDataSource
@@ -97,7 +94,7 @@ static CGFloat titleHeight = 50.0;
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     
     self.resultString = self.dataSource[row];
-    self.titleLabel.text = self.resultString;
+//    self.titleLabel.text = self.resultString;
 }
 
 #pragma mark Private Action
@@ -120,7 +117,7 @@ static CGFloat titleHeight = 50.0;
 - (void)show{
     if (self.resultString == nil) {
         self.resultString = [self.dataSource firstObject];
-        self.titleLabel.text = self.resultString;
+//        self.titleLabel.text = self.resultString;
     }
     [self layoutIfNeeded];
     [self.pickView reloadAllComponents];
@@ -151,9 +148,9 @@ static CGFloat titleHeight = 50.0;
     return _contentView;
 }
 
--(UIView *)titleView{
+-(WYAPaginationView *)titleView{
     if (!_titleView) {
-        _titleView = [[UIView alloc]init];
+        _titleView = [[WYAPaginationView alloc]init];
         _titleView.backgroundColor = [UIColor whiteColor];
     }
     return _titleView;
@@ -168,81 +165,14 @@ static CGFloat titleHeight = 50.0;
     return _pickView;
 }
 
--(UIButton *)cancelButton{
-    if (!_cancelButton) {
-        _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [_cancelButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
-        //        _cancelButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        //        _cancelButton.layer.borderWidth = 0.5;
-        //        _cancelButton.layer.borderColor = [UIColor blackColor].CGColor;
-        //        _cancelButton.layer.cornerRadius = 4;
-        //        _cancelButton.layer.masksToBounds = YES;
-    }
-    return _cancelButton;
+#pragma mark --- Setter
+-(void)setPickerHeight:(CGFloat)pickerHeight{
+    _pickerHeight = pickerHeight;
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
--(UIButton *)sureButton{
-    if (!_sureButton) {
-        _sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_sureButton setTitle:@"确定" forState:UIControlStateNormal];
-        [_sureButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [_sureButton addTarget:self action:@selector(sureClick) forControlEvents:UIControlEventTouchUpInside];
-        //        _sureButton.titleLabel.font = [UIFont systemFontOfSize:15];
-        //        _sureButton.layer.borderWidth = 0.5;
-        //        _sureButton.layer.borderColor = [UIColor blackColor].CGColor;
-        //        _sureButton.layer.cornerRadius = 4;
-        //        _sureButton.layer.masksToBounds = YES;
-    }
-    return _sureButton;
-}
 
--(UILabel *)titleLabel{
-    if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]init];
-        _titleLabel.textColor = [UIColor blackColor];
-        _titleLabel.textAlignment = NSTextAlignmentCenter;
-    }
-    return _titleLabel;
-}
-
-#pragma mark Set
-- (void)setCancelButtonColor:(UIColor *)cancelButtonColor{
-    if (cancelButtonColor) {
-        [self.cancelButton setTitleColor:cancelButtonColor forState:UIControlStateNormal];
-    }
-}
-
--(void)setCancelButtonFont:(UIFont *)cancelButtonFont{
-    if (cancelButtonFont) {
-        self.cancelButton.titleLabel.font = cancelButtonFont;
-    }
-}
-
--(void)setSureButtonColor:(UIColor *)sureButtonColor{
-    if (sureButtonColor) {
-        [self.sureButton setTitleColor:sureButtonColor forState:UIControlStateNormal];
-    }
-}
-
--(void)setSureButtonFont:(UIFont *)sureButtonFont{
-    if (sureButtonFont) {
-        self.sureButton.titleLabel.font = sureButtonFont;
-    }
-}
-
--(void)setTitleColor:(UIColor *)titleColor{
-    if (titleColor) {
-        self.titleLabel.textColor = titleColor;
-    }
-}
-
-- (void)setTitleFont:(UIFont *)titleFont{
-    if (titleFont) {
-        self.titleLabel.font = titleFont;
-    }
-}
 
 /*
 // Only override drawRect: if you perform custom drawing.
