@@ -49,7 +49,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  返回要在索引处显示的控制器。如果实现了这些方法，就可以轻松地设置属性。
 
  @param pageController parentController
- @param index index of child COntroller
+ @param index index of child Controller
  @return UIViewController instance
  */
 - (__kindof UIViewController *)wya_pageController:(WYAPageController *)pageController viewControllerAtIndex:(NSInteger)index;
@@ -157,7 +157,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, assign) int  selectIndex;
 
 /**
- 点击的MenuItem是否出发滚动效果动画
+ 点击的MenuItem是否触发滚动效果动画
  */
 @property (nonatomic, assign) BOOL  pageAnimatable;
 
@@ -237,7 +237,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, assign) BOOL  progressViewIsNaughty;
 
 /**
- 是否发送在创建控制器或者视图完全展现在用户眼前时y通知观察者，默认为不开启，如需利用通知请开启
+ 是否发送在创建控制器或者视图完全展现在用户眼前时通知观察者，默认为不开启，如需利用通知请开启
  */
 @property (nonatomic, assign) BOOL  postNotification;
 /**
@@ -268,7 +268,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, assign) BOOL  showOnNavigationBar;
 
 /**
- 用代码设置ContentView的contentOffset之前请设置startDragging= YES
+ 用代码设置ContentView的contentOffset之前请设置startDragging = YES
  */
 @property (nonatomic, assign) BOOL  startDragging;
 
@@ -329,7 +329,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  Layout all views in WMPageController
- @discussion This method will recall `-pageController:preferredFrameForContentView:` and `-pageContoller:preferredFrameForMenuView:`
+ @discussion This method will recall `-wya_pageController:preferredFrameForContentView:` and `-wya_pageContoller:preferredFrameForMenuView:`
  */
 - (void)wya_forceLayoutSubviews;
 

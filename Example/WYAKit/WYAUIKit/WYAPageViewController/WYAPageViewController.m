@@ -81,17 +81,19 @@
     vc.selectIndex = 1;
     vc.title = key;
     vc.menuViewStyle = style;
+    vc.progressColor = [UIColor yellowColor];
     vc.automaticallyCalculatesItemWidths = YES;
-    if ([key isEqualToString:@"WMMenuViewStyleNaughty"]) {
+    if ([key isEqualToString:@"WYAMenuViewStyleNaughty"]) {
         vc.progressViewIsNaughty = YES;
         vc.progressWidth = 10;
     }
-    if ([key isEqualToString:@"WMMenuViewCornerRadius"]) {
+    if ([key isEqualToString:@"WYAMenuViewCornerRadius"]) {
         vc.progressViewCornerRadius = 5.0f;
     }
-    if ([key isEqualToString:@"WMMenuViewPositionBottom"]) {
+    if ([key isEqualToString:@"WYAMenuViewPositionBottom"]) {
         vc.menuViewPosition = WYAMenuViewPositionBottom;
     }
+    
     [self customPageController:vc];
     [self.navigationController pushViewController:vc animated:YES];
 }
