@@ -9,22 +9,32 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//typedef NS_ENUM(NSInteger, WYAPickerViewStyle) {
-//    
-//};
+typedef NS_ENUM(NSInteger, WYAPickerViewStyle) {
+    WYAPickerViewStyleSingle,
+    WYAPickerViewStyleDouble,
+    WYAPickerViewStyleThree,
+};
 
 @protocol WYAPickerViewDelegate <NSObject>
 
 @required
-- (void)singleWithPickerView:(UIView *)pickerView ResultString:(NSString *)result;
+
+/**
+ 返回选择结果
+
+ @param pickerView self
+ @param result 返回结果为字符串用@"-"隔开
+ */
+- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result;
 
 @end
 
 @interface WYAPickerView : UIView
 
 @property (nonatomic, weak)   id <WYAPickerViewDelegate> delegate;
+@property (nonatomic, weak) UIViewController * viewController;
 
-
+@property (nonatomic, assign) WYAPickerViewStyle  pickerViewStyle;
 /**
  设置pickerView整体字体颜色
  */
@@ -45,7 +55,11 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat    pickerItemHeight;
 
-@property (nonatomic, strong) NSArray * dataSource;
+@property (nonatomic, strong) NSMutableArray * fristDataArray;
+@property (nonatomic, strong) NSMutableArray * secondDataArray;
+@property (nonatomic, strong) NSMutableArray * threeDataArray;
+
+-(CGFloat)getPickerViewHeight;
 
 @end
 
