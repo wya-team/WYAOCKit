@@ -72,13 +72,13 @@ static NSInteger const kWMControllerCountUndefined = -1;
 #pragma mark ======= Public Methods
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
     if (self = [super initWithCoder:aDecoder]) {
-//        [self setup];
+        [self setup];
     }
     return self;
 }
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-//        [self setup];
+        [self setup];
     }
     return self;
 }
@@ -93,8 +93,8 @@ static NSInteger const kWMControllerCountUndefined = -1;
 }
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(growCachePolocyAfterMemoryWaring) object:nil];
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(growCachePolicyToHight) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(growCachePolicyAfterMemoryWarning) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(growCachePolicyToHigh) object:nil];
 }
 
 - (void)wya_forceLayoutSubviews{
@@ -120,7 +120,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 - (void)setMenuViewLayoutMode:(WYAMenuViewLayoutMode)menuViewLayoutMode{
     _menuViewLayoutMode = menuViewLayoutMode;
     if (self.menuView.superview) {
-//        [self resetMenuView];
+        [self resetMenuView];
     }
 }
 - (void)setCachePolicy:(WYAPageControllerCachePolicy)cachePolicy{
@@ -139,7 +139,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
         _markedSelectIndex = selectIndex;
         UIViewController * vc = [self.memCache objectForKey:@(selectIndex)];
         if (!vc) {
-//            vc = [self initializeViewControllerAtIndex:selectIndex];
+            vc = [self initializeViewControllerAtIndex:selectIndex];
             [self.memCache setObject:vc forKey:@(selectIndex)];
         }
         self.currentViewController = vc;
@@ -176,20 +176,20 @@ static NSInteger const kWMControllerCountUndefined = -1;
     }
 }
 - (void)wya_reloadData{
-//    [self clearDatas];
+    [self clearDatas];
     if (!self.childControllersCount)return;
-//    [self restScrollView];
+    [self resetScrollView];
     [self.memCache removeAllObjects];
-//    [self restMenuView];
+    [self resetMenuView];
     [self viewDidLayoutSubviews];
-//    [self didEnterController:self.currentViewController atIndex:self.selectIndex];
+    [self didEnterController:self.currentViewController atIndex:self.selectIndex];
 }
 - (void)wya_updateTitle:(NSString *)title atIndex:(NSInteger)index{
     [self.menuView wya_updateTitle:title atIndex:index anWidth:NO];
 }
 
 - (void)wya_updateAttributeTitle:(NSAttributedString *)title atIndex:(NSInteger)index{
-    [self.menuView wya_updateTitle:title atIndex:index anWidth:NO];
+    [self.menuView wya_updateAttributeTitle:title atIndex:index andWidth:NO];
 }
 
 - (void)wya_updateTitle:(NSString *)title anWidth:(CGFloat)width atIndex:(NSInteger)index{
@@ -214,7 +214,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
     _showOnNavigationBar = showOnNavigationBar;
     if (self.menuView) {
         [self.menuView removeFromSuperview];
-//        [self addMenuView];
+        [self addMenuView];
         [self wya_forceLayoutSubviews];
         [self.menuView wya_slidMenuAtProgress:self.selectIndex];
     }
@@ -261,7 +261,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 - (void)didEnterController:(UIViewController *)vc atIndex:(NSInteger)index{
     if (!self.childControllersCount)return;
     //Post FullyDisplayedNotification
-//    [self postFullDisplayedNotificationWithCUrrentIndex:self.selectIndex];
+    [self postFullDisplayNotificationWithCurrentIndex:self.selectIndex];
     NSDictionary * info = [self infoWithIndex:index];
     if ([self.delegate respondsToSelector:@selector(wya_pageController:didEnterViewController:withInfo:)]) {
         [self.delegate wya_pageController:self didEnterViewController:vc withInfo:info];
@@ -287,8 +287,8 @@ static NSInteger const kWMControllerCountUndefined = -1;
     for (int i = start; i <= end; i++) {
         // 如果已经存在 不需要预加载
         if (![self.memCache objectForKey:@(i)] && !self.displayVC[@(i)]) {
-//            [self addViewControllerAtIndex:i];
-//            [self postAddToSuperViewNotficationWithIndex:i];
+            [self addViewControllerAtIndex:i];
+            [self postAddToSuperViewNotificationWithIndex:i];
         }
     }
     _selectIndex = (int)index;

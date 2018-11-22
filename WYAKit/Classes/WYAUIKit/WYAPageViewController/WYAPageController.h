@@ -138,7 +138,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")
  */
 @property (nonatomic, strong) NSMutableArray <id> * values;
-@property (nonatomic, strong) NSMutableArray<NSArray *> * keys;
+@property (nonatomic, strong) NSMutableArray<NSString *> * keys;
 
 /**
  *  各个控制器的 class, 例如:[UITableViewController class]
