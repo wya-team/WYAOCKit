@@ -60,7 +60,7 @@
 
 - ~~WYAIMGCode~~
 
-- WYAPageViewController
+- ~~WYAPageViewController~~
 
 - ~~WYAUIAlert~~ (ActoinSheet, Modal)
 
