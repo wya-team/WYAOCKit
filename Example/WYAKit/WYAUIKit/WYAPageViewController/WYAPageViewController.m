@@ -9,6 +9,8 @@
 #import "WYAPageViewController.h"
 #import "WYAPageController.h"
 #import "WYACustomPageController.h"
+#import "WYATestHeaderViewController.h"
+#import "Category.h"
 @interface WYAPageViewController ()
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSDictionary *stylesMap;
@@ -32,7 +34,8 @@
                     @"WYAMenuViewStyleTriangle",
                     @"WYAMenuViewStyleNaughty",
                     @"WYAMenuViewCornerRadius",
-                    @"WYAMenuViewPositionBottom"];
+                    @"WYAMenuViewPositionBottom",
+                    @"WYATestHeaderViewController"];
     }
     return _titles;
 }
@@ -75,13 +78,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString * key = self.titles[indexPath.row];
-    WYAMenuViewStyle style = [self.stylesMap[key] integerValue];
+   
+    NSString * key = [self.titles wya_safeObjectAtIndex:indexPath.row];
+    if (![key isEqualToString:@"WYATestHeaderViewController"]) {
+    WYAMenuViewStyle style = [[self.stylesMap wya_safeObjectForKey:key]integerValue];
     WYACustomPageController * vc = [[WYACustomPageController alloc]init];
     vc.selectIndex = 1;
     vc.title = key;
     vc.menuViewStyle = style;
-    vc.progressColor = [UIColor yellowColor];
     vc.automaticallyCalculatesItemWidths = YES;
     if ([key isEqualToString:@"WYAMenuViewStyleNaughty"]) {
         vc.progressViewIsNaughty = YES;
@@ -96,6 +100,20 @@
     
     [self customPageController:vc];
     [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        WYATestHeaderViewController * vc = [[WYATestHeaderViewController alloc]init];
+        vc.selectIndex = 0;
+        vc.menuViewStyle = WYAMenuViewStyleLine;
+        vc.automaticallyCalculatesItemWidths = YES;
+        vc.titleColorNormal = [UIColor blackColor];
+        vc.titleColorSelected = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+        vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+        vc.menuViewLayoutMode = WYAMenuViewLayoutModeScatter;
+        vc.titleSizeSelected = 16;
+        vc.titleSizeNormal = 14;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 - (void)customPageController:(WYAPageController *)vc{
     switch (vc.menuViewStyle) {
