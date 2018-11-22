@@ -9,6 +9,8 @@
 #import "WYAPickerViewController.h"
 #import <WYAKit/WYAPickerView.h>
 #import <WYAKit/WYAAlertController.h>
+#import <WYAKit/WYADatePicker.h>
+#import <WYAKit/WYAPickerManager.h>
 @interface WYAPickerViewController ()<WYAPickerViewDelegate>
 
 @end
@@ -51,7 +53,7 @@
             cell.textLabel.text = @"三列";
         }
     }else if (indexPath.section == 1) {
-        cell.textLabel.text = @"";
+        cell.textLabel.text = @"年月日时分秒";
     }else if (indexPath.section == 2) {
         cell.textLabel.text = @"";
     }else{
@@ -104,6 +106,17 @@
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];
         pickerView.viewController = alert;
+    }else if (indexPath.section == 1){
+        WYADatePicker * datePicker = [[WYADatePicker alloc]init];
+        WYAPickerManager * manager = [[WYAPickerManager alloc]init];
+        if (indexPath.row == 0) {
+            datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
+        }
+        datePicker.datePickerManager = manager;
+        datePicker.frame = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
+        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:datePicker AlertStyle:WYAAlertStyleCustomSheet];
+        [self presentViewController:alert animated:YES completion:nil];
+        datePicker.viewController = alert;
     }
 }
 

@@ -7,7 +7,7 @@
 
 #import "WYADatePicker.h"
 #import "WYAPaginationView.h"
-
+#import "WYAPickerManager.h"
 static CGFloat pickerViewHeight = 220.0;
 static CGFloat titleHeight = 44.0;
 
@@ -68,11 +68,18 @@ static CGFloat titleHeight = 44.0;
 
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    switch (self.datePickerStyle) {
-        case WYADatePickerStyleDateHourMinuteSecond:
-            return 1;
-        default:
-            return 0;
+    if (component == 0) {
+        return self.datePickerManager.yearArray.count;
+    }else if (component == 1) {
+        return self.datePickerManager.monthArray.count;
+    }else if (component == 2) {
+        return self.datePickerManager.dayArray.count;
+    }else if (component == 3) {
+        return self.datePickerManager.hourArray.count;
+    }else if (component == 4) {
+        return self.datePickerManager.minuteArray.count;
+    }else{
+        return self.datePickerManager.secondArray.count;
     }
     
 }
@@ -95,7 +102,21 @@ static CGFloat titleHeight = 44.0;
         case WYADatePickerStyleDateHourMinuteSecond:
         {
             label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
-            label.text = @"";
+            if (component == 0) {
+                label.text = self.datePickerManager.yearArray[row];
+            }else if (component == 1){
+                label.text = self.datePickerManager.monthArray[row];
+            }else if (component == 2){
+                label.text = self.datePickerManager.dayArray[row];
+            }else if (component == 3){
+                label.text = self.datePickerManager.hourArray[row];
+            }else if (component == 4){
+                label.text = self.datePickerManager.minuteArray[row];
+            }else{
+                label.text = self.datePickerManager.secondArray[row];
+            }
+            
+            
             
         }
             break;
@@ -197,6 +218,11 @@ static CGFloat titleHeight = 44.0;
 #pragma mark --- Setter
 -(void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle{
     _datePickerStyle = datePickerStyle;
+    [self.pickView reloadAllComponents];
+}
+
+-(void)setDatePickerManager:(WYAPickerManager *)datePickerManager{
+    _datePickerManager = datePickerManager;
     [self.pickView reloadAllComponents];
 }
 
