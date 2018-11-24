@@ -70,7 +70,7 @@
 
 - WYAProgressView (Progress)
     
-- WYAUIPickerView
+- ~~WYAPickerView~~
 
 - ~~WYAUITextView~~ (TextatraItem)
     
