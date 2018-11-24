@@ -7,9 +7,9 @@
 //
 
 #import "WYAOneTableViewController.h"
-
+#import "MJRefresh.h"
 @interface WYAOneTableViewController ()
-@property (nonatomic, assign) CGFloat  tableViewContentoffsetY;
+
 @end
 
 @implementation WYAOneTableViewController
@@ -19,23 +19,26 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"oneCellID"];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.tableHeaderView = [[UIView alloc]init];
-    [self.tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self performSelector:@selector(end) withObject:self afterDelay:0.5];
+    }];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self performSelector:@selector(enddd) withObject:self afterDelay:0.5];
+    }];
 }
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void *)context {
-    
-    if (object == self.tableView) {
-        
-        CGPoint point = [((NSValue *)[self.tableView  valueForKey:@"contentOffset"]) CGPointValue];
-        self.tableViewContentoffsetY = point.y;
-        NSLog(@"%f",point.y);
-        if (self.tableViewContentoffsetY > 0) {
-            // 上滑
-           [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE" object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];
-            
-        }else if(self.tableViewContentoffsetY < 0 ){
-            // 下滑
-        }
-        
+- (void)end{
+    [self.tableView.mj_header endRefreshing];
+}
+- (void)enddd{
+    [self.tableView.mj_footer endRefreshing];
+
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.tableView) {
+        CGPoint point = scrollView.contentOffset;
+        NSLog(@"%f",scrollView.contentOffset.y);
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationName object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];
     }
 }
 #pragma mark - Table view data source

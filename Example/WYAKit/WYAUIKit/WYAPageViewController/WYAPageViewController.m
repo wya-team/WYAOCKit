@@ -9,7 +9,7 @@
 #import "WYAPageViewController.h"
 #import "WYAPageController.h"
 #import "WYACustomPageController.h"
-#import "WYATestHeaderViewController.h"
+#import "WYATablePageController.h"
 #import "Category.h"
 @interface WYAPageViewController ()
 @property (nonatomic, strong) NSArray *titles;
@@ -35,7 +35,7 @@
                     @"WYAMenuViewStyleNaughty",
                     @"WYAMenuViewCornerRadius",
                     @"WYAMenuViewPositionBottom",
-                    @"WYATestHeaderViewController"];
+                    @"WYATablePageController"];
     }
     return _titles;
 }
@@ -80,7 +80,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    
     NSString * key = [self.titles wya_safeObjectAtIndex:indexPath.row];
-    if (![key isEqualToString:@"WYATestHeaderViewController"]) {
+    if (![key isEqualToString:@"WYATablePageController"]) {
     WYAMenuViewStyle style = [[self.stylesMap wya_safeObjectForKey:key]integerValue];
     WYACustomPageController * vc = [[WYACustomPageController alloc]init];
     vc.selectIndex = 1;
@@ -97,11 +97,10 @@
     if ([key isEqualToString:@"WYAMenuViewPositionBottom"]) {
         vc.menuViewPosition = WYAMenuViewPositionBottom;
     }
-    
     [self customPageController:vc];
     [self.navigationController pushViewController:vc animated:YES];
     }else{
-        WYATestHeaderViewController * vc = [[WYATestHeaderViewController alloc]init];
+        WYATablePageController * vc = [[WYATablePageController alloc]init];
         vc.selectIndex = 0;
         vc.menuViewStyle = WYAMenuViewStyleLine;
         vc.automaticallyCalculatesItemWidths = YES;
@@ -111,9 +110,11 @@
         vc.menuViewLayoutMode = WYAMenuViewLayoutModeScatter;
         vc.titleSizeSelected = 16;
         vc.titleSizeNormal = 14;
+        vc.itemMargin = 20;
+        vc.acceptNotification = YES;
+        vc.titles = @[@"LIST",@"INTRODUCTION",@"INTRODUCTION",@"LIST"];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
 }
 - (void)customPageController:(WYAPageController *)vc{
     switch (vc.menuViewStyle) {

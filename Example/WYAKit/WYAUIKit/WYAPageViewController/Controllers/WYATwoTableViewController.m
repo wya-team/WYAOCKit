@@ -7,7 +7,7 @@
 //
 
 #import "WYATwoTableViewController.h"
-
+#import "MJRefresh.h"
 @interface WYATwoTableViewController ()
 
 @end
@@ -19,8 +19,28 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"twoCellID"];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.tableHeaderView = [[UIView alloc]init];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self performSelector:@selector(end) withObject:self afterDelay:0.5];
+    }];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self performSelector:@selector(enddd) withObject:self afterDelay:0.5];
+    }];
 }
-
+- (void)end{
+    [self.tableView.mj_header endRefreshing];
+}
+- (void)enddd{
+    [self.tableView.mj_footer endRefreshing];
+    
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.tableView) {
+        CGPoint point = scrollView.contentOffset;
+        NSLog(@"%f",scrollView.contentOffset.y);
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationName object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];
+    }
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

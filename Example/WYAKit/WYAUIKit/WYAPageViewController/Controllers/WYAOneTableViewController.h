@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAOneTableViewController : UITableViewController
-
+@property (nonatomic, copy) NSString * notificationName;
 @end
 
 NS_ASSUME_NONNULL_END
