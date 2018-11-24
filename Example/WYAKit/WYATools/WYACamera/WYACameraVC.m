@@ -58,7 +58,7 @@
         [self.navigationController pushViewController:qr animated:YES];
     }else{
         WYACameraViewController * camera = [[WYACameraViewController alloc]init];
-        [self.navigationController pushViewController:camera animated:YES];
+        [self presentViewController:camera animated:YES completion:nil];
     }
 }
 /*

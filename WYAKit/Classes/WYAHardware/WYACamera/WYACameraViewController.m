@@ -40,6 +40,10 @@
     [self setupCaptureSession];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
 
 - (void)viewDidLayoutSubviews
 {
@@ -68,6 +72,7 @@
     [super viewDidDisappear:animated];
     [self.videoTool stopCapture];
     [self.videoTool stopRecordFunction];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 
@@ -252,16 +257,6 @@
     self.progressView.progress = progress;
 }
 
--(UIImage *)loadBundleImageWithImageName:(NSString *)imageName{
-    NSString *bundlePath = [[NSBundle bundleForClass:[self class]].resourcePath
-                            stringByAppendingPathComponent:@"/WYAMedia.bundle"];
-    NSBundle *resource_bundle = [NSBundle bundleWithPath:bundlePath];
-    UIImage *image = [UIImage imageNamed:imageName
-                                inBundle:resource_bundle
-           compatibleWithTraitCollection:nil];
-    return image;
-}
-
 #pragma mark - lazy
 - (UILabel *)messageLabel{
     if (!_messageLabel) {
@@ -289,7 +284,7 @@
    if(!_closeButton)
    {
        _closeButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-       [_closeButton setImage:[self loadBundleImageWithImageName:@"shortvideo_button_close"] forState:UIControlStateNormal];
+       [_closeButton setImage:[UIImage loadBundleImage:@"shortvideo_button_close" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _closeButton.bounds = CGRectMake(0, 0, 50, 50);
        _closeButton.layer.cornerRadius =  _closeButton.bounds.size.width * 0.5;
        _closeButton.layer.masksToBounds = YES;
@@ -303,7 +298,7 @@
     if(!_flashButton)
     {
         _flashButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashButton setImage:[self loadBundleImageWithImageName:@"room_pop_up_lamp"] forState:UIControlStateNormal];
+        [_flashButton setImage:[UIImage loadBundleImage:@"room_pop_up_lamp" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
          _flashButton.bounds = CGRectMake(0, 0, 50, 50);
         _flashButton.layer.cornerRadius =  _flashButton.bounds.size.width * 0.5;
         _flashButton.layer.masksToBounds = YES;
@@ -317,7 +312,7 @@
     if(!_cameraButton)
     {
         _cameraButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        [_cameraButton setImage:[self loadBundleImageWithImageName:@"turnCamera"] forState:UIControlStateNormal];
+        [_cameraButton setImage:[UIImage loadBundleImage:@"turnCamera" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _cameraButton.bounds = CGRectMake(0, 0, 40, 40);
         _cameraButton.layer.cornerRadius =  _cameraButton.bounds.size.width * 0.5;
         _cameraButton.layer.masksToBounds = YES;
@@ -330,7 +325,7 @@
 {
     if(!_cameraImageView)
     {
-        _cameraImageView = [[UIImageView alloc]initWithImage:[self loadBundleImageWithImageName:@"camera"]];
+        _cameraImageView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"camera" ClassName:NSStringFromClass([self class])]];
         _cameraImageView.bounds = CGRectMake(0, 0, 60, 60);
         _cameraImageView.layer.cornerRadius =  _cameraImageView.bounds.size.width * 0.5;
         _cameraImageView.layer.masksToBounds = YES;
@@ -379,7 +374,7 @@
     if(!_backButton)
     {
         _backButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage * image = [self loadBundleImageWithImageName:@"mistake"];
+        UIImage * image = [UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass([self class])];
         [_backButton setImage:image forState:UIControlStateNormal];
         _backButton.bounds = CGRectMake(0, 0, 40, 40);
         _backButton.layer.cornerRadius =  _cameraButton.bounds.size.width * 0.5;
@@ -392,7 +387,7 @@
 - (UIButton *)sureButton{
     if (!_sureButton) {
         _sureButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        [_sureButton setImage:[self loadBundleImageWithImageName:@"correct"] forState:UIControlStateNormal];
+        [_sureButton setImage:[UIImage loadBundleImage:@"correct" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal]; 
         _sureButton.bounds = CGRectMake(0, 0, 40, 40);
         [_sureButton addTarget:self action:@selector(sureClick) forControlEvents:UIControlEventTouchUpInside];
     }

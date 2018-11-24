@@ -8,7 +8,7 @@
 
 #### WYATools
 
-- WYACamera
+- ~~WYACamera~~
 
 - WYAPhotoBrowser (imagePicker)
 

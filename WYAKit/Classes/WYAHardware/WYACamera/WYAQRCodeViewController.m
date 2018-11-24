@@ -65,6 +65,7 @@ static CGFloat QRCodeWidth = 220;
     if (self.timer) {
         [self.timer setFireDate:[NSDate distantFuture]];
     }
+    
 }
 
 #pragma mark --- UI
@@ -79,16 +80,15 @@ static CGFloat QRCodeWidth = 220;
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
     
     UIImageView * imageView = [[UIImageView alloc]initWithFrame:kScanRect];
-    NSString * boxPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"pick_bg" ofType:@"png" inDirectory:@"WYAQRCode.bundle"];
     
-    imageView.image = [UIImage imageWithContentsOfFile:boxPath];
+    imageView.image = [UIImage loadBundleImage:@"pick_bg" ClassName:NSStringFromClass([self class])];
     [self.view addSubview:imageView];
     
     upOrdown = NO;
     num =0;
     _line = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT, TOP+10, 220, 2)];
-    NSString * linePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"line" ofType:@"png" inDirectory:@"WYAQRCode.bundle"];
-    _line.image = [UIImage imageWithContentsOfFile:linePath];
+    
+    _line.image = [UIImage loadBundleImage:@"line" ClassName:NSStringFromClass([self class])];
     [self.view addSubview:_line];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.02 target:self selector:@selector(animation1) userInfo:nil repeats:YES];

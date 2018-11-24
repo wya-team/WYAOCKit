@@ -209,7 +209,7 @@ static CGFloat titleHeight = 44.0;
                 [pickerView selectRow:0 inComponent:1 animated:YES];
                 
                 NSDictionary * cityDic = [self.citys firstObject];
-                b = cityDic[@"name"];
+                b = cityDic[self.titleKeyWords];
                 
             }else{
                 
@@ -372,23 +372,27 @@ static CGFloat titleHeight = 44.0;
         }else if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleDouble) {
             self.provinces = dataArray;
             NSDictionary * dic = [self.provinces firstObject];
-            NSString * a = dic[self.titleKeyWords];
+            NSString * str = dic[self.titleKeyWords];
+            a = str;
             self.citys = dic[self.arrayKeyWords];
             NSDictionary * cityDic = [self.citys firstObject];
-            NSString * b = cityDic[self.titleKeyWords];
-            self.resultString = [NSString stringWithFormat:@"%@-%@",a,b];
+            NSString * str1 = cityDic[self.titleKeyWords];
+            b = str1;
+            self.resultString = [NSString stringWithFormat:@"%@-%@",str,str1];
         }else {
             self.provinces = dataArray;
             
             NSDictionary * dic = [self.provinces firstObject];
-            NSString * a = dic[self.titleKeyWords];
+            NSString * str = dic[self.titleKeyWords];
+            a = str;
             self.citys = dic[self.arrayKeyWords];
             NSDictionary * cityDic = [self.citys firstObject];
-            NSString * b = cityDic[self.titleKeyWords];
+            NSString * str1 = cityDic[self.titleKeyWords];
+            b = str1;
             self.areas = cityDic[self.arrayKeyWords];
             NSDictionary * areaDic = [self.areas firstObject];
-            NSString * c = areaDic[self.titleKeyWords];
-            
+            NSString * str2 = areaDic[self.titleKeyWords];
+            c = str2;
             self.resultString = [NSString stringWithFormat:@"%@-%@-%@",a,b,c];
         }
         [self.titleView wya_SetTitleLabelWithText:self.resultString TextColor:[UIColor blackColor] TextFont:15];
