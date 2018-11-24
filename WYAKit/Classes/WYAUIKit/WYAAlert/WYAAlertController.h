@@ -10,15 +10,20 @@ static const CGFloat as_backgroundAlpha = 0.4;
 
 @interface WYAAlertController : UIViewController
 
-@property (nonnull, nonatomic, strong)UIView *alertView;//alert 视图
+/**
+ alert 视图（外部不要调用）
+ */
+@property (nonatomic, strong) UIView * alertView;
 
 /**
  外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）
  */
-@property (nonnull, nonatomic, strong)UIButton *backgroundButton;
-@property (nonatomic, assign)WYAPopupPresentStyle presentStyle;//present 转场风格
-@property (nonatomic, assign)WYAPopupDismissStyle dismissStyle;//dismiss 转场风格
-@property (nonatomic, assign) WYAAlertStyle    alertStyle; //自定义弹出视图
+@property (nonatomic, strong) UIButton * backgroundButton;
+
+@property (nonatomic, assign) WYAPopupPresentStyle presentStyle;//present 转场风格
+@property (nonatomic, assign) WYAPopupDismissStyle dismissStyle;//dismiss 转场风格
+
+@property (nonatomic, assign) WYAAlertStyle    alertStyle; //弹出视图类型
 
 
 /**

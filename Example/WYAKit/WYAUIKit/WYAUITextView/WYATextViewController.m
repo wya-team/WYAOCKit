@@ -27,6 +27,14 @@
     textView.layer.borderColor = [UIColor grayColor].CGColor;
     textView.layer.borderWidth = 0.5;
     [self.view addSubview:textView];
+    
+    WYATextView * textView1 = [[WYATextView alloc]initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, 100)];
+    [textView1 wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
+    textView1.textViewWordsCount = 100;
+    textView1.title = @"哈哈";
+    textView1.layer.borderColor = [UIColor grayColor].CGColor;
+    textView1.layer.borderWidth = 0.5;
+    [self.view addSubview:textView1];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

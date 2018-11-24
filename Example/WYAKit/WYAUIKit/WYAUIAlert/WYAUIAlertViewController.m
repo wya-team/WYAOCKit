@@ -172,8 +172,8 @@
             WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"选项二" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
             WYAAlertAction *defaultAction1 = [WYAAlertAction wya_ActionWithTitle:@"选项三" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Default"); }];
             [alert wya_AddAction:defaultAction];
-//            [alert wya_AddAction:cancelAction];
-//            [alert wya_AddAction:defaultAction1];
+            [alert wya_AddAction:cancelAction];
+            [alert wya_AddAction:defaultAction1];
             [self presentViewController:alert animated:YES completion:nil];
         }else{
             WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"标题文字" Message:@"详细信息"];

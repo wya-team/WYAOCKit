@@ -47,7 +47,7 @@
     
     self.showTitle = YES;
     self.showWordsCount = YES;
-    self.textViewWordsCount = 100;
+    self.textViewWordsCount = 0;
 }
 
 #pragma mark --- Private Method
@@ -134,7 +134,6 @@
 -(UILabel *)titleLabel{
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc]init];
-        _titleLabel.text = @"标题";
         _titleLabel.font = FONT(15);
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -144,7 +143,6 @@
 -(UILabel *)noteLabel{
     if (!_noteLabel) {
         _noteLabel = [[UILabel alloc]init];
-        _noteLabel.text = @"0/100";
         _noteLabel.textColor = random(153, 153, 153, 1);
         _noteLabel.font = FONT(12);
         _noteLabel.textAlignment = NSTextAlignmentRight;
@@ -259,7 +257,7 @@
     if (self.textViewMaxHeight>1) {
         maxHeight = self.textViewMaxHeight;
     }else{
-        maxHeight = 750;
+        maxHeight = 750.0;
     }
     CGRect frame = textView.frame;
     CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
