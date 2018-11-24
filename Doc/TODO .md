@@ -20,27 +20,9 @@
 
 - WYANavBar
 
-- WYATabBar
-
-- WYATabs
-
-- WYASegmentedControl
-
-- WYAPoppver
-
 - ~~WYAPagination~~
 
-- WYAMenu
-
-- WYAButton
-
-- WYACheckbox
-
-- WYARadio
-
-- WYASwitch
-
-- WYASearchBar
+- ~~WYAMenu~~
 
 - WYACell (inputItem, accordion, list, Card, Grid)
 
@@ -50,11 +32,7 @@
 
 - ~~WYASlidder~~
 
-- WYABadge
-
-- WYATag
-
-- WYASteps
+- WYASteps(待定)
 
 - WYABannerView (Carousel)
 
@@ -64,7 +42,7 @@
 
 - ~~WYAUIAlert~~ (ActoinSheet, Modal)
 
-- WYAToastView (ActivityIndicator, Toast)
+- ~~WYAToastView (ActivityIndicator, Toast)~~
 
 - WYAShareView
 
