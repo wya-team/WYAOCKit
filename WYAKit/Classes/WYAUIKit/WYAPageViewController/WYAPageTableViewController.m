@@ -719,12 +719,11 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
         [self performSelector:@selector(growCachePolicyAfterMemoryWarning) withObject:nil afterDelay:3.0 inModes:@[NSRunLoopCommonModes]];
     }
 }
-//- (void)setHeaderView:(UIView *)headerView{
-//    if (headerView) {
-//    self.tableView.scrollEnabled = YES;
-//    self.tableView.tableHeaderView = headerView;
-//    }
-//}
+- (void)setHeaderView:(UIView *)headerView{
+    if (headerView) {
+    self.tableView.tableHeaderView = headerView;
+    }
+}
 #pragma mark - UITableView DataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;

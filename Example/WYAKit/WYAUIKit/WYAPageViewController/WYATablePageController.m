@@ -40,7 +40,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.tableHeaderView = self.headerImageView;
+    self.headerView = self.headerImageView;
 }
 - (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu{
     return 4;

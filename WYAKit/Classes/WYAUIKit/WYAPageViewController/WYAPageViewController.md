@@ -4,6 +4,9 @@
 
 - 实现分页效果，可以左右滑动切换也可以点击顶部或底部的标签切换页面.
   标签位置可以自定义，可以放在导航栏位置也可放在底部，或者导航栏下边
+  <font color="red">注意：要继承`WYAWYAPageController`</font>
+
+- 如果需要实现顶部有头部视图中间展示菜单类型的功能需要<font color="red">继承`WYAPageTableViewController`</font>
 
 ## 属性
 属性 | 说明 | 类型 | 默认值
@@ -252,5 +255,209 @@ NS_ASSUME_NONNULL_END
     return CGRectMake(0, originY, self.view.frame.size.width, self.view.frame.size.height - originY);
 }
 ```
-## TODO
+
+## 扩展继承与UITableViewController
+
+### 新增属性
+
+属性 | 说明 | 类型 | 默认值
+--- | ---| --- | ---
+headerView | 放在顶部的自定义视图控件 | UIView | nil
+acceptNotification | 是否接收childController中tableView的偏移量通知 | BOOL | NO
+menuViewBackroundColor | menuView的背景色设置 | UIColor | whiteColor
+
+### 基本使用
+
+- 在需要push或者呈现Controller之前先设置(注意这里要给titles赋值)
+
+```Object-C
+ WYATablePageController * vc = [[WYATablePageController alloc]init];
+        vc.selectIndex = 0;
+        vc.menuViewStyle = WYAMenuViewStyleLine;
+        vc.automaticallyCalculatesItemWidths = YES;
+        vc.titleColorNormal = [UIColor blackColor];
+        vc.titleColorSelected = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+        vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+        vc.menuViewLayoutMode = WYAMenuViewLayoutModeScatter;
+        vc.titleSizeSelected = 16;
+        vc.titleSizeNormal = 14;
+        vc.itemMargin = 20;//（没个标签的间距必传值）
+        vc.acceptNotification = YES;// (必传值需要接收tableView偏移量)
+        vc.titles = @[@"LIST",@"INTRODUCTION",@"INTRODUCTION",@"LIST"];//(必传值)
+        [self.navigationController pushViewController:vc animated:YES];
+``` 
+- 父容器视图控制器（继承WYAPageTableViewController）
+
+```Object-C
+#import "WYAPageTableViewController.h"
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WYATablePageController : WYAPageTableViewController
+
+@end
+
+NS_ASSUME_NONNULL_END
+```
+- 需要将
+<font color="red">WYATabControllerChildControllerChangeContentOffstNotification</font>传给子控制器，这个是通知名字，用来监听tableView的偏移量
+
+```Object-C
+@interface WYATablePageController ()
+@property (nonatomic, strong) UIImageView * headerImageView;
+@end
+
+@implementation WYATablePageController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.headerView = self.headerImageView;
+}
+- (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu{
+    return 4;
+}
+- (NSInteger)wya_numbersOfChildControllersInPageController:(WYAPageTableViewController *)pageController{
+    return 4;
+}
+- (NSString *)wya_pageController:(WYAPageTableViewController *)pageController titleAtIndex:(NSInteger)index {
+    switch (index % 4) {
+        case 0: return @"LIST";
+        case 1: return @"INTRODUCTION";
+        case 2: return @"INTRODUCTION";
+         case 3: return @"LIST";
+    }
+    return @"NONE";
+
+}
+
+- (UIViewController *)wya_pageController:(WYAPageTableViewController *)pageController viewControllerAtIndex:(NSInteger)index{
+    switch (index % 4) {
+            
+        case 0:
+        {
+            WYAOneTableViewController * vc = [[WYAOneTableViewController alloc] init];
+            vc.notificationName = WYATabControllerChildControllerChangeContentOffstNotification;// 将通知名字传递给子控制器
+            return vc;
+        }
+        case 1:
+        {
+            WYATwoTableViewController * vc = [[WYATwoTableViewController alloc] init];
+            vc.notificationName = WYATabControllerChildControllerChangeContentOffstNotification;
+            return vc;
+        }
+        case 2:
+        {
+            WYATwoTableViewController * vc = [[WYATwoTableViewController alloc] init];
+            vc.notificationName = WYATabControllerChildControllerChangeContentOffstNotification;
+            return vc;
+        }
+        case 3:
+        {
+            WYAOneTableViewController * vc = [[WYAOneTableViewController alloc] init];
+            vc.notificationName = WYATabControllerChildControllerChangeContentOffstNotification;
+            return vc;
+        }
+
+    }
+    return [[UIViewController alloc] init];
+}
+
+- (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index{
+    CGFloat tempW = [[self.titles wya_safeObjectAtIndex:index] wya_widthWithFontSize:15 height:WYANavBarHeight];// 计算没个items的标签宽度
+    return tempW;
+}
+- (CGRect)wya_pageController:(WYAPageTableViewController *)pageController preferredFrameForMenuView:(WYAMenuView *)menuView{
+    return CGRectMake(0, CGRectGetMaxY(self.headerImageView.frame), ScreenWidth, WYANavBarHeight);
+}
+
+- (CGRect)wya_pageController:(WYAPageTableViewController *)pageController preferredFrameContentView:(WYAPageScrollView *)contentView{
+    return CGRectMake(0, 0, ScreenWidth, ScreenHeight - WYATopHeight - WYANavBarHeight - WYABottomHeight);
+}
+- (UIImageView *)headerImageView{
+    if(!_headerImageView){
+        _headerImageView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.frame = CGRectMake(0, 0, ScreenWidth, 200);
+            object.backgroundColor = [UIColor brownColor];
+            object.image = [UIImage imageNamed:@"0"];
+            object;
+        });
+    }
+    return _headerImageView;
+}
+
+@end
+```
+- 子视图必须实现的方法(这里可以继承UITableViewController或者UIViewController)
+
+```Object-C
+#import <UIKit/UIKit.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface WYAOneTableViewController : UITableViewController
+@property (nonatomic, copy) NSString * notificationName;
+@end
+
+NS_ASSUME_NONNULL_END
+
+```
+- 需要实现scrollView的代理方法，发送相关通知
+
+```Object-C
+@interface WYAOneTableViewController ()
+
+@end
+
+@implementation WYAOneTableViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"oneCellID"];
+    self.tableView.tableFooterView = [[UIView alloc]init];
+    self.tableView.tableHeaderView = [[UIView alloc]init];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self performSelector:@selector(end) withObject:self afterDelay:0.5];
+    }];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+        [self performSelector:@selector(enddd) withObject:self afterDelay:0.5];
+    }];
+}
+- (void)end{
+    [self.tableView.mj_header endRefreshing];
+}
+- (void)enddd{
+    [self.tableView.mj_footer endRefreshing];
+
+}
+// 必须要实现的方法
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView == self.tableView) {
+        CGPoint point = scrollView.contentOffset;
+        NSLog(@"%f",scrollView.contentOffset.y);
+        [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationName object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];// 发送通知，注意在userInfo里的字典的key必须是“key”,value值是tableView的contentOffset的y值
+    }
+}
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 20;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"oneCellID" forIndexPath:indexPath];
+    cell.textLabel.text = [NSString stringWithFormat:@"indexPath.row = %d",(int)indexPath.row];
+    
+    return cell;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 60;
+}
+
+```
 
