@@ -13,7 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
     WYADatePickerStyleDateHourMinuteSecond,//年月日时分秒
-    
+    WYADatePickerStyleYear,//年
+    WYADatePickerStyleMouth,//月
+    WYADatePickerStyleHour,//时
+    WYADatePickerStyleMinute,//分
+    WYADatePickerStyleSecond,//秒
+    WYADatePickerStyleYearAndMonth, //年月
+    WYADatePickerStyleDate, //年月日
+    WYADatePickerStyleDateHour, //年月日时
+    WYADatePickerStyleDateHourMinute, //年月日时分
+    WYADatePickerStyleMonthDay, //月日 (只有选择当前年份)
+    WYADatePickerStyleMonthDayHour, //月日时 (只有选择当前年份)
+    WYADatePickerStyleMonthDayHourMinute, //月日时分 (只有选择当前年份)
+    WYADatePickerStyleMonthDayHourMinuteSecond, //月日时分秒 (只有选择当前年份)
+    WYADatePickerStyleTime, //时分
+    WYADatePickerStyleTimeAndSecond, //时分秒
+    WYADatePickerStyleMinuteAndSecond, //分秒
 };
 
 @protocol WYADatePickerDelegate <NSObject>

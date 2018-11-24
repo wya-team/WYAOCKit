@@ -14,8 +14,8 @@
 @property (nonatomic, strong) NSDateComponents *maximumComponents;
 @property (nonatomic, strong) NSDateComponents *currentComponents;
 
-@property (nonatomic, strong) NSDateComponents *selectComponents;
-@property (nonatomic, strong) NSDateComponents *selectedComponents;
+
+//@property (nonatomic, strong) NSDateComponents *selectedComponents;
 @end
 
 @implementation WYAPickerManager
@@ -135,11 +135,15 @@
 
 -(NSMutableArray *)dayArray{
     NSInteger day;
-    if (self.selectYear || self.selectMonth) {
-        day = [self howManyDaysWithMonthInThisYear:[self.selectYear integerValue] withMonth:[self.selectMonth integerValue]];
+    if (self.selectYear && self.selectMonth) {
+        day = [self howManyDaysWithMonthInThisYear:self.selectYear withMonth:self.selectMonth];
         
     }else{
-        day = [self howManyDaysWithMonthInThisYear:self.currentComponents.year withMonth:1];
+        if (self.selectMonth && !self.selectYear) {
+            day = [self howManyDaysWithMonthInThisYear:self.currentComponents.year withMonth:self.selectMonth];
+        }else{
+            day = [self howManyDaysWithMonthInThisYear:self.currentComponents.year withMonth:1];
+        }
     }
     NSMutableArray *days = [NSMutableArray arrayWithCapacity:day];
     NSInteger minDay = 1, maxDay = day;
