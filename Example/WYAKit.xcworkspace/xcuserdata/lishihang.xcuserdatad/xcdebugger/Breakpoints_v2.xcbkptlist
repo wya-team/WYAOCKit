@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYACustomPickerView.m"
-            timestampString = "564735500.584218"
+            timestampString = "564740041.796382"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "55"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYACustomPickerView.m"
-            timestampString = "564735500.584596"
+            timestampString = "564740041.797121"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "69"
@@ -48,22 +48,6 @@
             startingLineNumber = "113"
             endingLineNumber = "113"
             landmarkName = "-bounceAnimationWithContext:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAAlert/WYAAlertController.m"
-            timestampString = "564721421.354901"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "+wya_AlertWithTitle:Message:AlertLayoutStyle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

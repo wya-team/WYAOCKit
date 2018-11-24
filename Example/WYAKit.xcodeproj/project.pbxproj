@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */; };
 		210E9F5121A6876900BFE994 /* WYAPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 210E9F4F21A6876900BFE994 /* WYAPickerViewController.xib */; };
+		210E9F6521A93D2300BFE994 /* WYACameraVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6421A93D2300BFE994 /* WYACameraVC.m */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
 		21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFF219ABF090099CB6F /* WYAProgressViewController.m */; };
 		21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C02219ABF180099CB6F /* WYAToastViewController.m */; };
@@ -16,7 +17,6 @@
 		21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */; };
 		21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C11219ABF640099CB6F /* WYABannerViewController.m */; };
 		21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */; };
-		21470C1E219ABFA10099CB6F /* WYACameraViewControllerO.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1D219ABFA10099CB6F /* WYACameraViewControllerO.m */; };
 		21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */; };
 		21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */; };
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
@@ -74,6 +74,8 @@
 		210E9F4D21A6876900BFE994 /* WYAPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPickerViewController.h; sourceTree = "<group>"; };
 		210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPickerViewController.m; sourceTree = "<group>"; };
 		210E9F4F21A6876900BFE994 /* WYAPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAPickerViewController.xib; sourceTree = "<group>"; };
+		210E9F6321A93D2300BFE994 /* WYACameraVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraVC.h; sourceTree = "<group>"; };
+		210E9F6421A93D2300BFE994 /* WYACameraVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraVC.m; sourceTree = "<group>"; };
 		21470BFB219ABE9E0099CB6F /* WYATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATextViewController.h; sourceTree = "<group>"; };
 		21470BFC219ABE9F0099CB6F /* WYATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATextViewController.m; sourceTree = "<group>"; };
 		21470BFE219ABF090099CB6F /* WYAProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAProgressViewController.h; sourceTree = "<group>"; };
@@ -88,8 +90,6 @@
 		21470C11219ABF640099CB6F /* WYABannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerViewController.m; sourceTree = "<group>"; };
 		21470C19219ABF960099CB6F /* WYADownloaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloaderViewController.h; sourceTree = "<group>"; };
 		21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloaderViewController.m; sourceTree = "<group>"; };
-		21470C1C219ABFA10099CB6F /* WYACameraViewControllerO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraViewControllerO.h; sourceTree = "<group>"; };
-		21470C1D219ABFA10099CB6F /* WYACameraViewControllerO.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraViewControllerO.m; sourceTree = "<group>"; };
 		21470C1F219ABFB10099CB6F /* WYAVideoPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAVideoPlayerViewController.h; sourceTree = "<group>"; };
 		21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAVideoPlayerViewController.m; sourceTree = "<group>"; };
 		21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAIMGCodeViewController.xib; sourceTree = "<group>"; };
@@ -208,8 +208,8 @@
 		21470BEF219ABE880099CB6F /* WYACamera */ = {
 			isa = PBXGroup;
 			children = (
-				21470C1C219ABFA10099CB6F /* WYACameraViewControllerO.h */,
-				21470C1D219ABFA10099CB6F /* WYACameraViewControllerO.m */,
+				210E9F6321A93D2300BFE994 /* WYACameraVC.h */,
+				210E9F6421A93D2300BFE994 /* WYACameraVC.m */,
 			);
 			path = WYACamera;
 			sourceTree = "<group>";
@@ -753,12 +753,12 @@
 				951FC0CC21A6A89E00E1E4FE /* WYATestHeaderViewController.m in Sources */,
 				951FC0C621A63CB000E1E4FE /* WYATwoTableViewController.m in Sources */,
 				21470CBE219EBAD80099CB6F /* WYARightViewController.m in Sources */,
-				21470C1E219ABFA10099CB6F /* WYACameraViewControllerO.m in Sources */,
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,
 				21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */,
 				21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */,
 				21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */,
+				210E9F6521A93D2300BFE994 /* WYACameraVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

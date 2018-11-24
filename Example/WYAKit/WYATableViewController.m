@@ -13,7 +13,8 @@
 #import "WYACenterViewController.h"
 #import "WYARightViewController.h"
 @interface WYATableViewController ()
-@property (nonatomic, strong) NSArray * array;
+@property (nonatomic, strong) NSArray * uiArray;
+@property (nonatomic, strong) NSArray * hardwareArray;
 @end
 
 @implementation WYATableViewController
@@ -32,38 +33,58 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 1;
+
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return self.array.count;
+    if (section == 0) {
+        return self.uiArray.count;
+    }else {
+        return self.hardwareArray.count;
+    }
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    if (indexPath.section == 0) {
+        cell.textLabel.text = self.uiArray[indexPath.row];
+    }else {
+        cell.textLabel.text = self.hardwareArray[indexPath.row];
+    }
     
-    cell.textLabel.text = self.array[indexPath.row];
     
     return cell;
 }
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return @"UI组件";
+    }else{
+        return @"硬件相关";
+    }
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSString * classString = self.array[indexPath.row];
-    if ([classString isEqualToString:@"WYAPhotoBrowserViewController"]) {
-        WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
-        vc.maxCount =5;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else if ([classString isEqualToString:@"WYADrawerViewController"]) {
-        WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYACenterViewController alloc] init] LeftViewController:[[WYALeftViewController alloc] init] RightViewController:[[WYARightViewController alloc] init]];
-        [self.navigationController pushViewController:drawer animated:YES];
+    if (indexPath.section == 0) {
+        NSString * classString = self.uiArray[indexPath.row];
+        if ([classString isEqualToString:@"WYAPhotoBrowserViewController"]) {
+            WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
+            vc.maxCount =5;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if ([classString isEqualToString:@"WYADrawerViewController"]) {
+            WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYACenterViewController alloc] init] LeftViewController:[[WYALeftViewController alloc] init] RightViewController:[[WYARightViewController alloc] init]];
+            [self.navigationController pushViewController:drawer animated:YES];
+        }else{
+            [self.navigationController pushViewController:[[NSClassFromString(classString) alloc]init] animated:YES];
+        }
     }else{
+        NSString * classString = self.hardwareArray[indexPath.row];
         [self.navigationController pushViewController:[[NSClassFromString(classString) alloc]init] animated:YES];
     }
+    
     
 }
 
@@ -101,9 +122,9 @@
 }
 */
 
--(NSArray *)array{
-    if (!_array) {
-        _array = [NSArray arrayWithObjects:@"WYATextViewController",
+-(NSArray *)uiArray{
+    if (!_uiArray) {
+        _uiArray = [NSArray arrayWithObjects:@"WYATextViewController",
                                            @"WYAIMGCodeViewController",
                                            @"WYAUIAlertViewController",
                                            @"WYABannerViewController",
@@ -119,9 +140,16 @@
                                            @"WYAPickerViewController",
                                            nil];
     }
-    return _array;
+    return _uiArray;
 }
 
+
+-(NSArray *)hardwareArray{
+    if (!_hardwareArray) {
+        _hardwareArray = @[@"WYACameraVC"];
+    }
+    return _hardwareArray;
+}
 
 /*
 #pragma mark - Navigation
