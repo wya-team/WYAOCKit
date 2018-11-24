@@ -50,4 +50,6 @@ TODO: Add long description of the pod here.
   s.dependency 'YYText'
   s.dependency 'YYImage', '~> 1.0.4'
   s.dependency 'SVGKit'
+  s.dependency 'MJRefresh'
+
 end

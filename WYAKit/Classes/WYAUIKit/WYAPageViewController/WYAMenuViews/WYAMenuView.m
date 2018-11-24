@@ -433,7 +433,7 @@
     CGRect frame = CGRectMake(self.contentMargin, 0, width, height);
     UIScrollView * scrollView = [[UIScrollView alloc]initWithFrame:frame];
     scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.backgroundColor = [UIColor clearColor];
     scrollView.scrollsToTop = NO;
     if (@available (iOS 11.0 ,*)) {
