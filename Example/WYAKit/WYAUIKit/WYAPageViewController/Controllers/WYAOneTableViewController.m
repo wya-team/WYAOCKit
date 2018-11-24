@@ -9,7 +9,7 @@
 #import "WYAOneTableViewController.h"
 
 @interface WYAOneTableViewController ()
-
+@property (nonatomic, assign) CGFloat  tableViewContentoffsetY;
 @end
 
 @implementation WYAOneTableViewController
@@ -19,8 +19,25 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"oneCellID"];
     self.tableView.tableFooterView = [[UIView alloc]init];
     self.tableView.tableHeaderView = [[UIView alloc]init];
+    [self.tableView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
 }
-
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void *)context {
+    
+    if (object == self.tableView) {
+        
+        CGPoint point = [((NSValue *)[self.tableView  valueForKey:@"contentOffset"]) CGPointValue];
+        self.tableViewContentoffsetY = point.y;
+        NSLog(@"%f",point.y);
+        if (self.tableViewContentoffsetY > 0) {
+            // 上滑
+           [[NSNotificationCenter defaultCenter] postNotificationName:@"CHANGE" object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];
+            
+        }else if(self.tableViewContentoffsetY < 0 ){
+            // 下滑
+        }
+        
+    }
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

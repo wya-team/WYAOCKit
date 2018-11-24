@@ -42,6 +42,18 @@
     self.title = @"HeaderImageTable";
     [self.view addSubview:self.testTable];
     [self.view sendSubviewToBack:self.testTable];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeOffset:) name:@"CHANGE" object:nil];
+}
+- (void)changeOffset:(NSNotification *)info{
+    NSDictionary * dict = [info userInfo];
+    CGFloat y = [dict[@"key"] floatValue];
+    self.testTable.contentOffset = CGPointMake(0, y);
+    CGRect menuViewFrame = CGRectMake(0, CGRectGetMaxY(self.headerImageView.frame) + WYATopHeight - y, ScreenWidth, WYANavBarHeight);
+    
+    self.menuView.frame = menuViewFrame;
+    
+ CGRect contentViewFrame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame) - y, ScreenWidth, ScreenHeight - CGRectGetMaxY(self.menuView.frame) - WYABottomHeight + y);
+    self.scrollView.frame = contentViewFrame;
 }
 #pragma mark ======= delegate
 - (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu{
@@ -99,6 +111,7 @@
             UITableView * object = [[UITableView alloc]init];
             object.frame = CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight - WYABottomHeight);
             object.tableHeaderView = self.headerImageView;
+            object.scrollEnabled = NO;
             object;
        });
     }
