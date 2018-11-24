@@ -49,12 +49,12 @@ typedef NS_ENUM(NSInteger, WYASliderStyle) {
 @property (nonatomic, copy)   NSString * maxText;
 
 /**
- 设置最小值（当showNoteLabel==NO时无效）
+ 设置最小值图片（当showNoteLabel==NO时无效）
  */
 @property (nonatomic, strong) UIImage * minImage;
 
 /**
- 设置最大值（当showNoteLabel==NO时无效）
+ 设置最大值图片（当showNoteLabel==NO时无效）
  */
 @property (nonatomic, strong) UIImage * maxImage;
 

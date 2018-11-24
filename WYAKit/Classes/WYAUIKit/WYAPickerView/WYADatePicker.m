@@ -14,6 +14,7 @@ static CGFloat titleHeight = 44.0;
 @interface WYADatePicker ()<WYAPaginationViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) WYAPaginationView * titleView;
+@property (nonatomic, strong) WYAPickerManager * datePickerManager;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, copy)   NSString * resultString;
 @property (nonatomic, strong) NSDate * nowDate;
@@ -775,6 +776,7 @@ static CGFloat titleHeight = 44.0;
 #pragma mark --- Setter
 -(void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle{
     _datePickerStyle = datePickerStyle;
+    self.datePickerManager = [[WYAPickerManager alloc]init];
     [self.pickView reloadAllComponents];
 }
 

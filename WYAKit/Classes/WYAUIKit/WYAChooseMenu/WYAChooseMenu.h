@@ -11,7 +11,12 @@ NS_ASSUME_NONNULL_BEGIN
 @class WYAChooseMenuModel;
 @class WYAChooseMenuSecondLevelModel;
 @protocol WYAChooseMenuDelegate <NSObject>
+@required
+/**
+ 左侧tablecell点击事件
 
+ @param indexPath indexPath
+ */
 -(void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath;
 
 @end

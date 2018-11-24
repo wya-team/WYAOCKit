@@ -9,8 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WYAPickerManager;
-
 typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
     WYADatePickerStyleDateHourMinuteSecond,//年月日时分秒
     WYADatePickerStyleYear,//年
@@ -42,7 +40,7 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
 @property (nonatomic, assign) WYADatePickerStyle  datePickerStyle;
 @property (nonatomic, weak) UIViewController * viewController;
-@property (nonatomic, strong) WYAPickerManager * datePickerManager;
+
 /**
  设置pickerView高度
  */
@@ -53,6 +51,11 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  */
 @property (nonatomic, assign) CGFloat    pickerItemHeight;
 
+/**
+ 获取datePicker高度
+
+ @return 高度
+ */
 -(CGFloat)getPickerViewHeight;
 @end
 

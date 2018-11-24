@@ -10,7 +10,7 @@
 #import <WYAKit/WYAPickerView.h>
 #import <WYAKit/WYAAlertController.h>
 #import <WYAKit/WYADatePicker.h>
-#import <WYAKit/WYAPickerManager.h>
+
 @interface WYAPickerViewController ()<WYAPickerViewDelegate>
 
 @end
@@ -204,7 +204,7 @@
         pickerView.viewController = alert;
     }else if (indexPath.section == 1){
         WYADatePicker * datePicker = [[WYADatePicker alloc]init];
-        WYAPickerManager * manager = [[WYAPickerManager alloc]init];
+        
         if (indexPath.row == 0) {
             datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
         }else if (indexPath.row == 1) {
@@ -240,7 +240,6 @@
         }else if (indexPath.row == 16) {
             datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
         }
-        datePicker.datePickerManager = manager;
         datePicker.frame = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:datePicker AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];

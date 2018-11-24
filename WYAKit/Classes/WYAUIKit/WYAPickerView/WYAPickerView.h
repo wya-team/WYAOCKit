@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 @property (nonatomic, weak) UIViewController * viewController;
 
 /**
- pickerView样式
+ pickerView样式（暂不提供使用）
  */
 @property (nonatomic, assign) WYAPickerViewStyle  pickerViewStyle;
 
@@ -77,9 +77,18 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  array关键字(需要先指定)
  */
 @property (nonatomic, copy)   NSString * arrayKeyWords;
+
+/**
+ 数据源
+ */
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
 
+/**
+ 获取pickerView高度
+
+ @return 高度
+ */
 -(CGFloat)wya_GetPickerViewHeight;
 
 @end
