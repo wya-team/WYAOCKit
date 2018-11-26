@@ -16,7 +16,7 @@
 @property (nonatomic, strong) UIImageView * backgroundImageView;// 背景图片
 @property (nonatomic, strong) UIView * navBarView;// 导航栏View
 @property (nonatomic, strong) UIView * leftView;
-@property (nonatomic, strong) UIView * rightView
+@property (nonatomic, strong) UIView * rightView;
 @property (nonatomic, strong) UIView * lineView;
 @end
 @implementation WYANavBar
