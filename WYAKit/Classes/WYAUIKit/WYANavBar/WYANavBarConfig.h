@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYANavBarConfig : NSObject
 @property (nonatomic, strong) UIColor  * navTitleColor;
+@property (nonatomic, assign) CGFloat  navTitleFont;
+
 @end
 
 NS_ASSUME_NONNULL_END
