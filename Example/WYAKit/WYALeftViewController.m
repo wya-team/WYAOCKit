@@ -90,7 +90,6 @@
                     @"WYABannerViewController",
                     @"WYAPhotoBrowserViewController",
                     @"WYAPopViewController",
-                    @"WYADrawerViewController",
                     @"WYAPaginationViewController",
                     @"WYAChooseMenuViewController",
                     @"WYASliderViewController",
