@@ -44,7 +44,7 @@
     
 - ~~WYAPickerView~~
 
-- ~~WYAUITextView~~ (TextatraItem)
+- ~~WYATextView~~ (TextatraItem)
     
 - WYADrawerViewController (Drawer)
     

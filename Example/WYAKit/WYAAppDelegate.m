@@ -8,13 +8,17 @@
 
 #import "WYAAppDelegate.h"
 #import "WYATableViewController.h"
+#import <WYAKit/WYADrawerViewController.h>
+#import "WYAHomeViewController.h"
+#import "WYALeftViewController.h"
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     
-    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:[[WYATableViewController alloc]init]];
+    WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYAHomeViewController alloc]init] LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
+    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
     self.window.rootViewController = nav;
     
     return YES;

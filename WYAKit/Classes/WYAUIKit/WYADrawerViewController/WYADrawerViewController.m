@@ -56,30 +56,58 @@ static CGFloat padding = 250;
     
     self.containerView = [[WYAContainerView alloc]init];
     self.containerView.frame = self.view.frame;
+    self.containerView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.3];
     [self.view addSubview:self.containerView];
     [self.view sendSubviewToBack:self.containerView];
     self.leftViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
     self.rightViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
-    [self addChildViewController:self.centerViewController];
-    [self addChildViewController:self.leftViewController];
-    [self addChildViewController:self.rightViewController];
-    [self.view addSubview:self.centerViewController.view];
-    [self.view addSubview:self.leftViewController.view];
-    [self.view addSubview:self.rightViewController.view];
-    [self.view bringSubviewToFront:self.centerViewController.view];
+    
+    
+    if (self.leftViewController) {
+        [self addChildViewController:self.leftViewController];
+        [self.view addSubview:self.leftViewController.view];
+        self.leftViewController.view.frame = CGRectMake(-padding, 0, padding, ScreenHeight);
+        self.leftViewController.view.alpha = 0;
+    }
+    
+    if (self.rightViewController) {
+        [self addChildViewController:self.rightViewController];
+        [self.view addSubview:self.rightViewController.view];
+        self.rightViewController.view.frame = CGRectMake(ScreenWidth+padding, 0, padding, ScreenHeight);
+        self.rightViewController.view.alpha = 0;
+    }
+    
+    if (self.centerViewController) {
+        [self addChildViewController:self.centerViewController];
+        [self.view addSubview:self.centerViewController.view];
+        [self.view bringSubviewToFront:self.centerViewController.view];
+        self.centerViewController.view.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    }
     
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backView)];
     [self.containerView addGestureRecognizer:tap];
+    
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panView:)];
+    [self.view addGestureRecognizer:pan];
+    
+    UIPanGestureRecognizer * pan1 = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panView:)];
+    [self.containerView addGestureRecognizer:pan1];
+    [pan requireGestureRecognizerToFail:pan1];
+    
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
 }
 
+#pragma mark --- Public Method
 -(void)leftViewControllerMove{
     [self.view bringSubviewToFront:self.containerView];
-    self.leftViewController.view.center = CGPointMake(-self.view.frame.size.width/2, self.view.frame.size.height/2);
-    [self.view bringSubviewToFront:self.leftViewController.view];
+    self.containerView.center = self.centerViewController.view.center;
+//    self.leftViewController.view.center = CGPointMake(-self.view.frame.size.width/2, self.view.frame.size.height/2);
+
     [UIView animateWithDuration:0.5 animations:^{
-        self.leftViewController.view.center = CGPointMake((self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
-        self.centerViewController.view.center = CGPointMake(self.view.frame.size.width+(self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
-        self.containerView.center = self.centerViewController.view.center;
+//        self.leftViewController.view.center = CGPointMake((self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
+//        self.centerViewController.view.center = CGPointMake(self.view.frame.size.width+(self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
+        self.leftViewController.view.frame = CGRectMake(0, 0, self.leftViewController.view.frame.size.width, self.leftViewController.view.frame.size.height);
+        self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.frame.size.width, 0, self.centerViewController.view.frame.size.width, self.centerViewController.view.frame.size.height);
         self.leftViewController.view.alpha = 1;
     } completion:^(BOOL finished) {
         self.viewStyle = WYAViewStyleLeft;
@@ -88,28 +116,33 @@ static CGFloat padding = 250;
 
 -(void)rightViewControllerMove{
     [self.view bringSubviewToFront:self.containerView];
-    self.rightViewController.view.center = CGPointMake(self.view.frame.size.width+self.view.frame.size.width/2, self.view.frame.size.height/2);
-    [self.view bringSubviewToFront:self.rightViewController.view];
+//    self.rightViewController.view.center = CGPointMake(self.view.frame.size.width+self.view.frame.size.width/2, self.view.frame.size.height/2);
+    self.containerView.center = self.centerViewController.view.center;
+    
     [UIView animateWithDuration:0.5 animations:^{
-        self.rightViewController.view.center = CGPointMake((self.view.frame.size.width+padding)/2, self.view.frame.size.height/2);
+//        self.rightViewController.view.center = CGPointMake((self.view.frame.size.width+padding)/2, self.view.frame.size.height/2);
+//
+//        self.centerViewController.view.center = CGPointMake(-(self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
+        self.rightViewController.view.frame = CGRectMake(ScreenWidth-self.rightViewController.view.frame.size.width, 0, self.rightViewController.view.frame.size.width, self.rightViewController.view.frame.size.height);
+        self.centerViewController.view.frame = CGRectMake(-self.rightViewController.view.frame.size.width, 0, self.centerViewController.view.frame.size.width, self.centerViewController.view.frame.size.height);
         self.rightViewController.view.alpha = 1;
-        self.centerViewController.view.center = CGPointMake(-(self.view.frame.size.width-padding)/2, self.view.frame.size.height/2);
-        self.containerView.center = self.centerViewController.view.center;
     } completion:^(BOOL finished) {
         self.viewStyle = WYAViewStyleRight;
     }];
 }
-
+#pragma mark --- Private Method
 -(void)backView{
     NSLog(@"1");
+    self.containerView.center = self.centerViewController.view.center;
     if (self.viewStyle == WYAViewStyleLeft) {
         [self.view sendSubviewToBack:self.containerView];
         
-        [self.view bringSubviewToFront:self.leftViewController.view];
+//        [self.view bringSubviewToFront:self.leftViewController.view];
         [UIView animateWithDuration:0.5 animations:^{
-            self.leftViewController.view.center = CGPointMake(-self.view.frame.size.width/2, self.view.frame.size.height/2);
-            self.centerViewController.view.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
-            self.containerView.center = self.centerViewController.view.center;
+//            self.leftViewController.view.center = CGPointMake(-self.view.frame.size.width/2, self.view.frame.size.height/2);
+//            self.centerViewController.view.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+            self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+            self.centerViewController.view.frame = CGRectMake(0, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
             self.leftViewController.view.alpha = 0;
         } completion:^(BOOL finished) {
             self.viewStyle = WYAViewStyleCenter;
@@ -117,16 +150,132 @@ static CGFloat padding = 250;
     }else if (self.viewStyle == WYAViewStyleRight) {
         [self.view sendSubviewToBack:self.containerView];
         
-        [self.view bringSubviewToFront:self.rightViewController.view];
+//        [self.view bringSubviewToFront:self.rightViewController.view];
         [UIView animateWithDuration:0.5 animations:^{
-            self.rightViewController.view.center = CGPointMake(self.view.frame.size.width+self.view.frame.size.width/2, self.view.frame.size.height/2);
-            self.rightViewController.view.alpha = 0;
-            self.centerViewController.view.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+//            self.rightViewController.view.center = CGPointMake(self.view.frame.size.width+self.view.frame.size.width/2, self.view.frame.size.height/2);
+//
+//            self.centerViewController.view.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+            self.rightViewController.view.frame = CGRectMake(ScreenWidth, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+            self.centerViewController.view.frame = CGRectMake(0, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
             self.containerView.center = self.centerViewController.view.center;
         } completion:^(BOOL finished) {
             self.viewStyle = WYAViewStyleCenter;
         }];
     }
+}
+
+-(void)panView:(UIPanGestureRecognizer *)pan{
+    CGPoint point = [pan translationInView:self.view];
+//    NSLog(@"x=%.2lf y=%.2lf",point.x,point.y);
+    if ([pan.view isEqual:self.view]) {
+        
+        if (self.viewStyle == WYAViewStyleCenter) {
+            if (point.x>0) {
+                CGFloat minX = MIN(self.leftViewController.view.cmam_width, point.x);
+                
+                self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width+minX, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                self.leftViewController.view.alpha = 1;
+                
+                if (pan.state == UIGestureRecognizerStateEnded) {
+                    if (point.x<self.leftViewController.view.cmam_width/2) {
+                        self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                        self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                        self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    }else{
+                        self.leftViewController.view.frame = CGRectMake(0, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                        self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                        self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                        [self.view bringSubviewToFront:self.containerView];
+                        self.containerView.center = self.centerViewController.view.center;
+                        self.viewStyle = WYAViewStyleLeft;
+                    }
+                    
+                }
+                
+            }else{
+                CGFloat maxX = MAX(-self.leftViewController.view.cmam_width, point.x);
+                self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width+maxX, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                self.centerViewController.view.frame = CGRectMake(maxX, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                self.rightViewController.view.alpha = 1;
+                
+                if (pan.state == UIGestureRecognizerStateEnded) {
+                    if (point.x>-self.leftViewController.view.cmam_width/2) {
+                        self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                        self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                        self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    }else{
+                        self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width*2, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                        self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                        self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                        [self.view bringSubviewToFront:self.containerView];
+                        self.containerView.center = self.centerViewController.view.center;
+                        self.viewStyle = WYAViewStyleRight;
+                    }
+                }
+            }
+            
+        }
+    }else if ([pan.view isEqual:self.containerView]){
+        NSLog(@"在containView上");
+        if (self.viewStyle == WYAViewStyleLeft) {
+            CGFloat maxX = MAX(-self.leftViewController.view.cmam_width, point.x);
+            self.leftViewController.view.frame = CGRectMake(maxX, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+            self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+            self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+            self.leftViewController.view.alpha = 1;
+            self.containerView.center = self.centerViewController.view.center;
+            if (pan.state == UIGestureRecognizerStateEnded) {
+                if (point.x<-self.leftViewController.view.cmam_width/2) {
+                    self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                    self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                    self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    [self.view sendSubviewToBack:self.containerView];
+                    self.containerView.center = self.centerViewController.view.center;
+                    self.viewStyle = WYAViewStyleCenter;
+                    self.containerView.center = self.centerViewController.view.center;
+                }else{
+                    self.leftViewController.view.frame = CGRectMake(0, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                    self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                    self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    self.containerView.center = self.centerViewController.view.center;
+                }
+            }
+        }else if (self.viewStyle == WYAViewStyleRight) {
+            CGFloat minX = MIN(self.leftViewController.view.cmam_width, point.x);
+            NSLog(@"x==%f",minX);
+            NSLog(@"left==%f",self.leftViewController.view.cmam_left);
+            self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width*2+minX, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+            self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+            self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+            NSLog(@"left.frame==%@",NSStringFromCGRect(self.leftViewController.view.frame));
+            NSLog(@"center.frame==%@",NSStringFromCGRect(self.centerViewController.view.frame));
+            NSLog(@"right.frame==%@",NSStringFromCGRect(self.rightViewController.view.frame));
+            self.rightViewController.view.alpha = 1;
+            self.containerView.center = self.centerViewController.view.center;
+            if (pan.state == UIGestureRecognizerStateEnded) {
+                if (point.x>self.leftViewController.view.cmam_width/2) {
+                    self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                    self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                    self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    [self.view sendSubviewToBack:self.containerView];
+                    self.containerView.center = self.centerViewController.view.center;
+                    self.viewStyle = WYAViewStyleCenter;
+                    self.containerView.center = self.centerViewController.view.center;
+                }else{
+                    self.leftViewController.view.frame = CGRectMake(-self.leftViewController.view.cmam_width*2, 0, self.leftViewController.view.cmam_width, self.leftViewController.view.cmam_height);
+                    self.centerViewController.view.frame = CGRectMake(self.leftViewController.view.cmam_right, 0, self.centerViewController.view.cmam_width, self.centerViewController.view.cmam_height);
+                    self.rightViewController.view.frame = CGRectMake(self.centerViewController.view.cmam_right, 0, self.rightViewController.view.cmam_width, self.rightViewController.view.cmam_height);
+                    self.containerView.center = self.centerViewController.view.center;
+                }
+
+            }
+        }
+    }
+    
+//    [pan setTranslation:CGPointZero inView:self.view];
 }
 
 /*
@@ -155,6 +304,23 @@ static CGFloat padding = 250;
         view = nil;
     }
     return view;
+}
+
+-(UINavigationBar*)navigationBarContainedWithinSubviewsOfView:(UIView*)view{
+    UINavigationBar * navBar = nil;
+    for(UIView * subview in [view subviews]){
+        if([view isKindOfClass:[UINavigationBar class]]){
+            navBar = (UINavigationBar*)view;
+            break;
+        }
+        else {
+            navBar = [self navigationBarContainedWithinSubviewsOfView:subview];
+            if (navBar != nil) {
+                break;
+            }
+        }
+    }
+    return navBar;
 }
 
 @end

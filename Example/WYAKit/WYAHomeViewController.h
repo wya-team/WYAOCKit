@@ -1,8 +1,8 @@
 //
-//  WYALeftViewController.h
+//  WYAHomeViewController.h
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/11/16.
+//  Created by 李世航 on 2018/11/26.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYALeftViewController : UIViewController
+@interface WYAHomeViewController : UIViewController
 
 @end
 

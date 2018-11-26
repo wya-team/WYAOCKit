@@ -1,25 +1,23 @@
 //
-//  WYALeftViewController.m
+//  WYAHomeViewController.m
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/11/16.
+//  Created by 李世航 on 2018/11/26.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYALeftViewController.h"
+#import "WYAHomeViewController.h"
 
-@interface WYALeftViewController ()
+@interface WYAHomeViewController ()
 
 @end
 
-@implementation WYALeftViewController
+@implementation WYAHomeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = NSStringFromClass([self class]);
-
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
 }
 
 /*
