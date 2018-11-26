@@ -10,7 +10,7 @@
 #define TITLEFONT 18
 #define BUTTON_TITLEFONT 16
 #define ITEMSPACE_DEFAULT 10.f
-#define LEFTMARGIN
+#define LEFT_OR_RIGHT_SPACE 10.0
 @interface WYANavBar()
 @property (nonatomic, strong) UILabel * titleLabel;// 标题
 @property (nonatomic, strong) UIImageView * backgroundImageView;// 背景图片
@@ -62,6 +62,38 @@
     }
     return self;
 }
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    [_backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.mas_equalTo(self);
+    }];
+    
+    [_navBarView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
+        make.left.mas_equalTo(self.backgroundImageView);
+        make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
+    }];
+    
+    if (_backBarButton) {
+        CGFloat height = _backBarButton.cmam_height > WYANavBarHeight ? (WYANavBarHeight - 10.0) : _backBarButton.cmam_height;
+        CGFloat top = (self.navBarView.cmam_height - _backBarButton.cmam_height)*0.5;
+        [_backBarButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
+            make.top.equalTo(self.navBarView.mas_top).offset(top);
+            make.size.mas_equalTo(self.backBarButton.cmam_size);
+        }];
+    }else if(self.leftBarButtonItems.count>0){
+        
+    }
+    
+    if (self.titleView) {
+        [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
+           //make.
+        }];
+    }else{
+        
+    }
+}
 #pragma mark ======= private methods
 - (void)setUp{
     self.backgroundColor = [UIColor whiteColor];
@@ -99,7 +131,7 @@
 }
 - (void)setItemsSpace:(CGFloat)itemsSpace{
     if (itemsSpace==0.0f) {
-        _itemsSpace = 10.f;
+        _itemsSpace = LEFT_OR_RIGHT_SPACE;
     }else{
         _itemsSpace = itemsSpace;
     }
