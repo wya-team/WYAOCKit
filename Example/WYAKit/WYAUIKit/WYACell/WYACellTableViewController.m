@@ -7,7 +7,7 @@
 //
 
 #import "WYACellTableViewController.h"
-
+#import <WYAKit/WYAAccordionCell.h>
 @interface WYACellTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @end
