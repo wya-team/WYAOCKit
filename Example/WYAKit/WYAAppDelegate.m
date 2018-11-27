@@ -7,7 +7,7 @@
 //
 
 #import "WYAAppDelegate.h"
-#import "WYATableViewController.h"
+
 #import <WYAKit/WYADrawerViewController.h>
 #import "WYAHomeViewController.h"
 #import "WYALeftViewController.h"

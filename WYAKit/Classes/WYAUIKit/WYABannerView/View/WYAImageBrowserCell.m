@@ -49,6 +49,7 @@
 
 -(void)layoutSubviews{
     [super layoutSubviews];
+    NSLog(@"self.frame==%@",NSStringFromCGRect(self.contentView.frame));
     _scrollV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame)+10, CGRectGetMinY(self.contentView.frame), self.frame.size.width-20,self.frame.size.height);
     [_scrollV setZoomScale:1 animated:NO];
     _imageView.frame = CGRectMake(5, 0, _scrollV.frame.size.width-5, _scrollV.frame.size.height);

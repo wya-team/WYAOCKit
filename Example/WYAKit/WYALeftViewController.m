@@ -17,6 +17,16 @@
 
 @implementation WYALeftViewController
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"left.view.willAppear");
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSLog(@"left.view.willDisAppear");
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
