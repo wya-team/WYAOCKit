@@ -10,29 +10,9 @@
 #import "WYAOneTableViewController.h"
 #import "WYATwoTableViewController.h"
 #import "WYAThreeTableViewController.h"
-#define SizeAdapter ScreenWidth/375
-//获取设备的物理高度
-#define ScreenWidth [UIScreen mainScreen].bounds.size.width
-//获取设备的物理宽度
-#define ScreenHeight [UIScreen mainScreen].bounds.size.height
-//获取设备的物理宽高
-#define ScreenBounds [UIScreen mainScreen].bounds
-
-#define WYAiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-
-#define RectStatus  [[UIApplication sharedApplication] statusBarFrame]
-
-#define WYAStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
-
-#define WYANavBarHeight 44.0
-
-#define WYATabBarHeight (WYAStatusBarHeight > 20 ? 83 : 49)
-
-#define WYABottomHeight (WYAStatusBarHeight > 20 ? 34 : 0)
-
-#define WYATopHeight (WYAStatusBarHeight + WYANavBarHeight)
-@interface WYACustomPageController ()
+@interface WYACustomPageController ()<WYANavBarDelegate>
 @property (nonatomic, strong) UIView *redView;
+@property (nonatomic, strong) WYANavBar * navBar;
 @end
 
 @implementation WYACustomPageController
@@ -43,12 +23,23 @@
     }
     return _redView;
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.menuViewStyle == WYAMenuViewStyleTriangle) {
         [self.view addSubview:self.redView];
     }
-    // Do any additional setup after loading the view.
+    self.navBar = [[WYANavBar alloc]init];
+    self.navBar.navTitle = @"pageControllerExample";
+    [self.navBar wya_goBackButtonWithImage:@"返回"];
+    self.navBar.delegate = self;
+    [self.view addSubview:self.navBar];
+}
+- (void)wya_goBackPressed:(UIButton *)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];

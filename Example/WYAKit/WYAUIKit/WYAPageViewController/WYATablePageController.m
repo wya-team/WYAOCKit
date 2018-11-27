@@ -11,27 +11,7 @@
 #import "WYATwoTableViewController.h"
 #import "Category.h"
 #import "MJRefresh.h"
-#define SizeAdapter ScreenWidth/375
-//获取设备的物理高度
-#define ScreenWidth [UIScreen mainScreen].bounds.size.width
-//获取设备的物理宽度
-#define ScreenHeight [UIScreen mainScreen].bounds.size.height
-//获取设备的物理宽高
-#define ScreenBounds [UIScreen mainScreen].bounds
 
-#define WYAiPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
-
-#define RectStatus  [[UIApplication sharedApplication] statusBarFrame]
-
-#define WYAStatusBarHeight [[UIApplication sharedApplication] statusBarFrame].size.height
-
-#define WYANavBarHeight 44.0
-
-#define WYATabBarHeight (WYAStatusBarHeight > 20 ? 83 : 49)
-
-#define WYABottomHeight (WYAStatusBarHeight > 20 ? 34 : 0)
-
-#define WYATopHeight (WYAStatusBarHeight + WYANavBarHeight)
 @interface WYATablePageController ()
 @property (nonatomic, strong) UIImageView * headerImageView;
 @end

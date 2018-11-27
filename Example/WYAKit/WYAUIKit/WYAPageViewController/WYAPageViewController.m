@@ -10,26 +10,20 @@
 #import "WYACustomPageController.h"
 #import "WYATablePageController.h"
 
-@interface WYAPageViewController ()<WYANavBarDelegate>
+@interface WYAPageViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSDictionary *stylesMap;
-@property (nonatomic, strong) WYANavBar * navBar;
+@property (nonatomic, strong) UITableView * tableView;
 @end
 
 @implementation WYAPageViewController
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navBar = [[WYANavBar alloc]init];
-    self.navBar.navTitle = @"test";
-    self.navBar.delegate = self;
-    [self.navBar wya_goBackButtonWithImage:@"返回"];
-    self.tableView.frame = CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight);
-    [self.view addSubview:self.navBar];
-//    [[[[UIApplication sharedApplication] windows] firstObject] addSubview:self.navBar];
+    self.navTitle = @"PageControllerStyle";
+    [self.view addSubview:self.tableView];
 }
 - (void)wya_goBackPressed:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
@@ -66,7 +60,14 @@
     }
     return _stylesMap;
 }
-
+- (UITableView *)tableView{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+    }
+    return _tableView;
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
