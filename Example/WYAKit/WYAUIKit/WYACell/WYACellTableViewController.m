@@ -7,6 +7,8 @@
 //
 
 #import "WYACellTableViewController.h"
+#import <WYAKit/WYAAccordionCell.h>
+#import <WYAKit/WYACardCell.h>
 
 @interface WYACellTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
@@ -21,6 +23,8 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    [self.tableView registerClass:[WYAAccordionCell class] forCellReuseIdentifier:@"accordionCell"];
+    [self.tableView registerClass:[WYACardCell class] forCellReuseIdentifier:@"cardCell"];
     self.navTitle = NSStringFromClass([self class]);
 }
 
@@ -32,21 +36,36 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 1;
+    return 2;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    if (indexPath.row == 0) {
+        WYAAccordionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"accordionCell" forIndexPath:indexPath];
+        
+        return cell;
+    }else{
+        WYACardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell" forIndexPath:indexPath];
+        
+        return cell;
+    }
     
-    return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
+    return 30;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 20;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        return [WYAAccordionCell wya_cellHeight];
+    }else{
+        return [WYACardCell wya_cellHeight];
+    }
 }
 
 /*

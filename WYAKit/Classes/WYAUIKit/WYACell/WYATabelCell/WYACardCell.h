@@ -1,16 +1,16 @@
 //
-//  WYABannerView.h
+//  WYACardCell.h
 //  WYAKit
 //
 //  Created by 李世航 on 2018/11/27.
 //
 
-#import <UIKit/UIKit.h>
+#import "WYATableViewCell.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYABannerView : UIView
-
+@interface WYACardCell : WYATableViewCell
++(CGFloat)wya_cellHeight;
 @end
 
 NS_ASSUME_NONNULL_END
