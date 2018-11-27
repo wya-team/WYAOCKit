@@ -8,6 +8,7 @@
 
 #import "WYAPageViewController.h"
 #import "WYACustomPageController.h"
+#import "WYAShowNavController.h"
 #import "WYATablePageController.h"
 
 @interface WYAPageViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -92,8 +93,24 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
    
     NSString * key = [self.titles wya_safeObjectAtIndex:indexPath.row];
+     WYAMenuViewStyle style = [[self.stylesMap wya_safeObjectForKey:key]integerValue];
+   
     if (![key isEqualToString:@"WYATablePageController"]) {
-    WYAMenuViewStyle style = [[self.stylesMap wya_safeObjectForKey:key]integerValue];
+        if(style == WYAMenuViewStyleFlood || style == WYAMenuViewStyleSegmented){
+            WYAShowNavController * vc = [[WYAShowNavController alloc]init];
+            vc.selectIndex = 1;
+            vc.titleColorSelected = [UIColor whiteColor];
+            vc.menuViewStyle = style;
+            vc.titleColorNormal = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+            vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+            vc.navBar = [[WYANavBar alloc]init];
+            [vc.navBar wya_goBackButtonWithImage:@"返回"];
+            vc.showOnNavigationBar = YES;
+            vc.menuViewLayoutMode = WYAMenuViewLayoutModeCenter;
+            vc.titleSizeSelected = 15;
+            vc.titles = @[@"LIST",@"INTRODUCTION",@"LIST"];
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
     WYACustomPageController * vc = [[WYACustomPageController alloc]init];
     vc.selectIndex = 1;
     vc.title = key;
@@ -111,9 +128,11 @@
     }
     [self customPageController:vc];
     [self.navigationController pushViewController:vc animated:YES];
-    }else{
+        }
+    }
+    else if([key isEqualToString:@"WYATablePageController"]){
         WYATablePageController * vc = [[WYATablePageController alloc]init];
-        vc.selectIndex = 0;
+        vc.selectIndex = 1;
         vc.menuViewStyle = WYAMenuViewStyleLine;
         vc.automaticallyCalculatesItemWidths = YES;
         vc.titleColorNormal = [UIColor blackColor];
@@ -127,19 +146,10 @@
         vc.titles = @[@"LIST",@"INTRODUCTION",@"INTRODUCTION",@"LIST"];
         [self.navigationController pushViewController:vc animated:YES];
     }
+        
 }
 - (void)customPageController:(WYAPageController *)vc{
     switch (vc.menuViewStyle) {
-        case WYAMenuViewStyleSegmented:
-        case WYAMenuViewStyleFlood:{
-            vc.titleColorSelected = [UIColor whiteColor];
-            vc.titleColorNormal = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
-            vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
-            vc.showOnNavigationBar = YES;
-            vc.menuViewLayoutMode = WYAMenuViewLayoutModeCenter;
-            vc.titleSizeSelected = 15;
-        }
-            break;
         case WYAMenuViewStyleTriangle: {
             vc.progressWidth = 6;
             vc.progressHeight = 4;

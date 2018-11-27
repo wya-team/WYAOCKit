@@ -29,9 +29,11 @@
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];
         _lineView = [[UIView alloc]init];
+        _pageItemView = [[UIView alloc]init];
         
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
+        [_navBarView addSubview:_pageItemView];
         [_navBarView addSubview:_titleLabel];
         [_navBarView addSubview:_lineView];
         [self setUp];
@@ -46,13 +48,15 @@
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];
         _lineView = [[UIView alloc]init];
+        _pageItemView = [[UIView alloc]init];
         
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_titleLabel];
+        [_navBarView addSubview:_pageItemView];
         [_navBarView addSubview:_lineView];
         [self setUp];
-
+        
     }
     return self;
 }
@@ -71,6 +75,13 @@
         make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
         make.left.mas_equalTo(self.backgroundImageView);
         make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
+    }];
+    
+    [_pageItemView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.navBarView.mas_left).offset(46);
+        make.right.equalTo(self.navBarView.mas_right).offset(-46);
+        make.top.equalTo(self.navBarView.mas_top).offset(0);
+        make.height.mas_equalTo(WYANavBarHeight);
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -104,13 +115,13 @@
     NSInteger count = normalTitles.count >0 ? normalTitles.count : normalImages.count;
     for (int i = 0; i < count; i++) {
         int column = i%count;
-
+        
         UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
         
         customButton.tag = LEFT_BASE_TAG + i;
-
+        
         if (normalTitles) {
-              width = [[normalTitles wya_safeObjectAtIndex:i] wya_widthWithFontSize:self.leftBarButtonItemTitleFont height:height];
+            width = [[normalTitles wya_safeObjectAtIndex:i] wya_widthWithFontSize:self.leftBarButtonItemTitleFont height:height];
             
             customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             
@@ -139,7 +150,7 @@
             }
             
         }
-    
+        
         customButton.frame = CGRectMake(startX + column*(width + space), startY, width, height);
         
         [customButton addTarget:self action:@selector (customLeftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -149,10 +160,10 @@
 }
 
 - (void)addRightBarViewButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                normalColor:(NSArray<UIColor *> *)normalColors
-                           highlightedColor:(NSArray<UIColor *>*)highlightedColors
-                                NormalImage:(NSArray<NSString *>*)normalImages
-                             highlightedImg:(NSArray<NSString *> *)highlightedImgs{
+                                 normalColor:(NSArray<UIColor *> *)normalColors
+                            highlightedColor:(NSArray<UIColor *>*)highlightedColors
+                                 NormalImage:(NSArray<NSString *>*)normalImages
+                              highlightedImg:(NSArray<NSString *> *)highlightedImgs{
     CGFloat startX = LEFT_OR_RIGHT_SPACE;
     CGFloat startY = 4.0f;
     CGFloat width = 36;
@@ -197,7 +208,7 @@
             
         }
         [self.navBarView addSubview:customButton];
-
+        
         
         [customButton addTarget:self action:@selector (customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -207,30 +218,30 @@
             make.top.equalTo(self.navBarView.mas_top).offset(startY);
         }];
     }
-
+    
 }
 
 - (void)addLeftGoBackWithTitle:(NSString *)title
-           normalColor:(UIColor *)normalColor
-      highlightedColor:(UIColor *)highlightedColor
-                     Image:(NSString *)imageNamed{
+                   normalColor:(UIColor *)normalColor
+              highlightedColor:(UIColor *)highlightedColor
+                         Image:(NSString *)imageNamed{
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     customButton.frame = CGRectMake(LEFT_OR_RIGHT_SPACE, 4, 36, 36);
     if (title) {
-    customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    
-    customButton.titleLabel.font = [UIFont systemFontOfSize:BUTTON_TITLEFONT];
-    
-    [customButton setTitle:title forState:UIControlStateNormal];
-    
-    [customButton setTitleColor:normalColor forState:UIControlStateNormal];
-    
-    if (highlightedColor) {
-        [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
-    }
+        customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        
+        customButton.titleLabel.font = [UIFont systemFontOfSize:BUTTON_TITLEFONT];
+        
+        [customButton setTitle:title forState:UIControlStateNormal];
+        
+        [customButton setTitleColor:normalColor forState:UIControlStateNormal];
+        
+        if (highlightedColor) {
+            [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
+        }
     }else if(imageNamed){
-     [customButton setImage:[UIImage imageNamed:imageNamed] forState:UIControlStateNormal];
+        [customButton setImage:[UIImage imageNamed:imageNamed] forState:UIControlStateNormal];
     }
     [customButton addTarget:self action:@selector (goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -321,14 +332,14 @@
 #pragma mark ======= leftAction
 - (void)goBackPressed:(UIButton *)sender{
     NSLog(@"%@",sender.titleLabel.text);
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_goBackPressed:)]) {
         [self.delegate wya_goBackPressed:sender];
     }
 }
 - (void)customLeftButtonPressed:(UIButton *)sender{
     NSLog(@"%@",sender.titleLabel.text);
-
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_leftBarButtonItemPressed:)]) {
         [self.delegate wya_leftBarButtonItemPressed:sender];
     }

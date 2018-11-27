@@ -11,11 +11,11 @@ NSString * const WYATableControllerDidFullyDisplayedNotification = @"WYATableCon
 NSString * const WYATabControllerChildControllerChangeContentOffstNotification = @"WYATabControllerChildControllerChangeContentOffstNotification";
 static NSInteger const kWMUndefinedIndex = -1;
 static NSInteger const kWMControllerCountUndefined = -1;
-@interface WYAPageTableViewController (){
-CGFloat _targetX;
-CGRect _contentViewFrame,_menuViewFrame;
-BOOL _hasInited,_shouldNotScroll;
-NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
+@interface WYAPageTableViewController ()<UITableViewDelegate,UITableViewDataSource>{
+    CGFloat _targetX;
+    CGRect _contentViewFrame,_menuViewFrame;
+    BOOL _hasInited,_shouldNotScroll;
+    NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
 }
 @property (nonatomic, strong, readwrite) UIViewController * currentViewController;
 
@@ -107,7 +107,7 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
         self.tableView.contentOffset = CGPointMake(0, y);
     }if (y > height) {
         self.tableView.contentOffset = CGPointMake(0, height);
-
+        
     }
 }
 - (void)setScrollEnable:(BOOL)scrollEnable{
@@ -396,7 +396,7 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
     self.delegate = self;
     self.dataSource = self;
     self.tableView.scrollEnabled = NO;
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wya_willResignActive:) name:UIApplicationWillResignActiveNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(wya_willEnterForeground:) name:UIApplicationWillEnterForegroundNotification object:nil];
 }
@@ -673,6 +673,8 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setup];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight) style:UITableViewStylePlain];
+    [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     if (!self.childControllersCount) return;
@@ -688,10 +690,7 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
     [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = YES;
 }
-- (instancetype)initWithStyle:(UITableViewStyle)style{
-    UITableViewStyle myStyle = self.isPlain ? UITableViewStylePlain : UITableViewStyleGrouped;
-    return [super initWithStyle:myStyle];
-}
+
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
@@ -721,7 +720,7 @@ NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
 }
 - (void)setHeaderView:(UIView *)headerView{
     if (headerView) {
-    self.tableView.tableHeaderView = headerView;
+        self.tableView.tableHeaderView = headerView;
     }
 }
 #pragma mark - UITableView DataSource

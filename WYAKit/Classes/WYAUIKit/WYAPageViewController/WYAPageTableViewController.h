@@ -128,11 +128,11 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 
 @end
 
-@interface WYAPageTableViewController : UITableViewController
+@interface WYAPageTableViewController : UIViewController
 <WYAMenuViewDataSource,WYAMenuViewDelegate,UIScrollViewDelegate,WYAPageTableControllerDelegate,WYAPageTableControllerDataSource>
 @property (nonatomic, weak) id<WYAPageTableControllerDelegate> delegate;
 @property (nonatomic, weak) id<WYAPageTableControllerDataSource> dataSource;
-
+@property (nonatomic, strong) UITableView * tableView;
 /**
  *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
  使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")

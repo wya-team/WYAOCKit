@@ -6,6 +6,7 @@
 //
 
 #import "WYAPageController.h"
+
 NSString * const WYAControllerDidAddToSuperViewNotification = @"WYAControllerDidAddToSuperViewNotification";
 NSString * const WYAControllerDidFullyDisplayedNotification = @"WYAControllerDidFullyDisplayedNotification";
 
@@ -18,6 +19,9 @@ static NSInteger const kWMControllerCountUndefined = -1;
     BOOL _hasInited,_shouldNotScroll;
     NSInteger _initializedIndex,_controllerCount,_markedSelectIndex;
 }
+
+
+
 @property (nonatomic, strong, readwrite) UIViewController * currentViewController;
 
 /**
@@ -105,7 +109,10 @@ static NSInteger const kWMControllerCountUndefined = -1;
     [self adjustMenuViewFrame];
     [self adjustDisplayingViewControllersFrame];
 }
-
+#pragma mark ======= setter
+- (void)setNavBar:(WYANavBar *)navBar{
+    _navBar = navBar;
+}
 - (void)setScrollEnable:(BOOL)scrollEnable{
     _scrollEnable = scrollEnable;
     if (!self.scrollView)return;
@@ -364,7 +371,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 }
 /**
  当子控制器完全展示在用户面前时发送通知
-
+ 
  @param index 当前展示的内容的index
  */
 - (void)postFullDisplayNotificationWithCurrentIndex:(int)index{
@@ -462,8 +469,14 @@ static NSInteger const kWMControllerCountUndefined = -1;
     if (self.progressColor) {
         menuView.lineColor = self.progressColor;
     }
-    if (self.showOnNavigationBar && self.navigationController.navigationBar) {
-        self.navigationItem.titleView = menuView;
+    if (self.showOnNavigationBar) {
+        if (!self.navBar && self.navigationController.navigationBar) {
+            self.navigationItem.titleView = menuView;
+        }else{
+            [self.navBar bringSubviewToFront:self.navBar.pageItemView];
+            [self.navBar.pageItemView addSubview:menuView];
+            [self.view addSubview:self.navBar];
+        }
     } else {
         [self.view addSubview:menuView];
     }
@@ -492,7 +505,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 
 /**
  创建或者从缓存中获取控制器并添加到视图上
-
+ 
  @param index index
  */
 - (void)initializedControllerWithIndexIfNeeded:(NSInteger)index{
@@ -518,7 +531,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 
 /**
  创建并添加子控制器
-
+ 
  @param index index
  */
 - (void)addViewControllerAtIndex:(int)index {
@@ -540,7 +553,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 
 /**
  移除控制器，且从display中移除
-
+ 
  @param viewController viewController
  @param index index
  */

@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 @interface WYANavBar : UIView
+/// 给分页控制器使用当menuView需要显示在导航栏上使用
+@property (nonatomic, strong) UIView * pageItemView;
 /**
  设置导航栏标题字体颜色 默认黑色
  */
@@ -58,14 +60,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark ======= createRightButton
 /**
  创建多个导航右侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
-
+ 
  @param normalTitles 需要显示的标题
  */
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *>* _Nonnull)normalTitles;
 
 /**
  创建多个导航右侧文字按钮，标题颜色自定义两种状态
-
+ 
  @param normalTitles titles
  @param normalColors normalColor
  @param highlightedColors highlightedColors
@@ -77,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  创建多个图片类型的右侧导航栏按钮
-
+ 
  @param normalImages normalImages 必传项
  @param highlightedImgs highlightedImgs 可以为nil
  */
@@ -101,8 +103,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param highlightedColors highlightedColors
  */
 - (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                    normalColor:(NSArray<UIColor *> * _Nonnull)normalColors
-                               highlightedColor:(NSArray<UIColor *>* _Nonnull)highlightedColors;
+                                   normalColor:(NSArray<UIColor *> * _Nonnull)normalColors
+                              highlightedColor:(NSArray<UIColor *>* _Nonnull)highlightedColors;
 
 
 /**
@@ -112,7 +114,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param highlightedImgs highlightedImgs 可以为nil
  */
 - (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *>* _Nonnull)normalImages
-                                 highlightedImg:(NSArray<NSString *> *)highlightedImgs;
+                                highlightedImg:(NSArray<NSString *> *)highlightedImgs;
 
 - (void)wya_goBackButtonWithTitle:(NSString *)title
                       normalColor:(UIColor * _Nullable)normalColor
