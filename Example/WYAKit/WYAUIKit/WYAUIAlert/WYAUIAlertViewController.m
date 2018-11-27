@@ -8,11 +8,12 @@
 
 #import "WYAUIAlertViewController.h"
 #import <WYAKit/WYAAlertController.h>
-@interface WYAUIAlertViewController ()
+@interface WYAUIAlertViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray * systemAlertTitleArray;
 @property (nonatomic, strong) NSArray * systemSheetTitleArray;
 @property (nonatomic, strong) NSArray * customAlertTitleArray;
 @property (nonatomic, strong) NSArray * customSheetTitleArray;
+@property (nonatomic, strong) UITableView * tableView;
 @end
 
 @implementation WYAUIAlertViewController
@@ -20,7 +21,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = NSStringFromClass([self class]);
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.view addSubview:self.tableView];
+    self.navTitle = NSStringFromClass([self class]);
 
     self.systemAlertTitleArray = @[@"只有一个按钮",
                                    @"默认样式",
