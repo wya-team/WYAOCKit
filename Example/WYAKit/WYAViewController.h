@@ -6,8 +6,8 @@
 //  Copyright (c) 2018 1228506851@qq.com. All rights reserved.
 //
 
-@import UIKit;
+#import "WYABaseViewController.h"
 
-@interface WYAViewController : UIViewController
+@interface WYAViewController : WYABaseViewController
 
 @end
