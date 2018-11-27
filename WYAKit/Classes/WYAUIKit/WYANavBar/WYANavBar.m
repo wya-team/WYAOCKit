@@ -24,7 +24,7 @@
 
 - (instancetype)init{
     if (self = [super init]) {
-        self.frame = CGRectMake(0, -WYAStatusBarHeight, ScreenWidth, WYATopHeight);
+        self.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
         _titleLabel = [[UILabel alloc]init];
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];

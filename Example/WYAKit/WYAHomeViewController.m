@@ -16,6 +16,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     NSLog(@"center.view.willAppear");
 }
 
