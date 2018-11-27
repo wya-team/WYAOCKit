@@ -203,4 +203,92 @@
     }
     return tempViews;
 }
+
+- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber*>*)fixedItemWidths
+                                                    fixedItemHeights:(NSArray<NSNumber*>*)fixedItemHeights
+                                                    fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                               fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                          warpCount:(NSInteger)warpCount
+                                                          topSpacing:(CGFloat)topSpacing
+                                                       bottomSpacing:(CGFloat)bottomSpacing
+                                                         leadSpacing:(CGFloat)leadSpacing
+                                                         tailSpacing:(CGFloat)tailSpacing
+{
+    
+    if (self.count < 1) {
+        return self.copy;
+    }
+    if (warpCount < 1) {
+        NSAssert (false, @"warp count不能大于小于1");
+        return self.copy;
+    }
+    if (warpCount>self.count) {
+        NSAssert(false, @"warp count不能大于数据长度");
+    }
+    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
+    
+    NSArray * tempViews = self.copy;
+    
+    
+    NSInteger columnCount = warpCount;
+    NSInteger rowCount = tempViews.count % columnCount == 0 ? tempViews.count / columnCount : tempViews.count / columnCount + 1;
+    
+    MAS_VIEW * prev;
+    for (int i = 0; i < tempViews.count; i++) {
+        MAS_VIEW * v = tempViews[i];
+        NSInteger currentRow = i / columnCount;
+        NSInteger currentColumn = i % columnCount;
+        
+        [v mas_makeConstraints:^(MASConstraintMaker * make) {
+            NSNumber * number = fixedItemWidths[i];
+            NSNumber * num = fixedItemHeights[i];
+            
+            // 如果写的item高宽分别是0，则表示自适应
+            if (number) {
+                make.width.equalTo (number);
+            }
+            if (num) {
+                make.height.equalTo (num);
+            }
+            
+            
+            // 第一行
+            if (currentRow == 0) {
+                make.top.equalTo (tempSuperView).offset (topSpacing);
+            }
+            // 最后一行
+            if (currentRow == rowCount - 1) {
+                // 如果只有一行
+                if (currentRow != 0 && i - columnCount >= 0) {
+                    make.top.equalTo (((MAS_VIEW *)tempViews[i - columnCount]).mas_bottom).offset (fixedLineSpacing);
+                }
+                make.bottom.equalTo (tempSuperView).offset (-bottomSpacing);
+            }
+            // 中间的若干行
+            if (currentRow != 0 && currentRow != rowCount - 1) {
+                make.top.equalTo (((MAS_VIEW *)tempViews[i - columnCount]).mas_bottom).offset (fixedLineSpacing);
+            }
+            
+            // 第一列
+            if (currentColumn == 0) {
+                make.left.equalTo (tempSuperView).offset (leadSpacing);
+            }
+            // 最后一列
+            if (currentColumn == columnCount - 1) {
+                // 如果只有一列
+                if (currentColumn != 0) {
+                    make.left.equalTo (prev.mas_right).offset (fixedInteritemSpacing);
+                }
+                make.right.equalTo (tempSuperView).offset (-tailSpacing);
+            }
+            // 中间若干列
+            if (currentColumn != 0 && currentColumn != warpCount - 1) {
+                make.left.equalTo (prev.mas_right).offset (fixedInteritemSpacing);
+            }
+        }];
+        prev = v;
+    }
+    return tempViews;
+    
+}
 @end

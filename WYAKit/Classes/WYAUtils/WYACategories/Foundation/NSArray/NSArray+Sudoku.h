@@ -77,4 +77,29 @@
                                                bottomSpacing:(CGFloat)bottomSpacing
                                                  leadSpacing:(CGFloat)leadSpacing
                                                  tailSpacing:(CGFloat)tailSpacing;
+
+
+/**
+ 特殊的布局方式（一行或者一列）
+
+ @param fixedItemWidths 各个item的宽度，当一列时该属性可传nil
+ @param fixedItemHeights 各个item的高度，当一行时该属性可传nil
+ @param fixedLineSpacing 行间距
+ @param fixedInteritemSpacing 列间距
+ @param warpCount 折行点
+ @param topSpacing 顶间距
+ @param bottomSpacing 底间距
+ @param leadSpacing 左间距
+ @param tailSpacing 右间距
+ @return <#return value description#>
+ */
+- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber*>*)fixedItemWidths
+                                                    fixedItemHeights:(NSArray<NSNumber*>*)fixedItemHeights
+                                                    fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                               fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                           warpCount:(NSInteger)warpCount
+                                                          topSpacing:(CGFloat)topSpacing
+                                                       bottomSpacing:(CGFloat)bottomSpacing
+                                                         leadSpacing:(CGFloat)leadSpacing
+                                                         tailSpacing:(CGFloat)tailSpacing;
 @end

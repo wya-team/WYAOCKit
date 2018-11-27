@@ -12,6 +12,7 @@
 		210E9F6521A93D2300BFE994 /* WYACameraVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6421A93D2300BFE994 /* WYACameraVC.m */; };
 		210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */; };
 		210E9F6B21ABEB6900BFE994 /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6A21ABEB6900BFE994 /* WYALeftViewController.m */; };
+		210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
 		21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFF219ABF090099CB6F /* WYAProgressViewController.m */; };
 		21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C02219ABF180099CB6F /* WYAToastViewController.m */; };
@@ -22,7 +23,6 @@
 		21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */; };
 		21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */; };
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
-		21470C8D219BB2370099CB6F /* WYAUIAlertViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21470C8B219BB2370099CB6F /* WYAUIAlertViewController.xib */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
@@ -79,6 +79,8 @@
 		210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAHomeViewController.m; sourceTree = "<group>"; };
 		210E9F6921ABEB6900BFE994 /* WYALeftViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALeftViewController.h; sourceTree = "<group>"; };
 		210E9F6A21ABEB6900BFE994 /* WYALeftViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALeftViewController.m; sourceTree = "<group>"; };
+		210E9F7B21AD406600BFE994 /* WYACellTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACellTableViewController.h; sourceTree = "<group>"; };
+		210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACellTableViewController.m; sourceTree = "<group>"; };
 		21470BFB219ABE9E0099CB6F /* WYATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATextViewController.h; sourceTree = "<group>"; };
 		21470BFC219ABE9F0099CB6F /* WYATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATextViewController.m; sourceTree = "<group>"; };
 		21470BFE219ABF090099CB6F /* WYAProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAProgressViewController.h; sourceTree = "<group>"; };
@@ -98,7 +100,6 @@
 		21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAIMGCodeViewController.xib; sourceTree = "<group>"; };
 		21470C89219BB2370099CB6F /* WYAUIAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAUIAlertViewController.h; sourceTree = "<group>"; };
 		21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAUIAlertViewController.m; sourceTree = "<group>"; };
-		21470C8B219BB2370099CB6F /* WYAUIAlertViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAUIAlertViewController.xib; sourceTree = "<group>"; };
 		21470CA7219E93D30099CB6F /* WYAPopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPopViewController.h; sourceTree = "<group>"; };
 		21470CA8219E93D30099CB6F /* WYAPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopViewController.m; sourceTree = "<group>"; };
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
@@ -184,6 +185,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		210E9F7A21AD403400BFE994 /* WYACell */ = {
+			isa = PBXGroup;
+			children = (
+				210E9F7B21AD406600BFE994 /* WYACellTableViewController.h */,
+				210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */,
+			);
+			path = WYACell;
+			sourceTree = "<group>";
+		};
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +234,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				210E9F7A21AD403400BFE994 /* WYACell */,
 				21A8735C21A4F4EB007F2921 /* WYANoticeBar */,
 				21A8734F21A3E1D5007F2921 /* WYASlider */,
 				21A8731F21A3A65D007F2921 /* WYAChooseMenu */,
@@ -327,7 +338,6 @@
 			children = (
 				21470C89219BB2370099CB6F /* WYAUIAlertViewController.h */,
 				21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */,
-				21470C8B219BB2370099CB6F /* WYAUIAlertViewController.xib */,
 			);
 			path = WYAUIAlert;
 			sourceTree = "<group>";
@@ -618,7 +628,6 @@
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				210E9F5121A6876900BFE994 /* WYAPickerViewController.xib in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
-				21470C8D219BB2370099CB6F /* WYAUIAlertViewController.xib in Resources */,
 				21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,
 			);
@@ -743,6 +752,7 @@
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */,
+				210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* WYAViewController.m in Sources */,
 				21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */,
 				21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */,
@@ -894,7 +904,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = J5265ZP7QT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/lijunheng/Desktop/WYAOCKit/Example/WYAKit/Config/Config.pch;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/WYAKit/Config/Config.pch";
 				INFOPLIST_FILE = "WYAKit/WYAKit-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;
@@ -911,7 +921,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = J5265ZP7QT;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = /Users/lijunheng/Desktop/WYAOCKit/Example/WYAKit/Config/Config.pch;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/WYAKit/Config/Config.pch";
 				INFOPLIST_FILE = "WYAKit/WYAKit-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULE_NAME = ExampleApp;

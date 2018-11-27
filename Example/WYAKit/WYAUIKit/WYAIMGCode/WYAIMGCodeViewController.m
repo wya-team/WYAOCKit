@@ -22,7 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = NSStringFromClass([self class]);
+    self.navTitle = NSStringFromClass([self class]);
     
     self.imageViewOne.image = [WYAIMGCode wya_GenerateWithDefaultQRCodeData:@"哈哈" imageViewWidth:self.imageViewOne.frame.size.width];
     
