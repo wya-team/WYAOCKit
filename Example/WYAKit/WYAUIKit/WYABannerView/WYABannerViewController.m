@@ -19,18 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = NSStringFromClass([self class]);
     
-    NSArray * array = @[@"0",@"1",@"2"];
-    
-    WYABannerView * view = [[WYABannerView alloc]initWithFrame:self.view.frame];
-    NSMutableArray * images = [[NSMutableArray alloc]init];
-    for (NSInteger index = 0; index<array.count; index++) {
-        UIImage * image = [UIImage imageNamed:array[index]];
-        [images addObject:image];
-    }
-    view.images = [images copy];
-    [self.view addSubview:view];
 }
 
 /*

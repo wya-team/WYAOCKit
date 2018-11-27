@@ -1,8 +1,8 @@
 //
-//  WYABannerViewController.h
+//  WYAImageBrowserViewController.h
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/11/13.
+//  Created by 李世航 on 2018/11/27.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYABannerViewController : WYABaseViewController
+@interface WYAImageBrowserViewController : WYABaseViewController
 
 @end
 
