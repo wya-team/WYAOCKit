@@ -11,12 +11,12 @@
 #define BUTTON_TITLEFONT 16
 #define ITEMSPACE_DEFAULT 10.f
 #define LEFT_OR_RIGHT_SPACE 10.0
+#define BUTTONWIDTH 36
+#define BASE_TAG 1000
 @interface WYANavBar()
 @property (nonatomic, strong) UILabel * titleLabel;// 标题
 @property (nonatomic, strong) UIImageView * backgroundImageView;// 背景图片
 @property (nonatomic, strong) UIView * navBarView;// 导航栏View
-@property (nonatomic, strong) UIView * leftView;
-@property (nonatomic, strong) UIView * rightView;
 @property (nonatomic, strong) UIView * lineView;
 @end
 @implementation WYANavBar
@@ -26,15 +26,11 @@
         _titleLabel = [[UILabel alloc]init];
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];
-        _leftView = [[UIView alloc]init];
-        _rightView = [[UIView alloc]init];
         _lineView = [[UIView alloc]init];
         
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_titleLabel];
-        [_navBarView addSubview:_leftView];
-        [_navBarView addSubview:_rightView];
         [_navBarView addSubview:_lineView];
         [self setUp];
     }
@@ -47,15 +43,11 @@
         _titleLabel = [[UILabel alloc]init];
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];
-        _leftView = [[UIView alloc]init];
-        _rightView = [[UIView alloc]init];
         _lineView = [[UIView alloc]init];
         
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_titleLabel];
-        [_navBarView addSubview:_leftView];
-        [_navBarView addSubview:_rightView];
         [_navBarView addSubview:_lineView];
         [self setUp];
 
@@ -74,87 +66,54 @@
         make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
     }];
     
-    if (_backBarButton) {
-        CGFloat height = _backBarButton.cmam_height > WYANavBarHeight ? (WYANavBarHeight - 10.0) : _backBarButton.cmam_height;
-        CGFloat top = (self.navBarView.cmam_height - height)*0.5;
-        [_backBarButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
-            make.top.equalTo(self.navBarView.mas_top).offset(top);
-            make.size.mas_equalTo(self.backBarButton.cmam_size);
-        }];
-    }else if(self.leftBarButtonItems.count>0){
-        CGFloat width = 0;
-        for (UIButton  * tempButton in self.leftBarButtonItems) {
-            width += tempButton.cmam_width;
-            width += self.itemsSpace;
-        }
-        [_leftView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
-            make.top.equalTo(self.navBarView.mas_top).offset(0);
-            make.size.mas_equalTo(CGSizeMake(width, WYANavBarHeight));
-        }];
-    }
+    [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.bottom.mas_equalTo(self.navBarView);
+    }];
     
-    if(self.rightBarButtonItems.count>0){
-        CGFloat width = 0;
-        for (UIButton  * tempButton in self.rightBarButtonItems) {
-            width += tempButton.cmam_width;
-            width += self.itemsSpace;
-        }
-        [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.navBarView.mas_right).offset(-LEFT_OR_RIGHT_SPACE);
-            make.top.equalTo(self.navBarView.mas_top).offset(0);
-            make.size.mas_equalTo(CGSizeMake(width, WYANavBarHeight));
-        }];
-    }
-    
-    if (self.titleView) {
-        CGFloat left = 0;
-        if (self.backBarButton) {
-            left = CGRectGetMaxX(self.backBarButton.frame);
-        }else if(self.leftBarButtonItems.count>0){
-            left = CGRectGetMaxX(self.leftView.frame);
-        }
-        CGFloat right = 0;
-        if(self.rightBarButtonItems.count>0){
-            left = CGRectGetMaxX(self.rightView.frame);
-        }
-        
-        [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.navBarView.mas_left).offset(left);
-            make.right.equalTo(self.navBarView.mas_right).offset(-right);
-        }];
-    }else{
-        
-    }
+    [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.mas_equalTo(self.navBarView);
+        make.height.mas_equalTo(1);
+    }];
 }
 #pragma mark ======= private methods
 - (void)setUp{
     self.backgroundColor = [UIColor whiteColor];
     self.titleLabel.textColor = [UIColor blackColor];
-    self.titleLabel.font = FONT(TITLEFONT);
+    self.titleLabel.font = [UIFont systemFontOfSize:TITLEFONT];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     _lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
+- (void)addLeftBarButton:(NSArray *)leftArray isImg:(BOOL)isImg isTitleAndImg:(BOOL)isTitleAndImg{
+    CGFloat startX = LEFT_OR_RIGHT_SPACE;
+    CGFloat startY = 4.0f;
+    CGFloat width = 36;
+    CGFloat height = 36;
+    CGFloat space = ITEMSPACE_DEFAULT;
+    for (int i = 0; i < leftArray; i++) {
+        if (!isImg) {
+            width = [[leftArray wya_safeObjectAtIndex:i] wya_widthWithFontSize:BUTTON_TITLEFONT height:height];
+        }
+        int column = i%leftArray.count;
+        UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        customButton.frame = CGRectMake(startX + column*(width + space), startY, width, height);
+        customButton.tag = BASE_TAG + i;
+        customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+        customButton.titleLabel.font = [UIFont systemFontOfSize:BUTTON_TITLEFONT];
+//        [customButton setTitleColor:normalColors[i] forState:UIControlStateNormal];
+//        [customButton setTitleColor:highlightedColors[i] forState:UIControlStateHighlighted];
+        if (!isTitleAndImg) {
+            
+        }else{
+           
+        }
+        
+        [customButton addTarget:self action:@selector (customRightButtonsClicked:) forControlEvents:UIControlEventTouchUpInside];
+    
+        [customButton sizeToFit];
+    }
+}
+
 #pragma mark ======= setter
-- (void)setTitle:(NSString *)title{
-    if (title) {
-        _title = title;
-        _titleLabel.text = _title;
-    }
-}
-- (void)setTitleView:(UIView *)titleView{
-    if (titleView) {
-        _titleView = titleView;
-        [self.navBarView addSubview:_titleView];
-    }
-}
-- (void)setBackBarButton:(UIButton *)backBarButton{
-    if (backBarButton) {
-        _backBarButton = backBarButton;
-        [self.leftView addSubview:_backBarButton];
-    }
-}
 
 - (void)setIsShowLine:(BOOL)isShowLine{
     _isShowLine = isShowLine;
@@ -163,9 +122,6 @@
         self.lineView = nil;
     }
 }
-- (void)setItemsSpace:(CGFloat)itemsSpace{
-    
-}
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage{
     if (backgroundImage) {
@@ -173,14 +129,6 @@
         _backgroundImageView.image = backgroundImage;
     }
 }
-- (void)setLeftBarButtonItems:(NSArray<UIButton *> *)leftBarButtonItems{
-    
-}
-- (void)setRightBarButtonItems:(NSArray<UIButton *> *)rightBarButtonItems{
-    
-}
-#pragma mark ======= getter
-- (CGFloat)itemsSpace{
-    return self.itemsSpace == 0 ? ITEMSPACE_DEFAULT : self.itemsSpace;
-}
+
+
 @end
