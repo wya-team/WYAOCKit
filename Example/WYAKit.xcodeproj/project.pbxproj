@@ -224,7 +224,6 @@
 				21A8734F21A3E1D5007F2921 /* WYASlider */,
 				21A8731F21A3A65D007F2921 /* WYAChooseMenu */,
 				21A8731621A39550007F2921 /* WYAPaginationView */,
-				21470CB5219EBA8F0099CB6F /* WYADrawerViewController */,
 				21470CA6219E93B10099CB6F /* PopViewController */,
 				21470BF2219ABE880099CB6F /* WYAProgressView */,
 				21470BF3219ABE880099CB6F /* WYAToastView */,
@@ -349,13 +348,6 @@
 			path = PopViewController;
 			sourceTree = "<group>";
 		};
-		21470CB5219EBA8F0099CB6F /* WYADrawerViewController */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = WYADrawerViewController;
-			sourceTree = "<group>";
-		};
 		21A8731621A39550007F2921 /* WYAPaginationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -430,6 +422,8 @@
 		6003F593195388D20070C39A /* Example for WYAKit */ = {
 			isa = PBXGroup;
 			children = (
+				9528A52D21AD181E00EFEF18 /* Config */,
+				9528A52C21AD181000EFEF18 /* Base */,
 				6003F59C195388D20070C39A /* WYAAppDelegate.h */,
 				6003F59D195388D20070C39A /* WYAAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -511,6 +505,20 @@
 				951FC0C821A63CC400E1E4FE /* WYAThreeTableViewController.m */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9528A52C21AD181000EFEF18 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		9528A52D21AD181E00EFEF18 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

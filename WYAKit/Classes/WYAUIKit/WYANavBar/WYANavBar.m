@@ -9,7 +9,7 @@
 #import "Masonry.h"
 #define TITLEFONT 18
 #define BUTTON_TITLEFONT 16
-#define ITEMSPACE_DEFAULT 10.f
+#define ITEMSPACE_DEFAULT 0.f
 #define LEFT_OR_RIGHT_SPACE 10.0
 #define BUTTONWIDTH 36
 #define LEFT_BASE_TAG 1000
@@ -24,7 +24,7 @@
 
 - (instancetype)init{
     if (self = [super init]) {
-        self.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
+        self.frame = CGRectMake(0, -WYAStatusBarHeight, ScreenWidth, WYATopHeight);
         _titleLabel = [[UILabel alloc]init];
         _backgroundImageView = [[UIImageView alloc]init];
         _navBarView = [[UIView alloc]init];
@@ -82,6 +82,7 @@
     self.backgroundColor = [UIColor whiteColor];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.font = [UIFont systemFontOfSize:TITLEFONT];
+    _backgroundImageView.userInteractionEnabled = YES;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     _lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
@@ -193,7 +194,7 @@
         [self.navBarView addSubview:customButton];
 
         
-        [customButton addTarget:self action:@selector (customRightButtonpressed::) forControlEvents:UIControlEventTouchUpInside];
+        [customButton addTarget:self action:@selector (customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
         
         [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.navBarView.mas_right).offset(-startX - column*(width + space));
@@ -205,7 +206,7 @@
 }
 
 - (void)addLeftGoBackWithTitle:(NSString *)title
-           normalColor:(UIColor * _Nonnull)normalColor
+           normalColor:(UIColor *)normalColor
       highlightedColor:(UIColor *)highlightedColor
                      Image:(NSString *)imageNamed{
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -221,7 +222,6 @@
     [customButton setTitleColor:normalColor forState:UIControlStateNormal];
     
     if (highlightedColor) {
-        
         [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
     }
     }else if(imageNamed){
@@ -285,9 +285,9 @@
     [self addLeftGoBackWithTitle:nil normalColor:nil highlightedColor:nil Image:imageNamed];
 }
 
-- (void)wya_goBackButtonWithTitle:(NSString *)title normalColor:(UIColor * _Nonnull)normalColor highlightedColor:(nonnull UIColor *)highlightedColor{
-    
-    [self addLeftGoBackWithTitle:title normalColor:normalColor highlightedColor:highlightedColor Image:nil];
+- (void)wya_goBackButtonWithTitle:(NSString *)title normalColor:(UIColor *_Nullable)normalColor highlightedColor:(UIColor *_Nullable)highlightedColor{
+    UIColor * normal = normalColor ? normalColor : [UIColor blackColor];
+    [self addLeftGoBackWithTitle:title normalColor:normal highlightedColor:highlightedColor Image:nil];
 }
 
 #pragma mark ------------leftCustom
@@ -305,13 +305,13 @@
 }
 #pragma mark ======= right
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles{
-    
+    [self addRightBarViewButtonWithNormalTitle:normalTitles normalColor:nil highlightedColor:nil NormalImage:nil highlightedImg:nil];
 }
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles normalColor:(NSArray<UIColor *> *)normalColors highlightedColor:(NSArray<UIColor *> *)highlightedColors{
-    
+    [self addRightBarViewButtonWithNormalTitle:normalTitles normalColor:normalColors highlightedColor:highlightedColors NormalImage:nil highlightedImg:nil];
 }
 - (void)wya_addRightNavBarButtonWithNormalImage:(NSArray<NSString *> *)normalImages highlightedImg:(NSArray<NSString *> *)highlightedImgs{
-    
+    [self addRightBarViewButtonWithNormalTitle:nil normalColor:nil highlightedColor:nil NormalImage:normalImages highlightedImg:highlightedImgs];
 }
 #pragma mark ======= leftAction
 - (void)goBackPressed:(UIButton *)sender{
