@@ -40,7 +40,7 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame{
-    if (self = [super initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)]) {
+    if (self = [super initWithFrame:frame]) {
         self.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
         _titleLabel = [[UILabel alloc]init];
         _backgroundImageView = [[UIImageView alloc]init];
@@ -58,6 +58,11 @@
 }
 - (void)layoutSubviews{
     [super layoutSubviews];
+    
+    if ([self.cmam_viewController isKindOfClass:[UITableViewController class]]) {
+        self.frame = CGRectMake(0, -WYAStatusBarHeight, ScreenWidth, WYATopHeight);
+    }
+    
     [_backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.top.bottom.mas_equalTo(self);
     }];
