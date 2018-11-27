@@ -7,9 +7,10 @@
 //
 
 #import "WYAViewController.h"
+#import <WYAKit/WYANavBar.h>
 
 @interface WYAViewController ()
-
+@property (nonatomic, strong) WYANavBar * navBar;
 @end
 
 @implementation WYAViewController
@@ -18,6 +19,12 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    NSLog(@"self.view.frame==%@",NSStringFromCGRect(self.view.frame));
+    
+    self.navBar = [[WYANavBar alloc]init];
+    self.navBar.navTitle = @"test";
+    [self.navBar wya_goBackButtonWithTitle:@"返回" normalColor:[UIColor blackColor] highlightedColor:[UIColor blueColor]];
+    [self.view addSubview:self.navBar];
 }
 
 - (void)didReceiveMemoryWarning

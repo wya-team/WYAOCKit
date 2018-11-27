@@ -209,64 +209,86 @@
                                                     fixedLineSpacing:(CGFloat)fixedLineSpacing
                                                fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
                                                           warpCount:(NSInteger)warpCount
+                                                          topSpacing:(CGFloat)topSpacing
+                                                       bottomSpacing:(CGFloat)bottomSpacing
+                                                         leadSpacing:(CGFloat)leadSpacing
+                                                         tailSpacing:(CGFloat)tailSpacing
 {
+    
     if (self.count < 1) {
         return self.copy;
     }
     if (warpCount < 1) {
-        NSAssert (false, @"warp count need to bigger than zero");
+        NSAssert (false, @"warp count不能大于小于1");
         return self.copy;
     }
-    
-    BOOL isHorizontal = NO;
-    
-    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
-    NSArray * tempViews = self.copy;
-    if (warpCount == self.count) {
-        //横向排列
-        isHorizontal = YES;
-    }else if (warpCount == 1) {
-        //纵向排列
-        isHorizontal = NO;
-    }else {
-        NSAssert(false, @"count值只能等于1或者array的个数");
+    if (warpCount>self.count) {
+        NSAssert(false, @"warp count不能大于数据长度");
     }
+    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
+    
+    NSArray * tempViews = self.copy;
+    
+    
+    NSInteger columnCount = warpCount;
+    NSInteger rowCount = tempViews.count % columnCount == 0 ? tempViews.count / columnCount : tempViews.count / columnCount + 1;
     
     MAS_VIEW * prev;
-    for (NSInteger i = 0; i<tempViews.count; i++) {
+    for (int i = 0; i < tempViews.count; i++) {
         MAS_VIEW * v = tempViews[i];
-        [v mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (isHorizontal) {
-                NSNumber * number = fixedItemWidths[i];
-                CGFloat wid = [number floatValue];
-                make.width.mas_equalTo(wid);
-                if (i == 0) {
-                    //第一个
-                    make.left.equalTo(tempSuperView);
-                }else {
-                    make.left.equalTo(prev);
+        NSInteger currentRow = i / columnCount;
+        NSInteger currentColumn = i % columnCount;
+        
+        [v mas_makeConstraints:^(MASConstraintMaker * make) {
+            NSNumber * number = fixedItemWidths[i];
+            NSNumber * num = fixedItemHeights[i];
+            
+            // 如果写的item高宽分别是0，则表示自适应
+            if (number) {
+                make.width.equalTo (number);
+            }
+            if (num) {
+                make.height.equalTo (num);
+            }
+            
+            
+            // 第一行
+            if (currentRow == 0) {
+                make.top.equalTo (tempSuperView).offset (topSpacing);
+            }
+            // 最后一行
+            if (currentRow == rowCount - 1) {
+                // 如果只有一行
+                if (currentRow != 0 && i - columnCount >= 0) {
+                    make.top.equalTo (((MAS_VIEW *)tempViews[i - columnCount]).mas_bottom).offset (fixedLineSpacing);
                 }
-                make.top.bottom.equalTo(tempSuperView);
-                if (i == tempViews.count-1) {
-                    make.right.equalTo(tempSuperView);
+                make.bottom.equalTo (tempSuperView).offset (-bottomSpacing);
+            }
+            // 中间的若干行
+            if (currentRow != 0 && currentRow != rowCount - 1) {
+                make.top.equalTo (((MAS_VIEW *)tempViews[i - columnCount]).mas_bottom).offset (fixedLineSpacing);
+            }
+            
+            // 第一列
+            if (currentColumn == 0) {
+                make.left.equalTo (tempSuperView).offset (leadSpacing);
+            }
+            // 最后一列
+            if (currentColumn == columnCount - 1) {
+                // 如果只有一列
+                if (currentColumn != 0) {
+                    make.left.equalTo (prev.mas_right).offset (fixedInteritemSpacing);
                 }
-            }else{
-                NSNumber * number = fixedItemHeights[i];
-                make.height.mas_equalTo([number floatValue]);
-                if (i == 0) {
-                    //第一个
-                    make.top.equalTo(tempSuperView);
-                }else {
-                    make.top.equalTo(prev);
-                }
-                make.left.right.equalTo(tempSuperView);
-                if (i == tempViews.count-1) {
-                    make.bottom.equalTo(tempSuperView);
-                }
+                make.right.equalTo (tempSuperView).offset (-tailSpacing);
+            }
+            // 中间若干列
+            if (currentColumn != 0 && currentColumn != warpCount - 1) {
+                make.left.equalTo (prev.mas_right).offset (fixedInteritemSpacing);
             }
         }];
         prev = v;
     }
     return tempViews;
+    
 }
 @end
