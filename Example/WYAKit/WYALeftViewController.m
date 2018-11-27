@@ -108,6 +108,7 @@
                     @"WYAPageViewController",
                     @"WYAPickerViewController",
                     @"WYACellTableViewController",
+                    @"WYAImageBrowserViewController",
                     nil];
     }
     return _uiArray;
