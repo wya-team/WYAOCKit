@@ -77,4 +77,10 @@
                                                bottomSpacing:(CGFloat)bottomSpacing
                                                  leadSpacing:(CGFloat)leadSpacing
                                                  tailSpacing:(CGFloat)tailSpacing;
+
+- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber*>*)fixedItemWidths
+                                                    fixedItemHeights:(NSArray<NSNumber*>*)fixedItemHeights
+                                                    fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                               fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                           warpCount:(NSInteger)warpCount;
 @end

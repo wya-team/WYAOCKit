@@ -204,5 +204,69 @@
     return tempViews;
 }
 
-
+- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber*>*)fixedItemWidths
+                                                    fixedItemHeights:(NSArray<NSNumber*>*)fixedItemHeights
+                                                    fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                               fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                          warpCount:(NSInteger)warpCount
+{
+    if (self.count < 1) {
+        return self.copy;
+    }
+    if (warpCount < 1) {
+        NSAssert (false, @"warp count need to bigger than zero");
+        return self.copy;
+    }
+    
+    BOOL isHorizontal = NO;
+    
+    MAS_VIEW * tempSuperView = [self wya_star_commonSuperviewOfViews];
+    NSArray * tempViews = self.copy;
+    if (warpCount == self.count) {
+        //横向排列
+        isHorizontal = YES;
+    }else if (warpCount == 1) {
+        //纵向排列
+        isHorizontal = NO;
+    }else {
+        NSAssert(false, @"count值只能等于1或者array的个数");
+    }
+    
+    MAS_VIEW * prev;
+    for (NSInteger i = 0; i<tempViews.count; i++) {
+        MAS_VIEW * v = tempViews[i];
+        [v mas_makeConstraints:^(MASConstraintMaker *make) {
+            if (isHorizontal) {
+                NSNumber * number = fixedItemWidths[i];
+                CGFloat wid = [number floatValue];
+                make.width.mas_equalTo(wid);
+                if (i == 0) {
+                    //第一个
+                    make.left.equalTo(tempSuperView);
+                }else {
+                    make.left.equalTo(prev);
+                }
+                make.top.bottom.equalTo(tempSuperView);
+                if (i == tempViews.count-1) {
+                    make.right.equalTo(tempSuperView);
+                }
+            }else{
+                NSNumber * number = fixedItemHeights[i];
+                make.height.mas_equalTo([number floatValue]);
+                if (i == 0) {
+                    //第一个
+                    make.top.equalTo(tempSuperView);
+                }else {
+                    make.top.equalTo(prev);
+                }
+                make.left.right.equalTo(tempSuperView);
+                if (i == tempViews.count-1) {
+                    make.bottom.equalTo(tempSuperView);
+                }
+            }
+        }];
+        prev = v;
+    }
+    return tempViews;
+}
 @end
