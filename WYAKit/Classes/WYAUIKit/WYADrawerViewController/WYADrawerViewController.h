@@ -11,12 +11,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYADrawerViewController : UIViewController
 
-- (instancetype)initWithCenterViewController:(UIViewController *)centerViewController
-                          LeftViewController:(UIViewController *)leftViewController
-                         RightViewController:(UIViewController *)rightViewController;
+- (instancetype)initWithCenterViewController:(UIViewController * _Nonnull)centerViewController
+                          LeftViewController:(UIViewController * _Nullable)leftViewController
+                         RightViewController:(UIViewController * _Nullable)rightViewController;
 
--(void)leftViewControllerMove;
--(void)rightViewControllerMove;
+/**
+ 左侧视图控制器移动
+ */
+-(void)wya_leftViewControllerMove;
+
+/**
+ 右侧视图控制器移动
+ */
+-(void)wya_rightViewControllerMove;
 @end
 
 @interface WYAContainerView : UIView
