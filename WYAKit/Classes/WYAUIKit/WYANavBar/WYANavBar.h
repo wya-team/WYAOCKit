@@ -8,7 +8,18 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@protocol WYANavBarDelegate <NSObject>
 
+@optional
+
+/// 返回按钮点击事件
+- (void)wya_goBackPressed:(UIButton *)sender;
+/// 自定义左侧按钮点击事件
+- (void)wya_leftBarButtonItemPressed:(UIButton *)sender;
+/// 自定义右侧按钮点击事件
+- (void)wya_rightBarButtonItemPressed:(UIButton *)sender;
+
+@end
 @interface WYANavBar : UIView
 /**
  设置导航栏标题字体颜色 默认黑色
@@ -35,14 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL  isShowLine;
 /// 背景图片
 @property (nonatomic, strong) UIImage * backgroundImage;
-
 /**
  导航栏标题
- 
  */
 @property (nonatomic, copy) NSString * navTitle;
 
-@property (nonatomic, assign) CGFloat itemsSpace;
+@property (nonatomic, assign) CGFloat space;
+
+@property (nonatomic, weak) id<WYANavBarDelegate> delegate;
+
 #pragma mark ======= createRightButton
 /**
  创建多个导航右侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
@@ -102,6 +114,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *>* _Nonnull)normalImages
                                  highlightedImg:(NSArray<NSString *> *)highlightedImgs;
 
-
+- (void)wya_goBackButtonWithTitle:(NSString *)title
+                      normalColor:(UIColor * _Nonnull)normalColor
+                 highlightedColor:(UIColor *)highlightedColor;
+- (void)wya_goBackButtonWithImage:(NSString *)imageNamed;
 @end
 NS_ASSUME_NONNULL_END
