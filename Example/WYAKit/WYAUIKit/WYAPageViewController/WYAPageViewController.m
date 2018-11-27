@@ -7,21 +7,32 @@
 //
 
 #import "WYAPageViewController.h"
-#import "WYAPageController.h"
+#import <WYAKit/WYAPageController.h>
 #import "WYACustomPageController.h"
 #import "WYATablePageController.h"
-#import "Category.h"
-@interface WYAPageViewController ()
+#import <WYAKit/Category.h>
+#import <WYAKit/WYANavBar.h>
+@interface WYAPageViewController ()<WYANavBarDelegate>
 @property (nonatomic, strong) NSArray *titles;
 @property (nonatomic, strong) NSDictionary *stylesMap;
+@property (nonatomic, strong) WYANavBar * navBar;
 @end
 
 @implementation WYAPageViewController
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.hidden = YES;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-
+    self.navBar = [[WYANavBar alloc]init];
+    self.navBar.navTitle = @"test";
+    self.navBar.delegate = self;
+    [self.navBar wya_goBackButtonWithTitle:@"返回" normalColor:nil highlightedColor:nil];
+    [self.view addSubview:self.navBar];
+}
+- (void)wya_goBackPressed:(UIButton *)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (NSArray *)titles {
     if (_titles == nil) {

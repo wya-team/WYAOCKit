@@ -16,8 +16,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    
-    WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYAHomeViewController alloc]init] LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
+    UINavigationController * homeVc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
+    WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:homeVc LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
     self.window.rootViewController = nav;
     
