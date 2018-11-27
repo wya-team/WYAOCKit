@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 #import "WYAMenuView.h"
 #import "WYAPageScrollView.h"
+#import "WYANavBar.h"
 @class WYAPageController;
 /*
  *  WYAPageController 的缓存设置，默认缓存为无限制，当收到 memoryWarning 时，会自动切换到低缓存模式 (WYAPageControllerCachePolicyLowMemory)，并在一段时间后切换到 High .
@@ -39,7 +40,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  得到一个在PageController里子控制器的个数
-
+ 
  @param pageController parentController
  @return child controllers's count
  */
@@ -47,7 +48,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  返回要在索引处显示的控制器。如果实现了这些方法，就可以轻松地设置属性。
-
+ 
  @param pageController parentController
  @param index index of child Controller
  @return UIViewController instance
@@ -57,7 +58,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  WYAMenuView中显示的每个标题
-
+ 
  @param pageController parentController
  @param index index of title
  @return WYAPageController 顶部显示的 NSString的值
@@ -68,7 +69,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  实现此数据源方法，以便自定义您自己的contentView的frame
-
+ 
  @param pageController parentController
  @param contentView contentView 每个都是子控制器的父视图
  @return contentView 的frame
@@ -77,7 +78,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  实现此数据源方法，以便自定义您自己的MenuView的frame
-
+ 
  @param pageController parentController
  @param menuView 菜单视图
  @return menuView的frane
@@ -91,7 +92,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  如果子控制器比较重，则在此方法中进行一些工作。此方法仅在控制器初始化并停止滚动时调用。(这意味着，如果控制器被缓存，并且没有释放，则永远不会调用此方法。)
-
+ 
  @param pageController  parent controller
  @param viewController 视图控制器在滚动停止时首先出现。
  @param info A dictionary that includes some infos, such as: `index` / `title`
@@ -100,7 +101,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  当一个视图控制器被缓存时调用。如果某些数据不可重用，您可以清除它。
-
+ 
  @param pageController  parent controller
  @param viewController viewController 会被缓存
  @param info  A dictionary that includes some infos, such as: `index` / `title`
@@ -118,7 +119,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  当一个视图控制器出现在用户的视线中时调用。如果需要的话，做一些准备工作。
-
+ 
  @param pageController parent controller
  @param viewController The viewController entirely displayed
  @param info A dictionary that includes some infos, such as: `index` / `title`
@@ -197,7 +198,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, copy, nullable) NSString * titleFontName;
 
 /**
-  每个Item的宽度
+ 每个Item的宽度
  */
 @property (nonatomic, assign) CGFloat  menuItemWidth;
 
@@ -263,7 +264,12 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, assign) BOOL  bounces;
 
 /**
- 是否作为NavigatonBar的titleView展示默认为NO
+ 自定义的导航栏，如果需要显示在自定义的导航栏上需要先设置该属性
+ */
+@property (nonatomic, strong) WYANavBar * navBar;
+
+/**
+ 是否作为NavigatonBar的titleView展示默认为NO，若不使用系统导航栏需要将自定义导航栏传入
  */
 @property (nonatomic, assign) BOOL  showOnNavigationBar;
 
@@ -315,7 +321,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  构造方法，使用该方法创建控制器，或者实现数据源方法
-
+ 
  @param classes 子控制器的class确保数量与titles的数量相等
  @param titles 各个子控制器的标题，string类型
  @return instancetype

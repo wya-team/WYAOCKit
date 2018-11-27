@@ -9,11 +9,11 @@
 #import "WYATablePageController.h"
 #import "WYAOneTableViewController.h"
 #import "WYATwoTableViewController.h"
-#import "Category.h"
-#import "MJRefresh.h"
 
-@interface WYATablePageController ()
+@interface WYATablePageController ()<WYANavBarDelegate>
 @property (nonatomic, strong) UIImageView * headerImageView;
+@property (nonatomic, strong) WYANavBar * customNavBar;
+
 @end
 
 @implementation WYATablePageController
@@ -21,6 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.headerView = self.headerImageView;
+    self.customNavBar = [[WYANavBar alloc]init];
+    self.customNavBar.navTitle = @"pageControllerExample";
+    [self.customNavBar wya_goBackButtonWithImage:@"返回"];
+    self.customNavBar.delegate = self;
+    [self.view addSubview:self.customNavBar];
+}
+
+- (void)wya_goBackPressed:(UIButton *)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu{
     return 4;
