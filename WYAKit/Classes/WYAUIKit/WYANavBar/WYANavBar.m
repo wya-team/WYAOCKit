@@ -76,19 +76,53 @@
     
     if (_backBarButton) {
         CGFloat height = _backBarButton.cmam_height > WYANavBarHeight ? (WYANavBarHeight - 10.0) : _backBarButton.cmam_height;
-        CGFloat top = (self.navBarView.cmam_height - _backBarButton.cmam_height)*0.5;
+        CGFloat top = (self.navBarView.cmam_height - height)*0.5;
         [_backBarButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
             make.top.equalTo(self.navBarView.mas_top).offset(top);
             make.size.mas_equalTo(self.backBarButton.cmam_size);
         }];
     }else if(self.leftBarButtonItems.count>0){
-        
+        CGFloat width = 0;
+        for (UIButton  * tempButton in self.leftBarButtonItems) {
+            width += tempButton.cmam_width;
+            width += self.itemsSpace;
+        }
+        [_leftView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
+            make.top.equalTo(self.navBarView.mas_top).offset(0);
+            make.size.mas_equalTo(CGSizeMake(width, WYANavBarHeight));
+        }];
+    }
+    
+    if(self.rightBarButtonItems.count>0){
+        CGFloat width = 0;
+        for (UIButton  * tempButton in self.rightBarButtonItems) {
+            width += tempButton.cmam_width;
+            width += self.itemsSpace;
+        }
+        [_rightView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.navBarView.mas_right).offset(-LEFT_OR_RIGHT_SPACE);
+            make.top.equalTo(self.navBarView.mas_top).offset(0);
+            make.size.mas_equalTo(CGSizeMake(width, WYANavBarHeight));
+        }];
     }
     
     if (self.titleView) {
+        CGFloat left = 0;
+        if (self.backBarButton) {
+            left = CGRectGetMaxX(self.backBarButton.frame);
+        }else if(self.leftBarButtonItems.count>0){
+            left = CGRectGetMaxX(self.leftView.frame);
+        }
+        CGFloat right = 0;
+        if(self.rightBarButtonItems.count>0){
+            left = CGRectGetMaxX(self.rightView.frame);
+        }
+        
         [_titleView mas_makeConstraints:^(MASConstraintMaker *make) {
-           //make.
+            make.left.equalTo(self.navBarView.mas_left).offset(left);
+            make.right.equalTo(self.navBarView.mas_right).offset(-right);
         }];
     }else{
         
@@ -130,12 +164,9 @@
     }
 }
 - (void)setItemsSpace:(CGFloat)itemsSpace{
-    if (itemsSpace==0.0f) {
-        _itemsSpace = LEFT_OR_RIGHT_SPACE;
-    }else{
-        _itemsSpace = itemsSpace;
-    }
+    
 }
+
 - (void)setBackgroundImage:(UIImage *)backgroundImage{
     if (backgroundImage) {
         _backgroundImage = backgroundImage;
@@ -147,5 +178,9 @@
 }
 - (void)setRightBarButtonItems:(NSArray<UIButton *> *)rightBarButtonItems{
     
+}
+#pragma mark ======= getter
+- (CGFloat)itemsSpace{
+    return self.itemsSpace == 0 ? ITEMSPACE_DEFAULT : self.itemsSpace;
 }
 @end
