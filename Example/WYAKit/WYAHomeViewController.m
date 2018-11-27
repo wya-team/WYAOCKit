@@ -7,16 +7,16 @@
 //
 
 #import "WYAHomeViewController.h"
-#import <WYAKit/WYANavBar.h>
+#import "WYAViewController.h"
 @interface WYAHomeViewController ()
-@property (nonatomic, strong) WYANavBar * navBar;
+@property (nonatomic, strong) UIButton * testBtn;
 @end
 
 @implementation WYAHomeViewController
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+  
     NSLog(@"center.view.willAppear");
 }
 
@@ -27,14 +27,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navBar = [[WYANavBar alloc]init];
-    self.navBar.navTitle = @"test";
-    [self.navBar wya_goBackButtonWithTitle:@"返回" normalColor:[UIColor blackColor] highlightedColor:[UIColor blueColor]];
-    [self.view addSubview:self.navBar];
-    // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    self.testBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, WYATopHeight, 100, 100)];
+    self.testBtn.backgroundColor = [UIColor yellowColor];
+    [self.testBtn addTarget:self action:@selector(testBtn:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.testBtn];
 }
 
+- (void)testBtn:(UIButton *)sender{
+    WYAViewController * vc = [WYAViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 /*
 #pragma mark - Navigation
 
