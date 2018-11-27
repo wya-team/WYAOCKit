@@ -23,6 +23,7 @@ static CGFloat padding = 250;
 @property (nonatomic, assign) WYAViewStyle  viewStyle;
 @end
 
+
 @implementation WYADrawerViewController
 {
     NSInteger fristTouchX;
@@ -56,6 +57,9 @@ static CGFloat padding = 250;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+//    [self.navigationController.navigationBar setTranslucent:NO];
+
+//    NSLog(@"self.view.frame==%@",NSStringFromCGRect(self.view.frame));
     
 //    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     self.containerView = [[WYAContainerView alloc]init];
@@ -65,7 +69,6 @@ static CGFloat padding = 250;
     [self.view sendSubviewToBack:self.containerView];
     self.leftViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
     self.rightViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
-    
     
 //    if (self.leftViewController) {
 //        [self addChildVC:self.leftViewController];
@@ -171,7 +174,7 @@ static CGFloat padding = 250;
 }
 
 -(void)panView:(UIPanGestureRecognizer *)pan{
-    if (fristTouchX>30 && fristTouchX<ScreenWidth-30) {
+    if (fristTouchX>ScreenWidth-padding) {
         return;
     }
     
