@@ -118,9 +118,12 @@
             self.middleImageView.image = [UIImage imageNamed:self.images[currentIndex]];
             self.rightImageView.image = [UIImage imageNamed:self.images[rightIndex]];
         }else{
-            [self.leftImageView sd_setImageWithURL:self.images[leftIndex] placeholderImage:nil];
-            [self.middleImageView sd_setImageWithURL:self.images[currentIndex] placeholderImage:nil];
-            [self.rightImageView sd_setImageWithURL:self.images[rightIndex] placeholderImage:nil];
+            NSString * string = self.images[currentIndex];
+            if ([string hasSuffix:@"jpg"] || [string hasSuffix:@"jpeg"] || [string hasSuffix:@"png"]) {
+                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:self.images[leftIndex]] placeholderImage:nil];
+                [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:self.images[currentIndex]] placeholderImage:nil];
+                [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.images[rightIndex]] placeholderImage:nil];
+            }
         }
         
         [self setScrollViewContentOffsetCenter];

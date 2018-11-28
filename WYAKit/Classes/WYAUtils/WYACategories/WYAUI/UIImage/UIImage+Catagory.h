@@ -31,4 +31,28 @@
  */
 + (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color;
 
+/**
+ 根据url获取图片信息
+ like this :{
+     ColorModel = RGB;
+     DPIHeight = 72;
+     DPIWidth = 72;
+     Depth = 8;
+     PixelHeight = 795;
+     PixelWidth = 1200;
+     "{JFIF}" =     {
+     DensityUnit = 1;
+     JFIFVersion =         (
+     1,
+     0,
+     1
+     );
+     XDensity = 72;
+     YDensity = 72;
+ };
+
+ @param urlString url
+ @return 信息
+ */
++ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString;
 @end

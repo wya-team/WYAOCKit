@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+Catagory.h"
+#import <ImageIO/ImageIO.h>
 
 @implementation UIImage (WYAImage)
 
@@ -55,5 +56,13 @@
     UIImage * tempImage=UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return tempImage;
+}
+
++(NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString{
+    NSURL * url = [NSURL URLWithString:urlString];
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
+    NSDictionary* imageHeader = (__bridge NSDictionary*) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    NSLog(@"Image header %@",imageHeader);
+    return imageHeader;
 }
 @end
