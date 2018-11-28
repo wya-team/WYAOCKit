@@ -30,13 +30,12 @@
         make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 40*SizeAdapter));
     }];
     
-    CGFloat hight = [_titleString wya_heightWithFontSize:14 width:(self.contentView.frame.size.width-10)];
     
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.iconImgView.mas_bottom).offset(5*SizeAdapter);
         make.left.equalTo(self.contentView.mas_left).offset(5*SizeAdapter);
         make.right.equalTo(self.contentView.mas_right).offset(-5*SizeAdapter);
-        make.height.mas_equalTo(hight);
+        make.height.mas_equalTo(20*SizeAdapter);
     }];
 }
 
@@ -58,7 +57,8 @@
             object.textColor= [UIColor blackColor];
             object.numberOfLines = 0;
             object.textAlignment = NSTextAlignmentCenter;
-            object.font = FONT(14);
+            object.adjustsFontSizeToFitWidth = YES;
+            object.font = FONT(12);
             object;
        });
     }
