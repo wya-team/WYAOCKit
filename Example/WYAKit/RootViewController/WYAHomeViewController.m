@@ -38,9 +38,6 @@
     [self.view addSubview:self.collectionView];
 
 }
-
-
-
 #pragma mark ======= 懒加载
 - (UICollectionView *)collectionView{
     if(!_collectionView){
@@ -53,8 +50,9 @@
             object.delegate = self;
             object.dataSource = self;
             object.backgroundColor = [UIColor whiteColor];
-            [object registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:STEPPERCELLID];
+            [object registerClass:[WYAStepperCell class] forCellWithReuseIdentifier:STEPPERCELLID];
             [object registerClass:[WYABannerHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW];
+
             object;
        });
     }
@@ -81,10 +79,10 @@
 }
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 ////设置每个item的尺寸
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return CGSizeMake(90, 130);
-//}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(ScreenWidth*0.5-20, 80);
+}
 
 ////footer的size
 //- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -119,14 +117,14 @@
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.dataSource.count;
+    return 1;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:STEPPERCELLID forIndexPath:indexPath];
-    cell.backgroundColor = randomColor;
+    WYAStepperCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:STEPPERCELLID forIndexPath:indexPath];
+//    cell.backgroundColor = randomColor;
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
