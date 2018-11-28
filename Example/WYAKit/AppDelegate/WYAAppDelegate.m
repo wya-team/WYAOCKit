@@ -15,11 +15,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.backgroundColor = [UIColor whiteColor];
     // Override point for customization after application launch.
     WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYAHomeViewController alloc]init] LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
     self.window.rootViewController = nav;
-    
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
