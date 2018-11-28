@@ -7,7 +7,7 @@
 //
 
 #import "WYAUIAlertViewController.h"
-#import <WYAKit/WYAAlertController.h>
+
 @interface WYAUIAlertViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) NSArray * systemAlertTitleArray;
 @property (nonatomic, strong) NSArray * systemSheetTitleArray;

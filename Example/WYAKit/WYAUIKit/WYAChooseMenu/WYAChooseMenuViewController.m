@@ -7,9 +7,7 @@
 //
 
 #import "WYAChooseMenuViewController.h"
-#import <WYAKit/WYAChooseMenu.h>
-#import <WYAKit/WYAChooseMenuModel.h>
-#import <WYAKit/WYAChooseMenuSecondLevelModel.h>
+
 @interface WYAChooseMenuViewController ()<WYAChooseMenuDelegate>
 @property (nonatomic, strong) NSArray * titles;
 @property (nonatomic, strong) NSArray * contents;

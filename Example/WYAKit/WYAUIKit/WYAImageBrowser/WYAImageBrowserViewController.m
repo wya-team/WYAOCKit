@@ -7,7 +7,7 @@
 //
 
 #import "WYAImageBrowserViewController.h"
-#import <WYAKit/WYAImageBrowser.h>
+
 @interface WYAImageBrowserViewController ()
 
 @end

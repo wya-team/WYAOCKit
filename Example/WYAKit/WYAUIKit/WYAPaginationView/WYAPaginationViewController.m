@@ -7,7 +7,7 @@
 //
 
 #import "WYAPaginationViewController.h"
-#import <WYAKit/WYAPaginationView.h>
+
 @interface WYAPaginationViewController ()
 
 @end
@@ -18,8 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    WYAPaginationView * view = [[WYAPaginationView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 50)];
-    [self.view addSubview:view];
+    
 }
 
 /*

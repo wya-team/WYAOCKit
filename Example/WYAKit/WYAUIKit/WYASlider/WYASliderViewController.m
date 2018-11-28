@@ -7,7 +7,7 @@
 //
 
 #import "WYASliderViewController.h"
-#import <WYAKit/WYASlider.h>
+
 @interface WYASliderViewController ()
 
 @end

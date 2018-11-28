@@ -7,7 +7,7 @@
 //
 
 #import "WYAToastViewController.h"
-#import <WYAKit/UIView+WYAToast.h>
+
 @interface WYAToastViewController ()
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "WYAIMGCodeViewController.h"
-#import <WYAKit/WYAIMGCode.h>
+
 @interface WYAIMGCodeViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewOne;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewTwo;

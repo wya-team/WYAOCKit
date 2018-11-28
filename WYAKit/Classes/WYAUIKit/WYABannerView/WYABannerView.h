@@ -18,6 +18,8 @@ typedef NS_ENUM(NSInteger, WYABannerSourceStyle) {
 
 @property (nonatomic, strong) NSMutableArray<NSString *> * images;
 
+@property (nonatomic, assign) UIViewContentMode  imageContentModel;
+
 /// click action
 @property (nonatomic, copy) void (^clickAction) (NSInteger curIndex) ;
 

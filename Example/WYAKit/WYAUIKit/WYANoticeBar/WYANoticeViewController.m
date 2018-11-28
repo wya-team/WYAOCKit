@@ -7,7 +7,7 @@
 //
 
 #import "WYANoticeViewController.h"
-#import <WYAKit/WYANoticeBar.h>
+
 @interface WYANoticeViewController ()
 
 @end

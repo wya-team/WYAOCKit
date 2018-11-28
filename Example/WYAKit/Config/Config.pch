@@ -10,10 +10,25 @@
 #define Config_pch
 #import <UIKit/UIKit.h>
 /*********** WYAKit **************/
+#import <WYAKit/WYATextView.h>
 #import <WYAKit/WYANavBar.h>
 #import <WYAKit/Category.h>
 #import <WYAKit/WYAPageController.h>
 #import <WYAKit/WYABannerView.h>
+#import <WYAKit/WYANoticeBar.h>
+#import <WYAKit/WYAImageBrowser.h>
+#import <WYAKit/WYASlider.h>
+
+#import <WYAKit/WYAChooseMenu.h>
+#import <WYAKit/WYAChooseMenuModel.h>
+#import <WYAKit/WYAChooseMenuSecondLevelModel.h>
+
+#import <WYAKit/UIView+WYAToast.h>
+
+#import <WYAKit/WYAAlertController.h>
+#import <WYAKit/WYAPickerView.h>
+#import <WYAKit/WYADatePicker.h>
+#import <WYAKit/WYAIMGCode.h>
 /******************************常用宏*******************/
 #define WYA_RGB_COLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 #define random(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]

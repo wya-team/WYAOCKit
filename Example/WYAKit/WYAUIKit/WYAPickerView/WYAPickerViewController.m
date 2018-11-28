@@ -7,9 +7,7 @@
 //
 
 #import "WYAPickerViewController.h"
-#import <WYAKit/WYAPickerView.h>
-#import <WYAKit/WYAAlertController.h>
-#import <WYAKit/WYADatePicker.h>
+
 
 @interface WYAPickerViewController ()<WYAPickerViewDelegate>
 

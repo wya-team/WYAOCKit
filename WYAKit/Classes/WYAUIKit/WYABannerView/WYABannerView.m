@@ -124,6 +124,7 @@
                 [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:self.images[currentIndex]] placeholderImage:nil];
                 [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.images[rightIndex]] placeholderImage:nil];
             }
+#warning 暂未处理svg和gif图片
         }
         
         [self setScrollViewContentOffsetCenter];
@@ -149,6 +150,12 @@
             self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.bounds), 0);
         }
     }
+}
+
+-(void)setContentMode:(UIViewContentMode)contentMode{
+    self.leftImageView.contentMode = contentMode;
+    self.middleImageView.contentMode = contentMode;
+    self.rightImageView.contentMode = contentMode;
 }
 
 #pragma mark --- Getter
@@ -182,7 +189,7 @@
 - (UIImageView *)leftImageView {
     if (!_leftImageView) {
         _leftImageView = [UIImageView new];
-        _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
     return _leftImageView;
@@ -191,7 +198,7 @@
 - (UIImageView *)middleImageView {
     if (!_middleImageView) {
         _middleImageView = [UIImageView new];
-        _middleImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        _middleImageView.contentMode = UIViewContentModeScaleAspectFit;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClicked:)];
         [_middleImageView addGestureRecognizer:tap];
         _middleImageView.userInteractionEnabled = YES;
@@ -203,7 +210,7 @@
 - (UIImageView *)rightImageView {
     if (!_rightImageView) {
         _rightImageView = [UIImageView new];
-        _rightImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        _rightImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
     return _rightImageView;
