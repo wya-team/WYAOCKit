@@ -63,12 +63,12 @@
     if(!_dataSource){
         _dataSource = ({
             NSArray * object = @[@"文本输入",
-                                 @"二维码",
-                                 @"弹框",
-                                 @"imagePicker",
+                                 @"二维码/条形码",
+                                 @"弹框/上拉框",
+                                 @"相册/相机/录制视频",
                                  @"指示框",
-                                 @"菜单选择",
-                                 @"滑动条",
+                                 @"分级菜单选择",
+                                 @"滑动条（开/闭区间）",
                                  @"分页控制器",
                                  @"滑动选择器",
                                  @"自定义cell",
@@ -80,12 +80,10 @@
 }
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 ////设置每个item的尺寸
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSString * str = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
-    CGFloat height = [str wya_heightWithFontSize:14 width:90] + 65*SizeAdapter;
-    return CGSizeMake(100, height);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return CGSizeMake(ScreenWidth*0.5-20, 80);
+//}
 
 ////footer的size
 //- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
