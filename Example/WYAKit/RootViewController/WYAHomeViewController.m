@@ -14,7 +14,6 @@
 #define HEADERVIEW @"HEADERVIEW"
 @interface WYAHomeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic, strong) UICollectionView * collectionView;
-@property (nonatomic, strong) UIImageView * collectionHeaderView;
 @property (nonatomic, strong) NSArray * dataSource;
 @end
 
@@ -50,7 +49,7 @@
             object.delegate = self;
             object.dataSource = self;
             object.backgroundColor = [UIColor whiteColor];
-            [object registerClass:[WYAStepperCell class] forCellWithReuseIdentifier:STEPPERCELLID];
+            [object registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:STEPPERCELLID];
             [object registerClass:[WYABannerHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW];
 
             object;
@@ -58,20 +57,21 @@
     }
     return _collectionView;
 }
-- (UIImageView *)collectionHeaderView{
-    if(!_collectionHeaderView){
-        _collectionHeaderView = ({
-            UIImageView * object = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
-            object.backgroundColor = [UIColor brownColor];
-            object;
-        });
-    }
-    return _collectionHeaderView;
-}
+
 - (NSArray *)dataSource{
     if(!_dataSource){
         _dataSource = ({
-            NSArray * object = @[@"stepper",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"stepper",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"stepper",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10"];
+            NSArray * object = @[@"文本输入",
+                                 @"二维码/条形码",
+                                 @"弹框/上拉框",
+                                 @"相册",
+                                 @"指示框",
+                                 @"分级菜单选择",
+                                 @"滑动条（开/闭区间）",
+                                 @"分页控制器",
+                                 @"滑动选择器",
+                                 @"自定义cell",
+                                 @"图片预览器"];
             object;
         });
     }
@@ -79,10 +79,10 @@
 }
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 ////设置每个item的尺寸
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(ScreenWidth*0.5-20, 80);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return CGSizeMake(ScreenWidth*0.5-20, 80);
+//}
 
 ////footer的size
 //- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -99,7 +99,7 @@
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10, 20, 10, 20);
+    return UIEdgeInsetsMake(20, 20, 20, 20);
 }
 
 //设置每个item水平间距
@@ -112,24 +112,30 @@
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10;
+    return 20;
 }
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 1;
+    return self.dataSource.count;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYAStepperCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:STEPPERCELLID forIndexPath:indexPath];
-//    cell.backgroundColor = randomColor;
+    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:STEPPERCELLID forIndexPath:indexPath];
+    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    label.textColor= [UIColor whiteColor];
+    label.text = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
+    label.numberOfLines = 0;
+    label.textAlignment = NSTextAlignmentCenter;
+    [cell.contentView addSubview:label];
+    cell.backgroundColor = randomColor;
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     WYABannerHeaderView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW forIndexPath:indexPath];
-//    headerView.backgroundColor = randomColor;
+    headerView.backgroundColor = randomColor;
     return headerView;
 }
 #pragma mark ======= UICollectionViewDelegate
