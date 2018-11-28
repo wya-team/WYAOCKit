@@ -19,7 +19,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.navTitle = NSStringFromClass([self class]);
+    self.view.backgroundColor = [UIColor whiteColor];
     
+    WYABannerView * view = [[WYABannerView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight)];
+    view.images = @[@"0",@"1",@"2"];
+    [self.view addSubview:view];
 }
 
 /*

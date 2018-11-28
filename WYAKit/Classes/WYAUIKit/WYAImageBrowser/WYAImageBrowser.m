@@ -37,7 +37,7 @@
         self.backgroundColor = [UIColor blackColor];
         [self addSubview:self.collectionView];
         [self addSubview:self.pageControl];
-        //        self.timer = [NSTimer scheduledTimerWithTimeInterval:ScrollInterval target:self selector:@selector(showNext) userInfo:nil repeats:true];
+        
     }
     return self;
 }
