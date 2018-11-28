@@ -33,8 +33,8 @@
     NSInteger smallCount = (v1Array.count > v2Array.count) ? v2Array.count : v1Array.count;
 
     for (int i = 0; i < smallCount; i++) {
-        NSInteger value1 = [[v1Array objectAtIndex:i] integerValue];
-        NSInteger value2 = [[v2Array objectAtIndex:i] integerValue];
+        NSInteger value1 = [[v1Array wya_safeObjectAtIndex:i] integerValue];
+        NSInteger value2 = [[v2Array wya_safeObjectAtIndex:i] integerValue];
         if (value1 > value2) {
             // v1版本字段大于v2版本字段，返回1
             return 1;

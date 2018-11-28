@@ -24,7 +24,7 @@
     for (NSUInteger i = 0; i < valueCount; i++) {
         while (n >= values[i]) {
             n -= values[i];
-            [numeralString appendString:[numerals objectAtIndex:i]];
+            [numeralString appendString:[numerals wya_safeObjectAtIndex:i]];
         }
     }
     return numeralString;

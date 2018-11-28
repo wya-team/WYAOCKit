@@ -29,7 +29,7 @@
     CGFloat ascent;
     CGFloat descent;
     CGFloat leading;
-    CTLineRef line = (__bridge CTLineRef)[linesArray objectAtIndex:[linesArray count] - 1];
+    CTLineRef line = (__bridge CTLineRef)[linesArray wya_safeObjectAtIndex:[linesArray count] - 1];
     CTLineGetTypographicBounds (line, &ascent, &descent, &leading);
 
     total_height = 100000 - line_y + (int)descent + 1;

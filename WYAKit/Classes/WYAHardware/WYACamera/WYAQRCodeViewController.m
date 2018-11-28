@@ -200,7 +200,7 @@ static CGFloat QRCodeWidth = 220;
         [self.session stopRunning];
         [self.timer setFireDate:[NSDate distantFuture]];
         
-        AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex:0];
+        AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects wya_safeObjectAtIndex:0];
         stringValue = metadataObject.stringValue;
         NSLog(@"扫描结果：%@",stringValue);
         
@@ -264,7 +264,7 @@ static CGFloat QRCodeWidth = 220;
         
     } else {
         for (int index = 0; index < [features count]; index ++) {
-            CIQRCodeFeature *feature = [features objectAtIndex:index];
+            CIQRCodeFeature *feature = [features wya_safeObjectAtIndex:index];
             NSString *resultStr = feature.messageString;
             if (self.ScanReault) {
                 self.ScanReault(resultStr);

@@ -120,6 +120,7 @@
 		21A8737021A542FE007F2921 /* WYAToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAToastViewController.xib; sourceTree = "<group>"; };
 		21DA3BC621AE6FE10084FCEC /* WYABannerHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerHeaderView.h; sourceTree = "<group>"; };
 		21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerHeaderView.m; sourceTree = "<group>"; };
+		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -263,7 +264,7 @@
 				21470CA6219E93B10099CB6F /* PopViewController */,
 				21470BF2219ABE880099CB6F /* WYAProgressView */,
 				21470BF3219ABE880099CB6F /* WYAToastView */,
-				21470BF4219ABE880099CB6F /* WYAUITextView */,
+				21470BF4219ABE880099CB6F /* WYATextView */,
 				21470BF5219ABE880099CB6F /* WYAShareView */,
 				21470BF6219ABE880099CB6F /* WYAPickerView */,
 				21470BF7219ABE880099CB6F /* WYAPageViewController */,
@@ -293,13 +294,13 @@
 			path = WYAToastView;
 			sourceTree = "<group>";
 		};
-		21470BF4219ABE880099CB6F /* WYAUITextView */ = {
+		21470BF4219ABE880099CB6F /* WYATextView */ = {
 			isa = PBXGroup;
 			children = (
 				21470BFB219ABE9E0099CB6F /* WYATextViewController.h */,
 				21470BFC219ABE9F0099CB6F /* WYATextViewController.m */,
 			);
-			path = WYAUITextView;
+			path = WYATextView;
 			sourceTree = "<group>";
 		};
 		21470BF5219ABE880099CB6F /* WYAShareView */ = {
@@ -552,6 +553,7 @@
 			isa = PBXGroup;
 			children = (
 				9527A91B21AD293200B10579 /* Config.pch */,
+				21DA3BC921AE8E210084FCEC /* HomeHeader.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
