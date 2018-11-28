@@ -47,9 +47,10 @@ TODO: Add long description of the pod here.
   s.dependency 'Masonry', '~> 1.1.0'
   s.dependency 'FMDB', '~>2.7.2'
   s.dependency 'JQFMDB', '~>1.1.6'
-  s.dependency 'YYText'
   s.dependency 'YYImage', '~> 1.0.4'
   s.dependency 'SVGKit'
   s.dependency 'MJRefresh'
-
+  s.dependency 'SDWebImage'
+  #暂时未使用到的
+  s.dependency 'YYText'
 end

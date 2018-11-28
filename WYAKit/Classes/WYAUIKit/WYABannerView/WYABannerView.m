@@ -7,142 +7,161 @@
 
 #import "WYABannerView.h"
 
-@interface WYABannerView ()<UIScrollViewDelegate>
-@property (nonatomic, strong) UIScrollView * scorllView;
-@property (nonatomic, strong) UIView * scrollContainerView;
+@interface WYABannerView ()<UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@property (nonatomic, strong) UIScrollView * scrollView;
 @property (nonatomic, strong) UIPageControl * pageControl;
+@property (nonatomic, strong) UIImageView * leftImageView;
+@property (nonatomic, strong) UIImageView * middleImageView;
+@property (nonatomic, strong) UIImageView * rightImageView;
 @property (nonatomic, strong) NSTimer * timer;
-@property (nonatomic, strong) NSMutableArray<UIView *> * views;
+@property (nonatomic, assign) NSInteger  currentIndex;
+@property (nonatomic, assign) WYABannerSourceStyle  style;
 @end
 
 @implementation WYABannerView
-{
-    NSInteger currentPage;
-}
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame BannerSourceStyle:(WYABannerSourceStyle)sourceStyle
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.style = sourceStyle;
         [self createUI];
     }
     return self;
-}
-
--(void)layoutSubviews{
-    [super layoutSubviews];
-    [self.scorllView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self);
-    }];
-    
-    [self.scrollContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self.scorllView);
-        make.height.mas_equalTo(self.scorllView.mas_height);
-        if (self.views.count>0) {
-            UIView * view = [self.views lastObject];
-            make.right.mas_equalTo(view.mas_right);
-        }
-    }];
-    
-    [self.pageControl mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.bottom.mas_equalTo(self.mas_bottom).with.offset(-30);
-        make.size.mas_equalTo(CGSizeMake(100, 30));
-    }];
 }
 
 #pragma mark --- Private Method
 -(void)createUI{
-    [self addSubview:self.scorllView];
-    [self.scorllView addSubview:self.scrollContainerView];
+    
+    [self.scrollView addSubview:self.leftImageView];
+    [self.scrollView addSubview:self.middleImageView];
+    [self.scrollView addSubview:self.rightImageView];
+    [self addSubview:self.scrollView];
     [self addSubview:self.pageControl];
     
-    currentPage = 0;
+    self.scrollView.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
+    self.pageControl.frame = CGRectMake(0, CGRectGetMaxY(self.bounds) - 30.f, CGRectGetWidth(self.bounds), 20.f);
+    CGFloat imageWidth = CGRectGetWidth(self.scrollView.bounds);
+    CGFloat imageHeight = CGRectGetHeight(self.scrollView.bounds);
+    self.leftImageView.frame    = CGRectMake(imageWidth * 0, 0, imageWidth, imageHeight);
+    self.middleImageView.frame  = CGRectMake(imageWidth * 1, 0, imageWidth, imageHeight);
+    self.rightImageView.frame   = CGRectMake(imageWidth * 2, 0, imageWidth, imageHeight);
+    self.scrollView.contentSize = CGSizeMake(imageWidth * 3, 0);
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(imageRolling) userInfo:nil repeats:true];
+    [self setScrollViewContentOffsetCenter];
+    [self addObservers];
+
+    
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollTimerDidFired:) userInfo:nil repeats:true];
 }
 
--(void)valueChanged:(UIPageControl *)control{
-    NSLog(@"%ld",control.currentPage);
-    [self.scorllView setContentOffset:CGPointMake(control.currentPage*self.cmam_width, 0) animated:YES];
+- (void)setScrollViewContentOffsetCenter {
+    self.scrollView.contentOffset = CGPointMake(CGRectGetWidth(self.scrollView.bounds), 0);
 }
 
--(void)imageRolling{
-    currentPage ++;
-    if (currentPage == self.images.count) {
-        [self.scorllView setContentOffset:CGPointMake(0, 0) animated:NO];
-        currentPage = 0;
-    }else{
-        [self.scorllView setContentOffset:CGPointMake(currentPage * self.cmam_width, 0) animated:YES];
+- (void)addObservers {
+    [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)removeObservers {
+    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"contentOffset"]) {
+        [self caculateCurIndex];
     }
-    self.pageControl.currentPage = currentPage;
-    NSLog(@"开始");
 }
 
+- (void)caculateCurIndex {
+    if (self.images && self.images.count > 0) {
+        CGFloat pointX = self.scrollView.contentOffset.x;
+        CGFloat criticalValue = .2f;
+        if (pointX > 2 * CGRectGetWidth(self.scrollView.bounds) - criticalValue) {
+            self.currentIndex = (self.currentIndex + 1) % self.images.count;
+        } else if (pointX < criticalValue) {
+            
+            self.currentIndex = (self.currentIndex + self.images.count - 1) % self.images.count;
+        }
+    }
+}
+
+- (void)imageClicked:(UITapGestureRecognizer *)tap {
+    if (self.clickAction) {
+        self.clickAction (self.currentIndex);
+    }
+}
+
+- (void)scrollTimerDidFired:(NSTimer *)timer {
+    CGFloat criticalValue = .2f;
+    if (self.scrollView.contentOffset.x < CGRectGetWidth(self.scrollView.bounds) - criticalValue || self.scrollView.contentOffset.x > CGRectGetWidth(self.scrollView.bounds) + criticalValue) {
+        [self setScrollViewContentOffsetCenter];
+    }
+    CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
+    [self.scrollView setContentOffset:newOffset animated:YES];
+}
 #pragma mark --- Public Method
 
 #pragma mark --- Setter
-//-(void)setUrls:(NSMutableArray *)urls{
-//
-//}
 
+- (void)setCurrentIndex:(NSInteger)currentIndex{
+    if (_currentIndex >= 0) {
+        _currentIndex = currentIndex;
+        
+        NSInteger imageCount = self.images.count;
+        NSInteger leftIndex = (currentIndex + imageCount - 1) % imageCount;
+        NSInteger rightIndex= (currentIndex + 1) % imageCount;
+        
+        
+        if (self.style == WYABannerSourceStyleLocal) {
+            self.leftImageView.image = [UIImage imageNamed:self.images[leftIndex]];
+            self.middleImageView.image = [UIImage imageNamed:self.images[currentIndex]];
+            self.rightImageView.image = [UIImage imageNamed:self.images[rightIndex]];
+        }else{
+            [self.leftImageView sd_setImageWithURL:self.images[leftIndex] placeholderImage:nil];
+            [self.middleImageView sd_setImageWithURL:self.images[currentIndex] placeholderImage:nil];
+            [self.rightImageView sd_setImageWithURL:self.images[rightIndex] placeholderImage:nil];
+        }
+        
+        [self setScrollViewContentOffsetCenter];
+        
+        self.pageControl.currentPage = currentIndex;
+    }
+}
 
-
--(void)setImages:(NSMutableArray *)images{
+-(void)setImages:(NSMutableArray <NSString *>*)images{
     _images = images;
     if (images) {
-        self.pageControl.numberOfPages = images.count;
-        self.pageControl.currentPage = 0;
-        for (NSInteger index = 0; index<images.count; index++) {
-            UIImageView * imageV = [[UIImageView alloc]init];
-            imageV.image = [UIImage imageNamed:images[index]];
-            imageV.contentMode = UIViewContentModeScaleAspectFit;
-            [self.scrollContainerView addSubview:imageV];
-            [self.views addObject:imageV];
-            [imageV mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.bottom.mas_equalTo(self.scrollContainerView);
-                make.width.mas_equalTo(self.cmam_width);
-                make.left.mas_equalTo(self.scrollContainerView.mas_left).with.offset(self.cmam_width*index);
-            }];
-        }
-        [self layoutIfNeeded];
+        self.currentIndex = 0;
         
+        if (images.count > 1) {
+            [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+            self.pageControl.numberOfPages = images.count;
+            self.pageControl.currentPage = 0;
+            self.pageControl.hidden = NO;
+        } else {
+            self.pageControl.hidden = YES;
+            [self.leftImageView removeFromSuperview];
+            [self.rightImageView removeFromSuperview];
+            self.scrollView.contentSize = CGSizeMake(CGRectGetWidth(self.scrollView.bounds), 0);
+        }
     }
 }
 
 #pragma mark --- Getter
-- (UIScrollView *)scorllView{
-    if(!_scorllView){
-        _scorllView = ({
+- (UIScrollView *)scrollView{
+    if(!_scrollView){
+        _scrollView = ({
             UIScrollView * object = [[UIScrollView alloc]init];
             object.delegate = self;
             object.pagingEnabled = YES;//分页
             object.showsHorizontalScrollIndicator = NO;//隐藏水平滚动条
             object.bounces = NO;
+            object.userInteractionEnabled = NO;
             object;
         });
     }
-    return _scorllView;
-}
-
-- (UIView *)scrollContainerView{
-    if(!_scrollContainerView){
-        _scrollContainerView = ({
-            UIView * object = [[UIView alloc]init];
-            object.backgroundColor = [UIColor whiteColor];
-            
-            object;
-        });
-    }
-    return _scrollContainerView;
+    return _scrollView;
 }
 
 -(UIPageControl *)pageControl{
@@ -152,33 +171,52 @@
         _pageControl.pageIndicatorTintColor = [UIColor whiteColor];
         _pageControl.hidesForSinglePage = YES;
         _pageControl.defersCurrentPageDisplay = YES;
-        [_pageControl addTarget:self action:@selector(valueChanged:) forControlEvents:(UIControlEventValueChanged)];
+//        [_pageControl addTarget:self action:@selector(valueChanged:) forControlEvents:(UIControlEventValueChanged)];
     }
     return _pageControl;
 }
-- (NSMutableArray<UIView *> *)views{
-    if(!_views){
-        _views = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
-            object;
-        });
+
+- (UIImageView *)leftImageView {
+    if (!_leftImageView) {
+        _leftImageView = [UIImageView new];
+        _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    return _views;
+    
+    return _leftImageView;
+}
+
+- (UIImageView *)middleImageView {
+    if (!_middleImageView) {
+        _middleImageView = [UIImageView new];
+        _middleImageView.contentMode = UIViewContentModeScaleAspectFit;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClicked:)];
+        [_middleImageView addGestureRecognizer:tap];
+        _middleImageView.userInteractionEnabled = YES;
+    }
+    
+    return _middleImageView;
+}
+
+- (UIImageView *)rightImageView {
+    if (!_rightImageView) {
+        _rightImageView = [UIImageView new];
+        _rightImageView.contentMode = UIViewContentModeScaleAspectFit;
+    }
+    
+    return _rightImageView;
 }
 
 #pragma mark - UIScrollViewDelegate
-//停止滑动图片(scrollView)时调用
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    currentPage = floor((scrollView.contentOffset.x-self.cmam_width/2)/self.cmam_width)+1;
-    self.pageControl.currentPage = currentPage;
-    NSLog(@"当前处于第%ld页",currentPage);
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.images.count > 1) {
+        [self.timer setFireDate:[NSDate distantFuture]];
+    }
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    [_timer invalidate];
-    _timer = nil;
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.images.count > 1) {
+        [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.
