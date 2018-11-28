@@ -45,4 +45,5 @@
 #import <JQFMDB/JQFMDB.h>
 #import <YYText/YYText.h>
 #import <FMDB/FMDB.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 #endif /* Category_h */

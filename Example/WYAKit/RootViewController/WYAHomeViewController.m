@@ -8,6 +8,8 @@
 
 #import "WYAHomeViewController.h"
 #import "WYAStepperCell.h"
+#import "WYABannerHeaderView.h"
+
 #define STEPPERCELLID @"WYAStepperCell"
 #define HEADERVIEW @"HEADERVIEW"
 @interface WYAHomeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -32,11 +34,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+
     [self.view addSubview:self.collectionView];
+
 }
-
-
-
 #pragma mark ======= 懒加载
 - (UICollectionView *)collectionView{
     if(!_collectionView){
@@ -50,7 +51,8 @@
             object.dataSource = self;
             object.backgroundColor = [UIColor whiteColor];
             [object registerClass:[WYAStepperCell class] forCellWithReuseIdentifier:STEPPERCELLID];
-            [object registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW];
+            [object registerClass:[WYABannerHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW];
+
             object;
        });
     }
@@ -126,8 +128,8 @@
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    UICollectionReusableView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW forIndexPath:indexPath];
-    headerView.backgroundColor = randomColor;
+    WYABannerHeaderView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW forIndexPath:indexPath];
+//    headerView.backgroundColor = randomColor;
     return headerView;
 }
 #pragma mark ======= UICollectionViewDelegate

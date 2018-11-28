@@ -23,6 +23,7 @@
         [self.contentView addSubview:self.titleLabel];
         [self.contentView addSubview:self.stepperTextFiled];
         [self.contentView addSubview:self.isAble];
+
     }
     return self;
 }
@@ -82,7 +83,7 @@
             object.text = @"0";
             object.textColor = [UIColor blackColor];
             object.textAlignment = NSTextAlignmentCenter;
-//            object.resignFirstResponder = YES;
+            [object resignFirstResponder];
             object;
        });
     }
