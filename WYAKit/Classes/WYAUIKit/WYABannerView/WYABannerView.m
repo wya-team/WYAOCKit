@@ -84,7 +84,7 @@
         [self.scorllView setContentOffset:CGPointMake(currentPage * self.cmam_width, 0) animated:YES];
     }
     self.pageControl.currentPage = currentPage;
-    
+    NSLog(@"开始");
 }
 
 #pragma mark --- Public Method
@@ -114,6 +114,7 @@
             }];
         }
         [self layoutIfNeeded];
+        
     }
 }
 
