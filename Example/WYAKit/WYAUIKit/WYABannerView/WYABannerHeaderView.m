@@ -25,6 +25,8 @@
         bar.showRightButton = NO;
         bar.showNoticeButton = NO;
         bar.showText = @"以下是自定义控件，点击进入详情介绍                                 ";
+        bar.showTextColor = [UIColor redColor];
+        bar.showTextFont = 15;
         [self addSubview:bar];
         [bar wya_start];
     }
