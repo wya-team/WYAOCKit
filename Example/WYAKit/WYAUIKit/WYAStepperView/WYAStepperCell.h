@@ -1,5 +1,5 @@
 //
-//  WYAStepperView.h
+//  WYAStepperCell.h
 //  WYAKit_Example
 //
 //  Created by 李俊恒 on 2018/11/28.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAStepperView : UIView
+@interface WYAStepperCell : UICollectionViewCell
 
 @end
 
