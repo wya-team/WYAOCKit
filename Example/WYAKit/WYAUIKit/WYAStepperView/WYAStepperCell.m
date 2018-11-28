@@ -8,7 +8,7 @@
 
 #import "WYAStepperCell.h"
 #define leftSpace 10
-@interface WYAStepperCell()
+@interface WYAStepperCell()<UITextFieldDelegate>
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UITextField  * stepperTextFiled;
 @property (nonatomic, strong) UIButton * addButton;
@@ -83,7 +83,7 @@
             object.text = @"0";
             object.textColor = [UIColor blackColor];
             object.textAlignment = NSTextAlignmentCenter;
-            [object resignFirstResponder];
+            object.delegate = self;
             object;
        });
     }

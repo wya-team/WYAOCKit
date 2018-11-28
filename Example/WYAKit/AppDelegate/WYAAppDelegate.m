@@ -17,8 +17,9 @@
 {
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
+    UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
     // Override point for customization after application launch.
-    WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:[[WYAHomeViewController alloc]init] LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
+    WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:homevc LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
