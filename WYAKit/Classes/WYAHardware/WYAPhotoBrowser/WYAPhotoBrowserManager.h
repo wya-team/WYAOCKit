@@ -68,7 +68,7 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
  @param assetSort 子集合排序方式
  @return 图片数组
  */
-- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
 /**
  获取相册分组
@@ -78,7 +78,7 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
  @param collectionSort 集合排序方式
  @return 集合数组
  */
-- (NSMutableArray<PHAssetCollection *> *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
++ (NSMutableArray<PHAssetCollection *> *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType AssetCollectionSubType:(AssetCollectionSubType)subType CollectionSort:(AssetCollectionSort)collectionSort;
 
 /**
  获取对应的图片资源
@@ -89,6 +89,6 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
  @param assetSort 子集合排序方式
  @return 图片数组
  */
-- (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
 @end

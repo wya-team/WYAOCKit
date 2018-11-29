@@ -46,17 +46,15 @@
 
 
 #import "controlView.h"
-#import "WYAPhotoTypeView.h"
 #import "WYAPhotoBrowserManager.h"
 
-@interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, ImageTypeDelegate>
+@interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) NSMutableDictionary * cells;
 @property (nonatomic, strong) controlView * controlV;
 @property (nonatomic, strong) NSMutableArray * images;
-@property (nonatomic, strong) WYAPhotoTypeView * typeView;
 @property (nonatomic, strong) NSMutableArray * datas;
 @property (nonatomic, strong) UIButton * button;
 @property (nonatomic, strong) WYAPhotoBrowserManager * imagePickerManager;
@@ -76,18 +74,17 @@
     [self.view addSubview:self.collectionView];
     self.collectionView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-WYATopHeight-49);
 
-    [self.view addSubview:self.typeView];
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.dataSource = [self.imagePickerManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+        self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
         });
     });
     
     
-    [self.typeView reload];
+    
     [self performBlock];
     
 }
@@ -130,15 +127,6 @@
         _controlV = [[controlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYATopHeight-49, ScreenWidth, 49)];
     }
     return _controlV;
-}
-
--(WYAPhotoTypeView *)typeView{
-    if (!_typeView) {
-        _typeView = [[WYAPhotoTypeView alloc]initWithFrame:self.view.frame];
-        _typeView.hidden = YES;
-        _typeView.delegate = self;
-    }
-    return _typeView;
 }
 
 -(UICollectionView *)collectionView{
@@ -232,7 +220,7 @@
 }
 
 - (void)switchImageType{
-    self.typeView.hidden = NO;
+    
     
     NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
     for (PHAssetCollection * col  in self.datas) {
@@ -242,32 +230,14 @@
 //    self.typeView.dataSource = array;
 }
 
-- (NSMutableArray *)imageTypeDatas{
-    NSMutableArray * systemArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionEndDate]; //相机胶卷
-    NSMutableArray * videoArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeVideo CollectionSort:AssetCollectionEndDate]; //视频
-    NSMutableArray * screenshortArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeScreenshots CollectionSort:AssetCollectionEndDate]; //截图
-    NSMutableArray * addArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeRecentlyAdded CollectionSort:AssetCollectionEndDate]; //最近添加
-    NSMutableArray * livePhotoArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeLivePhotos CollectionSort:AssetCollectionEndDate]; //实况照片
-    NSMutableArray * userArray = [self.imagePickerManager screenAssetCollectionWithFilter:AssetCollectionTypeAlbum AssetCollectionSubType:AssetCollectionSubTypeAlbumRegular CollectionSort:AssetCollectionEndDate];
-    
-    
-    NSMutableArray * allArray = [NSMutableArray arrayWithCapacity:0];
-    [allArray addObjectsFromArray:systemArray];
-    [allArray addObjectsFromArray:videoArray];
-    [allArray addObjectsFromArray:screenshortArray];
-    [allArray addObjectsFromArray:addArray];
-    [allArray addObjectsFromArray:livePhotoArray];
-    [allArray addObjectsFromArray:userArray];
-    
-    return allArray;
-}
+
 
 - (void)imageTypeView:(UIView *)imageTypeView didSelectData:(id)data{
     PHAssetCollection * collection = (PHAssetCollection *)data;
     [self.button setTitle:collection.localizedTitle forState:UIControlStateNormal];
     
     PHAssetCollection * coll = (PHAssetCollection *)data;
-    NSMutableArray * array = [self.imagePickerManager screenAssetFromAssetCollectionWithFilter:coll.assetCollectionType AssetCollectionSubType:coll.assetCollectionSubtype CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+    NSMutableArray * array = [WYAPhotoBrowserManager screenAssetFromAssetCollectionWithFilter:coll.assetCollectionType AssetCollectionSubType:coll.assetCollectionSubtype CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
     self.dataSource = array;
     [self.collectionView reloadData];
 }

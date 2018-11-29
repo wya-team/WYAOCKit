@@ -113,7 +113,7 @@
     }else if (indexPath.row == 2){
         [self.navigationController pushViewController:[[WYAUIAlertViewController alloc]init] animated:YES];
     }else if (indexPath.row == 3){
-        
+        [self.navigationController pushViewController:[[WYACameraVC alloc]init] animated:YES];
     }else if (indexPath.row == 4){
         [self.navigationController pushViewController:[[WYAPopViewController alloc]init] animated:YES];
     }else if (indexPath.row == 5){

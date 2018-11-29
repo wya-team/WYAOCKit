@@ -23,4 +23,5 @@
 #import "WYAImageBrowserViewController.h"
 #import "WYAPopViewController.h"
 #import "WYAStepperController.h"
+#import "WYACameraVC.h"
 #endif /* HomeHeader_h */
