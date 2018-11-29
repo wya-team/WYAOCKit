@@ -62,7 +62,7 @@
     
     [self.textContainerView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.mas_equalTo(self.contentView);
-        make.top.mas_equalTo(self.titleContainerView.mas_bottom);
+        make.top.mas_equalTo(self.titleContainerView.mas_bottom).with.offset(0);
     }];
     
     [self.textContainerView.subviews wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:nil
@@ -72,8 +72,8 @@
                                                                                    warpCount:1
                                                                                   topSpacing:0
                                                                                bottomSpacing:0
-                                                                                 leadSpacing:0
-                                                                                 tailSpacing:0];
+                                                                                 leadSpacing:16*SizeAdapter
+                                                                                 tailSpacing:16*SizeAdapter];
 }
 
 - (void)awakeFromNib {
@@ -93,11 +93,13 @@
             [view removeFromSuperview];
         }
     }
+    [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
 -(void)setViewHeights:(NSMutableArray *)viewHeights{
     _viewHeights = viewHeights;
+    [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
@@ -116,7 +118,7 @@
     if(!_textContainerView){
         _textContainerView = ({
             UIView * object = [[UIView alloc]init];
-            object.backgroundColor = [UIColor yellowColor];
+            object.backgroundColor = [UIColor whiteColor];
             object;
         });
     }
@@ -158,13 +160,19 @@
     return _line;
 }
 
+#pragma mark --- Private Method
+
 #pragma mark --- Public Method
-+(CGFloat)wya_cellHeight{
-//    WYAAccordionCell * cell = [[WYAAccordionCell alloc]init];
-//    [cell layoutIfNeeded];
-//
-//    return cell.textContainerView.cmam_bottom;
-    return 64;
++(CGFloat)wya_cellHeight:(NSMutableArray *)viewHeightArray{
+    WYAAccordionCell * cell = [[WYAAccordionCell alloc]init];
+    [cell setNeedsLayout];
+    [cell layoutIfNeeded];
+    CGFloat hei = 0;
+    for (NSNumber * number in viewHeightArray) {
+        CGFloat num = [number floatValue];
+        hei = hei+num;
+    }
+    return cell.titleContainerView.cmam_height+hei;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

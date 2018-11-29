@@ -8,9 +8,7 @@
 #import "WYACardCell.h"
 
 @interface WYACardCell ()
-@property (nonatomic, strong) UIImageView * iconImageView;
-@property (nonatomic, strong) UILabel * titleLabel;
-@property (nonatomic, strong) UILabel * subTitleLabel;
+
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) UILabel * detailLabel;
 @property (nonatomic, strong) UILabel * subDetailLabel;
@@ -48,7 +46,6 @@
         [self.contentView addSubview:self.line];
         
         self.detailLabel = [[UILabel alloc]init];
-        self.detailLabel.text = @"最新内容是的计算机佛is好久哦if哈搜if后爱上佛寺好的佛sad猴赛等节后调试，最新内容是的计算机佛is好久哦if哈搜if后爱上佛寺好的佛sad猴赛等节后调试，最新内容是的计算机佛is好久哦if哈搜if后爱上佛寺好的佛sad猴赛等节后调试";
         self.detailLabel.numberOfLines = 0;
 //        self.detailLabel.textColor = random(<#r#>, <#g#>, <#b#>, <#a#>);
         self.detailLabel.font = FONT(14);
@@ -56,7 +53,6 @@
         [self.contentView addSubview:self.detailLabel];
         
         self.subDetailLabel = [[UILabel alloc]init];
-        self.subDetailLabel.text = @"测试内容";
         self.subDetailLabel.textColor = random(153, 153, 153, 1);
         self.subDetailLabel.font = FONT(13);
 //        self.subDetailLabel.textAlignment = <#TextAlignMent#>;
@@ -105,14 +101,28 @@
     [self.subDetailLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.detailLabel);
         make.top.mas_equalTo(self.detailLabel.mas_bottom).with.offset(10*SizeAdapter);
-        make.height.mas_greaterThanOrEqualTo(0*SizeAdapter);
+        make.height.mas_equalTo(20*SizeAdapter);
     }];
 }
 
-+(CGFloat)wya_cellHeight{
+#pragma mark --- Setter
+-(void)setContentString:(NSString *)contentString{
+    _contentString = contentString;
+    self.detailLabel.text = contentString;
+    [self layoutIfNeeded];
+}
+
+-(void)setSubContentString:(NSString *)subContentString{
+    _subContentString = subContentString;
+    self.subDetailLabel.text = subContentString;
+    [self layoutIfNeeded];
+}
+
+#pragma mark --- Public Method
++(CGFloat)wya_cellHeight:(NSString *)text{
     WYACardCell * card = [[WYACardCell alloc]init];
-    [card layoutIfNeeded];
-    return card.subDetailLabel.cmam_bottom;
+    
+    return 64*SizeAdapter+[text wya_heightWithFontSize:14 width:card.contentView.cmam_width-26*SizeAdapter];
 }
 
 - (void)awakeFromNib {

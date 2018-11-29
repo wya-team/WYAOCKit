@@ -13,6 +13,7 @@
 @interface WYACellTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, assign) BOOL  flag;
+@property (nonatomic, strong) NSMutableArray * views;
 @end
 
 @implementation WYACellTableViewController
@@ -44,37 +45,45 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
         WYAAccordionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"accordionCell" forIndexPath:indexPath];
+        __block WYAAccordionCell * accordionCell = cell;
+        cell.views = self.views;
         
+        cell.viewHeights = self.flag ? [@[@(30),@(30)] mutableCopy]:nil;
+        cell.buttonClick = ^(UIButton * _Nonnull button) {
+            self.flag = !self.flag;
+            if (self.flag == YES) {
+                NSMutableArray * array = [NSMutableArray array];
+                for (NSInteger i = 0; i<2; i++) {
+                    UILabel * label = [[UILabel alloc]init];
+                    label.text = @"自定义区域内容自定义区域内容";
+                    label.font = FONT(15);
+                    label.numberOfLines = 0;
+                    [array addObject:label];
+                }
+                
+                accordionCell.viewHeights = [@[@(30),@(30)] mutableCopy];
+                accordionCell.views = array;
+                self.views = array;
+            }else{
+                self.views = nil;
+            }
+            
+            [self.tableView reloadData];
+        };
         return cell;
     }else{
         WYACardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell" forIndexPath:indexPath];
-        
+        cell.contentString = @"文本内容文本内容文本内容文本内容文本内容";
+        cell.subContentString = @"辅助说明";
         return cell;
     }
     
 }
 #pragma mark --- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        WYAAccordionCell * accordionCell = (WYAAccordionCell *)cell;
-//        accordionCell.downButton
-        __weak WYAAccordionCell * accordionCellCopy = accordionCell;
-        accordionCell.buttonClick = ^(UIButton * _Nonnull button) {
-            self.flag = !self.flag;
-            if (self.flag == YES) {
-                UILabel * label = [[UILabel alloc]init];
-                label.text = @"adsd";
-                label.font = FONT(15);
-                label.numberOfLines = 0;
-                accordionCellCopy.viewHeights = [@[@(20)] mutableCopy];
-                accordionCellCopy.views = [@[label] mutableCopy];
-            }else{
-                accordionCellCopy.views = nil;
-            }
-            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-        };
-    }
+    
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 30;
 }
@@ -84,11 +93,9 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        CGFloat height = [WYAAccordionCell wya_cellHeight];
-        NSLog(@"height==%f",height);
-        return height;
+        return [WYAAccordionCell wya_cellHeight:self.flag ?[@[@(30),@(30)] mutableCopy]:nil];
     }else{
-        return [WYACardCell wya_cellHeight];
+        return [WYACardCell wya_cellHeight:@"文本内容文本内容文本内容文本内容文本内容"];
     }
 }
 
