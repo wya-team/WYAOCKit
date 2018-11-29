@@ -19,8 +19,9 @@
 #import "WYAChooseMenuViewController.h"
 #import "WYASliderViewController.h"
 #import "WYAPickerViewController.h"
-#import "WYACellTableViewController.h"
 #import "WYAImageBrowserViewController.h"
 #import "WYAPopViewController.h"
 #import "WYAStepperController.h"
+#import "WYACustomCellController.h"
+
 #endif /* HomeHeader_h */
