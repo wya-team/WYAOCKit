@@ -8,11 +8,9 @@
 #import "WYAAccordionCell.h"
 
 @interface WYAAccordionCell ()<UITextFieldDelegate>
-
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) UIView * titleContainerView;
 @property (nonatomic, strong) UIView * textContainerView;
-
 @end
 
 @implementation WYAAccordionCell
