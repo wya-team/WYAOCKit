@@ -22,4 +22,5 @@
 #import "WYACellTableViewController.h"
 #import "WYAImageBrowserViewController.h"
 #import "WYAPopViewController.h"
+#import "WYAStepperController.h"
 #endif /* HomeHeader_h */

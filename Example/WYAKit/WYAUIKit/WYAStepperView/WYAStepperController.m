@@ -8,7 +8,7 @@
 
 #import "WYAStepperController.h"
 #import <WYAKit/WYAStepperView.h>
-@interface WYAStepperController ()
+@interface WYAStepperController ()<WYAStepperViewDelegate>
 @property (nonatomic, strong) WYAStepperView * ableStepperView;
 @property (nonatomic, strong) WYAStepperView * disableAtepperView;
 @end
@@ -19,6 +19,7 @@
     [super viewDidLoad];
     self.navTitle = @"StepperView";
     [self.view addSubview:self.ableStepperView];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.disableAtepperView];
     // Do any additional setup after loading the view.
 }
@@ -37,13 +38,12 @@
 - (WYAStepperView *)ableStepperView{
     if(!_ableStepperView){
         _ableStepperView = ({
-            WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth *0.5, WYATopHeight, ScreenWidth*0.5, 40)];
-            object.layer.borderColor = [UIColor greenColor].CGColor;
+            WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth *0.5, WYATopHeight + 20 , ScreenWidth*0.35, 40)];
+            object.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
             object.layer.borderWidth = 0.5;
-            object.leftFrame = CGRectMake(0, 0, 36, 36);
-            object.rightFrame = CGRectMake(0, 0, 36, 36);
-            object.leftImageNamed = @"sub_able";
-            object.rightImageNamed = @"add_able";
+            object.childFrame = CGRectMake(0, 0, 30, 30);
+            object.ImageNamedArray = @[@"sub_able", @"add_able"];
+            object.delegate = self;
             object;
        });
     }
@@ -53,17 +53,28 @@
 - (WYAStepperView *)disableAtepperView{
     if(!_disableAtepperView){
         _disableAtepperView = ({
-            WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth*0.5, 40)];
-            object.layer.borderColor = [UIColor greenColor].CGColor;
+            WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(10, WYATopHeight + 20 + 40, ScreenWidth*0.35, 40)];
+            object.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
             object.layer.borderWidth = 0.5;
-            object.leftFrame = CGRectMake(0, 0, 36, 36);
-            object.rightFrame = CGRectMake(0, 0, 36, 36);
-            object.leftImageNamed = @"sub_disable";
-            object.rightImageNamed = @"add_disable";
+            object.childFrame = CGRectMake(0, 0, 30, 30);
+            object.ImageNamedArray = @[@"sub_disable", @"add_disable"];
+            object.delegate = self;
             object;
        });
     }
     return _disableAtepperView;
 }
-
+#pragma mark ======= delegate
+- (void)wya_stepperView:(WYAStepperView *)stepperView leftButtonPressed:(UIButton *)sender{
+    NSInteger value = [stepperView.stepperTextFiled.text integerValue];
+    if (value > 0) {
+        value -= 1 ;
+        stepperView.stepperTextFiled.text = [NSString stringWithFormat:@"%ld",value];
+    }
+}
+- (void)wya_stepperView:(WYAStepperView *)stepperView rightButtonPressed:(UIButton *)sender{
+    NSInteger value = [stepperView.stepperTextFiled.text integerValue];
+    value += 1 ;
+    stepperView.stepperTextFiled.text = [NSString stringWithFormat:@"%ld",value];
+}
 @end
