@@ -12,7 +12,7 @@
 #import "WYAThreeTableViewController.h"
 @interface WYACustomPageController ()<WYANavBarDelegate>
 @property (nonatomic, strong) UIView *redView;
-@property (nonatomic, strong) WYANavBar * navBar;
+//@property (nonatomic, strong) WYANavBar * customnavBar;
 @end
 
 @implementation WYACustomPageController

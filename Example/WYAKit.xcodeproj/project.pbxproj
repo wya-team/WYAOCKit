@@ -54,9 +54,9 @@
 		954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */; };
 		954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */; };
 		954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76A21A94DD50016C0F5 /* WYATablePageController.m */; };
-		9559283121AE304300C46D6D /* WYAStepperCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283021AE304300C46D6D /* WYAStepperCell.m */; };
 		9559283421AE82D400C46D6D /* WYAHomeItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283321AE82D400C46D6D /* WYAHomeItemCell.m */; };
 		956D1E7A219D7929006A40AB /* TODO .md in Resources */ = {isa = PBXBuildFile; fileRef = 956D1E79219D7929006A40AB /* TODO .md */; };
+		95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,11 +157,11 @@
 		954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATwoTableViewController.m; sourceTree = "<group>"; };
 		954CB76921A94DD50016C0F5 /* WYATablePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATablePageController.h; sourceTree = "<group>"; };
 		954CB76A21A94DD50016C0F5 /* WYATablePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATablePageController.m; sourceTree = "<group>"; };
-		9559282F21AE304300C46D6D /* WYAStepperCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperCell.h; sourceTree = "<group>"; };
-		9559283021AE304300C46D6D /* WYAStepperCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperCell.m; sourceTree = "<group>"; };
 		9559283221AE82D400C46D6D /* WYAHomeItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAHomeItemCell.h; sourceTree = "<group>"; };
 		9559283321AE82D400C46D6D /* WYAHomeItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAHomeItemCell.m; sourceTree = "<group>"; };
 		956D1E79219D7929006A40AB /* TODO .md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "TODO .md"; sourceTree = "<group>"; };
+		95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperController.h; sourceTree = "<group>"; };
+		95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperController.m; sourceTree = "<group>"; };
 		BB2BD88E491B4BE33928C5E8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		C1DE651882EDC196658DAD96 /* Pods-WYAKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		C64412C60C1201F2DC231D94 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -580,8 +580,8 @@
 		9559282B21AE2C0900C46D6D /* WYAStepperView */ = {
 			isa = PBXGroup;
 			children = (
-				9559282F21AE304300C46D6D /* WYAStepperCell.h */,
-				9559283021AE304300C46D6D /* WYAStepperCell.m */,
+				95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */,
+				95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */,
 			);
 			path = WYAStepperView;
 			sourceTree = "<group>";
@@ -799,9 +799,9 @@
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
-				9559283121AE304300C46D6D /* WYAStepperCell.m in Sources */,
 				954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */,
 				210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */,
+				95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */,
 				210E9F8A21AD790A00BFE994 /* WYAImageBrowserViewController.m in Sources */,
 				21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */,
 				21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */,
