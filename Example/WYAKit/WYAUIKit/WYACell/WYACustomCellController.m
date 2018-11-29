@@ -40,8 +40,6 @@
     }
     else if (indexPath.row == 2){
         
-    }else if (indexPath.row == 3){
-        
     }
 }
 #pragma mark ======= getter
@@ -62,7 +60,7 @@
 - (NSArray *)dataSource{
     if(!_dataSource){
         _dataSource = ({
-            NSArray * object = @[@"InputItem",@"Accordion",@"Card",@"List"];
+            NSArray * object = @[@"InputItem",@"Accordion/Card",@"List"];
             object;
        });
     }
