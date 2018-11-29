@@ -8,8 +8,15 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @class WYAChooseMenuModel;
 @class WYAChooseMenuSecondLevelModel;
+
+typedef NS_ENUM(NSUInteger, WYAChooseMenuStyle) {
+    WYAChooseMenuStyleTable,
+    WYAChooseMenuStyleTableAndCollection,
+};
+
 @protocol WYAChooseMenuDelegate <NSObject>
 @required
 /**
@@ -27,7 +34,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray <WYAChooseMenuModel *>* titleArray;
 @property (nonatomic, strong) NSMutableArray <WYAChooseMenuSecondLevelModel *>* contentArray;
 @property (nonatomic, assign) CGFloat  leftTableProportion;//取值范围0~1，适用于左侧table，右侧table自适应
+@property (nonatomic, assign) WYAChooseMenuStyle  menuStyle;
 
+- (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAChooseMenuStyle)chooseMenuStyle;
 @end
 
 NS_ASSUME_NONNULL_END

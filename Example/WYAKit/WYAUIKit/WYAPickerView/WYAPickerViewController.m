@@ -10,7 +10,7 @@
 
 
 @interface WYAPickerViewController ()<WYAPickerViewDelegate>
-
+@property (nonatomic, strong) UITableView * tableView;
 @end
 
 @implementation WYAPickerViewController
@@ -25,8 +25,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    self.navTitle = NSStringFromClass([self class]);
     dateStyles = @[@"年月日时分秒",@"年",@"月",@"时",@"分",@"秒",@"年月",@"年月日",@"年月日时",@"年月日时分",@"月日",@"月日时",@"月日时分",@"月日时分秒",@"时分",@"时分秒",@"分秒"];
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStyleGrouped];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    [self.view addSubview:self.tableView];
 }
 
 #pragma mark - Table view data source

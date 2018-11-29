@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSArray * titles;
 @property (nonatomic, strong) NSArray * contents;
 @property (nonatomic, strong) WYAChooseMenu * menu;
+@property (nonatomic, strong) WYAChooseMenu * otherMenu;
 @end
 
 @implementation WYAChooseMenuViewController
@@ -20,11 +21,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = NSStringFromClass([self class]);
-    
+    self.view.backgroundColor = [UIColor redColor];
     
     NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
     NSMutableArray * content = [NSMutableArray arrayWithCapacity:0];
-    self.menu = [[WYAChooseMenu alloc]initWithFrame:self.view.frame];
+    self.menu = [[WYAChooseMenu alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, (ScreenHeight-WYATopHeight)/2-5*SizeAdapter) ChooseMenuStyle:WYAChooseMenuStyleTable];
     for (NSString * string in self.titles) {
         WYAChooseMenuModel * model = [[WYAChooseMenuModel alloc]init];
         if ([string isEqualToString:@"A"]) {
@@ -45,6 +46,14 @@
     self.menu.wya_delegate = self;
     self.menu.leftTableProportion = 0.5;
     [self.view addSubview:self.menu];
+    
+    
+    self.otherMenu = [[WYAChooseMenu alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.menu.frame)+10*SizeAdapter, ScreenWidth, (ScreenHeight-WYATopHeight)/2-5*SizeAdapter) ChooseMenuStyle:WYAChooseMenuStyleTableAndCollection];
+    self.otherMenu.titleArray = array;
+    self.otherMenu.contentArray = content;
+    self.otherMenu.wya_delegate = self;
+    self.otherMenu.leftTableProportion = 0.5;
+    [self.view addSubview:self.otherMenu];
 }
 
 #pragma mark --- WYAChooseMenuDelegate
@@ -58,7 +67,7 @@
         [content addObject:model];
     }
     self.menu.contentArray = content;
-    
+    self.otherMenu.contentArray = content;
 }
 
 -(NSArray *)titles{
@@ -71,8 +80,8 @@
 -(NSArray *)contents{
     if (!_contents) {
         _contents = @[@[@"A",@"B"],
-                      @[@"B",@"B"],
-                      @[@"C",@"B"],
+                      @[@"B",@"B",@"C"],
+                      @[@"C",@"B",@"D"],
                       @[@"E",@"B"],
                       @[@"F",@"B"],
                       @[@"G",@"B"]];

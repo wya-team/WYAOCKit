@@ -8,11 +8,11 @@
 #import "WYAAccordionCell.h"
 
 @interface WYAAccordionCell ()<UITextFieldDelegate>
-@property (nonatomic, strong) UITextField * titleTextField;
-@property (nonatomic, strong) UIButton * downButton;
+
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) UIView * titleContainerView;
 @property (nonatomic, strong) UIView * textContainerView;
+
 @end
 
 @implementation WYAAccordionCell
@@ -22,28 +22,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         
-        self.titleContainerView = [[UIView alloc]init];
-        self.titleContainerView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:self.titleContainerView];
-        
-        self.textContainerView = [[UIView alloc]init];
-        self.textContainerView.backgroundColor = [UIColor yellowColor];
         [self.contentView addSubview:self.textContainerView];
         
-        self.titleTextField = [[UITextField alloc]init];
-        self.titleTextField.delegate = self;
-        self.titleTextField.placeholder = @"aaa";
         [self.titleContainerView addSubview:self.titleTextField];
-        
-        self.downButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.downButton setBackgroundColor:[UIColor redColor]];
-        [self.downButton addCallBackAction:^(UIButton *button) {
-            
-        }];
         [self.titleContainerView addSubview:self.downButton];
-        
-        self.line = [[UIView alloc]init];
-        self.line.backgroundColor = random(153, 153, 153, 1);
         [self.titleContainerView addSubview:self.line];
         
         
@@ -83,7 +66,7 @@
     }];
     
     [self.textContainerView.subviews wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:nil
-                                                                            fixedItemHeights:@[@(2)]
+                                                                            fixedItemHeights:self.viewHeights
                                                                             fixedLineSpacing:0
                                                                        fixedInteritemSpacing:0
                                                                                    warpCount:1
@@ -98,10 +81,90 @@
     // Initialization code
 }
 
+#pragma mark --- Setter
+-(void)setViews:(NSMutableArray <UIView *>*)views{
+    _views = views;
+    if (views) {
+        for (UIView * view in views) {
+            [self.textContainerView addSubview:view];
+        }
+    }else{
+        for (UIView * view in self.textContainerView.subviews) {
+            [view removeFromSuperview];
+        }
+    }
+    [self layoutIfNeeded];
+}
+
+-(void)setViewHeights:(NSMutableArray *)viewHeights{
+    _viewHeights = viewHeights;
+    [self layoutIfNeeded];
+}
+
+#pragma mark --- Getter
+- (UIView *)titleContainerView{
+    if(!_titleContainerView){
+        _titleContainerView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+        });
+    }
+    return _titleContainerView;
+}
+- (UIView *)textContainerView{
+    if(!_textContainerView){
+        _textContainerView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor yellowColor];
+            object;
+        });
+    }
+    return _textContainerView;
+}
+
+-(UITextField *)titleTextField{
+    if (!_titleTextField) {
+        _titleTextField = ({
+            UITextField * object = [[UITextField alloc]init];
+            object.delegate = self;
+            object.placeholder = @"aaa";
+            object;
+        });
+    }
+    return _titleTextField;
+}
+
+-(UIButton *)downButton{
+    if (!_downButton) {
+        _downButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_downButton setBackgroundColor:[UIColor redColor]];
+        WeakSelf(weakSelf);
+        [_downButton addCallBackAction:^(UIButton *button) {
+            StrongSelf(strongSelf);
+            if (strongSelf.buttonClick) {
+                strongSelf.buttonClick(button);
+            }
+        }];
+    }
+    return _downButton;
+}
+
+-(UIView *)line{
+    if (!_line) {
+        _line = [[UIView alloc]init];
+        _line.backgroundColor = random(153, 153, 153, 1);
+    }
+    return _line;
+}
+
+#pragma mark --- Public Method
 +(CGFloat)wya_cellHeight{
-    WYAAccordionCell * cell = [[WYAAccordionCell alloc]init];
-    [cell layoutIfNeeded];
-    return cell.titleContainerView.cmam_height+cell.textContainerView.cmam_height;
+//    WYAAccordionCell * cell = [[WYAAccordionCell alloc]init];
+//    [cell layoutIfNeeded];
+//
+//    return cell.textContainerView.cmam_bottom;
+    return 64;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -109,5 +172,9 @@
 
     // Configure the view for the selected state
 }
+
+
+
+
 
 @end

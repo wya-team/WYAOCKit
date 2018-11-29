@@ -10,10 +10,13 @@
 #import "WYAChooseMenuModel.h"
 #import "WYAChooseMenuSecondLevelCell.h"
 #import "WYAChooseMenuSecondLevelModel.h"
-@interface WYAChooseMenu ()<UITableViewDataSource, UITableViewDelegate>
+
+#import "WYAMenuCollectionCell.h"
+@interface WYAChooseMenu ()<UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UITableView * leftTableView;
 @property (nonatomic, strong) UITableView * rightTableView;
+@property (nonatomic, strong) UICollectionView * collectionView;
 
 @end
 
@@ -24,15 +27,17 @@
     self = [super init];
     if (self) {
         [self createUI];
+        self.menuStyle = WYAChooseMenuStyleTable;
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAChooseMenuStyle)chooseMenuStyle
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self createUI];
+        self.menuStyle = chooseMenuStyle;
     }
     return self;
 }
@@ -44,13 +49,33 @@
         make.width.mas_equalTo(self.mas_width).multipliedBy(self.leftTableProportion);
     }];
     
-    [self.rightTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.right.top.bottom.mas_equalTo(self);
-        make.left.mas_equalTo(self.leftTableView.mas_right);
-    }];
+    if (self.menuStyle == WYAChooseMenuStyleTable) {
+        [self.rightTableView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.top.bottom.mas_equalTo(self);
+            make.left.mas_equalTo(self.leftTableView.mas_right);
+        }];
+    }
+    
+    if (self.menuStyle == WYAChooseMenuStyleTableAndCollection) {
+        [self.collectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.right.top.bottom.mas_equalTo(self);
+            make.left.mas_equalTo(self.leftTableView.mas_right);
+        }];
+    }
 }
 
 #pragma mark --- Setter
+-(void)setMenuStyle:(WYAChooseMenuStyle)menuStyle{
+    _menuStyle = menuStyle;
+    if (menuStyle == WYAChooseMenuStyleTable) {
+        [self.collectionView removeFromSuperview];
+        self.collectionView = nil;
+    }else{
+        [self.rightTableView removeFromSuperview];
+        self.rightTableView = nil;
+    }
+}
+
 -(void)setTitleArray:(NSMutableArray <WYAChooseMenuModel *>*)titleArray{
     _titleArray = titleArray;
     if (titleArray) {
@@ -61,7 +86,12 @@
 -(void)setContentArray:(NSMutableArray <WYAChooseMenuSecondLevelModel *>*)contentArray{
     _contentArray = contentArray;
     if (contentArray) {
-        [self.rightTableView reloadData];
+        if (self.menuStyle == WYAChooseMenuStyleTable) {
+            [self.rightTableView reloadData];
+        }else{
+            [self.collectionView reloadData];
+        }
+        
     }
 }
 
@@ -94,12 +124,24 @@
     }
     return _rightTableView;
 }
-
+-(UICollectionView *)collectionView{
+    if (!_collectionView) {
+        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
+        _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        [_collectionView registerClass:[WYAMenuCollectionCell class] forCellWithReuseIdentifier:@"cell"];
+    }
+    return _collectionView;
+}
 #pragma mark --- Private Method
 -(void)createUI{
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.leftTableView];
     [self addSubview:self.rightTableView];
+    [self addSubview:self.collectionView];
+    
     self.leftTableProportion = 0.3;
 }
 
@@ -170,6 +212,40 @@
         }
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.contentArray.count;
+}
+
+
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAMenuCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat width = collectionView.cmam_width / 3;
+    return CGSizeMake(width, width);
+}
+
+//设置每个item的UIEdgeInsets
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0*SizeAdapter, 0 * SizeAdapter, 0*SizeAdapter, 0 * SizeAdapter);
+}
+
+//设置每个item水平间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0 * SizeAdapter;
+}
+
+//设置每个item垂直间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5 * SizeAdapter;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;

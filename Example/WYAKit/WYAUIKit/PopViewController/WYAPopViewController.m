@@ -48,7 +48,7 @@
 
 -(void)buttonClick:(UIButton *)button{
     WYATestViewController * test = [[WYATestViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(100, 100);
+    test.preferredContentSize = CGSizeMake(200, 200);
     test.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController * popover = [test popoverPresentationController];

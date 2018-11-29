@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */; };
-		210E9F5121A6876900BFE994 /* WYAPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 210E9F4F21A6876900BFE994 /* WYAPickerViewController.xib */; };
 		210E9F6521A93D2300BFE994 /* WYACameraVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6421A93D2300BFE994 /* WYACameraVC.m */; };
 		210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */; };
 		210E9F6B21ABEB6900BFE994 /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6A21ABEB6900BFE994 /* WYALeftViewController.m */; };
@@ -75,7 +74,6 @@
 		0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		210E9F4D21A6876900BFE994 /* WYAPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPickerViewController.h; sourceTree = "<group>"; };
 		210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPickerViewController.m; sourceTree = "<group>"; };
-		210E9F4F21A6876900BFE994 /* WYAPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAPickerViewController.xib; sourceTree = "<group>"; };
 		210E9F6321A93D2300BFE994 /* WYACameraVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraVC.h; sourceTree = "<group>"; };
 		210E9F6421A93D2300BFE994 /* WYACameraVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraVC.m; sourceTree = "<group>"; };
 		210E9F6621ABEB5300BFE994 /* WYAHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAHomeViewController.h; sourceTree = "<group>"; };
@@ -317,7 +315,6 @@
 			children = (
 				210E9F4D21A6876900BFE994 /* WYAPickerViewController.h */,
 				210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */,
-				210E9F4F21A6876900BFE994 /* WYAPickerViewController.xib */,
 			);
 			path = WYAPickerView;
 			sourceTree = "<group>";
@@ -676,7 +673,6 @@
 				21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
-				210E9F5121A6876900BFE994 /* WYAPickerViewController.xib in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,

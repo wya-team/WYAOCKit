@@ -12,6 +12,7 @@
 
 @interface WYACellTableViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, assign) BOOL  flag;
 @end
 
 @implementation WYACellTableViewController
@@ -52,7 +53,28 @@
     }
     
 }
-
+#pragma mark --- UITableViewDelegate
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        WYAAccordionCell * accordionCell = (WYAAccordionCell *)cell;
+//        accordionCell.downButton
+        __weak WYAAccordionCell * accordionCellCopy = accordionCell;
+        accordionCell.buttonClick = ^(UIButton * _Nonnull button) {
+            self.flag = !self.flag;
+            if (self.flag == YES) {
+                UILabel * label = [[UILabel alloc]init];
+                label.text = @"adsd";
+                label.font = FONT(15);
+                label.numberOfLines = 0;
+                accordionCellCopy.viewHeights = [@[@(20)] mutableCopy];
+                accordionCellCopy.views = [@[label] mutableCopy];
+            }else{
+                accordionCellCopy.views = nil;
+            }
+            [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+        };
+    }
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 30;
 }
@@ -62,11 +84,14 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        return [WYAAccordionCell wya_cellHeight];
+        CGFloat height = [WYAAccordionCell wya_cellHeight];
+        NSLog(@"height==%f",height);
+        return height;
     }else{
         return [WYACardCell wya_cellHeight];
     }
 }
+
 
 /*
 #pragma mark - Navigation

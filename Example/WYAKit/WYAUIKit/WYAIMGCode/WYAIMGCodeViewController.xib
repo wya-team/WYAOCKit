@@ -24,28 +24,28 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eVy-tB-1a9">
-                    <rect key="frame" x="137.5" y="10" width="100" height="100"/>
+                    <rect key="frame" x="137.5" y="100" width="100" height="100"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="100" id="cM4-wH-81t"/>
                         <constraint firstAttribute="width" constant="100" id="sLd-mX-xDc"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ym1-dX-R1X">
-                    <rect key="frame" x="137.5" y="130" width="100" height="100"/>
+                    <rect key="frame" x="137.5" y="220" width="100" height="100"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="kce-FC-rAI"/>
                         <constraint firstAttribute="height" constant="100" id="s1E-dF-pwu"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Q0f-vH-PNt">
-                    <rect key="frame" x="137.5" y="250" width="100" height="100"/>
+                    <rect key="frame" x="137.5" y="340" width="100" height="100"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="NmN-WF-WSL"/>
                         <constraint firstAttribute="height" constant="100" id="ScU-NX-6Aw"/>
                     </constraints>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MkM-hH-TzS">
-                    <rect key="frame" x="137.5" y="370" width="100" height="50"/>
+                    <rect key="frame" x="137.5" y="460" width="100" height="50"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="fyz-P2-M5R"/>
                         <constraint firstAttribute="height" constant="50" id="zdO-dP-Rbm"/>
@@ -61,7 +61,7 @@
                 <constraint firstItem="Q0f-vH-PNt" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="NGz-8D-Urg"/>
                 <constraint firstItem="Ym1-dX-R1X" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="hfF-kd-xaF"/>
                 <constraint firstItem="eVy-tB-1a9" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="rhM-tw-6Uz"/>
-                <constraint firstItem="eVy-tB-1a9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="sfF-rb-vku"/>
+                <constraint firstItem="eVy-tB-1a9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="100" id="sfF-rb-vku"/>
             </constraints>
             <point key="canvasLocation" x="63" y="44"/>
         </view>

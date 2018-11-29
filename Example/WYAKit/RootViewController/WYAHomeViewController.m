@@ -44,7 +44,7 @@
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
             layout.scrollDirection = UICollectionViewScrollDirectionVertical;
             layout.headerReferenceSize = CGSizeMake(ScreenWidth, 200);
-            layout.itemSize = CGSizeMake(100, 100);
+            layout.itemSize = CGSizeMake(ScreenWidth/3, 100);
             layout.minimumLineSpacing = 0;
             layout.minimumInteritemSpacing = 0;
             UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) collectionViewLayout:layout];
@@ -98,14 +98,36 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     WYABannerHeaderView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW forIndexPath:indexPath];
-    headerView.backgroundColor = randomColor;
+//    headerView.backgroundColor = randomColor;
     return headerView;
 }
 #pragma mark ======= UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-   
+    if (indexPath.row == 0) {
+        [self.navigationController pushViewController:[[WYATextViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 1){
+        [self.navigationController pushViewController:[[WYAIMGCodeViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 2){
+        [self.navigationController pushViewController:[[WYAUIAlertViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 3){
+        
+    }else if (indexPath.row == 4){
+        [self.navigationController pushViewController:[[WYAPopViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 5){
+        [self.navigationController pushViewController:[[WYAChooseMenuViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 6){
+        [self.navigationController pushViewController:[[WYASliderViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 7){
+        
+    }else if (indexPath.row == 8){
+        [self.navigationController pushViewController:[[WYAPickerViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 9){
+        [self.navigationController pushViewController:[[WYACellTableViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 10){
+        [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
+    }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }
 
