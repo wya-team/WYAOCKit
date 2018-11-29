@@ -125,7 +125,7 @@
     }else if (indexPath.row == 8){
         [self.navigationController pushViewController:[[WYAPickerViewController alloc]init] animated:YES];
     }else if (indexPath.row == 9){
-        [self.navigationController pushViewController:[[WYACellTableViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYACustomCellController alloc]init] animated:YES];
     }else if (indexPath.row == 10){
         [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
     }else if (indexPath.row == 11){
