@@ -32,14 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 @interface WYAStepperView : UIView
 @property (nonatomic, weak) id<WYAStepperViewDelegate> delegate;
-/// 左视图按钮的frame
-@property (nonatomic, assign) CGRect  leftFrame;
-/// 右侧视图按钮的frame
-@property (nonatomic, assign) CGRect  rightFrame;
-/// 图片名字
-@property (nonatomic, copy) NSString * leftImageNamed;
-/// 图片名字
-@property (nonatomic, copy) NSString * rightImageNamed;
+/// 按钮的frame不能为空
+@property (nonatomic, assign,) CGRect  childFrame;
+
+/// 图片名字从左到右顺序@[@"左侧图片名字",@"右侧图片名字"]
+@property (nonatomic, strong, nonnull) NSArray * ImageNamedArray;
+
+@property (nonatomic, strong) UITextField  * stepperTextFiled;
+
 @end
 
 NS_ASSUME_NONNULL_END

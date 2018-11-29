@@ -9,7 +9,6 @@
 #import "WYAStepperView.h"
 #define leftSpace 10
 @interface WYAStepperView()<UITextFieldDelegate>
-@property (nonatomic, strong) UITextField  * stepperTextFiled;
 @property (nonatomic, strong) UIButton * addButton;
 @property (nonatomic, strong) UIButton * subtractButton;
 @end
@@ -24,25 +23,19 @@
 }
 - (void)layoutSubviews{
     [super layoutSubviews];
-    self.stepperTextFiled.frame = self.frame;
     [self.stepperTextFiled wya_setLeftButtonWithView:self.subtractButton];
     [self.stepperTextFiled wya_setRightButtonWithView:self.addButton];
 }
 #pragma mark ======= setter
-- (void)setLeftFrame:(CGRect)leftFrame{
-    self.subtractButton.frame = CGRectMake(0, 0, leftFrame.size.width, leftFrame.size.height);
+- (void)setChildFrame:(CGRect)childFrame{
+    self.subtractButton.frame = CGRectMake(0, 0, childFrame.size.width, childFrame.size.height);
+    self.addButton.frame = CGRectMake(0, 0, childFrame.size.width, childFrame.size.height);
+    [self layoutIfNeeded];
 }
-- (void)setRightFrame:(CGRect)rightFrame{
-    self.addButton.frame = CGRectMake(0, 0, rightFrame.size.width, rightFrame.size.height);
-}
-- (void)setLeftImageNamed:(NSString *)leftImageNamed{
+- (void)setImageNamedArray:(NSArray *)ImageNamedArray{
     
-    [self.subtractButton setImage:[UIImage imageNamed:leftImageNamed] forState:UIControlStateNormal];
-
-}
-- (void)setRightImageNamed:(NSString *)rightImageNamed
-{
-    [self.addButton setImage:[UIImage imageNamed:rightImageNamed] forState:UIControlStateNormal];
+    [self.subtractButton setImage:[UIImage imageNamed:[ImageNamedArray wya_safeObjectAtIndex:0]] forState:UIControlStateNormal];
+    [self.addButton setImage:[UIImage imageNamed:[ImageNamedArray wya_safeObjectAtIndex:1]] forState:UIControlStateNormal];
 
 }
 #pragma mark ======= getter
@@ -60,7 +53,7 @@
 - (UITextField *)stepperTextFiled{
     if(!_stepperTextFiled){
         _stepperTextFiled = ({
-            UITextField * object = [[UITextField alloc]init];
+            UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
             object.text = @"0";
             object.textColor = [UIColor blackColor];
             object.textAlignment = NSTextAlignmentCenter;
@@ -75,7 +68,6 @@
     if(!_addButton){
         _addButton = ({
             UIButton * object = [[UIButton alloc]init];
-//            [object setImage:[UIImage imageNamed:@"add_able"] forState:UIControlStateNormal];
             [object addTarget:self action:@selector(addButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
             object;
        });

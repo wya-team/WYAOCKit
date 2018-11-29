@@ -128,6 +128,8 @@
         [self.navigationController pushViewController:[[WYACellTableViewController alloc]init] animated:YES];
     }else if (indexPath.row == 10){
         [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 11){
+        [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }
