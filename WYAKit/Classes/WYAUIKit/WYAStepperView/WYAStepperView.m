@@ -53,7 +53,7 @@
 - (UITextField *)stepperTextFiled{
     if(!_stepperTextFiled){
         _stepperTextFiled = ({
-            UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+            UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(5, 5, self.frame.size.width-10, self.frame.size.height-10)];
             object.text = @"0";
             object.textColor = [UIColor blackColor];
             object.textAlignment = NSTextAlignmentCenter;
