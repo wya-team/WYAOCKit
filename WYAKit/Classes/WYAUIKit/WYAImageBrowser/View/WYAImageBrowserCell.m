@@ -24,25 +24,26 @@
         
         self.contentView.userInteractionEnabled = YES;
         
-        _scrollV = [[UIScrollView alloc]init];
-        _scrollV.delegate = self;
-        _scrollV.userInteractionEnabled = YES;
-        [self.contentView addSubview:_scrollV];
+        self.scrollV = [[UIScrollView alloc]init];
+        self.scrollV.delegate = self;
+        self.scrollV.userInteractionEnabled = YES;
+        self.scrollV.bounces = NO;
+        [self.contentView addSubview:self.scrollV];
         
-        _imageView = [[UIImageView alloc]init];
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        _imageView.userInteractionEnabled = YES;
-        [_scrollV addSubview:_imageView];
+        self.imageView = [[UIImageView alloc]init];
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.imageView.userInteractionEnabled = YES;
+        [self.scrollV addSubview:self.imageView];
         
 //        UIPinchGestureRecognizer *doubleTapGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
 //        doubleTapGesture.delegate = self;
 //        [_scrollV addGestureRecognizer:doubleTapGesture];
         
-        [_scrollV setMinimumZoomScale:1.0f];
+        [self.scrollV setMinimumZoomScale:1.0f];
     
-        [_scrollV setMaximumZoomScale:3.0f];
+        [self.scrollV setMaximumZoomScale:3.0f];
     
-        [_scrollV setZoomScale:1 animated:NO];
+        [self.scrollV setZoomScale:1 animated:NO];
     }
     return self;
 }
@@ -50,9 +51,9 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     NSLog(@"self.frame==%@",NSStringFromCGRect(self.contentView.frame));
-    _scrollV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame)+10, CGRectGetMinY(self.contentView.frame), self.frame.size.width-20,self.frame.size.height);
-    [_scrollV setZoomScale:1 animated:NO];
-    _imageView.frame = CGRectMake(5, 0, _scrollV.frame.size.width-5, _scrollV.frame.size.height);
+    self.scrollV.frame = self.contentView.frame;
+    [self.scrollV setZoomScale:1 animated:NO];
+    self.imageView.frame = CGRectMake(0, 0, self.scrollV.frame.size.width, self.scrollV.frame.size.height);
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
@@ -65,21 +66,21 @@
     return YES;
 }
 
-- (void)handleDoubleTap:(UIGestureRecognizer *)gesture
-
-{
-    
-    NSLog(@"handleDoubleTap");
-    
-    float newScale = _scrollV.zoomScale * 1.5;//zoomScale这个值决定了contents当前扩展的比例
-    if (newScale>3) {
-        newScale = 1.0f;
-    }
-    CGRect zoomRect = [self zoomRectForScale:newScale withCenter:[gesture locationInView:gesture.view]];
-    
-    [_scrollV zoomToRect:zoomRect animated:YES];
-    
-}
+//- (void)handleDoubleTap:(UIGestureRecognizer *)gesture
+//
+//{
+//
+//    NSLog(@"handleDoubleTap");
+//
+//    float newScale = self.scrollV.zoomScale * 1.5;//zoomScale这个值决定了contents当前扩展的比例
+//    if (newScale>3) {
+//        newScale = 1.0f;
+//    }
+//    CGRect zoomRect = [self zoomRectForScale:newScale withCenter:[gesture locationInView:gesture.view]];
+//
+//    [self.scrollV zoomToRect:zoomRect animated:YES];
+//
+//}
 
 - (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center
 
@@ -87,13 +88,13 @@
     
     CGRect zoomRect;
     
-    zoomRect.size.height = _scrollV.frame.size.height / scale;
+    zoomRect.size.height = self.scrollV.frame.size.height / scale;
     
     NSLog(@"zoomRect.size.height is %f",zoomRect.size.height);
     
-    NSLog(@"self.frame.size.height is %f",_scrollV.frame.size.height);
+    NSLog(@"self.frame.size.height is %f",self.scrollV.frame.size.height);
     
-    zoomRect.size.width  = _scrollV.frame.size.width  / scale;
+    zoomRect.size.width  = self.scrollV.frame.size.width  / scale;
     
     zoomRect.origin.x = center.x - (zoomRect.size.width  / 2.0);
     
@@ -109,7 +110,7 @@
 
 {
     
-    return _imageView;
+    return self.imageView;
     
 }
 
@@ -123,14 +124,14 @@
     
     NSLog(@"scale is %f",scale);
     
-    [_scrollV setZoomScale:scale animated:NO];
+    [self.scrollV setZoomScale:scale animated:NO];
     
 }
 
 - (void)setImage:(UIImage *)image{
     _image = image;
     if (image) {
-        _imageView.image = image;
+        self.imageView.image = image;
     }
 }
 

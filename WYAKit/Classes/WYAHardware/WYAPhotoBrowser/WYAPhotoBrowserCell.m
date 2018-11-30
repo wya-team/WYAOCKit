@@ -21,17 +21,18 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor redColor];
         
-        _imageV = [[UIImageView alloc]init];
-        [self.contentView addSubview:_imageV];
-        
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_button setImage:[UIImage loadBundleImage:@"对号" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
-        [_button setImage:[UIImage loadBundleImage:@"对号_blue" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
-        [_button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-        _button.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.contentView addSubview:_button];
+        self.imageV = [[UIImageView alloc]init];
+//        _imageV.contentMode = UIViewContentModeScaleAspectFit;
+        [self.contentView addSubview:self.imageV];
+
+        self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.button setImage:[UIImage loadBundleImage:@"对号" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [self.button setImage:[UIImage loadBundleImage:@"对号_blue" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
+        [self.button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.button.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.contentView addSubview:self.button];
     }
     return self;
 }
@@ -39,8 +40,8 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    _imageV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame),CGRectGetMinY(self.contentView.frame), self.frame.size.width,self.frame.size.height);
-    _button.frame = CGRectMake(self.frame.size.width-30, 0, 30, 30);
+    self.imageV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame),CGRectGetMinY(self.contentView.frame), self.frame.size.width,self.frame.size.height);
+    self.button.frame = CGRectMake(self.frame.size.width-30, 0, 30, 30);
 }
 
 -(void)setModel:(WYAPhotoBrowserModel *)model{
@@ -49,12 +50,17 @@
         if (model.cacheImage) {
             self.imageV.image = model.cacheImage;
         }else{
+            PHAsset * asset = (PHAsset *)model.asset;
+            CGFloat ratio = asset.pixelWidth/asset.pixelHeight;
+            CGFloat width =  self.cmam_width*3;
+            CGFloat height = width/ratio;
             PHImageManager * manager = [PHImageManager defaultManager];
             PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-            opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
-            [manager requestImageForAsset:model.asset targetSize:self.imageV.cmam_size contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+//            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            
+            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(width, height) contentMode:PHImageContentModeAspectFit options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.imageV.image = result;
                 model.cacheImage = result;
             }];
@@ -73,7 +79,7 @@
 
 -(void)uncheckButton{
     self.model.selected = NO;
-    _button.selected = NO;
+    self.button.selected = NO;
 }
 
 @end

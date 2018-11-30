@@ -7,9 +7,12 @@
 //
 
 #import "WYACameraVC.h"
-#import <WYAKit/WYACameraViewController.h>
-#import <WYAKit/WYAQRCodeViewController.h>
-@interface WYACameraVC ()
+#import "WYAHomeItemCell.h"
+
+#define HOMEITEMCELL @"WYAHomeItemCell"
+
+@interface WYACameraVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@property (nonatomic, strong) UICollectionView * collectionView;
 
 @end
 
@@ -17,50 +20,59 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.view addSubview:self.collectionView];
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 1;
+- (UICollectionView *)collectionView{
+    if(!_collectionView){
+        _collectionView = ({
+            UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
+            layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+            layout.itemSize = CGSizeMake(ScreenWidth/3, 100);
+            layout.minimumLineSpacing = 0;
+            layout.minimumInteritemSpacing = 0;
+            UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) collectionViewLayout:layout];
+            object.delegate = self;
+            object.dataSource = self;
+            object.backgroundColor = [UIColor whiteColor];
+            [object registerClass:[WYAHomeItemCell class] forCellWithReuseIdentifier:HOMEITEMCELL];
+            
+            object;
+        });
+    }
+    return _collectionView;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
+#pragma mark ======= UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return 2;
 }
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    
-    if (indexPath.row == 0) {
-        cell.textLabel.text = @"扫描二维码";
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAHomeItemCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:HOMEITEMCELL forIndexPath:indexPath];
+    if (indexPath.item == 0) {
+        cell.titleString = @"相册";
     }else{
-        cell.textLabel.text = @"拍照、摄像";
+        cell.titleString = @"相机";
     }
-    
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 0) {
-        WYAQRCodeViewController * qr = [[WYAQRCodeViewController alloc]init];
-        [self.navigationController pushViewController:qr animated:YES];
+#pragma mark ======= UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    if (indexPath.item == 0) {
+        WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]init];
+        [self presentViewController:photo animated:YES completion:nil];
     }else{
         WYACameraViewController * camera = [[WYACameraViewController alloc]init];
         [self presentViewController:camera animated:YES completion:nil];
     }
 }
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

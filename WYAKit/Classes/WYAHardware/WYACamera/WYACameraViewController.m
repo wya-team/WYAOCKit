@@ -201,16 +201,17 @@
 }
 
 - (void)sureClick{
-    if (self.placeholdImageView.image) {
-        if (self.TakePhoto) {
-            self.TakePhoto(self.placeholdImageView.image);
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.placeholdImageView.image) {
+            if (self.TakePhoto) {
+                self.TakePhoto(self.placeholdImageView.image);
+            }
+        }else{
+            if (self.TakeVideo) {
+                self.TakeVideo(self.videoTool.videoPath);
+            }
         }
-    }else{
-        if (self.TakeVideo) {
-            self.TakeVideo(self.videoTool.videoPath);
-        }
-    }
-    
+    }];
 }
 
 - (void)runLoopTheMovie:(NSNotification *)n{

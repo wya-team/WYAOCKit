@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
 @interface WYAPhotoBrowserViewController : UIViewController
-
+@property (nonatomic, strong) PHAssetCollection * collection;
 @property (nonatomic, copy) void(^selectedImages)(NSArray<UIImage *> *images);
 @property (nonatomic, assign) NSInteger maxCount;
 @end

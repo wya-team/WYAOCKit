@@ -8,6 +8,7 @@
 #import "WYATextView.h"
 
 @interface WYATextView ()<UITextViewDelegate>
+@property (nonatomic, strong) UITextView * textView;
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * noteLabel;
 @property (nonatomic, copy)   NSString * placeHold;//占位文字
@@ -38,12 +39,10 @@
 }
 
 -(void)createUI{
-    
+    self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.titleLabel];
     [self addSubview:self.noteLabel];
-    _textView = [[UITextView alloc]init];
-    _textView.delegate = self;
-    [self addSubview:_textView];
+    [self addSubview:self.textView];
     
     self.showTitle = YES;
     self.showWordsCount = YES;
@@ -65,7 +64,7 @@
         make.height.mas_equalTo(20*SizeAdapter);
     }];
     
-    [_textView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
         if (self.showTitle == NO) {
             make.left.mas_equalTo(self.mas_left);
         }else{
@@ -85,12 +84,12 @@
 
 #pragma mark --- Public Method
 -(void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont{
-    _textView.text = placeHoldString;
+    self.textView.text = placeHoldString;
     self.lastPlaceHold = placeHoldString;
-    _textView.textColor = placeHoldColor;
-    _placeHoldColor = placeHoldColor;
-    _textView.font = FONT(placeHoldFont);
-    _placeHoldFont = placeHoldFont;
+    self.textView.textColor = placeHoldColor;
+    self.placeHoldColor = placeHoldColor;
+    self.textView.font = FONT(placeHoldFont);
+    self.placeHoldFont = placeHoldFont;
 }
 
 #pragma mark --- Setter
@@ -100,7 +99,7 @@
 
 -(void)setTextViewWordsCount:(NSUInteger)textViewWordsCount{
     _textViewWordsCount = textViewWordsCount;
-    self.noteLabel.text = [NSString stringWithFormat:@"0/%ld",textViewWordsCount];
+    self.noteLabel.text = [NSString stringWithFormat:@"0/%lu",(unsigned long)textViewWordsCount];
 }
 
 -(void)setTitle:(NSString *)title{
@@ -117,6 +116,7 @@
     }else{
         self.titleLabel.hidden = NO;
     }
+    [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
@@ -127,6 +127,7 @@
     }else{
         self.noteLabel.hidden = NO;
     }
+    [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
@@ -138,6 +139,14 @@
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _titleLabel;
+}
+
+-(UITextView *)textView{
+    if (!_textView) {
+        _textView = [[UITextView alloc]init];
+        _textView.delegate = self;
+    }
+    return _textView;
 }
 
 -(UILabel *)noteLabel{
@@ -277,6 +286,7 @@
     }
     textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, size.height+20*SizeAdapter);
+    [self setNeedsLayout];
     [self layoutIfNeeded];
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
         [self.wya_delegate wya_TextViewDidChange:textView];

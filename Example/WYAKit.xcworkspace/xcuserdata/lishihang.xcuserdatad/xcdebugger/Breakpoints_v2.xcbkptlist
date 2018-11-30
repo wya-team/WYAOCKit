@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-            timestampString = "565166895.627692"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageBrowser/View/WYAImageBrowserCell.m"
+            timestampString = "565232599.733616"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-            timestampString = "565166895.6285191"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-zoomRectForScale:withCenter:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

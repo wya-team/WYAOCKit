@@ -21,13 +21,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStyleGrouped];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    [self.tableView registerClass:[WYAAccordionCell class] forCellReuseIdentifier:@"accordionCell"];
-    [self.tableView registerClass:[WYACardCell class] forCellReuseIdentifier:@"cardCell"];
+//    [self.tableView registerClass:[WYAAccordionCell class] forCellReuseIdentifier:@"accordionCell"];
+//    [self.tableView registerClass:[WYACardCell class] forCellReuseIdentifier:@"cardCell"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.navTitle = NSStringFromClass([self class]);
+    self.flag = YES;
 }
 
 #pragma mark --- UITableViewDataSource
@@ -38,46 +40,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 2;
+    return self.flag ? 10 : 0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        WYAAccordionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"accordionCell" forIndexPath:indexPath];
-        __block WYAAccordionCell * accordionCell = cell;
-        cell.views = self.views;
-        
-        cell.viewHeights = self.flag ? [@[@(30),@(30)] mutableCopy]:nil;
-        cell.buttonClick = ^(UIButton * _Nonnull button) {
-            self.flag = !self.flag;
-            if (self.flag == YES) {
-                NSMutableArray * array = [NSMutableArray array];
-                for (NSInteger i = 0; i<2; i++) {
-                    UILabel * label = [[UILabel alloc]init];
-                    label.text = @"自定义区域内容自定义区域内容";
-                    label.font = FONT(15);
-                    label.numberOfLines = 0;
-                    [array addObject:label];
-                }
-                
-                accordionCell.viewHeights = [@[@(30),@(30)] mutableCopy];
-                accordionCell.views = array;
-                self.views = array;
-            }else{
-                self.views = nil;
-            }
-            
-            [self.tableView reloadData];
-        };
-        return cell;
-    }else{
-        WYACardCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cardCell" forIndexPath:indexPath];
-        cell.contentString = @"文本内容文本内容文本内容文本内容文本内容";
-        cell.subContentString = @"辅助说明";
-        return cell;
-    }
-    
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    cell.textLabel.text = @"这是文本内容";
+    return cell;
 }
 #pragma mark --- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -88,18 +58,43 @@
     return 30;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return 20;
+    return 100;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return [WYAAccordionCell wya_cellHeight:self.flag ?[@[@(30),@(30)] mutableCopy]:nil];
-    }else{
-        return [WYACardCell wya_cellHeight:@"文本内容文本内容文本内容文本内容文本内容"];
-    }
+    return 44;
 }
 
-
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.cmam_width, 30)];
+    view.backgroundColor = [UIColor whiteColor];
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setBackgroundColor:[UIColor redColor]];
+    button.frame = CGRectMake(self.tableView.cmam_width-32*SizeAdapter, (30-16*SizeAdapter)/2, 16*SizeAdapter, 16*SizeAdapter);
+    [button addCallBackAction:^(UIButton *button) {
+        self.flag = !self.flag;
+        [self.tableView reloadData];
+    }];
+    [button setEnlargeEdgeWithTop:10 right:10 bottom:10 left:10];
+    [view addSubview:button];
+    UITextField * titleTextField = [[UITextField alloc]initWithFrame:CGRectMake(16*SizeAdapter, 0, self.tableView.cmam_width-50*SizeAdapter, 30)];
+    titleTextField.placeholder = @"aaa";
+    [view addSubview:titleTextField];
+    
+    UIView * line = [[UIView alloc]initWithFrame:CGRectMake(0, 29.5, self.tableView.cmam_width, 0.5)];
+    line.backgroundColor = random(233, 233, 233, 1);
+    [view addSubview:line];
+    return view;
+}
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.cmam_width, 30)];
+    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    WYACard * card = [[WYACard alloc]initWithFrame:CGRectMake(10, 5, self.tableView.cmam_width-20, 90)];
+    card.layer.cornerRadius = 4.f;
+    card.layer.masksToBounds = YES;
+    [view addSubview:card];
+    return view;
+}
 /*
 #pragma mark - Navigation
 
