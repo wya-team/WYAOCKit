@@ -9,6 +9,7 @@
 #import "WYACustomCellController.h"
 #import "WYACellTableViewController.h"
 #import "WYAInputItemCellController.h"
+#import "WYAListCellController.h"
 @interface WYACustomCellController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
@@ -40,6 +41,8 @@
     }
     else if (indexPath.row == 2){
         
+        [self.navigationController pushViewController:[[WYAListCellController alloc]init] animated:YES];
+
     }
 }
 #pragma mark ======= getter

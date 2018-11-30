@@ -74,7 +74,8 @@
                                  @"滑动选择器",
                                  @"自定义cell",
                                  @"图片预览器",
-                                 @"Stepper"];
+                                 @"Stepper",
+                                 @"ShareView"];
             object;
         });
     }
@@ -130,6 +131,9 @@
         [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
     }else if (indexPath.row == 11){
         [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
+    }else if (indexPath.row == 12){
+        WYAShareView * shareView = [WYAShareView showShareViewController:self withItems:WYAShareViewItemQQ|WYAShareViewItemSina|WYAShareViewItemQQZone|WYAShareViewItemWeChat|WYAShareViewItemWeChatFriends];
+        NSLog(@"%f",shareView.frame.size.height);
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }

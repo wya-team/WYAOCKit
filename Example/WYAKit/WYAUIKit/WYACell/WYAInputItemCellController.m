@@ -7,14 +7,16 @@
 //
 
 #import "WYAInputItemCellController.h"
-#import "WYAInputItemCell.h"
-@interface WYAInputItemCellController ()<UITableViewDelegate,UITableViewDataSource>
+#import "WYAInputItemTwoCell.h"
+#import "WYAInputOneCell.h"
+#import "WYAInputItemModel.h"
+
+#define ONECELLID @"WYAInputOneCell"
+#define TWOCELLID @"WYAInputItemTwoCell"
+@interface WYAInputItemCellController ()<UITableViewDelegate,UITableViewDataSource,WYAInputItemTwoCellDelegate,WYAInputOneCellDelegate>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
-@property (nonatomic, strong) NSArray * annotationArray;
-@property (nonatomic, strong) NSArray * formatArray;
-@property (nonatomic, strong) NSArray * disableArray;
-@property (nonatomic, strong) NSArray * checkArray;
+@property (nonatomic, strong) NSArray * sectionArray;
 @end
 
 @implementation WYAInputItemCellController
@@ -25,89 +27,120 @@
 }
 #pragma mark ======= UITableViewDelegate,UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
+    return self.dataSource.count;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    return [[self.dataSource wya_safeObjectAtIndex:section] count];
-    return self.annotationArray.count;
+    return [[self.dataSource wya_safeObjectAtIndex:section] count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    WYAInputItemCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cellId"];
-    cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    
     NSInteger section = indexPath.section;
-    cell.isEditor = YES;
-//    switch (section) {
-//        case 0:
-//            {
-                if (indexPath.row == 1) {
-                    cell.textFiled.textColor = [UIColor blackColor];
-                }if (indexPath.row == 2) {
-                    cell.textFiled.textColor = [UIColor wya_hex:@"#108EE9"];
-                }
-                cell.dataArray = [self.annotationArray wya_safeObjectAtIndex:indexPath.row];
-                return cell;
-//            }
-//            break;
-//        case 1:
-//        {
-//            cell.dataArray = [self.formatArray wya_safeObjectAtIndex:indexPath.row];
-//            if (indexPath.row == 2) {
-//                cell.textFiled.secureTextEntry = YES;
-//            }
-//            return cell;
-//        }
-//            break;
-//        case 2:
-//        {
-//            if (indexPath.row == 1) {
-//                cell.leftButton.titleLabel.font = FONT(12);
-//                cell.leftButton.titleLabel.textColor = [UIColor groupTableViewBackgroundColor];
-//                cell.isEditor = NO;
-//            }
-//            cell.dataArray = [self.disableArray wya_safeObjectAtIndex:indexPath.row];
-//            return cell;
-//        }
-//            break;
-//        case 3:
-//        {
-//            cell.textFiled.textColor = [UIColor redColor];
-//            cell.dataArray = [self.checkArray wya_safeObjectAtIndex:indexPath.row];
-//            return cell;
-//        }
-//            break;
-//        default:
-//            break;
-//    }
-//    return nil;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
-}
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel * sectionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 35*SizeAdapter)];
-    sectionLabel.textColor = [UIColor grayColor];
-    sectionLabel.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    WYAInputOneCell * oneCell = [tableView dequeueReusableCellWithIdentifier:ONECELLID];
+    oneCell.delegate = self;
+    WYAInputItemTwoCell * twoCell = [tableView dequeueReusableCellWithIdentifier:TWOCELLID];
+    twoCell.delegate = self;
     switch (section) {
         case 0:
-            sectionLabel.text = @"  右侧注释";
+            {
+                WYAInputItemModel * model = [[self.dataSource wya_safeObjectAtIndex:section] wya_safeObjectAtIndex:indexPath.row];
+                if(![model.type isEqualToString:@"2"]){
+                    oneCell.model = model;
+                    if (indexPath.row == 0) {
+                        [oneCell.textFiled wya_setPlaceholedr:model.TextFiledText
+                                                        color:[UIColor blackColor]
+                                                         font:14];
+                    }
+                    if (indexPath.row == 2) {
+                        [oneCell.rightButton setTitleColor:WYA_RGB_COLOR(16, 142, 233) forState:UIControlStateNormal];
+                    }
+                    return oneCell;
+                }else{
+                    twoCell.model = model;
+                    return twoCell;
+                }
+            }
             break;
         case 1:
-            sectionLabel.text = @"  格式";
+        {
+            WYAInputItemModel * model = [[self.dataSource wya_safeObjectAtIndex:section] wya_safeObjectAtIndex:indexPath.row];
+            if(![model.type isEqualToString:@"2"]){
+                oneCell.model = model;
+                [oneCell.textFiled wya_setPlaceholedr:model.TextFiledText
+                                                color:[UIColor blackColor]
+                                                 font:14];
+                if (indexPath.row == 2) {
+                    oneCell.textFiled.secureTextEntry = YES;
+                }
+                return oneCell;
+            }else{
+                twoCell.model = model;
+                return twoCell;
+            }
+        }
             break;
         case 2:
-            sectionLabel.text = @"  不可编辑禁用";
+        {
+            WYAInputItemModel * model = [[self.dataSource wya_safeObjectAtIndex:section] wya_safeObjectAtIndex:indexPath.row];
+            if(![model.type isEqualToString:@"2"]){
+                oneCell.model = model;
+                oneCell.isEditor = NO;
+                if (indexPath.row == 0) {
+                    [oneCell.textFiled wya_setPlaceholedr:model.TextFiledText
+                                                    color:[UIColor blackColor]
+                                                     font:14];
+                    [oneCell.rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
+                }
+                if (indexPath.row == 1) {
+                    [oneCell.textFiled wya_setPlaceholedr:model.TextFiledText
+                                                    color:[UIColor blackColor]
+                                                     font:14];
+                    [oneCell.rightButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+                }
+                return oneCell;
+            }else{
+                twoCell.model = model;
+                return twoCell;
+            }
+        }
             break;
         case 3:
-            sectionLabel.text = @"  校验";
+        {
+            WYAInputItemModel * model = [[self.dataSource wya_safeObjectAtIndex:section] wya_safeObjectAtIndex:indexPath.row];
+            oneCell.model = model;
+            if(![model.type isEqualToString:@"2"]){
+                if (indexPath.row == 0) {
+                    [oneCell.textFiled wya_setPlaceholedr:model.TextFiledText
+                                                    color:[UIColor blackColor]
+                                                     font:14];
+                    
+                }
+                return oneCell;
+            }else{
+                twoCell.model = model;
+                return twoCell;
+            }
+        }
             break;
+      
         default:
             break;
     }
-    return sectionLabel;
+    return nil;
 }
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 30*SizeAdapter)];
+    label.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    label.font = FONT(16);
+    label.textColor = [UIColor grayColor];
+    label.text = [self.sectionArray wya_safeObjectAtIndex:section];
+    return label;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44*SizeAdapter;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 35*SizeAdapter;
+    return 30*SizeAdapter;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -118,9 +151,9 @@
         _tableView = ({
             UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight) style:UITableViewStylePlain];
             object.tableFooterView = [[UIView alloc]init];
-            [object registerClass:[WYAInputItemCell class] forCellReuseIdentifier:@"cellId"];
+            [object registerClass:[WYAInputItemTwoCell class] forCellReuseIdentifier:TWOCELLID];
+            [object registerClass:[WYAInputOneCell class] forCellReuseIdentifier:ONECELLID];
             object.delegate = self;
-            object.separatorStyle = UITableViewCellSeparatorStyleNone;
             object.dataSource = self;
             object;
         });
@@ -131,50 +164,102 @@
 - (NSArray *)dataSource{
     if(!_dataSource){
         _dataSource = ({
-            NSArray * object = @[self.annotationArray,self.formatArray,self.disableArray,self.checkArray];
+            NSArray * object = @[[self createModelOneArray],[self createModelTwoArray],[self createModelThreeArray],[self createModelfourArray]];
             object;
         });
     }
     return _dataSource;
 }
 
-- (NSArray *)formatArray{
-    if(!_formatArray){
-        _formatArray = ({
-            NSArray * object = @[@[@"手机号",@"180 7989 2818",@" ",@"yanjing",@"1"],@[@"银行卡",@"1212 1675 1268 2245",@" ",@" ",@"3"],@[@"密码",@"180 7989 2818",@" ",@"jiantou",@"1"],@[@"金额",@"100",@"元",@" ",@"0"]];
-            object;
-       });
-    }
-    return _formatArray;
+- (NSArray *)createModelOneArray{
+    NSMutableArray * array = [NSMutableArray array];
+    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"输入内容" instructionsString:@"右侧注释" type:@"0" imageNamed:nil];
+    
+    WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    
+    WYAInputItemModel * model3 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"使用说明" type:@"0" imageNamed:nil];
+    
+    WYAInputItemModel * model4 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"jiantou"];
+    
+    WYAInputItemModel * model5 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"右侧注释" type:@"2" imageNamed:@"jiantou"];
+    
+    [array wya_safeAddObject:model1];
+    [array wya_safeAddObject:model2];
+    [array wya_safeAddObject:model3];
+    [array wya_safeAddObject:model4];
+    [array wya_safeAddObject:model5];
+    
+    return [array copy];
 }
 
-- (NSArray *)disableArray{
-    if(!_disableArray){
-        _disableArray = ({
-            NSArray * object = @[@[@"用户名",@"该用户名不存在",@" ",@" ",@"3"],@[@"标签",@"我是暗提示",@"右侧注释",@" ",@"0"]];
-            object;
-       });
-    }
-    return _disableArray;
+- (NSArray *)createModelTwoArray{
+    NSMutableArray * array = [NSMutableArray array];
+    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"手机号" textFiledText:@"180 7989 2818" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    
+    WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"银行卡" textFiledText:@"1212 1675 1268 2245" instructionsString:nil type:@"3" imageNamed:nil];
+    
+    WYAInputItemModel * model3 = [WYAInputItemModel modelWithTitle:@"密码" textFiledText:@"123456" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    
+    WYAInputItemModel * model4 = [WYAInputItemModel modelWithTitle:@"金额" textFiledText:@"100" instructionsString:@"元" type:@"0" imageNamed:nil];
+    
+    [array wya_safeAddObject:model1];
+    [array wya_safeAddObject:model2];
+    [array wya_safeAddObject:model3];
+    [array wya_safeAddObject:model4];
+    
+    return [array copy];
 }
 
-- (NSArray *)checkArray{
-    if(!_checkArray){
-        _checkArray = ({
-            NSArray * object = @[@[@"标签",@"我是暗提示",@"右侧注释",@"",@"0"]];
-            object;
-       });
-    }
-    return _checkArray;
+- (NSArray *)createModelThreeArray{
+    NSMutableArray * array = [NSMutableArray array];
+    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"用户名" textFiledText:@"该用户名不存在" instructionsString:nil type:@"3" imageNamed:nil];
+    
+    WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"右侧注释" type:@"0" imageNamed:nil];
+    
+    [array wya_safeAddObject:model1];
+    [array wya_safeAddObject:model2];
+    return [array copy];
 }
 
-- (NSArray *)annotationArray{
-    if(!_annotationArray){
-        _annotationArray = ({
-            NSArray * object = @[@[@"标签",@"输入内容",@"右侧注释",@" ",@"0"],@[@"标签",@"1212 1675 1268 2245",@" ",@"yanjing",@"1"],@[@"标签",@"我是暗提示",@"使用说明",@" ",@"0"],@[@"标签",@"我是暗提示",@" ",@"jiantou",@"1"],@[@"标签",@"我是暗提示",@"右侧注释",@"jiantou",@"2"]];
+- (NSArray *)createModelfourArray{
+    NSMutableArray * array = [NSMutableArray array];
+    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"我是右侧注释" type:@"0" imageNamed:nil];
+
+    
+    [array wya_safeAddObject:model1];
+    return [array copy];
+}
+
+- (NSArray *)sectionArray{
+    if(!_sectionArray){
+        _sectionArray = ({
+            NSArray * object = @[@"    右侧注释",@"    格式",@"    不可编辑 禁用",@"    校验"];
             object;
        });
     }
-    return _annotationArray;
+    return _sectionArray;
 }
+#pragma mark ======= WYAInputItemTwoCellDelegate
+- (void)wya_inputOneCell:(WYAInputOneCell *)cell rightButtonDidSelected:(UIButton *)sender{
+    NSLog(@"twoCellRightView---------%@",sender.titleLabel.text);
+    if (!sender.titleLabel.text.length) {
+        BOOL isShow = cell.textFiled.secureTextEntry;
+        cell.textFiled.secureTextEntry = !isShow;
+    }
+}
+- (void)wya_inputOneCell:(WYAInputOneCell *)cell textFiledChangeingValue:(nonnull NSString *)text{
+    NSLog(@"twoCellText----%@",text);
+}
+#pragma mark ======= WYAInputOneCellDelegate
+- (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell textFiledChangeingValue:(NSString *)text{
+    NSLog(@"twoCellText----%@",text);
+}
+- (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell rightButtonDidSelected:(UIButton *)sender{
+    NSLog(@"twoCellRightView---------%@",sender.titleLabel.text);
+}
+- (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell imageButtonDidSelected:(UIButton *)sender{
+    BOOL isShow = cell.textFiled.secureTextEntry;
+    cell.textFiled.secureTextEntry = !isShow;
+}
+
 @end

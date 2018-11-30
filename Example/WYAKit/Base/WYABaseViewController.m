@@ -12,13 +12,14 @@
 @end
 
 @implementation WYABaseViewController
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
+    [self addCustomNavBar];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addCustomNavBar];
 }
 #pragma mark ======= praived
 - (void)addCustomNavBar{
