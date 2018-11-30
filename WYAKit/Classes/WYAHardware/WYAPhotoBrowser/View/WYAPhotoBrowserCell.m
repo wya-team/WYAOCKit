@@ -24,7 +24,6 @@
         self.backgroundColor = [UIColor redColor];
         
         self.imageV = [[UIImageView alloc]init];
-//        _imageV.contentMode = UIViewContentModeScaleAspectFit;
         [self.contentView addSubview:self.imageV];
 
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -40,8 +39,8 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    self.imageV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame),CGRectGetMinY(self.contentView.frame), self.frame.size.width,self.frame.size.height);
-    self.button.frame = CGRectMake(self.frame.size.width-30, 0, 30, 30);
+    self.imageV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame),CGRectGetMinY(self.contentView.frame), self.contentView.frame.size.width,self.contentView.frame.size.height);
+    self.button.frame = CGRectMake(self.contentView.frame.size.width*0.8, 0, self.contentView.frame.size.width*0.2, self.contentView.frame.size.width*0.2);
 }
 
 -(void)setModel:(WYAPhotoBrowserModel *)model{
@@ -50,17 +49,27 @@
         if (model.cacheImage) {
             self.imageV.image = model.cacheImage;
         }else{
+            
             PHAsset * asset = (PHAsset *)model.asset;
-            CGFloat ratio = asset.pixelWidth/asset.pixelHeight;
-            CGFloat width =  self.cmam_width*3;
+            CGFloat ratio = asset.pixelWidth/(CGFloat)asset.pixelHeight;
+            CGFloat width =  self.cmam_width*[UIScreen mainScreen].scale*3;
+            // 超宽图片
+            if (ratio > 1.8) {
+                width = width * ratio;
+            }
+            // 超高图片
+            if (ratio < 0.2) {
+                width = width * 0.5;
+            }
             CGFloat height = width/ratio;
+            NSLog(@"width==%f,height==%f",width,height);
             PHImageManager * manager = [PHImageManager defaultManager];
             PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
 //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
             
-            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(width, height) contentMode:PHImageContentModeAspectFit options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(width, height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.imageV.image = result;
                 model.cacheImage = result;
             }];

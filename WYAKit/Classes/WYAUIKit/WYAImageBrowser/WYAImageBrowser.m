@@ -78,6 +78,8 @@
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
         _collectionView.pagingEnabled = YES;
+        _collectionView.contentOffset = CGPointMake(0, 0);
+        _collectionView.scrollsToTop = NO;
         [_collectionView registerClass:[WYAImageBrowserCell class] forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;
@@ -96,17 +98,19 @@
 }
 
 #pragma mark --- UICollectionViewDataSource
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.images.count;
 }
 
-
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     WYAImageBrowserCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
-    cell.image = self.images[indexPath.item];
     return cell;
+}
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAImageBrowserCell * imageCell = (WYAImageBrowserCell *)cell;
+    imageCell.image = self.images[indexPath.item];
+    [imageCell.scrollV setZoomScale:1 animated:NO];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

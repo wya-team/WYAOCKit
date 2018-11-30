@@ -7,10 +7,13 @@
 
 #import <UIKit/UIKit.h>
 
+@class WYAPhotoBrowserModel;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoEditViewController : UIViewController
-@property (nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) NSMutableArray <WYAPhotoBrowserModel *> * models;
+
 @end
 
 NS_ASSUME_NONNULL_END

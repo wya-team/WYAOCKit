@@ -7,13 +7,17 @@
 //
 
 #import "WYACameraVC.h"
-#import "WYAHomeItemCell.h"
 
-#define HOMEITEMCELL @"WYAHomeItemCell"
+#import "WYACameraCell.h"
+#import "WYAEditCameraCell.h"
+
+
+#define CameraCell @"WYACameraCell"
+#define EditCameraCell @"WYAEditCameraCell"
 
 @interface WYACameraVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic, strong) UICollectionView * collectionView;
-
+@property (nonatomic, strong) NSMutableArray * dataSource;
 @end
 
 @implementation WYACameraVC
@@ -22,55 +26,139 @@
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
 }
-
+#pragma mark --- Getter
 - (UICollectionView *)collectionView{
     if(!_collectionView){
         _collectionView = ({
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
             layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-            layout.itemSize = CGSizeMake(ScreenWidth/3, 100);
-            layout.minimumLineSpacing = 0;
-            layout.minimumInteritemSpacing = 0;
+            layout.headerReferenceSize = CGSizeMake(ScreenWidth, 20*SizeAdapter);
             UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) collectionViewLayout:layout];
             object.delegate = self;
             object.dataSource = self;
-            object.backgroundColor = [UIColor whiteColor];
-            [object registerClass:[WYAHomeItemCell class] forCellWithReuseIdentifier:HOMEITEMCELL];
-            
+            object.backgroundColor = [UIColor groupTableViewBackgroundColor];
+            [object registerNib:[UINib nibWithNibName:@"WYACameraCell" bundle:nil] forCellWithReuseIdentifier:CameraCell];
+            [object registerNib:[UINib nibWithNibName:@"WYAEditCameraCell" bundle:nil] forCellWithReuseIdentifier:EditCameraCell];
             object;
         });
     }
     return _collectionView;
 }
+- (NSMutableArray *)dataSource{
+    if(!_dataSource){
+        _dataSource = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+        });
+    }
+    return _dataSource;
+}
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 2;
+    if (section == 0) {
+        return 3;
+    }else{
+        return self.dataSource.count;
+    }
+    
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
+    return 2;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYAHomeItemCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:HOMEITEMCELL forIndexPath:indexPath];
-    if (indexPath.item == 0) {
-        cell.titleString = @"相册";
+    if (indexPath.section == 0) {
+        WYACameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CameraCell forIndexPath:indexPath];
+        return cell;
     }else{
-        cell.titleString = @"相机";
+        WYAEditCameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:EditCameraCell forIndexPath:indexPath];
+        return cell;
     }
-    return cell;
+    
 }
 
 #pragma mark ======= UICollectionViewDelegate
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        WYACameraCell * cameraCell = (WYACameraCell *)cell;
+        if (indexPath.item == 0) {
+            cameraCell.imageView.image = [UIImage imageNamed:@"plus"];
+        }else if (indexPath.item == 1) {
+            cameraCell.imageView.image = [UIImage imageNamed:@"xiangce"];
+        }else{
+            cameraCell.imageView.image = [UIImage imageNamed:@"xiangji"];
+        }
+    }else{
+        WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
+        editCell.imageView.image = self.dataSource[indexPath.item];
+        editCell.editBlock = ^{
+            [self.dataSource removeObjectAtIndex:indexPath.row];
+            [self.collectionView reloadData];
+        };
+    }
+    
+    
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        CGFloat width = (ScreenWidth-20)/3;
+        return CGSizeMake(width, width);
+    }else{
+        CGFloat width = (ScreenWidth-25)/4;
+        return CGSizeMake(width, width);
+    }
+    
+}
+//footer的size
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+//{
+//    return CGSizeMake(10, 10);
+//}
+
+//header的size
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return CGSizeMake(10, 10);
+//}
+
+//设置每个item的UIEdgeInsets
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0*SizeAdapter, 5, 0*SizeAdapter, 5);
+}
+
+//设置每个item水平间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0 * SizeAdapter;
+}
+
+//设置每个item垂直间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    if (indexPath.item == 0) {
-        WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]init];
-        [self presentViewController:photo animated:YES completion:nil];
-    }else{
-        WYACameraViewController * camera = [[WYACameraViewController alloc]init];
-        [self presentViewController:camera animated:YES completion:nil];
+    if (indexPath.section == 0) {
+        if (indexPath.item == 0 || indexPath.item == 1) {
+            WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:5];
+            photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
+                NSLog(@"images==%@",images);
+                self.dataSource = images;
+                [self.collectionView reloadData];
+            };
+            [self presentViewController:photo animated:YES completion:nil];
+        }else{
+            WYACameraViewController * camera = [[WYACameraViewController alloc]init];
+            [self presentViewController:camera animated:YES completion:nil];
+        }
     }
+    
 }
 
 /*
@@ -116,5 +204,7 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
 
 @end

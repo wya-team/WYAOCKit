@@ -56,12 +56,8 @@ static CGFloat padding = 250;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    [self.navigationController.navigationBar setTranslucent:NO];
 
-//    NSLog(@"self.view.frame==%@",NSStringFromCGRect(self.view.frame));
-    
-//    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+
     self.containerView = [[WYAContainerView alloc]init];
     self.containerView.frame = self.view.frame;
     self.containerView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.3];
@@ -69,14 +65,6 @@ static CGFloat padding = 250;
     [self.view sendSubviewToBack:self.containerView];
     self.leftViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
     self.rightViewController.preferredContentSize = CGSizeMake(self.view.frame.size.width-padding, self.view.frame.size.height);
-    
-//    if (self.leftViewController) {
-//        [self addChildVC:self.leftViewController];
-//    }
-//
-//    if (self.rightViewController) {
-//        [self addChildVC:self.rightViewController];
-//    }
     
     if (self.centerViewController) {
         [self addChildVC:self.centerViewController];
@@ -174,6 +162,7 @@ static CGFloat padding = 250;
 }
 
 -(void)panView:(UIPanGestureRecognizer *)pan{
+    NSLog(@"%d",self.navigationController.viewControllers.count);
     if (fristTouchX>ScreenWidth-padding) {
         return;
     }

@@ -64,6 +64,7 @@
     
     
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
+    vc.maxCount = self.maxCount;
     [self.navigationController pushViewController:vc animated:NO];
     [self photoAlbum];
 }
@@ -129,6 +130,7 @@
     }
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
     vc.collection = collection;
+    vc.maxCount = self.maxCount;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

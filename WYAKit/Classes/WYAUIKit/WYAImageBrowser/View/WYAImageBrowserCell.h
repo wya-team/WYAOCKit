@@ -10,6 +10,8 @@
 
 @interface WYAImageBrowserCell : UICollectionViewCell
 
+@property (nonatomic, strong) UIScrollView * scrollV;
+
 @property (nonatomic, strong) UIImage * image;
 
 @end

@@ -45,13 +45,15 @@
 #import "WYAPhotoBrowserCell.h"
 #import "controlView.h"
 #import "WYAPhotoBrowserManager.h"
+#import "WYAPhotoBrowser.h"
 
 @interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) controlView * controlV;
-@property (nonatomic, strong) NSMutableArray * images;
+@property (nonatomic, strong) NSMutableArray<UIImage *> * images;
+@property (nonatomic, strong) NSMutableArray * models;
 
 @end
 
@@ -73,15 +75,15 @@
     [self.view addSubview:self.controlV];
     
     [self.view addSubview:self.collectionView];
-    self.collectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-49);
-
+    self.collectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-WYABottomHeight-49);
+    
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (self.collection) {
             self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
         }else{
-            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionStartDate assetSort:AssetCreationDate];
         }
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -111,17 +113,54 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark --- Private Method
+- (void)showAlert{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:nil message:@"您已选择最大个数，请删除后继续添加" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)performBlock{
+    WeakSelf(weakSelf);
+    WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
+    self.controlV.previewBlock = ^{
+        WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
+        vc.models = self.models;
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+    };
+    
+    self.controlV.doneBlock = ^{
+        StrongSelf(strongSelf);
+        [strongSelf dismissViewControllerAnimated:YES completion:^{
+            if (photoBrowser.callBackBlock) {
+                photoBrowser.callBackBlock(strongSelf.images);
+            }
+        }];
+    };
+}
+
 #pragma mark --- Getter
-- (NSMutableArray *)images{
+- (NSMutableArray<UIImage *> *)images{
     if (!_images) {
         _images = [NSMutableArray array];
     }
     return _images;
 }
 
+- (NSMutableArray *)models{
+    if(!_models){
+        _models = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+        });
+    }
+    return _models;
+}
+
 - (controlView *)controlV{
     if (!_controlV) {
-        _controlV = [[controlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYATopHeight-49, ScreenWidth, 49)];
+        _controlV = [[controlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYABottomHeight-49, ScreenWidth, 49)];
     }
     return _controlV;
 }
@@ -158,18 +197,21 @@
     imageCell.model = self.dataSource[indexPath.row];
     __block WYAPhotoBrowserCell * pickCell = imageCell;
     imageCell.selectImage = ^(BOOL seleted) {
-        
+        WYAPhotoBrowserModel * model = self.dataSource[indexPath.row];
         if (seleted) {
             if (self.images.count >= self.maxCount) {
                 [self showAlert];
                 [pickCell uncheckButton];
                 [self.images removeObject:pickCell.imageV.image];
+                [self.models removeObject:model];
                 return ;
             }
             [self.images addObject:pickCell.imageV.image];
+            [self.models addObject:model];
         }else{
             [pickCell uncheckButton];
             [self.images removeObject:pickCell.imageV.image];
+            [self.models removeObject:model];
         }
     };
 }
@@ -179,17 +221,6 @@
     CGFloat width = (ScreenWidth-25)/4;
     return CGSizeMake(width, width);
 }
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
 
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
@@ -211,32 +242,13 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
-    WYAPhotoBrowserCell * cell = (WYAPhotoBrowserCell *)[collectionView cellForItemAtIndexPath:indexPath];
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
-    vc.image = cell.imageV.image;
+    vc.models = [@[self.dataSource[indexPath.item]] mutableCopy];
     [self.navigationController pushViewController:vc animated:YES];
     
 }
 
-#pragma mark --- Private Method
-- (void)showAlert{
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:nil message:@"您已选择最大个数，请删除后继续添加" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-}
 
-- (void)performBlock{
-    self.controlV.previewBlock = ^{
-        
-    };
-    
-    self.controlV.doneBlock = ^{
-        if (self.selectedImages) {
-            self.selectedImages(self.images);
-        }
-    };
-}
 
 /*
 #pragma mark - Navigation
@@ -247,5 +259,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+
+
 
 @end
