@@ -8,7 +8,7 @@
 
 #import "WYACustomCellController.h"
 #import "WYACellTableViewController.h"
-
+#import "WYAInputItemCellController.h"
 @interface WYACustomCellController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
@@ -34,7 +34,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 0) {
-        
+        [self.navigationController pushViewController:[WYAInputItemCellController new] animated:YES];
     }else if (indexPath.row == 1){
         [self.navigationController pushViewController:[WYACellTableViewController new] animated:YES];
     }

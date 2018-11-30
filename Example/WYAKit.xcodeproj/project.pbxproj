@@ -57,6 +57,8 @@
 		9559283421AE82D400C46D6D /* WYAHomeItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283321AE82D400C46D6D /* WYAHomeItemCell.m */; };
 		956D1E7A219D7929006A40AB /* TODO .md in Resources */ = {isa = PBXBuildFile; fileRef = 956D1E79219D7929006A40AB /* TODO .md */; };
 		9578496D21AFD780001E19DC /* WYACustomCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578496C21AFD780001E19DC /* WYACustomCellController.m */; };
+		9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */; };
+		9578497821B0091A001E19DC /* WYAInputItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578497721B0091A001E19DC /* WYAInputItemCell.m */; };
 		95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */; };
 /* End PBXBuildFile section */
 
@@ -163,6 +165,10 @@
 		956D1E79219D7929006A40AB /* TODO .md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "TODO .md"; sourceTree = "<group>"; };
 		9578496B21AFD780001E19DC /* WYACustomCellController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACustomCellController.h; sourceTree = "<group>"; };
 		9578496C21AFD780001E19DC /* WYACustomCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACustomCellController.m; sourceTree = "<group>"; };
+		9578496E21AFDD9A001E19DC /* WYAInputItemCellController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAInputItemCellController.h; sourceTree = "<group>"; };
+		9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAInputItemCellController.m; sourceTree = "<group>"; };
+		9578497621B0091A001E19DC /* WYAInputItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAInputItemCell.h; sourceTree = "<group>"; };
+		9578497721B0091A001E19DC /* WYAInputItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAInputItemCell.m; sourceTree = "<group>"; };
 		95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperController.h; sourceTree = "<group>"; };
 		95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperController.m; sourceTree = "<group>"; };
 		BB2BD88E491B4BE33928C5E8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -200,10 +206,13 @@
 		210E9F7A21AD403400BFE994 /* WYACell */ = {
 			isa = PBXGroup;
 			children = (
+				9578497521B008DF001E19DC /* List_inputItemView */,
 				210E9F7B21AD406600BFE994 /* WYACellTableViewController.h */,
 				210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */,
 				9578496B21AFD780001E19DC /* WYACustomCellController.h */,
 				9578496C21AFD780001E19DC /* WYACustomCellController.m */,
+				9578496E21AFDD9A001E19DC /* WYAInputItemCellController.h */,
+				9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */,
 			);
 			path = WYACell;
 			sourceTree = "<group>";
@@ -591,6 +600,15 @@
 			path = WYAStepperView;
 			sourceTree = "<group>";
 		};
+		9578497521B008DF001E19DC /* List_inputItemView */ = {
+			isa = PBXGroup;
+			children = (
+				9578497621B0091A001E19DC /* WYAInputItemCell.h */,
+				9578497721B0091A001E19DC /* WYAInputItemCell.m */,
+			);
+			path = List_inputItemView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -801,6 +819,7 @@
 				210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */,
 				21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */,
 				954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */,
+				9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */,
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
@@ -826,6 +845,7 @@
 				951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */,
 				21470C06219ABF270099CB6F /* WYAShareViewController.m in Sources */,
 				9527A91A21AD291700B10579 /* WYABaseViewController.m in Sources */,
+				9578497821B0091A001E19DC /* WYAInputItemCell.m in Sources */,
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,
 				21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */,
