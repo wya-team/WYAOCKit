@@ -8,7 +8,7 @@
 #import "WYAPhotoBrowserAlbum.h"
 #import <Photos/Photos.h>
 #import "WYAPhotoBrowserManager.h"
-
+#import "WYAPhotoBrowserViewController.h"
 @interface WYAPhotoBrowserAlbum ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * table;
@@ -27,11 +27,11 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-//    [self.navigationController.navigationBar setShadowImage:nil];
-//}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:nil];
+}
 
 
 
@@ -49,6 +49,23 @@
     self.table.rowHeight = 60 * SizeAdapter;
     [self.table registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.table];
+    
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"取消" forState:UIControlStateNormal];
+    
+    [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 30);
+    button.titleLabel.font = FONT(15);
+    [button addCallBackAction:^(UIButton *button) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+    
+    
+    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:NO];
+    [self photoAlbum];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -104,29 +121,41 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-        PHAssetCollection * collection = self.dataSource[indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    PHAssetCollection * collection = self.dataSource[indexPath.row];
+    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+    if (smartSubResult.count<1) {
+        return;
+    }
+    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc]init];
+    vc.collection = collection;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
-- (NSMutableArray *)dataSource{
-    NSMutableArray * systemArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionEndDate]; //相机胶卷
-    NSMutableArray * videoArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeVideo CollectionSort:AssetCollectionEndDate]; //视频
-    NSMutableArray * screenshortArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeScreenshots CollectionSort:AssetCollectionEndDate]; //截图
-    NSMutableArray * addArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeRecentlyAdded CollectionSort:AssetCollectionEndDate]; //最近添加
-    NSMutableArray * livePhotoArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeLivePhotos CollectionSort:AssetCollectionEndDate]; //实况照片
-    NSMutableArray * userArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeAlbum AssetCollectionSubType:AssetCollectionSubTypeAlbumRegular CollectionSort:AssetCollectionEndDate];
+- (void)photoAlbum{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSMutableArray * systemArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionEndDate]; //相机胶卷
+        NSMutableArray * videoArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeVideo CollectionSort:AssetCollectionEndDate]; //视频
+        NSMutableArray * screenshortArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeScreenshots CollectionSort:AssetCollectionEndDate]; //截图
+        NSMutableArray * addArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeRecentlyAdded CollectionSort:AssetCollectionEndDate]; //最近添加
+        NSMutableArray * livePhotoArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeLivePhotos CollectionSort:AssetCollectionEndDate]; //实况照片
+        NSMutableArray * userArray = [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeAlbum AssetCollectionSubType:AssetCollectionSubTypeAlbumRegular CollectionSort:AssetCollectionEndDate];
+        
+        
+        NSMutableArray * allArray = [NSMutableArray arrayWithCapacity:0];
+        [allArray addObjectsFromArray:systemArray];
+        [allArray addObjectsFromArray:videoArray];
+        [allArray addObjectsFromArray:screenshortArray];
+        [allArray addObjectsFromArray:addArray];
+        [allArray addObjectsFromArray:livePhotoArray];
+        [allArray addObjectsFromArray:userArray];
+        self.dataSource = allArray;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.table reloadData];
+        });
+    });
     
-    
-    NSMutableArray * allArray = [NSMutableArray arrayWithCapacity:0];
-    [allArray addObjectsFromArray:systemArray];
-    [allArray addObjectsFromArray:videoArray];
-    [allArray addObjectsFromArray:screenshortArray];
-    [allArray addObjectsFromArray:addArray];
-    [allArray addObjectsFromArray:livePhotoArray];
-    [allArray addObjectsFromArray:userArray];
-    _dataSource = allArray;
-    return _dataSource;
 }
 
 

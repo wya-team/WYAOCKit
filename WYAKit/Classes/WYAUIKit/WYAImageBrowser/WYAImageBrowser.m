@@ -46,7 +46,7 @@
     [super layoutSubviews];
     
     [self.collectionView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
+        make.edges.mas_equalTo(self);
     }];
     
     [self.pageControl mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -70,8 +70,8 @@
 -(UICollectionView *)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
-        
-        
+        layout.minimumLineSpacing = 0;
+        layout.minimumInteritemSpacing = 0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor blackColor];
@@ -111,7 +111,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(ScreenWidth, self.cmam_height);
+    return CGSizeMake(self.cmam_width, self.cmam_height);
 }
 //footer的size
 //- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -145,24 +145,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-}
-
-#pragma mark --- UIScrollViewDelegate
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self cycleScroll];
-    //拖拽动作后间隔3s继续轮播
-    //    [_timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:ScrollInterval]];
-}
-
-//自动轮播结束
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    [self cycleScroll];
-}
-
-//循环显示
-- (void)cycleScroll {
-    NSInteger page = self.collectionView.contentOffset.x/self.collectionView.bounds.size.width;
-    self.pageControl.currentPage = page;
 }
 
 #pragma mark --- Method

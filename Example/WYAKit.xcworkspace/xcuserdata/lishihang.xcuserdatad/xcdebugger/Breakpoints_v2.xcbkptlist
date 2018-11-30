@@ -9,77 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-            timestampString = "565173825.600304"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageBrowser/View/WYAImageBrowserCell.m"
+            timestampString = "565232599.733616"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
+            landmarkName = "-zoomRectForScale:withCenter:"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-            timestampString = "565173825.600641"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WYACellTableViewController tableView:cellForRowAtIndexPath:]"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/Example/WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-                  timestampString = "565173825.824604"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "302">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__Block_byref_object_copy_"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/Example/WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-                  timestampString = "565173825.830763"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "12">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__Block_byref_object_dispose_"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/Example/WYAKit/WYAUIKit/WYACell/WYACellTableViewController.m"
-                  timestampString = "565173825.836277"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "48"
-                  endingLineNumber = "48"
-                  offsetFromSymbolStart = "10">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

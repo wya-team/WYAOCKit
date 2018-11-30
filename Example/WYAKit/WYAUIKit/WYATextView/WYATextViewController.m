@@ -19,22 +19,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
-    WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 100)];
+    WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(10, 100, self.view.frame.size.width-20, 100)];
     [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
     textView.textViewWordsCount = 1000;
-    textView.layer.borderColor = [UIColor grayColor].CGColor;
-    textView.layer.borderWidth = 0.5;
+    textView.showTitle = NO;
+    textView.layer.cornerRadius = 4.f;
+    textView.layer.masksToBounds = YES;
     [self.view addSubview:textView];
     
-    WYATextView * textView1 = [[WYATextView alloc]initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, 100)];
+    WYATextView * textView1 = [[WYATextView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame)+20, self.view.frame.size.width-20, 100)];
     [textView1 wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
     textView1.textViewWordsCount = 100;
     textView1.title = @"哈哈";
-    textView1.layer.borderColor = [UIColor grayColor].CGColor;
-    textView1.layer.borderWidth = 0.5;
+    textView1.layer.cornerRadius = 4.f;
+    textView1.layer.masksToBounds = YES;
     [self.view addSubview:textView1];
+    
+    
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

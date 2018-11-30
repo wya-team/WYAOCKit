@@ -91,4 +91,5 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
  */
 + (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType AssetCollectionSubType:(PHAssetCollectionSubtype)subType CollectionSort:(AssetCollectionSort)collectionSort assetSort:(AssetSort)assetSort;
 
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:(PHAssetCollection *)collection;
 @end

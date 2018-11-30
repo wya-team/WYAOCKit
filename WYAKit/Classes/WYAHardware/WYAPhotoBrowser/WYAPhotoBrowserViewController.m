@@ -41,10 +41,8 @@
 //    NSLog(@"ass==%@,ass.count==%d ",assetsFetchResults, assetsFetchResults.count);
 
 #import "WYAPhotoBrowserViewController.h"
-#import <Photos/Photos.h>
+#import "WYAPhotoEditViewController.h"
 #import "WYAPhotoBrowserCell.h"
-
-
 #import "controlView.h"
 #import "WYAPhotoBrowserManager.h"
 
@@ -52,38 +50,57 @@
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) NSMutableDictionary * cells;
 @property (nonatomic, strong) controlView * controlV;
 @property (nonatomic, strong) NSMutableArray * images;
-@property (nonatomic, strong) NSMutableArray * datas;
-@property (nonatomic, strong) UIButton * button;
-@property (nonatomic, strong) WYAPhotoBrowserManager * imagePickerManager;
+
 @end
 
 @implementation WYAPhotoBrowserViewController
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setTranslucent:YES];
+    //去掉导航栏底部的黑线
+    self.navigationController.navigationBar.shadowImage = [UIImage new];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"相册胶卷";
-    self.navigationItem.titleView = self.button;
-    [self.navigationController.navigationBar setTranslucent:NO];
     
     [self.view addSubview:self.controlV];
     
     [self.view addSubview:self.collectionView];
-    self.collectionView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight-WYATopHeight-49);
+    self.collectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-49);
 
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeAny CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+        if (self.collection) {
+            self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
+        }else{
+            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
+        }
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
         });
     });
     
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"取消" forState:UIControlStateNormal];
     
+    [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
+    button.frame = CGRectMake(0, 0, 40, 30);
+    button.titleLabel.font = FONT(15);
+    [button addCallBackAction:^(UIButton *button) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
     
     [self performBlock];
     
@@ -94,32 +111,12 @@
     // Dispose of any resources that can be recreated.
 }
 
--(WYAPhotoBrowserManager *)imagePickerManager{
-    if (!_imagePickerManager) {
-        _imagePickerManager = [[WYAPhotoBrowserManager alloc]init];
-    }
-    return _imagePickerManager;
-}
-
-- (NSMutableDictionary *)cells{
-    if (!_cells) {
-        _cells = [NSMutableDictionary dictionaryWithCapacity:0];
-    }
-    return _cells;
-}
-
+#pragma mark --- Getter
 - (NSMutableArray *)images{
     if (!_images) {
         _images = [NSMutableArray array];
     }
     return _images;
-}
-
--(NSMutableArray *)datas{
-    if (!_datas) {
-        _datas = [NSMutableArray arrayWithCapacity:0];
-    }
-    return _datas;
 }
 
 - (controlView *)controlV{
@@ -132,10 +129,6 @@
 -(UICollectionView *)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
-        layout.minimumLineSpacing = 1;
-        layout.minimumInteritemSpacing = 1;
-        layout.itemSize = CGSizeMake((ScreenWidth-5)/4, (ScreenWidth-5)/4);
-        layout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1);
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource = self;
@@ -143,17 +136,6 @@
         [_collectionView registerClass:[WYAPhotoBrowserCell class] forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;
-}
-
--(UIButton *)button{
-    if (!_button) {
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_button setTitle:@"相机胶卷" forState:UIControlStateNormal];
-        [_button setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-        _button.bounds = CGRectMake(0, 0, 50, 30);
-        [_button addTarget:self action:@selector(switchImageType) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _button;
 }
 
 #pragma mark --- UICollectionViewDataSource
@@ -192,14 +174,51 @@
     };
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat width = (ScreenWidth-25)/4;
+    return CGSizeMake(width, width);
+}
+//footer的size
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+//{
+//    return CGSizeMake(10, 10);
+//}
+
+//header的size
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return CGSizeMake(10, 10);
+//}
+
+//设置每个item的UIEdgeInsets
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0*SizeAdapter, 5, 0*SizeAdapter, 5);
+}
+
+//设置每个item水平间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0 * SizeAdapter;
+}
+
+//设置每个item垂直间距
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    ImageCollectionViewCell * cell = (ImageCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+
     WYAPhotoBrowserCell * cell = (WYAPhotoBrowserCell *)[collectionView cellForItemAtIndexPath:indexPath];
-//    WYAImageScrollViewController * vc = [[WYAImageScrollViewController alloc]init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
+    vc.image = cell.imageV.image;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
+#pragma mark --- Private Method
 - (void)showAlert{
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:nil message:@"您已选择最大个数，请删除后继续添加" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction * okAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
@@ -217,29 +236,6 @@
             self.selectedImages(self.images);
         }
     };
-}
-
-- (void)switchImageType{
-    
-    
-    NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
-    for (PHAssetCollection * col  in self.datas) {
-        NSLog(@"col==%@",col);
-        [array addObject:col];
-    }
-//    self.typeView.dataSource = array;
-}
-
-
-
-- (void)imageTypeView:(UIView *)imageTypeView didSelectData:(id)data{
-    PHAssetCollection * collection = (PHAssetCollection *)data;
-    [self.button setTitle:collection.localizedTitle forState:UIControlStateNormal];
-    
-    PHAssetCollection * coll = (PHAssetCollection *)data;
-    NSMutableArray * array = [WYAPhotoBrowserManager screenAssetFromAssetCollectionWithFilter:coll.assetCollectionType AssetCollectionSubType:coll.assetCollectionSubtype CollectionSort:AssetCollectionEndDate assetSort:AssetModificationDate];
-    self.dataSource = array;
-    [self.collectionView reloadData];
 }
 
 /*

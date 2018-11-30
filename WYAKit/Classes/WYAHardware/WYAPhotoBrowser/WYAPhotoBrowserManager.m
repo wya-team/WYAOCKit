@@ -101,7 +101,7 @@
                 fetchO.sortDescriptors = subSortDescriptors;
                 
                 PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
-//                NSLog(@"smartCount==%d",smartSubResult.count);
+                NSLog(@"smartCount==%d",smartSubResult.count);
                 if (smartSubResult.count>0) {
                     
                     
@@ -273,4 +273,28 @@
     return datas;
 }
 
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:(PHAssetCollection *)collection{
+    NSMutableArray * datas = [NSMutableArray array];
+    PHFetchOptions * fetchO = [[PHFetchOptions alloc]init];
+    NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
+    [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
+    
+    fetchO.sortDescriptors = subSortDescriptors;
+    
+    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
+    //                NSLog(@"smartCount==%d",smartSubResult.count);
+    if (smartSubResult.count>0) {
+        
+        
+        for (NSInteger aaa = 0; aaa<smartSubResult.count; aaa++) {
+            
+            PHAsset * assert = (PHAsset *)smartSubResult[aaa];
+            WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc]init];
+            model.asset = assert;
+            model.selected = NO;
+            [datas addObject:model];
+        }
+    }
+    return datas;
+}
 @end
