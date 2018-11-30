@@ -10,7 +10,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoBrowser : UINavigationController
--(instancetype)init;
+
+@property (nonatomic, copy)   void(^callBackBlock)(NSMutableArray<UIImage *> *images);
+
+-(instancetype)initWithMaxCount:(NSInteger)maxCount;
 @end
 
 NS_ASSUME_NONNULL_END

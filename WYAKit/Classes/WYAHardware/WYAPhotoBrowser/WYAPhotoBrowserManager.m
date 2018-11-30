@@ -30,7 +30,7 @@
         default:
             break;
     }
-    //按照最新创建时间排序
+    //按照筛选项排序
     options.sortDescriptors = sortDescriptors;
 
     //获取手机上相册中所有子相册（此时获取的集合中的元素类型应该是相册类型，即：PHAssetCollection）
@@ -277,7 +277,7 @@
     NSMutableArray * datas = [NSMutableArray array];
     PHFetchOptions * fetchO = [[PHFetchOptions alloc]init];
     NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
-    [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
+    [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
     
     fetchO.sortDescriptors = subSortDescriptors;
     

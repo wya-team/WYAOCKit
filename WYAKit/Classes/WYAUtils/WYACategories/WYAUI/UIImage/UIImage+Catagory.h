@@ -20,6 +20,12 @@
  */
 + (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className;
 
+/**
+ 返回一张不超过屏幕尺寸的 image
+
+ @param image 图片
+ @return 图片
+ */
 + (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image;
 
 

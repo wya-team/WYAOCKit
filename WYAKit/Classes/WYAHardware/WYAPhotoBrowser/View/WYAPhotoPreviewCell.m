@@ -1,27 +1,23 @@
 //
-//  ImageBrowserCell.m
-//  ImagePickerDemo
+//  WYAPhotoPreviewCell.m
+//  WYAKit
 //
-//  Created by 李世航 on 2018/6/26.
-//  Copyright © 2018年 WeiYiAn. All rights reserved.
+//  Created by 李世航 on 2018/11/30.
 //
 
-#import "WYAImageBrowserCell.h"
+#import "WYAPhotoPreviewCell.h"
+#import "WYAPhotoBrowserModel.h"
+#import <Photos/Photos.h>
 
-@interface WYAImageBrowserCell ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
-
-//@property (nonatomic, strong) UIView * imageContainerView;
-
+@interface WYAPhotoPreviewCell ()<UIScrollViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIImageView * imageView;
-
 @end
 
-@implementation WYAImageBrowserCell
-
-- (instancetype)initWithFrame:(CGRect)frame{
+@implementation WYAPhotoPreviewCell
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
-        
         self.scrollV = [[UIScrollView alloc]init];
         self.scrollV.bouncesZoom = YES;
         self.scrollV.maximumZoomScale = 2.5;
@@ -44,7 +40,7 @@
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.userInteractionEnabled = YES;
         [self.scrollV addSubview:self.imageView];
-    
+        
         [self.scrollV setZoomScale:1 animated:NO];
     }
     return self;
@@ -74,11 +70,27 @@
     [scrollView setZoomScale:scale animated:NO];
 }
 
-- (void)setImage:(UIImage *)image{
-    _image = image;
-    if (image) {
-        self.imageView.image = image;
+#pragma mark --- Setter
+-(void)setModel:(WYAPhotoBrowserModel *)model{
+    _model = model;
+    if (model) {
+        if (model.cacheImage) {
+            self.imageView.image = model.cacheImage;
+        }else{
+            
+            PHAsset * asset = (PHAsset *)model.asset;
+            
+            PHImageManager * manager = [PHImageManager defaultManager];
+            PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
+            //        opi.synchronous = YES; //默认no，异步加载
+//              opi.resizeMode = PHImageRequestOptionsResizeModeFast;
+            //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            
+            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.imageView.cmam_width, self.imageView.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                self.imageView.image = result;
+                model.cacheImage = result;
+            }];
+        }
     }
 }
-
 @end
