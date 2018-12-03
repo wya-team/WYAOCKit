@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAHomeItemCell : UICollectionViewCell
 @property (nonatomic, copy) NSString * titleString;
-
 @end
 
 NS_ASSUME_NONNULL_END

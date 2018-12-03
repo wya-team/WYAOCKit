@@ -33,7 +33,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
     [self.view addSubview:self.collectionView];
 
 }
@@ -75,7 +74,8 @@
                                  @"自定义cell",
                                  @"图片预览器",
                                  @"Stepper",
-                                 @"ShareView"];
+                                 @"ShareView",
+                                 @"版本对比"];
             object;
         });
     }
@@ -132,8 +132,10 @@
     }else if (indexPath.row == 11){
         [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
     }else if (indexPath.row == 12){
-        WYAShareView * shareView = [WYAShareView showShareViewController:self withItems:WYAShareViewItemQQ|WYAShareViewItemSina|WYAShareViewItemQQZone|WYAShareViewItemWeChat|WYAShareViewItemWeChatFriends];
-        NSLog(@"%f",shareView.frame.size.height);
+        WYAShareView * view = [[WYAShareView alloc]initWithFrame:CGRectZero];
+        [view wya_showShareViewWithController:self];
+    }else if (indexPath.row == 13){
+        [self wya_versionUpdateAlertView];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }

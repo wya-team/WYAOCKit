@@ -2,40 +2,38 @@
 //  WYAShareView.h
 //  CocoaLumberjack
 //
-//  Created by 李俊恒 on 2018/11/30.
+//  Created by 李俊恒 on 2018/12/3.
 //
 
 #import <UIKit/UIKit.h>
-
+@class WYAShareView;
 NS_ASSUME_NONNULL_BEGIN
-typedef NS_OPTIONS(NSInteger, WYAShareViewItemType) {
-    WYAShareViewAllItems                  = 0,         //show all shareItems
-    WYAShareViewItemWeChat                = 1 << 0,    //WeChat friends
-    WYAShareViewItemWeChatFriends         = 1 << 1,    //WeChat friends circle
-    WYAShareViewItemQQ                    = 1 << 2,    //QQ friends
-    WYAShareViewItemQQZone                = 1 << 3,    //QQZone
-    WYAShareViewItemSina                  = 1 << 4     //Sina Microblog
-};
-@protocol WYAShareViewDelegate <NSObject>
+@protocol WYAShareViewDelagete <NSObject>
+
+@required
+
 /**
- * @Description  share callback
+ item点击事件
+
+ @param shareView shareView
+ @param indexPath indexPath
  */
-- (void)shareButtonClicked:(WYAShareViewItemType )senderType;
+- (void)wya_shareView:(WYAShareView *)shareView didSelectItemAtIndexPath:(NSIndexPath *)indexPath itemTitle:(NSString *)title;
 @end
 @interface WYAShareView : UIView
-@property (nonatomic, weak) id<WYAShareViewDelegate> WYAShareDekegate;
-@property (nonatomic, strong)UIViewController * controller;
 /**
- *
- * @Description Show a Shared view in the current viewController
- *
- * @param onViewController UIViewController
- * Add self to onViewCOntroller
- *
- * @param wyaShareViewItems wyaShareViewItems
- * Share the item that the self View will display items content is "微信、朋友圈、QQ好友、QQ空间、微博"
+ 存放shareArray otherArray例如:@[@[@“微博”，@“微信”],@[@"复制链接"，@“刷新”]]
  */
-+ (instancetype)showShareViewController:(UIViewController *)onViewController withItems:(WYAShareViewItemType) wyaShareViewItems;
+@property (nonatomic, strong, nonnull) NSArray<NSArray *> * dataArray;
+
+@property (nonatomic, weak) id<WYAShareViewDelagete> delegate;
+@property (nonatomic, strong) UIViewController * showController;
+/**
+ 展示分享视图
+
+ @param controller 需要展示的控制器
+ */
+- (void)wya_showShareViewWithController:(UIViewController *)controller;
 @end
 
 NS_ASSUME_NONNULL_END
