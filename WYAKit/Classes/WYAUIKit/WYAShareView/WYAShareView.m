@@ -2,255 +2,134 @@
 //  WYAShareView.m
 //  CocoaLumberjack
 //
-//  Created by 李俊恒 on 2018/11/30.
+//  Created by 李俊恒 on 2018/12/3.
 //
 
 #import "WYAShareView.h"
-#define CMScale(a) (SizeAdapter*a)
-@interface WYAShareView ()
-@property (nonatomic, strong) UIView *backGroundView;
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIButton *cancelButton;
-@property (nonatomic, strong) UIView *lineView;
-@property (nonatomic, strong) UIView *shareView;
-@property (nonatomic, strong) NSArray *shareItemsArray;
+#import "WYAShareViewItem.h"
+#import "WYAAlertController.h"
+#define SHARECELL @"shareCell"
+#define FOOTER @"footer"
+@interface WYAShareView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@property (nonatomic, strong) UIButton * cancleButton;
+@property (nonatomic, strong) UICollectionView * collectionView;
+@property (nonatomic, strong) WYAAlertController * alert;
 @end
 @implementation WYAShareView
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    if (self = [super initWithFrame:frame]) {
-        _backGroundView = [[UIView alloc]init];
-        _titleLabel = [[UILabel alloc]init];
-        _cancelButton = [[UIButton alloc]init];
-        _lineView = [[UIView alloc]init];
-        _shareView = [[UIView alloc]init];
-        
-        
-        [_backGroundView addSubview:_titleLabel];
-        [_backGroundView addSubview:_lineView];
-        [_backGroundView addSubview:_shareView];
-        [_backGroundView addSubview:_cancelButton];
-        [self addSubview:_backGroundView];
-        
+#pragma mark ======= Life Cycle
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self = [super initWithFrame:CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter)]) {
+       [self addSubview:self.collectionView];
+        self.backgroundColor = [UIColor redColor];
     }
-    [self setUI];
     return self;
 }
-
 - (void)layoutSubviews{
     [super layoutSubviews];
-    _backGroundView.cmam_bottom = self.cmam_bottom;
-    _backGroundView.cmam_width = ScreenWidth;
-    _backGroundView.cmam_height = 205*SizeAdapter;
-    
-    _titleLabel.cmam_top = 0;
-    _titleLabel.cmam_width = ScreenWidth;
-    _titleLabel.cmam_height = 38*SizeAdapter;
-    
-    _lineView.cmam_width = ScreenWidth;
-    _lineView.cmam_top = _titleLabel.cmam_bottom;
-    _lineView.cmam_height = 1;
-    
-    _shareView.cmam_top = _lineView.cmam_bottom;
-    _shareView.cmam_width = ScreenWidth;
-    _shareView.cmam_height = 123*SizeAdapter;
-    
-    _cancelButton.cmam_top = _shareView.cmam_bottom;
-    _cancelButton.cmam_width = ScreenWidth;
-    _cancelButton.cmam_height = 44;
+    [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.bottom.mas_equalTo(self);
+    }];
+}
+#pragma mark ======= public methods
+- (void)wya_showShareViewWithController:(UIViewController *)controller{
+    _showController = controller;
+    WYAShareView * view =  [[WYAShareView alloc]initWithFrame:CGRectMake(0,0, ScreenWidth, 270*SizeAdapter)];
+    view.dataArray = @[@[@"发送给朋友",@"新浪微博",@"生活圈",@"微信好友",@"QQ"], @[@"字号",@"刷新",@"复制链接",@"投诉"]];
+    self.alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomSheet];
+    [controller presentViewController:self.alert animated:YES completion:nil];
 }
 
-#pragma mark ====== Action
-// cancel
-- (void)cancelButtonClicked:(UIButton *)sender{
-    NSLog(@"取消");
-    [self disappear];
+- (void)setDataArray:(NSArray<NSArray *> *)dataArray{
+    _dataArray = dataArray;
+    [self.collectionView reloadData];
 }
-- (void)disappear{
-    self.backgroundColor = [UIColor clearColor];
-    [UIView animateWithDuration:0.25f animations:^{
-        self.backGroundView.cmam_bottom = self.cmam_bottom+205*SizeAdapter;
-        self.backGroundView.cmam_width = ScreenWidth;
-        self.backGroundView.cmam_height = 205*SizeAdapter;
-    }];
-    [self removeFromSuperview];
-    self.hidden = YES;
+#pragma mark ======= Action
+- (void)cancleButtonPressed:(UIButton *)sender{
+    NSLog(@"按钮标题------%@",sender.titleLabel.text);
+    [self.alert dismissViewControllerAnimated:YES completion:nil];
 }
-// share Button Clicked
-- (void)shareItemClicked:(UIButton *)sender
+#pragma mark ======= UICollectionViewDelegateFlowLayout
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(ScreenWidth/5, 110*SizeAdapter);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
+    if (section == 0 ) {
+        
+        return  CGSizeMake(ScreenWidth, 1);
+    }else if (section == 1 ){
+        return CGSizeMake(ScreenWidth, 49);
+    }
+    return CGSizeZero;
+}
+#pragma mark ======= UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return [[self.dataArray wya_safeObjectAtIndex:section] count];
+}
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return self.dataArray.count;
+}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAShareViewItem * cell = [collectionView dequeueReusableCellWithReuseIdentifier:SHARECELL forIndexPath:indexPath];
+    cell.titleString = [[self.dataArray wya_safeObjectAtIndex:indexPath.section] wya_safeObjectAtIndex:indexPath.row];
+ 
+    return cell;
+}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView * view =  [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:FOOTER forIndexPath:indexPath];
+    if (indexPath.section == 0 ) {
+        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        return view;
+    }else if (indexPath.section == 1 ){
+        [view addSubview:self.cancleButton];
+        return view;
+    }
+    return nil;
+}
+#pragma mark ======= UICollectionViewDelegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger index = sender.tag - 1000;
-    NSString * itemsNamed = _shareItemsArray[index];
-    if ([itemsNamed isEqualToString:@"微信"])
-    {
-        [self aleartControllerWith:@"微信好友" openType:WYAShareViewItemWeChat];
+    NSString * title = [[self.dataArray wya_safeObjectAtIndex:indexPath.section] wya_safeObjectAtIndex:indexPath.row];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_shareView:didSelectItemAtIndexPath:itemTitle:)]) {
+        [self.delegate wya_shareView:self didSelectItemAtIndexPath:indexPath itemTitle:title];
     }
-    if ([itemsNamed isEqualToString:@"朋友圈"])
-    {
-        [self aleartControllerWith:@"朋友圈" openType:WYAShareViewItemWeChatFriends];
-    }
-    if ([itemsNamed isEqualToString:@"QQ好友"])
-    {
-        [self aleartControllerWith:@"QQ好友" openType:WYAShareViewItemQQ];
-    }
-    if ([itemsNamed isEqualToString:@"QQ空间"])
-    {
-        [self aleartControllerWith:@"QQ空间" openType:WYAShareViewItemQQZone];
-    }
-    if ([itemsNamed isEqualToString:@"微博"])
-    {
-        [self aleartControllerWith:@"微博" openType:WYAShareViewItemSina];
-    }
-    
+    NSLog(@"indexPath.row%ld-------title%@",indexPath.row,title);
 }
-#pragma mark ====== Custom method
-/**
- Sets the color and text events of the view control
- */
-- (void)setUI{
-    
-    
-    UITapGestureRecognizer * tapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(disappear)];
-    tapGestureRecognizer.numberOfTapsRequired = 1;
-    [self addGestureRecognizer:tapGestureRecognizer];
-    
-    // Add a blackColor mask
-    UIColor *color = [UIColor blackColor];
-    self.backgroundColor = [color colorWithAlphaComponent:0.5];
-    
-    _titleLabel.text = @"分享到";
-    _titleLabel.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
-    _titleLabel.font = FONT(15);
-    _titleLabel.textAlignment = NSTextAlignmentCenter;
-    _titleLabel.textColor = [UIColor colorWithRed:118/255.0 green:118/255.0 blue:118/255.0 alpha:1];
-    
-    _lineView.backgroundColor = [UIColor colorWithRed:224/255.0 green:224/255.0 blue:224/255.0 alpha:1];
-    
-    _shareView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
-    
-    _cancelButton.backgroundColor = [UIColor whiteColor];
-    [_cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    UIColor * cancelButtonTitleColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-    [_cancelButton setTitleColor:cancelButtonTitleColor forState:UIControlStateNormal];
-    _cancelButton.titleLabel.font = FONT(17);
-    _cancelButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [_cancelButton addTarget:self
-                      action:@selector(cancelButtonClicked:)
-            forControlEvents:UIControlEventTouchUpInside];
-}
-// add show share Items on self
-- (void)showShareViewItems:(NSArray *)items{
-    CGFloat X = ((ScreenWidth)-(items.count)*(45*SizeAdapter))/(items.count+1);
-    CGFloat buttonX = X;
-    CGFloat buttonY = CMScale(27);
-    CGFloat buttonW = CMScale(45);
-    CGFloat buttonH = CMScale(45);
-    CGFloat Width_Space = buttonX;
-    CGFloat labelH = CMScale(12.5);
-    CGFloat labelW = CMScale(45);
-    CGFloat labelY= CMScale(80);
-    for (int i=0; i<items.count; i++) {
-        NSInteger column = i%items.count;
-        
-        UIButton * shareItem = [[UIButton alloc]initWithFrame:CGRectMake(column * (buttonW + Width_Space) + buttonX,buttonY, buttonW, buttonH)];
-        NSString * imageNamed = items[i];
-        UIImage * image = [UIImage loadBundleImage:imageNamed ClassName:NSStringFromClass([self class])];
-        // 设置r图片
-        shareItem.tag = 1000 + i;
-        [shareItem addTarget:self action:@selector(shareItemClicked:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [shareItem setBackgroundImage:image forState:UIControlStateNormal];
-        
-        UILabel * shareLabel = [[UILabel alloc] init];
-        shareLabel.frame = CGRectMake(column * (labelW + Width_Space) + buttonX,labelY, labelW, labelH);
-        shareLabel.textColor = [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1];
-        shareLabel.font = FONT(15);
-        shareLabel.textAlignment = NSTextAlignmentCenter;
-        shareLabel.adjustsFontSizeToFitWidth = YES;
-        shareLabel.text = items[i];
-        
-        [_shareView addSubview:shareItem];
-        [_shareView addSubview:shareLabel];
+#pragma mark ======= getter
+- (UICollectionView *)collectionView{
+    if(!_collectionView){
+        _collectionView = ({
+            UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
+            layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+            layout.minimumLineSpacing = 0;
+            layout.minimumInteritemSpacing = 0;
+            UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
+            object.delegate = self;
+            object.dataSource = self;
+            object.backgroundColor = WYA_RGB_COLOR(245, 245, 249);
+            [object registerClass:[WYAShareViewItem class] forCellWithReuseIdentifier:SHARECELL];
+            [object registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:FOOTER];
+            object;
+       });
     }
-    [self layoutIfNeeded];
+    return _collectionView;
 }
 
-+ (instancetype)showShareViewController:(UIViewController *)onViewController withItems:(WYAShareViewItemType) WYAShareViewItems
-{
-   WYAShareView * shareView = [[WYAShareView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    shareView.controller = onViewController;
-    [shareView showShareViewItems:[shareView getShowShareItems: WYAShareViewItems]];
-    [onViewController.view addSubview:shareView];
-    return shareView;
-}
-// get needShow share items
-- (NSArray *)getShowShareItems:(WYAShareViewItemType)itemTypes{
-    NSMutableArray * shareItems = [NSMutableArray array];
-    if (itemTypes & WYAShareViewItemWeChat) {
-        [shareItems addObject:@"微信"];
+
+- (UIButton *)cancleButton{
+    if(!_cancleButton){
+        _cancleButton = ({
+            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 49)];
+            [object setTitle:@"取消" forState:UIControlStateNormal];
+            object.backgroundColor = [UIColor whiteColor];
+            [object setTitleColor:[UIColor blackColor] forState:0];
+            [object addTarget:self action:@selector(cancleButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            object.titleLabel.font = FONT(18);
+            object;
+       });
     }
-    if (itemTypes & WYAShareViewItemWeChatFriends) {
-        [shareItems addObject:@"朋友圈"];
-    }
-    if (itemTypes & WYAShareViewItemQQ) {
-        [shareItems addObject:@"QQ好友"];
-    }
-    if (itemTypes & WYAShareViewItemQQZone) {
-        [shareItems addObject:@"QQ空间"];
-    }
-    if (itemTypes & WYAShareViewItemSina) {
-        [shareItems addObject:@"微博"];
-    }
-    if (itemTypes == WYAShareViewAllItems) {
-        
-        [shareItems addObjectsFromArray:@[@"微信",@"朋友圈",@"QQ好友",@"QQ空间",@"微博"]];
-    }
-    _shareItemsArray = [shareItems copy];
-    return [shareItems copy];
-}
-/**
- * @Description aleart ask if it is open shareApp
- * @param message tip message
- * @param type shareApp type PS: WeChat/QQ/Sina....
- */
-- (void)aleartControllerWith:(NSString *)message openType:(WYAShareViewItemType)type
-{
-    __weak typeof(self)weakSelf = self;
-    
-    [UIView animateWithDuration:0.25f animations:^{
-        self->_backGroundView.cmam_bottom = weakSelf.cmam_bottom+WYABottomHeight;
-        self->_backGroundView.cmam_width = ScreenWidth;
-        self->_backGroundView.cmam_height = WYABottomHeight;
-    }];
-    
-    NSString * title = [NSString stringWithFormat:@"是否支持打开“%@”",message];
-    UIAlertController *aleart = [UIAlertController alertControllerWithTitle:title
-                                                                    message:nil
-                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定"
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction * _Nonnull action) {
-                                                         if (weakSelf.WYAShareDekegate && [weakSelf.WYAShareDekegate
-                                                                                                  respondsToSelector:@selector(shareButtonClicked:)]) {
-                                                             [weakSelf disappear];
-                                                             [weakSelf.WYAShareDekegate shareButtonClicked:type];
-                                                         }
-                                                     }];
-    
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
-                                                           style:UIAlertActionStyleCancel
-                                                         handler:^(UIAlertAction * _Nonnull action) {
-                                                             
-                                                             [UIView animateWithDuration:0.25f animations:^{
-                                                                 self->_backGroundView.cmam_bottom = weakSelf.cmam_bottom;
-                                                                 self->_backGroundView.cmam_width = ScreenWidth;
-                                                                 self->_backGroundView.cmam_height = WYABottomHeight;
-                                                             }];
-                                                             
-                                                         }];
-    [aleart addAction:cancelAction];
-    [aleart addAction:okAction];
-    [[self cmam_viewController] presentViewController:aleart animated:YES completion:^{}];
+    return _cancleButton;
 }
 @end

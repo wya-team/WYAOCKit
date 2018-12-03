@@ -63,6 +63,8 @@ NS_ASSUME_NONNULL_BEGIN
  [self createNavigationItemsRightBarButtonWithNormalImg:@[@"img1",@"img2"] highlightedImg:nil];
  */
 @property (nonatomic, assign) CGFloat  itemsSpace;
+#pragma mark ======= 版本对比
+- (void)wya_versionUpdateAlertView;
 #pragma mark ======= Create RightBarButton
 /**
  创建多个导航右侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
