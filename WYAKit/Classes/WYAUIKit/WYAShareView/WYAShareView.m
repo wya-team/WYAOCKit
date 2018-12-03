@@ -46,7 +46,7 @@
 #pragma mark ======= Action
 - (void)cancleButtonPressed:(UIButton *)sender{
     NSLog(@"按钮标题------%@",sender.titleLabel.text);
-    [self.alert dismissViewControllerAnimated:YES completion:nil];
+    [self.cmam_viewController dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
