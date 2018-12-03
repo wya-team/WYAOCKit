@@ -11,6 +11,8 @@
 #import "WYAPhotoEditControlView.h"
 #import <Photos/Photos.h>
 #import "WYAPhotoBrowser.h"
+#import "WYAImageCropViewController.h"
+
 @interface WYAPhotoEditViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, WYAPhotoEditControlViewDelegate>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
@@ -117,7 +119,11 @@
 
 #pragma mark ---WYAPhotoEditControlViewDelegate
 -(void)edit{
+    NSInteger index = self.collectionView.contentOffset.x/self.collectionView.cmam_width;
+    WYAPhotoBrowserModel * model = self.models[index];
     
+    WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc]initWithImage:model.cacheImage];
+    [self presentViewController:imageCrop animated:YES completion:nil];
 }
 
 -(void)originalImage{
