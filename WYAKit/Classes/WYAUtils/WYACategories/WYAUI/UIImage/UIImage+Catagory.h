@@ -61,4 +61,6 @@
  @return 信息
  */
 + (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString;
+
+- (nonnull UIImage *)croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
 @end

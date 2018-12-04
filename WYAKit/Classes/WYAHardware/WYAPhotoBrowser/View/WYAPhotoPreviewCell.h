@@ -10,9 +10,17 @@
 @class WYAPhotoBrowserModel;
 NS_ASSUME_NONNULL_BEGIN
 
+@class WYAPhotoPreview;
 @interface WYAPhotoPreviewCell : UICollectionViewCell
-@property (nonatomic, strong) UIScrollView * scrollV;
+@property (nonatomic, strong) WYAPhotoPreview * preview;
 @property (nonatomic, strong) WYAPhotoBrowserModel * model;
+- (void)setScrollZoom;
+@end
+
+@interface WYAPhotoPreview : UIView
+@property (nonatomic, strong) UIScrollView * scrollV;
+@property (nonatomic, strong) UIImageView * imageView;
+- (void)setScrollZoom;
 @end
 
 NS_ASSUME_NONNULL_END

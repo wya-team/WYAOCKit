@@ -879,11 +879,8 @@
 				954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */,
 				9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */,
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
-
 				9578497B21B0C673001E19DC /* WYAInputItemModel.m in Sources */,
-
 				21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */,
-
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */,
@@ -900,11 +897,8 @@
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
 				21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */,
-
 				9578498521B11074001E19DC /* WYAListModel.m in Sources */,
-
 				21E5A61121B108F8007E8C5F /* WYAEditCameraCell.m in Sources */,
-
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
 				9578499721B128DE001E19DC /* WYAListCellController.m in Sources */,

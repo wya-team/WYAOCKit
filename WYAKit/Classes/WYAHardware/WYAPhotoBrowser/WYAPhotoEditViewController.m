@@ -13,7 +13,7 @@
 #import "WYAPhotoBrowser.h"
 #import "WYAImageCropViewController.h"
 
-@interface WYAPhotoEditViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, WYAPhotoEditControlViewDelegate>
+@interface WYAPhotoEditViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, WYAPhotoEditControlViewDelegate, WYAImageCropViewControllerDelegate>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) WYAPhotoEditControlView * controlView;
@@ -24,21 +24,82 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setTranslucent:YES];
-    //去掉导航栏底部的黑线
-    self.navigationController.navigationBar.shadowImage = [UIImage new];
+    self.navigationController.navigationBar.hidden = YES;
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+//
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.controlView];
+    
+    UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cancelButton.titleLabel.font = FONT(15);
+    [cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cancelButton];
+    [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).with.offset(5*SizeAdapter);
+        make.top.mas_equalTo(self.view.mas_top).with.offset(20*SizeAdapter);
+        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
+    }];
+    
+//    UIButton * doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [doneButton setTitle:@"完成" forState:UIControlStateNormal];
+//    [doneButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+//    doneButton.titleLabel.font = FONT(15);
+//    [doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:doneButton];
+//    [doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(self.view.mas_right).with.offset(-5*SizeAdapter);
+//        make.top.mas_equalTo(self.view.mas_top).with.offset(20*SizeAdapter);
+//        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
+//    }];
+    
+    [self loadImages];
 }
 
-#pragma mark --- Getter
+#pragma mark - Private Method -
+-(BOOL)prefersStatusBarHidden{
+    return YES;
+}
+
+- (void)loadImages{
+    
+    for (WYAPhotoBrowserModel * model in self.models) {
+        PHImageManager * manager = [PHImageManager defaultManager];
+        PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
+        
+        [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.view.cmam_width, self.view.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+            if (downloadFinined) {
+                //获取的高清图
+                [self.images addObject:result];
+            }
+            
+        }];
+    }
+}
+
+-(void)cancelClick{
+    self.navigationController.navigationBar.hidden = NO;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+-(void)doneClick{
+    
+}
+
+#pragma mark - Getter -
 -(UICollectionView *)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
@@ -50,7 +111,9 @@
         _collectionView.pagingEnabled = YES;
         _collectionView.contentOffset = CGPointMake(0, 0);
         _collectionView.scrollsToTop = NO;
+        _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         [_collectionView registerClass:[WYAPhotoPreviewCell class] forCellWithReuseIdentifier:@"image"];
+        [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     }
     return _collectionView;
 }
@@ -83,11 +146,14 @@
     
     WYAPhotoPreviewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
     return cell;
+    
+//    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+//    return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     WYAPhotoPreviewCell * imageCell = (WYAPhotoPreviewCell *)cell;
     imageCell.model = self.models[indexPath.item];
-    [imageCell.scrollV setZoomScale:1 animated:NO];
+    [imageCell setScrollZoom];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -123,6 +189,7 @@
     WYAPhotoBrowserModel * model = self.models[index];
     
     WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc]initWithImage:model.cacheImage];
+    imageCrop.delegate = self;
     [self presentViewController:imageCrop animated:YES completion:nil];
 }
 
@@ -132,7 +199,7 @@
     PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
    
     [manager requestImageForAsset:model.asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        [self.images addObject:result];
+        [self.images replaceObjectAtIndex:(NSUInteger)(self.collectionView.contentOffset.x/self.collectionView.cmam_width) withObject:result];
     }];
 }
 
@@ -143,6 +210,15 @@
             photo.callBackBlock(self.images);
         }];
     }
+}
+
+#pragma mark - WYAImageCropViewControllerDelegate  -
+- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropToImage:(nonnull UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle{
+    [cropViewController dismissViewControllerAnimated:YES completion:nil];
+    NSInteger index = self.collectionView.contentOffset.x/self.collectionView.cmam_width;
+    WYAPhotoPreviewCell * cell = (WYAPhotoPreviewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    cell.preview.imageView.image = image;
+    [self.images replaceObjectAtIndex:index withObject:image];
 }
 
 /*
