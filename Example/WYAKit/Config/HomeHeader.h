@@ -29,5 +29,6 @@
 
 
 #import "WYAProgressViewController.h"
+#import "WYAPageViewController.h"
 
 #endif /* HomeHeader_h */
