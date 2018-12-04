@@ -71,7 +71,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"相册胶卷";
-    
+
     [self.view addSubview:self.controlV];
     
     [self.view addSubview:self.collectionView];
@@ -125,6 +125,9 @@
     WeakSelf(weakSelf);
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     self.controlV.previewBlock = ^{
+        if (self.models.count<1) {
+            return;
+        }
         WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
         vc.models = self.models;
         [weakSelf.navigationController pushViewController:vc animated:YES];
@@ -172,6 +175,12 @@
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
+        if (@available(iOS 11, *)) {
+            _collectionView.contentInset = UIEdgeInsetsZero;
+        }else{
+            _collectionView.contentInset = UIEdgeInsetsMake(WYATopHeight, 0, 0, 0);
+        }
+        
         [_collectionView registerClass:[WYAPhotoBrowserCell class] forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;

@@ -76,7 +76,8 @@
                                  @"Stepper",
                                  @"ShareView",
                                  @"版本对比",
-                                 @"Realm"];
+                                 @"Realm",
+                                 @"进度条"];
             object;
         });
     }
@@ -139,7 +140,8 @@
         [self wya_versionUpdateAlertView];
     }else if (indexPath.row == 14){
         [self.navigationController pushViewController:[[WYAReamlViewController alloc]init] animated:YES];
-
+    }else if (indexPath.row == 15) {
+        [self.navigationController pushViewController:[[WYAProgressViewController alloc]init] animated:YES];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }
