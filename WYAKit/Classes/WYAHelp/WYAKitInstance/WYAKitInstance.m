@@ -9,4 +9,16 @@
 
 @implementation WYAKitInstance
 
++ (id)allocWithZone:(struct _NSZone *)zone{
+    static WYAKitInstance * instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [super allocWithZone:zone];
+    });
+    return instance;
+}
+
++ (instancetype)sharedInstance{
+    return [[self alloc] init];
+}
 @end

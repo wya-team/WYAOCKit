@@ -9,5 +9,7 @@
 #import "Student.h"
 
 @implementation Student
-
++ (nullable NSString *)primaryKey{
+    return @"name";
+}
 @end
