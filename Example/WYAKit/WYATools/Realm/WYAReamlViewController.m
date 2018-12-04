@@ -10,7 +10,7 @@
 #import "Student.h"
 #import <WYAKit/WYARealmBaseManager.h>
 @interface WYAReamlViewController ()
-@property (nonatomic, strong) WYARealmBaseManager * manager;
+
 @end
 
 @implementation WYAReamlViewController
@@ -18,21 +18,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = randomColor;
-    Student * obj = [[Student alloc]initWithValue:@[@"小明",@1,@68.7,@"三年级二班"]];
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-   dispatch_async(queue, ^{
-    [RLMRealm asyncOpenWithConfiguration:[RLMRealmConfiguration defaultConfiguration] callbackQueue:queue callback:^(RLMRealm * _Nullable realm, NSError * _Nullable error) {
-            NSLog(@"存储成功");
-            [realm beginWriteTransaction];
-            [realm addObject:obj];
-            [realm commitWriteTransaction];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.view.backgroundColor = [UIColor redColor];
-        });
-    }];
-});
-
+//    Student * student1 = [[Student alloc]initWithValue:@[@"周杰伦",@1,@96.4,@"三年级二班"]];
+//    Student * student2 = [[Student alloc]initWithValue:@[@"李雷",@1,@66.6,@"二年级二班"]];
+//    Student * student3 = [[Student alloc]initWithValue:@[@"韩梅梅",@0,@96.4,@"一年级二班"]];
+//    NSArray * array= @[student1,student2,student3];
+    WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
+//    for (Student * stu in array) {
+//        [dbManager wya_insertRealmWithObject:stu];
+//    }
+//   RLMResults * resArr = [dbManager wya_lookupRealmWithAllClassName:@"Student" whereFormat:@"gender=0"];
+//    NSLog(@"%@",[resArr firstObject]);
+//    Student * tempStu = [[Student alloc]initWithValue:@[@"韩梅梅",@0,@96.4,@"春野·樱"]];
+//    [dbManager wya_updateRealmWithClassName:tempStu];
+//    [dbManager wya_deleteRealmWithObject:[resArr firstObject]];
+//    [dbManager wya_updateRealmWithClassName:@"Student" withValue:@{@"name":@"韩梅梅",@"className":@"江户川柯南"}];
 }
-
 
 @end
