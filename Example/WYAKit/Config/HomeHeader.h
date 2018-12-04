@@ -24,5 +24,6 @@
 #import "WYAStepperController.h"
 #import "WYACameraVC.h"
 #import "WYACustomCellController.h"
+#import "WYAReamlViewController.h"
 
 #endif /* HomeHeader_h */

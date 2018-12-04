@@ -531,7 +531,7 @@
 }
 #pragma mark ======= progress View
 - (void)addProgressViewWithFrame:(CGRect)frame isTriangle:(BOOL)isTriangle hasBorder:(BOOL)hasBorder hollow:(BOOL)isHollow cornerRadius:(CGFloat)cornerRadius{
-    WYAProgressView * pView = [[WYAProgressView alloc]initWithFrame:frame];
+    WYAPageProgressView * pView = [[WYAPageProgressView alloc]initWithFrame:frame];
     pView.itemFrames = [self convertProgressWidthsToFrames];
     pView.color = self.lineColor.CGColor;
     pView.isTriangle = isTriangle;

@@ -75,7 +75,8 @@
                                  @"图片预览器",
                                  @"Stepper",
                                  @"ShareView",
-                                 @"版本对比"];
+                                 @"版本对比",
+                                 @"Realm"];
             object;
         });
     }
@@ -136,6 +137,9 @@
         [view wya_showShareViewWithController:self];
     }else if (indexPath.row == 13){
         [self wya_versionUpdateAlertView];
+    }else if (indexPath.row == 14){
+        [self.navigationController pushViewController:[[WYAReamlViewController alloc]init] animated:YES];
+
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }

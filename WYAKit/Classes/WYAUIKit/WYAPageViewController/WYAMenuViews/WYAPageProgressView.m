@@ -5,9 +5,9 @@
 //  Created by 李俊恒 on 2018/11/10.
 //
 
-#import "WYAProgressView.h"
+#import "WYAPageProgressView.h"
 
-@implementation WYAProgressView{
+@implementation WYAPageProgressView{
     int _sign;
     CGFloat _gap;
     CGFloat _step;

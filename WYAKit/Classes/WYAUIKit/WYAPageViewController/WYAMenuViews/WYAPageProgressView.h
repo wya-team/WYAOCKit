@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAProgressView : UIView
+@interface WYAPageProgressView : UIView
 @property (nonatomic, strong) NSArray * itemFrames;
 @property (nonatomic, assign) CGColorRef  color;
 @property (nonatomic, assign) CGFloat  progress;

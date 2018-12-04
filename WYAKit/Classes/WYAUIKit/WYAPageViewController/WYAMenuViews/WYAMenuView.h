@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "WYAMenuItem.h"
-#import "WYAProgressView.h"
+#import "WYAPageProgressView.h"
 
 #define WYAUNDEFINED_VALUE -1
 
@@ -147,7 +147,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAMenuView : UIView<WYAMenuItemDelegate>
 @property (nonatomic, strong) NSArray * progressWidths;
-@property (nonatomic, weak) WYAProgressView * progressView;
+@property (nonatomic, weak)   WYAPageProgressView * progressView;
 @property (nonatomic, assign) CGFloat  progressHeight;
 @property (nonatomic, assign) WYAMenuViewStyle  style;
 @property (nonatomic, assign) WYAMenuViewLayoutMode  layoutMode;
