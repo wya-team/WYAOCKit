@@ -124,7 +124,7 @@
     }else if (indexPath.row == 6){
         [self.navigationController pushViewController:[[WYASliderViewController alloc]init] animated:YES];
     }else if (indexPath.row == 7){
-        
+        [self.navigationController pushViewController:[[WYAPageViewController alloc]init] animated:YES];
     }else if (indexPath.row == 8){
         [self.navigationController pushViewController:[[WYAPickerViewController alloc]init] animated:YES];
     }else if (indexPath.row == 9){
