@@ -8,7 +8,7 @@
 #import "WYAImageBrowser.h"
 #import "WYAImageBrowserCell.h"
 
-@interface WYAImageBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface WYAImageBrowser ()<UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 
 @property (nonatomic, strong) UICollectionView * collectionView;
@@ -149,6 +149,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSInteger index = scrollView.contentOffset.x/scrollView.cmam_width;
+    self.pageControl.currentPage = index;
 }
 
 #pragma mark --- Method

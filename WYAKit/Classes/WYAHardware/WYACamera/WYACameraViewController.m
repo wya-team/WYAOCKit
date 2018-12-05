@@ -3,7 +3,7 @@
 #import "WYACameraViewController.h"
 #import "WYACameraTool.h"
 #import "WYACameraRecordProcessView.h"
-
+#import "WYAProgressView.h"
 #define kVideoMaxTime   15.0 //录制时间长度
 
 @interface WYACameraViewController ()
@@ -12,13 +12,12 @@
 @property (nonatomic, strong) UIButton *closeButton;
 @property (nonatomic, strong) UIButton *flashButton;
 @property (nonatomic, strong) UIButton *cameraButton;
-@property (nonatomic, strong) UIImageView * cameraImageView;
+//@property (nonatomic, strong) UIImageView * cameraImageView;
 @property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UILongPressGestureRecognizer * longPress;
-
+@property (nonatomic, strong) WYAProgressView * progressView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;//相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool *videoTool;
-@property (nonatomic, strong) WYACameraRecordProcessView *progressView;
+//@property (nonatomic, strong) WYACameraRecordProcessView *progressView;
 @property (nonatomic, assign) CGFloat timeCount;
 @property (nonatomic, assign) CGFloat timeMargin;
 
@@ -45,20 +44,6 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    CGFloat width = [UIScreen mainScreen].bounds.size.width;
-    CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    
-    self.cameraImageView.center = CGPointMake(width *0.5, height - self.cameraImageView.bounds.size.height);
-    self.progressView.center = self.cameraImageView.center;
-    self.cameraButton.center = CGPointMake(width-self.cameraButton.bounds.size.width, self.cameraButton.bounds.size.height);
-    self.closeButton.center = CGPointMake(width*0.5-self.closeButton.bounds.size.width-30, height - self.cameraImageView.bounds.size.height);
-    self.messageLabel.center = CGPointMake(width/2, self.progressView.center.y-60);
-
-}
-
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [UIView animateWithDuration:2 animations:^{
@@ -75,23 +60,24 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-
+#pragma mark - Private Method -
 - (void)setupSubView
 {
     [self.view addSubview:self.containerView];
-    
     [self.view addSubview:self.closeButton];
-    
     [self.view addSubview:self.cameraButton];
-    [self.view addSubview:self.progressView];
-    [self.view addSubview:self.cameraImageView];
-    [self.view addSubview:self.messageLabel];
 
+    [self.view addSubview:self.progressView];
+    [self.view addSubview:self.messageLabel];
+    
+    self.cameraButton.center = CGPointMake(ScreenWidth-self.cameraButton.bounds.size.width, self.cameraButton.bounds.size.height);
+    self.closeButton.center = CGPointMake(ScreenWidth*0.5-self.closeButton.bounds.size.width-30, ScreenHeight - self.progressView.bounds.size.height);
+    self.messageLabel.center = CGPointMake(ScreenWidth/2, self.progressView.center.y-60);
 }
 
 - (void)setupCaptureSession
 {
-   self.captureVideoPreviewLayer  =  [self.videoTool previewLayer];
+    self.captureVideoPreviewLayer  =  [self.videoTool previewLayer];
     CALayer *layer=self.containerView.layer;
     layer.masksToBounds=YES;
     self.captureVideoPreviewLayer.frame = layer.bounds;
@@ -100,7 +86,6 @@
     [self.videoTool startRecordFunction];
 }
 
-#pragma mark- action
 - (void)closeButtonClick
 {
     [self endRecordingVideo];
@@ -110,12 +95,12 @@
 - (void)flashButtonClick:(UIButton *)flashButton
 {
     flashButton.selected = !flashButton.isSelected;
-    if(flashButton.selected)
-    {
+    if(flashButton.selected){
         [self.videoTool openFlashLight];
     }
-    else
+    else{
         [self.videoTool closeFlashLight];
+    }
 }
 
 - (void)cameraButtonClick:(UIButton *)cameraButton
@@ -125,8 +110,10 @@
     {
         [self.videoTool changeCameraInputDeviceisFront:YES];
     }
-    else
+    else{
         [self.videoTool changeCameraInputDeviceisFront:NO];
+    }
+    
 }
 
 - (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress
@@ -156,10 +143,6 @@
         }
     }
     
-    
-    
-    
-    
 }
 
 - (void)endRecordingVideo
@@ -181,10 +164,16 @@
         self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
     }];
 }
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
+    UITouch *touch = [allTouches anyObject];
+    NSLog(@"点击的视图是==%@",touch.view);
+}
 
 - (void)cancelClick{
     [self.placeholdImageView removeFromSuperview];
-//    [self startRecordingVideo:self.longPress];
+    self.placeholdImageView = nil;
+    
     [self.videoTool startRecordFunction];
     
     if (self.videoTool.videoPath) {
@@ -228,7 +217,6 @@
 #pragma mark - 定时器
 - (void)startTimer
 {
-    self.progressView.hidden = NO;
     CGFloat signleTime = kVideoMaxTime/360;
     self.timeCount = 0;
     self.timeMargin = signleTime;
@@ -239,7 +227,6 @@
 - (void)stopTimer
 {
     self.progressView.progress = 0;
-    //self.progressView.hidden = YES;
     [self.timer invalidate];
     self.timer = nil;
 }
@@ -284,7 +271,7 @@
 {
    if(!_closeButton)
    {
-       _closeButton = [ UIButton buttonWithType:UIButtonTypeCustom];
+       _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
        [_closeButton setImage:[UIImage loadBundleImage:@"shortvideo_button_close" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _closeButton.bounds = CGRectMake(0, 0, 50, 50);
        _closeButton.layer.cornerRadius =  _closeButton.bounds.size.width * 0.5;
@@ -312,35 +299,42 @@
 {
     if(!_cameraButton)
     {
-        _cameraButton = [ UIButton buttonWithType:UIButtonTypeCustom];
+        _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_cameraButton setImage:[UIImage loadBundleImage:@"turnCamera" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _cameraButton.bounds = CGRectMake(0, 0, 40, 40);
-        _cameraButton.layer.cornerRadius =  _cameraButton.bounds.size.width * 0.5;
-        _cameraButton.layer.masksToBounds = YES;
+        _cameraButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [_cameraButton addTarget:self action:@selector(cameraButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _cameraButton;
 }
 
-- (UIImageView *)cameraImageView
-{
-    if(!_cameraImageView)
-    {
-        _cameraImageView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"camera" ClassName:NSStringFromClass([self class])]];
-        _cameraImageView.bounds = CGRectMake(0, 0, 60, 60);
-        _cameraImageView.layer.cornerRadius =  _cameraImageView.bounds.size.width * 0.5;
-        _cameraImageView.layer.masksToBounds = YES;
-
-        _cameraImageView.userInteractionEnabled = YES;
+-(WYAProgressView *)progressView{
+    if (!_progressView) {
+        _progressView = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-60*SizeAdapter)/2, ScreenHeight-WYABottomHeight-60*SizeAdapter-30, 60*SizeAdapter, 60*SizeAdapter)];
+        _progressView.backGroundImage = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass([self class])];
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
-        [_cameraImageView addGestureRecognizer:tap];
+        [_progressView addGestureRecognizer:tap];
 
-        self.longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(startRecordingVideo:)];
-        [self.longPress requireGestureRecognizerToFail:tap];
-        [_cameraImageView addGestureRecognizer:self.longPress];
+        UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(startRecordingVideo:)];
+        [_progressView addGestureRecognizer:longPress];
+        [longPress requireGestureRecognizerToFail:tap];
     }
-    return _cameraImageView;
+    return _progressView;
 }
+
+//- (UIImageView *)cameraImageView
+//{
+//    if(!_cameraImageView){
+//        _cameraImageView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass([self class])]];
+//        _cameraImageView.bounds = CGRectMake(0, 0, 60, 60);
+//        _cameraImageView.layer.cornerRadius =  _cameraImageView.bounds.size.width * 0.5;
+//        _cameraImageView.layer.masksToBounds = NO;
+//        _cameraImageView.contentMode = UIViewContentModeScaleAspectFit;
+//        _cameraImageView.userInteractionEnabled = YES;
+//
+//    }
+//    return _cameraImageView;
+//}
 
 - (WYACameraTool *)videoTool
 {
@@ -351,17 +345,17 @@
     return _videoTool;
 }
 
-- (WYACameraRecordProcessView *)progressView
-{
-  if(!_progressView)
-  {
-      CGFloat widthHeight = self.cameraImageView.bounds.size.width - 2*lineWith;
-      _progressView = [[WYACameraRecordProcessView alloc]initWithCenter:CGPointMake(widthHeight *0.5, widthHeight*0.5) radius:(widthHeight-lineWith) *0.5];
-      _progressView.bounds =CGRectMake(0, 0, widthHeight, widthHeight);
-      _progressView.hidden = YES;
-  }
-    return _progressView;
-}
+//- (WYACameraRecordProcessView *)progressView
+//{
+//  if(!_progressView)
+//  {
+//      CGFloat widthHeight = self.cameraImageView.cmam_width-lineWith*2;
+//      _progressView = [[WYACameraRecordProcessView alloc]initWithCenter:CGPointMake(widthHeight *0.5, widthHeight*0.5) radius:(widthHeight-lineWith)*0.5];
+//      _progressView.bounds =CGRectMake(0, 0, widthHeight, widthHeight);
+//      _progressView.hidden = YES;
+//  }
+//    return _progressView;
+//}
 
 - (UIImageView *)placeholdImageView{
     if (!_placeholdImageView) {

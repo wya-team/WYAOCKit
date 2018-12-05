@@ -35,6 +35,7 @@
 #import <WYAKit/WYAPhotoBrowser.h>
 #import <WYAKit/WYACard.h>
 #import <WYAKit/WYAShareView.h>
+#import <WYAKit/WYAProgressView.h>
 /******************************常用宏*******************/
 //#import <Realm/Realm.h>
 #define WYA_RGB_COLOR(r,g,b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]

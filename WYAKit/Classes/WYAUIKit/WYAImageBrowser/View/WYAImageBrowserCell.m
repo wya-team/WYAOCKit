@@ -41,7 +41,7 @@
         [self.contentView addSubview:self.scrollV];
         
         self.imageView = [[UIImageView alloc]init];
-        self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageView.contentMode = UIViewContentModeScaleAspectFit;
         self.imageView.userInteractionEnabled = YES;
         [self.scrollV addSubview:self.imageView];
     

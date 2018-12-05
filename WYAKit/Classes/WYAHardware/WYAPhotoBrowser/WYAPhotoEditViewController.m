@@ -49,7 +49,7 @@
     [self.view addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).with.offset(5*SizeAdapter);
-        make.top.mas_equalTo(self.view.mas_top).with.offset(20*SizeAdapter);
+        make.top.mas_equalTo(self.view.mas_top).with.offset(WYAStatusBarHeight +20*SizeAdapter);
         make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
     }];
     
