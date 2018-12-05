@@ -18,4 +18,6 @@
 - (void)wya_safeRemoveObjectAtIndex:(NSUInteger)index;
 
 - (void)wya_safeRemoveObjectsInRange:(NSRange)range;
+
+- (void)wya_safeReplaceObjectAtIndex:(NSUInteger)index withObject:(id)object;
 @end

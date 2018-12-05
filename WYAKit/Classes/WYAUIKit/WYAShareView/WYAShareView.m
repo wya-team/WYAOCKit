@@ -24,6 +24,14 @@
     }
     return self;
 }
+- (instancetype)init{
+    if (self = [super init]) {
+        self.frame = CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter);
+        [self addSubview:self.collectionView];
+        self.backgroundColor = [UIColor redColor];
+    }
+    return self;
+}
 - (void)layoutSubviews{
     [super layoutSubviews];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -33,9 +41,8 @@
 #pragma mark ======= public methods
 - (void)wya_showShareViewWithController:(UIViewController *)controller{
     _showController = controller;
-    WYAShareView * view =  [[WYAShareView alloc]initWithFrame:CGRectMake(0,0, ScreenWidth, 270*SizeAdapter)];
-    view.dataArray = @[@[@"发送给朋友",@"新浪微博",@"生活圈",@"微信好友",@"QQ"], @[@"字号",@"刷新",@"复制链接",@"投诉"]];
-    self.alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomSheet];
+//    WYAShareView * view =  [[WYAShareView alloc]initWithFrame:CGRectMake(0,0, ScreenWidth, 270*SizeAdapter)];
+    self.alert = [WYAAlertController wya_AlertWithCustomView:self AlertStyle:WYAAlertStyleCustomSheet];
     [controller presentViewController:self.alert animated:YES completion:nil];
 }
 

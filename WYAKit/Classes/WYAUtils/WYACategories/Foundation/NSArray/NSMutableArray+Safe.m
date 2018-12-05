@@ -60,4 +60,11 @@
         [self removeObjectsInRange:range];
     }
 }
+- (void)wya_safeReplaceObjectAtIndex:(NSUInteger)index withObject:(id)object{
+    if (index >= self.count) {
+        return;
+    }else{
+        [self replaceObjectAtIndex:index withObject:object];
+    }
+}
 @end
