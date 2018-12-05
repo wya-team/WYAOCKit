@@ -9,12 +9,7 @@
 #import "WYAVideoPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
 #import "WYAVideoPlayerControlView.h"
-#import "Masonry.h"
-
-#define width [UIScreen mainScreen].bounds.size.width
-#define height [UIScreen mainScreen].bounds.size.height
-
-
+#import "WYAVideoSlider.h"
 @interface WYAVideoPlayerView () <VideoControlDelegate>
 
 @property (nonatomic, strong) AVPlayer *player;
@@ -44,11 +39,15 @@
 {
     self = [super init];
     if (self) {
-        [self.layer addSublayer:self.playerLayer];
-        [self addSubview:self.previewImageView];
-        [self addSubview:self.activeView];
-        [self addSubview:self.controlView];
-        self.backgroundColor = [UIColor grayColor];
+        [self setupUI];
+    }
+    return self;
+}
+
+-(instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self setupUI];
     }
     return self;
 }
@@ -70,9 +69,49 @@
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
 }
+#pragma mark - Private Method -
+- (void)setupUI{
+    [self.layer addSublayer:self.playerLayer];
+    [self addSubview:self.previewImageView];
+    [self addSubview:self.activeView];
+    [self addSubview:self.controlView];
+    self.backgroundColor = [UIColor grayColor];
+}
 
-#pragma mark lazy
+#pragma mark - Setter -
+- (void)setVideoItem:(WYAVideoItem *)videoItem
+{
+    _videoItem = videoItem;
+}
 
+- (void)setPlayerItem:(AVPlayerItem *)playerItem
+{
+    if (_playerItem) {
+        [_playerItem removeObserver:self forKeyPath:@"status"];
+        [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
+    }
+    _playerItem = playerItem;
+    if (playerItem) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+        [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];           // 监听status属性
+        [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil]; // 监听loadedTimeRanges属性
+        // 缓冲区空了，需要等待数据
+        [playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+        // 缓冲区有足够数据可以播放了
+        [playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+//- (void)setNeedOneClick:(BOOL)needOneClick
+//{
+//    _needOneClick = needOneClick;
+//    self.controlView.oneFingerClick = needOneClick;
+//}
+
+#pragma mark - Getter -
 - (UIImageView *)previewImageView
 {
     if (!_previewImageView) {
@@ -101,39 +140,6 @@
     return _controlView;
 }
 
-#pragma mark Get - Set
-- (void)setVideoItem:(WYAVideoItem *)videoItem
-{
-    _videoItem = videoItem;
-}
-
-- (void)setPlayerItem:(AVPlayerItem *)playerItem
-{
-    if (_playerItem) {
-        [_playerItem removeObserver:self forKeyPath:@"status"];
-        [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-        [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:_playerItem];
-    }
-    _playerItem = playerItem;
-    if (playerItem) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
-        [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];           // 监听status属性
-        [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil]; // 监听loadedTimeRanges属性
-        // 缓冲区空了，需要等待数据
-        [playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
-        // 缓冲区有足够数据可以播放了
-        [playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
-    }
-}
-
-- (void)setNeedOneClick:(BOOL)needOneClick
-{
-    _needOneClick = needOneClick;
-    self.controlView.oneFingerClick = needOneClick;
-}
-
 #pragma mark VideoControlDelegate
 - (void)videoControl:(UIView *)videoControl backButton:(UIButton *)backButton
 {
@@ -141,9 +147,9 @@
         [self exitFullscreen];
         self.controlView.zoomButton.selected = NO;
     } else {
-        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(playerView:backButton:)]) {
-            [self.playerDelegate playerView:self backButton:backButton];
-        }
+//        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(playerView:backButton:)]) {
+//            [self.playerDelegate playerView:self backButton:backButton];
+//        }
     }
 }
 
@@ -159,19 +165,19 @@
     }
 }
 
-- (void)videoControl:(UIView *)videoControl SlideBegin:(UISlider *)slide
+- (void)videoControl:(UIView *)videoControl SlideBegin:(WYAVideoSlider *)slide
 {
     [self.player pause];
 }
 
-- (void)videoControl:(UIView *)videoControl SlideChange:(UISlider *)slide
+- (void)videoControl:(UIView *)videoControl SlideChange:(WYAVideoSlider *)slide
 {
     CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
     CGFloat currentTime = floorf(totalTime * slide.value);
     [self.controlView getDragTime:currentTime AutoPlay:NO];
 }
 
-- (void)videoControl:(UIView *)videoControl SlideEnd:(UISlider *)slide
+- (void)videoControl:(UIView *)videoControl SlideEnd:(WYAVideoSlider *)slide
 {
     CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
     CGFloat currentTime = floorf(totalTime * slide.value);
@@ -207,7 +213,8 @@
             if (self.videoItem.seekTime) {
                 [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay];
             }
-
+            [self.activeView stopAnimating];
+            self.activeView.hidden = YES;
         } else if ([playerItem status] == AVPlayerStatusFailed) {
             NSLog(@"AVPlayerStatusFailed");
             _status = PlayerStateFailed;
@@ -220,7 +227,7 @@
         CMTime duration = self.playerItem.duration;
         CGFloat totalDuration = CMTimeGetSeconds(duration);
 
-        //        [self.controlView zf_playerSetProgress:timeInterval / totalDuration];
+        [self.controlView wya_playerSetProgress:timeInterval / totalDuration];
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         // 当缓冲是空的时候
         if (self.playerItem.playbackBufferEmpty) {
@@ -232,10 +239,8 @@
     } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         // 当缓冲好的时候
         if (self.playerItem.playbackLikelyToKeepUp && _status == PlayerStateBuffering) {
-            _status = PlayerStatePlaying;
+//            _status = PlayerStatePlaying;
 
-            [self.activeView stopAnimating];
-            self.activeView.hidden = YES;
         }
     }
 }
@@ -244,9 +249,9 @@
 - (void)playerItemDidReachEnd:(NSNotification *) not
 {
     [self.controlView playerEnd];
-    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(videoEnd)]) {
-        [self.playerDelegate videoEnd];
-    }
+//    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(videoEnd)]) {
+//        [self.playerDelegate videoEnd];
+//    }
 }
 
 
@@ -256,7 +261,10 @@
     self.playerItem = [[AVPlayerItem alloc] initWithURL:self.videoItem.videoUrl];
     self.player = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+    if (WYAiPhoneX) {
+        self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    }
+    
 }
 
 - (void)createTimer
@@ -291,16 +299,16 @@
 
 - (void)enterFullscreen
 {
-    //    [self.superview layoutIfNeeded];
-    //    if (!self.videoItem.superV) {
-    //        self.videoItem.superV = self.superview;
-    //        self.videoItem.rect = self.frame;
-    //    }
-
+//    [self.superview layoutIfNeeded];
+    if (!self.videoItem.superV) {
+        self.videoItem.superV = self.superview;
+        self.videoItem.rect = self.frame;
+    }
+    
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-
+    
     self.isFullScreen = YES;
-
+    
     /*
      * movieView移到window上
      */
@@ -308,16 +316,16 @@
     [self removeFromSuperview];
     self.frame = rectInWindow;
     [[UIApplication sharedApplication].keyWindow addSubview:self];
-
+    
     /*
      * 执行动画
      */
     [UIView animateWithDuration:0.5 animations:^{
         self.transform = CGAffineTransformMakeRotation(M_PI_2);
-        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds), CGRectGetWidth(self.superview.bounds));
+        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-WYAStatusBarHeight-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
     } completion:^(BOOL finished){
-
+        
     }];
 }
 
@@ -357,7 +365,7 @@
 }
 
 #pragma mark Public Action
-- (void)registerPlayerItem:(WYAVideoItem *)item
+- (void)wya_RegisterPlayerItem:(WYAVideoItem *)item
 {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];

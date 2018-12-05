@@ -49,7 +49,7 @@
 
 
 /**
- 取消时调用
+ 完成时调用
 
  @param cropViewController self
  @param cancelled YES
@@ -80,18 +80,23 @@
  */
 @property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage* _Nonnull image, CGRect cropRect, NSInteger angle);
 
+/**
+ 初始化
 
+ @param image 要裁剪的图片
+ @return self
+ */
 - (nonnull instancetype)initWithImage:(nonnull UIImage *)image;
 
 
-- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(nonnull UIImage *)image;
-
-
 /**
- 重置图片位置，回到最原始的状态
- */
-- (void)resetCropViewLayout;
+ 初始化
 
+ @param style 裁剪器样式
+ @param image 要裁剪的图片
+ @return self
+ */
+- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(nonnull UIImage *)image;
 
 @end
 

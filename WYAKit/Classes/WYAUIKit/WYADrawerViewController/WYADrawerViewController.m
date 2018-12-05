@@ -15,12 +15,13 @@ typedef NS_ENUM(NSUInteger, WYAViewStyle) {
 
 static CGFloat padding = 250;
 
-@interface WYADrawerViewController ()
+@interface WYADrawerViewController ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIViewController * centerViewController;
 @property (nonatomic, strong) UIViewController * leftViewController;
 @property (nonatomic, strong) UIViewController * rightViewController;
 @property (nonatomic, strong) WYAContainerView * containerView;
 @property (nonatomic, assign) WYAViewStyle  viewStyle;
+@property (nonatomic, strong) UIPanGestureRecognizer * pan;
 @end
 
 
@@ -73,13 +74,12 @@ static CGFloat padding = 250;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(backView)];
     [self.containerView addGestureRecognizer:tap];
     
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panView:)];
-    [self.view addGestureRecognizer:pan];
+    self.pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panView:)];
+    self.pan.delegate = self;
+    [self.view addGestureRecognizer:self.pan];
     
     UIPanGestureRecognizer * pan1 = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panView:)];
     [self.containerView addGestureRecognizer:pan1];
-    [pan requireGestureRecognizerToFail:pan1];
-    
     
 }
 
@@ -298,7 +298,18 @@ static CGFloat padding = 250;
         }
     }
     
-//    [pan setTranslation:CGPointZero inView:self.view];
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
+    if (self.viewStyle == WYAViewStyleCenter) {
+        if ([self.centerViewController isMemberOfClass:[UINavigationController class]]) {
+            UINavigationController * nav = (UINavigationController *)self.centerViewController;
+            if (nav.viewControllers.count > 1) {
+                return NO;
+            }
+        }
+    }
+    return YES;
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

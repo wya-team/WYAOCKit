@@ -5,6 +5,7 @@
 //  Created by 李世航 on 2018/5/28.
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
+//  推荐宽高比例为9：16
 
 #import <UIKit/UIKit.h>
 #import "WYAVideoItem.h"
@@ -20,9 +21,9 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 
 @protocol VideoPlayerDelegate <NSObject>
 
-- (void)playerView:(UIView *)playerView backButton:(UIButton *)backButton;
+//- (void)playerView:(UIView *)playerView backButton:(UIButton *)backButton;
 //视频播放结束
-- (void)videoEnd;
+//- (void)videoEnd;
 
 @end
 
@@ -38,17 +39,22 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 /**
  是否需要单击手势（用来触发控制栏的）
  */
-@property (nonatomic, assign) BOOL needOneClick;
+//@property (nonatomic, assign) BOOL needOneClick;
 
-- (void)registerPlayerItem:(WYAVideoItem *)item;
+/**
+ 注册播放视频需要的信息
+
+ @param item WYAVideoItem
+ */
+- (void)wya_RegisterPlayerItem:(WYAVideoItem *)item;
 
 /**
  重置需要重新配置播放信息
  */
-- (void)resetPlayer;
+//- (void)resetPlayer;
 
 /**
  恢复播放器初始位置(需要在全屏状态下才可以调用)
  */
-- (void)RestorePlayerToOriginalFrame;
+//- (void)RestorePlayerToOriginalFrame;
 @end

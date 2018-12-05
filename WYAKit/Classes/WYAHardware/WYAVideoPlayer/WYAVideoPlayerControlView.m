@@ -7,10 +7,9 @@
 //
 
 #import "WYAVideoPlayerControlView.h"
-#import "Masonry.h"
+#import "WYAVideoSlider.h"
 
-
-@interface WYAVideoPlayerControlView ()
+@interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
 
 /**
  返回按钮
@@ -50,7 +49,7 @@
 /**
  滑块
  */
-@property (nonatomic, strong) UISlider *slider;
+@property (nonatomic, strong) WYAVideoSlider * slider;
 
 @property (nonatomic, strong) WYAVideoItem *item;
 
@@ -141,7 +140,9 @@
         make.centerY.mas_equalTo(self.bottomImageView.mas_centerY);
         make.left.mas_equalTo(self.currentProgressLabel.mas_right).with.offset(10);
         make.right.mas_equalTo(self.allProgressLabel.mas_left).with.offset(-10);
+        make.height.mas_equalTo(self.bottomImageView.mas_height);
     }];
+    
 }
 
 #pragma mark lazy
@@ -188,8 +189,8 @@
 {
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_playButton setImage:self.item.playButtonNormalImage ? self.item.playButtonSelectImage : [self imageWithBundleImageString:@"playNormal"] forState:UIControlStateNormal];
-        [_playButton setImage:self.item.playButtonSelectImage ? self.item.playButtonSelectImage : [self imageWithBundleImageString:@"playSelect"] forState:UIControlStateSelected];
+        [_playButton setImage:[UIImage loadBundleImage:@"playNormal" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [_playButton setImage:[UIImage loadBundleImage:@"playSelect" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
         _playButton.selected = NO;
         [_playButton addTarget:self action:@selector(playButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -220,30 +221,31 @@
     return _allProgressLabel;
 }
 
-- (UISlider *)slider
+- (WYAVideoSlider *)slider
 {
     if (!_slider) {
-        _slider = [[UISlider alloc] init];
-        _slider.minimumTrackTintColor = [UIColor whiteColor];
-        _slider.maximumTrackTintColor = [UIColor grayColor];
-        _slider.value = 0.0;
+        _slider = [[WYAVideoSlider alloc] init];
+        _slider.delegate = self;
+//        _slider.value = 0.0;
 
-        // slider开始滑动事件
-        [_slider addTarget:self action:@selector(sliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
-        // slider滑动中事件
-        [_slider addTarget:self action:@selector(sliderChange:) forControlEvents:UIControlEventValueChanged];
-        // slider结束滑动事件
-        [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
+//        // slider开始滑动事件
+//        [_slider addTarget:self action:@selector(sliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
+//        // slider滑动中事件
+//        [_slider addTarget:self action:@selector(sliderChange:) forControlEvents:UIControlEventValueChanged];
+//        // slider结束滑动事件
+//        [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
     }
     return _slider;
 }
+
+
 
 - (UIButton *)zoomButton
 {
     if (!_zoomButton) {
         _zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_zoomButton setImage:self.item.zoomButtonNormalImage ? self.item.zoomButtonNormalImage : [self imageWithBundleImageString:@"zoom_out"] forState:UIControlStateNormal];
-        [_zoomButton setImage:self.item.zoomButtonSelectImage ? self.item.zoomButtonSelectImage : [self imageWithBundleImageString:@"zoom_in"] forState:UIControlStateSelected];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"zoom_out" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"zoom_in" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
         [_zoomButton addTarget:self action:@selector(zoomClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _zoomButton;
@@ -295,28 +297,25 @@
     sender.selected = !sender.selected;
 }
 
-- (void)sliderTouchBegan:(UISlider *)slide
-{
+-(void)wya_SliderStartRun{
     self.playButton.selected = NO;
     [self cancelAutoFadeOutControlView];
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideBegin:)]) {
-        [self.videoControlDelegate videoControl:self SlideBegin:slide];
+        [self.videoControlDelegate videoControl:self SlideBegin:self.slider];
     }
 }
 
-- (void)sliderChange:(UISlider *)slide
-{
+-(void)wya_SliderRunningWithValue:(CGFloat)value{
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideChange:)]) {
-        [self.videoControlDelegate videoControl:self SlideChange:slide];
+        [self.videoControlDelegate videoControl:self SlideChange:self.slider];
     }
 }
 
-- (void)sliderTouchEnded:(UISlider *)slide
-{
+-(void)wya_SliderEndRun{
     self.playButton.selected = YES;
     [self hiddenBottomControl];
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideEnd:)]) {
-        [self.videoControlDelegate videoControl:self SlideEnd:slide];
+        [self.videoControlDelegate videoControl:self SlideEnd:self.slider];
     }
 }
 
@@ -405,11 +404,8 @@
     self.allProgressLabel.text = @"00:00";
 }
 
-- (UIImage *)imageWithBundleImageString:(NSString *)imageString
-{
-    UIImage *image = [UIImage imageNamed:[@"WYAVideoPlayer.bundle" stringByAppendingPathComponent:imageString]] ?: [UIImage imageNamed:[@"Frameworks/WYAVideoPlayer.framework/WYAVideoPlayer.bundle" stringByAppendingPathComponent:imageString]];
-
-    return image;
+- (void)wya_playerSetProgress:(CGFloat)progress{
+    self.slider.bufferValue = progress;
 }
 
 /*

@@ -2,7 +2,6 @@
 
 #import "WYACameraViewController.h"
 #import "WYACameraTool.h"
-#import "WYACameraRecordProcessView.h"
 #import "WYAProgressView.h"
 #define kVideoMaxTime   15.0 //录制时间长度
 
