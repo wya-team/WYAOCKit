@@ -136,6 +136,7 @@
         [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
     }else if (indexPath.row == 12){
         WYAShareView * view = [[WYAShareView alloc]initWithFrame:CGRectZero];
+     view.dataArray = @[@[@"内购订单",@"内购订单",@"内购订单",@"内购订单",@"内购订单"], @[@"内购订单",@"内购订单",@"内购订单",@"内购订单"]];
         [view wya_showShareViewWithController:self];
     }else if (indexPath.row == 13){
         [self wya_versionUpdateAlertView];

@@ -16,8 +16,6 @@
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.iconImgView];
         [self.contentView addSubview:self.titleLabel];
-//        self.contentView.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
-//        self.contentView.layer.borderWidth = 0.5;
     }
     return self;
 }
@@ -42,7 +40,6 @@
     if(!_iconImgView){
         _iconImgView = ({
             UIImageView * object = [[UIImageView alloc]init];
-            object.backgroundColor = randomColor;
             object.layer.cornerRadius = 8*SizeAdapter;
             object.layer.masksToBounds = YES;
             object;
@@ -68,6 +65,7 @@
 - (void)setTitleString:(NSString *)titleString{
     _titleString = titleString;
     self.titleLabel.text = _titleString;
+    _iconImgView.image = [UIImage imageNamed:titleString];
     [self layoutIfNeeded];
 }
 

@@ -10,6 +10,6 @@
 
 @implementation Student
 + (nullable NSString *)primaryKey{
-    return @"name";
+    return @"studentId";
 }
 @end

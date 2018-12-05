@@ -12,9 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface Student : RLMObject
 @property NSString * name;
-@property BOOL gender;
+@property int age;
+@property float height;
+@property float weight;
 @property float score;
-@property NSString * className;
+@property NSString * grade;
+@property NSString * studentId;
 @end
 RLM_ARRAY_TYPE(Student)
 
