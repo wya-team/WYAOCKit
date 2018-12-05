@@ -424,7 +424,7 @@
     }
     return _gradeArray;
 }
-#pragma mark ======= 增删改查
+#pragma mark ======= 增
 - (void)realmAddData{
     NSArray * tempArray = [self getRealmArray];
     Student * tempStu = [tempArray lastObject];
@@ -449,6 +449,16 @@
     }
     model.studentId = studentId;
     WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
+   RLMResults * results = [dbManager wya_lookupRealmWithAllClassName:@"Student" whereFormat:[NSString stringWithFormat:@"studentId='%@'",model.studentId]];
+//    if (results.count==0) {
+//        [dbManager wya_insertRealmWithObject:model];
+//    }else{
+//        model.studentId = [NSString stringWithFormat:@"%ld",idValue+1];
+//    }
+    while (results.count != 0) {
+        model.studentId = [NSString stringWithFormat:@"%ld",idValue+1];
+        results = [dbManager wya_lookupRealmWithAllClassName:@"Student" whereFormat:[NSString stringWithFormat:@"studentId='%@'",model.studentId]];
+    }
     [dbManager wya_insertRealmWithObject:model];
 }
 
