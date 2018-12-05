@@ -28,21 +28,18 @@
 @property (nonatomic, assign) CGRect rect;
 
 /**
- 预览图url
+ 预览图url（网络url）
  */
 @property (nonatomic, copy) NSString *previewImage;
 
+/**
+ 从哪个时间点开始（单位：s）
+ */
 @property (nonatomic, assign) NSInteger seekTime;
 
+/**
+ 是否需要自动播放
+ */
 @property (nonatomic, assign) BOOL seekToTimeAutoPlay;
-
-@property (nonatomic, strong) UIImage *playButtonNormalImage;
-
-@property (nonatomic, strong) UIImage *playButtonSelectImage;
-
-@property (nonatomic, strong) UIImage *zoomButtonNormalImage;
-
-@property (nonatomic, strong) UIImage *zoomButtonSelectImage;
-
 
 @end

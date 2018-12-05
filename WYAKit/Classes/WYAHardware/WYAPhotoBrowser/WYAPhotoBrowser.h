@@ -11,8 +11,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoBrowser : UINavigationController
 
+/**
+ 返回选中的照片
+ */
 @property (nonatomic, copy)   void(^callBackBlock)(NSMutableArray<UIImage *> *images);
 
+/**
+ 初始化
+
+ @param maxCount 最大选中个数
+ @return self
+ */
 -(instancetype)initWithMaxCount:(NSInteger)maxCount;
 @end
 

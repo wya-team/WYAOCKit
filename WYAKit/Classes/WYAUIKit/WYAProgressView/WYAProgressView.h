@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat  borderWidth;
 
 /**
- 进度
+ 进度（0~1）
  */
 @property (nonatomic, assign) CGFloat  progress;
 

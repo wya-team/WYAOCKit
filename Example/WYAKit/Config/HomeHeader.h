@@ -27,7 +27,7 @@
 
 #import "WYAReamlViewController.h"
 
-
+#import "WYAVideoPlayerViewController.h"
 #import "WYAProgressViewController.h"
 #import "WYAPageViewController.h"
 

@@ -26,7 +26,7 @@
     [self.view addSubview:progressView];
     [progressView setProgress:0.5 animated:YES];
     
-    WYAProgressView * progressV = [[WYAProgressView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(progressView.frame)+30, 100, 100)];
+    WYAProgressView * progressV = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-200)/2, CGRectGetMaxY(progressView.frame)+30, 200, 200)];
     progressV.borderWidth = 2;
     [self.view addSubview:progressV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

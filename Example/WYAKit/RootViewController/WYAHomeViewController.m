@@ -77,7 +77,8 @@
                                  @"ShareView",
                                  @"版本对比",
                                  @"Realm",
-                                 @"进度条"];
+                                 @"进度条",
+                                 @"视频播放器"];
             object;
         });
     }
@@ -143,6 +144,8 @@
         [self.navigationController pushViewController:[[WYAReamlViewController alloc]init] animated:YES];
     }else if (indexPath.row == 15) {
         [self.navigationController pushViewController:[[WYAProgressViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 16) {
+        [self.navigationController pushViewController:[[WYAVideoPlayerViewController alloc]init] animated:YES];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }

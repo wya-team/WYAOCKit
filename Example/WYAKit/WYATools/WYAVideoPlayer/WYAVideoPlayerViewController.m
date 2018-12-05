@@ -8,8 +8,8 @@
 
 #import "WYAVideoPlayerViewController.h"
 
-@interface WYAVideoPlayerViewController ()
-
+@interface WYAVideoPlayerViewController ()<VideoPlayerDelegate>
+@property (nonatomic, strong) WYAVideoPlayerView *playView;
 @end
 
 @implementation WYAVideoPlayerViewController
@@ -17,6 +17,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    float hei = 9.0 / 16.0 * ScreenWidth;
+    CGRect frame = CGRectMake(0, WYATopHeight, ScreenWidth, hei);
+    WYAVideoItem *item = [[WYAVideoItem alloc] init];
+    item.videoUrl = [NSURL URLWithString:@"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4"];
+    item.superV = self.view;
+    item.rect = frame;
+    item.seekTime = 10;
+    item.seekToTimeAutoPlay = NO;
+
+    self.playView = [[WYAVideoPlayerView alloc] init];
+    self.playView.playerDelegate = self;
+        self.playView.frame = frame;
+    //    self.playView.needOneClick = NO;
+    [self.view addSubview:self.playView];
+    
+    [self.playView wya_RegisterPlayerItem:item];
+
 }
 
 /*
