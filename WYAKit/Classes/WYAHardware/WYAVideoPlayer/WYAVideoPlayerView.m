@@ -374,10 +374,16 @@
     [self createTimer];
 }
 
-- (void)resetPlayer
+- (void)wya_ResetPlayer
 {
+    if (self.timeObserve) {
+        [self.player removeTimeObserver:self.timeObserve];
+        self.timeObserve = nil;
+    }
     [self.playerLayer removeFromSuperlayer];
+    self.playerLayer = nil;
     self.playerItem = nil;
+    self.player = nil;
     [self.controlView resetVideoPlayControl];
 }
 
@@ -393,7 +399,12 @@
         self.timeObserve = nil;
     }
     self.controlView.videoControlDelegate = nil;
+    [self.playerLayer removeFromSuperlayer];
+    self.playerLayer = nil;
+    self.playerItem = nil;
+    self.player = nil;
 }
+
 
 /*
 // Only override drawRect: if you perform custom drawing.

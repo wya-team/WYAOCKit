@@ -8,6 +8,22 @@
 
 #import "WYABannerHeaderView.h"
 
+#ifdef __IPHONE_11_0
+@interface CustomLayer : CALayer
+
+@end
+#endif
+
+#ifdef __IPHONE_11_0
+@implementation CustomLayer
+
+- (CGFloat) zPosition {
+    return 0;
+}
+
+@end
+#endif
+
 @implementation WYABannerHeaderView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -32,5 +48,11 @@
     }
     return self;
 }
+
+#ifdef __IPHONE_11_0
++ (Class)layerClass {
+    return [CustomLayer class];
+}
+#endif
 
 @end
