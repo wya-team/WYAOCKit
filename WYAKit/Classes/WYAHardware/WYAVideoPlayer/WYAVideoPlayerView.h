@@ -51,7 +51,7 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 /**
  重置需要重新配置播放信息
  */
-//- (void)resetPlayer;
+- (void)wya_ResetPlayer;
 
 /**
  恢复播放器初始位置(需要在全屏状态下才可以调用)

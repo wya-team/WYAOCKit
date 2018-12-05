@@ -38,7 +38,10 @@
     [self.playView wya_RegisterPlayerItem:item];
 
 }
-
+- (void)wya_goBack{
+    [super wya_goBack];
+    [self.playView wya_ResetPlayer];
+}
 /*
 #pragma mark - Navigation
 
