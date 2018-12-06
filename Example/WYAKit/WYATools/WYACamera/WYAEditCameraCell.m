@@ -19,6 +19,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.imageView.layer.masksToBounds = YES;
 }
 
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event

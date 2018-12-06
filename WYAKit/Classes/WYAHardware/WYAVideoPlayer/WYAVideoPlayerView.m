@@ -370,6 +370,7 @@
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
     [self configPlayInfo];
+    self.playerLayer.backgroundColor = [UIColor redColor].CGColor;
     [self.layer insertSublayer:self.playerLayer atIndex:0];
     [self createTimer];
 }

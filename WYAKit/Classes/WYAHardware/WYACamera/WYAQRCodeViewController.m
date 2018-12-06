@@ -36,7 +36,7 @@ static CGFloat QRCodeWidth = 220;
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    self.navigationController.navigationBar.hidden = NO;
     [self setCropRect:kScanRect];
     
 //    [self performSelector:@selector(setupCamera) withObject:nil afterDelay:0.3];
@@ -58,6 +58,7 @@ static CGFloat QRCodeWidth = 220;
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.hidden = YES;
     if (self.session) {
         [self.session stopRunning];
     }
