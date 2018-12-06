@@ -12,8 +12,8 @@
 /**
  通过时间戳计算时间差（几小时前、几天前
  
- @param compareDate <#compareDate description#>
- @return <#return value description#>
+ @param compareDate compareDate
+ @return String
  */
 + (NSString *)wya_compareCurrentTime:(NSTimeInterval)compareDate;
 
@@ -21,7 +21,7 @@
  通过时间戳得出对应的时间
  
  @param timestamp 时间戳
- @return <#return value description#>
+ @return String
  */
 + (NSString *)wya_getDateStringWithTimestamp:(NSTimeInterval)timestamp;
 
@@ -29,7 +29,7 @@
  //通过时间戳和显示时间
  @param timestamp 时间戳
  @param formatter 格式
- @return <#return value description#>
+ @return String
  */
 + (NSString *)wya_getStringWithTimestamp:(NSTimeInterval)timestamp formatter:(NSString *)formatter;
 

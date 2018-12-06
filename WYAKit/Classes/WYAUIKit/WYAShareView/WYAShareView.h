@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 @class WYAShareView;
 NS_ASSUME_NONNULL_BEGIN
-@protocol WYAShareViewDelagete <NSObject>
+@protocol WYAShareViewDelegate <NSObject>
 
 @required
 
@@ -26,8 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong, nonnull) NSArray<NSArray *> * dataArray;
 
-@property (nonatomic, weak) id<WYAShareViewDelagete> delegate;
-@property (nonatomic, strong) UIViewController * showController;
+@property (nonatomic, weak) id<WYAShareViewDelegate> delegate;
 /**
  展示分享视图
 
