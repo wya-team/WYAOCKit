@@ -13,8 +13,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
+/**
+ 左按钮点击事件
+ */
 - (void)wya_LeftAction;
 
+/**
+ 右按钮点击事件
+ */
 - (void)wya_RightAction;
 
 @end

@@ -30,5 +30,5 @@
 #import "WYAVideoPlayerViewController.h"
 #import "WYAProgressViewController.h"
 #import "WYAPageViewController.h"
-
+#import "WYADownloaderViewController.h"
 #endif /* HomeHeader_h */

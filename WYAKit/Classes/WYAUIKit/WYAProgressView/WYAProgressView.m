@@ -54,6 +54,7 @@
     
     _radius = self.cmam_width/2.0 - _borderWidth/2.0;
     _lastProgress = 0;
+    self.progress = 0;
 }
 
 #pragma mark - Public Method -

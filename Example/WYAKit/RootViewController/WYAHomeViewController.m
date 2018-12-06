@@ -63,7 +63,8 @@
     if(!_dataSource){
         _dataSource = ({
             NSArray * object = @[@"文本输入",
-                                 @"二维码/条形码",
+                                 @"生成二维码/条形码",
+                                 @"扫描二维码/条形码",
                                  @"弹框/上拉框",
                                  @"相册/相机/录制视频",
                                  @"指示框",
@@ -78,7 +79,8 @@
                                  @"版本对比",
                                  @"Realm",
                                  @"进度条",
-                                 @"视频播放器"];
+                                 @"视频播放器",
+                                 @"下载管理器"];
             object;
         });
     }
@@ -115,37 +117,45 @@
     }else if (indexPath.row == 1){
         [self.navigationController pushViewController:[[WYAIMGCodeViewController alloc]init] animated:YES];
     }else if (indexPath.row == 2){
-        [self.navigationController pushViewController:[[WYAUIAlertViewController alloc]init] animated:YES];
+        WYAQRCodeViewController * qr = [[WYAQRCodeViewController alloc]init];
+        qr.ScanReault = ^(NSString *reault) {
+            [UIView wya_ShowBottomToastWithMessage:reault];
+        };
+        [self.navigationController pushViewController:qr animated:YES];
     }else if (indexPath.row == 3){
-        [self.navigationController pushViewController:[[WYACameraVC alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAUIAlertViewController alloc]init] animated:YES];
     }else if (indexPath.row == 4){
-        [self.navigationController pushViewController:[[WYAPopViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYACameraVC alloc]init] animated:YES];
     }else if (indexPath.row == 5){
-        [self.navigationController pushViewController:[[WYAChooseMenuViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAPopViewController alloc]init] animated:YES];
     }else if (indexPath.row == 6){
-        [self.navigationController pushViewController:[[WYASliderViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAChooseMenuViewController alloc]init] animated:YES];
     }else if (indexPath.row == 7){
-        [self.navigationController pushViewController:[[WYAPageViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYASliderViewController alloc]init] animated:YES];
     }else if (indexPath.row == 8){
-        [self.navigationController pushViewController:[[WYAPickerViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAPageViewController alloc]init] animated:YES];
     }else if (indexPath.row == 9){
-        [self.navigationController pushViewController:[[WYACustomCellController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAPickerViewController alloc]init] animated:YES];
     }else if (indexPath.row == 10){
-        [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYACustomCellController alloc]init] animated:YES];
     }else if (indexPath.row == 11){
-        [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
+        [self.navigationController pushViewController:[[WYAImageBrowserViewController alloc]init] animated:YES];
     }else if (indexPath.row == 12){
+        [self.navigationController pushViewController:[[WYAStepperController alloc]init] animated:YES];
+    }else if (indexPath.row == 13){
         WYAShareView * view = [[WYAShareView alloc]initWithFrame:CGRectZero];
      view.dataArray = @[@[@"内购订单",@"内购订单",@"内购订单",@"内购订单",@"内购订单"], @[@"内购订单",@"内购订单",@"内购订单",@"内购订单"]];
         [view wya_showShareViewWithController:self];
-    }else if (indexPath.row == 13){
-        [self wya_versionUpdateAlertView];
     }else if (indexPath.row == 14){
+        [self wya_versionUpdateAlertView];
+    }else if (indexPath.row == 15){
         [self.navigationController pushViewController:[[WYAReamlViewController alloc]init] animated:YES];
-    }else if (indexPath.row == 15) {
-        [self.navigationController pushViewController:[[WYAProgressViewController alloc]init] animated:YES];
     }else if (indexPath.row == 16) {
+        [self.navigationController pushViewController:[[WYAProgressViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 17) {
         [self.navigationController pushViewController:[[WYAVideoPlayerViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 18) {
+        [self.navigationController pushViewController:[[WYADownloaderViewController alloc]init] animated:YES];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }
