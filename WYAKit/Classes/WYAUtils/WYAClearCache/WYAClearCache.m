@@ -9,7 +9,5 @@
 
 @implementation WYAClearCache
 
-+ (long long)wya_defaultFileAtLirCache
 
-+ (long long)wya_fileSizeAtPath:(NSString *)filePath;
 @end
