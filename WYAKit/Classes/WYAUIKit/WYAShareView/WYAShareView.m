@@ -40,8 +40,6 @@
 }
 #pragma mark ======= public methods
 - (void)wya_showShareViewWithController:(UIViewController *)controller{
-    _showController = controller;
-//    WYAShareView * view =  [[WYAShareView alloc]initWithFrame:CGRectMake(0,0, ScreenWidth, 270*SizeAdapter)];
     self.alert = [WYAAlertController wya_AlertWithCustomView:self AlertStyle:WYAAlertStyleCustomSheet];
     [controller presentViewController:self.alert animated:YES completion:nil];
 }

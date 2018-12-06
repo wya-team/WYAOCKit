@@ -65,7 +65,7 @@ UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
  
  @param color 颜色
  @param delta 明亮度
- @return <#return value description#>
+ @return color
  */
 + (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withBrighnessDelta:(CGFloat)delta;
 
@@ -74,7 +74,7 @@ UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
  
  @param color 颜色
  @param delta 透明度
- @return <#return value description#>
+ @return color
  */
 + (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withAlphaDelta:(CGFloat)delta;
 
