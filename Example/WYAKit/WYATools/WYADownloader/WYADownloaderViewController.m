@@ -99,9 +99,7 @@
                 
                 
                 self.playView = [[WYAVideoPlayerView alloc] init];
-                //    self.playView.playerDelegate = self;
                 self.playView.frame = frame;
-                //    self.playView.needOneClick = NO;
                 [self.view addSubview:self.playView];
                 
                 [self.playView wya_RegisterPlayerItem:self.item];
