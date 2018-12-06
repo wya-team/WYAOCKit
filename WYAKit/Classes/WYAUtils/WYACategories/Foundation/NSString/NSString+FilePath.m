@@ -30,7 +30,7 @@
 + (NSString *)wya_libPrefPath
 {
     NSArray * paths = NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES);
-    return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Preference"];
+    return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Preferences"];
 }
 
 + (NSString *)wya_libCachePath

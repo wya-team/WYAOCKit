@@ -450,6 +450,7 @@
     model.studentId = studentId;
     WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
    RLMResults * results = [dbManager wya_lookupRealmWithAllClassName:@"Student" whereFormat:[NSString stringWithFormat:@"studentId='%@'",model.studentId]];
+
     while (results.count != 0) {
         model.studentId = [NSString stringWithFormat:@"%ld",idValue+1];
         results = [dbManager wya_lookupRealmWithAllClassName:@"Student" whereFormat:[NSString stringWithFormat:@"studentId='%@'",model.studentId]];

@@ -6,11 +6,11 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYABaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYALeftViewController : WYABaseViewController
+@interface WYALeftViewController : UIViewController
 
 @end
 
