@@ -37,9 +37,10 @@ static CGFloat QRCodeWidth = 220;
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
+    
     [self setCropRect:kScanRect];
     
-//    [self performSelector:@selector(setupCamera) withObject:nil afterDelay:0.3];
+    
     if (self.session) {
         [self.session startRunning];
     }
@@ -52,8 +53,26 @@ static CGFloat QRCodeWidth = 220;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    [self createUI];
-    [self setupCamera];
+    
+    AVAuthorizationStatus AVstatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];//相机权限
+    if (AVstatus == AVAuthorizationStatusNotDetermined) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if (granted) {
+                [self createUI];
+                [self setupCamera];
+            }
+        }];
+    }else if (AVstatus == AVAuthorizationStatusAuthorized) {
+        [self createUI];
+        [self setupCamera];
+    }else if (AVstatus == AVAuthorizationStatusDenied) {
+        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        });
+    }
+    
+    
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -66,6 +85,11 @@ static CGFloat QRCodeWidth = 220;
     if (self.timer) {
         [self.timer setFireDate:[NSDate distantFuture]];
     }
+    
+}
+
+#pragma mark - Private Method -
+-(void)setCamera{
     
 }
 

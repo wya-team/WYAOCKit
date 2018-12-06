@@ -372,6 +372,8 @@
     [self configPlayInfo];
     [self.layer insertSublayer:self.playerLayer atIndex:0];
     [self createTimer];
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)wya_ResetPlayer

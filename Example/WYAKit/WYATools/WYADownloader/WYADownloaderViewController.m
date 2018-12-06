@@ -65,6 +65,19 @@
     button3.frame = CGRectMake(CGRectGetMaxX(button2.frame)+30, CGRectGetMaxY(button.frame)+30, 80, 50);
     [self.view addSubview:button3];
     
+    float hei = 9.0 / 16.0 * ScreenWidth;
+    CGRect frame = CGRectMake(0, 300, ScreenWidth, hei);
+    self.item = [[WYAVideoItem alloc] init];
+    self.item.videoUrl = [NSURL fileURLWithPath:Path];
+    self.item.superV = self.view;
+    self.item.rect = frame;
+    self.item.seekTime = 0;
+    self.item.seekToTimeAutoPlay = NO;
+    
+    
+    self.playView = [[WYAVideoPlayerView alloc] init];
+    self.playView.frame = frame;
+    [self.view addSubview:self.playView];
 }
 
 -(void)wya_goBack{
@@ -88,19 +101,7 @@
             [UIView wya_ShowCenterToastWithMessage:@"下载完成"];
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                float hei = 9.0 / 16.0 * ScreenWidth;
-                CGRect frame = CGRectMake(0, 300, ScreenWidth, hei);
-                self.item = [[WYAVideoItem alloc] init];
-                self.item.videoUrl = [NSURL fileURLWithPath:Path];
-                self.item.superV = self.view;
-                self.item.rect = frame;
-                self.item.seekTime = 0;
-                self.item.seekToTimeAutoPlay = NO;
                 
-                
-                self.playView = [[WYAVideoPlayerView alloc] init];
-                self.playView.frame = frame;
-                [self.view addSubview:self.playView];
                 
                 [self.playView wya_RegisterPlayerItem:self.item];
             });
