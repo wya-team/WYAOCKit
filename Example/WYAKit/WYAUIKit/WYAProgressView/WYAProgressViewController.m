@@ -30,7 +30,8 @@
     progressV.borderWidth = 2;
     [self.view addSubview:progressV];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [progressV wya_setProgress:0.3 Animation:YES];
+        progressV.progress = 0.3;
+        
     });
     
 }

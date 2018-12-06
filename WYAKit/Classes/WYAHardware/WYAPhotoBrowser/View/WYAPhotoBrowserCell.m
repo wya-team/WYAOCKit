@@ -24,6 +24,8 @@
         self.backgroundColor = [UIColor redColor];
         
         self.imageV = [[UIImageView alloc]init];
+        self.imageV.contentMode = UIViewContentModeScaleAspectFill;
+        self.imageV.layer.masksToBounds = YES;
         [self.contentView addSubview:self.imageV];
 
         self.button = [UIButton buttonWithType:UIButtonTypeCustom];

@@ -63,4 +63,13 @@
 + (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString;
 
 - (nonnull UIImage *)croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
+
+/**
+ 等比例缩放,size 是你要把图显示到 多大区域
+
+ @param sourceImage 传入图片
+ @param size 目标大小
+ @return image
+ */
++ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size;
 @end

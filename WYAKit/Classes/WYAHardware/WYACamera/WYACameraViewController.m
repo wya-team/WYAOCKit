@@ -121,9 +121,15 @@
     {
         [self startTimer];
         [self.videoTool startCapture];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+        }];
     }else if (longPress.state == UIGestureRecognizerStateEnded){
         [self endRecordingVideo];
         [self.videoTool stopRecordFunction];
+        [UIView animateWithDuration:0.2 animations:^{
+            self.progressView.transform = CGAffineTransformIdentity;
+        }];
         if (self.videoTool.videoPath) {
             [self.view addSubview:self.placeholdImageView];
             
@@ -163,11 +169,7 @@
         self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
     }];
 }
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    NSSet *allTouches = [event allTouches];    //返回与当前接收者有关的所有的触摸对象
-    UITouch *touch = [allTouches anyObject];
-    NSLog(@"点击的视图是==%@",touch.view);
-}
+
 
 - (void)cancelClick{
     [self.placeholdImageView removeFromSuperview];
@@ -225,7 +227,7 @@
 
 - (void)stopTimer
 {
-    self.progressView.progress = 0;
+    self.progressView.progress = 0.f;
     [self.timer invalidate];
     self.timer = nil;
 }
@@ -311,6 +313,7 @@
     if (!_progressView) {
         _progressView = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-60*SizeAdapter)/2, ScreenHeight-WYABottomHeight-60*SizeAdapter-30, 60*SizeAdapter, 60*SizeAdapter)];
         _progressView.backGroundImage = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass([self class])];
+        _progressView.progress = 0.f;
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
         [_progressView addGestureRecognizer:tap];
 
@@ -321,20 +324,6 @@
     return _progressView;
 }
 
-//- (UIImageView *)cameraImageView
-//{
-//    if(!_cameraImageView){
-//        _cameraImageView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass([self class])]];
-//        _cameraImageView.bounds = CGRectMake(0, 0, 60, 60);
-//        _cameraImageView.layer.cornerRadius =  _cameraImageView.bounds.size.width * 0.5;
-//        _cameraImageView.layer.masksToBounds = NO;
-//        _cameraImageView.contentMode = UIViewContentModeScaleAspectFit;
-//        _cameraImageView.userInteractionEnabled = YES;
-//
-//    }
-//    return _cameraImageView;
-//}
-
 - (WYACameraTool *)videoTool
 {
   if(!_videoTool)
@@ -343,18 +332,6 @@
   }
     return _videoTool;
 }
-
-//- (WYACameraRecordProcessView *)progressView
-//{
-//  if(!_progressView)
-//  {
-//      CGFloat widthHeight = self.cameraImageView.cmam_width-lineWith*2;
-//      _progressView = [[WYACameraRecordProcessView alloc]initWithCenter:CGPointMake(widthHeight *0.5, widthHeight*0.5) radius:(widthHeight-lineWith)*0.5];
-//      _progressView.bounds =CGRectMake(0, 0, widthHeight, widthHeight);
-//      _progressView.hidden = YES;
-//  }
-//    return _progressView;
-//}
 
 - (UIImageView *)placeholdImageView{
     if (!_placeholdImageView) {

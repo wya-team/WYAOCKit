@@ -38,11 +38,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  设置进度
-
+ 
  @param progress 进度
  @param animation 是否动画
  */
 -(void)wya_setProgress:(CGFloat)progress Animation:(BOOL)animation;
+
 @end
 
 NS_ASSUME_NONNULL_END
