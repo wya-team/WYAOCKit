@@ -40,6 +40,7 @@
 #import <WYAKit/WYAVideoPlayerView.h>
 #import <WYAKit/WYAImageCropViewController.h>
 #import <WYAKit/WYADownloader.h>
+#import <WYAKit/WYAClearCache.h>
 
 /******************************常用宏*******************/
 //#import <Realm/Realm.h>
