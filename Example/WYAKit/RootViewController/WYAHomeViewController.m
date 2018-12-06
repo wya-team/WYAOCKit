@@ -80,7 +80,8 @@
                                  @"Realm",
                                  @"进度条",
                                  @"视频播放器",
-                                 @"下载管理器"];
+                                 @"下载管理器",
+                                 @"清理缓存"];
             object;
         });
     }
@@ -156,10 +157,30 @@
         [self.navigationController pushViewController:[[WYAVideoPlayerViewController alloc]init] animated:YES];
     }else if (indexPath.row == 18) {
         [self.navigationController pushViewController:[[WYADownloaderViewController alloc]init] animated:YES];
+    }else if (indexPath.row == 19){
+        [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
+            [self showAlertWith:[NSString stringWithFormat:@"%.2fMB",folderSize]];
+        } UnitType:WYAFileSizeUnitMB];
+        
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }
-
+- (void)showAlertWith:(NSString *)size{
+    WYAAlertController *alert = [WYAAlertController wya_AlertWithTitle:@"清理缓存"
+                                                               Message:[NSString stringWithFormat:@"当前缓存%@，是否清理",size]
+                                                      AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+    alert.backgroundButton.enabled = NO;
+    // 创建 action
+    WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{ NSLog(@"Default");
+        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
+            NSLog(@"清理成功");
+        }];
+    }];
+    WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
+    [alert wya_AddAction:cancelAction];
+    [alert wya_AddAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
 
 - (UILabel *)cellLabel{
     if(!_cellLabel){
