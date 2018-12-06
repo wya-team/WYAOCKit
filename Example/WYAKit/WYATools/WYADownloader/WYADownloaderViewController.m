@@ -65,9 +65,13 @@
     button3.frame = CGRectMake(CGRectGetMaxX(button2.frame)+30, CGRectGetMaxY(button.frame)+30, 80, 50);
     [self.view addSubview:button3];
     
-    
-    
-    
+}
+
+-(void)wya_goBack{
+    [super wya_goBack];
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtURL:[NSURL fileURLWithPath:Path] error:nil];
+    [self.playView wya_ResetPlayer];
 }
 
 -(void)startDownload{
@@ -90,7 +94,7 @@
                 self.item.videoUrl = [NSURL fileURLWithPath:Path];
                 self.item.superV = self.view;
                 self.item.rect = frame;
-                self.item.seekTime = 10;
+                self.item.seekTime = 0;
                 self.item.seekToTimeAutoPlay = NO;
                 
                 
