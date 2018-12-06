@@ -71,26 +71,34 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"相册胶卷";
-
     [self.view addSubview:self.controlV];
     
     [self.view addSubview:self.collectionView];
     self.collectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height-WYABottomHeight-49);
     
-    self.dataSource = [NSMutableArray arrayWithCapacity:0];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if (self.collection) {
-            self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
-        }else{
-            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionStartDate assetSort:AssetCreationDate];
-        }
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusNotDetermined) {
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-             [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
-        });
-    });
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            
+            if (status == PHAuthorizationStatusAuthorized) {
+                
+                // TODO:...
+                NSLog(@"获取到权限了");
+                [self performBlock];
+            }else if (status == PHAuthorizationStatusDenied) {
+                NSLog(@"不允许访问");
+                
+            }else if (status == PHAuthorizationStatusRestricted) {
+                NSLog(@"此应用程序没有被授权访问");
+            }
+        }];
+    }else if (status == PHAuthorizationStatusAuthorized) {
+        [self performBlock];
+    }
+    
+    
+    
     
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"取消" forState:UIControlStateNormal];
@@ -104,8 +112,9 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
     
-    [self performBlock];
     
+    
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,6 +131,22 @@
 }
 
 - (void)performBlock{
+    
+    self.dataSource = [NSMutableArray arrayWithCapacity:0];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (self.collection) {
+            self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
+        }else{
+            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionStartDate assetSort:AssetCreationDate];
+        }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count-1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+        });
+    });
+    
     WeakSelf(weakSelf);
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     self.controlV.previewBlock = ^{
