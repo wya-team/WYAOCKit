@@ -11,54 +11,24 @@
 
 @interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
 
-/**
- 返回按钮
- */
-@property (nonatomic, strong) UIButton *backButton;
-
-/**
- 收藏按钮
- */
-@property (nonatomic, strong) UIButton *likeButton;
-
-/**
- 下载按钮
- */
-@property (nonatomic, strong) UIButton *downloadButton;
-
-/**
- 底部控制栏
- */
-@property (nonatomic, strong) UIImageView *bottomImageView;
-
-/**
- 播放和暂停按钮
- */
-@property (nonatomic, strong) UIButton *playButton;
-
-/**
- 当前播放时间进度
- */
-@property (nonatomic, strong) UILabel *currentProgressLabel;
-
-/**
- 视频长度
- */
-@property (nonatomic, strong) UILabel *allProgressLabel;
-
-/**
- 滑块
- */
-@property (nonatomic, strong) WYAVideoSlider * slider;
-
+@property (nonatomic, strong) UIButton *backButton;//返回按钮
+@property (nonatomic, strong) UIButton *likeButton;//收藏按钮
+@property (nonatomic, strong) UIButton *downloadButton;//下载按钮
+@property (nonatomic, strong) UIImageView *bottomImageView;//底部控制栏
+@property (nonatomic, strong) UIButton *playButton;//播放和暂停按钮
+@property (nonatomic, strong) UILabel *currentProgressLabel;//当前播放时间进度
+@property (nonatomic, strong) UILabel *allProgressLabel;//视频长度
+@property (nonatomic, strong) WYAVideoSlider * slider;// 滑块
 @property (nonatomic, strong) WYAVideoItem *item;
-
 @property (nonatomic, strong) UITapGestureRecognizer *oneFingerTap;
 
 @end
 
 
-@implementation WYAVideoPlayerControlView
+@implementation WYAVideoPlayerControlView{
+    CGFloat touchX, touchY;
+    
+}
 
 - (instancetype)initWithPlayItem:(WYAVideoItem *)item
 {
@@ -82,6 +52,9 @@
         [self autoFadeOutControlView];
 
         self.oneFingerClick = YES;
+        
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
+        [self addGestureRecognizer:pan];
     }
     return self;
 }
@@ -145,8 +118,7 @@
     
 }
 
-#pragma mark lazy
-
+#pragma mark - Getter -
 //-(UIButton *)backButton{
 //    if (!_backButton) {
 //        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -226,19 +198,9 @@
     if (!_slider) {
         _slider = [[WYAVideoSlider alloc] init];
         _slider.delegate = self;
-//        _slider.value = 0.0;
-
-//        // slider开始滑动事件
-//        [_slider addTarget:self action:@selector(sliderTouchBegan:) forControlEvents:UIControlEventTouchDown];
-//        // slider滑动中事件
-//        [_slider addTarget:self action:@selector(sliderChange:) forControlEvents:UIControlEventValueChanged];
-//        // slider结束滑动事件
-//        [_slider addTarget:self action:@selector(sliderTouchEnded:) forControlEvents:UIControlEventTouchUpInside | UIControlEventTouchCancel | UIControlEventTouchUpOutside];
     }
     return _slider;
 }
-
-
 
 - (UIButton *)zoomButton
 {
@@ -251,7 +213,7 @@
     return _zoomButton;
 }
 
-#pragma mark--- Set - Get
+#pragma mark - Setter -
 - (void)setOneFingerClick:(BOOL)oneFingerClick
 {
     _oneFingerClick = oneFingerClick;
@@ -266,8 +228,7 @@
     }
 }
 
-#pragma mark Action
-
+#pragma mark - Private Method -
 - (void)backClick:(UIButton *)sender
 {
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:backButton:)]) {
@@ -359,6 +320,48 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
+-(void)panClick:(UIGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        touchX = point.x;
+        touchY = point.y;
+    }else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        
+        if (point.x>self.cmam_width-50) {
+            if (point.y-touchY>0) {
+                //右侧下滑，音量加
+                NSLog(@"音量加");
+            }else{
+                //右侧上滑，音量减
+                NSLog(@"音量减");
+            }
+        }else if (point.x<50) {
+            if (point.y-touchY>0) {
+                //左侧下滑，亮度加
+                NSLog(@"亮度加");
+            }else{
+                //左侧上滑，亮度减
+                NSLog(@"亮度减");
+            }
+        }else{
+            if (point.x-touchX>0) {
+                //右滑
+                if (point.x-touchX>30) {
+                    //右侧安全区域为30
+                    NSLog(@"快进");
+                }
+            }else{
+                //左滑
+                if (point.x-touchX>-30) {
+                    //左侧安全区域为30
+                    NSLog(@"快退");
+                }
+            }
+        }
+    }
+}
+
+#pragma mark - Public Method -
 - (void)getCurrentTime:(NSInteger)currentTime TotalTime:(NSInteger)totalTime SlideValue:(CGFloat)slideValue
 {
     // 当前时长进度progress
