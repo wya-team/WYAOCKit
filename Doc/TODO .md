@@ -4,31 +4,31 @@
 
 - ~~WYACamera~~
 
-- WYAPhotoBrowser (imagePicker)
+- ~~WYAPhotoBrowser (imagePicker)~~
 
-- WYAVideoPlayer
+- ~~WYAVideoPlayer~~
 
 - WYADownloader
     
 ## WYAUIKit 
 
-- WYANavBar
+- ~~WYANavBar~~
 
 - ~~WYAPagination~~
 
 - ~~WYAMenu~~
 
-- WYACell (inputItem, accordion, list, Card, Grid)
+- ~~WYACell (inputItem, accordion, list, Card, Grid)~~
 
 - ~~WYANoticeBar~~
 
-- WYAStepper
+- ~~WYAStepper~~
 
 - ~~WYASlidder~~
 
 - WYASteps(待定)
 
-- WYABannerView (Carousel)
+- ~~WYABannerView (Carousel)~~
 
 - ~~WYAIMGCode~~
 
@@ -38,32 +38,32 @@
 
 - ~~WYAToastView (ActivityIndicator, Toast)~~
 
-- WYAShareView
+- ~~WYAShareView~~
 
-- WYAProgressView (Progress)
+- ~~WYAProgressView (Progress)~~
     
 - ~~WYAPickerView~~
 
 - ~~WYATextView~~ (TextatraItem)
     
-- WYADrawerViewController (Drawer)
+- ~~WYADrawerViewController (Drawer)~~
     
 - WYAKeyboard
 
-- WYACard
+- ~~WYACard~~
 
 ## Help(助手)
-- WYAKitInstance
+- ~~WYAKitInstance~~
 
 ## WYAUtils （工具）
   
-- WYAClearCache
+- ~~WYAClearCache~~
 
-- WYACompareVersion
+- ~~WYACompareVersion~~
 
--  WYASQL
+-  ~~WYARealm~~
 
-- WYACategories（分类）
+- WYACategories
 
     - ~~Foundation~~  
 

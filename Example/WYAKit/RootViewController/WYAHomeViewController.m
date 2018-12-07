@@ -159,6 +159,7 @@
         [self.navigationController pushViewController:[[WYADownloaderViewController alloc]init] animated:YES];
     }else if (indexPath.row == 19){
         [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
+            NSLog(@"%.2fMB",folderSize);
             [self showAlertWith:[NSString stringWithFormat:@"%.2fMB",folderSize]];
         } UnitType:WYAFileSizeUnitMB];
         
