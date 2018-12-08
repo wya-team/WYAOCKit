@@ -300,7 +300,17 @@
 - (void)wya_goBackButtonWithImage:(NSString *)imageNamed{
     [self addLeftGoBackWithTitle:nil normalColor:nil highlightedColor:nil Image:imageNamed];
 }
+- (void)wya_customGobackWithImage:(UIImage *)image{
+    UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    customButton.frame = CGRectMake(LEFT_OR_RIGHT_SPACE, 4, 36, 36);
+   
+    [customButton setImage:image forState:UIControlStateNormal];
 
+    [customButton addTarget:self action:@selector (goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.navBarView addSubview:customButton];
+}
 - (void)wya_goBackButtonWithTitle:(NSString *)title normalColor:(UIColor *_Nullable)normalColor highlightedColor:(UIColor *_Nullable)highlightedColor{
     UIColor * normal = normalColor ? normalColor : [UIColor blackColor];
     [self addLeftGoBackWithTitle:title normalColor:normal highlightedColor:highlightedColor Image:nil];

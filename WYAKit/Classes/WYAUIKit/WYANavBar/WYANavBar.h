@@ -121,5 +121,12 @@ NS_ASSUME_NONNULL_BEGIN
                  highlightedColor:(UIColor * _Nullable)highlightedColor;
 
 - (void)wya_goBackButtonWithImage:(NSString *)imageNamed;
+
+/**
+ SDK自定义导航返回按钮
+
+ @param image 返回图片
+ */
+- (void)wya_customGobackWithImage:(UIImage *)image;
 @end
 NS_ASSUME_NONNULL_END
