@@ -3,6 +3,8 @@
 #import "WYACameraViewController.h"
 #import "WYACameraTool.h"
 #import "WYAProgressView.h"
+#import "WYACameraPreviewImageView.h"
+#import "WYAImageCropViewController.h"
 #define kVideoMaxTime   15.0 //录制时间长度
 
 @interface WYACameraViewController ()
@@ -16,15 +18,12 @@
 @property (nonatomic, strong) WYAProgressView * progressView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;//相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool *videoTool;
-//@property (nonatomic, strong) WYACameraRecordProcessView *progressView;
+
 @property (nonatomic, assign) CGFloat timeCount;
 @property (nonatomic, assign) CGFloat timeMargin;
 
 @property (nonatomic, strong) NSTimer *timer;
-
-@property (nonatomic, strong) UIImageView * placeholdImageView;
-@property (nonatomic, strong) UIButton * backButton;
-@property (nonatomic, strong) UIButton * sureButton;
+@property (nonatomic, strong) WYACameraPreviewImageView * placeholdImageView;
 @property (nonatomic, strong) AVPlayer * player;
 @end
 
@@ -88,7 +87,7 @@
 
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.messageLabel];
-    
+
     self.cameraButton.center = CGPointMake(ScreenWidth-self.cameraButton.bounds.size.width, self.cameraButton.bounds.size.height);
     self.closeButton.center = CGPointMake(ScreenWidth*0.5-self.closeButton.bounds.size.width-30, ScreenHeight - self.progressView.bounds.size.height);
     self.messageLabel.center = CGPointMake(ScreenWidth/2, self.progressView.center.y-60);
@@ -151,20 +150,17 @@
             self.progressView.transform = CGAffineTransformIdentity;
         }];
         if (self.videoTool.videoPath) {
-            [self.view addSubview:self.placeholdImageView];
-            
+
+            self.placeholdImageView.hidden = NO;
             NSURL * url = [NSURL fileURLWithPath:self.videoTool.videoPath];
             self.player = [AVPlayer playerWithURL:url];
             AVPlayerLayer * layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
             layer.frame = self.placeholdImageView.frame;
-            [self.placeholdImageView.layer addSublayer:layer];
+            [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
             [self.player play];
             //注册通知
             [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(runLoopTheMovie:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-            [self.placeholdImageView addSubview:self.backButton];
-            [self.placeholdImageView addSubview:self.sureButton];
-            self.backButton.center = CGPointMake(50, ScreenHeight-self.backButton.bounds.size.height-50);
-            self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
+
         }
     }
     
@@ -180,13 +176,10 @@
 - (void)takingPictures
 {
     [self.videoTool startTakingPhoto:^(UIImage *image) {
+        self.placeholdImageView.hidden = NO;
         self.placeholdImageView.image = image;
         [self endRecordingVideo];
-        [self.view addSubview:self.placeholdImageView];
-        [self.placeholdImageView addSubview:self.backButton];
-        [self.placeholdImageView addSubview:self.sureButton];
-        self.backButton.center = CGPointMake(50, ScreenHeight-self.backButton.bounds.size.height-50);
-        self.sureButton.center = CGPointMake(ScreenWidth-50, ScreenHeight-self.backButton.bounds.size.height-50);
+
     }];
 }
 
@@ -194,7 +187,7 @@
 - (void)cancelClick{
     [self.placeholdImageView removeFromSuperview];
     self.placeholdImageView = nil;
-    
+
     [self.videoTool startRecordFunction];
     
     if (self.videoTool.videoPath) {
@@ -353,36 +346,40 @@
     return _videoTool;
 }
 
-- (UIImageView *)placeholdImageView{
-    if (!_placeholdImageView) {
-        _placeholdImageView = [[UIImageView alloc]initWithFrame:self.view.bounds];
-        _placeholdImageView.userInteractionEnabled = YES;
+- (WYACameraPreviewImageView *)placeholdImageView{
+    if(!_placeholdImageView){
+        _placeholdImageView = ({
+            WYACameraPreviewImageView * object = [[WYACameraPreviewImageView alloc]initWithFrame:self.view.bounds];
+            object.userInteractionEnabled = YES;
+            object.hidden = YES;
+            WeakSelf(weakSelf);
+            object.cancelHandle = ^{
+                [weakSelf cancelClick];
+            };
+            object.finishHandle = ^(UIImage * _Nonnull previewImage) {
+                [weakSelf sureClick];
+            };
+            object.editHandle = ^(UIImage * _Nonnull previewImage) {
+                StrongSelf(strongSelf);
+                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
+                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+                    [vc dismissViewControllerAnimated:NO completion:^{
+                        [strongSelf dismissViewControllerAnimated:YES completion:^{
+                            if (strongSelf.TakePhoto) {
+                                strongSelf.TakePhoto(image);
+                            }
+                        }];
+                    }];
+                };
+                [strongSelf presentViewController:vc animated:YES completion:nil];
+            };
+            [self.view addSubview:object];
+            object;
+        });
     }
     return _placeholdImageView;
 }
 
-- (UIButton *)backButton{
-    if(!_backButton)
-    {
-        _backButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        UIImage * image = [UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass([self class])];
-        [_backButton setImage:image forState:UIControlStateNormal];
-        _backButton.bounds = CGRectMake(0, 0, 40, 40);
-        _backButton.layer.cornerRadius =  _cameraButton.bounds.size.width * 0.5;
-        _backButton.layer.masksToBounds = YES;
-        [_backButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _backButton;
-}
 
-- (UIButton *)sureButton{
-    if (!_sureButton) {
-        _sureButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        [_sureButton setImage:[UIImage loadBundleImage:@"correct" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal]; 
-        _sureButton.bounds = CGRectMake(0, 0, 40, 40);
-        [_sureButton addTarget:self action:@selector(sureClick) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _sureButton;
-}
 
 @end

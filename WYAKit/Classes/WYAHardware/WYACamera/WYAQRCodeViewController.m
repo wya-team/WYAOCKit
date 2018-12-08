@@ -8,15 +8,17 @@
 
 #import "WYAQRCodeViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
 #import "UIImage+Catagory.h"
-
+#import "WYANavBar.h"
 static CGFloat QRCodeWidth = 220;
 
 #define TOP (ScreenHeight-WYAStatusBarHeight-QRCodeWidth)/2
 #define LEFT (ScreenWidth-QRCodeWidth)/2
 #define kScanRect CGRectMake(LEFT, TOP, QRCodeWidth, QRCodeWidth)
 
-@interface WYAQRCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>{
+@interface WYAQRCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,WYANavBarDelegate>
+{
     int num;
     BOOL upOrdown;
     CAShapeLayer *cropLayer;
@@ -30,14 +32,56 @@ static CGFloat QRCodeWidth = 220;
 @property (nonatomic, strong) NSTimer * timer;
 @property (nonatomic, strong) UIImageView * line;
 @property (nonatomic, assign) BOOL    isback;
+@property (nonatomic, strong) WYANavBar * navBar;
+@property (nonatomic, strong) UIButton * lampButton;
 @end
 
 @implementation WYAQRCodeViewController
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    AVAuthorizationStatus AVstatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];//相机权限
+    if (AVstatus == AVAuthorizationStatusNotDetermined) {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if (granted) {
+                [self setCameraLayer];
+                [self createUI];
+                [self setupCamera];
+            }
+        }];
+    }else if (AVstatus == AVAuthorizationStatusAuthorized) {
+        [self setCameraLayer];
+        [self createUI];
+        [self setupCamera];
+       
+    }else if (AVstatus == AVAuthorizationStatusDenied) {
+        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        });
+    }
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
     self.navigationController.navigationBar.hidden = NO;
+    if (self.session) {
+        [self.session stopRunning];
+    }
     
+    if (self.timer) {
+        [self.timer setFireDate:[NSDate distantFuture]];
+    }
+}
+
+#pragma mark - Private Method -
+-(void)setCameraLayer{
     [self setCropRect:kScanRect];
     
     
@@ -49,63 +93,29 @@ static CGFloat QRCodeWidth = 220;
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+- (void)setCropRect:(CGRect)cropRect{
+    cropLayer = [[CAShapeLayer alloc] init];
+    CGMutablePathRef path = CGPathCreateMutable();
+    CGPathAddRect(path, nil, cropRect);
+    CGPathAddRect(path, nil, self.view.bounds);
     
-    AVAuthorizationStatus AVstatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];//相机权限
-    if (AVstatus == AVAuthorizationStatusNotDetermined) {
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if (granted) {
-                [self createUI];
-                [self setupCamera];
-            }
-        }];
-    }else if (AVstatus == AVAuthorizationStatusAuthorized) {
-        [self createUI];
-        [self setupCamera];
-    }else if (AVstatus == AVAuthorizationStatusDenied) {
-        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        });
-    }
-    
+    [cropLayer setFillRule:kCAFillRuleEvenOdd];
+    [cropLayer setPath:path];
+    [cropLayer setFillColor:[UIColor blackColor].CGColor];
+    [cropLayer setOpacity:0.6];
+    [cropLayer setNeedsDisplay];
+    [self.view.layer addSublayer:cropLayer];
     
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.hidden = YES;
-    if (self.session) {
-        [self.session stopRunning];
-    }
-    
-    if (self.timer) {
-        [self.timer setFireDate:[NSDate distantFuture]];
-    }
-    
-}
-
-#pragma mark - Private Method -
--(void)setCamera{
-    
-}
-
-#pragma mark --- UI
 - (void)createUI{
-    self.title = @"二维码";
     
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"相册" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    button.bounds = CGRectMake(0, 0, 50, 25);
-    [button addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:button];
+    [self.view addSubview:self.navBar];
+    self.navBar.navTitle = @"二维码";
+    
+    [self.navBar wya_addRightNavBarButtonWithNormalTitle:@[@"相册"]];
     
     UIImageView * imageView = [[UIImageView alloc]initWithFrame:kScanRect];
-    
     imageView.image = [UIImage loadBundleImage:@"pick_bg" ClassName:NSStringFromClass([self class])];
     [self.view addSubview:imageView];
     
@@ -135,25 +145,6 @@ static CGFloat QRCodeWidth = 220;
             upOrdown = NO;
         }
     }
-    
-}
-
-
-- (void)setCropRect:(CGRect)cropRect{
-    cropLayer = [[CAShapeLayer alloc] init];
-    CGMutablePathRef path = CGPathCreateMutable();
-    CGPathAddRect(path, nil, cropRect);
-    CGPathAddRect(path, nil, self.view.bounds);
-    
-    [cropLayer setFillRule:kCAFillRuleEvenOdd];
-    [cropLayer setPath:path];
-    [cropLayer setFillColor:[UIColor blackColor].CGColor];
-    [cropLayer setOpacity:0.6];
-    
-    
-    [cropLayer setNeedsDisplay];
-    
-    [self.view.layer addSublayer:cropLayer];
     
 }
 
@@ -214,7 +205,33 @@ static CGFloat QRCodeWidth = 220;
     [self.session startRunning];
 }
 
-#pragma mark AVCaptureMetadataOutputObjectsDelegate
+- (void)wya_rightBarButtonItemPressed:(UIButton *)sender{
+    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
+    if (status == PHAuthorizationStatusNotDetermined) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            if (status == PHAuthorizationStatusAuthorized) {
+                [self goPhotoLibrary];
+            }
+        }];
+    }else if (status == PHAuthorizationStatusAuthorized) {
+        [self goPhotoLibrary];
+    }else if (status == PHAuthorizationStatusDenied){
+        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相册权限，请前往设置开启"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+        });
+    }
+    
+}
+
+-(void)goPhotoLibrary{
+    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
+    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePicker.delegate = self;
+    [self presentViewController:imagePicker animated:YES completion:nil];
+}
+
+#pragma mark - AVCaptureMetadataOutputObjectsDelegate -
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
     NSString *stringValue;
@@ -251,13 +268,7 @@ static CGFloat QRCodeWidth = 220;
     
 }
 
-- (void)buttonClick{
-    
-    UIImagePickerController *imagePicker = [[UIImagePickerController alloc] init];
-    imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    imagePicker.delegate = self;
-    [self presentViewController:imagePicker animated:YES completion:nil];
-}
+
 
 #pragma mark - - - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
@@ -306,19 +317,41 @@ static CGFloat QRCodeWidth = 220;
     }
 }
 
+#pragma mark - Getter -
+- (WYANavBar *)navBar{
+    if(!_navBar){
+        _navBar = ({
+            WYANavBar * object = [[WYANavBar alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)];
+            object.delegate = self;
+            object;
+       });
+    }
+    return _navBar;
+}
+
+- (UIButton *)lampButton{
+    if(!_lampButton){
+        _lampButton = ({
+            UIButton * object = [[UIButton alloc]init];
+            object;
+       });
+    }
+    return _lampButton;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

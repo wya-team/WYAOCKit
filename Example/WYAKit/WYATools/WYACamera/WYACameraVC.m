@@ -155,6 +155,10 @@
             [self presentViewController:photo animated:YES completion:nil];
         }else{
             WYACameraViewController * camera = [[WYACameraViewController alloc]init];
+            camera.TakePhoto = ^(UIImage *photo) {
+                [self.dataSource addObject:photo];
+                [self.collectionView reloadData];
+            };
             [self presentViewController:camera animated:YES completion:nil];
         }
     }

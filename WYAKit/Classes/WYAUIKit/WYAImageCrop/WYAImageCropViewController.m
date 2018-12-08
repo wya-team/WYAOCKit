@@ -604,9 +604,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 100.0f;
         });
         
         isCallbackOrDelegateHandled = YES;
-    }
-
-    else if (isDidCropToImageDelegateAvailable || isDidCropToImageCallbackAvailable) {
+    }else if (isDidCropToImageDelegateAvailable || isDidCropToImageCallbackAvailable) {
         UIImage *image = nil;
         if (angle == 0 && CGRectEqualToRect(cropFrame, (CGRect){CGPointZero, self.image.size})) {
             image = self.image;
