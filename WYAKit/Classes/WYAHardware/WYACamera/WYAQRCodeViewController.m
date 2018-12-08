@@ -11,13 +11,14 @@
 #import <Photos/Photos.h>
 #import "UIImage+Catagory.h"
 #import "WYANavBar.h"
+
 static CGFloat QRCodeWidth = 220;
 
 #define TOP (ScreenHeight-WYAStatusBarHeight-QRCodeWidth)/2
 #define LEFT (ScreenWidth-QRCodeWidth)/2
 #define kScanRect CGRectMake(LEFT, TOP, QRCodeWidth, QRCodeWidth)
 
-@interface WYAQRCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,WYANavBarDelegate>
+@interface WYAQRCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate,WYANavBarDelegate>
 {
     int num;
     BOOL upOrdown;
@@ -31,9 +32,13 @@ static CGFloat QRCodeWidth = 220;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer * preview;
 @property (nonatomic, strong) NSTimer * timer;
 @property (nonatomic, strong) UIImageView * line;
-@property (nonatomic, assign) BOOL    isback;
+@property (nonatomic, strong) UIView * layerBackgroundView;
+@property (nonatomic, strong) UIView * backgroundView;
 @property (nonatomic, strong) WYANavBar * navBar;
+@property (nonatomic, strong) UIImageView * qrCodeImageView;
 @property (nonatomic, strong) UIButton * lampButton;
+@property (nonatomic, strong) UILabel * lampLabel;
+
 @end
 
 @implementation WYAQRCodeViewController
@@ -84,7 +89,6 @@ static CGFloat QRCodeWidth = 220;
 -(void)setCameraLayer{
     [self setCropRect:kScanRect];
     
-    
     if (self.session) {
         [self.session startRunning];
     }
@@ -97,34 +101,31 @@ static CGFloat QRCodeWidth = 220;
     cropLayer = [[CAShapeLayer alloc] init];
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, nil, cropRect);
-    CGPathAddRect(path, nil, self.view.bounds);
+    CGPathAddRect(path, nil, self.layerBackgroundView.bounds);
     
     [cropLayer setFillRule:kCAFillRuleEvenOdd];
     [cropLayer setPath:path];
     [cropLayer setFillColor:[UIColor blackColor].CGColor];
     [cropLayer setOpacity:0.6];
     [cropLayer setNeedsDisplay];
-    [self.view.layer addSublayer:cropLayer];
+    [self.layerBackgroundView.layer addSublayer:cropLayer];
     
 }
 
 - (void)createUI{
-    
-    [self.view addSubview:self.navBar];
-    self.navBar.navTitle = @"二维码";
-    
-    [self.navBar wya_addRightNavBarButtonWithNormalTitle:@[@"相册"]];
-    
-    UIImageView * imageView = [[UIImageView alloc]initWithFrame:kScanRect];
-    imageView.image = [UIImage loadBundleImage:@"pick_bg" ClassName:NSStringFromClass([self class])];
-    [self.view addSubview:imageView];
+    [self.view addSubview:self.layerBackgroundView];
+    [self.view addSubview:self.backgroundView];
+    [self.backgroundView addSubview:self.navBar];
+    [self.backgroundView addSubview:self.qrCodeImageView];
+    [self.backgroundView addSubview:self.lampLabel];
+    [self.qrCodeImageView addSubview:self.lampButton];
     
     upOrdown = NO;
     num =0;
     _line = [[UIImageView alloc] initWithFrame:CGRectMake(LEFT, TOP+10, 220, 2)];
     
     _line.image = [UIImage loadBundleImage:@"line" ClassName:NSStringFromClass([self class])];
-    [self.view addSubview:_line];
+    [self.backgroundView addSubview:_line];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:.02 target:self selector:@selector(animation1) userInfo:nil repeats:YES];
 }
@@ -161,6 +162,15 @@ static CGFloat QRCodeWidth = 220;
     }
     // Device
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//    [self.device addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.device];
+//    if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+//        NSError * error;
+//        [self.device lockForConfiguration:&error];
+//        NSLog(@"error==%@",error);
+//        self.device.focusMode = AVCaptureFocusModeAutoFocus;
+//        [self.device unlockForConfiguration];
+//    }
     
     // Input
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
@@ -168,6 +178,9 @@ static CGFloat QRCodeWidth = 220;
     // Output
     self.output = [[AVCaptureMetadataOutput alloc]init];
     [self.output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+    
+    AVCaptureVideoDataOutput * videoOutput = [[AVCaptureVideoDataOutput alloc]init];
+    [videoOutput setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
     
     //设置扫描区域
     CGFloat top = TOP/ScreenHeight;
@@ -181,6 +194,7 @@ static CGFloat QRCodeWidth = 220;
     // Session
     self.session = [[AVCaptureSession alloc]init];
     [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+   
     if ([self.session canAddInput:self.input])
     {
         [self.session addInput:self.input];
@@ -190,7 +204,9 @@ static CGFloat QRCodeWidth = 220;
     {
         [self.session addOutput:self.output];
     }
-    
+    if ([self.session canAddOutput:videoOutput]) {
+        [self.session addOutput:videoOutput];
+    }
     // 条码类型 AVMetadataObjectTypeQRCode
     [self.output setMetadataObjectTypes:@[AVMetadataObjectTypeAztecCode,AVMetadataObjectTypeQRCode,AVMetadataObjectTypeUPCECode,AVMetadataObjectTypeEAN8Code,AVMetadataObjectTypeEAN13Code,AVMetadataObjectTypeCode39Code,AVMetadataObjectTypeCode93Code,AVMetadataObjectTypeCode128Code,AVMetadataObjectTypeInterleaved2of5Code,AVMetadataObjectTypeITF14Code]];
      
@@ -198,11 +214,137 @@ static CGFloat QRCodeWidth = 220;
     // Preview
     self.preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
     self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.preview.frame =self.view.layer.bounds;
-    [self.view.layer insertSublayer:self.preview atIndex:0];
+    self.preview.frame =self.layerBackgroundView.layer.bounds;
+    [self.layerBackgroundView.layer insertSublayer:self.preview atIndex:0];
     
     // Start
     [self.session startRunning];
+}
+
+- (void)openFlashLight{
+    [self.session beginConfiguration];
+    AVCaptureDevice *backCamera = [self backCamera];
+    if (backCamera.torchMode == AVCaptureTorchModeOff) {
+        [backCamera lockForConfiguration:nil];
+        backCamera.torchMode = AVCaptureTorchModeOn;
+        backCamera.flashMode = AVCaptureFlashModeOn;
+        [backCamera unlockForConfiguration];
+    }
+    //提交会话配置
+    [self.session commitConfiguration];
+    [self.session startRunning];
+}
+
+- (void)closeFlashLight{
+    [self.session beginConfiguration];
+    AVCaptureDevice *backCamera = [self backCamera];
+    if (backCamera.torchMode == AVCaptureTorchModeOn) {
+        [backCamera lockForConfiguration:nil];
+        backCamera.torchMode = AVCaptureTorchModeOff;
+        backCamera.flashMode = AVCaptureTorchModeOff;
+        [backCamera unlockForConfiguration];
+    }
+    //提交会话配置
+    [self.session commitConfiguration];
+    [self.session startRunning];
+}
+
+//返回后置摄像头
+- (AVCaptureDevice *)backCamera {
+    return [self cameraWithPosition:AVCaptureDevicePositionBack];
+}
+
+//用来返回是前置摄像头还是后置摄像头
+- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position {
+    //返回和视频录制相关的所有默认设备
+    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
+    //遍历这些设备返回跟position相关的设备
+    for (AVCaptureDevice *device in devices) {
+        if ([device position] == position) {
+            return device;
+        }
+    }
+    return nil;
+}
+/*
+- (void)subjectAreaDidChange:(NSNotification *)notification
+{
+    //先进行判断是否支持控制对焦
+    if (self.device.isFocusPointOfInterestSupported &&[self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+        NSError *error =nil;
+        //对cameraDevice进行操作前，需要先锁定，防止其他线程访问，
+        [self.device lockForConfiguration:&error];
+        [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
+        [self focusAtPoint:self.backgroundView.center];
+        //操作完成后，记得进行unlock。
+        [self.device unlockForConfiguration];
+    }
+}
+
+- (void)focusAtPoint:(CGPoint)point{
+    CGSize size = self.view.bounds.size;
+    CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
+    NSError *error;
+    if ([self.device lockForConfiguration:&error]) {
+        if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
+            [self.device setFocusPointOfInterest:focusPoint];
+            [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
+        }
+        [self.device unlockForConfiguration];
+    }
+    [self setFocusCursorWithPoint:point];
+}
+
+-(void)setFocusCursorWithPoint:(CGPoint)point{
+    //下面是手触碰屏幕后对焦的效果
+    self.layerBackgroundView.center = point;
+
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        self.layerBackgroundView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+    }completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.layerBackgroundView.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            
+        }];
+    }];
+    
+}
+*/
+// 监听焦距发生改变
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
+    
+    if([keyPath isEqualToString:@"adjustingFocus"]){
+        BOOL adjustingFocus =[[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:[NSNumber numberWithInt:1]];
+        
+        NSLog(@"adjustingFocus~~%d  change~~%@", adjustingFocus, change);
+        // 0代表焦距不发生改变 1代表焦距改变
+        if (adjustingFocus == 0) {
+            NSLog(@"不改变");
+            self.layerBackgroundView.transform = CGAffineTransformIdentity;
+        }else{
+            NSLog(@"改变");
+            [UIView animateWithDuration:0.5 animations:^{
+                self.layerBackgroundView.transform = CGAffineTransformMakeScale(3, 3);
+            } completion:^(BOOL finished) {
+                
+            }];
+        }
+        
+    }else{
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+
+#pragma mark - WYANavBarDelegate -
+- (void)wya_goBackPressed:(UIButton *)sender{
+    if (self.navigationController) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)wya_rightBarButtonItemPressed:(UIButton *)sender{
@@ -231,6 +373,40 @@ static CGFloat QRCodeWidth = 220;
     [self presentViewController:imagePicker animated:YES completion:nil];
 }
 
+#pragma mark - AVCaptureVideoDataOutputSampleBufferDelegate  -
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    
+    CFDictionaryRef metadataDict = CMCopyDictionaryOfAttachments(NULL,sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    NSDictionary *metadata = [[NSMutableDictionary alloc] initWithDictionary:(__bridge NSDictionary*)metadataDict];
+    CFRelease(metadataDict);
+    NSDictionary *exifMetadata = [[metadata objectForKey:(NSString *)kCGImagePropertyExifDictionary] mutableCopy];
+    float brightnessValue = [[exifMetadata objectForKey:(NSString *)kCGImagePropertyExifBrightnessValue] floatValue];
+    
+    NSLog(@"%f",brightnessValue);
+    //光感范围在-5~12,-5就是没有光线，12是光源贴近摄像头
+    if (self.lampButton.selected) {
+        return;
+    }
+    if (brightnessValue<3) {
+        [UIView animateWithDuration:1 animations:^{
+            self.lampButton.alpha =  1;
+            self.lampLabel.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.lampButton.hidden = NO;
+            self.lampLabel.hidden = YES;
+        }];
+    }else{
+        
+        [UIView animateWithDuration:1 animations:^{
+            self.lampButton.alpha =  0;
+            self.lampLabel.alpha = 1;
+        } completion:^(BOOL finished) {
+            self.lampButton.hidden = YES;
+            self.lampLabel.hidden = NO;
+        }];
+    }
+    
+}
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate -
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
 {
@@ -318,26 +494,95 @@ static CGFloat QRCodeWidth = 220;
 }
 
 #pragma mark - Getter -
+- (UIView *)layerBackgroundView{
+    if(!_layerBackgroundView){
+        _layerBackgroundView = ({
+            UIView * object = [[UIView alloc]initWithFrame:self.view.bounds];
+            object;
+        });
+    }
+    return _layerBackgroundView;
+}
+
+- (UIView *)backgroundView{
+    if(!_backgroundView){
+        _backgroundView = ({
+            UIView * object = [[UIView alloc]initWithFrame:self.view.bounds];
+            object.backgroundColor = [UIColor colorWithWhite:0.4 alpha:0.1];
+            object;
+        });
+    }
+    return _backgroundView;
+}
 - (WYANavBar *)navBar{
     if(!_navBar){
         _navBar = ({
             WYANavBar * object = [[WYANavBar alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)];
             object.delegate = self;
+            object.navTitle = @"二维码";
+            [object wya_customGobackWithImage:[UIImage loadBundleImage:@"返回" ClassName:NSStringFromClass(self.class)]];
+            [object wya_addRightNavBarButtonWithNormalTitle:@[@"相册"]];
             object;
        });
     }
     return _navBar;
 }
 
+- (UIImageView *)qrCodeImageView{
+    if(!_qrCodeImageView){
+        _qrCodeImageView = ({
+            UIImageView * object = [[UIImageView alloc]initWithFrame:kScanRect];
+            object.image = [UIImage loadBundleImage:@"pick_bg" ClassName:NSStringFromClass([self class])];
+            object.userInteractionEnabled = YES;
+            object;
+        });
+    }
+    return _qrCodeImageView;
+}
+
 - (UIButton *)lampButton{
     if(!_lampButton){
         _lampButton = ({
-            UIButton * object = [[UIButton alloc]init];
+            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake((self.qrCodeImageView.cmam_width-50*SizeAdapter)/2, self.qrCodeImageView.cmam_height-55*SizeAdapter, 50*SizeAdapter, 50*SizeAdapter)];
+            [object setTitle:@"轻触照亮" forState:UIControlStateNormal];
+            [object setTitle:@"轻触关闭" forState:UIControlStateSelected];
+            [object setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [object setTitleColor:[UIColor greenColor] forState:UIControlStateSelected];
+            object.titleLabel.font = FONT(12);
+            [object setImage:[UIImage loadBundleImage:@"flashlight" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
+            object.hidden = YES;
+            object.alpha = 0;
+            [object setImageLocationTopWithSpace:3*SizeAdapter];
+            [object addCallBackAction:^(UIButton *button) {
+                button.selected = !button.selected;
+                if (button.selected) {
+                    [self openFlashLight];
+                }else{
+                    [self closeFlashLight];
+                }
+            }];
             object;
        });
     }
     return _lampButton;
 }
+
+- (UILabel *)lampLabel{
+    if(!_lampLabel){
+        _lampLabel = ({
+            UILabel * object = [[UILabel alloc]initWithFrame:CGRectMake(self.qrCodeImageView.cmam_left, self.qrCodeImageView.cmam_bottom+20*SizeAdapter, self.qrCodeImageView.cmam_width, 20*SizeAdapter)];
+            object.alpha = 1;
+            object.text = @"将二维码/条码放入框内，即可自动扫描";
+            object.textColor = [UIColor whiteColor];
+            object.font = FONT(12);
+            object.textAlignment = NSTextAlignmentCenter;
+            object;
+        });
+    }
+    return _lampLabel;
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -353,5 +598,7 @@ static CGFloat QRCodeWidth = 220;
  // Pass the selected object to the new view controller.
  }
  */
+
+
 
 @end

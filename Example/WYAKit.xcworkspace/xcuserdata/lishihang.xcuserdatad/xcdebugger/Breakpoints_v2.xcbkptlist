@@ -74,7 +74,7 @@
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYAVideoPlayer/WYAVideoPlayerView.m"
-                  timestampString = "565933043.536039"
+                  timestampString = "565951784.149896"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
@@ -89,7 +89,7 @@
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYAVideoPlayer/WYAVideoPlayerView.m"
-                  timestampString = "565933043.5376101"
+                  timestampString = "565951784.15931"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "81"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-            timestampString = "565941378.991098"
+            timestampString = "565943075.81874"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "366"
@@ -122,7 +122,7 @@
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "565933043.51493"
+                  timestampString = "565951784.173902"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "366"
@@ -137,22 +137,22 @@
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "565933043.5192339"
+                  timestampString = "565951784.177596"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "366"
                   endingLineNumber = "366"
-                  offsetFromSymbolStart = "30">
+                  offsetFromSymbolStart = "56">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.325"
+                  symbolName = "__destroy_helper_block_.328"
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "565933043.523021"
+                  timestampString = "565951784.181499"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "366"
@@ -169,7 +169,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAImageCrop/WYAImageCropViewController.m"
-            timestampString = "565941378.991171"
+            timestampString = "565943075.8188"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "592"
@@ -185,13 +185,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAImageCrop/WYAImageCropViewController.m"
-            timestampString = "565941378.9912291"
+            timestampString = "565943075.818845"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "621"
             endingLineNumber = "621"
             landmarkName = "-doneAction"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYAQRCodeViewController.m"
+            timestampString = "565951783.400597"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "273"
+            endingLineNumber = "273"
+            landmarkName = "WYAQRCodeViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
