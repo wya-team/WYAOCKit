@@ -149,7 +149,7 @@
             WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:5];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
-                self.dataSource = images;
+                [self.dataSource addObjectsFromArray:images];
                 [self.collectionView reloadData];
             };
             [self presentViewController:photo animated:YES completion:nil];

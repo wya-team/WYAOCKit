@@ -8,8 +8,10 @@
 
 #import "WYAVideoPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 #import "WYAVideoPlayerControlView.h"
 #import "WYAVideoSlider.h"
+#import "WYABrightnessView.h"
 @interface WYAVideoPlayerView () <VideoControlDelegate>
 
 @property (nonatomic, strong) AVPlayer *player;
@@ -29,11 +31,18 @@
 @property (nonatomic, strong) UIActivityIndicatorView *activeView;
 
 @property (nonatomic, assign) BOOL isFullScreen;
+@property (nonatomic, strong) UISlider * volumeSlider;
+@property (nonatomic, assign) CGFloat                sumTime;//用来保存快进的总时长
+@property (nonatomic, strong) WYABrightnessView * brightnessView;
 
 @end
 
 
-@implementation WYAVideoPlayerView
+@implementation WYAVideoPlayerView{
+    BOOL isVolume;//是否是音量改变，否则就是亮度改变
+    BOOL isVertical;//是否是垂直移动，否则横向移动
+}
+
 
 - (instancetype)init
 {
@@ -68,6 +77,12 @@
     [self.controlView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
+    
+    [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.mas_centerX);
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 100*SizeAdapter));
+    }];
 }
 #pragma mark - Private Method -
 - (void)setupUI{
@@ -75,7 +90,13 @@
     [self addSubview:self.previewImageView];
     [self addSubview:self.activeView];
     [self addSubview:self.controlView];
+    [self addSubview:self.brightnessView];
+    
     self.backgroundColor = [UIColor grayColor];
+    
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
+    [self addGestureRecognizer:pan];
+    [self configureVolume];
 }
 
 #pragma mark - Setter -
@@ -111,96 +132,6 @@
 //    self.controlView.oneFingerClick = needOneClick;
 //}
 
-#pragma mark - Getter -
-- (UIImageView *)previewImageView
-{
-    if (!_previewImageView) {
-        _previewImageView = [[UIImageView alloc] init];
-        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
-    }
-    return _previewImageView;
-}
-
-- (UIActivityIndicatorView *)activeView
-{
-    if (!_activeView) {
-        _activeView = [[UIActivityIndicatorView alloc] init];
-        _activeView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        _activeView.hidden = YES;
-    }
-    return _activeView;
-}
-
-- (WYAVideoPlayerControlView *)controlView
-{
-    if (!_controlView) {
-        _controlView = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
-        _controlView.videoControlDelegate = self;
-    }
-    return _controlView;
-}
-
-#pragma mark VideoControlDelegate
-- (void)videoControl:(UIView *)videoControl backButton:(UIButton *)backButton
-{
-    if (self.isFullScreen == YES) {
-        [self exitFullscreen];
-        self.controlView.zoomButton.selected = NO;
-    } else {
-//        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(playerView:backButton:)]) {
-//            [self.playerDelegate playerView:self backButton:backButton];
-//        }
-    }
-}
-
-- (void)videoControl:(UIView *)videoControl PlayButton:(UIButton *)playButton
-{
-    self.previewImageView.hidden = YES;
-    if (playButton.selected) {
-        [self.player pause];
-        _status = PlayerStateStopped;
-    } else {
-        [self.player play];
-        _status = PlayerStatePlaying;
-    }
-}
-
-- (void)videoControl:(UIView *)videoControl SlideBegin:(WYAVideoSlider *)slide
-{
-    [self.player pause];
-}
-
-- (void)videoControl:(UIView *)videoControl SlideChange:(WYAVideoSlider *)slide
-{
-    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
-    CGFloat currentTime = floorf(totalTime * slide.value);
-    [self.controlView getDragTime:currentTime AutoPlay:NO];
-}
-
-- (void)videoControl:(UIView *)videoControl SlideEnd:(WYAVideoSlider *)slide
-{
-    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
-    CGFloat currentTime = floorf(totalTime * slide.value);
-    CMTime time = CMTimeMake(currentTime, 1);
-    [self.player seekToTime:time completionHandler:^(BOOL finished) {
-        if (self->_status == PlayerStatePlaying) {
-            [self.player play];
-        }
-        [self.controlView getDragTime:currentTime AutoPlay:YES];
-    }];
-}
-
-- (void)videoControl:(UIView *)videoControl zoomButton:(UIButton *)zoomButton
-{
-    if (zoomButton.selected) {
-        //全屏
-        [self enterFullscreen];
-
-    } else {
-        [self exitFullscreen];
-    }
-}
-
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -211,7 +142,7 @@
 
             _status = PlayerStatePlaying;
             if (self.videoItem.seekTime) {
-                [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay];
+                [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay FastForward:NO HiddenFastView:YES];
             }
             [self.activeView stopAnimating];
             self.activeView.hidden = YES;
@@ -322,7 +253,7 @@
      */
     [UIView animateWithDuration:0.5 animations:^{
         self.transform = CGAffineTransformMakeRotation(M_PI_2);
-        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-WYAStatusBarHeight-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
+        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
     } completion:^(BOOL finished){
         
@@ -349,7 +280,7 @@
     }];
 }
 
-- (void)seekToTime:(NSInteger)time AutoPlay:(BOOL)autoPlay
+- (void)seekToTime:(NSInteger)time AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
 {
     CMTime timeA = CMTimeMake(time, 1);
     [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
@@ -359,9 +290,116 @@
             } else {
                 [self.player pause];
             }
+//            self.sumTime = 0;
         }
     }];
-    [self.controlView getDragTime:time AutoPlay:autoPlay];
+    [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
+}
+
+/**
+ 手势改变手机音量、亮度、快进、快退
+ 
+ @param gestureRecognizer 手势
+ */
+-(void)panClick:(UIPanGestureRecognizer *)gestureRecognizer{
+    CGPoint point = [gestureRecognizer locationInView:self];
+//    NSLog(@"point.x==%f,point.y==%f",point.x,point.y);
+    CGPoint speedPoint = [gestureRecognizer velocityInView:self];
+//    NSLog(@"speedPoint.x==%f,speedPoint.y==%f",speedPoint.x,speedPoint.y);
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        
+        CGFloat x = fabs(speedPoint.x);
+        CGFloat y = fabs(speedPoint.y);
+        if (x>y) {
+            //横向移动
+            isVertical = NO;
+            CMTime time       = self.player.currentTime;
+            self.sumTime      = time.value/time.timescale;
+        }else{
+            //纵向移动
+            isVertical = YES;
+            if (point.x>self.cmam_width/2) {
+                isVolume = YES;
+            }else{
+                isVolume = NO;
+            }
+        }
+        
+    }else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        if (isVertical) {
+            [self editVolumeOrBrigressWithNumber:speedPoint.y];
+        }else{
+            [self editVideoFastMoveWithNumber:speedPoint.x];
+        }
+        
+    }else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        if (isVertical) {
+            isVolume = NO;
+        }else{
+            [self seekToTime:self.sumTime AutoPlay:YES FastForward:NO HiddenFastView:YES];
+        }
+    }
+}
+
+/**
+ 设置视频快进快退
+ 
+ @param number 数值
+ */
+-(void)editVideoFastMoveWithNumber:(CGFloat)number{
+    // 每次滑动需要叠加时间
+    self.sumTime += number / 200;
+    // 需要限定sumTime的范围
+    CMTime totalTime           = self.playerItem.duration;
+    CGFloat totalMovieDuration = (CGFloat)totalTime.value/totalTime.timescale;
+    if (self.sumTime > totalMovieDuration) { self.sumTime = totalMovieDuration;}
+    if (self.sumTime < 0) { self.sumTime = 0; }
+    
+    BOOL style = false;
+    if (number > 0) { style = YES; }
+    if (number < 0) { style = NO; }
+    if (number == 0) { return; }
+    [self seekToTime:self.sumTime AutoPlay:NO FastForward:style HiddenFastView:NO];
+}
+
+/**
+ 修改手机音量和亮度（除以10000，才可以得到比例值）
+ 
+ @param number 数值
+ */
+-(void)editVolumeOrBrigressWithNumber:(CGFloat)number{
+    if (isVolume) {
+        self.volumeSlider.value -= number/10000;
+    }else{
+        NSLog(@"改变之前xxx==%f",[UIScreen mainScreen].brightness);
+        CGFloat x = [UIScreen mainScreen].brightness;
+        x = x - number/10000;
+        NSLog(@"x==%f",x);
+        [[UIScreen mainScreen] setBrightness:x];
+        NSLog(@"改变之后xxx==%f",[UIScreen mainScreen].brightness);
+    }
+}
+
+/**
+ 配置修改音量视图
+ */
+- (void)configureVolume {
+    MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+    _volumeSlider = nil;
+    for (UIView *view in [volumeView subviews]){
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+            _volumeSlider = (UISlider *)view;
+            break;
+        }
+    }
+    
+    // 使用这个category的应用不会随着手机静音键打开而静音，可在手机静音下播放声音
+    NSError *setCategoryError = nil;
+    BOOL success = [[AVAudioSession sharedInstance]
+                    setCategory: AVAudioSessionCategoryPlayback
+                    error: &setCategoryError];
+    
+    if (!success) { /* handle the error in setCategoryError */ }
 }
 
 #pragma mark Public Action
@@ -394,6 +432,99 @@
     [self exitFullscreen];
 }
 
+#pragma mark VideoControlDelegate
+- (void)videoControl:(UIView *)videoControl backButton:(UIButton *)backButton
+{
+    if (self.isFullScreen == YES) {
+        [self exitFullscreen];
+        self.controlView.zoomButton.selected = NO;
+    } else {
+        //        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(playerView:backButton:)]) {
+        //            [self.playerDelegate playerView:self backButton:backButton];
+        //        }
+    }
+}
+
+- (void)videoControl:(UIView *)videoControl PlayButton:(UIButton *)playButton
+{
+    self.previewImageView.hidden = YES;
+    if (playButton.selected) {
+        [self.player pause];
+        _status = PlayerStateStopped;
+    } else {
+        [self.player play];
+        _status = PlayerStatePlaying;
+    }
+}
+
+- (void)videoControl:(UIView *)videoControl SlideBegin:(WYAVideoSlider *)slide
+{
+    [self.player pause];
+}
+
+- (void)videoControl:(UIView *)videoControl SlideChange:(WYAVideoSlider *)slide
+{
+    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
+    CGFloat currentTime = floorf(totalTime * slide.value);
+    
+    [self.controlView getDragTime:currentTime AutoPlay:NO FastForward:slide.isFastForward HiddenFastView:NO];
+}
+
+- (void)videoControl:(UIView *)videoControl SlideEnd:(WYAVideoSlider *)slide
+{
+    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
+    CGFloat currentTime = floorf(totalTime * slide.value);
+    [self seekToTime:currentTime AutoPlay:YES FastForward:NO HiddenFastView:NO];
+}
+
+- (void)videoControl:(UIView *)videoControl zoomButton:(UIButton *)zoomButton
+{
+    if (zoomButton.selected) {
+        //全屏
+        [self enterFullscreen];
+        
+    } else {
+        [self exitFullscreen];
+    }
+}
+
+#pragma mark - Getter -
+- (UIImageView *)previewImageView
+{
+    if (!_previewImageView) {
+        _previewImageView = [[UIImageView alloc] init];
+        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
+    }
+    return _previewImageView;
+}
+
+- (UIActivityIndicatorView *)activeView
+{
+    if (!_activeView) {
+        _activeView = [[UIActivityIndicatorView alloc] init];
+        _activeView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+        _activeView.hidden = YES;
+    }
+    return _activeView;
+}
+
+- (WYAVideoPlayerControlView *)controlView
+{
+    if (!_controlView) {
+        _controlView = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
+        _controlView.videoControlDelegate = self;
+    }
+    return _controlView;
+}
+
+- (WYABrightnessView *)brightnessView{
+    if(!_brightnessView){
+        _brightnessView = [[WYABrightnessView alloc]init];
+        _brightnessView.alpha = 0;
+    }
+    return _brightnessView;
+}
+
 - (void)dealloc
 {
     if (self.timeObserve) {
@@ -415,5 +546,7 @@
     // Drawing code
 }
 */
+
+
 
 @end

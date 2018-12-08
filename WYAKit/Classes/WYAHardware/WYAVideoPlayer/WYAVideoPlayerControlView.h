@@ -63,8 +63,10 @@
 
  @param dragTime 时间点
  @param autoPlay 是否自动播放
+ @param fastForward YES为快进，NO为快退
+ @param hiddenFastView 是否隐藏快进快退图
  */
-- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay;
+- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView;
 
 /**
  设置按钮为结束状态

@@ -29,6 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) CGFloat value;//滑杆进度
 @property (nonatomic, assign) CGFloat  bufferValue;
+@property (nonatomic, assign, readonly) BOOL  isFastForward;//是否快进，否则就是快退
 @end
 
 NS_ASSUME_NONNULL_END

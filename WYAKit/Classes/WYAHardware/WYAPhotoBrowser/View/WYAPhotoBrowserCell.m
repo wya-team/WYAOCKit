@@ -12,7 +12,7 @@
 
 @interface WYAPhotoBrowserCell ()
 
-
+@property (nonatomic, strong) UIButton * videoButton;//只是用来显示图片和文字的，没有其他用
 
 @end
 
@@ -34,6 +34,14 @@
         [self.button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         self.button.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:self.button];
+        
+        self.videoButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.videoButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        self.videoButton.titleLabel.font = FONT(15);
+        self.videoButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        self.videoButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 15*SizeAdapter);
+        self.videoButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10*SizeAdapter, 0, 0);
+        [self.contentView addSubview:self.videoButton];
     }
     return self;
 }
@@ -43,16 +51,31 @@
     
     self.imageV.frame = CGRectMake(CGRectGetMinX(self.contentView.frame),CGRectGetMinY(self.contentView.frame), self.contentView.frame.size.width,self.contentView.frame.size.height);
     self.button.frame = CGRectMake(self.contentView.frame.size.width*0.8, 0, self.contentView.frame.size.width*0.2, self.contentView.frame.size.width*0.2);
+    self.videoButton.frame = CGRectMake(0, self.contentView.cmam_height*0.7, self.contentView.cmam_width, self.contentView.cmam_height*0.3);
 }
 
 -(void)setModel:(WYAPhotoBrowserModel *)model{
     _model = model;
     if (model) {
+        [self.videoButton setImage:nil forState:UIControlStateNormal];
+        [self.videoButton setTitle:nil forState:UIControlStateNormal];
+        PHAsset * asset = (PHAsset *)model.asset;
+        if (asset.mediaType == PHAssetMediaTypeVideo) {
+            [self.videoButton setImage:[UIImage loadBundleImage:@"video" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            NSInteger time = (NSInteger)asset.duration;
+            NSInteger dur = time%60;
+            NSInteger due = time/60;
+            NSString * string = [NSString stringWithFormat:@"%ld:%ld",(long)due,(long)dur];
+            NSLog(@"string==%@",string);
+            [self.videoButton setTitle:string forState:UIControlStateNormal];
+        }
+        
         if (model.cacheImage) {
             self.imageV.image = model.cacheImage;
         }else{
             
-            PHAsset * asset = (PHAsset *)model.asset;
+            
+            
             CGFloat ratio = asset.pixelWidth/(CGFloat)asset.pixelHeight;
             CGFloat width =  self.cmam_width*[UIScreen mainScreen].scale*3;
             // 超宽图片
@@ -64,12 +87,12 @@
                 width = width * 0.5;
             }
             CGFloat height = width/ratio;
-            NSLog(@"width==%f,height==%f",width,height);
+
             PHImageManager * manager = [PHImageManager defaultManager];
             PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
             //        opi.synchronous = YES; //默认no，异步加载
             opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-//            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+            //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
             
             [manager requestImageForAsset:model.asset targetSize:CGSizeMake(width, height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.imageV.image = result;

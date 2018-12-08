@@ -30,7 +30,9 @@ static CGFloat sliderSpace = 10;
 @end
 
 @implementation WYAVideoSlider
-
+{
+    CGFloat buttonOffset;//记录按钮的偏移量
+}
 - (instancetype)init
 {
     self = [super init];
@@ -89,6 +91,7 @@ static CGFloat sliderSpace = 10;
 
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
     [self.sliderButton addGestureRecognizer:pan];
+    _isFastForward = NO;
 }
 
 -(void)panClick:(UIGestureRecognizer *)gestureRecognizer{
@@ -128,6 +131,12 @@ static CGFloat sliderSpace = 10;
     value = value >= 1.0 ? 1.0 : value <= 0.0 ? 0.0 : value;
     if (self.value == value) return;
     [self setValue:value];
+    if (value>buttonOffset) {
+        _isFastForward = YES;
+    }else{
+        _isFastForward = NO;
+    }
+    buttonOffset = value;
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_SliderRunningWithValue:)]) {
         [self.delegate wya_SliderRunningWithValue:value];
     }

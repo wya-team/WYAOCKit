@@ -22,7 +22,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="176" height="147"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="j4u-ta-nqq">
-                        <rect key="frame" x="153.5" y="-14.5" width="35" height="29"/>
+                        <rect key="frame" x="158.5" y="-14.5" width="35" height="29"/>
                         <state key="normal" image="mistake"/>
                         <connections>
                             <action selector="buttonClick:" destination="gTV-IL-0wX" eventType="touchUpInside" id="00B-pq-TqC"/>
@@ -35,7 +35,7 @@
                 <constraint firstAttribute="bottom" secondItem="g6p-Ft-3dJ" secondAttribute="bottom" id="8u4-Cr-Xna"/>
                 <constraint firstItem="j4u-ta-nqq" firstAttribute="height" secondItem="gTV-IL-0wX" secondAttribute="height" multiplier="0.2" id="NXT-Mr-4A8"/>
                 <constraint firstItem="j4u-ta-nqq" firstAttribute="width" secondItem="gTV-IL-0wX" secondAttribute="width" multiplier="0.2" id="c5c-vS-8QN"/>
-                <constraint firstItem="j4u-ta-nqq" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="trailing" constant="-5" id="cab-B6-h9B"/>
+                <constraint firstItem="j4u-ta-nqq" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="trailing" id="cab-B6-h9B"/>
                 <constraint firstItem="j4u-ta-nqq" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="top" id="oDc-zt-KJQ"/>
                 <constraint firstItem="g6p-Ft-3dJ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="oUT-tE-9hI"/>
                 <constraint firstAttribute="trailing" secondItem="g6p-Ft-3dJ" secondAttribute="trailing" id="oax-RQ-Om7"/>

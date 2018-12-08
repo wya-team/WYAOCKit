@@ -8,6 +8,7 @@
 
 #import "WYAVideoPlayerControlView.h"
 #import "WYAVideoSlider.h"
+#import "WYAVideoFastView.h"
 
 @interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
 
@@ -21,14 +22,12 @@
 @property (nonatomic, strong) WYAVideoSlider * slider;// 滑块
 @property (nonatomic, strong) WYAVideoItem *item;
 @property (nonatomic, strong) UITapGestureRecognizer *oneFingerTap;
-
+@property (nonatomic, strong) WYAVideoFastView * fastView;
+@property (nonatomic, assign) CGFloat  allTime;//当前视频的播放总长度
 @end
 
 
-@implementation WYAVideoPlayerControlView{
-    CGFloat touchX, touchY;
-    
-}
+@implementation WYAVideoPlayerControlView
 
 - (instancetype)initWithPlayItem:(WYAVideoItem *)item
 {
@@ -41,7 +40,8 @@
         //        [self addSubview:self.likeButton];
         //        [self addSubview:self.downloadButton];
         [self addSubview:self.bottomImageView];
-
+        [self addSubview:self.fastView];
+        
         [self.bottomImageView addSubview:self.playButton];
         [self.bottomImageView addSubview:self.currentProgressLabel];
         [self.bottomImageView addSubview:self.allProgressLabel];
@@ -53,8 +53,7 @@
 
         self.oneFingerClick = YES;
         
-        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
-        [self addGestureRecognizer:pan];
+        
     }
     return self;
 }
@@ -116,6 +115,10 @@
         make.height.mas_equalTo(self.bottomImageView.mas_height);
     }];
     
+    [self.fastView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 80*SizeAdapter));
+    }];
 }
 
 #pragma mark - Getter -
@@ -211,6 +214,16 @@
         [_zoomButton addTarget:self action:@selector(zoomClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _zoomButton;
+}
+
+- (WYAVideoFastView *)fastView{
+    if (!_fastView) {
+        _fastView = [[WYAVideoFastView alloc]init];
+        _fastView.hidden = YES;
+        _fastView.layer.cornerRadius = 5.f;
+        _fastView.layer.masksToBounds = YES;
+    }
+    return _fastView;
 }
 
 #pragma mark - Setter -
@@ -320,47 +333,6 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
--(void)panClick:(UIGestureRecognizer *)gestureRecognizer{
-    CGPoint point = [gestureRecognizer locationInView:self];
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        touchX = point.x;
-        touchY = point.y;
-    }else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        
-        if (point.x>self.cmam_width-50) {
-            if (point.y-touchY>0) {
-                //右侧下滑，音量加
-                NSLog(@"音量加");
-            }else{
-                //右侧上滑，音量减
-                NSLog(@"音量减");
-            }
-        }else if (point.x<50) {
-            if (point.y-touchY>0) {
-                //左侧下滑，亮度加
-                NSLog(@"亮度加");
-            }else{
-                //左侧上滑，亮度减
-                NSLog(@"亮度减");
-            }
-        }else{
-            if (point.x-touchX>0) {
-                //右滑
-                if (point.x-touchX>30) {
-                    //右侧安全区域为30
-                    NSLog(@"快进");
-                }
-            }else{
-                //左滑
-                if (point.x-touchX>-30) {
-                    //左侧安全区域为30
-                    NSLog(@"快退");
-                }
-            }
-        }
-    }
-}
-
 #pragma mark - Public Method -
 - (void)getCurrentTime:(NSInteger)currentTime TotalTime:(NSInteger)totalTime SlideValue:(CGFloat)slideValue
 {
@@ -372,7 +344,7 @@
     NSInteger durSec = totalTime % 60; //总分钟
     // 更新slider
     self.slider.value = slideValue;
-
+    self.allTime = totalTime;
     // 更新当前播放时间
     self.currentProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
     // 更新总时间
@@ -380,8 +352,7 @@
     self.allProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", durMin, durSec];
 }
 
-- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay
-{
+- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView{
     if (autoPlay == YES) {
         self.playButton.selected = YES;
     } else {
@@ -392,7 +363,15 @@
     NSInteger proMin = dragTime / 60; //当前秒
     NSInteger proSec = dragTime % 60; //当前分钟
     // 更新当前播放时间
-    self.currentProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
+    NSString * currentTime = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
+    self.currentProgressLabel.text = currentTime;
+    self.fastView.hidden = hiddenFastView;
+    self.fastView.isSpeed = fastForward;
+    NSString * string = [NSString stringWithFormat:@"%@/%@",currentTime,self.allProgressLabel.text];
+    self.fastView.text = string;
+    CGFloat  draggedValue    = (CGFloat)dragTime/self.allTime;
+    NSLog(@"value==%f",draggedValue);
+    self.fastView.number = draggedValue;
 }
 
 - (void)playerEnd

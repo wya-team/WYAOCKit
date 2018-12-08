@@ -9,6 +9,7 @@
 #import <Photos/Photos.h>
 #import "WYAPhotoBrowserManager.h"
 #import "WYAPhotoBrowserViewController.h"
+#import "WYAPhotoBrowserAlbumCell.h"
 @interface WYAPhotoBrowserAlbum ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * table;
@@ -47,7 +48,7 @@
     self.table.delegate = self;
     self.table.backgroundColor = [UIColor whiteColor];
     self.table.rowHeight = 60 * SizeAdapter;
-    [self.table registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    [self.table registerClass:[WYAPhotoBrowserAlbumCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.table];
     
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -84,18 +85,19 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (self.dataSource.count>0) {
+        WYAPhotoBrowserAlbumCell * albumCell = (WYAPhotoBrowserAlbumCell *)cell;
         PHAssetCollection * collection = self.dataSource[indexPath.row];
         PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@(%lu)",collection.localizedTitle,(unsigned long)smartSubResult.count];
-        cell.imageView.image = [UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass(self.class)];
+        albumCell.titleLabel.text = [NSString stringWithFormat:@"%@(%lu)",collection.localizedTitle,(unsigned long)smartSubResult.count];
+        albumCell.imgView.image = [UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass(self.class)];
         if (self.images.count>0) {
             id object = self.images[indexPath.row];
             if ([object isKindOfClass:[UIImage class]]) {
                 UIImage * image = (UIImage *)object;
-                cell.imageView.image = image;
+                albumCell.imgView.image = image;
             }
         }
-        id obj = [smartSubResult firstObject];
+        id obj = [smartSubResult lastObject];
         
         if (obj) {
             if ([obj isKindOfClass:[PHAsset class]]) {
@@ -106,7 +108,7 @@
                 //                opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
                 [manager requestImageForAsset:asset targetSize:CGSizeMake(30*SizeAdapter, 30*SizeAdapter) contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                     dispatch_async(dispatch_get_main_queue(), ^{
-                        cell.imageView.image = result;
+                        albumCell.imgView.image = result;
                         if (result) {
                             [self.images addObject:result];
                         }else{
