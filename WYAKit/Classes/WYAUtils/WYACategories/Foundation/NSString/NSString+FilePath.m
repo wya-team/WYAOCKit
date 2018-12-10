@@ -44,4 +44,10 @@
     return [NSHomeDirectory () stringByAppendingFormat:@"/tmp"];
 }
 
++ (BOOL)wya_IsDirectory:(NSString *)filePath
+{
+    BOOL isDirectory = NO;
+    [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
+    return isDirectory;
+}
 @end

@@ -25,6 +25,7 @@
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
+		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
 		21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */; };
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
@@ -127,6 +128,8 @@
 		21470CA8219E93D30099CB6F /* WYAPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopViewController.m; sourceTree = "<group>"; };
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
 		21470CAB219E94630099CB6F /* WYATestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATestViewController.m; sourceTree = "<group>"; };
+		21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCell.h; sourceTree = "<group>"; };
+		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
 		21A8731721A3956B007F2921 /* WYAPaginationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPaginationViewController.h; sourceTree = "<group>"; };
 		21A8731821A3956B007F2921 /* WYAPaginationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPaginationViewController.m; sourceTree = "<group>"; };
 		21A8732021A3A67C007F2921 /* WYAChooseMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAChooseMenuViewController.h; sourceTree = "<group>"; };
@@ -293,6 +296,8 @@
 			children = (
 				21470C19219ABF960099CB6F /* WYADownloaderViewController.h */,
 				21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */,
+				21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */,
+				21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */,
 			);
 			path = WYADownloader;
 			sourceTree = "<group>";
@@ -932,6 +937,7 @@
 				951FC0B021A558CA00E1E4FE /* WYAPageViewController.m in Sources */,
 				9578498E21B1194E001E19DC /* WYAListTwoCell.m in Sources */,
 				210E9F6B21ABEB6900BFE994 /* WYALeftViewController.m in Sources */,
+				21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */,
 				956BCC8621B5329C0044095E /* WYAReamlViewController.m in Sources */,
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,

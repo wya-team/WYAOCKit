@@ -52,4 +52,11 @@
  */
 + (NSString *)wya_tmpPath;
 
+/**
+ 判断该路径是文件还是文件夹
+
+ @param filePath 路径
+ @return YES为文件夹，no文件路径
+ */
++ (BOOL)wya_IsDirectory:(NSString *)filePath;
 @end

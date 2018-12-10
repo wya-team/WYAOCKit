@@ -482,7 +482,7 @@
     if (zoomButton.selected) {
         //全屏
         [self enterFullscreen];
-        
+       
     } else {
         [self exitFullscreen];
     }

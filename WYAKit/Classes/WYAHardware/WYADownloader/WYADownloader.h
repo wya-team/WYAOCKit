@@ -6,24 +6,31 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "WYADownloadModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^DownloadBlock)(CGFloat progress, BOOL isFinish);
+//typedef void(^DownloadBlock)(CGFloat progress, BOOL isFinish);
 
 @interface WYADownloader : NSObject
 
 + (instancetype)sharedDownloader;
 
--(void)wya_DownloadTaskWithUrl:(NSString *)urlString;
+@property (nonatomic, assign) BOOL allowsCellularAccess;
+@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
 
--(void)wya_DownloadTaskWithUrl:(NSString *)urlString FilePath:(NSString *)filePath DownloadHandle:(DownloadBlock)handle;
+-(void)wya_DownloadTaskWithModel:(WYADownloadModel *)model;
 
--(void)wya_suspendDownload;
+-(void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
 
--(void)wya_giveupDownload:(void(^)(BOOL result))giveup;
+-(void)wya_giveupDownloadWithModel:(WYADownloadModel *)model;
 
--(void)wya_keepDownload;
+-(void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+@end
+
+@interface WYADownloader (Config)
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

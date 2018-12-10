@@ -38,7 +38,7 @@ static CGFloat QRCodeWidth = 220;
 @property (nonatomic, strong) UIImageView * qrCodeImageView;
 @property (nonatomic, strong) UIButton * lampButton;
 @property (nonatomic, strong) UILabel * lampLabel;
-
+@property (nonatomic, assign) BOOL  blowup;//相机扫描区域是否放大过
 @end
 
 @implementation WYAQRCodeViewController
@@ -108,6 +108,7 @@ static CGFloat QRCodeWidth = 220;
     [cropLayer setFillColor:[UIColor blackColor].CGColor];
     [cropLayer setOpacity:0.6];
     [cropLayer setNeedsDisplay];
+    
     [self.layerBackgroundView.layer addSublayer:cropLayer];
     
 }
@@ -162,15 +163,8 @@ static CGFloat QRCodeWidth = 220;
     }
     // Device
     self.device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-//    [self.device addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(subjectAreaDidChange:) name:AVCaptureDeviceSubjectAreaDidChangeNotification object:self.device];
-//    if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-//        NSError * error;
-//        [self.device lockForConfiguration:&error];
-//        NSLog(@"error==%@",error);
-//        self.device.focusMode = AVCaptureFocusModeAutoFocus;
-//        [self.device unlockForConfiguration];
-//    }
+    [self.device addObserver:self forKeyPath:@"adjustingFocus" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
+
     
     // Input
     self.input = [AVCaptureDeviceInput deviceInputWithDevice:self.device error:nil];
@@ -214,7 +208,8 @@ static CGFloat QRCodeWidth = 220;
     // Preview
     self.preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
     self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.preview.frame =self.layerBackgroundView.layer.bounds;
+    self.preview.position = self.layerBackgroundView.center;
+    self.preview.bounds = self.layerBackgroundView.layer.bounds;
     [self.layerBackgroundView.layer insertSublayer:self.preview atIndex:0];
     
     // Start
@@ -266,52 +261,7 @@ static CGFloat QRCodeWidth = 220;
     }
     return nil;
 }
-/*
-- (void)subjectAreaDidChange:(NSNotification *)notification
-{
-    //先进行判断是否支持控制对焦
-    if (self.device.isFocusPointOfInterestSupported &&[self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-        NSError *error =nil;
-        //对cameraDevice进行操作前，需要先锁定，防止其他线程访问，
-        [self.device lockForConfiguration:&error];
-        [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
-        [self focusAtPoint:self.backgroundView.center];
-        //操作完成后，记得进行unlock。
-        [self.device unlockForConfiguration];
-    }
-}
 
-- (void)focusAtPoint:(CGPoint)point{
-    CGSize size = self.view.bounds.size;
-    CGPoint focusPoint = CGPointMake( point.y /size.height ,1-point.x/size.width );
-    NSError *error;
-    if ([self.device lockForConfiguration:&error]) {
-        if ([self.device isFocusModeSupported:AVCaptureFocusModeAutoFocus]) {
-            [self.device setFocusPointOfInterest:focusPoint];
-            [self.device setFocusMode:AVCaptureFocusModeAutoFocus];
-        }
-        [self.device unlockForConfiguration];
-    }
-    [self setFocusCursorWithPoint:point];
-}
-
--(void)setFocusCursorWithPoint:(CGPoint)point{
-    //下面是手触碰屏幕后对焦的效果
-    self.layerBackgroundView.center = point;
-
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.layerBackgroundView.transform = CGAffineTransformMakeScale(1.25, 1.25);
-    }completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.5 animations:^{
-            self.layerBackgroundView.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
-            
-        }];
-    }];
-    
-}
-*/
 // 监听焦距发生改变
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context {
     
@@ -320,23 +270,27 @@ static CGFloat QRCodeWidth = 220;
         
         NSLog(@"adjustingFocus~~%d  change~~%@", adjustingFocus, change);
         // 0代表焦距不发生改变 1代表焦距改变
-        if (adjustingFocus == 0) {
-            NSLog(@"不改变");
-            self.layerBackgroundView.transform = CGAffineTransformIdentity;
-        }else{
-            NSLog(@"改变");
-            [UIView animateWithDuration:0.5 animations:^{
-                self.layerBackgroundView.transform = CGAffineTransformMakeScale(3, 3);
-            } completion:^(BOOL finished) {
-                
-            }];
+        if (adjustingFocus == 1) {
+            if (self.blowup == NO) {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.preview.bounds = CGRectMake(0, 0, self.layerBackgroundView.layer.bounds.size.width*3, self.layerBackgroundView.layer.bounds.size.width*3);
+                }];
+                self.blowup = YES;
+            }
         }
         
     }else{
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
-
+- (void)twoTapClick{
+    if (self.blowup == YES) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.preview.bounds = CGRectMake(0, 0, self.layerBackgroundView.layer.bounds.size.width, self.layerBackgroundView.layer.bounds.size.width);
+        }];
+        self.blowup = NO;
+    }
+}
 
 #pragma mark - WYANavBarDelegate -
 - (void)wya_goBackPressed:(UIButton *)sender{
@@ -534,6 +488,10 @@ static CGFloat QRCodeWidth = 220;
             UIImageView * object = [[UIImageView alloc]initWithFrame:kScanRect];
             object.image = [UIImage loadBundleImage:@"pick_bg" ClassName:NSStringFromClass([self class])];
             object.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(twoTapClick)];
+            tap.numberOfTapsRequired = 2;
+            [object addGestureRecognizer:tap];
             object;
         });
     }
@@ -583,6 +541,9 @@ static CGFloat QRCodeWidth = 220;
     return _lampLabel;
 }
 
+-(void)dealloc{
+    [self.device removeObserver:self forKeyPath:@"adjustingFocus"];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

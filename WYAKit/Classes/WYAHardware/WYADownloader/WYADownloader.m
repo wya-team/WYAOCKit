@@ -7,12 +7,16 @@
 
 #import "WYADownloader.h"
 
+#define floderPath [[NSString wya_libCachePath] stringByAppendingPathComponent:@"WYADownload"]
+
 @interface WYADownloader ()<NSURLSessionDownloadDelegate>
-@property (nonatomic, copy)   DownloadBlock downloadBlock;
-@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask;
+
 @property (nonatomic, strong) NSURLSession * session;
-@property (nonatomic, strong) NSData * resumeData;
-@property (nonatomic, copy)   NSString * userFilePath;
+@property (nonatomic, strong) NSURLSessionConfiguration * config;
+@property (nonatomic, strong) NSOperationQueue * downloadQueue;
+@property (nonatomic, strong) NSMutableDictionary * taskDic;
+@property (nonatomic, strong) NSMutableArray<WYADownloadModel *> * downloadArray;
+
 @end
 
 @implementation WYADownloader
@@ -23,60 +27,49 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         downloader = [[WYADownloader alloc]init];
+        [downloader createFilePath];
     });
     return downloader;
 }
 
+-(void)createFilePath{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    if (![fileManager isExecutableFileAtPath:floderPath]) {
+        [fileManager createDirectoryAtPath:floderPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSLog(@"path==%@",floderPath);
+}
+
 #pragma mark - Public Method -
--(void)wya_DownloadTaskWithUrl:(NSString *)urlString{
-    NSURLSession * session = [NSURLSession sharedSession];
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSURLSessionDownloadTask * task = [session downloadTaskWithURL:url completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSLog(@"location==%@",location);
-        NSLog(@"name == %@",response.suggestedFilename);
-        NSLog(@"error==%@",[error localizedDescription]);
-        NSString * temPath = [[NSString wya_tmpPath] stringByAppendingPathComponent:response.suggestedFilename];
-        NSLog(@"tempath==%@",temPath);
-        NSFileManager * fileManager = [NSFileManager defaultManager];
-        NSError * fileError;
-        BOOL isfile = [fileManager moveItemAtURL:location toURL:[NSURL fileURLWithPath:temPath] error:&fileError];
-        NSLog(@"file==%d",isfile);
-        
-    }];
-    [task resume];
+-(void)wya_DownloadTaskWithModel:(WYADownloadModel *)model{
+    
+    NSURL * url = [NSURL URLWithString:model.urlString];
+    NSURLSessionDownloadTask * downloadTask = [self.session downloadTaskWithURL:url];
+    [self.taskDic setObject:downloadTask forKey:model.urlString];
+    [self.downloadArray addObject:model];
+    model.downloadState = WYADownloadStateDownloading;
+    [downloadTask resume];
 }
 
--(void)wya_DownloadTaskWithUrl:(NSString *)urlString
-                      FilePath:(NSString *)filePath
-                DownloadHandle:(DownloadBlock)handle{
-    self.session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
-    NSURL * url = [NSURL URLWithString:urlString];
-    self.downloadTask = [self.session downloadTaskWithURL:url];
-    [self.downloadTask resume];
-    self.userFilePath = filePath;
-    self.downloadBlock = handle;
-}
-
--(void)wya_suspendDownload{
-    [self.downloadTask suspend];
-    [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-        self.resumeData = resumeData;
+-(void)wya_suspendDownloadWithModel:(WYADownloadModel *)model{
+    model.downloadState = WYADownloadStateSuspend;
+    NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
+    [task suspend];
+    [task cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+        model.resumeData = resumeData;
     }];
 }
 
--(void)wya_giveupDownload:(void(^)(BOOL result))giveup{
-    [self.downloadTask cancel];
-//    NSFileManager * fileManager = [NSFileManager defaultManager];
-//    NSError * userRemoveError;
-//    BOOL isRemove = [fileManager removeItemAtURL:[NSURL fileURLWithPath:self.userFilePath] error:&userRemoveError];
-//    giveup(isRemove);
-    self.downloadBlock(0.f, NO);
+-(void)wya_giveupDownloadWithModel:(WYADownloadModel *)model{
+    NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
+    [task cancel];
 }
 
--(void)wya_keepDownload{
-    NSURLSessionDownloadTask * task = [self.session downloadTaskWithResumeData:self.resumeData];
+-(void)wya_keepDownloadWithModel:(WYADownloadModel *)model{
+    model.downloadState = WYADownloadStateDownloading;
+    NSURLSessionDownloadTask * task = [self.session downloadTaskWithResumeData:model.resumeData];
     [task resume];
-    self.downloadTask = task;
+    [self.taskDic setObject:task forKey:model.urlString];
 }
 
 #pragma mark - NSURLSessionTaskDelegate -
@@ -104,21 +97,35 @@ didCompleteWithError:(nullable NSError *)error{
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
 didFinishDownloadingToURL:(NSURL *)location
 {
-    NSURL * url;
-    if (self.userFilePath) {
-        url = [NSURL fileURLWithPath:self.userFilePath];
-        NSLog(@"userPath==%@",self.userFilePath);
-    }else{
-        NSString * temPath = [[NSString wya_tmpPath] stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
-        NSLog(@"tempath==%@",temPath);
-        url = [NSURL fileURLWithPath:temPath];
-    }
     
+    [self.taskDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj isEqual:downloadTask]) {
+            NSString * urlS = (NSString *)key;
+            for (WYADownloadModel * model in self.downloadArray) {
+                if ([model.urlString isEqualToString:urlS]) {
+                    model.downloadState = WYADownloadStateComplete;
+                    NSURL * url;
+                    if (model.destinationPath) {
+                        url = [NSURL fileURLWithPath:model.destinationPath];
+                        NSLog(@"userPath==%@",model.destinationPath);
+                    }else{
+                        NSString * temPath = [[NSString wya_tmpPath] stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
+                        NSLog(@"tempath==%@",temPath);
+                        url = [NSURL fileURLWithPath:temPath];
+                    }
+                    
+                    
+                    NSFileManager * fileManager = [NSFileManager defaultManager];
+                    NSError * fileError;
+                    BOOL isfile = [fileManager moveItemAtURL:location toURL:url error:&fileError];
+                    NSLog(@"file==%d",isfile);
+                    *stop = YES;
+                }
+            }
+        }
+    }];
+
     
-    NSFileManager * fileManager = [NSFileManager defaultManager];
-    NSError * fileError;
-    BOOL isfile = [fileManager moveItemAtURL:location toURL:url error:&fileError];
-    NSLog(@"file==%d",isfile);
 }
 
 /**
@@ -135,13 +142,19 @@ didFinishDownloadingToURL:(NSURL *)location
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
     NSLog(@"progress==%f",1.0*totalBytesWritten/totalBytesExpectedToWrite);
-    CGFloat pro = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
-    if (pro >= 1) {
-        self.downloadBlock(pro, YES);
-    }else{
-        self.downloadBlock(pro, NO);
-    }
-    
+    __block CGFloat pro = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
+    [self.taskDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([obj isEqual:downloadTask]) {
+            NSString * urlS = (NSString *)key;
+            for (WYADownloadModel * model in self.downloadArray) {
+                if ([model.urlString isEqualToString:urlS]) {
+                    model.progress = pro;
+                    model.downloadState = WYADownloadStateDownloading;
+                    *stop = YES;
+                }
+            }
+        }
+    }];
 }
 
 /**
@@ -157,4 +170,77 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 expectedTotalBytes:(int64_t)expectedTotalBytes{
     
 }
+
+#pragma mark - Setter -
+-(void)setAllowsCellularAccess:(BOOL)allowsCellularAccess{
+    self.config.allowsCellularAccess = allowsCellularAccess;
+}
+
+-(void)setMaxConcurrentOperationCount:(NSUInteger)maxConcurrentOperationCount{
+    self.downloadQueue.maxConcurrentOperationCount = maxConcurrentOperationCount;
+}
+
+#pragma mark - Getter -
+-(BOOL)allowsCellularAccess{
+    return self.config.allowsCellularAccess;
+}
+- (NSURLSessionConfiguration *)config{
+    if(!_config){
+        _config = ({
+            NSURLSessionConfiguration * object = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:NSStringFromClass(self.class)];
+            object.timeoutIntervalForRequest = 15;//超时时间
+            object.allowsCellularAccess = NO;//是否允许蜂窝网连接
+//            object.HTTPAdditionalHeaders = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];
+            object;
+        });
+    }
+    return _config;
+}
+
+- (NSURLSession *)session{
+    if(!_session){
+        _session = ({
+            NSURLSession * object = [NSURLSession sessionWithConfiguration:self.config delegate:self delegateQueue:self.downloadQueue];
+            object;
+       });
+    }
+    return _session;
+}
+
+- (NSOperationQueue *)downloadQueue{
+    if(!_downloadQueue){
+        _downloadQueue = ({
+            NSOperationQueue * object = [[NSOperationQueue alloc]init];
+            object.maxConcurrentOperationCount = 3;
+            object;
+       });
+    }
+    return _downloadQueue;
+}
+
+- (NSMutableDictionary *)taskDic{
+    if(!_taskDic){
+        _taskDic = ({
+            NSMutableDictionary * object = [[NSMutableDictionary alloc]init];
+            object;
+       });
+    }
+    return _taskDic;
+}
+
+- (NSMutableArray<WYADownloadModel *> *)downloadArray{
+    if(!_downloadArray){
+        _downloadArray = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+       });
+    }
+    return _downloadArray;
+}
+@end
+
+
+@implementation WYADownloader (Config)
+
+
 @end
