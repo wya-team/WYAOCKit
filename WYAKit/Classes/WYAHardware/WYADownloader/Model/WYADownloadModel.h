@@ -15,7 +15,7 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
     WYADownloadStateDownloading, //正在下载
     WYADownloadStateSuspend, //下载暂停
     WYADownloadStateComplete, //下载完成
-    WYADownloadStateFail, //下载失败
+    WYADownloadStateFail, //下载失败,或者被删除
 };
 
 @interface WYADownloadModel : NSObject

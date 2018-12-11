@@ -68,13 +68,14 @@
     if ([self compareDownloadTasks:model ResultHandle:handle]) {
         return;
     }
-    model.downloadState = WYADownloadStateDownloading;
+    
     NSURL * url = [NSURL URLWithString:model.urlString];
     NSURLSessionDownloadTask * downloadTask = [self.session downloadTaskWithURL:url];
     [self.taskDic setObject:downloadTask forKey:model.urlString];
     [self.downloadArray addObject:model];
     model.downloadState = WYADownloadStateDownloading;
     [downloadTask resume];
+    model.downloadState = WYADownloadStateDownloading;
 }
 
 //- (void)wya_downloadAllWithModel:(NSMutableArray <WYADownloadModel *> *)models{
@@ -85,12 +86,13 @@
 
 #pragma mark 暂停
 -(void)wya_suspendDownloadWithModel:(WYADownloadModel *)model{
-    model.downloadState = WYADownloadStateSuspend;
+    
     NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
     [task suspend];
     [task cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
         model.resumeData = resumeData;
     }];
+    model.downloadState = WYADownloadStateSuspend;
 }
 
 -(void)wya_suspendAllDownload{
@@ -101,6 +103,7 @@
 -(void)wya_giveupDownloadWithModel:(WYADownloadModel *)model{
     NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
     [task cancel];
+    model.downloadState = WYADownloadStateFail;
 }
 
 -(void)wya_giveupAllDownload{
@@ -109,10 +112,11 @@
 
 #pragma mark 继续
 -(void)wya_keepDownloadWithModel:(WYADownloadModel *)model{
-    model.downloadState = WYADownloadStateDownloading;
+    
     NSURLSessionDownloadTask * task = [self.session downloadTaskWithResumeData:model.resumeData];
     [task resume];
     [self.taskDic setObject:task forKey:model.urlString];
+    model.downloadState = WYADownloadStateDownloading;
 }
 
 -(void)wya_keepAllDownload{
@@ -198,7 +202,7 @@ didFinishDownloadingToURL:(NSURL *)location
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
-//    NSLog(@"progress==%f",1.0*totalBytesWritten/totalBytesExpectedToWrite);
+    NSLog(@"progress==%f",1.0*totalBytesWritten/totalBytesExpectedToWrite);
     __block CGFloat pro = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
     [self.taskDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([obj isEqual:downloadTask]) {
@@ -213,7 +217,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
                         if (startTimeValue) {
                             CFAbsoluteTime startTime = [startTimeValue doubleValue];
                             
-                            CGFloat downloadSpeed = (CGFloat)(totalBytesWritten / (CFAbsoluteTimeGetCurrent() - startTime));
+                            CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTime);
                             
                             if (downloadSpeed>1024*1024*1024) {
                                 model.speed = [NSString stringWithFormat:@"%.2fGB/s",downloadSpeed/(1024*1024*1024)];

@@ -101,7 +101,6 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"progress"]) {
         CGFloat progress = [change[@"new"] floatValue];
-//        NSLog(@"进度传出来了==%f",progress);
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.progressView.progress = progress;
         });
