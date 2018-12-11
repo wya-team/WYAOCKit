@@ -10,7 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, WYADownloadState) {
-    WYADownloadModelNormal, //正常状态
+    WYADownloadStateNormal, //正常状态
+    WYADownloadStateWait, //等待下载
     WYADownloadStateDownloading, //正在下载
     WYADownloadStateSuspend, //下载暂停
     WYADownloadStateComplete, //下载完成
@@ -19,12 +20,13 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 
 @interface WYADownloadModel : NSObject
 
-@property (nonatomic, copy)   NSString * urlString;
-@property (nonatomic, copy)   NSString * destinationPath;//文件路径
+@property (nonatomic, copy)   NSString * urlString;//下载地址
+@property (nonatomic, copy)   NSString * destinationPath;//本地文件路径
 @property (nonatomic, strong) NSData * resumeData;
 
-@property (nonatomic, assign) CGFloat  progress;
-@property (nonatomic, assign) WYADownloadState  downloadState;
+@property (nonatomic, assign) CGFloat  progress; //进度
+@property (nonatomic, assign) WYADownloadState  downloadState; //下载状态
+@property (nonatomic, copy) NSString *  speed; //下载速度，直接显示就好
 
 @end
 

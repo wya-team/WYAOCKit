@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYADownloadCell : UITableViewCell
-@property (nonatomic, copy)   void(^actionHandle)(BOOL select);
+@property (nonatomic, copy)   void(^actionHandle)(NSInteger index);
 @property (nonatomic, strong) WYADownloadModel * model;
 @end
 

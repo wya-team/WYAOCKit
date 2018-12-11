@@ -9,22 +9,49 @@
 #import "WYADownloadModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-//typedef void(^DownloadBlock)(CGFloat progress, BOOL isFinish);
-
 @interface WYADownloader : NSObject
 
+@property (nonatomic, assign) BOOL allowsCellularAccess;
+//@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
+
+@property (nonatomic, strong, readonly) NSArray * downloadingArray;//正在下载的数组
+@property (nonatomic, strong, readonly) NSArray * downloadCompleteArray;//已经下载完成的数组
+
+/**
+ 初始化
+
+ @return self
+ */
 + (instancetype)sharedDownloader;
 
-@property (nonatomic, assign) BOOL allowsCellularAccess;
-@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
+/**
+ 开始下载
 
--(void)wya_DownloadTaskWithModel:(WYADownloadModel *)model;
+ @param model 数据模型
+ @param handle 回调，用来提示下载是否成功加入下载列表
+ */
+- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void(^)(NSString * result))handle;
 
--(void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
+/**
+ 暂停下载
 
--(void)wya_giveupDownloadWithModel:(WYADownloadModel *)model;
+ @param model 数据模型
+ */
+- (void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
 
--(void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+/**
+ 删除下载任务
+
+ @param model 数据模型
+ */
+- (void)wya_giveupDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+ 继续下载
+
+ @param model 数据模型
+ */
+- (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
 @end
 
 @interface WYADownloader (Config)

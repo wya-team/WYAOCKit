@@ -16,6 +16,8 @@
 @property (nonatomic, strong) NSOperationQueue * downloadQueue;
 @property (nonatomic, strong) NSMutableDictionary * taskDic;
 @property (nonatomic, strong) NSMutableArray<WYADownloadModel *> * downloadArray;
+@property (nonatomic, strong) NSMutableArray<WYADownloadModel *> * downloadFinishArray;
+
 
 @end
 
@@ -40,9 +42,33 @@
     NSLog(@"path==%@",floderPath);
 }
 
+#pragma mark - Private Method -
+-(BOOL)compareDownloadTasks:(WYADownloadModel *)model ResultHandle:(void(^)(NSString * result))handle{
+    __block BOOL isHave;
+    [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([model.urlString isEqualToString:obj.urlString]) {
+            handle(@"该任务已存在与下载列表");
+            isHave = YES;
+            *stop = YES;
+        }
+    }];
+    [self.downloadFinishArray enumerateObjectsUsingBlock:^(WYADownloadModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([model.urlString isEqualToString:obj.urlString]) {
+            handle(@"该任务已下载完成");
+            isHave = YES;
+            *stop = YES;
+        }
+    }];
+    return isHave;
+}
+
 #pragma mark - Public Method -
--(void)wya_DownloadTaskWithModel:(WYADownloadModel *)model{
-    
+#pragma mark 下载
+-(void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void(^)(NSString * result))handle{
+    if ([self compareDownloadTasks:model ResultHandle:handle]) {
+        return;
+    }
+    model.downloadState = WYADownloadStateDownloading;
     NSURL * url = [NSURL URLWithString:model.urlString];
     NSURLSessionDownloadTask * downloadTask = [self.session downloadTaskWithURL:url];
     [self.taskDic setObject:downloadTask forKey:model.urlString];
@@ -51,6 +77,13 @@
     [downloadTask resume];
 }
 
+//- (void)wya_downloadAllWithModel:(NSMutableArray <WYADownloadModel *> *)models{
+//    for (WYADownloadModel * model in models) {
+//        [self wya_DownloadTaskWithModel:model];
+//    }
+//}
+
+#pragma mark 暂停
 -(void)wya_suspendDownloadWithModel:(WYADownloadModel *)model{
     model.downloadState = WYADownloadStateSuspend;
     NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
@@ -60,16 +93,32 @@
     }];
 }
 
+-(void)wya_suspendAllDownload{
+    
+}
+
+#pragma mark 取消
 -(void)wya_giveupDownloadWithModel:(WYADownloadModel *)model{
     NSURLSessionDownloadTask * task = self.taskDic[model.urlString];
     [task cancel];
 }
 
+-(void)wya_giveupAllDownload{
+    
+}
+
+#pragma mark 继续
 -(void)wya_keepDownloadWithModel:(WYADownloadModel *)model{
     model.downloadState = WYADownloadStateDownloading;
     NSURLSessionDownloadTask * task = [self.session downloadTaskWithResumeData:model.resumeData];
     [task resume];
     [self.taskDic setObject:task forKey:model.urlString];
+}
+
+-(void)wya_keepAllDownload{
+    for (WYADownloadModel * model in self.downloadArray) {
+        [self wya_keepDownloadWithModel:model];
+    }
 }
 
 #pragma mark - NSURLSessionTaskDelegate -
@@ -83,6 +132,11 @@
  */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error{
+    if (error) {
+        
+    }else{
+        
+    }
     NSLog(@"error==%@",[error localizedDescription]);
 }
 
@@ -104,12 +158,15 @@ didFinishDownloadingToURL:(NSURL *)location
             for (WYADownloadModel * model in self.downloadArray) {
                 if ([model.urlString isEqualToString:urlS]) {
                     model.downloadState = WYADownloadStateComplete;
+                    [self.taskDic removeObjectForKey:key];
+                    [self.downloadArray removeObject:model];
+                    [self.downloadFinishArray addObject:model];
                     NSURL * url;
                     if (model.destinationPath) {
                         url = [NSURL fileURLWithPath:model.destinationPath];
                         NSLog(@"userPath==%@",model.destinationPath);
                     }else{
-                        NSString * temPath = [[NSString wya_tmpPath] stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
+                        NSString * temPath = [floderPath stringByAppendingPathComponent:downloadTask.response.suggestedFilename];
                         NSLog(@"tempath==%@",temPath);
                         url = [NSURL fileURLWithPath:temPath];
                     }
@@ -141,7 +198,7 @@ didFinishDownloadingToURL:(NSURL *)location
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
-    NSLog(@"progress==%f",1.0*totalBytesWritten/totalBytesExpectedToWrite);
+//    NSLog(@"progress==%f",1.0*totalBytesWritten/totalBytesExpectedToWrite);
     __block CGFloat pro = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
     [self.taskDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([obj isEqual:downloadTask]) {
@@ -150,6 +207,31 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
                 if ([model.urlString isEqualToString:urlS]) {
                     model.progress = pro;
                     model.downloadState = WYADownloadStateDownloading;
+                    if (@available(iOS 11.0, *)) {
+                        NSDictionary *progressInfo = downloadTask.progress.userInfo;
+                        NSNumber *startTimeValue = progressInfo[@"startTime"];
+                        if (startTimeValue) {
+                            CFAbsoluteTime startTime = [startTimeValue doubleValue];
+                            
+                            CGFloat downloadSpeed = (CGFloat)(totalBytesWritten / (CFAbsoluteTimeGetCurrent() - startTime));
+                            
+                            if (downloadSpeed>1024*1024*1024) {
+                                model.speed = [NSString stringWithFormat:@"%.2fGB/s",downloadSpeed/(1024*1024*1024)];
+                            }else if (downloadSpeed>1024*1024) {
+                                model.speed = [NSString stringWithFormat:@"%.2fMB/s",downloadSpeed/(1024*1024)];
+                            }else if (downloadSpeed>1024){
+                                model.speed = [NSString stringWithFormat:@"%.2fKB/s",downloadSpeed/1024];
+                            }else{
+                                model.speed = [NSString stringWithFormat:@"%.2fB/s",downloadSpeed];
+                            }
+                            
+                        } else {
+                            [downloadTask.progress setUserInfoObject:@(CFAbsoluteTimeGetCurrent()) forKey:@"startTime"];
+                        }
+                    } else {
+                        // Fallback on earlier versions
+                    }
+                    
                     *stop = YES;
                 }
             }
@@ -181,6 +263,13 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
 }
 
 #pragma mark - Getter -
+-(NSArray *)downloadingArray{
+    return [self.downloadArray copy];
+}
+
+-(NSArray *)downloadCompleteArray{
+    return [self.downloadFinishArray copy];
+}
 -(BOOL)allowsCellularAccess{
     return self.config.allowsCellularAccess;
 }
@@ -190,7 +279,6 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
             NSURLSessionConfiguration * object = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:NSStringFromClass(self.class)];
             object.timeoutIntervalForRequest = 15;//超时时间
             object.allowsCellularAccess = NO;//是否允许蜂窝网连接
-//            object.HTTPAdditionalHeaders = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];
             object;
         });
     }
@@ -211,7 +299,7 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
     if(!_downloadQueue){
         _downloadQueue = ({
             NSOperationQueue * object = [[NSOperationQueue alloc]init];
-            object.maxConcurrentOperationCount = 3;
+//            object.maxConcurrentOperationCount = 1;
             object;
        });
     }
@@ -236,6 +324,16 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
        });
     }
     return _downloadArray;
+}
+
+- (NSMutableArray<WYADownloadModel *> *)downloadFinishArray{
+    if(!_downloadFinishArray){
+        _downloadFinishArray = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+       });
+    }
+    return _downloadFinishArray;
 }
 @end
 

@@ -7,7 +7,9 @@
 //
 
 #import "WYAVideoPlayerViewController.h"
+#import "WYADownloaderViewController.h"
 
+#define Path [[NSString wya_libCachePath] stringByAppendingPathComponent:@"xxx.mp4"]
 @interface WYAVideoPlayerViewController ()<VideoPlayerDelegate>
 @property (nonatomic, strong) WYAVideoPlayerView *playView;
 @end
@@ -36,11 +38,38 @@
     [self.view addSubview:self.playView];
     
     [self.playView wya_RegisterPlayerItem:item];
+    
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"下载这个视频" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    button.titleLabel.font = FONT(15);
+    [button addTarget:self action:@selector(downloadClick) forControlEvents:UIControlEventTouchUpInside];
+    button.center = self.view.center;
+    button.bounds = CGRectMake(0, 0, 100*SizeAdapter, 50*SizeAdapter);
+    [self.view addSubview:button];
+    
+    [self wya_addRightNavBarButtonWithNormalTitle:@[@"下载列表"]];
 
 }
 - (void)wya_goBack{
     [super wya_goBack];
     [self.playView wya_ResetPlayer];
+}
+
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    WYADownloaderViewController * vc = [[WYADownloaderViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)downloadClick{
+    WYADownloader * downloader = [WYADownloader sharedDownloader];
+    WYADownloadModel * model = [[WYADownloadModel alloc]init];
+    model.urlString = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
+    model.destinationPath = Path;
+    [downloader wya_DownloadTaskWithModel:model ResultHandle:^(NSString * _Nonnull result) {
+        NSLog(@"re==%@",result);
+        [UIView wya_ShowBottomToastWithMessage:result];
+    }];
 }
 /*
 #pragma mark - Navigation

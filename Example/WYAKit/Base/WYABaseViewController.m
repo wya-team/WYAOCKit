@@ -25,10 +25,7 @@
 
 #pragma mark ======= private
 - (void)addCustomNavBar{
-    self.navBar = [[WYANavBar alloc]init];
-    self.navBar.delegate = self;
-    self.navBar.backgroundColor = [UIColor whiteColor];
-    self.navBar.navTitle = @"Example";
+    
     NSArray *arrViewControllers = self.navigationController.viewControllers;
     if ([arrViewControllers indexOfObject:self] > 0){
         [self.navBar wya_goBackButtonWithImage:@"返回"];
@@ -102,6 +99,21 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
+
+#pragma mark - Getter -
+- (WYANavBar *)navBar{
+    if(!_navBar){
+        _navBar = ({
+            WYANavBar * object = [[WYANavBar alloc]init];
+            object.delegate = self;
+            object.backgroundColor = [UIColor whiteColor];
+            object.navTitle = @"Example";
+            object;
+        });
+    }
+    return _navBar;
+}
+
 #pragma mark ======= setter
 - (void)setNavTitle:(NSString *)navTitle{
     _navTitle = navTitle;
@@ -181,6 +193,8 @@
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
     NSLog(@"%@",sender.titleLabel.text);
 }
+
+
 
 
 @end
