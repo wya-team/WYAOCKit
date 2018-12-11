@@ -158,8 +158,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "210"
             endingLineNumber = "210"
-            landmarkName = "-URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:"
-            landmarkType = "7">
+            landmarkName = "WYADownloader"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
@@ -206,7 +206,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "116"
             endingLineNumber = "116"
-            landmarkName = "-wya_keepDownloadWithModel:"
+            landmarkName = "-wya_giveupDownloadWithModel:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -238,7 +238,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "-wya_suspendDownloadWithModel:"
+            landmarkName = "-wya_DownloadTaskWithModel:ResultHandle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

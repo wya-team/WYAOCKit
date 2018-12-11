@@ -9,7 +9,7 @@
 
 #define floderPath [[NSString wya_libCachePath] stringByAppendingPathComponent:@"WYADownload"]
 
-@interface WYADownloader ()<NSURLSessionDownloadDelegate>
+@interface WYADownloader ()<NSURLSessionDownloadDelegate,NSURLSessionDelegate>
 
 @property (nonatomic, strong) NSURLSession * session;
 @property (nonatomic, strong) NSURLSessionConfiguration * config;
@@ -18,7 +18,7 @@
 @property (nonatomic, strong) NSMutableArray<WYADownloadModel *> * downloadArray;
 @property (nonatomic, strong) NSMutableArray<WYADownloadModel *> * downloadFinishArray;
 
-
+@property (nonatomic, copy)   void(^appBackground)(NSURLSession * session);
 @end
 
 @implementation WYADownloader
@@ -34,6 +34,7 @@
     return downloader;
 }
 
+#pragma mark - Private Method -
 -(void)createFilePath{
     NSFileManager * fileManager = [NSFileManager defaultManager];
     if (![fileManager isExecutableFileAtPath:floderPath]) {
@@ -42,7 +43,19 @@
     NSLog(@"path==%@",floderPath);
 }
 
-#pragma mark - Private Method -
+- (void)addNotice{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appGoBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appBack) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void)appGoBackground{
+    
+}
+
+- (void)appBack{
+    
+}
+
 -(BOOL)compareDownloadTasks:(WYADownloadModel *)model ResultHandle:(void(^)(NSString * result))handle{
     __block BOOL isHave;
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -122,6 +135,17 @@
 -(void)wya_keepAllDownload{
     for (WYADownloadModel * model in self.downloadArray) {
         [self wya_keepDownloadWithModel:model];
+    }
+}
+
+- (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle{
+    self.appBackground = handle;
+}
+
+#pragma mark - NSURLSessionDelegate  -
+- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session{
+    if (session.configuration.identifier) {
+        self.appBackground(session);
     }
 }
 

@@ -52,6 +52,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param model 数据模型
  */
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+
+- (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle;
 @end
 
 @interface WYADownloader (Config)
