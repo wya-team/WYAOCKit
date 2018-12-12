@@ -1,9 +1,10 @@
 # WYADownloader
-##功能
+## 功能
 提供下载相关的功能，暂不支持后台下载
 下载相关模型请继承或使用WYADownloadModel作为下载模型
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 allowsCellularAccess|是否允许蜂窝网下载|BOOL|NO
@@ -11,6 +12,7 @@ downloadingArray|正在下载的数组（只读）|NSArray|-
 downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
 
 ## 方法
+
 ```Object-C
 /**
  初始化
@@ -49,11 +51,14 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
 ```
 
-#WYADownloadModel
-##功能
+# WYADownloadModel
+
+## 功能
+
 提供下载模型
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 urlString|下载地址|NSString|-
@@ -62,7 +67,8 @@ progress|下载进度（0~1）|CGFloat|-
 downloadState|下载状态|WYADownloadState|WYADownloadStateNormal
 speed|下载速度，直接显示就好|NSString|-
 
-###WYADownloadState
+### WYADownloadState
+
 类型|说明
 ---|---
 WYADownloadStateNormal|正常状态
@@ -73,6 +79,7 @@ WYADownloadStateComplete|下载完成
 WYADownloadStateFail|下载失败
 
 ## 基础用法
+
 * 导入头文件
 
 ```

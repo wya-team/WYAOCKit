@@ -1,9 +1,11 @@
 # WYAIMGCode 生成二维码条形码
 
 ## 功能
+
 生成二维码和条形码
 
-##方法
+## 方法
+
 * 生成普通的二维码
 
 ```Object-C
@@ -17,6 +19,7 @@
 + (UIImage *)wya_GenerateWithDefaultQRCodeData:(NSString *)data
                                 imageViewWidth:(CGFloat)imageViewWidth;
 ```
+
 * 生成带图片的二维码
 
 ```Object-C
@@ -32,6 +35,7 @@
                               logoImageName:(NSString *)logoImageName
                        logoScaleToSuperView:(CGFloat)logoScaleToSuperView;
 ```
+
 * 生成彩色的二维码
 
 ```Object-C
@@ -47,6 +51,7 @@
                              backgroundColor:(CIColor *)backgroundColor
                                    mainColor:(CIColor *)mainColor;
 ```
+
 * 生成条形码
 
 ```Object-C

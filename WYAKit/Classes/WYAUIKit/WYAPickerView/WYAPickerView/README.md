@@ -1,9 +1,11 @@
 # WYAPickerView
 
 ## 功能
+
 选择器，分为单列选择，双列选择，三列选择
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 pickerViewColumnStyle|pickerView列样式|WYAPickerViewColumnStyle|WYAPickerViewColumnStyleSingle
@@ -16,6 +18,7 @@ arrayKeyWords|array关键字(需要先指定)|NSString|-
 dataArray|数据源|NSMutableArray|-
 
 ### WYAPickerViewColumnStyle
+
 样式|说明
 ---|---
 WYAPickerViewColumnStyleSingle|单列
@@ -32,7 +35,8 @@ WYAPickerViewColumnStyleThree|三列
 -(CGFloat)wya_GetPickerViewHeight;
 ```
 
-##基本用法
+## 基本用法
+
 * 导入头文件
 ```
 #import <WYAKit/WYAPickerView.h>

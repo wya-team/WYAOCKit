@@ -1,8 +1,11 @@
 # WYANoticeBar
+
 ## 功能
+
 通知栏
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 showNoticeButton|是否显示左侧按钮（显示的是图片或者文字）|BOOL|NO
@@ -15,6 +18,7 @@ rightButtonImage|右侧要显示的图片|UIImage|-
 noticeBackgroundColor|背景颜色|UIColor|-
 
 ## 方法
+
 ```Object-C
 /**
  开始动画
@@ -28,6 +32,7 @@ noticeBackgroundColor|背景颜色|UIColor|-
 ```
 
 ## 基础用法
+
 * 导入头文件
 
 ```

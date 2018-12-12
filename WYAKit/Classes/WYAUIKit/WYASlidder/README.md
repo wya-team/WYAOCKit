@@ -1,8 +1,11 @@
 # WYASlider
+
 ## 功能
+
 滑动条
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 sliderStyle|滑动条样式|WYASliderStyle|WYASliderStyleSingle
@@ -18,12 +21,14 @@ currentMinValue|当前最小值(当在WYASliderStyleSingle模式下该样式无�
 currentMaxValue|当前最大值(当在WYASliderStyleSingle模式下显示当前移动的值0~1)|CGFloat|-
 
 ### WYASliderStyle
+
 样式|说明
 ---|---
 WYASliderStyleSingle|单向
 WYASliderStyleDouble|双向
 
-##基本用法
+## 基本用法
+
 * 导入头文件
 ```
 #import <WYAKit/WYASlider.h>

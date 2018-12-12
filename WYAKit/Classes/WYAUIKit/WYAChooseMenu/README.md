@@ -1,7 +1,9 @@
 # WYAChooseMenu
+
 适用于列表间的联动，例如天猫的物品种类效果
 
-##属性
+## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 titleArray|存放第一列数据|NSMutableArray <WYAChooseMenuModel *>|-
@@ -12,6 +14,7 @@ leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适�
 
 
 ## delegate
+
 ```Object-C
 /**
  左侧tablecell点击事件
@@ -22,6 +25,7 @@ leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适�
 ```
 
 ## 基础用法
+
 * 导入头文件
 
 ```

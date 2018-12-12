@@ -1,9 +1,11 @@
 # WYAProgressView
 
 ## 功能
+
 进度条
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 backGroundImage|背景图片|UIImage|-

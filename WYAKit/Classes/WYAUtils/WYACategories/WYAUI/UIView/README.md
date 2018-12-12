@@ -1,10 +1,12 @@
 # UIView
-##功能
+## 功能
+
 - 便捷frame布局、toast提示等
 
 ## UIView+WYALayout
 
 #### 属性
+
  属性 | 说明 | 类型 | 默认值
  --- | --- | --- | ---
 cmam_left|视图左侧|CGFloat|-
@@ -18,6 +20,7 @@ cmam_origin|x\y坐标点|CGPoint|-
 cmam_size|W\H宽高尺寸|CGSize|-
 cmam_viewController|father控制器|UIViewController|-
 cmam_visibleAlpha|返回屏幕上可见的alpha|CGFloat|-
+
 #### 方法
 
 ```Object-C

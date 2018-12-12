@@ -1,14 +1,17 @@
 # WYAPhotoBrowser
 
 ## 功能
+
 获取相册中的照片
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 callBackBlock|返回选中的照片|block|-
 
 ## 方法
+
 ```Object-C
 /**
  初始化
@@ -20,6 +23,7 @@ callBackBlock|返回选中的照片|block|-
 ```
 
 ## 基础用法
+
 - 添加关键key
 
 ```
