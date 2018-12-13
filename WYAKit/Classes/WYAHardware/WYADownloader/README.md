@@ -85,6 +85,7 @@ WYADownloadStateFail|下载失败
 ```
 #import <WYAKit/WYADownloader.h>
 #import <WYAKit/WYADownloadModel.h>
+#import <WYAKit/WYADownloadTaskManager.h>
 ```
 
 

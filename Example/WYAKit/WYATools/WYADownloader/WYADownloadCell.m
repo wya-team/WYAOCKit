@@ -7,7 +7,7 @@
 //
 
 #import "WYADownloadCell.h"
-#import "WYADownloadTaskManager.h"
+
 @interface WYADownloadCell ()
 @property (nonatomic, strong) UILabel * speedLabel;
 @property (nonatomic, strong) UIProgressView * progressView;

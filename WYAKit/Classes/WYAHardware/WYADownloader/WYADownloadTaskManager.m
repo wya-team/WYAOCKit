@@ -20,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        
+        _isSuccess = NO;
     }
     return self;
 }
@@ -28,9 +28,13 @@
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model{
     NSURL * url = [NSURL URLWithString:model.urlString];
     _urlString = model.urlString;
+    _model = model;
     self.destinationPath = model.destinationPath;
     self.downloadState = WYADownloadStateDownloading;
-    self.downloadTask = [session downloadTaskWithURL:url];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"HEAD"];
+    self.downloadTask = [session downloadTaskWithRequest:request];
+//    self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
 }
 
@@ -75,6 +79,9 @@
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
+    if (totalBytesExpectedToWrite>0) {
+        _isSuccess = YES;
+    }
     self.progress = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
     self.downloadState = WYADownloadStateDownloading;
     NSLog(@"pro==%f",_progress);

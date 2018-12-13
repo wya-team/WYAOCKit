@@ -7,7 +7,7 @@
 //
 
 #import "WYADownloadCompleteCell.h"
-#import "WYADownloadTaskManager.h"
+
 @interface WYADownloadCompleteCell ()
 @property (nonatomic, strong) UIImageView * imgView;
 @property (nonatomic, strong) UILabel * titleLabel;

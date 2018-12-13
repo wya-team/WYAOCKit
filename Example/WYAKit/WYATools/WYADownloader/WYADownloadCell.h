@@ -7,9 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-@class WYADownloadTaskManager;
-
-
 
 NS_ASSUME_NONNULL_BEGIN
 

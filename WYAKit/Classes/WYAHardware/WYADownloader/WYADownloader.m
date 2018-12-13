@@ -25,8 +25,9 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 @property (nonatomic, strong) NSMutableArray<WYADownloadTaskManager *> * downloadArray;
 @property (nonatomic, strong) NSMutableArray<WYADownloadTaskManager *> * downloadFinishArray;
 @property (nonatomic, strong) JQFMDB * fmdb;
-
+@property (nonatomic, strong) NSMutableDictionary * httpHeader;
 @property (nonatomic, copy)   void(^appBackground)(NSURLSession * session);
+@property (nonatomic, copy)   void(^userResultHandle)(WYADownloadModel * resultModel, NSString * result);
 @end
 
 @implementation WYADownloader
@@ -124,7 +125,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
     if ([self compareDownloadTasks:model ResultHandle:handle]) {
         return;
     }
-    
+    self.userResultHandle = handle;
     WYADownloadTaskManager * manager = [[WYADownloadTaskManager alloc]init];
     [manager startDownloadWithSession:self.session Model:model];
     [[self mutableArrayValueForKey:@"downloadArray"] addObject:manager];
@@ -188,6 +189,11 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
     }
 }
 
+- (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field{
+    [self.httpHeader setValue:value forKey:field];
+    self.config.HTTPAdditionalHeaders = self.httpHeader;
+}
+
 #pragma mark - NSURLSessionTaskDelegate -
 /**
  在任务下载完成、下载失败
@@ -222,6 +228,14 @@ didCompleteWithError:(nullable NSError *)error{
         }
     }else{
         [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.isSuccess == NO) {
+                
+                [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                   self.userResultHandle(obj.model, @"该资源有误");
+                });
+                *stop = YES;
+            }
             if (obj.downloadTask == task) {
                 [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
                 [[self mutableArrayValueForKey:@"downloadFinishArray"] addObject:obj];
@@ -330,7 +344,8 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
             NSURLSessionConfiguration * object = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:NSStringFromClass(self.class)];
             object.timeoutIntervalForRequest = 15;//超时时间
             object.allowsCellularAccess = NO;//是否允许蜂窝网连接
-            
+            object.HTTPAdditionalHeaders = @{@"Accept": @"application/json",
+                                             @"Accept-Language": @"en"};
             object;
         });
     }
@@ -387,5 +402,17 @@ expectedTotalBytes:(int64_t)expectedTotalBytes{
        });
     }
     return _downloadFinishArray;
+}
+
+- (NSMutableDictionary *)httpHeader{
+    if(!_httpHeader){
+        _httpHeader = ({
+            NSMutableDictionary * object = [[NSMutableDictionary alloc]init];
+            [object setValue:@"application/json" forKey:@"Accept"];
+            [object setValue:@"en" forKey:@"Accept-Language"];
+            object;
+       });
+    }
+    return _httpHeader;
 }
 @end
