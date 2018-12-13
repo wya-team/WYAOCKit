@@ -57,7 +57,7 @@
 }
 
 #pragma mark --- WYAChooseMenuDelegate
--(void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath{
+-(void)wya_LeftTableDidSelectedRow:(NSIndexPath *)indexPath{
     
     NSMutableArray * content = [NSMutableArray arrayWithCapacity:0];
     for (NSString * string in self.contents[indexPath.row]) {
@@ -68,6 +68,10 @@
     }
     self.menu.contentArray = content;
     self.otherMenu.contentArray = content;
+}
+
+- (void)wya_RightViewDidSelectedItem:(NSIndexPath *)indexPath{
+    NSLog(@"section==%d,item==%d",indexPath.section,indexPath.row);
 }
 
 -(NSArray *)titles{

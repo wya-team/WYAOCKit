@@ -145,9 +145,7 @@
     self.leftTableProportion = 0.3;
 }
 
-#pragma mark --- Public Method
-
-#pragma mark --- UITableViewDataSource
+#pragma mark - UITableViewDataSource -
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (tableView == self.leftTableView) {
         return self.titleArray.count;
@@ -167,7 +165,7 @@
     }
     
 }
-#pragma mark --- UITableViewDelegate
+#pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     if (tableView == self.leftTableView) {
         WYAChooseMenuCell * menuCell = (WYAChooseMenuCell *)cell;
@@ -178,8 +176,24 @@
     }
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.1;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44*SizeAdapter;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.1;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]init];
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [[UIView alloc]init];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -194,8 +208,8 @@
             }
         }
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_leftTableDidSelectedRow:)]) {
-            [self.wya_delegate wya_leftTableDidSelectedRow:indexPath];
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_LeftTableDidSelectedRow:)]) {
+            [self.wya_delegate wya_LeftTableDidSelectedRow:indexPath];
         }
     }else{
         WYAChooseMenuSecondLevelModel * mo = self.contentArray[indexPath.row];
@@ -210,10 +224,13 @@
                 model.select = NO;
             }
         }
-        [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_RightViewDidSelectedItem:)]) {
+            [self.wya_delegate wya_RightViewDidSelectedItem:indexPath];
+        }
     }
 }
 
+#pragma mark - UICollectionViewDataSource  -
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.contentArray.count;
 }
@@ -224,6 +241,7 @@
     return cell;
 }
 
+#pragma mark - UICollectionViewDelegate  -
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat width = collectionView.cmam_width / 3;
@@ -246,6 +264,12 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 5 * SizeAdapter;
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_RightViewDidSelectedItem:)]) {
+        [self.wya_delegate wya_RightViewDidSelectedItem:indexPath];
+    }
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
