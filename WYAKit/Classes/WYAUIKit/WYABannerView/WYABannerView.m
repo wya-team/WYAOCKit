@@ -16,15 +16,17 @@
 @property (nonatomic, strong) NSTimer * timer;
 @property (nonatomic, assign) NSInteger  currentIndex;
 @property (nonatomic, assign) WYABannerSourceStyle  style;
+@property (nonatomic, assign) CGFloat  time;
 @end
 
 @implementation WYABannerView
 
-- (instancetype)initWithFrame:(CGRect)frame BannerSourceStyle:(WYABannerSourceStyle)sourceStyle
+- (instancetype)initWithFrame:(CGRect)frame BannerSourceStyle:(WYABannerSourceStyle)sourceStyle TimeInterval:(CGFloat)time
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.style = sourceStyle;
+        self.time = time;
         [self createUI];
     }
     return self;
@@ -52,7 +54,7 @@
     [self addObservers];
 
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(scrollTimerDidFired:) userInfo:nil repeats:true];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:self.time>0 ? self.time : 2 target:self selector:@selector(scrollTimerDidFired:) userInfo:nil repeats:true];
 }
 
 - (void)setScrollViewContentOffsetCenter {
@@ -67,6 +69,7 @@
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
 
+#pragma mark -  KVO -
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"contentOffset"]) {
         [self caculateCurIndex];
@@ -86,12 +89,6 @@
     }
 }
 
-- (void)imageClicked:(UITapGestureRecognizer *)tap {
-    if (self.clickAction) {
-        self.clickAction (self.currentIndex);
-    }
-}
-
 - (void)scrollTimerDidFired:(NSTimer *)timer {
     CGFloat criticalValue = .2f;
     if (self.scrollView.contentOffset.x < CGRectGetWidth(self.scrollView.bounds) - criticalValue || self.scrollView.contentOffset.x > CGRectGetWidth(self.scrollView.bounds) + criticalValue) {
@@ -100,9 +97,29 @@
     CGPoint newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
     [self.scrollView setContentOffset:newOffset animated:YES];
 }
-#pragma mark --- Public Method
 
-#pragma mark --- Setter
+- (void)imageClicked:(UITapGestureRecognizer *)tap {
+    if (self.touchImageHandle) {
+        self.touchImageHandle(self.currentIndex);
+    }
+}
+
+- (void)swipeImageView:(UISwipeGestureRecognizer *)gesture{
+    CGPoint newOffset;
+    switch (gesture.direction) {
+        case UISwipeGestureRecognizerDirectionLeft:
+            newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
+            break;
+         case UISwipeGestureRecognizerDirectionRight:
+            newOffset = CGPointMake(self.scrollView.contentOffset.x - CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
+            break;
+        default:
+            return;
+    }
+    
+    [self.scrollView setContentOffset:newOffset animated:YES];
+}
+#pragma mark - Setter -
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
     if (_currentIndex >= 0) {
@@ -120,9 +137,9 @@
         }else{
             NSString * string = self.images[currentIndex];
             if ([string hasSuffix:@"jpg"] || [string hasSuffix:@"jpeg"] || [string hasSuffix:@"png"]) {
-                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:self.images[leftIndex]] placeholderImage:nil];
-                [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:self.images[currentIndex]] placeholderImage:nil];
-                [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.images[rightIndex]] placeholderImage:nil];
+                [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:self.images[leftIndex]] placeholderImage:self.placeholdImage];
+                [self.middleImageView sd_setImageWithURL:[NSURL URLWithString:self.images[currentIndex]] placeholderImage:self.placeholdImage];
+                [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:self.images[rightIndex]] placeholderImage:self.placeholdImage];
             }
 #warning 暂未处理svg和gif图片
         }
@@ -158,6 +175,10 @@
     self.rightImageView.contentMode = contentMode;
 }
 
+-(void)setPlaceholdImage:(UIImage *)placeholdImage{
+    _placeholdImage = placeholdImage;
+}
+
 #pragma mark --- Getter
 - (UIScrollView *)scrollView{
     if(!_scrollView){
@@ -167,7 +188,6 @@
             object.pagingEnabled = YES;//分页
             object.showsHorizontalScrollIndicator = NO;//隐藏水平滚动条
             object.bounces = NO;
-            object.userInteractionEnabled = NO;
             object;
         });
     }
@@ -190,6 +210,7 @@
     if (!_leftImageView) {
         _leftImageView = [UIImageView new];
 //        _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
+        
     }
     
     return _leftImageView;
@@ -198,10 +219,17 @@
 - (UIImageView *)middleImageView {
     if (!_middleImageView) {
         _middleImageView = [UIImageView new];
+        _middleImageView.userInteractionEnabled = YES;
 //        _middleImageView.contentMode = UIViewContentModeScaleAspectFit;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClicked:)];
         [_middleImageView addGestureRecognizer:tap];
-        _middleImageView.userInteractionEnabled = YES;
+        
+        UISwipeGestureRecognizer * leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImageView:)];
+        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
+        [_middleImageView addGestureRecognizer:leftSwipe];
+        
+        UISwipeGestureRecognizer * rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImageView:)];
+        [_middleImageView addGestureRecognizer:rightSwipe];
     }
     
     return _middleImageView;

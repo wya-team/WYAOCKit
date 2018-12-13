@@ -300,11 +300,26 @@ static CGFloat padding = 250;
     
 }
 
+//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer{
+//    return YES;
+//}
+
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
     if (self.viewStyle == WYAViewStyleCenter) {
         if ([self.centerViewController isMemberOfClass:[UINavigationController class]]) {
             UINavigationController * nav = (UINavigationController *)self.centerViewController;
             if (nav.viewControllers.count > 1) {
+                return NO;
+            }else{
+                CGPoint point = [touch locationInView:self.view];
+                if (point.x>30 && point.x<ScreenWidth-30) {
+                    return NO;
+                }
+            }
+        }else{
+            CGPoint point = [touch locationInView:self.view];
+            if (point.x>30 && point.x<ScreenWidth-30) {
                 return NO;
             }
         }
