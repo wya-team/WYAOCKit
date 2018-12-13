@@ -1,4 +1,4 @@
-# WYACard
+# WYAImageCropViewController
 
 ## 功能
 
