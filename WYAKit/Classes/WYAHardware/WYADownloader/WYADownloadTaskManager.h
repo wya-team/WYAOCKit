@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 @property (nonatomic, assign) CGFloat  progress; //进度
 @property (nonatomic, assign) WYADownloadState  downloadState; //下载状态
 @property (nonatomic, copy) NSString *  speed; //下载速度，直接显示就好
+@property (nonatomic, strong) WYADownloadModel * model;
+@property (nonatomic, assign) BOOL  isSuccess;
 
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model;
 - (void)suspendDownload;

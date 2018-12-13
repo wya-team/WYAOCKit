@@ -53,6 +53,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
 
+- (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
+
 //- (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle;
 @end
 
