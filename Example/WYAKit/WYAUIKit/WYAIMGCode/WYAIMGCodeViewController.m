@@ -30,7 +30,50 @@
     
     self.imageViewThree.image = [WYAIMGCode wya_GenerateWithLogoQRCodeData:@"二维码扫描结果" logoImageName:@"correct" logoScaleToSuperView:0.3];
     
-    self.imageViewFour.image = [WYAIMGCode wya_BarcodeImageWithContent:@"二维码扫描结果" codeImageSize:CGSizeMake(self.imageViewFour.frame.size.width, self.imageViewFour.frame.size.height) red:100.0 green:150.0 blue:200.0];
+    self.imageViewFour.image = [WYAIMGCode wya_BarcodeImageWithContent:@"ssdsdsd" codeImageSize:CGSizeMake(self.imageViewFour.cmam_width, self.imageViewFour.cmam_height) red:100.0 green:150.0 blue:200.0];
+    
+    [self.imageViewOne wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
+        NSLog(@"单击");
+    }];
+
+    [self.imageViewOne wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleDouble TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
+        NSLog(@"双击");
+    }];
+    
+    [self.imageViewOne wya_AddLongPressGestureWithDuration:2 Handle:^(UILongPressGestureRecognizer * _Nonnull gesture) {
+        NSLog(@"长按");
+    }];
+    CGRect rect = self.imageViewTwo.frame;
+    [self.imageViewTwo wya_AddPanGestureWithHandle:^(UIPanGestureRecognizer * _Nonnull gesture) {
+        NSLog(@"平移");
+        CGPoint point = [gesture locationInView:gesture.view];
+
+        if (gesture.state == UIGestureRecognizerStateChanged) {
+            gesture.view.frame = CGRectMake(point.x, rect.origin.y, rect.size.width, rect.size.height);
+        }else if (gesture.state == UIGestureRecognizerStateEnded) {
+            gesture.view.frame = rect;
+        }
+    }];
+    
+    [self.imageViewThree wya_AddSwipeGestureWithSwipeDirection:UISwipeGestureRecognizerDirectionRight SwipeHandle:^(UISwipeGestureRecognizer * _Nonnull gesture) {
+        NSLog(@"轻扫");
+    }];
+    
+    [self.imageViewOne wya_AddRotationGestureWithHandle:^(UIRotationGestureRecognizer * _Nonnull gesture) {
+        if (gesture.state == UIGestureRecognizerStateChanged) {
+            gesture.view.transform = CGAffineTransformMakeRotation(gesture.rotation);
+        }else if (gesture.state == UIGestureRecognizerStateEnded) {
+            gesture.view.transform = CGAffineTransformIdentity;
+        }
+    }];
+    
+    [self.imageViewThree wya_AddPinchGestureWithHandle:^(UIPinchGestureRecognizer * _Nonnull gesture) {
+        if (gesture.state == UIGestureRecognizerStateChanged) {
+            gesture.view.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
+        }else if (gesture.state == UIGestureRecognizerStateEnded) {
+            gesture.view.transform = CGAffineTransformIdentity;
+        }
+    }];
 }
 
 /*

@@ -24,6 +24,7 @@
 #import <WYAKit/WYAChooseMenuSecondLevelModel.h>
 
 #import <WYAKit/UIView+WYAToast.h>
+#import <WYAKit/UIView+Gestures.h>
 
 #import <WYAKit/WYAAlertController.h>
 #import <WYAKit/WYAPickerView.h>
@@ -40,7 +41,9 @@
 #import <WYAKit/WYAVideoPlayerView.h>
 #import <WYAKit/WYAImageCropViewController.h>
 #import <WYAKit/WYADownloader.h>
-#import <WYAKit/WYADownloadModel.h>
+#import <WYAKit/WYADownloadTaskManager.h>
+//#import <WYAKit/WYADownloadModel.h>
+
 #import <WYAKit/WYAClearCache.h>
 
 /******************************常用宏*******************/

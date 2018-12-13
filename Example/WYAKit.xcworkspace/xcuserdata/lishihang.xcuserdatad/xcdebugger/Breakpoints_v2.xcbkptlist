@@ -6,16 +6,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYAVideoPlayer/WYAVideoPlayerView.m"
-            timestampString = "566186066.2189519"
+            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+            timestampString = "566376783.9217041"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
-            landmarkName = "-editVideoFastMoveWithNumber:"
+            startingLineNumber = "300"
+            endingLineNumber = "300"
+            landmarkName = "WYADownloader"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WYAKit/WYATools/WYADownloader/WYADownloaderViewController.m"
+            timestampString = "566376783.922515"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,74 +41,58 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYAVideoPlayer/WYAVideoPlayerView.m"
-            timestampString = "566186066.219059"
+            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+            timestampString = "566376783.922789"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "376"
-            endingLineNumber = "376"
-            landmarkName = "-editVolumeOrBrigressWithNumber:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-            timestampString = "565943075.81874"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "366"
-            endingLineNumber = "366"
-            landmarkName = "-placeholdImageView"
+            startingLineNumber = "217"
+            endingLineNumber = "217"
+            landmarkName = "-URLSession:task:didCompleteWithError:"
             landmarkType = "7">
             <Locations>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__45-[WYACameraViewController placeholdImageView]_block_invoke_2"
+                  symbolName = "-[WYADownloader URLSession:downloadTask:didFinishDownloadingToURL:]"
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "566184133.393852"
+                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+                  timestampString = "566364501.88212"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "366"
-                  endingLineNumber = "366"
-                  offsetFromSymbolStart = "91">
+                  startingLineNumber = "215"
+                  endingLineNumber = "215"
+                  offsetFromSymbolStart = "108">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__45-[WYACameraViewController placeholdImageView]_block_invoke_3"
+                  symbolName = "__67-[WYADownloader URLSession:downloadTask:didFinishDownloadingToURL:]_block_invoke"
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "566184133.396751"
+                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+                  timestampString = "566364501.884315"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "366"
-                  endingLineNumber = "366"
-                  offsetFromSymbolStart = "37">
+                  startingLineNumber = "215"
+                  endingLineNumber = "215"
+                  offsetFromSymbolStart = "16">
                </Location>
                <Location
-                  shouldBeEnabled = "Yes"
+                  shouldBeEnabled = "No"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__destroy_helper_block_.328"
+                  symbolName = "__destroy_helper_block_"
                   moduleName = "WYAKit_Example"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-                  timestampString = "566184133.39929"
+                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+                  timestampString = "566364501.886477"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "366"
-                  endingLineNumber = "366"
+                  startingLineNumber = "215"
+                  endingLineNumber = "215"
                   offsetFromSymbolStart = "16">
                </Location>
             </Locations>
@@ -104,141 +104,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageCrop/WYAImageCropViewController.m"
-            timestampString = "565943075.8188"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
-            landmarkName = "-doneAction"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageCrop/WYAImageCropViewController.m"
-            timestampString = "565943075.818845"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "621"
-            endingLineNumber = "621"
-            landmarkName = "-doneAction"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYAQRCodeViewController.m"
-            timestampString = "566186066.220639"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-viewDidLoad"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "566186066.221009"
+            timestampString = "566376783.9232759"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "WYADownloader"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__98-[WYADownloader URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:]_block_invoke"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-                  timestampString = "566116528.4628479"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "145"
-                  endingLineNumber = "145"
-                  offsetFromSymbolStart = "247">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__98-[WYADownloader URLSession:downloadTask:didWriteData:totalBytesWritten:totalBytesExpectedToWrite:]_block_invoke"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-                  timestampString = "566116528.465981"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "145"
-                  endingLineNumber = "145"
-                  offsetFromSymbolStart = "252">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "566186066.222041"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "-wya_giveupDownloadWithModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WYAKit/WYATools/WYADownloader/WYADownloaderViewController.m"
-            timestampString = "566186066.223189"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "-tableView:willDisplayCell:forRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "566186066.223368"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "90"
-            endingLineNumber = "90"
-            landmarkName = "-wya_DownloadTaskWithModel:ResultHandle:"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
+            landmarkName = "-wya_AppGoBackgroundWithSessionHandle:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -23,6 +23,7 @@
     UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    [WYADownloader sharedDownloader];
     return YES;
 }
 
@@ -54,7 +55,9 @@
 }
 
 - (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler{
-//    [WYADownloader sharedDownloader]
+//    [[WYADownloader sharedDownloader] wya_AppGoBackgroundWithSessionHandle:^(NSURLSession * _Nonnull session) {
+//        completionHandler();
+//    }];
 }
 
 @end

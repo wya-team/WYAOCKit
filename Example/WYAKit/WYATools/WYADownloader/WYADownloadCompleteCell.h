@@ -1,20 +1,18 @@
 //
-//  WYADownloadCell.h
+//  WYADownloadCompleteCell.h
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/12/10.
+//  Created by 李世航 on 2018/12/12.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 @class WYADownloadTaskManager;
-
-
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYADownloadCell : UITableViewCell
-@property (nonatomic, copy)   void(^actionHandle)(NSInteger index);
+@interface WYADownloadCompleteCell : UITableViewCell
+@property (nonatomic, copy)   NSString * title;
+@property (nonatomic, strong) UIImage * image;
 @property (nonatomic, strong) WYADownloadTaskManager * model;
 @end
 

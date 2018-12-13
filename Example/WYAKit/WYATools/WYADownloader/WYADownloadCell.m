@@ -7,7 +7,7 @@
 //
 
 #import "WYADownloadCell.h"
-#import "WYADownloadModel.h"
+#import "WYADownloadTaskManager.h"
 @interface WYADownloadCell ()
 @property (nonatomic, strong) UILabel * speedLabel;
 @property (nonatomic, strong) UIProgressView * progressView;
@@ -54,12 +54,18 @@
 
 - (void)buttonClick{
 
-    if (self.actionHandle) {
-        self.actionHandle(self.index);
+    switch (self.model.downloadState) {
+        case WYADownloadStateDownloading:
+            [self.model suspendDownload];
+            break;
+        case WYADownloadStateSuspend:
+            [self.model keepDownloadWithSession:nil ResumeData:nil];
+        default:
+            break;
     }
 }
 
--(void)setModel:(WYADownloadModel *)model{
+-(void)setModel:(WYADownloadTaskManager *)model{
     if (_model) {
         [_model removeObserver:self forKeyPath:@"progress"];
         [_model removeObserver:self forKeyPath:@"downloadState"];
@@ -101,19 +107,25 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context{
     if ([keyPath isEqualToString:@"progress"]) {
         CGFloat progress = [change[@"new"] floatValue];
+//        NSLog(@"progress.currentThred==%@",[NSThread currentThread]);
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.progressView.progress = progress;
         });
     } else if ([keyPath isEqualToString:@"downloadState"]) {
         WYADownloadState state = [change[@"new"] integerValue];
         self.index = state;
-        dispatch_sync(dispatch_get_main_queue(), ^{
+//        NSLog(@"state.currentThred==%@",[NSThread currentThread]);
+        if ([[NSThread currentThread] isMainThread]) {
             [self configButton:state];
-        });
-        
+        }else{
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self configButton:state];
+            });
+        }
         
     } else if ([keyPath isEqualToString:@"speed"]) {
         NSString * speed = change[@"new"];
+//        NSLog(@"speed.currentThred==%@",[NSThread currentThread]);
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.speedLabel.text = speed;
         });

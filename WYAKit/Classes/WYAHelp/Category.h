@@ -46,4 +46,5 @@
 #import <YYText/YYText.h>
 #import <FMDB/FMDB.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <AFNetworking/AFNetworking.h>
 #endif /* Category_h */

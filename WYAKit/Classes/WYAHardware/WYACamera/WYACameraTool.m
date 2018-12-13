@@ -194,6 +194,7 @@
     NSString *videoCache = [NSTemporaryDirectory() stringByAppendingPathComponent:@"videos"] ;
     BOOL isDir = NO;
     NSFileManager *fileManager = [NSFileManager defaultManager];
+    
     BOOL existed = [fileManager fileExistsAtPath:videoCache isDirectory:&isDir];
     if ( !(isDir == YES && existed == YES) ) {
         [fileManager createDirectoryAtPath:videoCache withIntermediateDirectories:YES attributes:nil error:nil];

@@ -9,11 +9,5 @@
 
 @implementation WYADownloadModel
 
--(void)setDestinationPath:(NSString *)destinationPath{
-    if (destinationPath) {
-        NSAssert(![NSString wya_IsDirectory:destinationPath], @"该路径不能是文件夹");
-        _destinationPath = destinationPath;
-    }
-}
 
 @end
