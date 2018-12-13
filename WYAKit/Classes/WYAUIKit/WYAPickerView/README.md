@@ -1,14 +1,19 @@
 # WYADatePicker
+
 ## 功能
+
 时间选择器
+
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 datePickerStyle|时间选择器种类|WYADatePickerStyle|WYADatePickerStyleDateHourMinuteSecond
 pickerHeight|设置pickerView高度|CGFloat|建议不大于220|
 pickerItemHeight|设置pickerView的Item高度|CGFloat|44.0
 
-###WYADatePickerStyle
+### WYADatePickerStyle
+
 样式|说明
 ---|---
 WYADatePickerStyleDateHourMinuteSecond|年月日时分秒
@@ -39,7 +44,8 @@ WYADatePickerStyleMinuteAndSecond|分秒
 -(CGFloat)wya_GetPickerViewHeight;
 ```
 
-##基本用法
+## 基本用法
+
 * 导入头文件
 
 ```

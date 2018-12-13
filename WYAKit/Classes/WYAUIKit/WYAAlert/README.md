@@ -1,8 +1,10 @@
 # WYAAlert  弹出框组件
-##功能
--实现弹出框效果，默认提供两种弹出框效果alert和alertSheet，弹出视图也可以自定义，弹出方式有屏幕居中和屏幕下方位置
+## 功能
 
-##属性
+- 实现弹出框效果，默认提供两种弹出框效果alert和alertSheet，弹出视图也可以自定义，弹出方式有屏幕居中和屏幕下方位置
+
+## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 backgroundButton|外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）| UIButton|-
@@ -11,6 +13,7 @@ presentStyle|present 转场风格|WYAPopupPresentStyle|WYAPopupPresentStyleSyste
 dismissStyle|dismiss 转场风格|WYAPopupDismissStyle|WYAPopupDismissStyleFadeOut
 
 ### WYAAlertStyle 定义弹出框样式
+
 枚举值 | 说明
 ---|---
 WYAAlertStyleDefalut| 默认样式（默认居中）
@@ -20,6 +23,7 @@ WYAAlertStyleCustomSheet | 自定义视图（默认居下）
 
 
 ### WYAAlertLayoutStyle（该样式只有在WYAAlertStyleDefalut模式下有效，用来管理按钮的排列方向）
+
 枚举值 | 说明
 ---|---
 WYAAlertLayoutStyleHorizontal | 水平方向
@@ -27,6 +31,7 @@ WYAAlertLayoutStyleVertical | 垂直方向
 
 
 ### WYAPopupPresentStyle （调整控制器进场状态）
+
 枚举值 | 说明
 ---|---
 WYAPopupPresentStyleSystem | 系统样式
@@ -40,6 +45,7 @@ WYAPopupPresentStyleSlideLeft | 从右往左划入
 WYAPopupPresentStyleSlideRight | 从左往右划入
 
 ### WYAPopupDismissStyle （调整控制器出场状态）
+
 枚举值 | 说明
 ---|---
 WYAPopupDismissStyleFadeOut | 渐出
@@ -51,7 +57,9 @@ WYAPopupDismissStyleSlideLeft | 向左划出
 WYAPopupDismissStyleSlideRight | 向右划出
 
 ## 如何使用
-###创建Alert弹窗
+
+### 创建Alert弹窗
+
 
 ```Object-C
 /**
@@ -79,6 +87,7 @@ WYAPopupDismissStyleSlideRight | 向右划出
 + (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message;
 ```
+
 ### 创建自定义视图弹窗
 
 ```Object-C
@@ -91,6 +100,7 @@ WYAPopupDismissStyleSlideRight | 向右划出
 + (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
                                       AlertStyle:(WYAAlertStyle)alertStyle;
 ```
+
 #### 为弹窗添加按钮点击事件
 
 ```Object-C
@@ -108,6 +118,7 @@ WYAPopupDismissStyleSlideRight | 向右划出
  */
 - (void)wya_AddActions:(NSArray<WYAAlertAction *> * _Nonnull)actions;
 ```
+
 #### 为弹窗添加输入框只有在WYAAlertStyleDefalut下有效
 
 ```Object-C
@@ -120,6 +131,7 @@ WYAPopupDismissStyleSlideRight | 向右划出
 ```
 
 ## 基础用法
+
 * 导入头文件
 
 ```

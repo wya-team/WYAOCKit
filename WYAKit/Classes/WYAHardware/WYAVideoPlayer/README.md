@@ -1,8 +1,11 @@
 # WYAVideoPlayer
+
 ## 功能
+
 视频播放
 
 ## 属性
+
 - WYAVideoPlayerView
 
 属性 | 说明 | 类型 | 默认值
@@ -22,6 +25,7 @@ seekTime|从哪个时间点开始（单位：s）|NSInteger|0
 seekToTimeAutoPlay|是否需要自动播放|BOOL|YES
 
 ## 方法
+
 ```Object-C
 /**
  注册播放视频需要的信息
@@ -32,6 +36,7 @@ seekToTimeAutoPlay|是否需要自动播放|BOOL|YES
 ```
 
 ## 基础用法
+
 - 导入头文件
 
 ```

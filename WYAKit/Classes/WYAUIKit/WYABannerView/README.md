@@ -2,7 +2,8 @@
 
 图片浏览器
 
-##属性
+## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 images|图片数组| NSArray<UIImage *>|-
@@ -10,6 +11,7 @@ images|图片数组| NSArray<UIImage *>|-
 ## 基础用法
 
 导入头文件
+
 ```
 #import <WYAKit/WYABannerView.h>
 ```

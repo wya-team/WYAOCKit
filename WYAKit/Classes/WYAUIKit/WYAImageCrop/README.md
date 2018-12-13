@@ -1,8 +1,11 @@
-# WYACard
+# WYAImageCropViewController
+
 ## 功能
+
 裁剪图片
 
 ## 属性
+
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 delegate|事件代理|WYAImageCropViewControllerDelegate|-
@@ -16,6 +19,7 @@ onDidCropToRect|裁剪图片、裁剪区域和角度，完成时调用|block|-
 onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 
 ## 方法
+
 ```Object-C
 /**
  初始化
@@ -36,6 +40,7 @@ onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 ```
 
 ## delegate
+
 ```Object-C
 @optional
 /**
@@ -80,6 +85,7 @@ onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 ```
 
 ## 基础用法
+
 - 导入头文件
 
 ```
