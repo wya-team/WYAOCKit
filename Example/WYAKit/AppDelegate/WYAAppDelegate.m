@@ -11,6 +11,7 @@
 #import <WYAKit/WYADrawerViewController.h>
 #import "WYAHomeViewController.h"
 #import "WYALeftViewController.h"
+
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -18,12 +19,15 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
+//    self.window.rootViewController = homevc;
+    
     // Override point for customization after application launch.
     WYADrawerViewController * drawer = [[WYADrawerViewController alloc]initWithCenterViewController:homevc LeftViewController:[[WYALeftViewController alloc]init] RightViewController:nil];
-    UINavigationController * nav = [[UINavigationController alloc]initWithRootViewController:drawer];
-    self.window.rootViewController = nav;
+
+    self.window.rootViewController = drawer;
     [self.window makeKeyAndVisible];
     [WYADownloader sharedDownloader];
+    
     return YES;
 }
 

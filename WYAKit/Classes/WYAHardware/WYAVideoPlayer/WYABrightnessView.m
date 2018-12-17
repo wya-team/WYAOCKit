@@ -9,8 +9,10 @@
 
 @interface WYABrightnessView ()
 @property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UIView * gridView;
 @property (nonatomic, strong) NSMutableArray * tips;
+@property (nonatomic, strong) UIToolbar * toolbar;
 @end
 
 @implementation WYABrightnessView
@@ -26,15 +28,26 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    [self.toolbar mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self);
+    }];
+    
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.centerY.mas_equalTo(self.mas_centerY);
         make.left.right.mas_equalTo(self);
+        make.top.mas_equalTo(self.mas_top).with.offset(5*SizeAdapter);
         make.height.mas_equalTo(20*SizeAdapter);
     }];
     
+    [self.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.mas_centerX);
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.size.mas_equalTo(CGSizeMake(44*SizeAdapter, 44*SizeAdapter));
+    }];
+    
     [self.gridView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.bottom.mas_equalTo(self);
+        make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
+        make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
+        make.bottom.mas_equalTo(self.mas_bottom).with.offset(-5*SizeAdapter);
         make.height.mas_equalTo(10*SizeAdapter);
     }];
     
@@ -43,11 +56,12 @@
 
 #pragma mark - Private Method -
 - (void)setup{
-    self.backgroundColor = [UIColor whiteColor];
     self.layer.cornerRadius = 5.f;
     self.layer.masksToBounds = YES;
     
+    [self addSubview:self.toolbar];
     [self addSubview:self.titleLabel];
+    [self addSubview:self.imageView];
     [self addSubview:self.gridView];
     
     for (NSInteger index = 0; index<10; index++) {
@@ -110,6 +124,17 @@
 
 
 #pragma mark - Getter -
+- (UIToolbar *)toolbar{
+    if(!_toolbar){
+        _toolbar = ({
+            UIToolbar * object = [[UIToolbar alloc]init];
+            object.alpha = 0.97;
+            object;
+        });
+    }
+    return _toolbar;
+}
+
 - (UILabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
@@ -122,6 +147,17 @@
         });
     }
     return _titleLabel;
+}
+
+- (UIImageView *)imageView{
+    if(!_imageView){
+        _imageView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.backgroundColor = [UIColor redColor];
+            object;
+        });
+    }
+    return _imageView;
 }
 
 - (UIView *)gridView{

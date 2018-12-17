@@ -5,7 +5,6 @@
 #import "WYAProgressView.h"
 #import "WYACameraPreviewImageView.h"
 #import "WYAImageCropViewController.h"
-#define kVideoMaxTime   15.0 //录制时间长度
 
 @interface WYACameraViewController ()
 
@@ -28,6 +27,15 @@
 @end
 
 @implementation WYACameraViewController
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.time = 15.0;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -172,7 +180,6 @@
     [self.videoTool stopCapture];
 }
 
-//拍照
 - (void)takingPictures
 {
     [self.videoTool startTakingPhoto:^(UIImage *image) {
@@ -182,7 +189,6 @@
 
     }];
 }
-
 
 - (void)cancelClick{
     [self.placeholdImageView removeFromSuperview];
@@ -228,10 +234,9 @@
     NSLog(@"重播");
 }
 
-#pragma mark - 定时器
 - (void)startTimer
 {
-    CGFloat signleTime = kVideoMaxTime/360;
+    CGFloat signleTime = self.time/360;
     self.timeCount = 0;
     self.timeMargin = signleTime;
     self.timer = [NSTimer  scheduledTimerWithTimeInterval:signleTime target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
@@ -247,19 +252,25 @@
 
 - (void)updateProgress
 {
-    if(self.timeCount >=kVideoMaxTime)
+    if(self.timeCount >= self.time)
     {
         [self stopTimer];
         [self endRecordingVideo];
         return;
     }
-    NSLog(@"======%lf",self.timeCount);
-    self.timeCount +=self.timeMargin;
-    CGFloat progress = self.timeCount/kVideoMaxTime;
+
+    self.timeCount = self.timeCount + self.timeMargin;
+    CGFloat progress = self.timeCount/self.time;
     self.progressView.progress = progress;
 }
 
-#pragma mark - lazy
+#pragma mark - Setter -
+- (void)setTime:(CGFloat)time{
+    NSAssert(time>0, @"录制时间不能小于1s");
+    _time = time;
+}
+
+#pragma mark - Getter -
 - (UILabel *)messageLabel{
     if (!_messageLabel) {
         _messageLabel = [[UILabel alloc]init];

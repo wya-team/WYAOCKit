@@ -16,11 +16,19 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
     [self addCustomNavBar];
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSLog(@"hidden==%d",self.navigationController.navigationBarHidden);
+    NSLog(@"h==%d",self.navigationController.navigationBar.hidden);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
 }
 
 #pragma mark ======= private
@@ -194,7 +202,13 @@
     NSLog(@"%@",sender.titleLabel.text);
 }
 
+- (BOOL)shouldAutorotate {
+    return NO;
+}
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 
 @end

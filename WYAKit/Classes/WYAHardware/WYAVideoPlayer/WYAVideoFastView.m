@@ -81,7 +81,7 @@
     self.progressLabel.text = text;
     NSArray * array = [text componentsSeparatedByString:@"/"];
     NSMutableAttributedString * textAttributed = [[NSMutableAttributedString alloc]initWithString:text];
-    [textAttributed addAttribute:NSBackgroundColorAttributeName value:[UIColor redColor] range:[text rangeOfString:[array firstObject]]];
+    [textAttributed addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:[text rangeOfString:[array firstObject]]];
     self.progressLabel.attributedText = textAttributed;
 }
 

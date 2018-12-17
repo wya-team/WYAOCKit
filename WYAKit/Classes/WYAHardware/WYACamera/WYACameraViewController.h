@@ -14,4 +14,9 @@
  */
 @property (nonatomic, copy) void(^TakeVideo)(NSString * videoPath);
 
+/**
+ 设置录制时间
+ */
+@property (nonatomic, assign) CGFloat  time;
+
 @end

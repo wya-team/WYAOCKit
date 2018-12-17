@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 //视频播放结束
 //- (void)videoEnd;
 
+- (void)wya_playerView:(UIView *)playerView isfullScreen:(BOOL)fullScreen;
+
 @end
 
 /**

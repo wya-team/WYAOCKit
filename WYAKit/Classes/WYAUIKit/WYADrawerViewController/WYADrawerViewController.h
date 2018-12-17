@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYADrawerViewController : UIViewController
+@interface WYADrawerViewController : UINavigationController
 
 - (instancetype)initWithCenterViewController:(UIViewController * _Nonnull)centerViewController
                           LeftViewController:(UIViewController * _Nullable)leftViewController

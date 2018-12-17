@@ -7,13 +7,14 @@
 @interface WYACameraTool() <AVCaptureFileOutputRecordingDelegate>
 
 @property (strong, nonatomic) AVCaptureSession *captureSession;  //负责输入和输出设备之间的连接会话,数据流的管理控制
-@property (strong, nonatomic) AVCaptureVideoPreviewLayer *previewLayer;//捕获到的视频呈现的layer
-@property (strong, nonatomic) AVCaptureDeviceInput       *backCameraInput;//后置摄像头输入
-@property (strong, nonatomic) AVCaptureDeviceInput       *frontCameraInput;//前置摄像头输入
-@property (strong, nonatomic) AVCaptureDeviceInput       *audioMicInput;//麦克风输入
-@property (strong, nonatomic) AVCaptureConnection        *videoConnection;//视频录制连接
-@property (strong, nonatomic) AVCaptureMovieFileOutput   *captureMovieFileOutput;//视频输出流
-@property (strong, nonatomic) AVCaptureStillImageOutput  *imageOutPut; //照片输出流
+@property (strong, nonatomic) AVCaptureVideoPreviewLayer * previewLayer;//捕获到的视频呈现的layer
+@property (strong, nonatomic) AVCaptureDeviceInput       * backCameraInput;//后置摄像头输入
+@property (strong, nonatomic) AVCaptureDeviceInput       * frontCameraInput;//前置摄像头输入
+@property (strong, nonatomic) AVCaptureDeviceInput       * audioMicInput;//麦克风输入
+@property (strong, nonatomic) AVCaptureConnection        * videoConnection;//视频录制连接
+@property (strong, nonatomic) AVCaptureMovieFileOutput   * captureMovieFileOutput;//视频输出流
+@property (strong, nonatomic) AVCaptureStillImageOutput  * imageOutPut; //照片输出流
+@property (nonatomic, strong) AVCaptureDevice            * device;
 
 @end
 
@@ -45,6 +46,10 @@
     _videoPath = outputFilePath;
     NSLog(@"save path is :%@",outputFilePath);
     NSURL *fileUrl=[NSURL fileURLWithPath:outputFilePath];
+    AVCaptureConnection * connect = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
+    if (self.device.position == AVCaptureDevicePositionFront) {
+        [connect setVideoMirrored:YES];
+    }
     //设置录制视频流输出的路径
     [self.captureMovieFileOutput startRecordingToOutputFileURL:fileUrl recordingDelegate:self];
    
@@ -62,6 +67,10 @@
     AVCaptureConnection * videoConnection = [self.imageOutPut connectionWithMediaType:AVMediaTypeVideo];
     if (videoConnection ==  nil) {
         return;
+    }
+    
+    if (self.device.position == AVCaptureDevicePositionFront) {
+        [videoConnection setVideoMirrored:YES];
     }
     
     [self.imageOutPut captureStillImageAsynchronouslyFromConnection:videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
@@ -144,6 +153,8 @@
 #pragma mark - 视频输出代理
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections{
     NSLog(@"开始录制...");
+    NSLog(@"connect==%@",connections);
+    
 }
 -(void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error{
     NSLog(@"视频录制完成.");
@@ -332,16 +343,15 @@
 
 //返回前置摄像头
 - (AVCaptureDevice *)frontCamera {
-    return [self cameraWithPosition:AVCaptureDevicePositionFront];
+    self.device = [self cameraWithPosition:AVCaptureDevicePositionFront];
+    return self.device;
 }
 
 //返回后置摄像头
 - (AVCaptureDevice *)backCamera {
-    return [self cameraWithPosition:AVCaptureDevicePositionBack];
+    self.device = [self cameraWithPosition:AVCaptureDevicePositionBack];
+    return self.device;
 }
-
-
-
 
 //用来返回是前置摄像头还是后置摄像头
 - (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position {

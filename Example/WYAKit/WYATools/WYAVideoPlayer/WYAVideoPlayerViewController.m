@@ -14,9 +14,15 @@
 @interface WYAVideoPlayerViewController ()<VideoPlayerDelegate>
 @property (nonatomic, strong) WYAVideoPlayerView *playView;
 @property (nonatomic, strong) NSMutableArray * models;
+@property (nonatomic, assign) BOOL  isFullScreen;
 @end
 
 @implementation WYAVideoPlayerViewController
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,8 +58,40 @@
     
     [self wya_addRightNavBarButtonWithNormalTitle:@[@"下载列表"]];
     
-    
 }
+
+#pragma mark - Super Method  -
+- (BOOL)prefersStatusBarHidden{
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    if (self.isFullScreen) {
+        return UIStatusBarStyleLightContent;
+    }else{
+        return UIStatusBarStyleDefault;
+    }
+}
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
+
+#pragma mark - VideoPlayerDelegate -
+- (void)wya_playerView:(UIView *)playerView isfullScreen:(BOOL)fullScreen{
+    self.isFullScreen = fullScreen;
+    [self setNeedsStatusBarAppearanceUpdate];
+    if (fullScreen) {
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
+        self.view.backgroundColor = [UIColor blackColor];
+    }else{
+        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+}
+
+#pragma mark - NavBarAction  -
 - (void)wya_goBack{
     [super wya_goBack];
     [self.playView wya_ResetPlayer];
@@ -64,6 +102,7 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+#pragma mark - Private Method -
 -(void)downloadClick{
     WYADownloader * downloader = [WYADownloader sharedDownloader];
     downloader.allowsCellularAccess = YES;
@@ -78,6 +117,7 @@
     
 }
 
+#pragma mark - Getter -
 - (NSMutableArray *)models{
     if(!_models){
         _models = ({

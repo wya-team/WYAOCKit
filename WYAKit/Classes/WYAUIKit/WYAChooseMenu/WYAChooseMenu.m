@@ -208,8 +208,8 @@
             }
         }
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_LeftTableDidSelectedRow:)]) {
-            [self.wya_delegate wya_LeftTableDidSelectedRow:indexPath];
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_leftTableDidSelectedRow:)]) {
+            [self.wya_delegate wya_leftTableDidSelectedRow:indexPath];
         }
     }else{
         WYAChooseMenuSecondLevelModel * mo = self.contentArray[indexPath.row];
@@ -224,8 +224,8 @@
                 model.select = NO;
             }
         }
-        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_RightViewDidSelectedItem:)]) {
-            [self.wya_delegate wya_RightViewDidSelectedItem:indexPath];
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_rightViewDidSelectedItem:)]) {
+            [self.wya_delegate wya_rightViewDidSelectedItem:indexPath];
         }
     }
 }
@@ -267,8 +267,8 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_RightViewDidSelectedItem:)]) {
-        [self.wya_delegate wya_RightViewDidSelectedItem:indexPath];
+    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_rightViewDidSelectedItem:)]) {
+        [self.wya_delegate wya_rightViewDidSelectedItem:indexPath];
     }
 }
 

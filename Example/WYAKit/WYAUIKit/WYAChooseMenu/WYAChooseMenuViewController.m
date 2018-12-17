@@ -25,7 +25,7 @@
     
     NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
     NSMutableArray * content = [NSMutableArray arrayWithCapacity:0];
-    self.menu = [[WYAChooseMenu alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, (ScreenHeight-WYATopHeight)/2-5*SizeAdapter) ChooseMenuStyle:WYAChooseMenuStyleTable];
+    
     for (NSString * string in self.titles) {
         WYAChooseMenuModel * model = [[WYAChooseMenuModel alloc]init];
         if ([string isEqualToString:@"A"]) {
@@ -36,12 +36,15 @@
         model.title = string;
         [array addObject:model];
     }
-    self.menu.titleArray = array;
+    
     for (NSString * string in self.contents[0]) {
         WYAChooseMenuSecondLevelModel * model = [[WYAChooseMenuSecondLevelModel alloc]init];
         model.title = string;
         [content addObject:model];
     }
+    
+    self.menu = [[WYAChooseMenu alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, (ScreenHeight-WYATopHeight)/2-5*SizeAdapter) ChooseMenuStyle:WYAChooseMenuStyleTable];
+    self.menu.titleArray = array;
     self.menu.contentArray = content;
     self.menu.wya_delegate = self;
     self.menu.leftTableProportion = 0.5;
@@ -57,7 +60,7 @@
 }
 
 #pragma mark --- WYAChooseMenuDelegate
--(void)wya_LeftTableDidSelectedRow:(NSIndexPath *)indexPath{
+-(void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath{
     
     NSMutableArray * content = [NSMutableArray arrayWithCapacity:0];
     for (NSString * string in self.contents[indexPath.row]) {
@@ -70,7 +73,7 @@
     self.otherMenu.contentArray = content;
 }
 
-- (void)wya_RightViewDidSelectedItem:(NSIndexPath *)indexPath{
+- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath{
     NSLog(@"section==%d,item==%d",indexPath.section,indexPath.row);
 }
 

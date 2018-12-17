@@ -272,10 +272,10 @@ static CGFloat QRCodeWidth = 220;
         // 0代表焦距不发生改变 1代表焦距改变
         if (adjustingFocus == 1) {
             if (self.blowup == NO) {
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.preview.bounds = CGRectMake(0, 0, self.layerBackgroundView.layer.bounds.size.width*3, self.layerBackgroundView.layer.bounds.size.width*3);
-                }];
-                self.blowup = YES;
+//                [UIView animateWithDuration:0.5 animations:^{
+//                    self.preview.bounds = CGRectMake(0, 0, self.layerBackgroundView.layer.bounds.size.width*3, self.layerBackgroundView.layer.bounds.size.width*3);
+//                }];
+//                self.blowup = YES;
             }
         }
         
@@ -403,12 +403,18 @@ static CGFloat QRCodeWidth = 220;
 #pragma mark - - - UIImagePickerControllerDelegate
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+    if (self.session) {
+        [self.session startRunning];
+    }
+    if (self.timer) {
+        [self.timer setFireDate:[NSDate distantFuture]];
+    }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     // 对选取照片的处理，如果选取的图片尺寸过大，则压缩选取图片，否则不作处理
-    UIImage *image = [UIImage wya_ImageSizeWithScreenImage:info[UIImagePickerControllerOriginalImage]];
+//    UIImage *image = [UIImage wya_ImageSizeWithScreenImage:info[UIImagePickerControllerOriginalImage]];
+    UIImage * image = info[UIImagePickerControllerOriginalImage];
     // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
     // 声明一个 CIDetector，并设定识别类型 CIDetectorTypeQRCode
     CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:nil options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh}];

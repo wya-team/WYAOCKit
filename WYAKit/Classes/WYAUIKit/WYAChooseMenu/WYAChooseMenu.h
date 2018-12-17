@@ -24,14 +24,14 @@ typedef NS_ENUM(NSUInteger, WYAChooseMenuStyle) {
 
  @param indexPath indexPath
  */
-- (void)wya_LeftTableDidSelectedRow:(NSIndexPath *)indexPath;
+- (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath;
 
 /**
  右侧视图点击事件
 
  @param indexPath indexPath
  */
-- (void)wya_RightViewDidSelectedItem:(NSIndexPath *)indexPath;
+- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath;
 
 @end
 

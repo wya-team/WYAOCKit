@@ -6,10 +6,6 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-/**
- 请使用push跳转方式
- */
-
 #import <UIKit/UIKit.h>
 
 @interface WYAQRCodeViewController : UIViewController

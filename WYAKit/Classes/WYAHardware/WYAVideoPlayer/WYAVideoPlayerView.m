@@ -64,25 +64,12 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.playerLayer.frame = self.bounds;
-    [self.previewImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
-    }];
-
-    [self.activeView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(44, 44));
-    }];
-
-    [self.controlView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
-    }];
     
-    [self.brightnessView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.centerY.mas_equalTo(self.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 100*SizeAdapter));
-    }];
+    self.playerLayer.frame = self.bounds;
+    self.previewImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    self.activeView.frame = CGRectMake((self.bounds.size.width-44)*0.5, (self.bounds.size.height-44)*0.5, 44, 44);
+    self.controlView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+    self.brightnessView.frame = CGRectMake((self.bounds.size.width-100*SizeAdapter)*0.5, (self.bounds.size.height-100*SizeAdapter)*0.5, 100*SizeAdapter, 100*SizeAdapter);
 }
 #pragma mark - Private Method -
 - (void)setupUI{
@@ -230,16 +217,17 @@
 
 - (void)enterFullscreen
 {
-//    [self.superview layoutIfNeeded];
+//    [self setNeedsLayout];
+//    [self layoutIfNeeded];
     if (!self.videoItem.superV) {
         self.videoItem.superV = self.superview;
         self.videoItem.rect = self.frame;
     }
-    
+
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
-    
+
     self.isFullScreen = YES;
-    
+
     /*
      * movieView移到window上
      */
@@ -247,7 +235,7 @@
     [self removeFromSuperview];
     self.frame = rectInWindow;
     [[UIApplication sharedApplication].keyWindow addSubview:self];
-    
+
     /*
      * 执行动画
      */
@@ -256,7 +244,8 @@
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
     } completion:^(BOOL finished){
-        
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
     }];
 }
 
@@ -482,9 +471,15 @@
     if (zoomButton.selected) {
         //全屏
         [self enterFullscreen];
+        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
+            [self.playerDelegate wya_playerView:self isfullScreen:YES];
+        }
        
     } else {
         [self exitFullscreen];
+        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
+            [self.playerDelegate wya_playerView:self isfullScreen:NO];
+        }
     }
 }
 
