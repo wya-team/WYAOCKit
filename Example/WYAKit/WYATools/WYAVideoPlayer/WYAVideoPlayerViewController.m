@@ -60,6 +60,11 @@
     
 }
 
+-(void)dealloc{
+    NSLog(@"销毁");
+    [self.playView removeFromSuperview];
+}
+
 #pragma mark - Super Method  -
 - (BOOL)prefersStatusBarHidden{
     return NO;
