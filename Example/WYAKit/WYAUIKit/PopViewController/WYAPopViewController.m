@@ -21,46 +21,25 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setBackgroundColor:[UIColor redColor]];
-    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    button.frame = CGRectMake(0, 88, 50, 50);
-    [self.view addSubview:button];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"iocn_saoyisao"] highlightedImg:nil];
     
-    UIButton * button1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button1 setBackgroundColor:[UIColor redColor]];
-    [button1 addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    button1.frame = CGRectMake(self.view.frame.size.width-50, 88, 50, 50);
-    [self.view addSubview:button1];
     
-    UIButton * button2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button2 setBackgroundColor:[UIColor redColor]];
-    [button2 addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    button2.frame = CGRectMake(0, self.view.frame.size.height-50, 50, 50);
-    [self.view addSubview:button2];
-    
-    UIButton * button3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button3 setBackgroundColor:[UIColor redColor]];
-    [button3 addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
-    button3.frame = CGRectMake(self.view.frame.size.width-50, self.view.frame.size.height-50, 50, 50);
-    [self.view addSubview:button3];
 }
 
--(void)buttonClick:(UIButton *)button{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
     WYATestViewController * test = [[WYATestViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(200, 200);
+    test.preferredContentSize = CGSizeMake(100, 132);
     test.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController * popover = [test popoverPresentationController];
     popover.delegate = self;
     popover.permittedArrowDirections = UIPopoverArrowDirectionAny;//设置箭头位置
-    popover.sourceView = button;//设置目标视图
-    popover.sourceRect = button.bounds;//弹出视图显示位置
+    popover.sourceView = sender;//设置目标视图
+    popover.sourceRect = sender.bounds;//弹出视图显示位置
     popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
     [self presentViewController:test animated:YES completion:nil];
-    
-
 }
+
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
     
     return UIModalPresentationNone;

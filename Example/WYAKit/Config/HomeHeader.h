@@ -33,4 +33,9 @@
 #import "WYADownloaderViewController.h"
 
 #import "WYAButtonViewController.h"
+#import "WYAHomeModel.h"
+#import "WYAHomeHeaderView.h"
+#import "WYAHomeTableCell.h"
+#import "WYADrawserCenterViewController.h"
+#import "WYADrawserLeftViewController.h"
 #endif /* HomeHeader_h */

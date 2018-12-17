@@ -10,6 +10,7 @@
 #define Config_pch
 #import <UIKit/UIKit.h>
 /*********** WYAKit **************/
+#import <WYAKit/WYADrawerViewController.h>
 #import <WYAKit/WYATextView.h>
 #import <WYAKit/WYANavBar.h>
 #import <WYAKit/Category.h>

@@ -7,6 +7,7 @@
 //
 
 #import "WYATestViewController.h"
+#import "WYAPopCell.h"
 
 @interface WYATestViewController ()<UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView * tableView;
@@ -22,21 +23,30 @@
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView registerClass:[WYAPopCell class] forCellReuseIdentifier:@"cell"];
     [self.view addSubview:self.tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return 3;
 }
-
-// Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
-// Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell * cell = [[UITableViewCell alloc]initWithStyle:0 reuseIdentifier:@"cell"];
-    cell.textLabel.text = [NSString stringWithFormat:@"第%ld行",indexPath.row];
+    WYAPopCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        cell.title = @"Scan";
+        cell.imageName = @"iocn_saoyisao";
+    }else if (indexPath.row == 1) {
+        cell.title = @"My Qrcode";
+        cell.imageName = @"icon_QRcode";
+    }else {
+        cell.title = @"Help";
+        cell.imageName = @"icon_help";
+    }
     return cell;
 }
+
+
 
 /*
 #pragma mark - Navigation

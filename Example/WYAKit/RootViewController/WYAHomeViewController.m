@@ -11,32 +11,34 @@
 
 #define HOMEITEMCELL @"WYAHomeItemCell"
 #define HEADERVIEW @"HEADERVIEW"
-@interface WYAHomeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface WYAHomeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout, UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSArray * dataSource;
-@property (nonatomic, strong) UILabel * cellLabel;
+//@property (nonatomic, strong) UILabel * cellLabel;
+@property (nonatomic, strong) UITableView * tableView;
 @end
 
 @implementation WYAHomeViewController
 #pragma mark ======= Life Cycle
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self.collectionView reloadData];
-    NSLog(@"center.view.willAppear");
+//    [self.collectionView reloadData];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSLog(@"center.view.willDisAppear");
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.collectionView];
+//    [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.tableView];
 
 }
 #pragma mark ======= 懒加载
+/*
 - (UICollectionView *)collectionView{
     if(!_collectionView){
         _collectionView = ({
@@ -58,7 +60,97 @@
     }
     return _collectionView;
 }
+*/
 
+- (UITableView *)tableView{
+    if(!_tableView){
+        _tableView = ({
+            UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStyleGrouped];
+            object.delegate = self;
+            object.dataSource = self;
+            object.separatorStyle = UITableViewCellSeparatorStyleNone;
+            [object registerClass:[WYAHomeTableCell class] forCellReuseIdentifier:@"cell"];
+            [object registerClass:[WYAHomeHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
+            
+            UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 10*SizeAdapter)];
+            view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+            object.tableHeaderView = view;
+            object;
+        });
+    }
+    return _tableView;
+}
+
+- (NSArray *)dataSource{
+    if(!_dataSource){
+        _dataSource = ({
+            NSArray * object = [WYAHomeModel allModel];
+            object;
+        });
+    }
+    return _dataSource;
+}
+
+#pragma mark - UITableViewDataSource  -
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.dataSource.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    WYAHomeModel * model = self.dataSource[section];
+    return model.select ? model.rows.count : 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    WYAHomeTableCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    WYAHomeModel * model = self.dataSource[indexPath.section];
+    WYAHomeItemModel * itemModel = model.rows[indexPath.row];
+    cell.model = itemModel;
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate  -
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44*SizeAdapter;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 60*SizeAdapter;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10*SizeAdapter;
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    WYAHomeHeaderView * header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    WYAHomeModel * model = self.dataSource[section];
+    header.model = model;
+    WeakSelf(weakSelf);
+    header.headerHandle = ^{
+        model.select = !model.select;
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+    };
+    return header;
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [[UIView alloc]init];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    WYAHomeModel * homeModel = self.dataSource[indexPath.section];
+    WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
+    if (itemModel.className) {
+        if ([itemModel.className isEqualToString:@"WYADrawerViewController"]) {
+            [UIView wya_ShowCenterToastWithMessage:@"抽屉视图不能作为二级控制器使用"];
+            return;
+        }
+        [self.navigationController pushViewController:[[NSClassFromString(itemModel.className) alloc]init] animated:YES];
+    }
+}
+/*
 - (NSArray *)dataSource{
     if(!_dataSource){
         _dataSource = ({
@@ -87,7 +179,8 @@
         });
     }
     return _dataSource;
-}
+}*/
+/*
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 0, 0, 0);
@@ -197,5 +290,9 @@
        });
     }
     return _cellLabel;
-}
+}*/
+
+
+
+
 @end
