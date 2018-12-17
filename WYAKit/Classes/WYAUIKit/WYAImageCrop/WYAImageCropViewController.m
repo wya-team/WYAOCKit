@@ -592,7 +592,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 100.0f;
     BOOL isDidCropToImageCallbackAvailable = self.onDidCropToRect != nil;
     
     if (self.croppingStyle == WYACropViewCroppingStyleCircular && (isCircularImageDelegateAvailable || isCircularImageCallbackAvailable)) {
-        UIImage *image = [self.image croppedImageWithFrame:cropFrame angle:angle circularClip:YES];
+        UIImage *image = [self.image wya_croppedImageWithFrame:cropFrame angle:angle circularClip:YES];
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (isCircularImageDelegateAvailable) {
@@ -610,7 +610,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight = 100.0f;
             image = self.image;
         }
         else {
-            image = [self.image croppedImageWithFrame:cropFrame angle:angle circularClip:NO];
+            image = [self.image wya_croppedImageWithFrame:cropFrame angle:angle circularClip:NO];
         }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

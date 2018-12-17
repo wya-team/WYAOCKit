@@ -56,7 +56,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        [self setupUI];
+        
     }
     return self;
 }
@@ -84,6 +84,45 @@
     UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
     [self addGestureRecognizer:pan];
     [self configureVolume];
+    [self addNotice];
+}
+
+- (void)addNotice{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configVideoScreen) name:UIDeviceOrientationDidChangeNotification object:nil];
+}
+
+- (void)configVideoScreen{
+    UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
+    switch (orientation) {
+        case UIDeviceOrientationFaceUp:
+            NSLog(@"屏幕朝上平躺");
+            break;
+        case UIDeviceOrientationFaceDown:
+            NSLog(@"屏幕朝下平躺");
+            break;
+        case UIDeviceOrientationUnknown:
+            NSLog(@"未知方向");
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            NSLog(@"屏幕向左横置");
+            [self enterFullscreenWithLeft:YES];
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            NSLog(@"屏幕向右橫置");
+            [self enterFullscreenWithLeft:NO];
+            break;
+        case UIDeviceOrientationPortrait:
+            NSLog(@"屏幕直立");
+            [self exitFullscreen];
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            NSLog(@"屏幕直立，上下顛倒");
+            [self exitFullscreen];
+            break;
+        default:
+            NSLog(@"无法辨识");
+            break;
+    }
 }
 
 #pragma mark - Setter -
@@ -215,10 +254,9 @@
     return result;
 }
 
-- (void)enterFullscreen
+- (void)enterFullscreenWithLeft:(BOOL)isLeft
 {
-//    [self setNeedsLayout];
-//    [self layoutIfNeeded];
+    
     if (!self.videoItem.superV) {
         self.videoItem.superV = self.superview;
         self.videoItem.rect = self.frame;
@@ -240,19 +278,23 @@
      * 执行动画
      */
     [UIView animateWithDuration:0.5 animations:^{
-        self.transform = CGAffineTransformMakeRotation(M_PI_2);
+        self.transform = CGAffineTransformMakeRotation(isLeft? M_PI_2 : -M_PI_2);
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
     } completion:^(BOOL finished){
         [self setNeedsLayout];
         [self layoutIfNeeded];
     }];
+    
+    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
+        [self.playerDelegate wya_playerView:self isfullScreen:YES];
+    }
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationLandscapeLeft animated:YES];
 }
 
 - (void)exitFullscreen
 {
-    //    [self.videoItem.superV layoutIfNeeded];
-
     self.isFullScreen = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     CGRect frame = [self.videoItem.superV convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
@@ -267,6 +309,12 @@
         self.frame = self.videoItem.rect;
         [self.videoItem.superV addSubview:self];
     }];
+    
+    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
+        [self.playerDelegate wya_playerView:self isfullScreen:NO];
+    }
+    
+    [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
 }
 
 - (void)seekToTime:(NSInteger)time AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
@@ -470,16 +518,12 @@
 {
     if (zoomButton.selected) {
         //全屏
-        [self enterFullscreen];
-        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
-            [self.playerDelegate wya_playerView:self isfullScreen:YES];
-        }
+        [self enterFullscreenWithLeft:NO];
+        
        
     } else {
         [self exitFullscreen];
-        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
-            [self.playerDelegate wya_playerView:self isfullScreen:NO];
-        }
+        
     }
 }
 
@@ -522,6 +566,7 @@
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     if (self.timeObserve) {
         [self.player removeTimeObserver:self.timeObserve];
         self.timeObserve = nil;

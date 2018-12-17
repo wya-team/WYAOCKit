@@ -47,4 +47,5 @@
 #import <FMDB/FMDB.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <AFNetworking/AFNetworking.h>
+#import <SVGKit/SVGKit.h>
 #endif /* Category_h */

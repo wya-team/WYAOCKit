@@ -62,7 +62,15 @@
  */
 + (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString;
 
-- (nonnull UIImage *)croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
+/**
+ 裁剪图片
+
+ @param frame 裁剪区域
+ @param angle 裁剪角度
+ @param circular 是否是圆形裁剪
+ @return image
+ */
+- (nonnull UIImage *)wya_croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
 
 /**
  等比例缩放,size 是你要把图显示到 多大区域
@@ -72,4 +80,13 @@
  @return image
  */
 + (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size;
+
+/**
+ 加载SVG图片
+
+ @param name 图片名
+ @param size 大小
+ @return image
+ */
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size;
 @end

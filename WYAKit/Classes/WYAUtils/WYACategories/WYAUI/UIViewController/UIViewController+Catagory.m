@@ -52,4 +52,23 @@
     [self wya_setAutomaticallyAdjustsScrollViewInsets:automaticallyAdjustsScrollViewInsets];
     
 }
+
+//页面如果要修改statusBar请重写以下两个方法
+- (BOOL)prefersStatusBarHidden{
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
+}
+
+//设置页面支持手机方向，如果想要修改请重写以下两个方法
+- (BOOL)shouldAutorotate{
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 @end

@@ -31,4 +31,6 @@
 #import "WYAProgressViewController.h"
 #import "WYAPageViewController.h"
 #import "WYADownloaderViewController.h"
+
+#import "WYAButtonViewController.h"
 #endif /* HomeHeader_h */

@@ -81,7 +81,8 @@
                                  @"进度条",
                                  @"视频播放器",
                                  @"下载管理器",
-                                 @"清理缓存"];
+                                 @"清理缓存",
+                                 @"按钮"];
             object;
         });
     }
@@ -163,6 +164,8 @@
             [self showAlertWith:[NSString stringWithFormat:@"%.2fMB",folderSize]];
         } UnitType:WYAFileSizeUnitMB];
         
+    }else if (indexPath.row == 20) {
+        [self.navigationController pushViewController:[[WYAButtonViewController alloc]init] animated:YES];
     }
     NSLog(@"indexPath.row-------%ld",indexPath.row);
 }

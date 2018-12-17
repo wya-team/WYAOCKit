@@ -53,4 +53,6 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
  */
 - (void)setImageLocationBottomWithSpace:(CGFloat)space;
 
+- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source;
+
 @end

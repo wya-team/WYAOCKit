@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		210C72EC21C73FAD00196F07 /* WYAButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */; };
 		210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */; };
 		210E9F6521A93D2300BFE994 /* WYACameraVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6421A93D2300BFE994 /* WYACameraVC.m */; };
 		210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */; };
@@ -94,6 +95,8 @@
 /* Begin PBXFileReference section */
 		04D1ACF52C5DE7EAAB1AC8A3 /* WYAKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WYAKit.podspec; path = ../WYAKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WYAKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		210C72EA21C73FAD00196F07 /* WYAButtonViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAButtonViewController.h; sourceTree = "<group>"; };
+		210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAButtonViewController.m; sourceTree = "<group>"; };
 		210E9F4D21A6876900BFE994 /* WYAPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPickerViewController.h; sourceTree = "<group>"; };
 		210E9F4E21A6876900BFE994 /* WYAPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPickerViewController.m; sourceTree = "<group>"; };
 		210E9F6321A93D2300BFE994 /* WYACameraVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraVC.h; sourceTree = "<group>"; };
@@ -351,6 +354,8 @@
 				21470BF8219ABE880099CB6F /* WYAIMGCode */,
 				21470BF9219ABE880099CB6F /* WYABannerView */,
 				21470BFA219ABE880099CB6F /* WYAUIAlert */,
+				210C72EA21C73FAD00196F07 /* WYAButtonViewController.h */,
+				210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */,
 			);
 			path = WYAUIKit;
 			sourceTree = "<group>";
@@ -971,6 +976,7 @@
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,
 				9578499421B11967001E19DC /* WYAListFourCell.m in Sources */,
+				210C72EC21C73FAD00196F07 /* WYAButtonViewController.m in Sources */,
 				21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */,
 				21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */,
 				21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */,

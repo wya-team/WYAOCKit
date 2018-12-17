@@ -83,10 +83,8 @@
     self.isFullScreen = fullScreen;
     [self setNeedsStatusBarAppearanceUpdate];
     if (fullScreen) {
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationLandscapeRight animated:YES];
         self.view.backgroundColor = [UIColor blackColor];
     }else{
-        [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
         self.view.backgroundColor = [UIColor whiteColor];
     }
 }

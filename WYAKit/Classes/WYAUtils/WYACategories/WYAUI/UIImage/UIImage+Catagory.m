@@ -72,7 +72,7 @@
             alphaInfo == kCGImageAlphaPremultipliedFirst || alphaInfo == kCGImageAlphaPremultipliedLast);
 }
 
-- (UIImage *)croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular
+- (UIImage *)wya_croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular
 {
     UIImage *croppedImage = nil;
     UIGraphicsBeginImageContextWithOptions(frame.size, ![self hasAlpha] && !circular, self.scale);
@@ -165,6 +165,10 @@
     return newImage;
 }
 
-
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size{
+    SVGKImage * image = [SVGKImage imageNamed:name];
+    image.size = size;
+    return image.UIImage;
+}
 
 @end
