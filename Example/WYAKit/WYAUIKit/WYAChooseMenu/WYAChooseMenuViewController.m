@@ -36,7 +36,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.contentView.backgroundColor = randomColor;
+    if (indexPath.section == 0) {
+        cell.textLabel.text = @"点击展示双table菜单";
+    }else{
+        cell.textLabel.text = @"点击展示table和Collection结合菜单";
+    }
+    
     return cell;
 }
 
