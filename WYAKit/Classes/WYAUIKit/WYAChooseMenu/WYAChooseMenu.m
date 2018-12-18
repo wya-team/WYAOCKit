@@ -7,9 +7,8 @@
 
 #import "WYAChooseMenu.h"
 #import "WYAChooseMenuCell.h"
-#import "WYAChooseMenuModel.h"
 #import "WYAChooseMenuSecondLevelCell.h"
-#import "WYAChooseMenuSecondLevelModel.h"
+#import "WYAChooseMenuModel.h"
 
 #import "WYAMenuCollectionCell.h"
 @interface WYAChooseMenu ()<UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
@@ -17,6 +16,8 @@
 @property (nonatomic, strong) UITableView * leftTableView;
 @property (nonatomic, strong) UITableView * rightTableView;
 @property (nonatomic, strong) UICollectionView * collectionView;
+
+@property (nonatomic, assign) NSUInteger  currentRow;//记录leftTableView当前点击的行
 
 @end
 
@@ -26,8 +27,9 @@
 {
     self = [super init];
     if (self) {
-        [self createUI];
         self.menuStyle = WYAChooseMenuStyleTable;
+        [self createUI];
+        
     }
     return self;
 }
@@ -36,8 +38,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self createUI];
         self.menuStyle = chooseMenuStyle;
+        [self createUI];
     }
     return self;
 }
@@ -80,12 +82,6 @@
     _titleArray = titleArray;
     if (titleArray) {
         [self.leftTableView reloadData];
-    }
-}
-
--(void)setContentArray:(NSMutableArray <WYAChooseMenuSecondLevelModel *>*)contentArray{
-    _contentArray = contentArray;
-    if (contentArray) {
         if (self.menuStyle == WYAChooseMenuStyleTable) {
             [self.rightTableView reloadData];
         }else{
@@ -107,7 +103,7 @@
         _leftTableView.delegate = self;
         _leftTableView.dataSource = self;
         _leftTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _leftTableView.backgroundColor = random(248, 248, 248, 1);
+        _leftTableView.backgroundColor = [UIColor wya_hex:@"#f6f6f6"];
         [_leftTableView registerClass:[WYAChooseMenuCell class] forCellReuseIdentifier:@"menu"];
     }
     return _leftTableView;
@@ -139,18 +135,23 @@
 -(void)createUI{
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.leftTableView];
-    [self addSubview:self.rightTableView];
-    [self addSubview:self.collectionView];
+    if (self.menuStyle == WYAChooseMenuStyleTable) {
+        [self addSubview:self.rightTableView];
+    }else{
+        [self addSubview:self.collectionView];
+    }
     
     self.leftTableProportion = 0.3;
 }
 
 #pragma mark - UITableViewDataSource -
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
     if (tableView == self.leftTableView) {
         return self.titleArray.count;
     }else{
-        return self.contentArray.count;
+        WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+        return model.secondLevelModels.count;
     }
 }
 
@@ -167,12 +168,14 @@
 }
 #pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     if (tableView == self.leftTableView) {
         WYAChooseMenuCell * menuCell = (WYAChooseMenuCell *)cell;
         menuCell.model = self.titleArray[indexPath.row];
     }else{
         WYAChooseMenuSecondLevelCell * menuCell = (WYAChooseMenuSecondLevelCell *)cell;
-        menuCell.model = self.contentArray[indexPath.row];
+        WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+        menuCell.model = model.secondLevelModels[indexPath.row];
     }
 }
 
@@ -198,46 +201,48 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     if (tableView == self.leftTableView) {
-        WYAChooseMenuCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        for (WYAChooseMenuModel * model in self.titleArray) {
-            if (model == cell.model) {
-                model.select = YES;
-            }else{
-                model.select = NO;
-            }
-        }
-        [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        WYAChooseMenuModel * currentModel = self.titleArray[self.currentRow];
+        currentModel.select = NO;
+        WYAChooseMenuModel * model = self.titleArray[indexPath.row];
+        model.select = YES;
+        self.currentRow = indexPath.row;
         if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_leftTableDidSelectedRow:)]) {
             [self.wya_delegate wya_leftTableDidSelectedRow:indexPath];
         }
+        [tableView reloadData];
+        if (self.menuStyle == WYAChooseMenuStyleTable) {
+            [self.rightTableView reloadData];
+        }else{
+            [self.collectionView reloadData];
+        }
     }else{
-        WYAChooseMenuSecondLevelModel * mo = self.contentArray[indexPath.row];
+        WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+        WYAChooseMenuSecondLevelModel * mo = model.secondLevelModels[indexPath.row];
         if (mo.enableCell) {
             return;
         }
-        WYAChooseMenuSecondLevelCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-        for (WYAChooseMenuSecondLevelModel * model in self.contentArray) {
-            if (model == cell.model) {
-                model.select = YES;
-            }else{
-                model.select = NO;
-            }
-        }
+        mo.select = !mo.select;
         if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_rightViewDidSelectedItem:)]) {
             [self.wya_delegate wya_rightViewDidSelectedItem:indexPath];
         }
+        [tableView reloadData];
     }
+    
 }
 
 #pragma mark - UICollectionViewDataSource  -
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.contentArray.count;
+    WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+    return model.secondLevelModels.count;
 }
 
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     WYAMenuCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+    cell.model = model.secondLevelModels[indexPath.row];
     return cell;
 }
 

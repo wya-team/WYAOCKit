@@ -7,6 +7,28 @@
 
 #import "WYAChooseMenuModel.h"
 
+@implementation WYAChooseMenuSecondLevelModel
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+       
+    }
+    return self;
+}
+
+@end
+
 @implementation WYAChooseMenuModel
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+    }
+    return self;
+}
 
 @end

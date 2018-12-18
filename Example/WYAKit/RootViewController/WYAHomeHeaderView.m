@@ -83,6 +83,7 @@
             [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
             [object setImage:[UIImage imageNamed:@"icon_down"] forState:UIControlStateNormal];
             [object setImage:[UIImage imageNamed:@"icon_up"] forState:UIControlStateSelected];
+            [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
             object;
        });
     }
