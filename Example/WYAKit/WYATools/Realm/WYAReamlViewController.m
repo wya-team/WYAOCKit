@@ -234,6 +234,10 @@
             }
         }else if ([self.titleString hasSuffix:@"  删除"]){
             WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
+            if (!([self getRealmArray].count > 0)) {
+                [UIView wya_ShowBottomToastWithMessage:@"没有可以操作数据请先插入数据"];
+                return;
+            }
             switch (index) {
                 case 0:
                     {
@@ -276,6 +280,10 @@
             }
         }else if ([self.titleString hasSuffix:@"  更新"]){
               WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
+            if (!([self getRealmArray].count > 0)) {
+                [UIView wya_ShowBottomToastWithMessage:@"没有可以操作数据请先插入数据"];
+                return;
+            }
             switch (index) {
                 case 0:
                 {

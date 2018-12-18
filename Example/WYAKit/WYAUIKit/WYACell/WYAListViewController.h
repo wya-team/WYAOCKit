@@ -1,8 +1,8 @@
 //
-//  WYACustomCellController.h
+//  WYAListViewController.h
 //  WYAKit_Example
 //
-//  Created by 李俊恒 on 2018/11/29.
+//  Created by 李俊恒 on 2018/12/18.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYACustomCellController : WYABaseViewController
+@interface WYAListViewController : WYABaseViewController
 
 @end
 

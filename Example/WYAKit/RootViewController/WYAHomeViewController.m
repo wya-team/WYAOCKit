@@ -126,6 +126,9 @@
         vc.navTitle = itemModel.className;
         [self.navigationController pushViewController:vc animated:YES];
     }
+    if ([itemModel.rowName isEqualToString:@"WYAClearCache 清理缓存"]) {
+        // 清理缓存 
+    }
 }
 
 @end

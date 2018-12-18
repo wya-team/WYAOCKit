@@ -72,6 +72,7 @@
     
     WYAHomeItemModel * item14 = [[WYAHomeItemModel alloc]init];
     item14.rowName = @"WYAInputItem 文本输入";
+    item14.className = @"WYAInputItemCellController";
     
     WYAHomeItemModel * item15 = [[WYAHomeItemModel alloc]init];
     item15.rowName = @"WYASlidder 滑动输入";
@@ -96,6 +97,7 @@
     
     WYAHomeItemModel * item22 = [[WYAHomeItemModel alloc]init];
     item22.rowName = @"WYAList 列表";
+    item22.className = @"WYAListViewController";
     
     WYAHomeItemModel * item23 = [[WYAHomeItemModel alloc]init];
     item23.rowName = @"WYANoticeBar 通告栏";
@@ -135,6 +137,7 @@
     
     WYAHomeItemModel * item32 = [[WYAHomeItemModel alloc]init];
     item32.rowName = @"WYARealm 数据库基本使用";
+    item32.className = @"WYAReamlViewController";
     
     WYAHomeModel * model5= [[WYAHomeModel alloc]init];
     model5.sectionName = @"其他 Other";

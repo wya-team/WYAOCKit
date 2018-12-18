@@ -23,7 +23,6 @@
 #import "WYAPopViewController.h"
 #import "WYAStepperController.h"
 #import "WYACameraVC.h"
-#import "WYACustomCellController.h"
 
 #import "WYAReamlViewController.h"
 
@@ -39,4 +38,7 @@
 #import "WYAHomeTableCell.h"
 #import "WYADrawserCenterViewController.h"
 #import "WYADrawserLeftViewController.h"
+
+#import "WYAListViewController.h"
+#import "WYAInputItemCellController.h"
 #endif /* HomeHeader_h */
