@@ -28,6 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self addCustomNavBar];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
