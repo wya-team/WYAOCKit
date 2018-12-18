@@ -248,6 +248,7 @@
 		9578499621B128DE001E19DC /* WYAListCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListCellController.m; sourceTree = "<group>"; };
 		957F649021C88D930009C044 /* WYANavBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANavBarViewController.h; sourceTree = "<group>"; };
 		957F649121C88D930009C044 /* WYANavBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANavBarViewController.m; sourceTree = "<group>"; };
+		957F649321C8DED00009C044 /* CustomColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomColor.h; sourceTree = "<group>"; };
 		95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperController.h; sourceTree = "<group>"; };
 		95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperController.m; sourceTree = "<group>"; };
 		BB2BD88E491B4BE33928C5E8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -674,6 +675,7 @@
 			children = (
 				9527A91B21AD293200B10579 /* Config.pch */,
 				21DA3BC921AE8E210084FCEC /* HomeHeader.h */,
+				957F649321C8DED00009C044 /* CustomColor.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";

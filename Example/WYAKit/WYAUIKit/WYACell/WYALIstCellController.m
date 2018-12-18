@@ -125,10 +125,10 @@
 - (NSArray *)createModelOneArray{
     NSMutableArray * array = [NSMutableArray array];
     
-    WYAListModel * model1 = [WYAListModel modelWith:0 iconNamed:@"leftIcon" titleString:@"标题文字" rightString:nil arrowImageNamed:@"jiantou"];
-    WYAListModel * model2 = [WYAListModel modelWith:2 iconNamed:@"leftIcon" titleString:@"标题文字" rightString:nil arrowImageNamed:nil];
-    WYAListModel * model3 = [WYAListModel modelWith:0 iconNamed:@"leftIcon" titleString:@"标题文字" rightString:nil arrowImageNamed:@"jiantou"];
-    WYAListModel * model4 = [WYAListModel modelWith:1 iconNamed:@"leftIcon" titleString:@"标题文字" rightString:@"详细信息" arrowImageNamed:@"jiantou"];
+    WYAListModel * model1 = [WYAListModel modelWith:0 iconNamed:@"icon_list" titleString:@"标题文字" rightString:nil arrowImageNamed:@"jiantou"];
+    WYAListModel * model2 = [WYAListModel modelWith:2 iconNamed:@"icon_list" titleString:@"标题文字" rightString:nil arrowImageNamed:nil];
+    WYAListModel * model3 = [WYAListModel modelWith:0 iconNamed:@"icon_list" titleString:@"标题文字" rightString:nil arrowImageNamed:@"jiantou"];
+    WYAListModel * model4 = [WYAListModel modelWith:1 iconNamed:@"icon_list" titleString:@"标题文字" rightString:@"详细信息" arrowImageNamed:@"jiantou"];
     
     [array wya_safeAddObject:model1];
     [array wya_safeAddObject:model2];
@@ -142,7 +142,7 @@
     NSMutableArray * array = [NSMutableArray array];
     WYATwoRowListModel * model1 = [WYATwoRowListModel modelWith:1 iconNamed:nil titleString:@"双行列表" subTitleString:@"描述信息" rightString:@"详细信息" arrowImageNamed:@"jiantou"];
     
-    WYATwoRowListModel * model2 = [WYATwoRowListModel modelWith:0 iconNamed:@"leftIcon" titleString:@"双行列表" subTitleString:@"描述信息" rightString:@"详细信息" arrowImageNamed:@"jiantou"];
+    WYATwoRowListModel * model2 = [WYATwoRowListModel modelWith:0 iconNamed:@"icon_list" titleString:@"双行列表" subTitleString:@"描述信息" rightString:@"详细信息" arrowImageNamed:@"jiantou"];
     [array wya_safeAddObject:model1];
     [array wya_safeAddObject:model2];
     return [array copy];
@@ -151,7 +151,7 @@
 - (NSArray *)createModelThreeArray{
     NSMutableArray * array = [NSMutableArray array];
    
-    WYATextListModel * model1 = [WYATextListModel modelWith:0 titleString:@"单行列表" rightImage:@"leftIcon" rightString:nil arrowImageNamed:@"jiantou"];
+    WYATextListModel * model1 = [WYATextListModel modelWith:0 titleString:@"单行列表" rightImage:@"icon_list" rightString:nil arrowImageNamed:@"jiantou"];
     
     WYATextListModel * model2 = [WYATextListModel modelWith:1 titleString:@"单行列表" rightImage:nil rightString:@"我是描述信息" arrowImageNamed:@"jiantou"];
     
@@ -162,12 +162,12 @@
 
 - (NSArray *)createModelfourArray{
     NSMutableArray * array = [NSMutableArray array];
-    WYAListCellModel * model1 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"duigou"];
-    WYAListCellModel * model2 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"duigou"];
+    WYAListCellModel * model1 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"icon_list_selected"];
+    WYAListCellModel * model2 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"icon_list_selected"];
    WYAListCellModel * model3 = [WYAListCellModel modelWith:1 iconNamed:@"xuanzhong" titleString:@"多项选择" arrowImageNamed:nil];
    WYAListCellModel * model4 = [WYAListCellModel modelWith:1 iconNamed:@"xuanzhong" titleString:@"多项选择" arrowImageNamed:nil];
-   WYAListCellModel * model5 = [WYAListCellModel modelWith:2 iconNamed:@"shanchu" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
-   WYAListCellModel * model6 = [WYAListCellModel modelWith:2 iconNamed:@"shanchu" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
+   WYAListCellModel * model5 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
+   WYAListCellModel * model6 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
     [array wya_safeAddObject:model1];
     [array wya_safeAddObject:model2];
     [array wya_safeAddObject:model3];

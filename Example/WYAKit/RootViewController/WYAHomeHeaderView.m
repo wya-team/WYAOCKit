@@ -19,8 +19,6 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
-        self.layer.cornerRadius = 10;
-        self.layer.masksToBounds = YES;
         [self addSubview:self.backgroundButton];
         [self.backgroundButton addSubview:self.arrowButton];
         [self.backgroundButton addSubview:self.titleLabel];

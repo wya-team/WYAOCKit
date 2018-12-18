@@ -21,14 +21,14 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [self wya_addRightNavBarButtonWithNormalImage:@[@"iocn_saoyisao"] highlightedImg:nil];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"list"] highlightedImg:@[]];
     
     
 }
 
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
     WYATestViewController * test = [[WYATestViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(100, 132);
+    test.preferredContentSize = CGSizeMake(120*SizeAdapter, 132*SizeAdapter);
     test.modalPresentationStyle = UIModalPresentationPopover;
     
     UIPopoverPresentationController * popover = [test popoverPresentationController];

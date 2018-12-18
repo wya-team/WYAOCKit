@@ -28,7 +28,7 @@
         _tempNavBar1 = ({
             WYANavBar * object = [[WYANavBar alloc]init];
             object.navTitle = @"WYANavBar";
-            [object wya_customGobackWithImage:[UIImage imageNamed:@"返回"]];
+            [object wya_customGobackWithImage:[UIImage imageNamed:@"icon_backblue"]];
             [object wya_addRightNavBarButtonWithNormalImage:@[@"icon_search",@"list"] highlightedImg:@[]];
             object;
        });
@@ -41,8 +41,8 @@
         _tempNavBar2 = ({
             WYANavBar * object = [[WYANavBar alloc]init];
             object.navTitle = @"WYANavBar";
-            [object wya_addLeftNavBarButtonWithNormalTitle:@[@"返回"] normalColor:@[[UIColor wya_hex:@"#108DE7"]] highlightedColor:@[[UIColor wya_hex:@"#FFFFFFF"]]];
-            [object wya_addRightNavBarButtonWithNormalTitle:@[@"搜索",@"更多"] normalColor:@[[UIColor wya_hex:@"#108DE7"],[UIColor wya_hex:@"#108DE7"]] highlightedColor:@[[UIColor wya_hex:@"#FFFFFFF"],[UIColor wya_hex:@"#FFFFFFF"]]];
+            [object wya_addLeftNavBarButtonWithNormalTitle:@[@"返回"] normalColor:@[BLUECOLOR] highlightedColor:@[WHITECOLOR]];
+            [object wya_addRightNavBarButtonWithNormalTitle:@[@"搜索",@"更多"] normalColor:@[BLUECOLOR,BLUECOLOR] highlightedColor:@[WHITECOLOR,WHITECOLOR]];
             object;
        });
     }

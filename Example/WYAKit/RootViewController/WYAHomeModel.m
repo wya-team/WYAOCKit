@@ -78,6 +78,7 @@
     
     WYAHomeItemModel * item16 = [[WYAHomeItemModel alloc]init];
     item16.rowName = @"WYAStepperView 步进器";
+    item16.className = @"WYAStepperController";
     
     WYAHomeItemModel * item17 = [[WYAHomeItemModel alloc]init];
     item17.rowName = @"WYACameraViewController 拍照录制视频";

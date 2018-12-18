@@ -38,7 +38,7 @@
     
     NSArray *arrViewControllers = self.navigationController.viewControllers;
     if ([arrViewControllers indexOfObject:self] > 0){
-        [self.navBar wya_goBackButtonWithImage:@"返回"];
+        [self.navBar wya_goBackButtonWithImage:@"icon_back"];
     }
     [self.view addSubview:self.navBar];
 }
@@ -118,6 +118,8 @@
             object.delegate = self;
             object.backgroundColor = [UIColor whiteColor];
             object.navTitle = @"WYA移动端组件";
+            object.navTitleColor = WHITECOLOR;
+            object.backgroundColor = BLUECOLOR;
             object;
         });
     }
