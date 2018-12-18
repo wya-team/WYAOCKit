@@ -8,8 +8,9 @@
 
 #import "WYAPaginationViewController.h"
 
-@interface WYAPaginationViewController ()
-
+@interface WYAPaginationViewController ()<WYAPaginationViewDelegate>
+@property (nonatomic, assign) NSInteger  index;
+@property (nonatomic, strong) WYAPaginationView * pagination;
 @end
 
 @implementation WYAPaginationViewController
@@ -17,8 +18,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.index = 0;
+    self.navTitle = @"WYAPaginationView";
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
-    
+    self.pagination = [[WYAPaginationView alloc]initWithFrame:CGRectMake(20*SizeAdapter, WYATopHeight+20*SizeAdapter, ScreenWidth-40*SizeAdapter, 44*SizeAdapter)];
+    self.pagination.wya_Delegate = self;
+    [self.view addSubview:self.pagination];
+    [self changeNumber];
+}
+
+#pragma mark - WYAPaginationViewDelegate  -
+/**
+ 左按钮点击事件
+ */
+- (void)wya_LeftAction{
+    if (self.index<1) {
+        return;
+    }
+    self.index--;
+    [self changeNumber];
+}
+
+/**
+ 右按钮点击事件
+ */
+- (void)wya_RightAction{
+    if (self.index>9) {
+        return;
+    }
+    self.index++;
+    [self changeNumber];
+}
+
+-(void)changeNumber{
+    NSString * string = [NSString stringWithFormat:@"%d/10",self.index];
+    NSMutableAttributedString * text = [[NSMutableAttributedString alloc]initWithString:string];
+    [text addAttribute:NSForegroundColorAttributeName value:random(58, 149, 226, 1) range:[string rangeOfString:[NSString stringWithFormat:@"%d",self.index]]];
+    self.pagination.titleLabel.attributedText = text;
 }
 
 /*

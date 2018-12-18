@@ -19,7 +19,7 @@
 #import <WYAKit/WYANoticeBar.h>
 #import <WYAKit/WYAImageBrowser.h>
 #import <WYAKit/WYASlider.h>
-
+#import <WYAKit/WYAPaginationView.h>
 #import <WYAKit/WYAChooseMenu.h>
 #import <WYAKit/WYAChooseMenuModel.h>
 
