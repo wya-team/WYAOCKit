@@ -6,7 +6,7 @@
 //
 
 #import "WYAMenuCollectionCell.h"
-
+#import "WYAChooseMenuModel.h"
 @interface WYAMenuCollectionCell ()
 @property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UILabel * titleLabel;
@@ -48,6 +48,13 @@
         make.left.right.bottom.mas_equalTo(self.contentView);
         make.height.mas_equalTo(20*SizeAdapter);
     }];
+}
+
+-(void)setModel:(WYAChooseMenuSecondLevelModel *)model{
+    _model = model;
+    if (model) {
+        self.titleLabel.text = model.title;
+    }
 }
 
 @end

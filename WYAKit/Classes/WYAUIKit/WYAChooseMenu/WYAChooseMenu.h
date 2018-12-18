@@ -39,7 +39,6 @@ typedef NS_ENUM(NSUInteger, WYAChooseMenuStyle) {
 
 @property (nonatomic, weak) id<WYAChooseMenuDelegate> wya_delegate;
 @property (nonatomic, strong) NSMutableArray <WYAChooseMenuModel *>* titleArray;
-@property (nonatomic, strong) NSMutableArray <WYAChooseMenuSecondLevelModel *>* contentArray;
 @property (nonatomic, assign) CGFloat  leftTableProportion;//取值范围0~1，适用于左侧table，右侧table自适应
 @property (nonatomic, assign) WYAChooseMenuStyle  menuStyle;
 

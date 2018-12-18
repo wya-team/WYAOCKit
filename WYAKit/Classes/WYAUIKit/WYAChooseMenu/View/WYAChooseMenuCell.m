@@ -10,6 +10,7 @@
 
 @interface WYAChooseMenuCell ()
 @property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UIImageView * rightImageView;
 @end
 
 @implementation WYAChooseMenuCell
@@ -19,17 +20,28 @@
     if (self) {
         
         self.titleLabel = [[UILabel alloc]init];
-        self.titleLabel.textColor = random(51, 51, 51, 1);
-        self.titleLabel.font = FONT(15);
+        self.titleLabel.textColor = [UIColor wya_hex:@"#000000"];
+        self.titleLabel.font = FONT(16);
         [self.contentView addSubview:self.titleLabel];
+        
+        self.rightImageView = [[UIImageView alloc]init];
+        [self.contentView addSubview:self.rightImageView];
     }
     return self;
 }
 
 -(void)layoutSubviews{
     [super layoutSubviews];
+    [self.rightImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.contentView.mas_centerY);
+        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-5*SizeAdapter);
+        make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
+    }];
+    
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 5*SizeAdapter, 0, 5*SizeAdapter));
+        make.top.bottom.mas_equalTo(self.contentView);
+        make.left.mas_equalTo(self.contentView.mas_left).with.offset(12*SizeAdapter);
+        make.right.mas_equalTo(self.rightImageView.mas_left);
     }];
 }
 
@@ -56,5 +68,7 @@
 
     // Configure the view for the selected state
 }
+
+
 
 @end

@@ -6,7 +6,7 @@
 //
 
 #import "WYAChooseMenuSecondLevelCell.h"
-#import "WYAChooseMenuSecondLevelModel.h"
+#import "WYAChooseMenuModel.h"
 @interface WYAChooseMenuSecondLevelCell ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @end
@@ -19,7 +19,7 @@
         
         self.titleLabel = [[UILabel alloc]init];
         self.titleLabel.textColor = random(51, 51, 51, 1);
-        self.titleLabel.font = FONT(15);
+        self.titleLabel.font = FONT(16);
         [self.contentView addSubview:self.titleLabel];
     }
     return self;
@@ -28,7 +28,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 5*SizeAdapter, 0, 5*SizeAdapter));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 16*SizeAdapter, 0, 5*SizeAdapter));
     }];
 }
 
@@ -37,13 +37,13 @@
     _model = model;
     if (model) {
         if (model.enableCell) {
-            self.titleLabel.textColor = random(203, 203, 203, 1);
+            self.titleLabel.textColor = [UIColor wya_hex:@"#bebebe"];
             self.selectionStyle = UITableViewCellSelectionStyleNone;
         }else{
             self.selectionStyle = UITableViewCellSelectionStyleDefault;
             if (model.select) {
-                self.titleLabel.textColor = [UIColor blueColor];
-                self.accessoryView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"对号_blue" ClassName:NSStringFromClass([self class])]];
+                self.titleLabel.textColor = random(65, 153, 247, 1);
+                self.accessoryView = [[UIImageView alloc]initWithImage:[UIImage loadBundleImage:@"icon_radio2_selected" ClassName:NSStringFromClass([self class])]];
             }else{
                 self.titleLabel.textColor = random(51, 51, 51, 1);
                 self.accessoryView = nil;
