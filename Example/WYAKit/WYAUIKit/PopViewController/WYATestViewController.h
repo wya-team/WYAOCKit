@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYATestViewController : UIViewController
-
+@property (nonatomic, copy)   void(^popCallback)(NSIndexPath * indexPath);
 @end
 
 NS_ASSUME_NONNULL_END

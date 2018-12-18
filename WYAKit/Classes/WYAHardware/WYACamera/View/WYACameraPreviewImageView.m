@@ -37,7 +37,7 @@
     [super layoutSubviews];
     
     [self.editButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.mas_centerY).with.offset(250*SizeAdapter);
+        make.centerY.mas_equalTo(self.mas_centerY).with.offset(200*SizeAdapter);
         make.centerX.mas_equalTo(self.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 40*SizeAdapter));
     }];
@@ -101,9 +101,9 @@
             UIButton * object = [[UIButton alloc]init];
             [object setImage:[UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton *button) {
-                if (self.editHandle) {
-                    self.editHandle(self.image);
-                }
+//                if (self.editHandle) {
+//                    self.editHandle(self.image);
+//                }
             }];
             object;
         });
