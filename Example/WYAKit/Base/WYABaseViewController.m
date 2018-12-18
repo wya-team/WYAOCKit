@@ -8,7 +8,7 @@
 
 #import "WYABaseViewController.h"
 
-@interface WYABaseViewController ()<WYANavBarDelegate>
+@interface WYABaseViewController ()<WYANavBarDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) WYANavBar * navBar;
 @end
 
@@ -17,7 +17,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = YES;
-    [self addCustomNavBar];
+    
 }
 
 -(void)viewDidAppear:(BOOL)animated{
@@ -28,7 +28,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self addCustomNavBar];
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 #pragma mark ======= private
