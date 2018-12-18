@@ -86,7 +86,7 @@
         return CGRectMake(0, self.view.frame.size.height - WYATabBarHeight, ScreenWidth, WYATabBarHeight);
     }
     CGFloat leftMargin = self.showOnNavigationBar ? 50 : 0;
-    CGFloat originY = self.showOnNavigationBar ? 0 : CGRectGetMaxY(self.navigationController.navigationBar.frame);
+    CGFloat originY = self.showOnNavigationBar ? 0 : WYATopHeight;
     return CGRectMake(leftMargin, originY, self.view.frame.size.width - 2*leftMargin, WYANavBarHeight);
 }
 

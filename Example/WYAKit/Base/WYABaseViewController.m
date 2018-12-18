@@ -117,7 +117,7 @@
             WYANavBar * object = [[WYANavBar alloc]init];
             object.delegate = self;
             object.backgroundColor = [UIColor whiteColor];
-            object.navTitle = @"Example";
+            object.navTitle = @"WYA移动端组件";
             object;
         });
     }
