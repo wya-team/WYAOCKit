@@ -8,7 +8,7 @@
 
 #import "WYAPopViewController.h"
 #import "WYATestViewController.h"
-
+#import "WYAIMGCodeViewController.h"
 @interface WYAPopViewController ()<UIPopoverPresentationControllerDelegate>
 
 @end
@@ -30,7 +30,18 @@
     WYATestViewController * test = [[WYATestViewController alloc]init];
     test.preferredContentSize = CGSizeMake(100, 132);
     test.modalPresentationStyle = UIModalPresentationPopover;
-    
+    __block WYATestViewController * vc = test;
+    test.popCallback = ^(NSIndexPath * _Nonnull indexPath) {
+        [vc dismissViewControllerAnimated:YES completion:nil];
+        if (indexPath.row == 0) {
+            WYAQRCodeViewController * qr = [[WYAQRCodeViewController alloc]init];
+            [self presentViewController:qr animated:YES completion:nil];
+        }else if (indexPath.row == 1) {
+            WYAIMGCodeViewController * imgCode = [[WYAIMGCodeViewController alloc]init];
+            [self.navigationController pushViewController:imgCode animated:YES];
+        }
+        
+    };
     UIPopoverPresentationController * popover = [test popoverPresentationController];
     popover.delegate = self;
     popover.permittedArrowDirections = UIPopoverArrowDirectionAny;//设置箭头位置

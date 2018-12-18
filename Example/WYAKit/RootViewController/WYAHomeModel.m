@@ -63,7 +63,7 @@
     item11.className = @"WYAPickerViewController";
     
     WYAHomeItemModel * item12 = [[WYAHomeItemModel alloc]init];
-    item12.rowName = @"WYAImagePicker 图片选择器";
+    item12.rowName = @"WYACamera 相册、相机";
     item12.className = @"WYACameraVC";
     
     WYAHomeItemModel * item13 = [[WYAHomeItemModel alloc]init];
@@ -80,15 +80,9 @@
     WYAHomeItemModel * item16 = [[WYAHomeItemModel alloc]init];
     item16.rowName = @"WYAStepperView 步进器";
     
-    WYAHomeItemModel * item17 = [[WYAHomeItemModel alloc]init];
-    item17.rowName = @"WYACameraViewController 拍照录制视频";
-    
-    WYAHomeItemModel * item18 = [[WYAHomeItemModel alloc]init];
-    item18.rowName = @"WYAQRCodeViewController 扫码";
-    
     WYAHomeModel * model2 = [[WYAHomeModel alloc]init];
-    model2.sectionName = @"数据录入 Daya Entry";
-    model2.rows = @[item10,item11,item12,item13,item14,item15,item16,item17,item18];
+    model2.sectionName = @"数据录入 Data Entry";
+    model2.rows = @[item10,item11,item12,item13,item14,item15,item16];
     
     WYAHomeItemModel * item19 = [[WYAHomeItemModel alloc]init];
     item19.rowName = @"WYAGridItem 宫格";
@@ -105,12 +99,9 @@
     WYAHomeItemModel * item23 = [[WYAHomeItemModel alloc]init];
     item23.rowName = @"WYANoticeBar 通告栏";
     
-    WYAHomeItemModel * item24 = [[WYAHomeItemModel alloc]init];
-    item24.rowName = @"WYAIMGCode 二维码";
-    
     WYAHomeModel * model3 = [[WYAHomeModel alloc]init];
     model3.sectionName = @"数据展示 Data Display";
-    model3.rows = @[item19,item20,item21,item22,item23,item24];
+    model3.rows = @[item19,item20,item21,item22,item23];
     
     WYAHomeItemModel * item25 = [[WYAHomeItemModel alloc]init];
     item25.rowName = @"WYAAlert 弹框";

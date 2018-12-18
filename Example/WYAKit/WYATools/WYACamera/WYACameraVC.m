@@ -9,7 +9,7 @@
 #import "WYACameraVC.h"
 
 #import "WYACameraCell.h"
-#import "WYAEditCameraCell.h"
+
 
 
 #define CameraCell @"WYACameraCell"
@@ -82,11 +82,11 @@
     if (indexPath.section == 0) {
         WYACameraCell * cameraCell = (WYACameraCell *)cell;
         if (indexPath.item == 0) {
-            cameraCell.imageView.image = [UIImage imageNamed:@"plus"];
+            cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
         }else if (indexPath.item == 1) {
-            cameraCell.imageView.image = [UIImage imageNamed:@"xiangce"];
+            cameraCell.imageView.image = [UIImage imageNamed:@"icon_photo"];
         }else{
-            cameraCell.imageView.image = [UIImage imageNamed:@"xiangji"];
+            cameraCell.imageView.image = [UIImage imageNamed:@"icon_camera"];
         }
     }else{
         WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;

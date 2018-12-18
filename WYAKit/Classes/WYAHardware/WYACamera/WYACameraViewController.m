@@ -297,7 +297,7 @@
    if(!_closeButton)
    {
        _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-       [_closeButton setImage:[UIImage loadBundleImage:@"shortvideo_button_close" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+       [_closeButton setImage:[UIImage loadBundleImage:@"icon_down" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _closeButton.bounds = CGRectMake(0, 0, 50, 50);
        _closeButton.layer.cornerRadius =  _closeButton.bounds.size.width * 0.5;
        _closeButton.layer.masksToBounds = YES;
@@ -370,20 +370,20 @@
             object.finishHandle = ^(UIImage * _Nonnull previewImage) {
                 [weakSelf sureClick];
             };
-            object.editHandle = ^(UIImage * _Nonnull previewImage) {
-                StrongSelf(strongSelf);
-                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
-                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
-                    [vc dismissViewControllerAnimated:NO completion:^{
-                        [strongSelf dismissViewControllerAnimated:YES completion:^{
-                            if (strongSelf.TakePhoto) {
-                                strongSelf.TakePhoto(image);
-                            }
-                        }];
-                    }];
-                };
-                [strongSelf presentViewController:vc animated:YES completion:nil];
-            };
+//            object.editHandle = ^(UIImage * _Nonnull previewImage) {
+//                StrongSelf(strongSelf);
+//                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
+//                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+//                    [vc dismissViewControllerAnimated:NO completion:^{
+//                        [strongSelf dismissViewControllerAnimated:YES completion:^{
+//                            if (strongSelf.TakePhoto) {
+//                                strongSelf.TakePhoto(image);
+//                            }
+//                        }];
+//                    }];
+//                };
+//                [strongSelf presentViewController:vc animated:YES completion:nil];
+//            };
             [self.view addSubview:object];
             object;
         });
