@@ -19,6 +19,8 @@
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithReuseIdentifier:reuseIdentifier];
     if (self) {
+        self.layer.cornerRadius = 10;
+        self.layer.masksToBounds = YES;
         [self addSubview:self.backgroundButton];
         [self.backgroundButton addSubview:self.arrowButton];
         [self.backgroundButton addSubview:self.titleLabel];
@@ -78,6 +80,7 @@
     if(!_arrowButton){
         _arrowButton = ({
             UIButton * object = [[UIButton alloc]init];
+            [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
             [object setImage:[UIImage imageNamed:@"icon_down"] forState:UIControlStateNormal];
             [object setImage:[UIImage imageNamed:@"icon_up"] forState:UIControlStateSelected];
             [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];

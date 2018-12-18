@@ -27,7 +27,8 @@
     
     WYAHomeItemModel * item3 = [[WYAHomeItemModel alloc]init];
     item3.rowName = @"WYANavBar 导航栏";
-    
+    item3.className = @"WYANavBarViewController";
+
     WYAHomeItemModel * item4 = [[WYAHomeItemModel alloc]init];
     item4.rowName = @"WYAPaginationView 分页器";
     

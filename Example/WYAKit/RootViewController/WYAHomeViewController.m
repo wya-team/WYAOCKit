@@ -122,7 +122,9 @@
             [UIView wya_ShowCenterToastWithMessage:@"抽屉视图不能作为二级控制器使用"];
             return;
         }
-        [self.navigationController pushViewController:[[NSClassFromString(itemModel.className) alloc]init] animated:YES];
+        WYABaseViewController * vc = [[NSClassFromString(itemModel.className) alloc]init];
+        vc.navTitle = itemModel.className;
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
