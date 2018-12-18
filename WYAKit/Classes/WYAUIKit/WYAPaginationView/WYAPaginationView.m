@@ -43,13 +43,13 @@
     [self.leftButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
         make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(50*SizeAdapter, 30*SizeAdapter));
     }];
     
     [self.rightButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY);
         make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(50*SizeAdapter, 30*SizeAdapter));
     }];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -68,7 +68,7 @@
         [_leftButton setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
         _leftButton.titleLabel.font = FONT(13);
         [_leftButton addTarget:self action:@selector(leftButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        _leftButton.layer.borderColor = random(153, 153, 153, 1).CGColor;
+        _leftButton.layer.borderColor = random(242, 242, 242, 1).CGColor;
         _leftButton.layer.borderWidth = 0.5;
         _leftButton.layer.cornerRadius = 4.f;
         _leftButton.layer.masksToBounds = YES;
@@ -83,7 +83,7 @@
         [_rightButton setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
         _rightButton.titleLabel.font = FONT(13);
         [_rightButton addTarget:self action:@selector(rightButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        _rightButton.layer.borderColor = random(153, 153, 153, 1).CGColor;
+        _rightButton.layer.borderColor = random(242, 242, 242, 1).CGColor;
         _rightButton.layer.borderWidth = 0.5;
         _rightButton.layer.cornerRadius = 4.f;
         _rightButton.layer.masksToBounds = YES;
