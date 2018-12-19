@@ -18,6 +18,13 @@
 @end
 
 @implementation WYAPageViewController
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPageViewController/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
