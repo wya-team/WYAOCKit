@@ -7,7 +7,7 @@
 //
 
 #import "WYAAppDelegate.h"
-#import "WYAHomeViewController.h"
+#import "RootViewController.h"
 
 @implementation WYAAppDelegate
 
@@ -15,9 +15,10 @@
 {
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
-    self.window.rootViewController = homevc;
-    
+//    UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
+//    self.window.rootViewController = homevc;
+    RootViewController * rootViewController = [[RootViewController alloc]init];
+    self.window.rootViewController = rootViewController;
     // Override point for customization after application launch.
     
     [self.window makeKeyAndVisible];
