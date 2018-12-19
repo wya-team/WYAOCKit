@@ -47,11 +47,12 @@
     self.noticeButton.frame = CGRectMake(0, (self.cmam_height-30*SizeAdapter)/2, self.showNoticeButton ? 30*SizeAdapter : 0, self.showNoticeButton ? 30*SizeAdapter : 0);
     self.rightButton.frame = CGRectMake(self.showRightButton ? self.cmam_width-30*SizeAdapter : self.cmam_width , (self.cmam_height-30*SizeAdapter)/2, self.showRightButton ? 30*SizeAdapter : 0, self.showRightButton ? 30*SizeAdapter : 0);
     
-    self.titleView.frame = CGRectMake(self.noticeButton.cmam_right, (self.cmam_height-30*SizeAdapter)/2, self.cmam_width-self.noticeButton.cmam_width-self.rightButton.cmam_width, 30*SizeAdapter);
+    self.titleView.frame = CGRectMake(self.showNoticeButton ? self.noticeButton.cmam_right : 10*SizeAdapter, (self.cmam_height-30*SizeAdapter)/2, self.cmam_width-(self.showNoticeButton ? self.noticeButton.cmam_right : 10*SizeAdapter)-(self.showRightButton ? self.rightButton.cmam_width : 10*SizeAdapter), 30*SizeAdapter);
     
 }
 
 -(void)createUI{
+    self.layer.masksToBounds = YES;
     self.noticeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self addSubview:self.noticeButton];
     

@@ -23,7 +23,7 @@
     self.navTitle = @"WYANoticeBar";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, WYATopHeight+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, WYATopHeight+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar.showNoticeButton = YES;
     self.bar.noticeButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
     self.bar.showRightButton = YES;
@@ -32,21 +32,21 @@
     self.bar.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar];
 
-    self.bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar1.showNoticeButton = YES;
     self.bar1.noticeButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
     self.bar1.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
     self.bar1.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar1];
 
-    self.bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar1.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar1.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar2.showRightButton = YES;
     self.bar2.rightButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
     self.bar2.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
     self.bar2.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar2];
     
-    self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar3.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
     self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar3];

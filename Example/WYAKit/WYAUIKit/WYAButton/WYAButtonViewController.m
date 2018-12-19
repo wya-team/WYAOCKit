@@ -40,13 +40,16 @@
     button.layer.cornerRadius = 4.f;
     button.layer.masksToBounds = YES;
     
+    UIImage * animation = [UIImage imageNamed:@"icon_loading"];
     UIButton * animationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [animationButton setTitle:@"主按钮 Loading" forState:UIControlStateNormal];
     [animationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     animationButton.titleLabel.font = FONT(15);
-    [animationButton setImage:[UIImage imageNamed:@"icon_loading"] forState:UIControlStateNormal];
+    [animationButton setImage:animation forState:UIControlStateNormal];
     [animationButton setBackgroundImage:[UIImage wya_createImageWithColor:random(67, 152, 229, 1)] forState:UIControlStateNormal];
     animationButton.frame = CGRectMake((ScreenWidth-200*SizeAdapter)*0.5, CGRectGetMaxY(button.frame)+10*SizeAdapter, 200*SizeAdapter, 44*SizeAdapter);
+    [animationButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [animationButton setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width+5*SizeAdapter, 0, 0)];
     [animationButton addTarget:self action:@selector(animationButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:animationButton];
     animationButton.layer.cornerRadius = 4.f;
@@ -92,13 +95,16 @@
     button3.layer.cornerRadius = 4.f;
     button3.layer.masksToBounds = YES;
     
+    UIImage * loading = [UIImage imageNamed:@"icon_loading"];
     UIButton * loadingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [loadingButton setTitle:@"次按钮 Loading" forState:UIControlStateNormal];
     [loadingButton setTitleColor:random(196, 196, 196, 1) forState:UIControlStateNormal];
     loadingButton.titleLabel.font = FONT(15);
-    [loadingButton setImage:[UIImage imageNamed:@"icon_loading"] forState:UIControlStateNormal];
+    [loadingButton setImage:loading forState:UIControlStateNormal];
     [loadingButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     loadingButton.frame = CGRectMake((ScreenWidth-200*SizeAdapter)*0.5, CGRectGetMaxY(button3.frame)+10*SizeAdapter, 200*SizeAdapter, 44*SizeAdapter);
+    [loadingButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    [loadingButton setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width+5*SizeAdapter, 0, 0)];
     [loadingButton addCallBackAction:^(UIButton *button) {
         if (self.isLoadingCancelTimer == NO) {
             [self.loadingTimer setFireDate:[NSDate distantPast]];

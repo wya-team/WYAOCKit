@@ -77,7 +77,7 @@ static char leftNameKey;
     return CGRectContainsPoint (rect, point) ? self : nil;
 }
 
-- (void)setImageLoctionRightWithSpace:(CGFloat)space
+- (void)wya_setButtonImageLoctionRightWithSpace:(CGFloat)space
 {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高
@@ -103,7 +103,7 @@ static char leftNameKey;
     [self setImageEdgeInsets:imageEdgeInsets];
 }
 
-- (void)setImageLocationTopWithSpace:(CGFloat)space
+- (void)wya_setButtonImageLocationTopWithSpace:(CGFloat)space
 {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高
@@ -132,7 +132,7 @@ static char leftNameKey;
     [self setImageEdgeInsets:imageEdgeInsets];
 }
 
-- (void)setImageLocationBottomWithSpace:(CGFloat)space
+- (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space
 {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高

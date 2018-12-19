@@ -31,8 +31,8 @@
     self.rightView = button;
     self.rightViewMode = UITextFieldViewModeAlways;
 }
-- (void)wya_setLeftButtonWithView:(UIButton *)button{
-    self.leftView = button;
+- (void)wya_setLeftViewWithView:(UIView *)view{
+    self.leftView = view;
     self.leftViewMode = UITextFieldViewModeAlways;
 }
 - (void)wya_setLeftViewImageWithImageNamed:(NSString *)imageNamed
