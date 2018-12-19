@@ -9,7 +9,10 @@
 #import "WYANoticeViewController.h"
 
 @interface WYANoticeViewController ()
-
+@property (nonatomic, strong) WYANoticeBar * bar;
+@property (nonatomic, strong) WYANoticeBar * bar1;
+@property (nonatomic, strong) WYANoticeBar * bar2;
+@property (nonatomic, strong) WYANoticeBar * bar3;
 @end
 
 @implementation WYANoticeViewController
@@ -17,38 +20,51 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navTitle = @"WYANoticeBar";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    WYANoticeBar * bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 30)];
-    bar.showNoticeButton = YES;
-    bar.noticeButtonImage = [UIImage imageNamed:@"喇叭"];
-    bar.showRightButton = YES;
-    bar.rightButtonImage = [UIImage imageNamed:@"喇叭"];
-    bar.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
-    [self.view addSubview:bar];
+    self.bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, WYATopHeight+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar.showNoticeButton = YES;
+    self.bar.noticeButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
+    self.bar.showRightButton = YES;
+    self.bar.rightButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
+    self.bar.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
+    self.bar.noticeBackgroundColor = random(253, 253, 240, 1);
+    [self.view addSubview:self.bar];
 
-    WYANoticeBar * bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, 200, self.view.frame.size.width, 30)];
-    bar1.showNoticeButton = YES;
-    bar1.noticeButtonImage = [UIImage imageNamed:@"喇叭"];
-    bar1.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
-    [self.view addSubview:bar1];
+    self.bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar1.showNoticeButton = YES;
+    self.bar1.noticeButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
+    self.bar1.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
+    self.bar1.noticeBackgroundColor = random(253, 253, 240, 1);
+    [self.view addSubview:self.bar1];
 
-    WYANoticeBar * bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, 30)];
-    bar2.showRightButton = YES;
-    bar2.rightButtonImage = [UIImage imageNamed:@"喇叭"];
-    bar2.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
-    [self.view addSubview:bar2];
+    self.bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar1.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar2.showRightButton = YES;
+    self.bar2.rightButtonImage = [UIImage imageNamed:@"icon_voiceopen"];
+    self.bar2.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
+    self.bar2.noticeBackgroundColor = random(253, 253, 240, 1);
+    [self.view addSubview:self.bar2];
     
-    WYANoticeBar * bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, 400, self.view.frame.size.width, 30)];
-    bar3.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
-    [self.view addSubview:bar3];
+    self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width, 44*SizeAdapter)];
+    self.bar3.showText = @"今天天气不错，阳光明媚，好像出去装转,哈哈哈哈哈哈哈哈哈哈";
+    self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
+    [self.view addSubview:self.bar3];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [bar wya_start];
-        [bar1 wya_start];
-        [bar2 wya_start];
-        [bar3 wya_start];
+        [self.bar wya_start];
+        [self.bar1 wya_start];
+        [self.bar2 wya_start];
+        [self.bar3 wya_start];
     });
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.bar wya_stop];
+    [self.bar1 wya_stop];
+    [self.bar2 wya_stop];
+    [self.bar3 wya_stop];
 }
 
 /*

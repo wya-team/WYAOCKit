@@ -91,9 +91,11 @@
     
     WYAHomeItemModel * item20 = [[WYAHomeItemModel alloc]init];
     item20.rowName = @"WYACard 卡片";
+    item20.className = @"WYACardViewController";
     
     WYAHomeItemModel * item21 = [[WYAHomeItemModel alloc]init];
     item21.rowName = @"WYABannerView 轮播图";
+    item21.className = @"WYABannerViewController";
     
     WYAHomeItemModel * item22 = [[WYAHomeItemModel alloc]init];
     item22.rowName = @"WYAList 列表";
@@ -101,6 +103,7 @@
     
     WYAHomeItemModel * item23 = [[WYAHomeItemModel alloc]init];
     item23.rowName = @"WYANoticeBar 通告栏";
+    item23.className = @"WYANoticeViewController";
     
     WYAHomeModel * model3 = [[WYAHomeModel alloc]init];
     model3.sectionName = @"数据展示 Data Display";
@@ -119,6 +122,7 @@
     
     WYAHomeItemModel * item28 = [[WYAHomeItemModel alloc]init];
     item28.rowName = @"UIView+WYAToast 轻提示";
+    item28.className = @"WYAToastViewController";
     
     WYAHomeModel * model4 = [[WYAHomeModel alloc]init];
     model4.sectionName = @"操作反馈 Feedback";
