@@ -67,7 +67,7 @@
     if(!_cancelButton){
         _cancelButton = ({
             UIButton * object = [[UIButton alloc]init];
-            [object setImage:[UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_camera_back" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton *button) {
                 if (self.cancelHandle) {
                     self.cancelHandle();
@@ -83,7 +83,7 @@
     if(!_finishButton){
         _finishButton = ({
             UIButton * object = [[UIButton alloc]init];
-            [object setImage:[UIImage loadBundleImage:@"correct" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_camera_save" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton *button) {
                 if (self.finishHandle) {
                     self.finishHandle(self.image);
@@ -99,11 +99,13 @@
     if(!_editButton){
         _editButton = ({
             UIButton * object = [[UIButton alloc]init];
-            [object setImage:[UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_camera_list" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+            WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton *button) {
-//                if (self.editHandle) {
-//                    self.editHandle(self.image);
-//                }
+                StrongSelf(strongSelf);
+                if (strongSelf.editHandle) {
+                    strongSelf.editHandle(strongSelf.image);
+                }
             }];
             object;
         });

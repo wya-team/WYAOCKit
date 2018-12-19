@@ -40,21 +40,29 @@
     return self;
 }
 
+-(void)layoutSubviews{
+    [super layoutSubviews];
+
+    self.bgImageView.frame = CGRectMake(self.borderWidth, self.borderWidth, self.cmam_width-self.borderWidth*2, self.cmam_width-self.borderWidth*2);
+    self.bgImageView.layer.cornerRadius = (self.cmam_width-self.borderWidth*2)/2;
+}
+
 #pragma mark - Private Method -
 - (void)initialization {
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor whiteColor];
     _trackTintColor = [UIColor lightGrayColor];
     _progressTintColor = [UIColor redColor];
     
-    _borderWidth = 5;//线宽默认为10
+    self.borderWidth = 5;//线宽默认为10
     _startAngle = WYACircleDegreeToRadian(270);//圆起点位置
     _reduceAngle = WYACircleDegreeToRadian(0);//整个圆缺少的角度
-    
+
     _duration = 1.5;//动画时长
-    
-    _radius = self.cmam_width/2.0 - _borderWidth/2.0;
+
+    _radius = self.cmam_width/2.0 - self.borderWidth/2.0;
     _lastProgress = 0;
     self.progress = 0;
+    [self addSubview:self.bgImageView];
 }
 
 #pragma mark - Public Method -
@@ -72,7 +80,7 @@
         _backLayer = [CAShapeLayer layer];
         _backLayer.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_width);
         _backLayer.fillColor = [UIColor clearColor].CGColor;//填充色
-        _backLayer.lineWidth = _borderWidth;
+        _backLayer.lineWidth = self.borderWidth;
         _backLayer.strokeColor = _trackTintColor.CGColor;
         _backLayer.lineCap = @"round";
         
@@ -88,7 +96,7 @@
         _progressLayer.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_width);
         
         _progressLayer.fillColor = [UIColor clearColor].CGColor;//填充色
-        _progressLayer.lineWidth = _borderWidth;
+        _progressLayer.lineWidth = self.borderWidth;
         _progressLayer.strokeColor = _progressTintColor.CGColor;
         _progressLayer.lineCap = @"round";
         
@@ -102,8 +110,7 @@
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] init];
-        _bgImageView.frame = CGRectMake(self.borderWidth, self.borderWidth, self.cmam_width-self.borderWidth*2, self.cmam_width-self.borderWidth*2);
-        _bgImageView.layer.cornerRadius = (self.cmam_width-self.borderWidth)/2;
+        
         _bgImageView.layer.masksToBounds = YES;
 //        _bgImageView.backgroundColor = [UIColor blueColor];
     }
@@ -195,6 +202,8 @@
         }
         
     }
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 - (void)setProgress:(CGFloat)progress {
@@ -208,9 +217,7 @@
         [self.layer addSublayer:self.progressLayer];
     }
     
-    if (!self.bgImageView.superview) {
-        [self addSubview:self.bgImageView];
-    }
+    
     
     _progress = progress;
     if (_progress < 0) {
