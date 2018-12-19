@@ -124,6 +124,7 @@
         }
         WYABaseViewController * vc = [[NSClassFromString(itemModel.className) alloc]init];
         vc.navTitle = itemModel.className;
+        vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
     if ([itemModel.rowName isEqualToString:@"WYAClearCache 清理缓存"]) {
