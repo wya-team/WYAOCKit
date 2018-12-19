@@ -25,11 +25,17 @@
 //停止录制
 - (void) stopCapture;
 
-//开启闪光灯
+//开启手电筒
 - (void)openFlashLight;
 
-//关闭闪光灯
+//关闭手电筒
 - (void)closeFlashLight;
+
+//开启闪光灯
+- (void)openFlash;
+
+//关闭闪光灯
+- (void)closeFlash;
 
 //切换前后置摄像头
 - (void)changeCameraInputDeviceisFront:(BOOL)isFront;

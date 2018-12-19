@@ -8,15 +8,19 @@
 
 @interface WYACameraViewController ()
 
-@property (nonatomic, strong) UILabel * messageLabel;
-@property (nonatomic, strong) UIButton *closeButton;
-@property (nonatomic, strong) UIButton *flashButton;
-@property (nonatomic, strong) UIButton *cameraButton;
-//@property (nonatomic, strong) UIImageView * cameraImageView;
 @property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) WYAProgressView * progressView;
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;//相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool *videoTool;
+
+
+@property (nonatomic, strong) UIView * cameraBar;//顶部放置以下控件的视图
+@property (nonatomic, strong) UIButton *flashButton;//闪光灯
+@property (nonatomic, strong) UIButton *cameraButton;//切换相机
+@property (nonatomic, strong) UIButton * flashLightButton;//手电筒
+
+@property (nonatomic, strong) UILabel * messageLabel;
+@property (nonatomic, strong) UIButton *closeButton;//关闭按钮
+@property (nonatomic, strong) WYAProgressView * progressView;
 
 @property (nonatomic, assign) CGFloat timeCount;
 @property (nonatomic, assign) CGFloat timeMargin;
@@ -91,12 +95,21 @@
 {
     [self.view addSubview:self.containerView];
     [self.view addSubview:self.closeButton];
-    [self.view addSubview:self.cameraButton];
-
+    [self.view addSubview:self.cameraBar];
+    [self.cameraBar addSubview:self.cameraButton];
+    [self.cameraBar addSubview:self.flashButton];
+    [self.cameraBar addSubview:self.flashLightButton];
+    
     [self.view addSubview:self.progressView];
     [self.view addSubview:self.messageLabel];
-
-    self.cameraButton.center = CGPointMake(ScreenWidth-self.cameraButton.bounds.size.width, self.cameraButton.bounds.size.height);
+    
+    self.cameraBar.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
+    
+    CGFloat width = self.cameraBar.cmam_width/3;
+    self.flashButton.center = CGPointMake(width/2, WYAStatusBarHeight+22);
+    self.cameraButton.center = CGPointMake(width + width/2, WYAStatusBarHeight+22);
+    self.flashLightButton.center = CGPointMake( width*2 + width/2, WYAStatusBarHeight+22);
+    
     self.closeButton.center = CGPointMake(ScreenWidth*0.5-self.closeButton.bounds.size.width-30, ScreenHeight - self.progressView.bounds.size.height);
     self.messageLabel.center = CGPointMake(ScreenWidth/2, self.progressView.center.y-60);
 }
@@ -120,8 +133,18 @@
 
 - (void)flashButtonClick:(UIButton *)flashButton
 {
-    flashButton.selected = !flashButton.isSelected;
+    flashButton.selected = !flashButton.selected;
     if(flashButton.selected){
+        [self.videoTool openFlash];
+    }
+    else{
+        [self.videoTool closeFlash];
+    }
+}
+
+- (void)flashLightButtonClick:(UIButton *)button{
+    button.selected = !button.selected;
+    if(button.selected){
         [self.videoTool openFlashLight];
     }
     else{
@@ -131,7 +154,7 @@
 
 - (void)cameraButtonClick:(UIButton *)cameraButton
 {
-    cameraButton.selected = !cameraButton.isSelected;
+    cameraButton.selected = !cameraButton.selected;
     if(cameraButton.selected)
     {
         [self.videoTool changeCameraInputDeviceisFront:YES];
@@ -139,7 +162,6 @@
     else{
         [self.videoTool changeCameraInputDeviceisFront:NO];
     }
-    
 }
 
 - (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress
@@ -297,7 +319,7 @@
    if(!_closeButton)
    {
        _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-       [_closeButton setImage:[UIImage loadBundleImage:@"icon_down" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+       [_closeButton setImage:[UIImage loadBundleImage:@"icon_cancel_camera" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _closeButton.bounds = CGRectMake(0, 0, 50, 50);
        _closeButton.layer.cornerRadius =  _closeButton.bounds.size.width * 0.5;
        _closeButton.layer.masksToBounds = YES;
@@ -306,18 +328,38 @@
     return _closeButton;
 }
 
+- (UIView *)cameraBar{
+    if(!_cameraBar){
+        _cameraBar = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
+            object;
+        });
+    }
+    return _cameraBar;
+}
+
 - (UIButton *)flashButton
 {
     if(!_flashButton)
     {
-        _flashButton = [ UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashButton setImage:[UIImage loadBundleImage:@"room_pop_up_lamp" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
-         _flashButton.bounds = CGRectMake(0, 0, 50, 50);
-        _flashButton.layer.cornerRadius =  _flashButton.bounds.size.width * 0.5;
-        _flashButton.layer.masksToBounds = YES;
+        _flashButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_close" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_open" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
+         _flashButton.bounds = CGRectMake(0, 0, 40, 40);
         [_flashButton addTarget:self action:@selector(flashButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _flashButton;
+}
+
+-(UIButton *)flashLightButton{
+    if (!_flashLightButton) {
+        _flashLightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_flashLightButton setImage:[UIImage loadBundleImage:@"icon_scan_flashlight" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        _flashLightButton.bounds = CGRectMake(0, 0, 40, 40);
+        [_flashLightButton addTarget:self action:@selector(flashLightButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _flashLightButton;
 }
 
 - (UIButton *)cameraButton
@@ -325,7 +367,7 @@
     if(!_cameraButton)
     {
         _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_cameraButton setImage:[UIImage loadBundleImage:@"turnCamera" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_cameraButton setImage:[UIImage loadBundleImage:@"icon_camera_switch" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _cameraButton.bounds = CGRectMake(0, 0, 40, 40);
         _cameraButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         [_cameraButton addTarget:self action:@selector(cameraButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -335,8 +377,9 @@
 
 -(WYAProgressView *)progressView{
     if (!_progressView) {
-        _progressView = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-60*SizeAdapter)/2, ScreenHeight-WYABottomHeight-60*SizeAdapter-30, 60*SizeAdapter, 60*SizeAdapter)];
-        _progressView.backGroundImage = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass([self class])];
+        _progressView = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-80*SizeAdapter)/2, ScreenHeight-WYABottomHeight-80*SizeAdapter-30, 80*SizeAdapter, 80*SizeAdapter)];
+        _progressView.layer.cornerRadius = 40*SizeAdapter;
+        _progressView.layer.masksToBounds = YES;
         _progressView.progress = 0.f;
         UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
         [_progressView addGestureRecognizer:tap];
@@ -390,7 +433,6 @@
     }
     return _placeholdImageView;
 }
-
 
 
 @end

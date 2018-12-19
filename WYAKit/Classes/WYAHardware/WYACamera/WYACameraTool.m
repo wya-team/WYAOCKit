@@ -89,7 +89,33 @@
     
 }
 
-//开启闪光灯
+- (void)openFlash{
+    [self.captureSession beginConfiguration];
+    AVCaptureDevice *backCamera = [self backCamera];
+    if (backCamera.flashMode == AVCaptureFlashModeOff) {
+        [backCamera lockForConfiguration:nil];
+        backCamera.flashMode = AVCaptureFlashModeOn;
+        [backCamera unlockForConfiguration];
+    }
+    //提交会话配置
+    [self.captureSession commitConfiguration];
+    [self startRecordFunction];
+}
+
+- (void)closeFlash{
+    [self.captureSession beginConfiguration];
+    AVCaptureDevice *backCamera = [self backCamera];
+    if (backCamera.flashMode == AVCaptureFlashModeOn) {
+        [backCamera lockForConfiguration:nil];
+        backCamera.flashMode = AVCaptureFlashModeOff;
+        [backCamera unlockForConfiguration];
+    }
+    //提交会话配置
+    [self.captureSession commitConfiguration];
+    [self startRecordFunction];
+}
+
+//开启手电筒
 - (void)openFlashLight
 {
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
@@ -107,7 +133,7 @@
     [self startRecordFunction];
 }
 
-//关闭闪光灯
+//关闭手电筒
 - (void)closeFlashLight
 {
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变

@@ -263,16 +263,18 @@
 /** 点击按钮事件 */
 - (void)actionButtonDidClicked:(UIButton *)sender {
     
+    // 点击button后自动dismiss
+    if (_controller) {
+        [_controller dismissViewControllerAnimated:YES completion:nil];
+    }
+    
     // 根据 tag 取到 handler
     void (^handler) (void) = self.actions[sender.tag].handler;
     if (handler) {
         handler();
     }
     
-    // 点击button后自动dismiss
-    if (_controller) {
-        [_controller dismissViewControllerAnimated:YES completion:nil];
-    }
+    
     
 }
 

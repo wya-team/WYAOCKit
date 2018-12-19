@@ -7,10 +7,7 @@
 //
 
 #import "WYACameraVC.h"
-
 #import "WYACameraCell.h"
-
-
 
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
@@ -48,6 +45,7 @@
     if(!_dataSource){
         _dataSource = ({
             NSMutableArray * object = [[NSMutableArray alloc]init];
+            [object addObject:@""];
             object;
         });
     }
@@ -56,18 +54,14 @@
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (section == 0) {
-        return 3;
-    }else{
-        return self.dataSource.count;
-    }
+    return self.dataSource.count;
     
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 2;
+    return 1;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
+    if (indexPath.item == self.dataSource.count-1) {
         WYACameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CameraCell forIndexPath:indexPath];
         return cell;
     }else{
@@ -79,15 +73,9 @@
 
 #pragma mark ======= UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
+    if (indexPath.item == self.dataSource.count-1) {
         WYACameraCell * cameraCell = (WYACameraCell *)cell;
-        if (indexPath.item == 0) {
-            cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
-        }else if (indexPath.item == 1) {
-            cameraCell.imageView.image = [UIImage imageNamed:@"icon_photo"];
-        }else{
-            cameraCell.imageView.image = [UIImage imageNamed:@"icon_camera"];
-        }
+        cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
     }else{
         WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
         editCell.imageView.image = self.dataSource[indexPath.item];
@@ -102,13 +90,8 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        CGFloat width = (ScreenWidth-20)/3;
-        return CGSizeMake(width, width);
-    }else{
-        CGFloat width = (ScreenWidth-25)/4;
-        return CGSizeMake(width, width);
-    }
+    CGFloat width = (ScreenWidth-25)/4;
+    return CGSizeMake(width, width);
     
 }
 //footer的size
@@ -144,23 +127,33 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    if (indexPath.section == 0) {
-        if (indexPath.item == 0 || indexPath.item == 1) {
+    if (indexPath.item == self.dataSource.count-1) {
+        WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"" Message:@""];
+        WeakSelf(weakSelf);
+        WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDestructive handler:^{
+            WYACameraViewController * camera = [[WYACameraViewController alloc]init];
+            camera.TakePhoto = ^(UIImage *photo) {
+                [self.dataSource addObject:photo];
+                [self.collectionView reloadData];
+            };
+            [weakSelf presentViewController:camera animated:YES completion:nil];
+            
+        }];
+        WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"相册" style:WYAAlertActionStyleDefault handler:^{
             WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:5];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
                 [self.dataSource addObjectsFromArray:images];
                 [self.collectionView reloadData];
             };
-            [self presentViewController:photo animated:YES completion:nil];
-        }else{
-            WYACameraViewController * camera = [[WYACameraViewController alloc]init];
-            camera.TakePhoto = ^(UIImage *photo) {
-                [self.dataSource addObject:photo];
-                [self.collectionView reloadData];
-            };
-            [self presentViewController:camera animated:YES completion:nil];
-        }
+            [weakSelf presentViewController:photo animated:YES completion:nil];
+            
+        }];
+        
+        [alert wya_AddAction:defaultAction];
+        [alert wya_AddAction:cancelAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        
     }
     
 }
