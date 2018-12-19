@@ -85,9 +85,8 @@
     self.backgroundColor = [UIColor whiteColor];
     
     self.iconImageView = [[UIImageView alloc]init];
-    //        imageV.image = [UIImage imageNamed:<#(nonnull NSString *)#>];
-    //        imageV.contentMode = <#ContentModel#>;
-    self.iconImageView.backgroundColor = [UIColor redColor];
+    self.iconImageView.image = [UIImage loadBundleImage:@"icon_qq" ClassName:NSStringFromClass(self.class)];
+    self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.iconImageView];
     
     self.titleLabel = [[UILabel alloc]init];

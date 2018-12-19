@@ -44,40 +44,6 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
 
-//    [self.noticeButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(self.mas_centerY);
-//        make.left.mas_equalTo(self.mas_left);
-//        make.size.mas_equalTo(CGSizeMake(30*SizeAdapter, 30*SizeAdapter));
-//    }];
-//
-//    [self.rightButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(self.mas_centerY);
-//        make.right.mas_equalTo(self.mas_right);
-//        make.size.mas_equalTo(CGSizeMake(30*SizeAdapter, 30*SizeAdapter));
-//    }];
-//
-//    [self.titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(self.mas_centerY);
-//        if (self.showNoticeButton) {
-//            make.left.mas_equalTo(self.noticeButton.mas_right);
-//        }else{
-//            make.left.mas_equalTo(self.mas_left);
-//        }
-//        if (self.showRightButton) {
-//            make.right.mas_equalTo(self.rightButton.mas_left);
-//        }else{
-//            make.right.mas_equalTo(self.mas_right);
-//        }
-//        make.height.mas_equalTo(30*SizeAdapter);
-//    }];
-//
-//    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.centerY.mas_equalTo(self.titleView.mas_centerY);
-//        make.left.mas_equalTo(self.titleView.mas_left);
-//        CGFloat width = [self.showText wya_widthWithFontSize:15 height:30*SizeAdapter];
-//        make.width.mas_equalTo(width);
-//        make.height.mas_equalTo(30*SizeAdapter);
-//    }];
     self.noticeButton.frame = CGRectMake(0, (self.cmam_height-30*SizeAdapter)/2, self.showNoticeButton ? 30*SizeAdapter : 0, self.showNoticeButton ? 30*SizeAdapter : 0);
     self.rightButton.frame = CGRectMake(self.showRightButton ? self.cmam_width-30*SizeAdapter : self.cmam_width , (self.cmam_height-30*SizeAdapter)/2, self.showRightButton ? 30*SizeAdapter : 0, self.showRightButton ? 30*SizeAdapter : 0);
     

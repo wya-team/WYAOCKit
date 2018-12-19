@@ -25,7 +25,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    self.navTitle = NSStringFromClass([self class]);
+    self.navTitle = @"WYAAlertController";
 
     self.systemAlertTitleArray = @[@"只有一个按钮",
                                    @"默认样式",

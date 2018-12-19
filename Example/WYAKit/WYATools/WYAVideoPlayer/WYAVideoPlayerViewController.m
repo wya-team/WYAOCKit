@@ -19,16 +19,13 @@
 
 @implementation WYAVideoPlayerViewController
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navTitle = @"WYAVideoPlayerView";
     
     float hei = 9.0 / 16.0 * ScreenWidth;
     CGRect frame = CGRectMake(0, WYATopHeight, ScreenWidth, hei);

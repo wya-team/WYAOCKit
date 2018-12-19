@@ -20,6 +20,7 @@
 		210E9F6B21ABEB6900BFE994 /* WYALeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6A21ABEB6900BFE994 /* WYALeftViewController.m */; };
 		210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */; };
 		210E9F8A21AD790A00BFE994 /* WYAImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */; };
+		2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
 		21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFF219ABF090099CB6F /* WYAProgressViewController.m */; };
 		21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C02219ABF180099CB6F /* WYAToastViewController.m */; };
@@ -125,6 +126,8 @@
 		210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACellTableViewController.m; sourceTree = "<group>"; };
 		210E9F8821AD790A00BFE994 /* WYAImageBrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAImageBrowserViewController.h; sourceTree = "<group>"; };
 		210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAImageBrowserViewController.m; sourceTree = "<group>"; };
+		2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACardViewController.h; sourceTree = "<group>"; };
+		2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACardViewController.m; sourceTree = "<group>"; };
 		21470BFB219ABE9E0099CB6F /* WYATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATextViewController.h; sourceTree = "<group>"; };
 		21470BFC219ABE9F0099CB6F /* WYATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATextViewController.m; sourceTree = "<group>"; };
 		21470BFE219ABF090099CB6F /* WYAProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAProgressViewController.h; sourceTree = "<group>"; };
@@ -309,6 +312,15 @@
 			path = WYAImageBrowser;
 			sourceTree = "<group>";
 		};
+		2138D0C621C9E29B00B6C3AF /* WYACard */ = {
+			isa = PBXGroup;
+			children = (
+				2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */,
+				2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */,
+			);
+			path = WYACard;
+			sourceTree = "<group>";
+		};
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
@@ -357,6 +369,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				2138D0C621C9E29B00B6C3AF /* WYACard */,
 				957F648F21C88D380009C044 /* WYANavBarUI */,
 				210C72F621C7D7DE00196F07 /* WYADrawserViewControll */,
 				9559282B21AE2C0900C46D6D /* WYAStepperView */,
@@ -1001,6 +1014,7 @@
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				210C72F221C7C5F100196F07 /* WYAHomeHeaderView.m in Sources */,
 				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
+				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */,
