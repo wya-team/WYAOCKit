@@ -40,7 +40,7 @@
 - (UITableView *)tableView{
     if(!_tableView){
         _tableView = ({
-            UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight - WYABottomHeight) style:UITableViewStyleGrouped];
+            UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight - WYATabBarHeight) style:UITableViewStyleGrouped];
             object.delegate = self;
             object.dataSource = self;
             object.separatorStyle = UITableViewCellSeparatorStyleNone;

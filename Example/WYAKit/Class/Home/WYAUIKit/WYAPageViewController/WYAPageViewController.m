@@ -113,7 +113,6 @@
             vc.menuViewLayoutMode = WYAMenuViewLayoutModeCenter;
             vc.titleSizeSelected = 15;
             vc.progressViewCornerRadius = 2.0f;
-
             vc.titles = @[@"item1",@"item2",@"item3",@"item4"];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
