@@ -28,7 +28,7 @@
         _ableStepperView = ({
             WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth - 100*SizeAdapter, 0 , 100*SizeAdapter, 40*SizeAdapter)];
             object.childFrame = CGRectMake(0, 0, 20*SizeAdapter, 20*SizeAdapter);
-            object.ImageNamedArray = @[@"sub_able", @"icon_add_enable"];
+            object.ImageNamedArray = @[@"icon_stepper_minus", @"icon_add_enable"];
             object.delegate = self;
             object;
        });
