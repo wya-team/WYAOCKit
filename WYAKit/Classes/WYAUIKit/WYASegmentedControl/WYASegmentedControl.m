@@ -120,11 +120,11 @@
 - (void)setDefaultValue{
     self.cornerRadius = 8*SizeAdapter;
     self.selectTag = 0;
-    self.borderColor = [UIColor wya_hex:@"108DE7"];
+    self.borderColor = [UIColor wya_hex:@"#108DE7"];
     self.itemsFont = 15;
-    self.itemNormalColor = [UIColor wya_hex:@"108DE7"];
-    self.itemSelectColor = [UIColor wya_hex:@"FFFFFF"];
-    self.itemHighlightedColor = [UIColor wya_hex:@"FFFFFF"];
+    self.itemNormalColor = [UIColor wya_hex:@"#108DE7"];
+    self.itemSelectColor = [UIColor wya_hex:@"#FFFFFF"];
+    self.itemHighlightedColor = [UIColor wya_hex:@"#FFFFFF"];
 }
 
 // 标题按钮

@@ -56,7 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor * itemSelectColor;
 
 /**
- 高亮颜色默认被色
+ 高亮颜色默认白色
  */
 @property (nonatomic, strong) UIColor * itemHighlightedColor;
 
