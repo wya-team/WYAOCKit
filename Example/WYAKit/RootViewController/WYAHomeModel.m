@@ -35,6 +35,7 @@
     
     WYAHomeItemModel * item5 = [[WYAHomeItemModel alloc]init];
     item5.rowName = @"WYASegmentedControl 分段控制器";
+    item5.className = @"WYASegmentedController";
     
     WYAHomeItemModel * item7 = [[WYAHomeItemModel alloc]init];
     item7.rowName = @"WYAPageViewController 分页控制器";
