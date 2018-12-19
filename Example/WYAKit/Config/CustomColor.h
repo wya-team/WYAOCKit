@@ -27,5 +27,4 @@
 
 #define REDCOLOR [UIColor wya_hex:@"#FF352D"] // 红色
 
-
 #endif /* CustomColor_h */

@@ -72,7 +72,6 @@
 		956BCC8621B5329C0044095E /* WYAReamlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 956BCC8521B5329C0044095E /* WYAReamlViewController.m */; };
 		956BCC9021B567E60044095E /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 956BCC8F21B567E60044095E /* Student.m */; };
 		956D1E7A219D7929006A40AB /* TODO .md in Resources */ = {isa = PBXBuildFile; fileRef = 956D1E79219D7929006A40AB /* TODO .md */; };
-		9578496D21AFD780001E19DC /* WYACustomCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578496C21AFD780001E19DC /* WYACustomCellController.m */; };
 		9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */; };
 		9578497821B0091A001E19DC /* WYAInputItemTwoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578497721B0091A001E19DC /* WYAInputItemTwoCell.m */; };
 		9578497B21B0C673001E19DC /* WYAInputItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578497A21B0C673001E19DC /* WYAInputItemModel.m */; };
@@ -82,8 +81,8 @@
 		9578498E21B1194E001E19DC /* WYAListTwoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578498D21B1194E001E19DC /* WYAListTwoCell.m */; };
 		9578499121B1195A001E19DC /* WYAListThreeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578499021B1195A001E19DC /* WYAListThreeCell.m */; };
 		9578499421B11967001E19DC /* WYAListFourCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578499321B11967001E19DC /* WYAListFourCell.m */; };
-		9578499721B128DE001E19DC /* WYAListCellController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578499621B128DE001E19DC /* WYAListCellController.m */; };
 		957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F649121C88D930009C044 /* WYANavBarViewController.m */; };
+		957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F649521C8EEDF0009C044 /* WYAListViewController.m */; };
 		95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */; };
 /* End PBXBuildFile section */
 
@@ -219,8 +218,6 @@
 		956BCC8E21B567E60044095E /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
 		956BCC8F21B567E60044095E /* Student.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
 		956D1E79219D7929006A40AB /* TODO .md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "TODO .md"; sourceTree = "<group>"; };
-		9578496B21AFD780001E19DC /* WYACustomCellController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACustomCellController.h; sourceTree = "<group>"; };
-		9578496C21AFD780001E19DC /* WYACustomCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACustomCellController.m; sourceTree = "<group>"; };
 		9578496E21AFDD9A001E19DC /* WYAInputItemCellController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAInputItemCellController.h; sourceTree = "<group>"; };
 		9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAInputItemCellController.m; sourceTree = "<group>"; };
 		9578497621B0091A001E19DC /* WYAInputItemTwoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAInputItemTwoCell.h; sourceTree = "<group>"; };
@@ -239,11 +236,11 @@
 		9578499021B1195A001E19DC /* WYAListThreeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListThreeCell.m; sourceTree = "<group>"; };
 		9578499221B11967001E19DC /* WYAListFourCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAListFourCell.h; sourceTree = "<group>"; };
 		9578499321B11967001E19DC /* WYAListFourCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListFourCell.m; sourceTree = "<group>"; };
-		9578499521B128DE001E19DC /* WYAListCellController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAListCellController.h; sourceTree = "<group>"; };
-		9578499621B128DE001E19DC /* WYAListCellController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListCellController.m; sourceTree = "<group>"; };
 		957F649021C88D930009C044 /* WYANavBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANavBarViewController.h; sourceTree = "<group>"; };
 		957F649121C88D930009C044 /* WYANavBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANavBarViewController.m; sourceTree = "<group>"; };
 		957F649321C8DED00009C044 /* CustomColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomColor.h; sourceTree = "<group>"; };
+		957F649421C8EEDF0009C044 /* WYAListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAListViewController.h; sourceTree = "<group>"; };
+		957F649521C8EEDF0009C044 /* WYAListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListViewController.m; sourceTree = "<group>"; };
 		95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperController.h; sourceTree = "<group>"; };
 		95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperController.m; sourceTree = "<group>"; };
 		BB2BD88E491B4BE33928C5E8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -295,12 +292,10 @@
 				9578497521B008DF001E19DC /* List_inputItemView */,
 				210E9F7B21AD406600BFE994 /* WYACellTableViewController.h */,
 				210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */,
-				9578496B21AFD780001E19DC /* WYACustomCellController.h */,
-				9578496C21AFD780001E19DC /* WYACustomCellController.m */,
 				9578496E21AFDD9A001E19DC /* WYAInputItemCellController.h */,
 				9578496F21AFDD9A001E19DC /* WYAInputItemCellController.m */,
-				9578499521B128DE001E19DC /* WYAListCellController.h */,
-				9578499621B128DE001E19DC /* WYAListCellController.m */,
+				957F649421C8EEDF0009C044 /* WYAListViewController.h */,
+				957F649521C8EEDF0009C044 /* WYAListViewController.m */,
 			);
 			path = WYACell;
 			sourceTree = "<group>";
@@ -1005,15 +1000,14 @@
 				9578498521B11074001E19DC /* WYAListModel.m in Sources */,
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				210C72F221C7C5F100196F07 /* WYAHomeHeaderView.m in Sources */,
+				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
-				9578499721B128DE001E19DC /* WYAListCellController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */,
 				210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */,
 				9578497E21B0C8B8001E19DC /* WYAInputOneCell.m in Sources */,
 				9578499121B1195A001E19DC /* WYAListThreeCell.m in Sources */,
 				9559283421AE82D400C46D6D /* WYAHomeItemCell.m in Sources */,
-				9578496D21AFD780001E19DC /* WYACustomCellController.m in Sources */,
 				9563FEA321B7609E00DA82D7 /* WYARealmCell.m in Sources */,
 				210C72F521C7CCBA00196F07 /* WYAHomeTableCell.m in Sources */,
 				951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */,

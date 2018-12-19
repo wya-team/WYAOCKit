@@ -1,31 +1,33 @@
 //
-//  WYAListCellController.m
+//  WYAListViewController.m
 //  WYAKit_Example
 //
-//  Created by 李俊恒 on 2018/11/30.
+//  Created by 李俊恒 on 2018/12/18.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYAListCellController.h"
+#import "WYAListViewController.h"
 #import "WYAListOneCell.h"
 #import "WYAListTwoCell.h"
 #import "WYAListThreeCell.h"
 #import "WYAListFourCell.h"
 #import "WYAListModel.h"
+
 #define ONECELLID @"oneCellId"
 #define TWOCELLId @"twoCellId"
 #define THREECELLID @"threeCellId"
 #define FOURCELLID @"fourCellId"
 
-@interface WYAListCellController()<UITableViewDelegate,UITableViewDataSource>
+@interface WYAListViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
 @property (nonatomic, strong) NSArray * sectionArray;
 @end
-@implementation WYAListCellController
+
+@implementation WYAListViewController
 #pragma mark ======= Life Cycle
 - (void)viewDidLoad{
-    self.navTitle = @"List";
+    [super viewDidLoad];
     [self.view addSubview:self.tableView];
 }
 #pragma mark ======= UITableViewDelegate,UITableViewDataSource
@@ -150,7 +152,7 @@
 
 - (NSArray *)createModelThreeArray{
     NSMutableArray * array = [NSMutableArray array];
-   
+    
     WYATextListModel * model1 = [WYATextListModel modelWith:0 titleString:@"单行列表" rightImage:@"icon_list" rightString:nil arrowImageNamed:@"jiantou"];
     
     WYATextListModel * model2 = [WYATextListModel modelWith:1 titleString:@"单行列表" rightImage:nil rightString:@"我是描述信息" arrowImageNamed:@"jiantou"];
@@ -164,10 +166,10 @@
     NSMutableArray * array = [NSMutableArray array];
     WYAListCellModel * model1 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"icon_list_selected"];
     WYAListCellModel * model2 = [WYAListCellModel modelWith:0 iconNamed:nil titleString:@"单项" arrowImageNamed:@"icon_list_selected"];
-   WYAListCellModel * model3 = [WYAListCellModel modelWith:1 iconNamed:@"xuanzhong" titleString:@"多项选择" arrowImageNamed:nil];
-   WYAListCellModel * model4 = [WYAListCellModel modelWith:1 iconNamed:@"xuanzhong" titleString:@"多项选择" arrowImageNamed:nil];
-   WYAListCellModel * model5 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
-   WYAListCellModel * model6 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
+    WYAListCellModel * model3 = [WYAListCellModel modelWith:1 iconNamed:@"icon_radio_selected" titleString:@"多项选择" arrowImageNamed:nil];
+    WYAListCellModel * model4 = [WYAListCellModel modelWith:1 iconNamed:@"icon_radio_selected" titleString:@"多项选择" arrowImageNamed:nil];
+    WYAListCellModel * model5 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
+    WYAListCellModel * model6 = [WYAListCellModel modelWith:2 iconNamed:@"icon_subtract_enable" titleString:@"标题文字" arrowImageNamed:@"jiantou"];
     [array wya_safeAddObject:model1];
     [array wya_safeAddObject:model2];
     [array wya_safeAddObject:model3];
