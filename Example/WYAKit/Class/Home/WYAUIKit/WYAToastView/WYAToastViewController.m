@@ -13,7 +13,13 @@
 @end
 
 @implementation WYAToastViewController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIView/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

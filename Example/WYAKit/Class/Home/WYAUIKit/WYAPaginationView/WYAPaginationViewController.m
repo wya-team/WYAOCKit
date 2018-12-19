@@ -15,6 +15,14 @@
 
 @implementation WYAPaginationViewController
 
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/tree/master/WYAKit/Classes/WYAUIKit/WYAPaginationView";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
