@@ -321,8 +321,8 @@ static CGFloat titleHeight = 44.0;
         _titleView = [[WYAPaginationView alloc]init];
         _titleView.backgroundColor = [UIColor whiteColor];
         _titleView.wya_Delegate = self;
-        [_titleView wya_SetLeftButtonWithTitle:@"取消" TitleColor:[UIColor blueColor] TitleFont:15];
-        [_titleView wya_SetRightButtonWithTitle:@"确定" TitleColor:[UIColor blueColor] TitleFont:15];
+        [_titleView wya_SetLeftButtonWithTitle:@"取消" TitleColor:[UIColor wya_hex:@"#FF352D"] TitleFont:15];
+        [_titleView wya_SetRightButtonWithTitle:@"确定" TitleColor:[UIColor wya_hex:@"#108DE7"] TitleFont:15];
     }
     return _titleView;
 }

@@ -6,12 +6,12 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYAHomeItemCell.h"
-@interface WYAHomeItemCell()
+#import "WYAGridItemCell.h"
+@interface WYAGridItemCell()
 @property (nonatomic, strong) UIImageView * iconImgView;
 @property (nonatomic, strong) UILabel * titleLabel;
 @end
-@implementation WYAHomeItemCell
+@implementation WYAGridItemCell
 
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
@@ -43,7 +43,7 @@
     if(!_iconImgView){
         _iconImgView = ({
             UIImageView * object = [[UIImageView alloc]init];
-            object.backgroundColor = randomColor;
+            object.image = [UIImage imageNamed:@"icon_grid_Placeholder"];
             object;
        });
     }

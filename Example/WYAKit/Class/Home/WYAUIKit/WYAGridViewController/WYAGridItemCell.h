@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAHomeItemCell : UICollectionViewCell
+@interface WYAGridItemCell : UICollectionViewCell
 @property (nonatomic, copy) NSString * titleString;
 @end
 

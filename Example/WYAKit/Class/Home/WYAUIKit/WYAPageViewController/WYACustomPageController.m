@@ -12,14 +12,14 @@
 #import "WYAThreeTableViewController.h"
 @interface WYACustomPageController ()<WYANavBarDelegate>
 @property (nonatomic, strong) UIView *redView;
-//@property (nonatomic, strong) WYANavBar * customnavBar;
+
 @end
 
 @implementation WYACustomPageController
 - (UIView *)redView {
     if (!_redView) {
         _redView = [[UIView alloc] initWithFrame:CGRectZero];
-        _redView.backgroundColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+        _redView.backgroundColor = BLUECOLOR;
     }
     return _redView;
 }
@@ -60,9 +60,9 @@
 }
 - (NSString *)wya_pageController:(WYAPageController *)pageController titleAtIndex:(NSInteger)index {
     switch (index % 3) {
-        case 0: return @"LISTsdfvasfadsf";
-        case 1: return @"INTRODUCTION";
-        case 2: return @"IMAGESsdfasdfasfadsfas";
+        case 0: return @"item1";
+        case 1: return @"item2";
+        case 2: return @"item3";
     }
     return @"NONE";
 }
