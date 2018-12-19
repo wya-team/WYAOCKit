@@ -23,7 +23,7 @@
 }
 - (void)layoutSubviews{
     [super layoutSubviews];
-    [self.stepperTextFiled wya_setLeftButtonWithView:self.subtractButton];
+    [self.stepperTextFiled wya_setLeftViewWithView:self.subtractButton];
     [self.stepperTextFiled wya_setRightButtonWithView:self.addButton];
 }
 #pragma mark ======= setter

@@ -34,7 +34,7 @@
  @param imageNamed 图片名字
  */
 - (void)wya_setLeftViewImageWithImageNamed:(NSString *)imageNamed;
-- (void)wya_setLeftButtonWithView:(UIButton *)button;
+- (void)wya_setLeftViewWithView:(UIView *)view;
 /**
  设置右视图图片
 

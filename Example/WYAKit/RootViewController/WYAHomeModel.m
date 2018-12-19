@@ -42,6 +42,7 @@
     
     WYAHomeItemModel * item8 = [[WYAHomeItemModel alloc]init];
     item8.rowName = @"WYASearchBar 搜索栏";
+    item8.className = @"WYASearchBarViewController";
     
     WYAHomeItemModel * item9 = [[WYAHomeItemModel alloc]init];
     item9.rowName = @"UIPopoverPresentationController 气泡";
