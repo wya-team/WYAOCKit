@@ -64,6 +64,7 @@
 		951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0C821A63CC400E1E4FE /* WYAThreeTableViewController.m */; };
 		9527A91A21AD291700B10579 /* WYABaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9527A91921AD291700B10579 /* WYABaseViewController.m */; };
 		9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9527A91D21AD711B00B10579 /* WYAShowNavController.m */; };
+		9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9533A60721CA1EB2004D9F0D /* WYASegmentedController.m */; };
 		954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */; };
 		954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */; };
 		954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76A21A94DD50016C0F5 /* WYATablePageController.m */; };
@@ -205,6 +206,8 @@
 		9527A91B21AD293200B10579 /* Config.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.pch; sourceTree = "<group>"; };
 		9527A91C21AD711B00B10579 /* WYAShowNavController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAShowNavController.h; sourceTree = "<group>"; };
 		9527A91D21AD711B00B10579 /* WYAShowNavController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAShowNavController.m; sourceTree = "<group>"; };
+		9533A60621CA1EB2004D9F0D /* WYASegmentedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYASegmentedController.h; sourceTree = "<group>"; };
+		9533A60721CA1EB2004D9F0D /* WYASegmentedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASegmentedController.m; sourceTree = "<group>"; };
 		954CB76321A94DC20016C0F5 /* WYATwoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATwoTableViewController.h; sourceTree = "<group>"; };
 		954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYAOneTableViewController.m; sourceTree = "<group>"; };
 		954CB76521A94DC30016C0F5 /* WYAOneTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYAOneTableViewController.h; sourceTree = "<group>"; };
@@ -390,8 +393,13 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+
+				9533A60521CA1E89004D9F0D /* WYAButton */,
+				9533A60421CA1E7E004D9F0D /* WYASegmentedControl */,
+
 				2138D0CB21CA136D00B6C3AF /* WYASearchBar */,
 				2138D0CA21C9EF2700B6C3AF /* WYAButton */,
+
 				2138D0C621C9E29B00B6C3AF /* WYACard */,
 				957F648F21C88D380009C044 /* WYANavBarUI */,
 				210C72F621C7D7DE00196F07 /* WYADrawserViewControll */,
@@ -699,6 +707,24 @@
 				957F649321C8DED00009C044 /* CustomColor.h */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		9533A60421CA1E7E004D9F0D /* WYASegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				9533A60621CA1EB2004D9F0D /* WYASegmentedController.h */,
+				9533A60721CA1EB2004D9F0D /* WYASegmentedController.m */,
+			);
+			path = WYASegmentedControl;
+			sourceTree = "<group>";
+		};
+		9533A60521CA1E89004D9F0D /* WYAButton */ = {
+			isa = PBXGroup;
+			children = (
+				210C72EA21C73FAD00196F07 /* WYAButtonViewController.h */,
+				210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */,
+			);
+			path = WYAButton;
 			sourceTree = "<group>";
 		};
 		9559282921AE27FB00C46D6D /* RootViewController */ = {
@@ -1010,6 +1036,7 @@
 				9578497B21B0C673001E19DC /* WYAInputItemModel.m in Sources */,
 				21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
+				9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				9563FEAC21B7AEEE00DA82D7 /* WYARealmSectionView.m in Sources */,
 				954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */,

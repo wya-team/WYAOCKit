@@ -41,4 +41,5 @@
 
 #import "WYAListViewController.h"
 #import "WYAInputItemCellController.h"
+#import "WYASegmentedController.h"
 #endif /* HomeHeader_h */

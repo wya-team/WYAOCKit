@@ -31,6 +31,10 @@
     }
 }
 
+- (void)wya_setBackgroundColor:(UIColor *)color forState:(UIControlState)state{
+    [self setBackgroundImage:[UIImage wya_createImageWithColor:color] forState:state];
+}
+
 @end
 
 @implementation UIButton (EnlargeTouchArea)
