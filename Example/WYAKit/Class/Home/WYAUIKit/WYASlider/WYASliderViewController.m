@@ -14,12 +14,19 @@
 @end
 
 @implementation WYASliderViewController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYASlidder/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     WYASlider * slider = [[WYASlider alloc]initWithFrame:CGRectMake(30, 100, self.view.frame.size.width-60, 30)];
     slider.showNoteLabel = NO;
     slider.minTintColor = BLUECOLOR;

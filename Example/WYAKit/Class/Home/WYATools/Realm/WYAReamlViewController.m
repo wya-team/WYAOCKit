@@ -33,12 +33,19 @@
 @end
 
 @implementation WYAReamlViewController
-
+#pragma mark ======= Life Cycle
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUtils/WYARealm/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    WYARealmBaseManager * dbManager = [WYARealmBaseManager wya_defaultRealm];
-//    [dbManager wya_deleteAllObjects];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     if ([[self getRealmArray] count] > 0) {
         self.titleString = @"   插入";
         [self.dataSource wya_safeAddObject:[self.sectionOneRowArray wya_safeObjectAtIndex:0]];
@@ -49,6 +56,7 @@
     [self.view addSubview:self.createTableLabel];
     }
 }
+
 - (void)createTable:(UITapGestureRecognizer *)sender{
     // 建表
     [self.createTableLabel removeFromSuperview];

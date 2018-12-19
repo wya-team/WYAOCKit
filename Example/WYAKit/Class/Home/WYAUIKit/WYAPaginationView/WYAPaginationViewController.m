@@ -15,13 +15,22 @@
 
 @implementation WYAPaginationViewController
 
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/tree/master/WYAKit/Classes/WYAUIKit/WYAPaginationView";
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.index = 0;
     self.navTitle = @"WYAPaginationView";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.pagination = [[WYAPaginationView alloc]initWithFrame:CGRectMake(20*SizeAdapter, WYATopHeight+20*SizeAdapter, ScreenWidth-40*SizeAdapter, 44*SizeAdapter)];
     self.pagination.wya_Delegate = self;
     [self.view addSubview:self.pagination];

@@ -18,6 +18,13 @@
 @end
 
 @implementation WYAPageViewController
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPageViewController/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
@@ -25,6 +32,8 @@
     [super viewDidLoad];
     self.navTitle = @"PageControllerStyle";
     [self.view addSubview:self.tableView];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
 }
 - (void)wya_goBackPressed:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
@@ -113,7 +122,6 @@
             vc.menuViewLayoutMode = WYAMenuViewLayoutModeCenter;
             vc.titleSizeSelected = 15;
             vc.progressViewCornerRadius = 2.0f;
-
             vc.titles = @[@"item1",@"item2",@"item3",@"item4"];
             [self.navigationController pushViewController:vc animated:YES];
         }else{

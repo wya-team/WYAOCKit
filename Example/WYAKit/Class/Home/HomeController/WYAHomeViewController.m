@@ -31,7 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
     [self.view addSubview:self.tableView];
 
 }
@@ -40,7 +39,7 @@
 - (UITableView *)tableView{
     if(!_tableView){
         _tableView = ({
-            UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) style:UITableViewStyleGrouped];
+            UITableView * object = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight - WYATabBarHeight) style:UITableViewStyleGrouped];
             object.delegate = self;
             object.dataSource = self;
             object.separatorStyle = UITableViewCellSeparatorStyleNone;

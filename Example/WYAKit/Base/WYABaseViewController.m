@@ -28,7 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = BGCOLOR;
     [self addCustomNavBar];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
@@ -38,7 +38,7 @@
     
     NSArray *arrViewControllers = self.navigationController.viewControllers;
     if ([arrViewControllers indexOfObject:self] > 0){
-        [self.navBar wya_goBackButtonWithImage:@"icon_back"];
+        [self.navBar wya_goBackButtonWithImage:@"返回"];
     }
     [self.view addSubview:self.navBar];
 }
@@ -116,10 +116,9 @@
         _navBar = ({
             WYANavBar * object = [[WYANavBar alloc]init];
             object.delegate = self;
-            object.backgroundColor = [UIColor whiteColor];
             object.navTitle = @"WYA移动端组件";
-            object.navTitleColor = WHITECOLOR;
-            object.backgroundColor = BLUECOLOR;
+            object.navTitleColor = BLACKTITLECOLOR;
+            object.backgroundColor = WHITECOLOR;
             object;
         });
     }
