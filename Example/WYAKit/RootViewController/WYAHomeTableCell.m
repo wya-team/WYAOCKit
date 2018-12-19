@@ -19,6 +19,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [self.contentView addSubview:self.backgroundV];
         [self.backgroundV addSubview:self.titleLabel];
@@ -58,6 +59,17 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
+    if (selected) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.backgroundV.backgroundColor = GRAYBGCOLOR;
+        }];
+    }else{
+        if (animated) {
+            [UIView animateWithDuration:0.3 animations:^{
+                self.backgroundV.backgroundColor = [UIColor whiteColor];
+            }];
+        }
+    }
     // Configure the view for the selected state
 }
 

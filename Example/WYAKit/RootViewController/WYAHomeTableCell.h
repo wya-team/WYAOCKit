@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class WYAHomeItemModel;
 
-@interface WYAHomeTableCell : WYATableViewCell
+@interface WYAHomeTableCell : UITableViewCell
 @property (nonatomic, strong) WYAHomeItemModel * model;
 @end
 
