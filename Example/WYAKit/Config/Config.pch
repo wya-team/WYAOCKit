@@ -23,6 +23,7 @@
 #import <WYAKit/WYAChooseMenu.h>
 #import <WYAKit/WYAChooseMenuModel.h>
 #import <WYAKit/WYAEditCameraCell.h>
+#import <WYAKit/WYATableViewCell.h>
 #import <WYAKit/UIView+WYAToast.h>
 #import <WYAKit/UIView+Gestures.h>
 
