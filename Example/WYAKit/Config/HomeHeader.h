@@ -9,7 +9,6 @@
 #ifndef HomeHeader_h
 #define HomeHeader_h
 
-#import "WYAHomeItemCell.h"
 #import "WYABannerHeaderView.h"
 
 #import "WYATextViewController.h"

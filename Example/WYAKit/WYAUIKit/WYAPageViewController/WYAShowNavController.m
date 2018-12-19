@@ -38,9 +38,9 @@
 }
 - (NSString *)wya_pageController:(WYAPageController *)pageController titleAtIndex:(NSInteger)index {
     switch (index % 3) {
-        case 0: return @"LIST";
-        case 1: return @"INTRODUCTION";
-        case 2: return @"LIST";
+        case 0: return @"item1";
+        case 1: return @"item2";
+        case 2: return @"item3";
     }
     return @"NONE";
 }

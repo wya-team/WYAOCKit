@@ -66,6 +66,7 @@
         _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.tableFooterView = [[UIView alloc]init];
     }
     return _tableView;
 }
@@ -86,8 +87,11 @@
                                       reuseIdentifier:cellIdentifier];
     }
     cell.textLabel.text = self.titles[indexPath.row];
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
     return cell;
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -101,49 +105,53 @@
             vc.selectIndex = 1;
             vc.titleColorSelected = [UIColor whiteColor];
             vc.menuViewStyle = style;
-            vc.titleColorNormal = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
-            vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
+            vc.titleColorNormal = BLUECOLOR;
+            vc.progressColor = BLUECOLOR;
             vc.navBar = [[WYANavBar alloc]init];
             [vc.navBar wya_goBackButtonWithImage:@"返回"];
             vc.showOnNavigationBar = YES;
             vc.menuViewLayoutMode = WYAMenuViewLayoutModeCenter;
             vc.titleSizeSelected = 15;
-            vc.titles = @[@"LIST",@"INTRODUCTION",@"LIST"];
+            vc.progressViewCornerRadius = 2.0f;
+
+            vc.titles = @[@"item1",@"item2",@"item3",@"item4"];
             [self.navigationController pushViewController:vc animated:YES];
         }else{
-    WYACustomPageController * vc = [[WYACustomPageController alloc]init];
-    vc.selectIndex = 1;
-    vc.title = key;
-    vc.menuViewStyle = style;
-    vc.automaticallyCalculatesItemWidths = YES;
-    if ([key isEqualToString:@"WYAMenuViewStyleNaughty"]) {
-        vc.progressViewIsNaughty = YES;
-        vc.progressWidth = 10;
-    }
-    if ([key isEqualToString:@"WYAMenuViewCornerRadius"]) {
-        vc.progressViewCornerRadius = 5.0f;
-    }
-    if ([key isEqualToString:@"WYAMenuViewPositionBottom"]) {
-        vc.menuViewPosition = WYAMenuViewPositionBottom;
-    }
-    [self customPageController:vc];
-    [self.navigationController pushViewController:vc animated:YES];
+        WYACustomPageController * vc = [[WYACustomPageController alloc]init];
+        vc.selectIndex = 1;
+        vc.title = key;
+        vc.menuViewStyle = style;
+        vc.automaticallyCalculatesItemWidths = YES;
+        vc.titleColorSelected = BLUECOLOR;
+        vc.titleColorNormal = BLACKTITLECOLOR;
+        vc.progressColor = BLUECOLOR;
+        if ([key isEqualToString:@"WYAMenuViewStyleNaughty"]) {
+            vc.progressViewIsNaughty = YES;
+            vc.progressWidth = 10;
         }
+        if ([key isEqualToString:@"WYAMenuViewCornerRadius"]) {
+            vc.progressViewCornerRadius = 2.0f;
+        }
+        if ([key isEqualToString:@"WYAMenuViewPositionBottom"]) {
+            vc.menuViewPosition = WYAMenuViewPositionBottom;
+        }
+
+        [self customPageController:vc];
+        [self.navigationController pushViewController:vc animated:YES];
+            }
     }
     else if([key isEqualToString:@"WYATablePageController"]){
         WYATablePageController * vc = [[WYATablePageController alloc]init];
         vc.selectIndex = 1;
+        vc.titles = @[@"item1",@"item2",@"item3",@"item4"];
         vc.menuViewStyle = WYAMenuViewStyleLine;
         vc.automaticallyCalculatesItemWidths = YES;
-        vc.titleColorNormal = [UIColor blackColor];
-        vc.titleColorSelected = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
-        vc.progressColor = [UIColor colorWithRed:168.0/255.0 green:20.0/255.0 blue:4/255.0 alpha:1];
         vc.menuViewLayoutMode = WYAMenuViewLayoutModeScatter;
         vc.titleSizeSelected = 16;
         vc.titleSizeNormal = 14;
         vc.itemMargin = 20;
+        vc.progressColor = BLUECOLOR;
         vc.acceptNotification = YES;
-        vc.titles = @[@"LIST",@"INTRODUCTION",@"INTRODUCTION",@"LIST"];
         [self.navigationController pushViewController:vc animated:YES];
     }
         

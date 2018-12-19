@@ -25,6 +25,8 @@
     self.customNavBar.navTitle = @"pageControllerExample";
     [self.customNavBar wya_goBackButtonWithImage:@"返回"];
     self.customNavBar.delegate = self;
+    self.titleColorSelected = BLUECOLOR;
+    self.titleColorNormal = BLACKTITLECOLOR;
     [self.view addSubview:self.customNavBar];
 }
 
@@ -39,10 +41,10 @@
 }
 - (NSString *)wya_pageController:(WYAPageTableViewController *)pageController titleAtIndex:(NSInteger)index {
     switch (index % 4) {
-        case 0: return @"LIST";
-        case 1: return @"INTRODUCTION";
-        case 2: return @"INTRODUCTION";
-         case 3: return @"LIST";
+        case 0: return @"item1";
+        case 1: return @"item2";
+        case 2: return @"item3";
+         case 3: return @"item4";
     }
     return @"NONE";
 

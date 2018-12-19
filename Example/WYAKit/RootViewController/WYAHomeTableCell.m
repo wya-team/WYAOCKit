@@ -39,7 +39,7 @@
     [self.arrowImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.backgroundV.mas_centerY);
         make.right.mas_equalTo(self.backgroundV.mas_right).with.offset(-10*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(15*SizeAdapter, 15*SizeAdapter));
     }];
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
