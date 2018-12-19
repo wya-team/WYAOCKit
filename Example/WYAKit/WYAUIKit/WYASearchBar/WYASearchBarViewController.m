@@ -9,8 +9,9 @@
 #import "WYASearchBarViewController.h"
 
 @interface WYASearchBarViewController ()<UISearchBarDelegate>
-@property (nonatomic, strong) UISearchBar * searchBar;
+@property (nonatomic, strong) WYASearchBar * searchBar;
 @property (nonatomic, strong) UISearchBar * searchBar1;
+@property (nonatomic, strong) WYASearchBar * searchBar2;
 @end
 
 @implementation WYASearchBarViewController
@@ -20,37 +21,24 @@
     // Do any additional setup after loading the view.
     self.navTitle = @"WYASearchBar";
     
-    self.searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, WYATopHeight+20*SizeAdapter, self.view.cmam_width, 44)];
+    self.searchBar = [[WYASearchBar alloc]initWithFrame:CGRectMake(0, WYATopHeight+20*SizeAdapter, self.view.cmam_width, 44)];
     self.searchBar.placeholder = @"搜索";
     self.searchBar.delegate = self;
+    self.searchBar.barTintColor = random(201, 201, 201, 1);
     [self.view addSubview:self.searchBar];
     
-    UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame)+20*SizeAdapter, self.view.cmam_width, 44)];
-    view.backgroundColor = random(201, 201, 206, 1);
-    [self.view addSubview:view];
-    UITextField * textField = [[UITextField alloc]initWithFrame:CGRectMake(10*SizeAdapter, 7, view.cmam_width-20*SizeAdapter, 30)];
-    textField.placeholder = @"搜索";
-    textField.backgroundColor = [UIColor whiteColor];
-    textField.borderStyle = UITextBorderStyleRoundedRect;
-    [view addSubview:textField];
-    
-    UIView * leftView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
-    leftView.backgroundColor = [UIColor whiteColor];
-    leftView.layer.cornerRadius = 4.f;
-    leftView.layer.masksToBounds = YES;
-    
-    UIButton * search = [UIButton buttonWithType:UIButtonTypeCustom];
-    [search setImage:[UIImage imageNamed:@"icon_search"] forState:UIControlStateNormal];
-    search.frame = CGRectMake(6.5, 6.5, 15, 15);
-    search.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [leftView addSubview:search];
-    [textField wya_setLeftViewWithView:leftView];
-    
-    self.searchBar1 = [[UISearchBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(view.frame)+20*SizeAdapter, self.view.cmam_width, 44)];
+    self.searchBar1 = [[UISearchBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar.frame)+20*SizeAdapter, self.view.cmam_width, 44)];
     self.searchBar1.placeholder = @"搜索";
-    self.searchBar1.showsCancelButton = YES;
     self.searchBar1.delegate = self;
+    self.searchBar1.barTintColor = random(201, 201, 201, 1);
     [self.view addSubview:self.searchBar1];
+    
+    self.searchBar2 = [[WYASearchBar alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.searchBar1.frame)+20*SizeAdapter, self.view.cmam_width, 44)];
+    self.searchBar2.placeholder = @"搜索";
+    self.searchBar2.showsCancelButton = YES;
+    self.searchBar2.delegate = self;
+    self.searchBar2.barTintColor = random(201, 201, 201, 1);
+    [self.view addSubview:self.searchBar2];
 }
 
 #pragma mark - UISearchBarDelegate  -
