@@ -87,6 +87,7 @@
     
     WYAHomeItemModel * item19 = [[WYAHomeItemModel alloc]init];
     item19.rowName = @"WYAGridItem 宫格";
+    item19.className = @"WYAGridViewController";
     
     WYAHomeItemModel * item20 = [[WYAHomeItemModel alloc]init];
     item20.rowName = @"WYACard 卡片";

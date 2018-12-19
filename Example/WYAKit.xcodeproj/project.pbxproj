@@ -59,6 +59,7 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		7E91C43C6FD8CC0E458A5255 /* Pods_WYAKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F60F6FE250AF5CA1776BC059 /* Pods_WYAKit_Tests.framework */; };
 		917A49808D1DD8B518EB389F /* Pods_WYAKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */; };
+		950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40E321CA3AAE002BC685 /* WYAGridViewController.m */; };
 		951FC0B021A558CA00E1E4FE /* WYAPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0AF21A558CA00E1E4FE /* WYAPageViewController.m */; };
 		951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0B221A559A900E1E4FE /* WYACustomPageController.m */; };
 		951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0C821A63CC400E1E4FE /* WYAThreeTableViewController.m */; };
@@ -68,7 +69,7 @@
 		954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */; };
 		954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */; };
 		954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76A21A94DD50016C0F5 /* WYATablePageController.m */; };
-		9559283421AE82D400C46D6D /* WYAHomeItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283321AE82D400C46D6D /* WYAHomeItemCell.m */; };
+		9559283421AE82D400C46D6D /* WYAGridItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283321AE82D400C46D6D /* WYAGridItemCell.m */; };
 		9563FEA321B7609E00DA82D7 /* WYARealmCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9563FEA221B7609E00DA82D7 /* WYARealmCell.m */; };
 		9563FEA621B760B100DA82D7 /* WYARealmHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9563FEA521B760B100DA82D7 /* WYARealmHeaderView.m */; };
 		9563FEAC21B7AEEE00DA82D7 /* WYARealmSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9563FEAB21B7AEEE00DA82D7 /* WYARealmSectionView.m */; };
@@ -195,6 +196,8 @@
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		801C2E365940271D211968FE /* Pods-WYAKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		83F2399E7D27BA1829D1D461 /* Pods-WYAKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		950B40E221CA3AAE002BC685 /* WYAGridViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAGridViewController.h; sourceTree = "<group>"; };
+		950B40E321CA3AAE002BC685 /* WYAGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAGridViewController.m; sourceTree = "<group>"; };
 		951FC0AE21A558CA00E1E4FE /* WYAPageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPageViewController.h; sourceTree = "<group>"; };
 		951FC0AF21A558CA00E1E4FE /* WYAPageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPageViewController.m; sourceTree = "<group>"; };
 		951FC0B121A559A900E1E4FE /* WYACustomPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACustomPageController.h; sourceTree = "<group>"; };
@@ -214,8 +217,8 @@
 		954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATwoTableViewController.m; sourceTree = "<group>"; };
 		954CB76921A94DD50016C0F5 /* WYATablePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATablePageController.h; sourceTree = "<group>"; };
 		954CB76A21A94DD50016C0F5 /* WYATablePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATablePageController.m; sourceTree = "<group>"; };
-		9559283221AE82D400C46D6D /* WYAHomeItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAHomeItemCell.h; sourceTree = "<group>"; };
-		9559283321AE82D400C46D6D /* WYAHomeItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAHomeItemCell.m; sourceTree = "<group>"; };
+		9559283221AE82D400C46D6D /* WYAGridItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAGridItemCell.h; sourceTree = "<group>"; };
+		9559283321AE82D400C46D6D /* WYAGridItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAGridItemCell.m; sourceTree = "<group>"; };
 		9563FEA121B7609E00DA82D7 /* WYARealmCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARealmCell.h; sourceTree = "<group>"; };
 		9563FEA221B7609E00DA82D7 /* WYARealmCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYARealmCell.m; sourceTree = "<group>"; };
 		9563FEA421B760B100DA82D7 /* WYARealmHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARealmHeaderView.h; sourceTree = "<group>"; };
@@ -393,6 +396,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				950B40E121CA3A8A002BC685 /* WYAGridViewController */,
 				9533A60521CA1E89004D9F0D /* WYAButton */,
 				9533A60421CA1E7E004D9F0D /* WYASegmentedControl */,
 				2138D0CB21CA136D00B6C3AF /* WYASearchBar */,
@@ -674,6 +678,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		950B40E121CA3A8A002BC685 /* WYAGridViewController */ = {
+			isa = PBXGroup;
+			children = (
+				9559283221AE82D400C46D6D /* WYAGridItemCell.h */,
+				9559283321AE82D400C46D6D /* WYAGridItemCell.m */,
+				950B40E221CA3AAE002BC685 /* WYAGridViewController.h */,
+				950B40E321CA3AAE002BC685 /* WYAGridViewController.m */,
+			);
+			path = WYAGridViewController;
+			sourceTree = "<group>";
+		};
 		951FC0B421A6398900E1E4FE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -729,8 +744,6 @@
 				210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */,
 				210E9F6921ABEB6900BFE994 /* WYALeftViewController.h */,
 				210E9F6A21ABEB6900BFE994 /* WYALeftViewController.m */,
-				9559283221AE82D400C46D6D /* WYAHomeItemCell.h */,
-				9559283321AE82D400C46D6D /* WYAHomeItemCell.m */,
 				210C72ED21C7B05300196F07 /* WYAHomeModel.h */,
 				210C72EE21C7B05300196F07 /* WYAHomeModel.m */,
 				210C72F021C7C5F100196F07 /* WYAHomeHeaderView.h */,
@@ -1061,11 +1074,12 @@
 				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */,
 				954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */,
 				210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */,
 				9578497E21B0C8B8001E19DC /* WYAInputOneCell.m in Sources */,
 				9578499121B1195A001E19DC /* WYAListThreeCell.m in Sources */,
-				9559283421AE82D400C46D6D /* WYAHomeItemCell.m in Sources */,
+				9559283421AE82D400C46D6D /* WYAGridItemCell.m in Sources */,
 				9563FEA321B7609E00DA82D7 /* WYARealmCell.m in Sources */,
 				210C72F521C7CCBA00196F07 /* WYAHomeTableCell.m in Sources */,
 				951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */,
