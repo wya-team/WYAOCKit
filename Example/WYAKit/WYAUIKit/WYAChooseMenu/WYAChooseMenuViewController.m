@@ -144,10 +144,20 @@
         item6.enableCell = NO;
         item6.select = YES;
         
+        WYAChooseMenuSecondLevelModel * item7 = [[WYAChooseMenuSecondLevelModel alloc]init];
+        item7.title = @"SuperMarket";
+        item7.enableCell = YES;
+        item7.select = NO;
+        
+        WYAChooseMenuSecondLevelModel * item8 = [[WYAChooseMenuSecondLevelModel alloc]init];
+        item8.title = @"C-Store";
+        item8.enableCell = NO;
+        item8.select = NO;
+        
         WYAChooseMenuModel * model2 = [[WYAChooseMenuModel alloc]init];
         model2.select = NO;
         model2.title = @"SuperMarket";
-        model2.secondLevelModels = @[item6];
+        model2.secondLevelModels = @[item6,item7,item8];
         
         _titles = @[model1, model2];
     }

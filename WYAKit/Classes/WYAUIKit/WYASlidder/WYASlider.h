@@ -8,16 +8,35 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYASlider;
 typedef NS_ENUM(NSInteger, WYASliderStyle) {
     WYASliderStyleSingle,//单向
     WYASliderStyleDouble,//双向
 };
 
+@protocol WYASliderDelegate <NSObject>
+@optional
+
+/**
+ 左侧滑动事件
+
+ @param value 左侧滑动量
+ */
+-(void)wya_slider:(WYASlider *)slider MinValueChange:(CGFloat)value;
+
+/**
+ 右侧滑动事件
+
+ @param value 右侧滑动量
+ */
+-(void)wya_slider:(WYASlider *)slider MaxValueChange:(CGFloat)value;
+
+@end
+
 @interface WYASlider : UIView
 
 @property (nonatomic, assign) WYASliderStyle  sliderStyle;
-
+@property (nonatomic, weak) id<WYASliderDelegate> delegate;
 /**
  设置min进度条颜色
  */
