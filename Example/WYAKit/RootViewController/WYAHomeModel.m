@@ -36,9 +36,6 @@
     WYAHomeItemModel * item5 = [[WYAHomeItemModel alloc]init];
     item5.rowName = @"WYASegmentedControl 分段控制器";
     
-    WYAHomeItemModel * item6 = [[WYAHomeItemModel alloc]init];
-    item6.rowName = @"WYATabBar 底部导航";
-    
     WYAHomeItemModel * item7 = [[WYAHomeItemModel alloc]init];
     item7.rowName = @"WYAPageViewController 分页控制器";
     item7.className = @"WYAPageViewController";
@@ -52,7 +49,7 @@
     
     WYAHomeModel * model1 = [[WYAHomeModel alloc]init];
     model1.sectionName = @"导航 Navigation";
-    model1.rows = @[item1,item2,item3,item4,item5,item6,item7,item8,item9];
+    model1.rows = @[item1,item2,item3,item4,item5,item7,item8,item9];
     
     WYAHomeItemModel * item10 = [[WYAHomeItemModel alloc]init];
     item10.rowName = @"WYAButton 按钮";
