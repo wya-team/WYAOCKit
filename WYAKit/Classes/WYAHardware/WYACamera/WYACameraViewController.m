@@ -413,20 +413,20 @@
             object.finishHandle = ^(UIImage * _Nonnull previewImage) {
                 [weakSelf sureClick];
             };
-//            object.editHandle = ^(UIImage * _Nonnull previewImage) {
-//                StrongSelf(strongSelf);
-//                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
-//                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
-//                    [vc dismissViewControllerAnimated:NO completion:^{
-//                        [strongSelf dismissViewControllerAnimated:YES completion:^{
-//                            if (strongSelf.TakePhoto) {
-//                                strongSelf.TakePhoto(image);
-//                            }
-//                        }];
-//                    }];
-//                };
-//                [strongSelf presentViewController:vc animated:YES completion:nil];
-//            };
+            object.editHandle = ^(UIImage * _Nonnull previewImage) {
+                StrongSelf(strongSelf);
+                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
+                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+                    [vc dismissViewControllerAnimated:NO completion:^{
+                        [strongSelf dismissViewControllerAnimated:YES completion:^{
+                            if (strongSelf.TakePhoto) {
+                                strongSelf.TakePhoto(image);
+                            }
+                        }];
+                    }];
+                };
+                [strongSelf presentViewController:vc animated:YES completion:nil];
+            };
             [self.view addSubview:object];
             object;
         });

@@ -9,7 +9,7 @@
 #import "WYAPickerViewController.h"
 
 
-@interface WYAPickerViewController ()<WYAPickerViewDelegate>
+@interface WYAPickerViewController ()<WYAPickerViewDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @end
 
@@ -199,15 +199,15 @@
                                           }] mutableCopy];
             
         }
-//        pickerView.pickerHeight = 160;
-//        pickerView.pickerItemHeight = 30;
+//        pickerView.pickerHeight = 260;
+//        pickerView.pickerItemHeight = 60;
         pickerView.frame = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];
         pickerView.viewController = alert;
     }else if (indexPath.section == 1){
         WYADatePicker * datePicker = [[WYADatePicker alloc]init];
-        
+        datePicker.pickerHeight = 260;
         if (indexPath.row == 0) {
             datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
         }else if (indexPath.row == 1) {
@@ -243,6 +243,7 @@
         }else if (indexPath.row == 16) {
             datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
         }
+        
         datePicker.frame = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:datePicker AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];

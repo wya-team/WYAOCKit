@@ -9,12 +9,13 @@
 #import "WYAPaginationView.h"
 #import "WYACustomPickerView.h"
 
-static CGFloat pickerViewHeight = 220.0;
+
 static CGFloat titleHeight = 44.0;
 
 @interface WYAPickerView ()<WYAPaginationViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, WYACustomPickerViewDataSource, WYACustomPickerViewDelegate>
 
 @property (nonatomic, strong) WYAPaginationView * titleView;
+@property (nonatomic, strong) UIView * pickerFatherView;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, strong) WYACustomPickerView * customPicker;
 @property (nonatomic, copy) NSString * resultString;
@@ -53,17 +54,24 @@ static CGFloat titleHeight = 44.0;
         make.left.right.top.mas_equalTo(self);
         make.height.mas_equalTo(titleHeight);
     }];
+    
+    [self.pickerFatherView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self);
+        make.top.mas_equalTo(self.titleView.mas_bottom);
+        make.height.mas_equalTo(self.pickerHeight);
+    }];
+    
     if (self.pickerViewStyle == WYAPickerViewStyleCustom) {
         [self.customPicker mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(self);
             make.top.mas_equalTo(self.titleView.mas_bottom);
-            make.height.mas_equalTo(self.pickerHeight? self.pickerHeight : pickerViewHeight);
+            make.height.mas_equalTo(self.pickerHeight);
         }];
     }else{
         [self.pickView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self);
-            make.top.mas_equalTo(self.titleView.mas_bottom);
-            make.height.mas_equalTo(self.pickerHeight? self.pickerHeight : pickerViewHeight);
+            make.centerX.mas_equalTo(self.pickerFatherView.mas_centerX);
+            make.centerY.mas_equalTo(self.pickerFatherView.mas_centerY);
+            make.width.mas_equalTo(self.pickerFatherView.mas_width);
         }];
     }
 }
@@ -298,17 +306,20 @@ static CGFloat titleHeight = 44.0;
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleView];
-    [self addSubview:self.pickView];
+    [self addSubview:self.pickerFatherView];
+    [self.pickerFatherView addSubview:self.pickView];
 //    [self addSubview:self.customPicker];
     
     self.pickerViewStyle = WYAPickerViewStyleSystem;
+    self.pickerHeight = 220;
 }
 #pragma mark --- Public Action
 
 -(CGFloat)wya_GetPickerViewHeight{
+    [self setNeedsLayout];
     [self layoutIfNeeded];
     if (self.pickerViewStyle == WYAPickerViewStyleSystem) {
-        return self.titleView.cmam_height+self.pickView.cmam_height;
+        return self.titleView.cmam_height+self.pickerFatherView.cmam_height;
     }else{
         return self.titleView.cmam_height+self.customPicker.cmam_height;
     }
@@ -325,6 +336,17 @@ static CGFloat titleHeight = 44.0;
         [_titleView wya_SetRightButtonWithTitle:@"确定" TitleColor:[UIColor wya_hex:@"#108DE7"] TitleFont:15];
     }
     return _titleView;
+}
+
+- (UIView *)pickerFatherView{
+    if(!_pickerFatherView){
+        _pickerFatherView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+        });
+    }
+    return _pickerFatherView;
 }
 
 -(UIPickerView *)pickView{
@@ -429,5 +451,7 @@ static CGFloat titleHeight = 44.0;
     // Drawing code
 }
 */
+
+
 
 @end

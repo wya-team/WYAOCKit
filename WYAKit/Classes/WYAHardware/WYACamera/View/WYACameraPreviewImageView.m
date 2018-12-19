@@ -39,19 +39,19 @@
     [self.editButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.mas_centerY).with.offset(200*SizeAdapter);
         make.centerX.mas_equalTo(self.mas_centerX);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 40*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(60*SizeAdapter, 60*SizeAdapter));
     }];
     
     [self.cancelButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.editButton.mas_centerY);
-        make.right.mas_equalTo(self.editButton.mas_left).with.offset(-self.cmam_width/4);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 40*SizeAdapter));
+        make.right.mas_equalTo(self.editButton.mas_left).with.offset(-(self.cmam_width-180*SizeAdapter)/4);
+        make.size.mas_equalTo(CGSizeMake(60*SizeAdapter, 60*SizeAdapter));
     }];
     
     [self.finishButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.editButton.mas_centerY);
-        make.left.mas_equalTo(self.editButton.mas_right).with.offset(self.cmam_width/4);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 40*SizeAdapter));
+        make.left.mas_equalTo(self.editButton.mas_right).with.offset((self.cmam_width-180*SizeAdapter)/4);
+        make.size.mas_equalTo(CGSizeMake(60*SizeAdapter, 60*SizeAdapter));
     }];
 }
 

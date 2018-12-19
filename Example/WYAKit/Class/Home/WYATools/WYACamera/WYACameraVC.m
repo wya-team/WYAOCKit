@@ -35,7 +35,7 @@
             object.dataSource = self;
             object.backgroundColor = [UIColor groupTableViewBackgroundColor];
             [object registerNib:[UINib nibWithNibName:@"WYACameraCell" bundle:nil] forCellWithReuseIdentifier:CameraCell];
-            [object registerNib:[UINib nibWithNibName:@"WYAEditCameraCell" bundle:nil] forCellWithReuseIdentifier:EditCameraCell];
+            [object registerClass:[WYAEditCameraCell class] forCellWithReuseIdentifier:EditCameraCell];
             object;
         });
     }
@@ -78,7 +78,7 @@
         cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
     }else{
         WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
-        editCell.imageView.image = self.dataSource[indexPath.item];
+        editCell.image = self.dataSource[indexPath.item];
         editCell.editBlock = ^{
             [self.dataSource removeObjectAtIndex:indexPath.row];
             [self.collectionView reloadData];
@@ -90,7 +90,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat width = (ScreenWidth-25)/4;
+    CGFloat width = (ScreenWidth-50)/4;
     return CGSizeMake(width, width);
     
 }
@@ -109,7 +109,7 @@
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0*SizeAdapter, 5, 0*SizeAdapter, 5);
+    return UIEdgeInsetsMake(0*SizeAdapter, 10, 0*SizeAdapter, 10);
 }
 
 //设置每个item水平间距
@@ -130,10 +130,10 @@
     if (indexPath.item == self.dataSource.count-1) {
         WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"" Message:@""];
         WeakSelf(weakSelf);
-        WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDestructive handler:^{
+        WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
             WYACameraViewController * camera = [[WYACameraViewController alloc]init];
             camera.TakePhoto = ^(UIImage *photo) {
-                [self.dataSource addObject:photo];
+                [self.dataSource insertObject:photo atIndex:0];
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:camera animated:YES completion:nil];
@@ -143,7 +143,7 @@
             WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:5];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
-                [self.dataSource addObjectsFromArray:images];
+                [self.dataSource insertObjects:images atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:photo animated:YES completion:nil];

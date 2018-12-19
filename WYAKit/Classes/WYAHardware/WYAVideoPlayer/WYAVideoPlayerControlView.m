@@ -164,8 +164,8 @@
 {
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_playButton setImage:[UIImage loadBundleImage:@"playNormal" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [_playButton setImage:[UIImage loadBundleImage:@"playSelect" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
+        [_playButton setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [_playButton setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
         _playButton.selected = NO;
         [_playButton addTarget:self action:@selector(playButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -209,7 +209,7 @@
 {
     if (!_zoomButton) {
         _zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_zoomButton setImage:[UIImage loadBundleImage:@"zoom_out" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_enlarge" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         [_zoomButton setImage:[UIImage loadBundleImage:@"zoom_in" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
         [_zoomButton addTarget:self action:@selector(zoomClick:) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAEditCameraCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) UIImage * image;
 @property (nonatomic, copy)   void(^editBlock)(void);
 @end
 

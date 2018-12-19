@@ -9,12 +9,28 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAProgressView/WYAProgressView.m"
-            timestampString = "566907851.471776"
+            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
+            timestampString = "566918424.8190809"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "-flashButtonClick:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYADatePicker.m"
+            timestampString = "566920772.269997"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
             landmarkName = "-layoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
@@ -25,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAProgressView/WYAProgressView.m"
-            timestampString = "566907851.471845"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYADatePicker.m"
+            timestampString = "566920772.270389"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "-init"
+            startingLineNumber = "558"
+            endingLineNumber = "558"
+            landmarkName = "-createUI"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,29 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAProgressView/WYAProgressView.m"
-            timestampString = "566907851.4718879"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYADatePicker.m"
+            timestampString = "566921025.7078609"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "-initWithFrame:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
-            timestampString = "566908216.1245919"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "-flashButtonClick:"
+            startingLineNumber = "787"
+            endingLineNumber = "787"
+            landmarkName = "-setDatePickerManager:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
