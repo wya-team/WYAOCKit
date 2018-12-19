@@ -85,7 +85,8 @@
     }];
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.bottom.mas_equalTo(self.navBarView);
+        make.center.mas_equalTo(self.navBarView);
+        make.size.mas_equalTo(CGSizeMake(200*SizeAdapter, 44));
     }];
     
     [_lineView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,6 +99,7 @@
     self.backgroundColor = [UIColor whiteColor];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.font = [UIFont systemFontOfSize:TITLEFONT];
+    self.titleLabel.adjustsFontSizeToFitWidth = YES;
     _backgroundImageView.userInteractionEnabled = YES;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     _lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
