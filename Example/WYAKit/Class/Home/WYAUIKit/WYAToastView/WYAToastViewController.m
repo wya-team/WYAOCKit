@@ -24,6 +24,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navTitle = @"UIView+WYAToast";
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 }
 - (IBAction)buttonActionCenter:(id)sender {

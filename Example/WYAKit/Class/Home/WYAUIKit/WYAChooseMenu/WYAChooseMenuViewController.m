@@ -27,7 +27,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navTitle = @"WYAChooseMenu";
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     [self.view addSubview:self.tableView];
 }
 

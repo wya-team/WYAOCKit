@@ -39,7 +39,6 @@
     NSArray *arrViewControllers = self.navigationController.viewControllers;
     if ([arrViewControllers indexOfObject:self] > 0){
         [self.navBar wya_goBackButtonWithImage:@"返回"];
-        [self.navBar wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
     }
     [self.view addSubview:self.navBar];
 }

@@ -26,6 +26,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     [self.view addSubview:self.segmentedControl1];
     [self.view addSubview:self.segmentedControl2];
 

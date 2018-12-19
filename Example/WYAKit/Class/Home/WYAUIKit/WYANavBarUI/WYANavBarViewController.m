@@ -27,6 +27,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tempView];
 }

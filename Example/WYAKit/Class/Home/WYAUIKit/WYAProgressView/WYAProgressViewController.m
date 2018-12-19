@@ -25,7 +25,8 @@
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     UIProgressView * progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(10, WYATopHeight+20, self.view.frame.size.width-20, 20)];
     progressView.progressTintColor = [UIColor redColor];
     progressView.trackTintColor = [UIColor grayColor];

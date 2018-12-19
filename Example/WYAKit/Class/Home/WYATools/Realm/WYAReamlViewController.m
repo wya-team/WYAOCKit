@@ -44,6 +44,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     if ([[self getRealmArray] count] > 0) {
         self.titleString = @"   插入";
         [self.dataSource wya_safeAddObject:[self.sectionOneRowArray wya_safeObjectAtIndex:0]];

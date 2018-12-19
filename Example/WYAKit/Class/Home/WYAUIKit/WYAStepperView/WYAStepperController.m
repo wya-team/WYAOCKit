@@ -24,6 +24,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.navTitle = @"StepperView";
     [self.view addSubview:self.tableView];
     self.view.backgroundColor = [UIColor whiteColor];

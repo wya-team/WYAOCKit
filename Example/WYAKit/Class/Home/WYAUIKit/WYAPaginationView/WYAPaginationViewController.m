@@ -29,7 +29,8 @@
     self.index = 0;
     self.navTitle = @"WYAPaginationView";
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.pagination = [[WYAPaginationView alloc]initWithFrame:CGRectMake(20*SizeAdapter, WYATopHeight+20*SizeAdapter, ScreenWidth-40*SizeAdapter, 44*SizeAdapter)];
     self.pagination.wya_Delegate = self;
     [self.view addSubview:self.pagination];

@@ -25,6 +25,8 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     // Do any additional setup after loading the view.
     self.navTitle = @"WYANoticeBar";
     self.view.backgroundColor = [UIColor whiteColor];

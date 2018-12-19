@@ -24,7 +24,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(10, 100, self.view.frame.size.width-20, 100)];

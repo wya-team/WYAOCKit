@@ -27,6 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.navTitle = @"WYASearchBar";
     
     self.searchBar = [[WYASearchBar alloc]initWithFrame:CGRectMake(0, WYATopHeight+20*SizeAdapter, self.view.cmam_width, 44)];

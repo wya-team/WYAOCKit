@@ -32,6 +32,8 @@
     [super viewDidLoad];
     self.navTitle = @"PageControllerStyle";
     [self.view addSubview:self.tableView];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
 }
 - (void)wya_goBackPressed:(UIButton *)sender{
     [self.navigationController popViewControllerAnimated:YES];
