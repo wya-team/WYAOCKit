@@ -127,8 +127,29 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     if ([itemModel.rowName isEqualToString:@"WYAClearCache 清理缓存"]) {
-        // 清理缓存 
+        // 清理缓存
+        [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
+            NSLog(@"%.2fMB",folderSize);
+            [self showAlertWith:[NSString stringWithFormat:@"%.2fMB",folderSize]];
+        } UnitType:WYAFileSizeUnitMB];
     }
+}
+// 缓存弹框提示
+- (void)showAlertWith:(NSString *)size{
+    WYAAlertController *alert = [WYAAlertController wya_AlertWithTitle:@"清理缓存"
+                                                               Message:[NSString stringWithFormat:@"当前缓存%@，是否清理",size]
+                                                      AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+    alert.backgroundButton.enabled = NO;
+    // 创建 action
+    WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{ NSLog(@"Default");
+        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
+            NSLog(@"清理成功");
+        }];
+    }];
+    WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
+    [alert wya_AddAction:cancelAction];
+    [alert wya_AddAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 @end
