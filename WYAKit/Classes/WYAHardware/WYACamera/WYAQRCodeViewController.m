@@ -517,7 +517,7 @@ static CGFloat QRCodeWidth = 220;
             [object setImage:[UIImage loadBundleImage:@"" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
             object.hidden = YES;
             object.alpha = 0;
-            [object setImageLocationTopWithSpace:3*SizeAdapter];
+            [object wya_setButtonImageLocationTopWithSpace:3*SizeAdapter];
             [object addCallBackAction:^(UIButton *button) {
                 button.selected = !button.selected;
                 if (button.selected) {

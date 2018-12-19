@@ -20,28 +20,35 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lnd-hm-45h">
-                    <rect key="frame" x="0.0" y="100" width="125" height="30"/>
+                    <rect key="frame" x="10" y="100" width="355" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="Exi-4y-EOB"/>
+                    </constraints>
                     <state key="normal" title="中心提示框"/>
                     <connections>
                         <action selector="buttonActionCenter:" destination="-1" eventType="touchUpInside" id="5BO-kz-BM8"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2O-88-xoa">
-                    <rect key="frame" x="250" y="100" width="125" height="30"/>
+                    <rect key="frame" x="10" y="228" width="355" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" title="图片带文字提示框"/>
                     <connections>
                         <action selector="buttonToast:" destination="-1" eventType="touchUpInside" id="yO2-zA-9gg"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KfB-yL-xeb">
-                    <rect key="frame" x="0.0" y="160" width="125" height="30"/>
+                    <rect key="frame" x="10" y="292" width="355" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" title="图片带文字提示框自动消失"/>
                     <connections>
                         <action selector="buttonToastAutoDismiss:" destination="-1" eventType="touchUpInside" id="rde-9H-W07"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S1V-Tk-uWH">
-                    <rect key="frame" x="125" y="100" width="125" height="30"/>
+                    <rect key="frame" x="10" y="164" width="355" height="44"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <state key="normal" title="下边提示框"/>
                     <connections>
                         <action selector="buttonActionBottom:" destination="-1" eventType="touchUpInside" id="9QX-dA-wab"/>
@@ -50,18 +57,22 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Q2O-88-xoa" firstAttribute="top" secondItem="S1V-Tk-uWH" secondAttribute="top" id="5Kg-UF-kUp"/>
-                <constraint firstItem="KfB-yL-xeb" firstAttribute="leading" secondItem="lnd-hm-45h" secondAttribute="leading" id="7j1-jL-962"/>
-                <constraint firstItem="S1V-Tk-uWH" firstAttribute="width" secondItem="lnd-hm-45h" secondAttribute="width" id="HSr-pa-cfe"/>
-                <constraint firstItem="KfB-yL-xeb" firstAttribute="trailing" secondItem="lnd-hm-45h" secondAttribute="trailing" id="KNI-an-gXw"/>
-                <constraint firstItem="Q2O-88-xoa" firstAttribute="width" secondItem="lnd-hm-45h" secondAttribute="width" id="PL4-xW-KM3"/>
-                <constraint firstItem="S1V-Tk-uWH" firstAttribute="top" secondItem="lnd-hm-45h" secondAttribute="top" id="X1i-s9-fGY"/>
-                <constraint firstAttribute="trailing" secondItem="Q2O-88-xoa" secondAttribute="trailing" id="Xhz-Rm-11L"/>
-                <constraint firstItem="KfB-yL-xeb" firstAttribute="top" secondItem="lnd-hm-45h" secondAttribute="bottom" constant="30" id="bfh-lG-Drn"/>
-                <constraint firstItem="S1V-Tk-uWH" firstAttribute="leading" secondItem="lnd-hm-45h" secondAttribute="trailing" id="fIq-U8-S62"/>
-                <constraint firstItem="lnd-hm-45h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hZi-v1-T6J"/>
-                <constraint firstItem="lnd-hm-45h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="100" id="oqs-eR-Ylg"/>
-                <constraint firstItem="Q2O-88-xoa" firstAttribute="leading" secondItem="S1V-Tk-uWH" secondAttribute="trailing" id="sF6-R5-grX"/>
+                <constraint firstItem="Q2O-88-xoa" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="4rv-bA-qqm"/>
+                <constraint firstItem="S1V-Tk-uWH" firstAttribute="height" secondItem="lnd-hm-45h" secondAttribute="height" id="91w-1q-u81"/>
+                <constraint firstItem="KfB-yL-xeb" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Bi8-hI-4Jc"/>
+                <constraint firstItem="Q2O-88-xoa" firstAttribute="width" secondItem="lnd-hm-45h" secondAttribute="width" id="HrE-h3-rVG"/>
+                <constraint firstItem="S1V-Tk-uWH" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="NOh-Co-FCZ"/>
+                <constraint firstItem="KfB-yL-xeb" firstAttribute="width" secondItem="lnd-hm-45h" secondAttribute="width" id="Wuf-Tt-82W"/>
+                <constraint firstItem="S1V-Tk-uWH" firstAttribute="width" secondItem="lnd-hm-45h" secondAttribute="width" id="ali-yV-97P"/>
+                <constraint firstItem="Q2O-88-xoa" firstAttribute="top" secondItem="S1V-Tk-uWH" secondAttribute="bottom" constant="20" id="bO5-8p-Skr"/>
+                <constraint firstItem="lnd-hm-45h" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="cVX-AZ-Kap"/>
+                <constraint firstItem="lnd-hm-45h" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="edJ-Pp-RG5"/>
+                <constraint firstAttribute="trailing" secondItem="lnd-hm-45h" secondAttribute="trailing" constant="10" id="gYf-e2-vkj"/>
+                <constraint firstItem="KfB-yL-xeb" firstAttribute="top" secondItem="Q2O-88-xoa" secondAttribute="bottom" constant="20" id="iPe-Fg-mbh"/>
+                <constraint firstItem="S1V-Tk-uWH" firstAttribute="top" secondItem="lnd-hm-45h" secondAttribute="bottom" constant="20" id="nnw-nF-bOp"/>
+                <constraint firstItem="Q2O-88-xoa" firstAttribute="height" secondItem="lnd-hm-45h" secondAttribute="height" id="phD-5H-ZfZ"/>
+                <constraint firstItem="lnd-hm-45h" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="100" id="rrY-Jj-PVT"/>
+                <constraint firstItem="KfB-yL-xeb" firstAttribute="height" secondItem="lnd-hm-45h" secondAttribute="height" id="tj2-IL-RI2"/>
             </constraints>
             <point key="canvasLocation" x="55.200000000000003" y="53.523238380809602"/>
         </view>

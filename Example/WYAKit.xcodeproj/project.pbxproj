@@ -321,6 +321,15 @@
 			path = WYACard;
 			sourceTree = "<group>";
 		};
+		2138D0CA21C9EF2700B6C3AF /* WYAButton */ = {
+			isa = PBXGroup;
+			children = (
+				210C72EA21C73FAD00196F07 /* WYAButtonViewController.h */,
+				210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */,
+			);
+			path = WYAButton;
+			sourceTree = "<group>";
+		};
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +378,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				2138D0CA21C9EF2700B6C3AF /* WYAButton */,
 				2138D0C621C9E29B00B6C3AF /* WYACard */,
 				957F648F21C88D380009C044 /* WYANavBarUI */,
 				210C72F621C7D7DE00196F07 /* WYADrawserViewControll */,
@@ -389,8 +399,6 @@
 				21470BF8219ABE880099CB6F /* WYAIMGCode */,
 				21470BF9219ABE880099CB6F /* WYABannerView */,
 				21470BFA219ABE880099CB6F /* WYAUIAlert */,
-				210C72EA21C73FAD00196F07 /* WYAButtonViewController.h */,
-				210C72EB21C73FAD00196F07 /* WYAButtonViewController.m */,
 			);
 			path = WYAUIKit;
 			sourceTree = "<group>";
