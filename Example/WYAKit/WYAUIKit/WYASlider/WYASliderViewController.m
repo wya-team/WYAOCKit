@@ -33,8 +33,8 @@
 
 
     WYASlider * slider2 = [[WYASlider alloc]initWithFrame:CGRectMake(10, 300, self.view.frame.size.width-20, 30)];
-    slider2.minImage = [UIImage imageNamed:@"喇叭"];
-    slider2.maxImage = [UIImage imageNamed:@"大喇叭"];
+    slider2.minImage = [UIImage imageNamed:@"icon_voiceclose"];
+    slider2.maxImage = [UIImage imageNamed:@"icon_voiceopen"];
     [self.view addSubview:slider2];
 
     self.slider3 = [[WYASlider alloc]initWithFrame:CGRectMake(10, 400, self.view.frame.size.width-20, 30)];
