@@ -32,10 +32,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat  cornerRadius;
 
 /**
- 设置默认选择项索引,默认选中第一个
+ 设置默认选择项索引,默认选中第一个只写
  */
-@property (nonatomic, assign) NSInteger  selectedSegmentIndex;
+@property (nonatomic, assign, readwrite) NSInteger  selectedSegmentIndex;
 
+/**
+ 只读获取当前选中的索引，只读
+ */
+@property (nonatomic, assign, readonly) NSInteger  getSelectedIndex;
 /**
  按钮以及视图的边框色默认蓝色
  */
@@ -56,10 +60,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor * itemHighlightedColor;
 
-/**
- 设置选中后是否恢复原样默认为NO
- */
-@property (nonatomic, assign) BOOL  momentary;
 
 /**
  items字体大小默认15
