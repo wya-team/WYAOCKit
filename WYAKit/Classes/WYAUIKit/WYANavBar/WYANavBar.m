@@ -166,7 +166,7 @@
                             highlightedColor:(NSArray<UIColor *>*)highlightedColors
                                  NormalImage:(NSArray<NSString *>*)normalImages
                               highlightedImg:(NSArray<NSString *> *)highlightedImgs{
-    CGFloat startX = LEFT_OR_RIGHT_SPACE;
+//    CGFloat startX = LEFT_OR_RIGHT_SPACE;
     CGFloat startY = 4.0f;
     CGFloat width = 36;
     CGFloat height = 36;
@@ -180,11 +180,13 @@
         customButton.tag = RIGHT_BASE_TAG + i;
         
         if (normalTitles) {
-            width = [[normalTitles wya_safeObjectAtIndex:i] wya_widthWithFontSize:self.leftBarButtonItemTitleFont height:height];
+            width = [[normalTitles wya_safeObjectAtIndex:i] wya_widthWithFontSize:self.rightBarButtonItemTitleFont height:height];
             
             customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             
-            customButton.titleLabel.font = [UIFont systemFontOfSize:self.leftBarButtonItemTitleFont];
+            customButton.titleLabel.font = [UIFont systemFontOfSize:self.rightBarButtonItemTitleFont];
+            
+            customButton.titleLabel.adjustsFontSizeToFitWidth = YES;
             
             [customButton setTitle:[normalTitles wya_safeObjectAtIndex:i] forState:UIControlStateNormal];
             
@@ -215,7 +217,7 @@
         [customButton addTarget:self action:@selector (customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
         
         [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.navBarView.mas_right).offset(-startX - column*(width + space));
+            make.right.equalTo(self.navBarView.mas_right).offset(-space - column*(width + space));
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.top.equalTo(self.navBarView.mas_top).offset(startY);
         }];
@@ -233,7 +235,7 @@
     if (title) {
         customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
         
-        customButton.titleLabel.font = [UIFont systemFontOfSize:BUTTON_TITLEFONT];
+        customButton.titleLabel.font = [UIFont systemFontOfSize:self.navTitleFont];
         
         [customButton setTitle:title forState:UIControlStateNormal];
         
@@ -270,6 +272,9 @@
     self.titleLabel.text = _navTitle;
 }
 - (void)setNavTitleFont:(CGFloat)navTitleFont{
+    if (!_navTitleFont) {
+        _navTitleFont = TITLEFONT;
+    }
     _navTitleFont = navTitleFont;
     self.titleLabel.font = [UIFont systemFontOfSize:_navTitleFont];
 }
@@ -294,7 +299,7 @@
     if (!_rightBarButtonItemTitleFont) {
         return BUTTON_TITLEFONT;
     }
-    return _leftBarButtonItemTitleFont;
+    return _rightBarButtonItemTitleFont;
 }
 #pragma mark ======= public methods
 #pragma mark ======= left
