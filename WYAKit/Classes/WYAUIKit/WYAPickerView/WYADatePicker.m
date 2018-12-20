@@ -33,7 +33,7 @@ static CGFloat titleHeight = 44.0;
 {
     self = [super init];
     if (self) {
-        [self createUI];
+//        [self createUI];
     }
     return self;
 }
@@ -42,27 +42,16 @@ static CGFloat titleHeight = 44.0;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
+        [self createUI];
     }
     return self;
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    self.titleView.frame = CGRectMake(0, 0, self.cmam_width, titleHeight);
-    self.pickView.frame = CGRectMake(0, titleHeight, self.cmam_width, self.pickerHeight);
     
-    
-//    [self.titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.top.mas_equalTo(self);
-//        make.height.mas_equalTo(titleHeight);
-//    }];
-//
-//    [self.pickView mas_remakeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.mas_equalTo(self);
-//        make.top.mas_equalTo(self.titleView.mas_bottom);
-//        make.height.mas_equalTo(self.pickerHeight);
-//    }];
+    self.titleView.frame = CGRectMake(0, 0, ScreenWidth, titleHeight);
+    self.pickView.frame = CGRectMake(0, titleHeight, ScreenWidth, self.pickerHeight);
     
 }
 
@@ -89,16 +78,22 @@ static CGFloat titleHeight = 44.0;
         {
             label.frame = CGRectMake(0, 0, self.cmam_width/7, self.pickerItemHeight ? self.pickerItemHeight : 44);
             if (component == 0) {
+//                label.backgroundColor = [UIColor redColor];
                 label.text = [NSString stringWithFormat:@"%@年",self.datePickerManager.yearArray[row]];
             }else if (component == 1){
+//                label.backgroundColor = [UIColor orangeColor];
                 label.text = [NSString stringWithFormat:@"%@月",self.datePickerManager.monthArray[row]];
             }else if (component == 2){
+//                label.backgroundColor = [UIColor yellowColor];
                 label.text = [NSString stringWithFormat:@"%@日",self.datePickerManager.dayArray[row]];
             }else if (component == 3){
+//                label.backgroundColor = [UIColor greenColor];
                 label.text = [NSString stringWithFormat:@"%@时",self.datePickerManager.hourArray[row]];
             }else if (component == 4){
+//                label.backgroundColor = [UIColor cyanColor];
                 label.text = [NSString stringWithFormat:@"%@分",self.datePickerManager.minuteArray[row]];
             }else{
+//                label.backgroundColor = [UIColor blueColor];
                 label.text = [NSString stringWithFormat:@"%@秒",self.datePickerManager.secondArray[row]];
             }
             
@@ -549,7 +544,7 @@ static CGFloat titleHeight = 44.0;
     
     [self addSubview:self.titleView];
     [self addSubview:self.pickView];
-    self.pickerHeight = 220;
+    
 }
 
 -(NSInteger)componentsNumber{
@@ -775,6 +770,7 @@ static CGFloat titleHeight = 44.0;
 -(void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle{
     _datePickerStyle = datePickerStyle;
     self.datePickerManager = [[WYAPickerManager alloc]init];
+    [self.pickView reloadAllComponents];
 }
 
 -(void)setDatePickerManager:(WYAPickerManager *)datePickerManager{
@@ -964,8 +960,8 @@ static CGFloat titleHeight = 44.0;
 
 -(void)setPickerHeight:(CGFloat)pickerHeight{
     _pickerHeight = pickerHeight;
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
+//    [self setNeedsLayout];
+//    [self layoutIfNeeded];
 }
 
 -(void)setPickerItemHeight:(CGFloat)pickerItemHeight{

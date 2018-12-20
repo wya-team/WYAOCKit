@@ -113,6 +113,8 @@
         pickerView.delegate = self;
         pickerView.titleKeyWords = @"title";
         pickerView.arrayKeyWords = @"array";
+        pickerView.pickerHeight = 260;
+        pickerView.pickerItemHeight = 60;
 //        pickerView.pickerViewStyle = WYAPickerViewStyleSystem;
         if (indexPath.row == 0) {
             pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;
@@ -209,9 +211,8 @@
                                           }] mutableCopy];
             
         }
-//        pickerView.pickerHeight = 260;
-//        pickerView.pickerItemHeight = 60;
-        pickerView.frame = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
+        
+        pickerView.bounds = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];
         pickerView.viewController = alert;
@@ -254,7 +255,7 @@
             datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
         }
         
-        datePicker.frame = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
+        datePicker.bounds = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:datePicker AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:alert animated:YES completion:nil];
         datePicker.viewController = alert;

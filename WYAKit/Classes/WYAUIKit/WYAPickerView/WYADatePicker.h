@@ -57,6 +57,8 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  @return 高度
  */
 -(CGFloat)getPickerViewHeight;
+
+- (instancetype)initWithPickerHeight:(CGFloat)pickH;
 @end
 
 NS_ASSUME_NONNULL_END
