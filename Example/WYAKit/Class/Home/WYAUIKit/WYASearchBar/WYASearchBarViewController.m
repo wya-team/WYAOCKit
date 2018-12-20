@@ -20,8 +20,8 @@
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
-    vc.readMeUrl = @"";
-//    [self.navigationController pushViewController:vc animated:YES];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYASearchBar/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)viewDidLoad {
