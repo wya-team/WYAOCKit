@@ -20,7 +20,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter)]) {
        [self addSubview:self.collectionView];
-        self.backgroundColor = [UIColor redColor];
+
     }
     return self;
 }
@@ -28,7 +28,6 @@
     if (self = [super init]) {
         self.frame = CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter);
         [self addSubview:self.collectionView];
-        self.backgroundColor = [UIColor redColor];
     }
     return self;
 }
