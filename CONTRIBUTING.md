@@ -18,7 +18,7 @@
 
 我们使用 [`GitHub Issues`](https://github.com/wya-team/WYAOCKit/issues) 来做 `bug` 追踪。
 
-在你报告一个 `bug` 之前，请先确保已经搜索过已有的 `issue` 和阅读了我们的 [常见问题](https://github.com/wya-team/WYAiOSEnv/wiki/FAQ)。
+在你报告一个 `bug` 之前，请先确保已经搜索过已有的 `issue` 和阅读了我们的 [常见问题](https://github.com/wya-team/WYAOCKit/wiki/FAQ)。
 
 ## 新增功能
 
