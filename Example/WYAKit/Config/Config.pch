@@ -47,7 +47,7 @@
 #import <WYAKit/WYADownloadTaskManager.h>
 #import <WYAKit/WYASegmentedControl.h>
 //#import <WYAKit/WYADownloadModel.h>
-
+#import <WYAKit/WYANumberKeyboard.h>
 #import <WYAKit/WYAClearCache.h>
 
 /******************************常用宏*******************/

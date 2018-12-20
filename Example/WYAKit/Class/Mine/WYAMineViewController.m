@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
 @property (nonatomic, strong) UIView * headerView;
+@property (nonatomic, strong) WYANumberKeyboard * customKeybodView;
 @end
 
 @implementation WYAMineViewController
@@ -19,7 +20,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = @"关于WYAKit";
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.customKeybodView];
+//    [self.view addSubview:self.tableView];
     // Do any additional setup after loading the view.
 }
 
@@ -149,4 +151,14 @@
 }
 
 
+
+- (WYANumberKeyboard *)customKeybodView{
+    if(!_customKeybodView){
+        _customKeybodView = ({
+            WYANumberKeyboard * object = [[WYANumberKeyboard alloc]init];
+            object;
+       });
+    }
+    return _customKeybodView;
+}
 @end
