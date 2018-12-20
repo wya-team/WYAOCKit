@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYASearchBar : UISearchBar
 
+/**
+ 删除背景视图
+ */
 - (void)cleanOtherSubViews;
 
 @end
