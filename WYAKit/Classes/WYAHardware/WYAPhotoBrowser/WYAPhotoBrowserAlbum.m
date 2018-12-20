@@ -89,7 +89,7 @@
         PHAssetCollection * collection = self.dataSource[indexPath.row];
         PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
         albumCell.titleLabel.text = [NSString stringWithFormat:@"%@(%lu)",collection.localizedTitle,(unsigned long)smartSubResult.count];
-        albumCell.imgView.image = [UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass(self.class)];
+        albumCell.imgView.image = [UIImage loadBundleImage:@"icon_picture" ClassName:NSStringFromClass(self.class)];
         if (self.images.count>0) {
             id object = self.images[indexPath.row];
             if ([object isKindOfClass:[UIImage class]]) {

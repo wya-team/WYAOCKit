@@ -39,6 +39,11 @@
 
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.controlView];
+    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(self.view);
+        make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(-WYABottomHeight);
+        make.height.mas_equalTo(49*SizeAdapter);
+    }];
     
     UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -129,7 +134,7 @@
 - (WYAPhotoEditControlView *)controlView{
     if(!_controlView){
         _controlView = ({
-            WYAPhotoEditControlView * object = [[WYAPhotoEditControlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYATopHeight-WYABottomHeight-49, ScreenWidth, 49)];
+            WYAPhotoEditControlView * object = [[WYAPhotoEditControlView alloc]init];
             object.delegate = self;
             object;
         });

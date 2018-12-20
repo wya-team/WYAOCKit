@@ -71,9 +71,9 @@
 -(void)setIsSpeed:(BOOL)isSpeed{
     if (isSpeed) {
         //快进
-        self.imageView.image = [UIImage loadBundleImage:@"forward" ClassName:NSStringFromClass(self.class)];
+        self.imageView.image = [UIImage loadBundleImage:@"icon_quick-retreat" ClassName:NSStringFromClass(self.class)];
     }else{
-        self.imageView.image = [UIImage loadBundleImage:@"backward" ClassName:NSStringFromClass(self.class)];
+        self.imageView.image = [UIImage loadBundleImage:@"icon_fast-forward" ClassName:NSStringFromClass(self.class)];
     }
 }
 

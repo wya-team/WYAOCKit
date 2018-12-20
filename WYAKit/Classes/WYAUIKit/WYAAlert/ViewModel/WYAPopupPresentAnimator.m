@@ -26,7 +26,7 @@
         case WYAPopupPresentStyleSlideDown:
             return 0.5;
         case WYAPopupPresentStyleSlideUp:
-            return 0.5;
+            return 0.3;
         case WYAPopupPresentStyleSlideLeft:
             return 0.4;
         case WYAPopupPresentStyleSlideRight:

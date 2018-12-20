@@ -183,9 +183,7 @@ static CGFloat sliderSpace = 10;
 -(WYAVideoSliderButton *)sliderButton{
     if (!_sliderButton) {
         _sliderButton = [WYAVideoSliderButton buttonWithType:UIButtonTypeCustom];
-        [_sliderButton setBackgroundColor:[UIColor whiteColor]];
-        _sliderButton.layer.cornerRadius = 10*SizeAdapter;
-        _sliderButton.layer.masksToBounds = YES;
+        [_sliderButton setImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
     }
     return _sliderButton;
 }

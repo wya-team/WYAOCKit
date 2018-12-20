@@ -210,7 +210,7 @@
     if (!_zoomButton) {
         _zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_zoomButton setImage:[UIImage loadBundleImage:@"icon_enlarge" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [_zoomButton setImage:[UIImage loadBundleImage:@"zoom_in" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_Shrinkscreen" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
         [_zoomButton addTarget:self action:@selector(zoomClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _zoomButton;
