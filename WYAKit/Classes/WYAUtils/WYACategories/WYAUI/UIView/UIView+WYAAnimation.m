@@ -14,7 +14,7 @@
     CABasicAnimation * rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotationAnimation.toValue = [NSNumber numberWithFloat: (M_PI/180.f) * angle];
     rotationAnimation.duration = time;
-    rotationAnimation.cumulative = angle%360 ? NO : YES;
+    rotationAnimation.cumulative = (NSInteger)angle%360 ? NO : YES;
     if (repeat) {
         rotationAnimation.repeatCount = repeat;
     }else{
