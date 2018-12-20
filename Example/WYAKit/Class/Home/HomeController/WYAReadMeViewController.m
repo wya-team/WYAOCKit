@@ -23,6 +23,25 @@
     
     
 }
+
+//- (void)wya_goBack{
+//
+//    if (self.webView.canGoBack==YES) {
+//        //返回上级页面
+//        [self.webView goBack];
+//
+//    }else{
+//        [self wya_goBack];
+//    }
+//}
+
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    [UIView wya_ShowCenterToastWithMessage:@"复制成功!"];
+    // 复制链接
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    pasteboard.string = self.readMeUrl;
+}
+
 - (void)setReadMeUrl:(NSString *)readMeUrl{
     _readMeUrl = readMeUrl;
     [self.webView loadRequest: [NSURLRequest requestWithURL:[NSURL URLWithString:_readMeUrl]]];
@@ -104,7 +123,7 @@
     
     NSLog(@"navigationAction = %@, request = %@",navigationAction,navigationAction.request.URL);
 
-        if ([[navigationAction.request.URL absoluteString] isEqualToString:self.readMeUrl]) {
+        if ([[navigationAction.request.URL absoluteString] isEqualToString:self.readMeUrl] || self.isAllowPush) {
             decisionHandler(WKNavigationActionPolicyAllow);
         } else {
             [UIView wya_ShowCenterToastWithMessage:@"当前页面不支持跳转"];

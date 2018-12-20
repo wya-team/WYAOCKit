@@ -44,48 +44,48 @@ associatedObjectNames | 相关对象的名字（只读属性） | NSMutableArray
 - (NSArray *)getProperties;
 
 /**
- 获取版本号
- 
- @return 版本号
- */
-+ (NSString *)version;
+获取版本号
+
+@return 版本号
+*/
++ (NSString *)wya_version;
 
 /**
- 获取build版本号
- 
- @return build版本号
- */
-+ (NSInteger)build;
+获取build版本号
+
+@return build版本号
+*/
++ (NSInteger)wya_build;
 
 /**
- 获取BundleID
- 
- @return BundleID
- */
-+ (NSString *)identifier;
+获取BundleID
+
+@return BundleID
+*/
++ (NSString *)wya_identifier;
 
 /**
- 当前语言
- 
- @return 语言
- */
-+ (NSString *)currentLanguage;
+当前语言
+
+@return 语言
+*/
++ (NSString *)wya_currentLanguage;
 
 /**
- 获取手机具体型号
- 
- @return 型号
- */
-+ (NSString *)deviceModel;
+获取手机具体型号
+
+@return 型号
+*/
++ (NSString *)wya_deviceModel;
 
 /**
- 按钮倒计时
- 
- @param time 倒计时总时间
- @param countDownBlock 每秒倒计时会执行的block
- @param finishBlock 倒计时完成会执行的block
- */
-- (void)countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock;
+按钮倒计时
+
+@param time 倒计时总时间
+@param countDownBlock 每秒倒计时会执行的block
+@param finishBlock 倒计时完成会执行的block
+*/
+- (void)wya_countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock;
 ```
 
 ## NSObject+PerformBlock
