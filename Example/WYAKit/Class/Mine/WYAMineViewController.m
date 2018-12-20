@@ -133,12 +133,13 @@
             break;
         case 1:
         {
-             vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/README.md";
+            vc.isAllowPush = YES;
+             vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/CONTRIBUTING.md";
         }
             break;
         case 2:
         {
-             vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/README.md";
+             vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/CHANGELOG.md";
         }
             break;
         default:
