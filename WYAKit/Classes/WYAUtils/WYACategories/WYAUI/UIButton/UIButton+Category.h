@@ -17,6 +17,16 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
 
 - (void)addCallBackAction:(ButtonActionCallBack)action;
 
+- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source;
+
+/**
+ 设置背景色
+ 
+ @param color 颜色
+ @param state state
+ */
+- (void)wya_setBackgroundColor:(nullable UIColor *)color forState:(UIControlState)state;
+
 @end
 
 @interface UIButton (EnlargeTouchArea)
@@ -54,13 +64,5 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
  */
 - (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space;
 
-- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source;
 
-/**
- 设置背景色
-
- @param color 颜色
- @param state state
- */
-- (void)wya_setBackgroundColor:(nullable UIColor *)color forState:(UIControlState)state;
 @end
