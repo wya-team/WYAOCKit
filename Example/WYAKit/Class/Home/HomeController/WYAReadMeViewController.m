@@ -24,16 +24,16 @@
     
 }
 
-//- (void)wya_goBack{
-//
-//    if (self.webView.canGoBack==YES) {
-//        //返回上级页面
-//        [self.webView goBack];
-//
-//    }else{
-//        [self wya_goBack];
-//    }
-//}
+- (void)wya_goBack{
+
+    if (self.webView.canGoBack) {
+        //返回上级页面
+        [self.webView goBack];
+
+    }else{
+        [super wya_goBack];
+    }
+}
 
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
     [UIView wya_ShowCenterToastWithMessage:@"复制成功!"];
