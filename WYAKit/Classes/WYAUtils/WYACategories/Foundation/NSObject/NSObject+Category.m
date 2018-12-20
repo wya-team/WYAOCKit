@@ -28,7 +28,7 @@ static char associatedObjectNamesKey;
     return objc_getAssociatedObject (self, @selector (timer));
 }
 
-- (void)countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock
+- (void)wya_countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock
 {
     __block NSUInteger second = time;
 
@@ -141,33 +141,33 @@ static char associatedObjectNamesKey;
     free (mothList_f);
 }
 
-+ (NSString *)version
++ (NSString *)wya_version
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString * app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     return app_Version;
 }
 
-+ (NSInteger)build
++ (NSInteger)wya_build
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString * app_build = [infoDictionary objectForKey:@"CFBundleVersion"];
     return [app_build integerValue];
 }
 
-+ (NSString *)identifier
++ (NSString *)wya_identifier
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString * bundleIdentifier = [infoDictionary objectForKey:@"CFBundleIdentifier"];
     return bundleIdentifier;
 }
 
-+ (NSString *)currentLanguage
++ (NSString *)wya_currentLanguage
 {
     return [[NSLocale preferredLanguages] firstObject];
 }
 
-+ (NSString *)deviceModel
++ (NSString *)wya_deviceModel
 {
     struct utsname systemInfo;
     uname (&systemInfo);

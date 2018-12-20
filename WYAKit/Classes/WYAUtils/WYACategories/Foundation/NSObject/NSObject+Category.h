@@ -50,35 +50,35 @@ typedef void (^TYNFinishBlock) (void);
  
  @return 版本号
  */
-+ (NSString *)version;
++ (NSString *)wya_version;
 
 /**
  获取build版本号
  
  @return build版本号
  */
-+ (NSInteger)build;
++ (NSInteger)wya_build;
 
 /**
  获取BundleID
  
  @return BundleID
  */
-+ (NSString *)identifier;
++ (NSString *)wya_identifier;
 
 /**
  当前语言
  
  @return 语言
  */
-+ (NSString *)currentLanguage;
++ (NSString *)wya_currentLanguage;
 
 /**
  获取手机具体型号
  
  @return 型号
  */
-+ (NSString *)deviceModel;
++ (NSString *)wya_deviceModel;
 
 /**
  按钮倒计时
@@ -87,6 +87,6 @@ typedef void (^TYNFinishBlock) (void);
  @param countDownBlock 每秒倒计时会执行的block
  @param finishBlock 倒计时完成会执行的block
  */
-- (void)countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock;
+- (void)wya_countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock;
 
 @end

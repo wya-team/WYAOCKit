@@ -59,7 +59,6 @@
 		917A49808D1DD8B518EB389F /* Pods_WYAKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */; };
 		950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40E321CA3AAE002BC685 /* WYAGridViewController.m */; };
 		950B40ED21CA521C002BC685 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40EC21CA521C002BC685 /* RootViewController.m */; };
-		950B40F021CA522E002BC685 /* WYAMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40EF21CA522E002BC685 /* WYAMineViewController.m */; };
 		950B40F321CA5258002BC685 /* RootControllerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40F221CA5258002BC685 /* RootControllerModel.m */; };
 		950B40F621CA7B52002BC685 /* WYAReadMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40F521CA7B52002BC685 /* WYAReadMeViewController.m */; };
 		951FC0B021A558CA00E1E4FE /* WYAPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0AF21A558CA00E1E4FE /* WYAPageViewController.m */; };
@@ -91,6 +90,7 @@
 		957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F649521C8EEDF0009C044 /* WYAListViewController.m */; };
 		95F0944821CA7F7F00FFC0CF /* WYAButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */; };
 		95F0944B21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944A21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m */; };
+		95F0944E21CB79DB00FFC0CF /* WYAMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944D21CB79DB00FFC0CF /* WYAMineViewController.m */; };
 		95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */; };
 /* End PBXBuildFile section */
 
@@ -200,8 +200,6 @@
 		950B40E321CA3AAE002BC685 /* WYAGridViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAGridViewController.m; sourceTree = "<group>"; };
 		950B40EB21CA521C002BC685 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		950B40EC21CA521C002BC685 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		950B40EE21CA522E002BC685 /* WYAMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAMineViewController.h; sourceTree = "<group>"; };
-		950B40EF21CA522E002BC685 /* WYAMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAMineViewController.m; sourceTree = "<group>"; };
 		950B40F121CA5258002BC685 /* RootControllerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootControllerModel.h; sourceTree = "<group>"; };
 		950B40F221CA5258002BC685 /* RootControllerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootControllerModel.m; sourceTree = "<group>"; };
 		950B40F421CA7B52002BC685 /* WYAReadMeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAReadMeViewController.h; sourceTree = "<group>"; };
@@ -265,6 +263,8 @@
 		95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYAButtonViewController.m; sourceTree = "<group>"; };
 		95F0944921CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPopVerReadMeViewController.h; sourceTree = "<group>"; };
 		95F0944A21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopVerReadMeViewController.m; sourceTree = "<group>"; };
+		95F0944C21CB79DB00FFC0CF /* WYAMineViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAMineViewController.h; sourceTree = "<group>"; };
+		95F0944D21CB79DB00FFC0CF /* WYAMineViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAMineViewController.m; sourceTree = "<group>"; };
 		95F0EE4021AF7721006F8AD4 /* WYAStepperController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAStepperController.h; sourceTree = "<group>"; };
 		95F0EE4121AF7721006F8AD4 /* WYAStepperController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAStepperController.m; sourceTree = "<group>"; };
 		BB2BD88E491B4BE33928C5E8 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
@@ -714,8 +714,8 @@
 		950B40E721CA5195002BC685 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				950B40EE21CA522E002BC685 /* WYAMineViewController.h */,
-				950B40EF21CA522E002BC685 /* WYAMineViewController.m */,
+				95F0944C21CB79DB00FFC0CF /* WYAMineViewController.h */,
+				95F0944D21CB79DB00FFC0CF /* WYAMineViewController.m */,
 			);
 			path = Mine;
 			sourceTree = "<group>";
@@ -1097,6 +1097,7 @@
 				210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */,
 				21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */,
 				954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */,
+				95F0944E21CB79DB00FFC0CF /* WYAMineViewController.m in Sources */,
 				9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */,
 				21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */,
 				956BCC9021B567E60044095E /* Student.m in Sources */,
@@ -1106,7 +1107,6 @@
 				21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */,
-				950B40F021CA522E002BC685 /* WYAMineViewController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
 				950B40F321CA5258002BC685 /* RootControllerModel.m in Sources */,
 				9563FEAC21B7AEEE00DA82D7 /* WYARealmSectionView.m in Sources */,
