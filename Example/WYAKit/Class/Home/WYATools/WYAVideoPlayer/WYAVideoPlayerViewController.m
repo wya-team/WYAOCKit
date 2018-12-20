@@ -19,17 +19,11 @@
 
 @implementation WYAVideoPlayerViewController
 
-//- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
-//    // 查看README文档
-//    NSLog(@"查看文档");
-//    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
-//    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/WYAVideoPlayer/README.md";
-//    [self.navigationController pushViewController:vc animated:YES];
-//}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
 
     self.view.backgroundColor = [UIColor whiteColor];
     self.navTitle = @"WYAVideoPlayerView";
@@ -60,7 +54,15 @@
     button.bounds = CGRectMake(0, 0, 100*SizeAdapter, 50*SizeAdapter);
     [self.view addSubview:button];
     
-    [self wya_addRightNavBarButtonWithNormalTitle:@[@"下载列表"]];
+    UIButton * button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button1 setTitle:@"下载列表" forState:UIControlStateNormal];
+    [button1 setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    button1.titleLabel.font = FONT(15);
+    [button1 addTarget:self action:@selector(downloadLictClick) forControlEvents:UIControlEventTouchUpInside];
+    button1.cmam_centerX = self.view.cmam_centerX;
+    button1.cmam_centerY = self.view.cmam_centerY + 60*SizeAdapter;
+    button1.bounds = CGRectMake(0, 0, 100*SizeAdapter, 50*SizeAdapter);
+    [self.view addSubview:button1];
     
 }
 
@@ -105,7 +107,10 @@
 }
 
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
-    WYADownloaderViewController * vc = [[WYADownloaderViewController alloc]init];
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/WYAVideoPlayer/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -124,6 +129,10 @@
     
 }
 
+- (void)downloadLictClick{
+    WYADownloaderViewController * vc = [[WYADownloaderViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 #pragma mark - Getter -
 - (NSMutableArray *)models{
     if(!_models){

@@ -144,6 +144,9 @@
     WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{ NSLog(@"Default");
         [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
             NSLog(@"清理成功");
+            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
+                [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%.2fMB",folderSize]];
+            } UnitType:WYAFileSizeUnitMB];
         }];
     }];
     WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
