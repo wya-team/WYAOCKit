@@ -27,7 +27,7 @@
 #pragma mark ======= popverPresentVC
 - (void)showPopverPresentVC:(UIButton *)sender{
     WYAPopVerReadMeViewController * test = [[WYAPopVerReadMeViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(150*SizeAdapter, 142*SizeAdapter);
+    test.preferredContentSize = CGSizeMake(180*SizeAdapter, 142*SizeAdapter);
     test.dataSource = @[@"WYACamera(相机)",@"WYAPhotoBrowser(相册)",@"WYAImageCrop(裁剪)"];
     test.modalPresentationStyle = UIModalPresentationPopover;
     __block WYAPopVerReadMeViewController * vc = test;
