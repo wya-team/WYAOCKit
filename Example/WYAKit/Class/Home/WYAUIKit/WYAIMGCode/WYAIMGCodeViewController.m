@@ -17,11 +17,18 @@
 @end
 
 @implementation WYAIMGCodeViewController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAIMGCode/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
     self.navTitle = NSStringFromClass([self class]);
     
     self.imageViewOne.image = [WYAIMGCode wya_GenerateWithDefaultQRCodeData:@"二维码扫描结果" imageViewWidth:self.imageViewOne.frame.size.width];
