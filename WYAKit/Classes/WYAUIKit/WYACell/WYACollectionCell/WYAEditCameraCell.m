@@ -86,6 +86,8 @@
     if(!_imageView){
         _imageView = ({
             UIImageView * object = [[UIImageView alloc]init];
+            object.contentMode = UIViewContentModeScaleAspectFill;
+            object.layer.masksToBounds = YES;
             object;
         });
     }

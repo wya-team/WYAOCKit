@@ -110,7 +110,7 @@
     self.cameraButton.center = CGPointMake(width + width/2, WYAStatusBarHeight+22);
     self.flashLightButton.center = CGPointMake( width*2 + width/2, WYAStatusBarHeight+22);
     
-    self.closeButton.center = CGPointMake(ScreenWidth*0.5-self.closeButton.bounds.size.width-30, ScreenHeight - self.progressView.bounds.size.height);
+    self.closeButton.center = CGPointMake(ScreenWidth/4-10*SizeAdapter,  self.progressView.center.y);
     self.messageLabel.center = CGPointMake(ScreenWidth/2, self.progressView.center.y-60);
 }
 
@@ -378,6 +378,7 @@
 -(WYAProgressView *)progressView{
     if (!_progressView) {
         _progressView = [[WYAProgressView alloc]initWithFrame:CGRectMake((ScreenWidth-80*SizeAdapter)/2, ScreenHeight-WYABottomHeight-80*SizeAdapter-30, 80*SizeAdapter, 80*SizeAdapter)];
+        _progressView.borderWidth = 10*SizeAdapter;
         _progressView.layer.cornerRadius = 40*SizeAdapter;
         _progressView.layer.masksToBounds = YES;
         _progressView.progress = 0.f;

@@ -41,8 +41,16 @@
     [self.view addSubview:self.controlView];
     [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
-        make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(-WYABottomHeight);
+        make.bottom.mas_equalTo(self.view.mas_bottom).with.offset(WYAiPhoneX ? -34 : 0);
         make.height.mas_equalTo(49*SizeAdapter);
+    }];
+    
+    UIView * topPreview = [[UIView alloc]init];
+    topPreview.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.5];
+    [self.view addSubview:topPreview];
+    [topPreview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.top.mas_equalTo(self.view);
+        make.height.mas_equalTo(WYAiPhoneX ? 88 : 64);
     }];
     
     UIButton * cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -50,24 +58,12 @@
     [cancelButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     cancelButton.titleLabel.font = FONT(15);
     [cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:cancelButton];
+    [topPreview addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).with.offset(15*SizeAdapter);
-        make.top.mas_equalTo(self.view.mas_top).with.offset(WYAStatusBarHeight +20*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
+        make.left.mas_equalTo(topPreview.mas_left).with.offset(15*SizeAdapter);
+        make.bottom.mas_equalTo(topPreview.mas_bottom).with.offset(-7);
+        make.size.mas_equalTo(CGSizeMake(40, 30));
     }];
-    
-//    UIButton * doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [doneButton setTitle:@"完成" forState:UIControlStateNormal];
-//    [doneButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
-//    doneButton.titleLabel.font = FONT(15);
-//    [doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:doneButton];
-//    [doneButton mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(self.view.mas_right).with.offset(-5*SizeAdapter);
-//        make.top.mas_equalTo(self.view.mas_top).with.offset(20*SizeAdapter);
-//        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
-//    }];
     
     [self loadImages];
 }
@@ -160,8 +156,6 @@
     WYAPhotoPreviewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
     return cell;
     
-//    UICollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-//    return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
     WYAPhotoPreviewCell * imageCell = (WYAPhotoPreviewCell *)cell;
