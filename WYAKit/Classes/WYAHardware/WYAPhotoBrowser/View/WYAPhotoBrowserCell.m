@@ -46,10 +46,10 @@
     CGFloat imageV_Height = self.contentView.frame.size.height;
     self.imageV.frame = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
     
-    CGFloat button_X = self.contentView.frame.size.width*0.8;
+    CGFloat button_X = self.contentView.frame.size.width*0.7;
     CGFloat button_Y = 0;
-    CGFloat button_Width = self.contentView.frame.size.width*0.2;
-    CGFloat button_Height = self.contentView.frame.size.width*0.2;
+    CGFloat button_Width = self.contentView.frame.size.width*0.3;
+    CGFloat button_Height = self.contentView.frame.size.width*0.3;
     self.button.frame = CGRectMake(button_X, button_Y, button_Width, button_Height);
     
     CGFloat videoPreview_X = 0;

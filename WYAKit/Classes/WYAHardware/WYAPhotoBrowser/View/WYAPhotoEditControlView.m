@@ -30,7 +30,7 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
 
-    [self.subviews wya_mas_distributeSudokuViewsWithFixedItemWidth:0 fixedItemHeight:0 fixedLineSpacing:0 fixedInteritemSpacing:80 warpCount:self.subviews.count topSpacing:10 bottomSpacing:10 leadSpacing:20 tailSpacing:20];
+    [self.subviews wya_mas_distributeSudokuViewsWithFixedItemWidth:0 fixedItemHeight:0 fixedLineSpacing:0 fixedInteritemSpacing:60 warpCount:self.subviews.count topSpacing:10 bottomSpacing:10 leadSpacing:20 tailSpacing:20];
 }
 
 #pragma mark --- Private Method
