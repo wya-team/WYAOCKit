@@ -37,7 +37,7 @@
     [super layoutSubviews];
     
     [self.editButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(self.mas_centerY).with.offset(200*SizeAdapter);
+        make.centerY.mas_equalTo(self.mas_centerY).with.offset(230*SizeAdapter);
         make.centerX.mas_equalTo(self.mas_centerX);
         make.size.mas_equalTo(CGSizeMake(60*SizeAdapter, 60*SizeAdapter));
     }];
