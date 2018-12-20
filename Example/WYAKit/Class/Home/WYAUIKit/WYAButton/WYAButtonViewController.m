@@ -34,7 +34,7 @@
     button.layer.cornerRadius = 4.f;
     button.layer.masksToBounds = YES;
     
-    UIImage * animation = [UIImage imageNamed:@"icon_loading"];
+    UIImage * animation = [UIImage wya_svgImageName:@"spin.svg" size:CGSizeMake(15, 15)];
     UIButton * animationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [animationButton setTitle:@"主按钮 Loading" forState:UIControlStateNormal];
     [animationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -115,6 +115,16 @@
     button4.layer.borderWidth = 0.5;
     
     
+//    UIImageView * imageV = [[UIImageView alloc]initWithFrame:CGRectMake((ScreenWidth - 30*SizeAdapter)/2, CGRectGetMaxY(button4.frame)+10*SizeAdapter, 30*SizeAdapter, 30*SizeAdapter)];
+//    imageV.image = animation;
+////    imageV.contentMode = <#ContentModel#>;
+//    [self.view addSubview:imageV];
+    
+    NSString *svgName = @"Cycling_Lambie";
+    SVGKImage *svgImage = [SVGKImage imageNamed:svgName];
+    SVGKFastImageView *svgView = [[SVGKFastImageView alloc] initWithSVGKImage:svgImage];
+    svgView.frame = CGRectMake((ScreenWidth - 30*SizeAdapter)/2, CGRectGetMaxY(button4.frame)+10*SizeAdapter, 30*SizeAdapter, 30*SizeAdapter);
+    [self.view addSubview:svgView];
 }
 
 

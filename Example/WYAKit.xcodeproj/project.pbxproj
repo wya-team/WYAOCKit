@@ -32,6 +32,7 @@
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
+		2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */; };
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
@@ -39,6 +40,7 @@
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
 		21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21A8737021A542FE007F2921 /* WYAToastViewController.xib */; };
+		21C0EA4821CBA2AE00559A37 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21C0EA4721CBA2AE00559A37 /* spin.svg */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
 		21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E5A60A21B1072B007E8C5F /* WYACameraCell.m */; };
 		21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */; };
@@ -156,6 +158,7 @@
 		21470CA8219E93D30099CB6F /* WYAPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopViewController.m; sourceTree = "<group>"; };
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
 		21470CAB219E94630099CB6F /* WYATestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATestViewController.m; sourceTree = "<group>"; };
+		2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cycling_Lambie.svg; sourceTree = "<group>"; };
 		21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCell.h; sourceTree = "<group>"; };
 		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
 		21A6C47F21C0AA6C006DA6D1 /* WYADownloadCompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCompleteCell.h; sourceTree = "<group>"; };
@@ -169,6 +172,7 @@
 		21A8735D21A4F502007F2921 /* WYANoticeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANoticeViewController.h; sourceTree = "<group>"; };
 		21A8735E21A4F502007F2921 /* WYANoticeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANoticeViewController.m; sourceTree = "<group>"; };
 		21A8737021A542FE007F2921 /* WYAToastViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAToastViewController.xib; sourceTree = "<group>"; };
+		21C0EA4721CBA2AE00559A37 /* spin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = spin.svg; sourceTree = "<group>"; };
 		21DA3BC621AE6FE10084FCEC /* WYABannerHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerHeaderView.h; sourceTree = "<group>"; };
 		21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerHeaderView.m; sourceTree = "<group>"; };
 		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
@@ -799,6 +803,8 @@
 			children = (
 				95F0944621CA7F7E00FFC0CF /* WYAButtonViewController.h */,
 				95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */,
+				2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */,
+				21C0EA4721CBA2AE00559A37 /* spin.svg */,
 			);
 			path = WYAButton;
 			sourceTree = "<group>";
@@ -966,11 +972,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21C0EA4821CBA2AE00559A37 /* spin.svg in Resources */,
 				21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */,
 				21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,
 			);
