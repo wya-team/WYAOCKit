@@ -7,9 +7,9 @@
 //
 
 #import "WYAPickerViewController.h"
+#import "WYAPopVerReadMeViewController.h"
 
-
-@interface WYAPickerViewController ()<WYAPickerViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface WYAPickerViewController ()<WYAPickerViewDelegate, UITableViewDelegate, UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) UITableView * tableView;
 @end
 
@@ -21,11 +21,46 @@
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
     // 查看README文档
     NSLog(@"查看文档");
-    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
-    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPickerView/README.md";
-    [self.navigationController pushViewController:vc animated:YES];
+    [self showPopverPresentVC:sender];
+   
+}
+#pragma mark ======= popverPresentVC
+- (void)showPopverPresentVC:(UIButton *)sender{
+    WYAPopVerReadMeViewController * test = [[WYAPopVerReadMeViewController alloc]init];
+    test.preferredContentSize = CGSizeMake(150*SizeAdapter, 88*SizeAdapter);
+    test.dataSource = @[@"DatePickerView",@"CustomPickerView",@"dsf"];
+    test.modalPresentationStyle = UIModalPresentationPopover;
+    __block WYAPopVerReadMeViewController * vc = test;
+    test.pushCallback = ^(NSIndexPath * _Nonnull indexPath) {
+        [vc dismissViewControllerAnimated:YES completion:nil];
+        if (indexPath.row == 0) {
+            // 跳转链接
+            WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+            vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPickerView/README.md";
+            [self.navigationController pushViewController:vc animated:YES];
+        }else if (indexPath.row == 1) {
+          // 跳转链接
+            WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+            vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/README.md";
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        
+    };
+    UIPopoverPresentationController * popover = [test popoverPresentationController];
+    popover.delegate = self;
+    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;//设置箭头位置
+    popover.sourceView = sender;//设置目标视图
+    popover.sourceRect = sender.bounds;//弹出视图显示位置
+    popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
+    [self presentViewController:test animated:YES completion:nil];
 }
 
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
+    
+    return UIModalPresentationNone;
+    
+}
+#pragma mark ======= end
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
