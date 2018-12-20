@@ -9,10 +9,6 @@
 #import "WYAPhotoBrowserModel.h"
 #import <Photos/Photos.h>
 
-@interface WYAPhotoPreviewCell ()
-
-@end
-
 @implementation WYAPhotoPreviewCell
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -33,8 +29,6 @@
 - (void)setScrollZoom{
     [self.preview setScrollZoom];
 }
-
-
 
 #pragma mark --- Setter
 -(void)setModel:(WYAPhotoBrowserModel *)model{
@@ -65,6 +59,14 @@
         
     }
 }
+@end
+
+@implementation WYAVideoPreviewCell
+
+-(void)setModel:(WYAPhotoBrowserModel *)model{
+    
+}
+
 @end
 
 

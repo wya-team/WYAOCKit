@@ -35,6 +35,20 @@
     [self setBackgroundImage:[UIImage wya_createImageWithColor:color] forState:state];
 }
 
+- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source{
+    NSMutableArray * array = [NSMutableArray array];
+    for (NSString * imageName in source) {
+        UIImage * image = [UIImage imageNamed:imageName];
+        [array addObject:image];
+    }
+    self.imageView.animationImages = array;
+    self.imageView.animationRepeatCount = MAXFLOAT;
+    self.imageView.animationDuration = source.count/60;
+    [self.imageView startAnimating];
+}
+
+
+
 @end
 
 @implementation UIButton (EnlargeTouchArea)
@@ -161,16 +175,6 @@ static char leftNameKey;
     [self setImageEdgeInsets:imageEdgeInsets];
 }
 
-- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source{
-    NSMutableArray * array = [NSMutableArray array];
-    for (NSString * imageName in source) {
-        UIImage * image = [UIImage imageNamed:imageName];
-        [array addObject:image];
-    }
-    self.imageView.animationImages = array;
-    self.imageView.animationRepeatCount = MAXFLOAT;
-    self.imageView.animationDuration = source.count/60;
-    [self.imageView startAnimating];
-}
+
 
 @end

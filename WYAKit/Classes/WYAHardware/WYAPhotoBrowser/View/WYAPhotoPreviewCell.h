@@ -17,6 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setScrollZoom;
 @end
 
+@interface WYAVideoPreviewCell : UICollectionViewCell
+@property (nonatomic, strong) WYAPhotoBrowserModel * model;
+@end
+
 @interface WYAPhotoPreview : UIView
 @property (nonatomic, strong) UIScrollView * scrollV;
 @property (nonatomic, strong) UIImageView * imageView;

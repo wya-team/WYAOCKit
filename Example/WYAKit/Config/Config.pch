@@ -26,8 +26,6 @@
 #import <WYAKit/WYAEditCameraCell.h>
 #import <WYAKit/WYATableViewCell.h>
 #import <WYAKit/WYASearchBar.h>
-#import <WYAKit/UIView+WYAToast.h>
-#import <WYAKit/UIView+Gestures.h>
 
 #import <WYAKit/WYAAlertController.h>
 #import <WYAKit/WYAPickerView.h>
@@ -49,6 +47,11 @@
 //#import <WYAKit/WYADownloadModel.h>
 #import <WYAKit/WYANumberKeyboard.h>
 #import <WYAKit/WYAClearCache.h>
+
+#import <WYAKit/UIView+WYAToast.h>
+#import <WYAKit/UIView+Gestures.h>
+#import <WYAKit/UIView+WYAAnimation.h>
+#import <WYAKit/UIButton+Category.h>
 
 /******************************常用宏*******************/
 #import "CustomColor.h"
