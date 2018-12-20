@@ -40,9 +40,10 @@
     }
 }
 
--(void)centerClick{
-    if (self.delegate && [self.delegate respondsToSelector:@selector(originalImage)]) {
-        [self.delegate originalImage];
+-(void)centerClick:(UIButton *)button{
+    button.selected = !button.selected;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(editWithOriginalImage:)]) {
+        [self.delegate editWithOriginalImage:button.selected];
     }
 }
 
@@ -74,8 +75,10 @@
             UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
             [button setTitle:@"原图" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [button setImage:[UIImage loadBundleImage:@"icon_cameraOriginal_normal" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            [button setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
             button.titleLabel.font = FONT(13);
-            [button addTarget:self action:@selector(centerClick) forControlEvents:UIControlEventTouchUpInside];
+            [button addTarget:self action:@selector(centerClick:) forControlEvents:UIControlEventTouchUpInside];
             button;
        });
     }

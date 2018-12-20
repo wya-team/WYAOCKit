@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 -(void)edit;
 
--(void)originalImage;
+-(void)editWithOriginalImage:(BOOL)original;
 
 -(void)done;
 @end

@@ -46,6 +46,7 @@
 #import "controlView.h"
 #import "WYAPhotoBrowserManager.h"
 #import "WYAPhotoBrowser.h"
+#import "WYAPhotoBrowserModel.h"
 
 @interface WYAPhotoBrowserViewController ()<UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -150,12 +151,25 @@
     WeakSelf(weakSelf);
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     self.controlV.previewBlock = ^{
-        if (self.models.count<1) {
+        StrongSelf(strongSelf);
+        if (strongSelf.models.count<1) {
             return;
         }
         WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
-        vc.models = self.models;
-        [weakSelf.navigationController pushViewController:vc animated:YES];
+        vc.models = strongSelf.models;
+        vc.callback = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
+            NSArray * models = [strongSelf.dataSource copy];
+            for (WYAPhotoBrowserModel * photoModel in models) {
+                for (WYAPhotoBrowserModel * model in array) {
+                    if ([photoModel.asset isEqual:model.asset]) {
+                        [strongSelf.dataSource wya_safeReplaceObjectAtIndex:[strongSelf.dataSource indexOfObject:photoModel] withObject:model];
+                    }
+                }
+            }
+            [strongSelf.collectionView reloadData];
+            
+        };
+        [strongSelf.navigationController pushViewController:vc animated:YES];
     };
     
     self.controlV.doneBlock = ^{
@@ -230,23 +244,27 @@
     WYAPhotoBrowserCell * imageCell = (WYAPhotoBrowserCell *)cell;
     imageCell.model = self.dataSource[indexPath.row];
     __block WYAPhotoBrowserCell * pickCell = imageCell;
-    imageCell.selectImage = ^(BOOL seleted) {
-        WYAPhotoBrowserModel * model = self.dataSource[indexPath.row];
-        if (seleted) {
-            if (self.images.count >= self.maxCount) {
-                [self showAlert];
-                [pickCell uncheckButton];
-                [self.images removeObject:pickCell.imageV.image];
-                [self.models removeObject:model];
-                return ;
+    imageCell.selectImage = ^(UIButton *btn) {
+        WYAPhotoBrowserModel * model = self.dataSource[indexPath.item];
+        if (model.selected) {
+            model.selected = NO;
+            for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
+                photoModel.isMaxCount = NO;
             }
-            [self.images addObject:pickCell.imageV.image];
-            [self.models addObject:model];
-        }else{
-            [pickCell uncheckButton];
+            
             [self.images removeObject:pickCell.imageV.image];
             [self.models removeObject:model];
+        }else{
+            [self.images addObject:pickCell.imageV.image];
+            [self.models addObject:model];
+            model.selected = YES;
+            if (self.images.count == self.maxCount) {
+                for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
+                    photoModel.isMaxCount = YES;
+                }
+            }
         }
+        [collectionView reloadData];
     };
 }
 
@@ -278,6 +296,17 @@
 
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc]init];
     vc.models = [@[self.dataSource[indexPath.item]] mutableCopy];
+    vc.callback = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
+        NSArray * models = [self.dataSource copy];
+        for (WYAPhotoBrowserModel * photoModel in models) {
+            for (WYAPhotoBrowserModel * model in array) {
+                if ([photoModel.asset isEqual:model.asset]) {
+                    [self.dataSource wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel] withObject:model];
+                }
+            }
+        }
+        [collectionView reloadData];
+    };
     [self.navigationController pushViewController:vc animated:YES];
     
 }

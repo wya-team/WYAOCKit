@@ -25,19 +25,18 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
-//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-//
-//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = NO;
+
     [self.view addSubview:self.collectionView];
     [self.view addSubview:self.controlView];
     
@@ -48,7 +47,7 @@
     [cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:cancelButton];
     [cancelButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).with.offset(5*SizeAdapter);
+        make.left.mas_equalTo(self.view.mas_left).with.offset(15*SizeAdapter);
         make.top.mas_equalTo(self.view.mas_top).with.offset(WYAStatusBarHeight +20*SizeAdapter);
         make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 30*SizeAdapter));
     }];
@@ -76,23 +75,32 @@
 - (void)loadImages{
     
     for (WYAPhotoBrowserModel * model in self.models) {
-        PHImageManager * manager = [PHImageManager defaultManager];
-        PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
-        
-        [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.view.cmam_width, self.view.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-            if (downloadFinined) {
-                //获取的高清图
-                [self.images addObject:result];
-            }
+        if (model.cropImage) {
+            //是否有之前裁剪的图片
+            [self.images addObject:model.cropImage];
+        }else {
+            PHImageManager * manager = [PHImageManager defaultManager];
+            PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
             
-        }];
+            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.view.cmam_width, self.view.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+                if (downloadFinined) {
+                    //获取的高清图
+                    [self.images addObject:result];
+                }
+                
+            }];
+        }
+        
     }
 }
 
 -(void)cancelClick{
     self.navigationController.navigationBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
+    if (self.callback) {
+        self.callback(self.models);
+    }
 }
 
 -(void)doneClick{
@@ -121,7 +129,7 @@
 - (WYAPhotoEditControlView *)controlView{
     if(!_controlView){
         _controlView = ({
-            WYAPhotoEditControlView * object = [[WYAPhotoEditControlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYABottomHeight-49, ScreenWidth, 49)];
+            WYAPhotoEditControlView * object = [[WYAPhotoEditControlView alloc]initWithFrame:CGRectMake(0, ScreenHeight-WYATopHeight-WYABottomHeight-49, ScreenWidth, 49)];
             object.delegate = self;
             object;
         });
@@ -193,14 +201,22 @@
     [self presentViewController:imageCrop animated:YES completion:nil];
 }
 
--(void)originalImage{
-    WYAPhotoBrowserModel * model = self.models[(NSUInteger)(self.collectionView.contentOffset.x/self.collectionView.cmam_width)];
-    PHImageManager * manager = [PHImageManager defaultManager];
-    PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
-   
-    [manager requestImageForAsset:model.asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        [self.images replaceObjectAtIndex:(NSUInteger)(self.collectionView.contentOffset.x/self.collectionView.cmam_width) withObject:result];
-    }];
+-(void)editWithOriginalImage:(BOOL)original{
+    NSInteger index = self.collectionView.contentOffset.x/self.collectionView.cmam_width;
+    WYAPhotoBrowserModel * model = self.models[index];
+    if (model.cropImage) {
+        return;
+    }
+    if (original) {
+        WYAPhotoBrowserModel * model = self.models[(NSUInteger)(self.collectionView.contentOffset.x/self.collectionView.cmam_width)];
+        PHImageManager * manager = [PHImageManager defaultManager];
+        PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
+        
+        [manager requestImageForAsset:model.asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            [self.images replaceObjectAtIndex:(NSUInteger)(self.collectionView.contentOffset.x/self.collectionView.cmam_width) withObject:result];
+        }];
+    }
+    
 }
 
 -(void)done{
@@ -218,6 +234,8 @@
     NSInteger index = self.collectionView.contentOffset.x/self.collectionView.cmam_width;
     WYAPhotoPreviewCell * cell = (WYAPhotoPreviewCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
     cell.preview.imageView.image = image;
+    WYAPhotoBrowserModel * model = self.models[index];
+    model.cropImage = image;
     [self.images replaceObjectAtIndex:index withObject:image];
 }
 

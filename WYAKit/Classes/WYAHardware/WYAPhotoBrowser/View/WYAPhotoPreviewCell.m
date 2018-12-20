@@ -40,24 +40,29 @@
 -(void)setModel:(WYAPhotoBrowserModel *)model{
     _model = model;
     if (model) {
-        if (model.cacheImage) {
-            self.preview.imageView.image = model.cacheImage;
-        }else{
-            
-            PHAsset * asset = (PHAsset *)model.asset;
-            
-            PHImageManager * manager = [PHImageManager defaultManager];
-            PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
-            //        opi.synchronous = YES; //默认no，异步加载
-//              opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-            //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-            
-            [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.cmam_width, self.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                self.preview.imageView.image = result;
-                model.cacheImage = result;
-                [self.preview setScrollZoom];
-            }];
+        if (model.cropImage) {
+            self.preview.imageView.image = model.cropImage;
+        }else {
+            if (model.cacheImage) {
+                self.preview.imageView.image = model.cacheImage;
+            }else{
+                
+                PHAsset * asset = (PHAsset *)model.asset;
+                
+                PHImageManager * manager = [PHImageManager defaultManager];
+                PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
+                //        opi.synchronous = YES; //默认no，异步加载
+                //              opi.resizeMode = PHImageRequestOptionsResizeModeFast;
+                //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+                
+                [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.cmam_width, self.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                    self.preview.imageView.image = result;
+                    model.cacheImage = result;
+                    [self.preview setScrollZoom];
+                }];
+            }
         }
+        
     }
 }
 @end

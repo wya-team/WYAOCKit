@@ -15,8 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) PHAsset * asset;//资源
 @property (nonatomic, strong) UIImage * cacheImage; //缓存图片
-@property (nonatomic, assign) BOOL  selected;
-
+@property (nonatomic, strong) UIImage * cropImage; //裁剪过的图片
+@property (nonatomic, assign) BOOL  selected; //是否被选中
+@property (nonatomic, assign) BOOL  isMaxCount;//是否到最大个数
 
 
 @end

@@ -35,12 +35,12 @@
         [self addSubview:self.line];
         
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.cancelButton setImage:[UIImage loadBundleImage:@"mistake" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [self.cancelButton setImage:[UIImage loadBundleImage:@"icon_subtract_enable" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         [self.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.cancelButton];
         
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.doneButton setImage:[UIImage loadBundleImage:@"correct" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [self.doneButton setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         [self.doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.doneButton];
         
