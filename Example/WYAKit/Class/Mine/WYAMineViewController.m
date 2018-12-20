@@ -54,7 +54,7 @@
             
             UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 15*SizeAdapter, width, height)];
             titleLabel.font = FONT(font);
-            titleLabel.text = @"WYAKIT SDK Version";
+            titleLabel.text = @"WYAKiT SDK Version";
             titleLabel.textColor = GRAYTITLECOLOR;
             titleLabel.textAlignment = NSTextAlignmentCenter;
             
