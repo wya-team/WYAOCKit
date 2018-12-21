@@ -9,6 +9,7 @@
 #import "WYAVideoPlayerControlView.h"
 #import "WYAVideoSlider.h"
 #import "WYAVideoFastView.h"
+#import "WYAVideoNetWorkView.h"
 
 @interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
 
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *oneFingerTap;
 @property (nonatomic, strong) WYAVideoFastView * fastView;
 @property (nonatomic, assign) CGFloat  allTime;//当前视频的播放总长度
+@property (nonatomic, strong) WYAVideoNetWorkView * networkView;
 @end
 
 
@@ -41,6 +43,7 @@
         //        [self addSubview:self.downloadButton];
         [self addSubview:self.bottomImageView];
         [self addSubview:self.fastView];
+        [self addSubview:self.networkView];
         
         [self.bottomImageView addSubview:self.playButton];
         [self.bottomImageView addSubview:self.currentProgressLabel];
@@ -48,12 +51,25 @@
         [self.bottomImageView addSubview:self.slider];
         [self.bottomImageView addSubview:self.zoomButton];
 
-
         [self autoFadeOutControlView];
-
+        
         self.oneFingerClick = YES;
         
-        
+        [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+            if (status != WYANetWorkStatusWIFI) {
+                self.networkView.hidden = NO;
+                self.bottomImageView.hidden = YES;
+                if (status == WYANetWorkStatusNoReach) {
+                    self.networkView.titleLabel.text = @"当前没有网络";
+                    [self.networkView.button setTitle:@"重试" forState:UIControlStateNormal];
+                }else{
+                    self.networkView.titleLabel.text = @"当前是数据网络";
+                    [self.networkView.button setTitle:@"继续播放" forState:UIControlStateNormal];
+                }
+            }else{
+                self.networkView.hidden = YES;
+            }
+        }];
     }
     return self;
 }
@@ -118,6 +134,11 @@
     [self.fastView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
         make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 80*SizeAdapter));
+    }];
+    
+    [self.networkView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.center.mas_equalTo(self);
+        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 50*SizeAdapter));
     }];
 }
 
@@ -227,6 +248,23 @@
     return _fastView;
 }
 
+- (WYAVideoNetWorkView *)networkView{
+    if(!_networkView){
+        _networkView = ({
+            WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc]init];
+            WeakSelf(weakSelf);
+            object.retryHandle = ^{
+                [weakSelf playButtonClick:weakSelf.playButton];
+            };
+            object.goOnHandle = ^{
+                [weakSelf playButtonClick:weakSelf.playButton];
+            };
+            object;
+        });
+    }
+    return _networkView;
+}
+
 #pragma mark - Setter -
 - (void)setOneFingerClick:(BOOL)oneFingerClick
 {
@@ -243,6 +281,7 @@
 }
 
 #pragma mark - Private Method -
+
 - (void)backClick:(UIButton *)sender
 {
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:backButton:)]) {
@@ -354,11 +393,19 @@
 }
 
 - (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView{
-    if (autoPlay == YES) {
-        self.playButton.selected = YES;
-    } else {
-        self.playButton.selected = NO;
-    }
+    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+        if (status != WYANetWorkStatusWIFI) {
+            self.playButton.selected = NO;
+            self.networkView.hidden = NO;
+        }else{
+            if (autoPlay == YES) {
+                self.playButton.selected = YES;
+            } else {
+                self.playButton.selected = NO;
+            }
+        }
+    }];
+    
 
     // 当前时长进度progress
     NSInteger proMin = dragTime / 60; //当前秒
@@ -391,6 +438,9 @@
     self.slider.bufferValue = progress;
 }
 
+- (void)playFail{
+    self.networkView.hidden = NO;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
@@ -398,5 +448,7 @@
     // Drawing code
 }
 */
+
+
 
 @end

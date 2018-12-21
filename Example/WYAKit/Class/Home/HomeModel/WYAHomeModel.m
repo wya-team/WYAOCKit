@@ -113,6 +113,10 @@
     item25.rowName = @"WYAAlert 弹框";
     item25.className = @"WYAUIAlertViewController";
     
+    WYAHomeItemModel * item26 = [[WYAHomeItemModel alloc]init];
+    item26.rowName = @"WYALoading 加载框";
+    item26.className = @"WYALoadingViewController";
+    
     WYAHomeItemModel * item27 = [[WYAHomeItemModel alloc]init];
     item27.rowName = @"WYAProgressView 进度条";
     item27.className = @"WYAProgressViewController";
@@ -123,7 +127,7 @@
     
     WYAHomeModel * model4 = [[WYAHomeModel alloc]init];
     model4.sectionName = @"操作反馈 Feedback";
-    model4.rows = @[item25,item27,item28];
+    model4.rows = @[item25,item26,item27,item28];
     
     WYAHomeItemModel * item29 = [[WYAHomeItemModel alloc]init];
     item29.rowName = @"WYADownloader 下载";

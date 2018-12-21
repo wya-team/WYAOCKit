@@ -35,7 +35,7 @@
     item.superV = self.view;
     item.rect = frame;
     item.seekTime = 10;
-    item.seekToTimeAutoPlay = NO;
+    item.seekToTimeAutoPlay = YES;
 
     self.playView = [[WYAVideoPlayerView alloc] init];
     self.playView.playerDelegate = self;
