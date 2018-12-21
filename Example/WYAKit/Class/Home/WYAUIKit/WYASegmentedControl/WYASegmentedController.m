@@ -64,10 +64,10 @@
 
 #pragma mark ======= WYASegmentedControlDelegate
 - (void)wya_segmentedControlChangeValue:(WYASegmentedControl *)segmentedControl{
-        if (segmentedControl == self.segmentedControl1) {
-            [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"segmentedControl1---选中第%ld个",segmentedControl.getSelectedIndex+1]];
-        }else{
-              [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"segmentedControl2---选中第%ld个",segmentedControl.getSelectedIndex+1]];
-        }
+//        if (segmentedControl == self.segmentedControl1) {
+//            [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"segmentedControl1---选中第%ld个",segmentedControl.getSelectedIndex+1]];
+//        }else{
+//              [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"segmentedControl2---选中第%ld个",segmentedControl.getSelectedIndex+1]];
+//        }
 }
 @end

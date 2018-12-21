@@ -40,6 +40,7 @@
 #import "NSObject+Swizzle.h"
 #import "NSObject+Category.h"
 #import "NSObject+PerformBlock.h"
+#import "NSObject+WYANetWorkState.h"
 /*********** 第三方依赖库 ***********/
 #import <Masonry/Masonry.h>
 #import <JQFMDB/JQFMDB.h>

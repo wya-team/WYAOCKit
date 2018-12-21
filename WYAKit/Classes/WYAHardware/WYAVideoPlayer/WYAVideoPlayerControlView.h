@@ -84,4 +84,6 @@
  @param progress 进度
  */
 - (void)wya_playerSetProgress:(CGFloat)progress;
+
+- (void)playFail;
 @end

@@ -66,10 +66,31 @@
     [super layoutSubviews];
     
     self.playerLayer.frame = self.bounds;
-    self.previewImageView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-    self.activeView.frame = CGRectMake((self.bounds.size.width-44)*0.5, (self.bounds.size.height-44)*0.5, 44, 44);
-    self.controlView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
-    self.brightnessView.frame = CGRectMake((self.bounds.size.width-100*SizeAdapter)*0.5, (self.bounds.size.height-100*SizeAdapter)*0.5, 100*SizeAdapter, 100*SizeAdapter);
+    
+    CGFloat previewImageView_X = 0;
+    CGFloat previewImageView_Y = 0;
+    CGFloat previewImageView_Width = self.bounds.size.width;
+    CGFloat previewImageView_Height = self.bounds.size.height;
+    self.previewImageView.frame = CGRectMake(previewImageView_X, previewImageView_Y, previewImageView_Width, previewImageView_Height);
+    
+    CGFloat activeView_X = (self.bounds.size.width-44)*0.5;
+    CGFloat activeView_Y = (self.bounds.size.height-44)*0.5;
+    CGFloat activeView_Width = 44;
+    CGFloat activeView_Height = 44;
+    self.activeView.frame = CGRectMake(activeView_X, activeView_Y, activeView_Width, activeView_Height);
+    
+    CGFloat controlView_X = 0;
+    CGFloat controlView_Y = 0;
+    CGFloat controlView_Width = self.bounds.size.width;
+    CGFloat controlView_Height = self.bounds.size.height;
+    self.controlView.frame = CGRectMake(controlView_X, controlView_Y, controlView_Width, controlView_Height);
+
+    CGFloat brightnessView_X = (self.bounds.size.width-100*SizeAdapter)*0.5;
+    CGFloat brightnessView_Y = (self.bounds.size.height-100*SizeAdapter)*0.5;
+    CGFloat brightnessView_Width = 100*SizeAdapter;
+    CGFloat brightnessView_Height = 100*SizeAdapter;
+    self.brightnessView.frame = CGRectMake(brightnessView_X, brightnessView_Y, brightnessView_Width, brightnessView_Height);
+
 }
 #pragma mark - Private Method -
 - (void)setupUI{
@@ -175,8 +196,10 @@
         } else if ([playerItem status] == AVPlayerStatusFailed) {
             NSLog(@"AVPlayerStatusFailed");
             _status = PlayerStateFailed;
+            [self.controlView playFail];
         } else {
             _status = PlayerStateFailed;
+            [self.controlView playFail];
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         // 计算缓冲进度
@@ -322,18 +345,31 @@
 
 - (void)seekToTime:(NSInteger)time AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
 {
-    CMTime timeA = CMTimeMake(time, 1);
-    [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
-        if (self.status == PlayerStatePlaying) {
-            if (autoPlay == YES) {
-                [self.player play];
-            } else {
+    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+        
+        CMTime timeA = CMTimeMake(time, 1);
+        [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
+            if (status == WYANetWorkStatusWIFI) {
+                if (self.status == PlayerStatePlaying) {
+                    if (autoPlay == YES) {
+                        [self.player play];
+                    } else {
+                        [self.player pause];
+                    }
+                }
+            }else{
                 [self.player pause];
             }
-//            self.sumTime = 0;
+            
+        }];
+        if (status != WYANetWorkStatusWIFI) {
+            [self.controlView getDragTime:time AutoPlay:NO FastForward:fastForward HiddenFastView:hiddenFastView];
+        }else{
+            [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
         }
+        
     }];
-    [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
+    
 }
 
 /**

@@ -33,6 +33,8 @@
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
 		2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */; };
+		2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2186911F21CC980500DA6849 /* WYALoadingViewController.m */; };
+		2186912A21CCC94F00DA6849 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2186912921CCC94F00DA6849 /* SystemConfiguration.framework */; };
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
@@ -160,6 +162,9 @@
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
 		21470CAB219E94630099CB6F /* WYATestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATestViewController.m; sourceTree = "<group>"; };
 		2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Cycling_Lambie.svg; sourceTree = "<group>"; };
+		2186911E21CC980500DA6849 /* WYALoadingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALoadingViewController.h; sourceTree = "<group>"; };
+		2186911F21CC980500DA6849 /* WYALoadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALoadingViewController.m; sourceTree = "<group>"; };
+		2186912921CCC94F00DA6849 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCell.h; sourceTree = "<group>"; };
 		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
 		21A6C47F21C0AA6C006DA6D1 /* WYADownloadCompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCompleteCell.h; sourceTree = "<group>"; };
@@ -285,6 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2186912A21CCC94F00DA6849 /* SystemConfiguration.framework in Frameworks */,
 				6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */,
 				6003F592195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F58E195388D20070C39A /* Foundation.framework in Frameworks */,
@@ -406,6 +412,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				2186911D21CC978200DA6849 /* WYALoading */,
 				95369E8221CCD16300D0DDA5 /* WYANumberKeyBoard */,
 				950B40E121CA3A8A002BC685 /* WYAGridViewController */,
 				9533A60521CA1E89004D9F0D /* WYAButton */,
@@ -549,6 +556,15 @@
 			path = PopViewController;
 			sourceTree = "<group>";
 		};
+		2186911D21CC978200DA6849 /* WYALoading */ = {
+			isa = PBXGroup;
+			children = (
+				2186911E21CC980500DA6849 /* WYALoadingViewController.h */,
+				2186911F21CC980500DA6849 /* WYALoadingViewController.m */,
+			);
+			path = WYALoading;
+			sourceTree = "<group>";
+		};
 		21A8731621A39550007F2921 /* WYAPaginationView */ = {
 			isa = PBXGroup;
 			children = (
@@ -610,6 +626,7 @@
 		6003F58C195388D20070C39A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2186912921CCC94F00DA6849 /* SystemConfiguration.framework */,
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
@@ -1152,6 +1169,7 @@
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
 				21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */,
 				957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */,
+				2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */,
 				9578498521B11074001E19DC /* WYAListModel.m in Sources */,
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				210C72F221C7C5F100196F07 /* WYAHomeHeaderView.m in Sources */,
