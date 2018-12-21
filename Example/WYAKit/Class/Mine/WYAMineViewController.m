@@ -8,11 +8,13 @@
 
 #import "WYAMineViewController.h"
 
-@interface WYAMineViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface WYAMineViewController ()
+<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * dataSource;
 @property (nonatomic, strong) UIView * headerView;
 @property (nonatomic, strong) WYANumberKeyboard * customKeybodView;
+@property (nonatomic, strong) UITextField * textfiledView;
 @end
 
 @implementation WYAMineViewController
@@ -20,7 +22,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = @"关于WYAKit";
-    [self.view addSubview:self.customKeybodView];
+    _textfiledView = [[UITextField alloc]initWithFrame:CGRectMake(0, WYATopHeight ,ScreenWidth,30)];
+    _textfiledView.placeholder = @"点我呀";
+    [self.view addSubview:_textfiledView];
+   _customKeybodView =  [WYANumberKeyboard initRandomKeyboardWithTextFiled:_textfiledView];
+    [_customKeybodView wya_numberKeyboadrDidChanged:^(NSString * _Nonnull value) {
+        NSLog(@"value %@",value);
+    }];
+    [_customKeybodView wya_numberKeyboadrSurePressed:^{
+        NSLog(@"提交");
+    }];
 //    [self.view addSubview:self.tableView];
     // Do any additional setup after loading the view.
 }
@@ -160,5 +171,19 @@
        });
     }
     return _customKeybodView;
+}
+
+//- (UITextField *)textfiledView{
+//    if(!_textfiledView){
+//        _textfiledView = ({
+//            UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(0, WYATopHeight ,ScreenWidth,30)];
+//            object.placeholder = @"点我呀";
+//            object;
+//       });
+//    }
+//    return _textfiledView;
+//}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.textfiledView resignFirstResponder];
 }
 @end
