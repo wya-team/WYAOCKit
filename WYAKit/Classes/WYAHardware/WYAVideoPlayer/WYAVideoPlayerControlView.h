@@ -39,7 +39,7 @@
  放大按钮
  */
 @property (nonatomic, strong) UIButton *zoomButton;
-
+@property (nonatomic, strong) UIButton *backButton;//返回按钮
 @property (nonatomic, weak) id<VideoControlDelegate> videoControlDelegate;
 
 /**

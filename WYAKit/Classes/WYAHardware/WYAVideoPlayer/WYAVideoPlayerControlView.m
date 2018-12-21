@@ -12,7 +12,7 @@
 
 @interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
 
-@property (nonatomic, strong) UIButton *backButton;//返回按钮
+
 @property (nonatomic, strong) UIButton *likeButton;//收藏按钮
 @property (nonatomic, strong) UIButton *downloadButton;//下载按钮
 @property (nonatomic, strong) UIImageView *bottomImageView;//底部控制栏
@@ -36,7 +36,7 @@
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
         self.item = item;
 
-        //        [self addSubview:self.backButton];
+        [self addSubview:self.backButton];
         //        [self addSubview:self.likeButton];
         //        [self addSubview:self.downloadButton];
         [self addSubview:self.bottomImageView];
@@ -61,11 +61,11 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    //    [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
-    //        make.left.mas_equalTo(self.mas_left).with.offset(10);
-    //        make.top.mas_equalTo(self.mas_top).with.offset(20);
-    //        make.size.mas_equalTo(CGSizeMake(44, 44));
-    //    }];
+    [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).with.offset(10);
+        make.top.mas_equalTo(self.mas_top).with.offset(20);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
+    }];
     //
     //    [self.downloadButton mas_remakeConstraints:^(MASConstraintMaker *make) {
     //        make.right.mas_equalTo(self.mas_right).with.offset(-10);
@@ -122,14 +122,15 @@
 }
 
 #pragma mark - Getter -
-//-(UIButton *)backButton{
-//    if (!_backButton) {
-//        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_backButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-//        [_backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _backButton;
-//}
+-(UIButton *)backButton{
+    if (!_backButton) {
+        _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_backButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
+        [_backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];
+        _backButton.hidden = YES;
+    }
+    return _backButton;
+}
 //
 //-(UIButton *)likeButton{
 //    if (!_likeButton) {
