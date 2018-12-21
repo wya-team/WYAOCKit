@@ -11,6 +11,14 @@
 @implementation UIView (WYAToast)
 
 + (void)wya_ShowBottomToastWithMessage:(NSString *)message{
+    
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = Window.bounds;
+    [button addCallBackAction:^(UIButton *button) {
+        [button removeFromSuperview];
+    }];
+    [Window addSubview:button];
+    
     UILabel * label = [[UILabel alloc]init];
     label.font = FONT(15);
     label.text = message;
@@ -20,19 +28,21 @@
     label.numberOfLines = 0;
     label.layer.cornerRadius = 5*SizeAdapter;
     label.layer.masksToBounds = YES;
-    [Window addSubview:label];
-    
+    [button addSubview:label];
+
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    CGFloat height = [UILabel getHeightByWidth:ScreenWidth-20*SizeAdapter-30*SizeAdapter title:message font:label.font];
+    if (width>ScreenWidth/2) {
+        width = ScreenWidth/2;
+    }
+    CGFloat height = [UILabel getHeightByWidth:width+10*SizeAdapter title:message font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50*SizeAdapter);
-        if (width<ScreenWidth-20*SizeAdapter-30*SizeAdapter) {
-            make.width.mas_equalTo(width+30*SizeAdapter);
-            make.height.mas_equalTo(50*SizeAdapter);
+        make.width.mas_equalTo(width+10*SizeAdapter);
+        if (width<ScreenWidth/2) {
+            make.height.mas_equalTo(20*SizeAdapter);
         }else{
-            make.width.mas_equalTo(ScreenWidth-20*SizeAdapter-30*SizeAdapter);
-            make.height.mas_equalTo(height+30*SizeAdapter);
+            make.height.mas_equalTo(height+20*SizeAdapter);
         }
         
     }];
@@ -40,11 +50,19 @@
     [UIView animateWithDuration:3 animations:^{
         label.alpha = 0;
     } completion:^(BOOL finished) {
-        [label removeFromSuperview];
+        [button removeFromSuperview];
     }];
 }
 
 + (void)wya_ShowCenterToastWithMessage:(NSString *)message{
+
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = Window.bounds;
+    [button addCallBackAction:^(UIButton *button) {
+        [button removeFromSuperview];
+    }];
+    [Window addSubview:button];
+    
     UILabel * label = [[UILabel alloc]init];
     label.font = [UIFont systemFontOfSize:15*SizeAdapter];
     label.text = message;
@@ -54,18 +72,20 @@
     label.layer.cornerRadius = 5*SizeAdapter;
     label.layer.masksToBounds = YES;
     label.numberOfLines = 0;
-    [Window addSubview:label];
+    [button addSubview:label];
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    CGFloat height = [UILabel getHeightByWidth:ScreenWidth-20*SizeAdapter-30*SizeAdapter title:message font:label.font];
+    if (width>ScreenWidth/2) {
+        width = ScreenWidth/2;
+    }
+    CGFloat height = [UILabel getHeightByWidth:width+10*SizeAdapter title:message font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
-        if (width<ScreenWidth-20*SizeAdapter-30*SizeAdapter) {
-            make.width.mas_equalTo(width+30*SizeAdapter);
-            make.height.mas_equalTo(50*SizeAdapter);
+        make.width.mas_equalTo(width+10*SizeAdapter);
+        if (width<ScreenWidth/2) {
+            make.height.mas_equalTo(20*SizeAdapter);
         }else{
-            make.width.mas_equalTo(ScreenWidth-20*SizeAdapter-30*SizeAdapter);
-            make.height.mas_equalTo(height+30*SizeAdapter);
+            make.height.mas_equalTo(height+20*SizeAdapter);
         }
     }];
     
@@ -94,12 +114,26 @@
         SourceInWYAKitBundle:(BOOL)isSource
                  AutoDismiss:(BOOL)autoDismiss
 {
+    UIButton * button;
+    if (autoDismiss) {
+        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = Window.bounds;
+        [button addCallBackAction:^(UIButton *button) {
+            [button removeFromSuperview];
+        }];
+        [Window addSubview:button];
+    }
     UIView * view = [[UIView alloc]init];
     view.backgroundColor = [UIColor blackColor];
     view.layer.cornerRadius = 5*SizeAdapter;
     view.layer.masksToBounds = YES;
     view.tag = 1080;
-    [Window addSubview:view];
+    if (button) {
+        [button addSubview:view];
+    }else{
+        [Window addSubview:view];
+    }
+    
     
     
     UIView * iview;
@@ -200,7 +234,7 @@
         [UIView animateWithDuration:3 animations:^{
             view.alpha = 0;
         } completion:^(BOOL finished) {
-            [view removeFromSuperview];
+            [button removeFromSuperview];
         }];
     }else{
         Window.userInteractionEnabled = NO;
@@ -213,4 +247,5 @@
     [view removeFromSuperview];
     Window.userInteractionEnabled = YES;
 }
+
 @end

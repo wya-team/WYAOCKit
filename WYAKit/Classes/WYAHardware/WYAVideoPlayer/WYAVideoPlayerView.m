@@ -256,7 +256,8 @@
 
 - (void)enterFullscreenWithLeft:(BOOL)isLeft
 {
-    
+    self.controlView.zoomButton.selected = YES;
+    self.controlView.backButton.hidden = NO;
     if (!self.videoItem.superV) {
         self.videoItem.superV = self.superview;
         self.videoItem.rect = self.frame;
@@ -295,6 +296,8 @@
 
 - (void)exitFullscreen
 {
+    self.controlView.zoomButton.selected = NO;
+    self.controlView.backButton.hidden = YES;
     self.isFullScreen = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     CGRect frame = [self.videoItem.superV convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
