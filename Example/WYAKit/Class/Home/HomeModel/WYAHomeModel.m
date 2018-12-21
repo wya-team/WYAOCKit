@@ -81,9 +81,13 @@
     item16.rowName = @"WYAStepperView 步进器";
     item16.className = @"WYAStepperController";
     
+    WYAHomeItemModel * item17 = [[WYAHomeItemModel alloc]init];
+    item17.rowName = @"WYANumberKeyboard 数字键盘";
+    item17.className = @"WYANumberKeyBoardController";
+    
     WYAHomeModel * model2 = [[WYAHomeModel alloc]init];
     model2.sectionName = @"数据录入 Data Entry";
-    model2.rows = @[item10,item11,item12,item13,item14,item15,item16];
+    model2.rows = @[item10,item11,item12,item13,item14,item15,item16,item17];
     
     WYAHomeItemModel * item19 = [[WYAHomeItemModel alloc]init];
     item19.rowName = @"WYAGridItem 宫格";

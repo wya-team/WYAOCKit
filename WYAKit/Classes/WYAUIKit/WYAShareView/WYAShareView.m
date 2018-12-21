@@ -99,7 +99,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_shareView:didSelectItemAtIndexPath:itemTitle:)]) {
         [self.delegate wya_shareView:self didSelectItemAtIndexPath:indexPath itemTitle:title];
     }
-    NSLog(@"indexPath.row%ld-------title%@",indexPath.row,title);
+    NSLog(@"indexPath.row%ld-------title%@",(long)indexPath.row,title);
 }
 #pragma mark ======= getter
 - (UICollectionView *)collectionView{
