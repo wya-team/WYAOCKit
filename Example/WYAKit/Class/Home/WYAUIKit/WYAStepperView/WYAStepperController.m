@@ -49,8 +49,11 @@
         _disableAtepperView = ({
             WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth - 100*SizeAdapter, 0 , 100*SizeAdapter, 40*SizeAdapter)];
             object.childFrame = CGRectMake(0, 0, 20*SizeAdapter, 20*SizeAdapter);
-            object.ImageNamedArray = @[@"sub_disable", @"add_disable"];
+            object.ImageNamedArray = @[@"icon_stepper_minus", @"icon_add_enable"];
             object.delegate = self;
+            object.tintColor = WHITECOLOR;
+            object.userInteractionEnabled = NO;
+            object.alpha = 0.5;
             object;
        });
     }
@@ -95,10 +98,12 @@
         UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
         cell.textLabel.text = @"Show number value";
         [cell.contentView addSubview:self.ableStepperView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
         UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellID"];
         cell.textLabel.text = @"Disabled";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell.contentView addSubview:self.disableAtepperView];
         return cell;
     }

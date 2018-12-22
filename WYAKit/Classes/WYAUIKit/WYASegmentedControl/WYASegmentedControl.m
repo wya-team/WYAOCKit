@@ -115,6 +115,12 @@
         }
     }
 }
+- (void)setItemsIsEnable:(BOOL)itemsIsEnable{
+    _itemsIsEnable = itemsIsEnable;
+    self.backgroundColor = [UIColor whiteColor];
+    self.userInteractionEnabled = _itemsIsEnable;
+    self.alpha = 0.5;
+}
 #pragma mark ======= private method
 // 设置默认值
 - (void)setDefaultValue{
