@@ -47,21 +47,16 @@
     self.searchBar2.placeholder = @"搜索";
     self.searchBar2.showsCancelButton = YES;
     self.searchBar2.delegate = self;
-    self.searchBar2.barTintColor = random(201, 201, 201, 1);
+//    self.searchBar2.barTintColor = random(201, 201, 201, 1);
     [self.view addSubview:self.searchBar2];
 }
 
 #pragma mark - UISearchBarDelegate  -
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
-    if (self.searchBar == searchBar) {
-        self.searchBar.showsCancelButton = YES;
-    }
-    return YES;
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    
 }
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    if (self.searchBar == searchBar) {
-        self.searchBar.showsCancelButton = NO;
-    }
+    
     [self.view endEditing:YES];
 }
 /*

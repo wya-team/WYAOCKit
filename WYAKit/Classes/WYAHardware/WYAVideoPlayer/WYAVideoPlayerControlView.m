@@ -70,6 +70,7 @@
                 self.networkView.hidden = YES;
             }
         }];
+        [self.networkView netWorkStatus:nil];
     }
     return self;
 }
@@ -254,10 +255,14 @@
             WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc]init];
             WeakSelf(weakSelf);
             object.retryHandle = ^{
-                [weakSelf playButtonClick:weakSelf.playButton];
+                if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlRetry:)]) {
+                    [weakSelf.videoControlDelegate videoControlRetry:weakSelf];
+                }
             };
             object.goOnHandle = ^{
-                [weakSelf playButtonClick:weakSelf.playButton];
+                if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlGoOn:)]) {
+                    [weakSelf.videoControlDelegate videoControlGoOn:weakSelf];
+                }
             };
             object;
         });
@@ -393,19 +398,24 @@
 }
 
 - (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView{
-    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
-        if (status != WYANetWorkStatusWIFI) {
-            self.playButton.selected = NO;
-            self.networkView.hidden = NO;
-        }else{
-            if (autoPlay == YES) {
-                self.playButton.selected = YES;
-            } else {
-                self.playButton.selected = NO;
-            }
-        }
-    }];
+//    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+//        if (status != WYANetWorkStatusWIFI) {
+//            self.playButton.selected = NO;
+//            self.networkView.hidden = NO;
+//        }else{
+//            if (autoPlay == YES) {
+//                self.playButton.selected = YES;
+//            } else {
+//                self.playButton.selected = NO;
+//            }
+//        }
+//    }];
     
+    if (autoPlay == YES) {
+        self.playButton.selected = YES;
+    } else {
+        self.playButton.selected = NO;
+    }
 
     // 当前时长进度progress
     NSInteger proMin = dragTime / 60; //当前秒
@@ -440,6 +450,7 @@
 
 - (void)playFail{
     self.networkView.hidden = NO;
+    
 }
 /*
 // Only override drawRect: if you perform custom drawing.

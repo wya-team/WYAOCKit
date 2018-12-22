@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 
 @protocol WYADatePickerDelegate <NSObject>
 
-
+-(void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result;
 
 @end
 

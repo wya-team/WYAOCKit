@@ -29,6 +29,9 @@
 
 - (void)videoControl:(UIView *)videoControl zoomButton:(UIButton *)zoomButton;
 
+- (void)videoControlRetry:(UIView *)videoControl;
+
+- (void)videoControlGoOn:(UIView *)videoControl;
 @end
 
 

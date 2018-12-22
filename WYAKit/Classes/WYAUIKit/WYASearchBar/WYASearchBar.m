@@ -47,6 +47,10 @@ static CGFloat const placeHolderFont = 17.0f;
         [self.delegate searchBarShouldBeginEditing:self];
     }
     if (@available(iOS 11.0, *)) {
+        
+        [self setNeedsDisplay];
+        UIOffset se = [self positionAdjustmentForSearchBarIcon:UISearchBarIconSearch];
+        NSLog(@"se==%@",NSStringFromUIOffset(se));
         [self setPositionAdjustment:UIOffsetZero forSearchBarIcon:UISearchBarIconSearch];
     }
     return YES;

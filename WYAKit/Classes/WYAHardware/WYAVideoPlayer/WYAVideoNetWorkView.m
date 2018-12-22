@@ -67,7 +67,10 @@
             default:
                 break;
         }
-        handle(status);
+        if (handle) {
+            handle(status);
+        }
+        
     }];
     
     

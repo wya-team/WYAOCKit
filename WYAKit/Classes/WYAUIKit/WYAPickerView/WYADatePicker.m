@@ -528,14 +528,15 @@ static CGFloat titleHeight = 44.0;
 }
 
 - (void)wya_RightAction{
-//    if (self.wya_delegate && [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
-//        [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
-//        if (self.viewController) {
-//            [self.viewController dismissViewControllerAnimated:YES completion:nil];
-//        }else{
-//            [self removeFromSuperview];
-//        }
-//    }
+    if (self.viewController) {
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self removeFromSuperview];
+    }
+    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_ChooseWithDatePicker:ResultString:)]) {
+        [self.wya_delegate wya_ChooseWithDatePicker:self ResultString:self.resultString];
+        
+    }
 }
 
 #pragma mark --- Private Action

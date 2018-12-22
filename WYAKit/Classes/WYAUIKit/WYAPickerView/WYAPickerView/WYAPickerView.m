@@ -285,14 +285,14 @@ static CGFloat titleHeight = 44.0;
 }
 
 - (void)wya_RightAction{
-    
+    if (self.viewController) {
+        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self removeFromSuperview];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
         [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
-        if (self.viewController) {
-            [self.viewController dismissViewControllerAnimated:YES completion:nil];
-        }else{
-            [self removeFromSuperview];
-        }
+        
     }
 }
 

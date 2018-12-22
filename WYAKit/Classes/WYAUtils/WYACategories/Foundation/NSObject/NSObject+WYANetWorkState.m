@@ -12,7 +12,7 @@
 -(void)wya_getNetWorkStatus:(void(^)(WYANetWorkStatus status))handle{
     Reachability *reachability   = [Reachability reachabilityWithHostName:@"www.apple.com"];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    NSString *net = @"WIFI";
+    
     switch (internetStatus) {
         case ReachableViaWiFi:
             handle(WYANetWorkStatusWIFI);

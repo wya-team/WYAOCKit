@@ -189,7 +189,15 @@
 
             _status = PlayerStatePlaying;
             if (self.videoItem.seekTime) {
-                [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay FastForward:NO HiddenFastView:YES];
+                [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+                    if (status == WYANetWorkStatusWIFI) {
+                        [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay FastForward:NO HiddenFastView:YES];
+                    }else if (status == WYANetWorkStatusWWAN) {
+                        [self.player pause];
+                        [self.controlView playFail];
+                    }
+                }];
+                
             }
             [self.activeView stopAnimating];
             self.activeView.hidden = YES;
@@ -345,31 +353,18 @@
 
 - (void)seekToTime:(NSInteger)time AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
 {
-    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
-        
-        CMTime timeA = CMTimeMake(time, 1);
-        [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
-            if (status == WYANetWorkStatusWIFI) {
-                if (self.status == PlayerStatePlaying) {
-                    if (autoPlay == YES) {
-                        [self.player play];
-                    } else {
-                        [self.player pause];
-                    }
-                }
-            }else{
+    CMTime timeA = CMTimeMake(time, 1);
+    [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
+        if (self.status == PlayerStatePlaying) {
+            if (autoPlay == YES) {
+                [self.player play];
+            } else {
                 [self.player pause];
             }
-            
-        }];
-        if (status != WYANetWorkStatusWIFI) {
-            [self.controlView getDragTime:time AutoPlay:NO FastForward:fastForward HiddenFastView:hiddenFastView];
-        }else{
-            [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
         }
         
     }];
-    
+    [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
 }
 
 /**
@@ -483,6 +478,7 @@
 {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
+//    [self wya_ResetPlayer];
     [self configPlayInfo];
     [self.layer insertSublayer:self.playerLayer atIndex:0];
     [self createTimer];
@@ -514,10 +510,6 @@
     if (self.isFullScreen == YES) {
         [self exitFullscreen];
         self.controlView.zoomButton.selected = NO;
-    } else {
-        //        if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(playerView:backButton:)]) {
-        //            [self.playerDelegate playerView:self backButton:backButton];
-        //        }
     }
 }
 
@@ -550,7 +542,7 @@
 {
     CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
     CGFloat currentTime = floorf(totalTime * slide.value);
-    [self seekToTime:currentTime AutoPlay:YES FastForward:NO HiddenFastView:NO];
+    [self seekToTime:currentTime AutoPlay:YES FastForward:NO HiddenFastView:YES];
 }
 
 - (void)videoControl:(UIView *)videoControl zoomButton:(UIButton *)zoomButton
@@ -564,6 +556,15 @@
         [self exitFullscreen];
         
     }
+}
+
+- (void)videoControlRetry:(UIView *)videoControl{
+    NSLog(@"self.videoItem==%@",self.videoItem);
+    [self wya_RegisterPlayerItem:self.videoItem];
+}
+
+- (void)videoControlGoOn:(UIView *)videoControl{
+    [self.player play];
 }
 
 #pragma mark - Getter -
