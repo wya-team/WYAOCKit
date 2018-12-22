@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  左按钮点击事件
  */
-- (void)wya_LeftAction;
+- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button;
 
 /**
  右按钮点击事件
  */
-- (void)wya_RightAction;
+- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button;
 
 @end
 

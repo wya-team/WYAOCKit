@@ -122,6 +122,7 @@
         _collectionView.scrollsToTop = NO;
         _collectionView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
         [_collectionView registerClass:[WYAPhotoPreviewCell class] forCellWithReuseIdentifier:@"image"];
+        [_collectionView registerClass:[WYAVideoPreviewCell class] forCellWithReuseIdentifier:@"video"];
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     }
     return _collectionView;
@@ -152,15 +153,33 @@
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAPhotoBrowserModel * model = self.models[indexPath.item];
+    if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+        WYAVideoPreviewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"video" forIndexPath:indexPath];
+        return cell;
+    }else if (model.asset.mediaType == PHAssetMediaTypeImage) {
+        WYAPhotoPreviewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
+        return cell;
+    }else {
+        return nil;
+    }
     
-    WYAPhotoPreviewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
-    return cell;
     
 }
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYAPhotoPreviewCell * imageCell = (WYAPhotoPreviewCell *)cell;
-    imageCell.model = self.models[indexPath.item];
-    [imageCell setScrollZoom];
+    WYAPhotoBrowserModel * model = self.models[indexPath.item];
+    if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+        WYAVideoPreviewCell * videoCell = (WYAVideoPreviewCell *)cell;
+        videoCell.model = model;
+    }else if (model.asset.mediaType == PHAssetMediaTypeImage) {
+        WYAPhotoPreviewCell * imageCell = (WYAPhotoPreviewCell *)cell;
+        imageCell.model = model;
+        [imageCell setScrollZoom];
+        
+    }else {
+        
+    }
+    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
