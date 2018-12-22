@@ -61,10 +61,61 @@
 }
 @end
 
+@interface WYAVideoPreviewCell ()
+@property (nonatomic, strong) AVPlayer * player;
+@property (nonatomic, strong) AVPlayerLayer * layer;
+@property (nonatomic, strong) UIButton * playButton;
+@end
+
 @implementation WYAVideoPreviewCell
 
--(void)setModel:(WYAPhotoBrowserModel *)model{
+-(instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self.contentView addSubview:self.playButton];
+    }
+    return self;
+}
+
+-(void)layoutSubviews{
+    [super layoutSubviews];
     
+//    CGFloat <#view#>_Width = ;
+//    CGFloat <#view#>_Height = ;
+//    <#view#>.frame = CGRectMake(<#view#>_X, <#view#>_Y, <#view#>_Width, <#view#>_Height);
+}
+
+#pragma mark - Setter -
+-(void)setModel:(WYAPhotoBrowserModel *)model{
+    if (model) {
+        PHAsset * asset = model.asset;
+        if (asset.mediaType == PHAssetMediaTypeVideo) {
+            PHImageManager * manager = [PHImageManager defaultManager];
+//            PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc]init];
+//            option.version = PHVideoRequestOptionsVersionOriginal;
+            [manager requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+                self.player = [AVPlayer playerWithPlayerItem:playerItem];
+                self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+                self.layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+                self.layer.frame = self.bounds;
+                [self.contentView.layer addSublayer:self.layer];
+                
+            }];
+        }
+    }
+}
+
+#pragma mark - Getter -
+- (UIButton *)playButton{
+    if(!_playButton){
+        _playButton = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
+            object;
+        });
+    }
+    return _playButton;
 }
 
 @end
