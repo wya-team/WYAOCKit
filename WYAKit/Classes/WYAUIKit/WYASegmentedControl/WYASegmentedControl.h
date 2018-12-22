@@ -66,7 +66,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat  itemsFont;
 
-
+@property (nonatomic, assign) BOOL  itemsIsEnable;
 /**
  构造方法返回一个实例对象
 

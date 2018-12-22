@@ -115,6 +115,17 @@
         }
     }
 }
+- (void)setItemsIsEnable:(BOOL)itemsIsEnable{
+    _itemsIsEnable = itemsIsEnable;
+    for (UIView * tempView  in self.subviews) {
+        if ([tempView isKindOfClass:[UIButton class]]) {
+            UIButton * button = (UIButton *)tempView;
+            button.enabled = _itemsIsEnable;
+        }
+    }
+    self.tintColor = [UIColor whiteColor];
+    self.alpha = 0.35;
+}
 #pragma mark ======= private method
 // 设置默认值
 - (void)setDefaultValue{
