@@ -14,6 +14,7 @@
 #import "WYABrightnessView.h"
 @interface WYAVideoPlayerView () <VideoControlDelegate>
 
+@property (nonatomic, assign) PlayerStatus  playerStatus;
 @property (nonatomic, strong) AVPlayer *player;
 
 @property (nonatomic, strong) AVPlayerItem *playerItem;
@@ -28,7 +29,7 @@
 
 @property (nonatomic, strong) id timeObserve;
 
-@property (nonatomic, strong) UIActivityIndicatorView *activeView;
+@property (nonatomic, strong) UIImageView * loadingImageView;
 
 @property (nonatomic, assign) BOOL isFullScreen;
 @property (nonatomic, strong) UISlider * volumeSlider;
@@ -73,11 +74,11 @@
     CGFloat previewImageView_Height = self.bounds.size.height;
     self.previewImageView.frame = CGRectMake(previewImageView_X, previewImageView_Y, previewImageView_Width, previewImageView_Height);
     
-    CGFloat activeView_X = (self.bounds.size.width-44)*0.5;
-    CGFloat activeView_Y = (self.bounds.size.height-44)*0.5;
-    CGFloat activeView_Width = 44;
-    CGFloat activeView_Height = 44;
-    self.activeView.frame = CGRectMake(activeView_X, activeView_Y, activeView_Width, activeView_Height);
+    CGFloat loadingImageView_X = (self.bounds.size.width-30)*0.5;
+    CGFloat loadingImageView_Y = (self.bounds.size.height-30)*0.5;
+    CGFloat loadingImageView_Width = 30;
+    CGFloat loadingImageView_Height = 30;
+    self.loadingImageView.frame = CGRectMake(loadingImageView_X, loadingImageView_Y, loadingImageView_Width, loadingImageView_Height);
     
     CGFloat controlView_X = 0;
     CGFloat controlView_Y = 0;
@@ -96,7 +97,7 @@
 - (void)setupUI{
     [self.layer addSublayer:self.playerLayer];
     [self addSubview:self.previewImageView];
-    [self addSubview:self.activeView];
+    [self addSubview:self.loadingImageView];
     [self addSubview:self.controlView];
     [self addSubview:self.brightnessView];
     
@@ -147,6 +148,15 @@
 }
 
 #pragma mark - Setter -
+-(void)setPlayerStatus:(PlayerStatus)playerStatus{
+    _playerStatus = playerStatus;
+    if (playerStatus == PlayerStateBuffering) {
+        self.loadingImageView.hidden = NO;
+    }else{
+        self.loadingImageView.hidden = YES;
+    }
+}
+
 - (void)setVideoItem:(WYAVideoItem *)videoItem
 {
     _videoItem = videoItem;
@@ -179,6 +189,49 @@
 //    self.controlView.oneFingerClick = needOneClick;
 //}
 
+#pragma mark - Getter -
+-(PlayerStatus)status{
+    return self.playerStatus;
+}
+
+- (UIImageView *)previewImageView
+{
+    if (!_previewImageView) {
+        _previewImageView = [[UIImageView alloc] init];
+        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
+    }
+    return _previewImageView;
+}
+
+- (UIImageView *)loadingImageView{
+    if(!_loadingImageView){
+        _loadingImageView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.image = [UIImage imageNamed:@"icon_loading"];
+            [object wya_setRotationAnimation:360 time:1 repeatCount:0];
+            object;
+        });
+    }
+    return _loadingImageView;
+}
+
+- (WYAVideoPlayerControlView *)controlView
+{
+    if (!_controlView) {
+        _controlView = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
+        _controlView.videoControlDelegate = self;
+    }
+    return _controlView;
+}
+
+- (WYABrightnessView *)brightnessView{
+    if(!_brightnessView){
+        _brightnessView = [[WYABrightnessView alloc]init];
+        _brightnessView.alpha = 0;
+    }
+    return _brightnessView;
+}
+
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -187,7 +240,7 @@
         if ([playerItem status] == AVPlayerStatusReadyToPlay) {
             NSLog(@"AVPlayerStatusReadyToPlay");
 
-            _status = PlayerStatePlaying;
+            self.playerStatus = PlayerStatePlaying;
             if (self.videoItem.seekTime) {
                 [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
                     if (status == WYANetWorkStatusWIFI) {
@@ -197,16 +250,14 @@
                         [self.controlView playFail];
                     }
                 }];
-                
             }
-            [self.activeView stopAnimating];
-            self.activeView.hidden = YES;
+            
         } else if ([playerItem status] == AVPlayerStatusFailed) {
             NSLog(@"AVPlayerStatusFailed");
-            _status = PlayerStateFailed;
+            self.playerStatus = PlayerStateFailed;
             [self.controlView playFail];
         } else {
-            _status = PlayerStateFailed;
+            self.playerStatus = PlayerStateFailed;
             [self.controlView playFail];
         }
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
@@ -219,15 +270,13 @@
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         // 当缓冲是空的时候
         if (self.playerItem.playbackBufferEmpty) {
-            _status = PlayerStateBuffering;
-            self.activeView.hidden = NO;
-            [self.activeView startAnimating];
+            self.playerStatus = PlayerStateBuffering;
+            
         }
 
     } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         // 当缓冲好的时候
-        if (self.playerItem.playbackLikelyToKeepUp && _status == PlayerStateBuffering) {
-//            _status = PlayerStatePlaying;
+        if (self.playerItem.playbackLikelyToKeepUp && self.playerStatus == PlayerStateBuffering) {
 
         }
     }
@@ -355,7 +404,7 @@
 {
     CMTime timeA = CMTimeMake(time, 1);
     [self.player seekToTime:timeA completionHandler:^(BOOL finished) {
-        if (self.status == PlayerStatePlaying) {
+        if (self.playerStatus == PlayerStatePlaying) {
             if (autoPlay == YES) {
                 [self.player play];
             } else {
@@ -518,10 +567,10 @@
     self.previewImageView.hidden = YES;
     if (playButton.selected) {
         [self.player pause];
-        _status = PlayerStateStopped;
+        self.playerStatus = PlayerStateStopped;
     } else {
         [self.player play];
-        _status = PlayerStatePlaying;
+        self.playerStatus = PlayerStatePlaying;
     }
 }
 
@@ -567,43 +616,6 @@
     [self.player play];
 }
 
-#pragma mark - Getter -
-- (UIImageView *)previewImageView
-{
-    if (!_previewImageView) {
-        _previewImageView = [[UIImageView alloc] init];
-        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
-    }
-    return _previewImageView;
-}
-
-- (UIActivityIndicatorView *)activeView
-{
-    if (!_activeView) {
-        _activeView = [[UIActivityIndicatorView alloc] init];
-        _activeView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
-        _activeView.hidden = YES;
-    }
-    return _activeView;
-}
-
-- (WYAVideoPlayerControlView *)controlView
-{
-    if (!_controlView) {
-        _controlView = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
-        _controlView.videoControlDelegate = self;
-    }
-    return _controlView;
-}
-
-- (WYABrightnessView *)brightnessView{
-    if(!_brightnessView){
-        _brightnessView = [[WYABrightnessView alloc]init];
-        _brightnessView.alpha = 0;
-    }
-    return _brightnessView;
-}
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -626,6 +638,8 @@
     // Drawing code
 }
 */
+
+
 
 
 

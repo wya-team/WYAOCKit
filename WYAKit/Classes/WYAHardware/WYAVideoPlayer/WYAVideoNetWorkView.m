@@ -98,7 +98,7 @@
             object.layer.borderWidth = 0.5;
             object.layer.cornerRadius = 4.f;
             object.layer.masksToBounds = YES;
-            object.titleLabel.font = FONT(15);
+            object.titleLabel.font = FONT(13);
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton *button) {
                 if ([button.titleLabel.text isEqualToString:@"重试"]) {
