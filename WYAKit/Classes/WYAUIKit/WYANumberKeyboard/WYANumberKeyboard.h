@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYANumberKeyboard : UIView
 @property (nonatomic, strong) UIColor * bgColor;
 
-/**
- textFileds光标位置用空格来控制，默认两个空格
- */
-@property (nonatomic, assign) NSInteger  spaceNum;
+///**
+// textFileds光标位置用空格来控制，默认两个空格
+// */
+//@property (nonatomic, assign) NSInteger  spaceNum;
 /**
  必须用此方法初始化
 

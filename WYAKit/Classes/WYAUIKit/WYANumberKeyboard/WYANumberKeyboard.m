@@ -29,7 +29,7 @@
     if (self = [super initWithFrame:CGRectMake(0, ScreenHeight - 200, ScreenWidth, 200+WYABottomHeight)]) {
         [self addSubview:self.keybordView];
         _bgColor = [UIColor whiteColor];
-        _spaceNum = 2;
+//        _spaceNum = 2;
     }
     return self;
 }
@@ -37,7 +37,7 @@
 - (instancetype)init{
     if (self = [super init]) {
         self.backgroundColor = [UIColor whiteColor];
-        _spaceNum = 2;
+//        _spaceNum = 2;
         self.frame = CGRectMake(0, ScreenHeight - 200, ScreenWidth, 200+WYABottomHeight);
         [self addSubview:self.keybordView];
         _bgColor = [UIColor whiteColor];
@@ -195,11 +195,11 @@
     }
     else if([@"删除" isEqualToString:numStr])
     {
-        if (_textFiled.text.length == _spaceNum) {
-            
-        }else{
+//        if (_textFiled.text.length == _spaceNum) {
+//
+//        }else{
         [_textFiled deleteBackward];
-        }
+//        }
     }else if([@"." isEqualToString:numStr]){
         if (![_textFiled.text containsString:@"."]) {
             [_textFiled insertText:numStr];
@@ -265,11 +265,11 @@
 {
     // 每次重新生成数据源
     [self refresh];
-    if (_textFiled.text.length < _spaceNum) {
-        for (int i = 0; i < _spaceNum; i++) {
-            [_textFiled insertText:@" "];
-        }
-    }
+//    if (_textFiled.text.length < _spaceNum) {
+//        for (int i = 0; i < _spaceNum; i++) {
+//            [_textFiled insertText:@" "];
+//        }
+//    }
     
     //如果用到了IQKeyboardManager
     //    [IQKeyboardManager sharedManager].enableAutoToolbar = NO;
