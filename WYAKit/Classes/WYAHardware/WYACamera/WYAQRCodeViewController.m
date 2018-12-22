@@ -513,7 +513,7 @@ static CGFloat QRCodeWidth = 220;
             [object setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [object setTitleColor:[UIColor greenColor] forState:UIControlStateSelected];
             object.titleLabel.font = FONT(12);
-            [object setImage:[UIImage loadBundleImage:@"flashlight" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_scan_flashlight" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
             [object setImage:[UIImage loadBundleImage:@"" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
             object.hidden = YES;
             object.alpha = 0;
