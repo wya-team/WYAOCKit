@@ -117,14 +117,9 @@
 }
 - (void)setItemsIsEnable:(BOOL)itemsIsEnable{
     _itemsIsEnable = itemsIsEnable;
-    for (UIView * tempView  in self.subviews) {
-        if ([tempView isKindOfClass:[UIButton class]]) {
-            UIButton * button = (UIButton *)tempView;
-            button.enabled = _itemsIsEnable;
-        }
-    }
-    self.tintColor = [UIColor whiteColor];
-    self.alpha = 0.35;
+    self.backgroundColor = [UIColor whiteColor];
+    self.userInteractionEnabled = _itemsIsEnable;
+    self.alpha = 0.5;
 }
 #pragma mark ======= private method
 // 设置默认值
