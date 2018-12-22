@@ -139,7 +139,7 @@
     
     [self.networkView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.center.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 50*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(200*SizeAdapter, 50*SizeAdapter));
     }];
 }
 
@@ -255,11 +255,13 @@
             WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc]init];
             WeakSelf(weakSelf);
             object.retryHandle = ^{
+                weakSelf.bottomImageView.hidden = NO;
                 if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlRetry:)]) {
                     [weakSelf.videoControlDelegate videoControlRetry:weakSelf];
                 }
             };
             object.goOnHandle = ^{
+                weakSelf.bottomImageView.hidden = NO;
                 if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlGoOn:)]) {
                     [weakSelf.videoControlDelegate videoControlGoOn:weakSelf];
                 }

@@ -94,7 +94,7 @@
     if(!_button){
         _button = ({
             UIButton * object = [[UIButton alloc]init];
-            object.layer.borderColor = [UIColor blueColor].CGColor;
+            object.layer.borderColor = [UIColor whiteColor].CGColor;
             object.layer.borderWidth = 0.5;
             object.layer.cornerRadius = 4.f;
             object.layer.masksToBounds = YES;
