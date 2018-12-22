@@ -1,12 +1,57 @@
-//
-//  WYANumberKeyBoardController.m
-//  WYAKit_Example
-//
-//  Created by 李俊恒 on 2018/12/21.
-//  Copyright © 2018 WYATeam. All rights reserved.
-//
+#  WYANumberKeyboard
 
+## 功能
+
+- 实现类似支付宝数字键盘样式，可自由选择是否随机数键盘，给出两种初始化方法，分别返回两种不同的键盘。
+
+## 属性
+
+属性 | 说明 | 类型 | 默认值
+--- | --- | --- | ---
+bgColor | 键盘背景色 | UIColor | whiteColor
+spaceNum | 由于输入的值紧贴着输入框左侧，不是很美观。光标位置由空格控制，该属性是空格数量 | NSInteger | 2
+
+
+## 方法
+
+```Object-C
+/**
+ 必须用此方法初始化
+
+ @param textFiled 传入一个textFiled
+ @return 返回一个键盘对象 (高度为200 + 底部安全区域（0/34）的键盘)
+ */
++ (instancetype)initWithTextFiled:(UITextField *)textFiled;
+
+/**
+ 随机键盘必须用此方法初始化
+
+ @param textFiled 传入一个textFiled
+ @return 返回一个随机数字键盘对象 (高度为200 + 底部安全区域（0/34）的键盘)
+ */
++(instancetype)initRandomKeyboardWithTextFiled:(UITextField *)textFiled;
+
+/**
+ 输入框value改变的事件回调
+
+ @param numberKeyboardChangeValue numberKeyboardChangeValue
+ */
+- (void)wya_numberKeyboadrDidChanged:(void(^)(NSString * value))numberKeyboardChangeValue;
+
+/**
+ 确定按钮点击事件
+
+ @param sureButtonBlock sureButtonBlock
+ */
+- (void)wya_numberKeyboadrSurePressed:(void (^)(void))sureButtonBlock;
+
+```
+
+## 基本用法
+
+```Object-C
 #import "WYANumberKeyBoardController.h"
+#import <WYAKit/WYANumberKeyboard.h>
 
 @interface WYANumberKeyBoardController ()
 @property (nonatomic, strong) UITextField * textField1;
@@ -16,16 +61,9 @@
 @end
 
 @implementation WYANumberKeyBoardController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
-    // 查看README文档
-    NSLog(@"查看文档");
-    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
-    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYANumberKeyboard/README.md";
-    [self.navigationController pushViewController:vc animated:YES];
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
     [self.view addSubview:self.textField1];
     [self.view addSubview:self.textField2];
 
@@ -108,3 +146,6 @@
 
 }
 @end
+
+```
+
