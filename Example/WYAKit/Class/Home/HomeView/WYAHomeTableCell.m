@@ -110,7 +110,7 @@
     if(!_arrowImageView){
         _arrowImageView = ({
             UIImageView * object = [[UIImageView alloc]init];
-            object.image = [UIImage imageNamed:@"jiantou"];
+            object.image = [UIImage imageNamed:@"icon_arrow"];
             object;
        });
     }

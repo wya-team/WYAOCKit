@@ -175,13 +175,13 @@
     NSMutableArray * array = [NSMutableArray array];
     WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"输入内容" instructionsString:@"右侧注释" type:@"0" imageNamed:nil];
     
-    WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"icon_eye"];
     
     WYAInputItemModel * model3 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"使用说明" type:@"0" imageNamed:nil];
     
-    WYAInputItemModel * model4 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"jiantou"];
+    WYAInputItemModel * model4 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:nil type:@"1" imageNamed:@"icon_arrow"];
     
-    WYAInputItemModel * model5 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"右侧注释" type:@"2" imageNamed:@"jiantou"];
+    WYAInputItemModel * model5 = [WYAInputItemModel modelWithTitle:@"标签" textFiledText:@"我是暗提示" instructionsString:@"右侧注释" type:@"2" imageNamed:@"icon_arrow"];
     
     [array wya_safeAddObject:model1];
     [array wya_safeAddObject:model2];
@@ -194,11 +194,11 @@
 
 - (NSArray *)createModelTwoArray{
     NSMutableArray * array = [NSMutableArray array];
-    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"手机号" textFiledText:@"180 7989 2818" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    WYAInputItemModel * model1 = [WYAInputItemModel modelWithTitle:@"手机号" textFiledText:@"180 7989 2818" instructionsString:nil type:@"1" imageNamed:@"icon_eye"];
     
     WYAInputItemModel * model2 = [WYAInputItemModel modelWithTitle:@"银行卡" textFiledText:@"1212 1675 1268 2245" instructionsString:nil type:@"3" imageNamed:nil];
     
-    WYAInputItemModel * model3 = [WYAInputItemModel modelWithTitle:@"密码" textFiledText:@"123456" instructionsString:nil type:@"1" imageNamed:@"yanjing"];
+    WYAInputItemModel * model3 = [WYAInputItemModel modelWithTitle:@"密码" textFiledText:@"123456" instructionsString:nil type:@"1" imageNamed:@"icon_eye"];
     
     WYAInputItemModel * model4 = [WYAInputItemModel modelWithTitle:@"金额" textFiledText:@"100" instructionsString:@"元" type:@"0" imageNamed:nil];
     

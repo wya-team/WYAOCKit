@@ -26,6 +26,7 @@
         [self addSubview:self.score];
         [self addSubview:self.grade];
         [self addSubview:self.studentId];
+        self.backgroundColor = BLUECOLOR;
     }
     return self;
 }
@@ -87,7 +88,7 @@
         _name = ({
             UILabel * object = [[UILabel alloc]init];
             object.text = @"name\nString";
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.numberOfLines = 0;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
@@ -104,7 +105,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"age\nint";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
@@ -120,7 +121,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"height\nfloat";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
@@ -136,7 +137,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"weight\nfloat";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
@@ -152,7 +153,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"score\nfloat";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
@@ -168,7 +169,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"grade\nString";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
@@ -184,7 +185,7 @@
             UILabel * object = [[UILabel alloc]init];
             object.text = @"studentId\nString,Primarykey";
             object.numberOfLines = 0;
-            object.textColor = [UIColor grayColor];
+            object.textColor = WHITECOLOR;
             object.font = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
             object.adjustsFontSizeToFitWidth = YES;

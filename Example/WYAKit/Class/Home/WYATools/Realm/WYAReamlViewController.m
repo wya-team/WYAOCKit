@@ -114,6 +114,7 @@
     if(!_sectionView){
         _sectionView = ({
             WYARealmSectionView * object = [[WYARealmSectionView alloc]initWithFrame:CGRectMake(0, 20, ScreenWidth, 44)];
+            
             object;
         });
     }
@@ -177,12 +178,15 @@
     if (indexPath.section == 0) {
         UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:CELLID];
         cell.textLabel.text = [sectionArr wya_safeObjectAtIndex:indexPath.row];
-        cell.backgroundColor = randomColor;
-        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.textColor = BLACKTEXTCOLOR;
+        cell.textLabel.font = FONT(14);
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
     }else{
         WYARealmCell * cell = [tableView dequeueReusableCellWithIdentifier:REALMCELL];
         cell.model = [sectionArr wya_safeObjectAtIndex:indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         return cell;
     }
   
@@ -190,16 +194,16 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
-        label.textColor = [UIColor blackColor];
-        label.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        label.textColor = WHITECOLOR;
+        label.backgroundColor = BLUECOLOR;
         label.font = FONT(18);
         label.text = self.titleString;
         return label;
     }else{
         UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
         UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 20)];
-        label.textColor = [UIColor blackColor];
-        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        label.textColor = WHITECOLOR;
+        label.backgroundColor = BLUECOLOR;
         label.font = FONT(18);
         label.text = @"Student";
         [view addSubview:label];
@@ -215,6 +219,7 @@
     return section == 0?40:64;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger index = indexPath.row;
     if (indexPath.section == 0) {
         if ([self.titleString hasSuffix:@"插入"]) {

@@ -8,12 +8,13 @@
 
 #import "WYAUIAlertViewController.h"
 
-@interface WYAUIAlertViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface WYAUIAlertViewController ()<UITableViewDelegate, UITableViewDataSource,WYAShareViewDelegate>
 @property (nonatomic, strong) NSArray * systemAlertTitleArray;
 @property (nonatomic, strong) NSArray * systemSheetTitleArray;
 @property (nonatomic, strong) NSArray * customAlertTitleArray;
 @property (nonatomic, strong) NSArray * customSheetTitleArray;
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) WYAShareView * shareView;
 @end
 
 @implementation WYAUIAlertViewController
@@ -43,7 +44,8 @@
                                    @"多个选项",
                                    @"有标题的多个选项"];
     self.customAlertTitleArray = @[@"自定义alert"];
-    self.customSheetTitleArray = @[@"自定义alertSheet"];
+    self.customSheetTitleArray = @[@"自定义alertSheet",
+                                   @"分享"];
 }
 
 #pragma mark - Table view data source
@@ -206,11 +208,17 @@
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomAlert];
         [self presentViewController:alert animated:YES completion:nil];
     }else{
-        UIView * view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor redColor];
-        view.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
-        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomSheet];
-        [self presentViewController:alert animated:YES completion:nil];
+        if (indexPath.row == 0) {
+            UIView * view = [[UIView alloc] init];
+            view.backgroundColor = [UIColor redColor];
+            view.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
+            WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomSheet];
+            [self presentViewController:alert animated:YES completion:nil];
+        }else{
+            [self.shareView wya_showShareViewWithController:self];
+            
+        }
+        
     }
     
 }
@@ -315,4 +323,19 @@
  break;
  }
  */
+
+- (WYAShareView *)shareView{
+    if(!_shareView){
+        _shareView = ({
+            WYAShareView * object = [[WYAShareView alloc]init];
+            object.dataArray = @[@[@"新浪微博",@"微信朋友圈",@"微信好友",@"QQ"],@[@"字号",@"刷新",@"复制链接",@"投诉"]];
+            object.delegate = self;
+            object;
+       });
+    }
+    return _shareView;
+}
+- (void)wya_shareView:(WYAShareView *)shareView didSelectItemAtIndexPath:(NSIndexPath *)indexPath itemTitle:(NSString *)title{
+    [UIView wya_ShowCenterToastWithMessage:title];
+}
 @end
