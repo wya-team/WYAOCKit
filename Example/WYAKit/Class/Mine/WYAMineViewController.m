@@ -55,7 +55,7 @@
             
             UILabel * titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 15*SizeAdapter, width, height)];
             titleLabel.font = FONT(font);
-            titleLabel.text = @"WYAKiT SDK Version";
+            titleLabel.text = @"WYAKit SDK Version";
             titleLabel.textColor = GRAYTITLECOLOR;
             titleLabel.textAlignment = NSTextAlignmentCenter;
             
@@ -67,19 +67,19 @@
             
             UILabel * platformLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter + CGRectGetMaxY(versionLabel.frame), width, height)];
             platformLabel.font = FONT(font);
-            platformLabel.text = @"platform  iOS";
+            platformLabel.text = @"platform    iOS";
             platformLabel.textColor = GRAYTITLECOLOR;
             platformLabel.textAlignment = NSTextAlignmentCenter;
             
             UILabel * osVersionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter + CGRectGetMaxY(platformLabel.frame), width, height)];
             osVersionLabel.font = FONT(font);
-            osVersionLabel.text = @"osVersion  12.1";
+            osVersionLabel.text = @"osVersion    12.1";
             osVersionLabel.textColor = GRAYTITLECOLOR;
             osVersionLabel.textAlignment = NSTextAlignmentCenter;
             
             UILabel * deviceModelLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter + CGRectGetMaxY(osVersionLabel.frame), width, height)];
             deviceModelLabel.font = FONT(font);
-            deviceModelLabel.text = @"deviceModel  iPhone6sPlus";
+            deviceModelLabel.text = @"deviceModel    iPhone6sPlus";
             deviceModelLabel.textColor = GRAYTITLECOLOR;
             deviceModelLabel.textAlignment = NSTextAlignmentCenter;
             
@@ -148,5 +148,8 @@
     }
       [self.navigationController pushViewController:vc animated:YES];
 }
+
+
+
 
 @end
