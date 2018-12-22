@@ -180,7 +180,6 @@
         cell.textLabel.text = [sectionArr wya_safeObjectAtIndex:indexPath.row];
         cell.textLabel.textColor = BLACKTEXTCOLOR;
         cell.textLabel.font = FONT(14);
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return  cell;
     }else{
         WYARealmCell * cell = [tableView dequeueReusableCellWithIdentifier:REALMCELL];
