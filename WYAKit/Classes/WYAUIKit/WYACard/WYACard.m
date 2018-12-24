@@ -27,18 +27,8 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
-
 -(void)layoutSubviews{
     [super layoutSubviews];
-    
     
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.iconImageView.mas_right).with.offset(5*SizeAdapter);
@@ -90,14 +80,14 @@
     [self addSubview:self.iconImageView];
     
     self.titleLabel = [[UILabel alloc]init];
-    self.titleLabel.text = @"标题";
+    self.titleLabel.text = @"这是一个标题";
     //        self.titleLabel.textColor = random(<#r#>, <#g#>, <#b#>, <#a#>);
     self.titleLabel.font = FONT(15);
     //        self.titleLabel.textAlignment = <#TextAlignMent#>;
     [self addSubview:self.titleLabel];
     
     self.subTitleLabel = [[UILabel alloc]init];
-    self.subTitleLabel.text = @"文本";
+    self.subTitleLabel.text = @"右标题";
     //        self.subTitleLabel.textColor = random(<#r#>, <#g#>, <#b#>, <#a#>);
     self.subTitleLabel.font = FONT(15);
     //        self.subTitleLabel.textAlignment = <#TextAlignMent#>;
@@ -108,7 +98,7 @@
     [self addSubview:self.line];
     
     self.detailLabel = [[UILabel alloc]init];
-    self.detailLabel.text = @"测试";
+    self.detailLabel.text = @"This is content of 'Card'";
     self.detailLabel.numberOfLines = 0;
     //        self.detailLabel.textColor = random(<#r#>, <#g#>, <#b#>, <#a#>);
     self.detailLabel.font = FONT(14);
@@ -116,7 +106,7 @@
     [self addSubview:self.detailLabel];
     
     self.subDetailLabel = [[UILabel alloc]init];
-    self.subDetailLabel.text = @"测试";
+    self.subDetailLabel.text = @"脚部内容";
     self.subDetailLabel.textColor = random(153, 153, 153, 1);
     self.subDetailLabel.font = FONT(13);
     //        self.subDetailLabel.textAlignment = <#TextAlignMent#>;

@@ -32,6 +32,10 @@
     return self;
 }
 
+- (void)layoutSubviews{
+    [super layoutSubviews];
+}
+
 #pragma mark --- Private Method
 -(void)createUI{
     
@@ -253,7 +257,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (self.images.count > 1) {
-        [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:3]];
+        [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:1]];
     }
 }
 /*

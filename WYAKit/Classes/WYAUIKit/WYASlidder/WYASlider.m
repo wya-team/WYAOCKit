@@ -33,15 +33,6 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
-
 - (void)layoutSubviews{
     [super layoutSubviews];
     
@@ -67,14 +58,14 @@
             make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
         }
         
-        make.height.mas_equalTo(1*SizeAdapter);
+        make.height.mas_equalTo(3*SizeAdapter);
     }];
     
     if (self.sliderStyle == WYASliderStyleSingle) {
         [self.minSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.mainSliderLine.mas_left);
             make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
-            make.height.mas_equalTo(1*SizeAdapter);
+            make.height.mas_equalTo(3*SizeAdapter);
         }];
         
         [self.minSliderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -86,7 +77,7 @@
         [self.minSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.mainSliderLine.mas_left);
             make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
-            make.height.mas_equalTo(1*SizeAdapter);
+            make.height.mas_equalTo(3*SizeAdapter);
         }];
         
         [self.minSliderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -98,7 +89,7 @@
         [self.maxSliderLine mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(self.mainSliderLine.mas_right);
             make.centerY.mas_equalTo(self.mainSliderLine.mas_centerY);
-            make.height.mas_equalTo(1*SizeAdapter);
+            make.height.mas_equalTo(3*SizeAdapter);
         }];
         
         [self.maxSliderButton mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -128,6 +119,10 @@
 {
     _minTintColor = minTintColor;
     self.minSliderLine.backgroundColor = minTintColor;
+    if (self.sliderStyle == WYASliderStyleSingle) {
+        self.minSliderButton.layer.borderColor = minTintColor.CGColor;
+    }
+    
 }
 
 -(void)setMaxTintColor:(UIColor *)maxTintColor
@@ -140,6 +135,11 @@
 {
     _mainTintColor = mainTintColor;
     self.mainSliderLine.backgroundColor = mainTintColor;
+    if (self.sliderStyle == WYASliderStyleDouble) {
+        self.minSliderButton.layer.borderColor = mainTintColor.CGColor;
+        self.maxSliderButton.layer.borderColor = mainTintColor.CGColor;
+    }
+    
 }
 
 -(void)setMinText:(NSString *)minText{
@@ -202,8 +202,8 @@
         _minSliderButton.showsTouchWhenHighlighted = YES;
         _minSliderButton.layer.cornerRadius = 10*SizeAdapter;
         _minSliderButton.layer.masksToBounds = YES;
-        _minSliderButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        _minSliderButton.layer.borderWidth = 0.5;
+        _minSliderButton.layer.borderColor = [UIColor redColor].CGColor;
+        _minSliderButton.layer.borderWidth = 1;
         UIPanGestureRecognizer *minSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panMinSliderButton:)];
         [_minSliderButton addGestureRecognizer:minSliderButtonPanGestureRecognizer];
     }
@@ -217,8 +217,8 @@
         _maxSliderButton.showsTouchWhenHighlighted = YES;
         _maxSliderButton.layer.cornerRadius = 10*SizeAdapter;
         _maxSliderButton.layer.masksToBounds = YES;
-        _maxSliderButton.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        _maxSliderButton.layer.borderWidth = 0.5;
+        _maxSliderButton.layer.borderColor = [UIColor blueColor].CGColor;
+        _maxSliderButton.layer.borderWidth = 1;
         UIPanGestureRecognizer *maxSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panMaxSliderButton:)];
         [_maxSliderButton addGestureRecognizer:maxSliderButtonPanGestureRecognizer];
     }

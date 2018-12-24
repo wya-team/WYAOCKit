@@ -21,10 +21,26 @@
     
     self.view.backgroundColor = BGCOLOR;
     
-    WYACard * card = [[WYACard alloc]initWithFrame:CGRectMake(10*SizeAdapter, WYATopHeight+20*SizeAdapter, self.view.cmam_width-20*SizeAdapter, 90)];
+    UILabel * label = [[UILabel alloc]init];
+    label.text = @"默认";
+    label.textColor = random(51, 51, 51, 1);
+    label.font = FONT(15);
+    [self.view addSubview:label];
+    CGFloat label_X = 10;
+    CGFloat label_Y = WYATopHeight + 20*SizeAdapter;
+    CGFloat label_Width = ScreenWidth-20;
+    CGFloat label_Height = 20*SizeAdapter;
+    label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
+    
+    WYACard * card = [[WYACard alloc]init];
     card.layer.cornerRadius = 4.f;
     card.layer.masksToBounds = YES;
     [self.view addSubview:card];
+    CGFloat card_X = 10*SizeAdapter;
+    CGFloat card_Y = CGRectGetMaxY(label.frame)+20*SizeAdapter;
+    CGFloat card_Width = ScreenWidth-20*SizeAdapter;
+    CGFloat card_Height = 90;
+    card.frame = CGRectMake(card_X, card_Y, card_Width, card_Height);
 }
 
 /*

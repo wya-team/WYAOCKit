@@ -37,8 +37,9 @@ typedef NS_ENUM(NSInteger, WYASliderStyle) {
 
 @property (nonatomic, assign) WYASliderStyle  sliderStyle;
 @property (nonatomic, weak) id<WYASliderDelegate> delegate;
+
 /**
- 设置min进度条颜色
+ 设置min进度条颜色,WYASliderStyleSingle模式下，用于滑块的颜色
  */
 @property (nonatomic,weak)UIColor *minTintColor;
 
@@ -48,7 +49,7 @@ typedef NS_ENUM(NSInteger, WYASliderStyle) {
 @property (nonatomic,weak)UIColor *maxTintColor;
 
 /**
- 设置总进度条颜色
+ 设置总进度条颜色，WYASliderStyleDouble模式下设置两个滑块颜色
  */
 @property (nonatomic,weak)UIColor *mainTintColor;
 
