@@ -73,13 +73,18 @@
             
             UILabel * osVersionLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter + CGRectGetMaxY(platformLabel.frame), width, height)];
             osVersionLabel.font = FONT(font);
-            osVersionLabel.text = @"osVersion    12.1";
+            NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
+            osVersionLabel.text = [NSString stringWithFormat:@"osVersion    %@",phoneVersion];
             osVersionLabel.textColor = GRAYTITLECOLOR;
             osVersionLabel.textAlignment = NSTextAlignmentCenter;
             
             UILabel * deviceModelLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter + CGRectGetMaxY(osVersionLabel.frame), width, height)];
             deviceModelLabel.font = FONT(font);
-            deviceModelLabel.text = @"deviceModel    iPhone6sPlus";
+            struct utsname systemInfo;
+            uname (&systemInfo);
+            NSString * deviceModel = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+            NSString * deviceModelString = [NSString stringWithFormat:@"deviceModel    %@",deviceModel];
+            deviceModelLabel.text = deviceModelString;
             deviceModelLabel.textColor = GRAYTITLECOLOR;
             deviceModelLabel.textAlignment = NSTextAlignmentCenter;
             
