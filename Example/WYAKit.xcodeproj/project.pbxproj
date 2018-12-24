@@ -18,6 +18,7 @@
 		210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */; };
 		210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */; };
 		210E9F8A21AD790A00BFE994 /* WYAImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */; };
+		21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */; };
 		2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */; };
 		2138D0CE21CA139C00B6C3AF /* WYASearchBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0CD21CA139C00B6C3AF /* WYASearchBarViewController.m */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
@@ -137,6 +138,8 @@
 		210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACellTableViewController.m; sourceTree = "<group>"; };
 		210E9F8821AD790A00BFE994 /* WYAImageBrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAImageBrowserViewController.h; sourceTree = "<group>"; };
 		210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAImageBrowserViewController.m; sourceTree = "<group>"; };
+		21185D6021CE2FA400946CBD /* WYADemoCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoCameraViewController.h; sourceTree = "<group>"; };
+		21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoCameraViewController.m; sourceTree = "<group>"; };
 		2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACardViewController.h; sourceTree = "<group>"; };
 		2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACardViewController.m; sourceTree = "<group>"; };
 		2138D0CC21CA139C00B6C3AF /* WYASearchBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYASearchBarViewController.h; sourceTree = "<group>"; };
@@ -355,6 +358,15 @@
 			path = WYAImageBrowser;
 			sourceTree = "<group>";
 		};
+		21185D5C21CE2F1000946CBD /* WYACameraViewController */ = {
+			isa = PBXGroup;
+			children = (
+				21185D6021CE2FA400946CBD /* WYADemoCameraViewController.h */,
+				21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */,
+			);
+			path = WYACameraViewController;
+			sourceTree = "<group>";
+		};
 		2138D0C621C9E29B00B6C3AF /* WYACard */ = {
 			isa = PBXGroup;
 			children = (
@@ -376,9 +388,10 @@
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
+				21185D5C21CE2F1000946CBD /* WYACameraViewController */,
 				956BCC8321B532870044095E /* Realm */,
 				21470BEE219ABE880099CB6F /* WYADownloader */,
-				21470BEF219ABE880099CB6F /* WYACamera */,
+				21470BEF219ABE880099CB6F /* WYACameraVC */,
 				21470BF0219ABE880099CB6F /* WYAVideoPlayer */,
 			);
 			path = WYATools;
@@ -397,7 +410,7 @@
 			path = WYADownloader;
 			sourceTree = "<group>";
 		};
-		21470BEF219ABE880099CB6F /* WYACamera */ = {
+		21470BEF219ABE880099CB6F /* WYACameraVC */ = {
 			isa = PBXGroup;
 			children = (
 				210E9F6321A93D2300BFE994 /* WYACameraVC.h */,
@@ -406,7 +419,7 @@
 				21E5A60A21B1072B007E8C5F /* WYACameraCell.m */,
 				21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */,
 			);
-			path = WYACamera;
+			path = WYACameraVC;
 			sourceTree = "<group>";
 		};
 		21470BF0219ABE880099CB6F /* WYAVideoPlayer */ = {
@@ -1212,6 +1225,7 @@
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,
 				9578499421B11967001E19DC /* WYAListFourCell.m in Sources */,
+				21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */,
 				210C72FF21C7DF6500196F07 /* WYAPopCell.m in Sources */,
 				21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */,
 				210C72F921C7D80A00196F07 /* WYADrawserCenterViewController.m in Sources */,

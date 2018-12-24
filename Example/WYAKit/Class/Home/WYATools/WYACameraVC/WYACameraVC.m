@@ -12,7 +12,8 @@
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
 
-@interface WYACameraVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIPopoverPresentationControllerDelegate>
+@interface WYACameraVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UIPopoverPresentationControllerDelegate,UITextFieldDelegate>
+@property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @end
@@ -70,6 +71,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+    
+    self.textField = [[UITextField alloc]init];
+    self.textField.placeholder = @"请输入图片选择最大数量";
+    self.textField.delegate = self;
+    self.textField.keyboardType = UIKeyboardTypeNumberPad;
+    [self.view addSubview:self.textField];
+    CGFloat textField_X = 10;
+    CGFloat textField_Y = WYATopHeight + 5*SizeAdapter;
+    CGFloat textField_Width = ScreenWidth-20;
+    CGFloat textField_Height = 40*SizeAdapter;
+    self.textField.frame = CGRectMake(textField_X, textField_Y, textField_Width, textField_Height);
+    
     [self.view addSubview:self.collectionView];
 }
 #pragma mark --- Getter
@@ -78,8 +91,8 @@
         _collectionView = ({
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc]init];
             layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-            layout.headerReferenceSize = CGSizeMake(ScreenWidth, 20*SizeAdapter);
-            UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight) collectionViewLayout:layout];
+            layout.headerReferenceSize = CGSizeMake(ScreenWidth, 0*SizeAdapter);
+            UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectMake(0, WYATopHeight+50*SizeAdapter, ScreenWidth, ScreenHeight-WYATopHeight) collectionViewLayout:layout];
             object.delegate = self;
             object.dataSource = self;
             object.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -99,6 +112,11 @@
         });
     }
     return _dataSource;
+}
+
+#pragma mark - UITextFieldDelegate  -
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    
 }
 
 #pragma mark ======= UICollectionViewDataSource
@@ -176,11 +194,12 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    [self.view endEditing:YES];
     if (indexPath.item == self.dataSource.count-1) {
         WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"" Message:@""];
         WeakSelf(weakSelf);
         WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
-            WYACameraViewController * camera = [[WYACameraViewController alloc]init];
+            WYACameraViewController * camera = [[WYACameraViewController alloc]initWithType:WYACameraTypeAll];
             camera.TakePhoto = ^(UIImage *photo) {
                 [self.dataSource insertObject:photo atIndex:0];
                 [self.collectionView reloadData];
@@ -189,7 +208,8 @@
             
         }];
         WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"相册" style:WYAAlertActionStyleDefault handler:^{
-            WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:5];
+            
+            WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:[self.textField.text integerValue]];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
                 [self.dataSource insertObjects:images atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];

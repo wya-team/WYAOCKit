@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) WYACameraPreviewImageView * placeholdImageView;
 @property (nonatomic, strong) AVPlayer * player;
+@property (nonatomic, assign) WYACameraType  cameraType;
 @end
 
 @implementation WYACameraViewController
@@ -37,6 +38,16 @@
     self = [super init];
     if (self) {
         self.time = 15.0;
+        self.cameraType = WYACameraTypeAll;
+    }
+    return self;
+}
+
+- (instancetype)initWithType:(WYACameraType)type
+{
+    self = [super init];
+    if (self) {
+        self.cameraType = type;
     }
     return self;
 }
@@ -101,7 +112,10 @@
     [self.cameraBar addSubview:self.flashLightButton];
     
     [self.view addSubview:self.progressView];
-    [self.view addSubview:self.messageLabel];
+    if (self.cameraType == WYACameraTypeAll) {
+        [self.view addSubview:self.messageLabel];
+    }
+    
     
     self.cameraBar.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
     
@@ -382,12 +396,21 @@
         _progressView.layer.cornerRadius = 40*SizeAdapter;
         _progressView.layer.masksToBounds = YES;
         _progressView.progress = 0.f;
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
-        [_progressView addGestureRecognizer:tap];
-
-        UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(startRecordingVideo:)];
-        [_progressView addGestureRecognizer:longPress];
-        [longPress requireGestureRecognizerToFail:tap];
+        if (self.cameraType == WYACameraTypeAll) {
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
+            [_progressView addGestureRecognizer:tap];
+            
+            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(startRecordingVideo:)];
+            [_progressView addGestureRecognizer:longPress];
+            [longPress requireGestureRecognizerToFail:tap];
+        }else if (self.cameraType == WYACameraTypeImage) {
+            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
+            [_progressView addGestureRecognizer:tap];
+        }else {
+            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(startRecordingVideo:)];
+            [_progressView addGestureRecognizer:longPress];
+        }
+        
     }
     return _progressView;
 }

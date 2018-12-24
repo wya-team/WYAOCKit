@@ -30,11 +30,19 @@ ScanReault|返回扫描结果|block|-
 <key>NSPhotoLibraryUsageDescription</key>
 <string>填写关于相册的描述</string>
 ```
+```objc
+/**
+初始化
+
+@param type 相机类型
+@return self
+*/
+- (instancetype)initWithType:(WYACameraType)type;
+```
 - 导入头文件
 
 ```
 #import <WYAKit/WYACameraViewController.h>
 #import <WYAKit/WYAQRCodeViewController.h>
 ```
-
 

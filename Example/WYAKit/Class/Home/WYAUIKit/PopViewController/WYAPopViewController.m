@@ -23,7 +23,18 @@
     
     [self wya_addRightNavBarButtonWithNormalImage:@[@"list"] highlightedImg:@[]];
     
-    
+    UILabel * label = [[UILabel alloc]init];
+    label.text = @"点击右上角显示气泡组件(之后需要自定义)";
+    label.textColor = random(51, 51, 51, 1);
+    label.font = FONT(15);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:label];
+    CGFloat label_X = 10;
+    CGFloat label_Y = WYATopHeight+20*SizeAdapter;
+    CGFloat label_Width = ScreenWidth-20;
+    CGFloat label_Height = 44*SizeAdapter;
+    label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
 }
 
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{

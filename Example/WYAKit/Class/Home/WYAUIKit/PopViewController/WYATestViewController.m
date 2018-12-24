@@ -24,6 +24,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView registerClass:[WYAPopCell class] forCellReuseIdentifier:@"cell"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
 }
 
@@ -42,6 +43,9 @@
     }else {
         cell.title = @"Help";
         cell.imageName = @"icon_help";
+    }
+    if (indexPath.row == 2) {
+        cell.line.hidden = YES;
     }
     return cell;
 }
