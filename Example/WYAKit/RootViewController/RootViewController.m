@@ -35,13 +35,13 @@
     NSMutableArray * array = [NSMutableArray array];
     RootControllerModel * item1Model = [RootControllerModel  modelWithTitle:@"示例"
                                                                   className:@"WYAHomeViewController"
-                                                            normalImageName:@"icon_grid_Placeholder"
-                                                          selectedImageName:@"icon_grid_Placeholder"];
+                                                            normalImageName:@"icon_home_normal"
+                                                          selectedImageName:@"icon_home_select"];
     
     RootControllerModel * item2Model = [RootControllerModel modelWithTitle:@"关于"
                                                                  className:@"WYAMineViewController"
-                                                           normalImageName:@"icon_grid_Placeholder"
-                                                         selectedImageName:@"icon_grid_Placeholder"];
+                                                           normalImageName:@"icon_about_normal"
+                                                         selectedImageName:@"icon_about_select"];
     [array addObject:item1Model];
     [array addObject:item2Model];
     _tabBarModelArray = [array copy];
@@ -71,6 +71,7 @@
         i.titlePositionAdjustment = UIOffsetMake(0, 2);
         i.imageInsets = UIEdgeInsetsMake(-1, 0, 2, 0);
     }
+
 }
 
 - (void)setTabBarTitleFont:(CGFloat)tabBarTitleFont{

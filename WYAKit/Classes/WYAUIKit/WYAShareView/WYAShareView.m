@@ -20,7 +20,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter)]) {
        [self addSubview:self.collectionView];
-
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -28,6 +28,8 @@
     if (self = [super init]) {
         self.frame = CGRectMake(0, 0, ScreenWidth, 270*SizeAdapter);
         [self addSubview:self.collectionView];
+        self.backgroundColor = [UIColor whiteColor];
+
     }
     return self;
 }
@@ -64,7 +66,7 @@
         
         return  CGSizeMake(ScreenWidth, 1);
     }else if (section == 1 ){
-        return CGSizeMake(ScreenWidth, 49);
+        return CGSizeMake(ScreenWidth, 49+5*SizeAdapter);
     }
     return CGSizeZero;
 }
@@ -87,6 +89,7 @@
         view.backgroundColor = [UIColor groupTableViewBackgroundColor];
         return view;
     }else if (indexPath.section == 1 ){
+        view.backgroundColor = WYA_RGB_COLOR(232, 230, 240);
         [view addSubview:self.cancleButton];
         return view;
     }
@@ -112,7 +115,8 @@
             UICollectionView * object = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
             object.delegate = self;
             object.dataSource = self;
-            object.backgroundColor = WYA_RGB_COLOR(245, 245, 249);
+            object.scrollEnabled = NO;
+            object.backgroundColor = [UIColor wya_hex:@"#F6F5FA"];
             [object registerClass:[WYAShareViewItem class] forCellWithReuseIdentifier:SHARECELL];
             [object registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:FOOTER];
             object;
@@ -125,7 +129,7 @@
 - (UIButton *)cancleButton{
     if(!_cancleButton){
         _cancleButton = ({
-            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 49)];
+            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake(0, 5*SizeAdapter, ScreenWidth, 49)];
             [object setTitle:@"取消" forState:UIControlStateNormal];
             object.backgroundColor = [UIColor whiteColor];
             [object setTitleColor:[UIColor blackColor] forState:0];

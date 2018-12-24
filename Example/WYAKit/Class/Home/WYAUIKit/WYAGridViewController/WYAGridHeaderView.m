@@ -14,6 +14,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.titleLabel];
+        self.backgroundColor = GRAYBGCOLOR;
     }
     return self;
 }
@@ -31,7 +32,7 @@
     if(!_titleLabel){
         _titleLabel = ({
             UILabel * object = [[UILabel alloc]init];
-            object.textColor = REDCOLOR;
+            object.textColor = GRAYTITLECOLOR;
             object.font = FONT(14);
             object;
        });
