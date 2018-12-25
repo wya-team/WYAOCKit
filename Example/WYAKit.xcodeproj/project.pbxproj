@@ -70,6 +70,7 @@
 		951FC0C921A63CC400E1E4FE /* WYAThreeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 951FC0C821A63CC400E1E4FE /* WYAThreeTableViewController.m */; };
 		9527A91A21AD291700B10579 /* WYABaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9527A91921AD291700B10579 /* WYABaseViewController.m */; };
 		9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9527A91D21AD711B00B10579 /* WYAShowNavController.m */; };
+		9531B82921D1D08B0037E190 /* WYACustomPopoverBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9531B82821D1D08B0037E190 /* WYACustomPopoverBackgroundView.m */; };
 		9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9533A60721CA1EB2004D9F0D /* WYASegmentedController.m */; };
 		95369E8521CCD19500D0DDA5 /* WYANumberKeyBoardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95369E8421CCD19500D0DDA5 /* WYANumberKeyBoardController.m */; };
 		95369EAB21CE1F0200D0DDA5 /* WYAAdjustCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95369EAA21CE1F0200D0DDA5 /* WYAAdjustCell.m */; };
@@ -230,6 +231,8 @@
 		9527A91B21AD293200B10579 /* Config.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.pch; sourceTree = "<group>"; };
 		9527A91C21AD711B00B10579 /* WYAShowNavController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAShowNavController.h; sourceTree = "<group>"; };
 		9527A91D21AD711B00B10579 /* WYAShowNavController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAShowNavController.m; sourceTree = "<group>"; };
+		9531B82721D1D08B0037E190 /* WYACustomPopoverBackgroundView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACustomPopoverBackgroundView.h; sourceTree = "<group>"; };
+		9531B82821D1D08B0037E190 /* WYACustomPopoverBackgroundView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACustomPopoverBackgroundView.m; sourceTree = "<group>"; };
 		9533A60621CA1EB2004D9F0D /* WYASegmentedController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYASegmentedController.h; sourceTree = "<group>"; };
 		9533A60721CA1EB2004D9F0D /* WYASegmentedController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASegmentedController.m; sourceTree = "<group>"; };
 		95369E8321CCD19500D0DDA5 /* WYANumberKeyBoardController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANumberKeyBoardController.h; sourceTree = "<group>"; };
@@ -574,6 +577,8 @@
 				21470CAB219E94630099CB6F /* WYATestViewController.m */,
 				210C72FD21C7DF6500196F07 /* WYAPopCell.h */,
 				210C72FE21C7DF6500196F07 /* WYAPopCell.m */,
+				9531B82721D1D08B0037E190 /* WYACustomPopoverBackgroundView.h */,
+				9531B82821D1D08B0037E190 /* WYACustomPopoverBackgroundView.m */,
 			);
 			path = PopViewController;
 			sourceTree = "<group>";
@@ -1212,6 +1217,7 @@
 				210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */,
 				95369EB121CE221900D0DDA5 /* WYAGridHeaderView.m in Sources */,
 				9578497E21B0C8B8001E19DC /* WYAInputOneCell.m in Sources */,
+				9531B82921D1D08B0037E190 /* WYACustomPopoverBackgroundView.m in Sources */,
 				9578499121B1195A001E19DC /* WYAListThreeCell.m in Sources */,
 				9559283421AE82D400C46D6D /* WYAGridItemCell.m in Sources */,
 				95369E8521CCD19500D0DDA5 /* WYANumberKeyBoardController.m in Sources */,
