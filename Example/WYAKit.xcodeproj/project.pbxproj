@@ -45,6 +45,7 @@
 		21A8737121A542FE007F2921 /* WYAToastViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21A8737021A542FE007F2921 /* WYAToastViewController.xib */; };
 		21C0EA4821CBA2AE00559A37 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21C0EA4721CBA2AE00559A37 /* spin.svg */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
+		21DAB4F721D0AE2100E43594 /* WYADemoDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */; };
 		21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E5A60A21B1072B007E8C5F /* WYACameraCell.m */; };
 		21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -188,6 +189,8 @@
 		21DA3BC621AE6FE10084FCEC /* WYABannerHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerHeaderView.h; sourceTree = "<group>"; };
 		21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerHeaderView.m; sourceTree = "<group>"; };
 		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
+		21DAB4F521D0AE2100E43594 /* WYADemoDrawerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDrawerViewController.h; sourceTree = "<group>"; };
+		21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDrawerViewController.m; sourceTree = "<group>"; };
 		21E5A60921B1072B007E8C5F /* WYACameraCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraCell.h; sourceTree = "<group>"; };
 		21E5A60A21B1072B007E8C5F /* WYACameraCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraCell.m; sourceTree = "<group>"; };
 		21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYACameraCell.xib; sourceTree = "<group>"; };
@@ -331,6 +334,8 @@
 				210C72F821C7D80A00196F07 /* WYADrawserCenterViewController.m */,
 				210C72FA21C7D81E00196F07 /* WYADrawserLeftViewController.h */,
 				210C72FB21C7D81E00196F07 /* WYADrawserLeftViewController.m */,
+				21DAB4F521D0AE2100E43594 /* WYADemoDrawerViewController.h */,
+				21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */,
 			);
 			path = WYADrawserViewControll;
 			sourceTree = "<group>";
@@ -1223,6 +1228,7 @@
 				9527A91A21AD291700B10579 /* WYABaseViewController.m in Sources */,
 				9578497821B0091A001E19DC /* WYAInputItemTwoCell.m in Sources */,
 				21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */,
+				21DAB4F721D0AE2100E43594 /* WYADemoDrawerViewController.m in Sources */,
 				21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */,
 				9578499421B11967001E19DC /* WYAListFourCell.m in Sources */,
 				21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */,

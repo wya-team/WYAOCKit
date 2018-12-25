@@ -39,7 +39,7 @@
     CGFloat card_X = 10*SizeAdapter;
     CGFloat card_Y = CGRectGetMaxY(label.frame)+20*SizeAdapter;
     CGFloat card_Width = ScreenWidth-20*SizeAdapter;
-    CGFloat card_Height = 90;
+    CGFloat card_Height = 100*SizeAdapter;
     card.frame = CGRectMake(card_X, card_Y, card_Width, card_Height);
 }
 

@@ -18,7 +18,7 @@
         case WYAPopupPresentStyleFadeIn:
             return 0.2;
         case WYAPopupPresentStyleBounce:
-            return 0.42;
+            return 0.3;
         case WYAPopupPresentStyleExpandHorizontal:
             return 0.3;
         case WYAPopupPresentStyleExpandVertical:
@@ -111,22 +111,21 @@
 - (void)bounceAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
     WYAAlertController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     toVC.backgroundButton.alpha = 0;
-    toVC.alertView.alpha = 0;
-    toVC.alertView.transform = CGAffineTransformMakeScale(0, 0);
+    toVC.alertView.alpha = 1;
+    toVC.alertView.transform = CGAffineTransformMakeScale(0.3, 0.3);
     
     UIView *containerView = [transitionContext containerView];
     [containerView addSubview:toVC.view];
     
     NSTimeInterval duration = [self transitionDuration:transitionContext];
-    [UIView animateWithDuration:duration
-                     animations:^{
-                         toVC.backgroundButton.alpha = as_backgroundAlpha;
-                         toVC.alertView.alpha = 1;
-                         toVC.alertView.transform = CGAffineTransformIdentity;
-                     }
-                     completion:^(BOOL finished) {
-                         [transitionContext completeTransition:YES];
-                     }];
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:1 initialSpringVelocity:50 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionCurveEaseIn animations:^{
+        toVC.backgroundButton.alpha = as_backgroundAlpha;
+        toVC.alertView.alpha = 1;
+        toVC.alertView.transform = CGAffineTransformIdentity;
+    } completion:^(BOOL finished) {
+        
+        [transitionContext completeTransition:YES];
+    }];
 }
 
 - (void)expandHorizontalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {

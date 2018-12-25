@@ -16,11 +16,17 @@ typedef NS_ENUM(NSInteger, WYABannerSourceStyle) {
 
 @interface WYABannerView : UIView
 
+/**
+ 资源图片名
+ */
 @property (nonatomic, strong) NSMutableArray<NSString *> * images;
 
 @property (nonatomic, assign) UIViewContentMode  imageContentModel;
 
-@property (nonatomic, strong) UIImage * placeholdImage;//本地图片不需要设置该属性，网络图片可自由选择
+/**
+ 本地图片不需要设置该属性，网络图片可自由选择
+ */
+@property (nonatomic, strong) UIImage * placeholdImage;
 //图片点击事件
 @property (nonatomic, copy) void (^touchImageHandle) (NSInteger curIndex) ;
 
@@ -32,7 +38,7 @@ typedef NS_ENUM(NSInteger, WYABannerSourceStyle) {
  @param time 时间间隔（默认2s）
  @return self
  */
-- (instancetype)initWithFrame:(CGRect)frame BannerSourceStyle:(WYABannerSourceStyle)sourceStyle TimeInterval:(CGFloat)time;
+- (instancetype)initWithFrame:(CGRect)frame bannerSourceStyle:(WYABannerSourceStyle)sourceStyle timeInterval:(CGFloat)time;
 @end
 
 NS_ASSUME_NONNULL_END

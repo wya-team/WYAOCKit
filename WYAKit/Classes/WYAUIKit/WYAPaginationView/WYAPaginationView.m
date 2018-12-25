@@ -41,13 +41,13 @@
     [super layoutSubviews];
     [self.leftButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self);
-        make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
+        make.left.mas_equalTo(self.mas_left).with.offset(0*SizeAdapter);
         make.width.mas_equalTo(60*SizeAdapter);
     }];
     
     [self.rightButton mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.top.bottom.mas_equalTo(self);
-        make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
+        make.right.mas_equalTo(self.mas_right).with.offset(0*SizeAdapter);
         make.width.mas_equalTo(60*SizeAdapter);
     }];
     

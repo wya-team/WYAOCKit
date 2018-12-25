@@ -118,6 +118,8 @@
                                                                        Message:@"账号或密码不一致，请重试"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
             alert.backgroundButton.enabled = NO;
+            alert.presentStyle = WYAPopupPresentStyleBounce;
+            alert.dismissStyle = WYAPopupDismissStyleShrink;
             // 创建 action
             WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"关闭" style:WYAAlertActionStyleCancel handler:^{ NSLog(@"Default"); }];
             WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"重试" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
@@ -140,6 +142,8 @@
                                                                        Message:@"账号或密码不一致，请重试"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
             alert.backgroundButton.enabled = NO;
+            alert.presentStyle = WYAPopupPresentStyleExpandHorizontal;
+            alert.dismissStyle = WYAPopupDismissStyleContractHorizontal;
             // 创建 action
             WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"关闭" style:WYAAlertActionStyleCancel handler:^{ NSLog(@"Default"); }];
             WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"重试" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
@@ -153,6 +157,8 @@
                                                                        Message:@"辅助说明文字辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
+            alert.presentStyle = WYAPopupPresentStyleExpandVertical;
+            alert.dismissStyle = WYAPopupDismissStyleContractVertical;
             // 创建 action
             WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"选项一" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Default"); }];
             WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"选项二" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
@@ -166,6 +172,8 @@
                                                                        Message:@"辅助说明文字辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
+            alert.presentStyle = WYAPopupPresentStyleSlideDown;
+            alert.dismissStyle = WYAPopupDismissStyleSlideDown;
             // 创建 action
             WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"选项一" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Default"); }];
             WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"选项二" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
@@ -203,14 +211,14 @@
         
     }else if (indexPath.section == 2){
         UIView * view = [[UIView alloc] init];
-        view.backgroundColor = [UIColor redColor];
-        view.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
+        view.backgroundColor = [UIColor whiteColor];
+        view.bounds = CGRectMake(0, 0, ScreenWidth-50*SizeAdapter, 100);
         WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomAlert];
         [self presentViewController:alert animated:YES completion:nil];
     }else{
         if (indexPath.row == 0) {
             UIView * view = [[UIView alloc] init];
-            view.backgroundColor = [UIColor redColor];
+            view.backgroundColor = [UIColor whiteColor];
             view.bounds = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
             WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:view AlertStyle:WYAAlertStyleCustomSheet];
             [self presentViewController:alert animated:YES completion:nil];

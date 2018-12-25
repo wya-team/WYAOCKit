@@ -15,7 +15,7 @@ static CGFloat titleHeight = 44.0;
 @interface WYAPickerView ()<WYAPaginationViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate, WYACustomPickerViewDataSource, WYACustomPickerViewDelegate>
 
 @property (nonatomic, strong) WYAPaginationView * titleView;
-
+@property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, strong) WYACustomPickerView * customPicker;
 @property (nonatomic, copy) NSString * resultString;
@@ -30,17 +30,9 @@ static CGFloat titleHeight = 44.0;
 {
     NSString * a; NSString * b; NSString * c;
 }
+
 -(instancetype)init{
     self = [super init];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
     if (self) {
         [self createUI];
     }
@@ -50,25 +42,23 @@ static CGFloat titleHeight = 44.0;
 - (void)layoutSubviews{
     [super layoutSubviews];
     
-    [self.titleView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.top.mas_equalTo(self);
-        make.height.mas_equalTo(titleHeight);
-    }];
+    CGFloat titleView_X = 0;
+    CGFloat titleView_Y = 0;
+    CGFloat titleView_Width = ScreenWidth;
+    CGFloat titleView_Height = titleHeight;
+    self.titleView.frame = CGRectMake(titleView_X, titleView_Y, titleView_Width, titleView_Height);
     
+    CGFloat line_X = 0;
+    CGFloat line_Y = CGRectGetMaxY(self.titleView.frame);
+    CGFloat line_Width = ScreenWidth;
+    CGFloat line_Height = 1;
+    self.line.frame = CGRectMake(line_X, line_Y, line_Width, line_Height);
     
-    if (self.pickerViewStyle == WYAPickerViewStyleCustom) {
-        [self.customPicker mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self);
-            make.top.mas_equalTo(self.titleView.mas_bottom);
-            make.height.mas_equalTo(self.pickerHeight);
-        }];
-    }else{
-        [self.pickView mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(self);
-            make.top.mas_equalTo(self.titleView.mas_bottom);
-            make.height.mas_equalTo(self.pickerHeight);
-        }];
-    }
+    CGFloat pickView_X = 0;
+    CGFloat pickView_Y = CGRectGetMaxY(self.line.frame);
+    CGFloat pickView_Width = ScreenWidth;
+    CGFloat pickView_Height = self.pickerHeight;
+    self.pickView.frame = CGRectMake(pickView_X, pickView_Y, pickView_Width, pickView_Height);
 }
 
 #pragma mark UIPickerViewDataSource
@@ -276,7 +266,7 @@ static CGFloat titleHeight = 44.0;
 
 
 #pragma mark --- WYAPaginationViewDelegate
-- (void)wya_LeftAction{
+- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button{
     if (self.viewController) {
         [self.viewController dismissViewControllerAnimated:YES completion:nil];
     }else{
@@ -284,7 +274,7 @@ static CGFloat titleHeight = 44.0;
     }
 }
 
-- (void)wya_RightAction{
+- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button{
     if (self.viewController) {
         [self.viewController dismissViewControllerAnimated:YES completion:nil];
     }else{
@@ -301,6 +291,7 @@ static CGFloat titleHeight = 44.0;
     self.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.titleView];
+    [self addSubview:self.line];
     [self addSubview:self.pickView];
 //    [self addSubview:self.customPicker];
     
@@ -313,9 +304,9 @@ static CGFloat titleHeight = 44.0;
     [self setNeedsLayout];
     [self layoutIfNeeded];
     if (self.pickerViewStyle == WYAPickerViewStyleSystem) {
-        return self.titleView.cmam_height+self.pickView.cmam_height;
+        return self.titleView.cmam_height+self.pickView.cmam_height+1;
     }else{
-        return self.titleView.cmam_height+self.customPicker.cmam_height;
+        return self.titleView.cmam_height+self.customPicker.cmam_height+1;
     }
 }
 
@@ -326,10 +317,23 @@ static CGFloat titleHeight = 44.0;
         _titleView = [[WYAPaginationView alloc]init];
         _titleView.backgroundColor = [UIColor whiteColor];
         _titleView.wya_Delegate = self;
-        [_titleView wya_SetLeftButtonWithTitle:@"取消" TitleColor:[UIColor wya_hex:@"#FF352D"] TitleFont:15];
+        [_titleView wya_SetLeftButtonWithTitle:@"取消" TitleColor:[UIColor wya_hex:@"#108DE7"] TitleFont:15];
         [_titleView wya_SetRightButtonWithTitle:@"确定" TitleColor:[UIColor wya_hex:@"#108DE7"] TitleFont:15];
+        _titleView.leftButton.layer.borderWidth = 0;
+        _titleView.rightButton.layer.borderWidth = 0;
     }
     return _titleView;
+}
+
+- (UIView *)line{
+    if(!_line){
+        _line = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = random(241, 241, 241, 1);
+            object;
+        });
+    }
+    return _line;
 }
 
 -(UIPickerView *)pickView{
@@ -434,6 +438,8 @@ static CGFloat titleHeight = 44.0;
     // Drawing code
 }
 */
+
+
 
 
 

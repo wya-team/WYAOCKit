@@ -19,7 +19,8 @@
     
     WYAHomeItemModel * item1 = [[WYAHomeItemModel alloc]init];
     item1.rowName = @"WYADrawerViewController 抽屉 ";
-    item1.className = @"WYADrawerViewController";
+    item1.className = @"WYADemoDrawerViewController";
+//    item1.className = @"WYADrawerViewController";
     
     WYAHomeItemModel * item2 = [[WYAHomeItemModel alloc]init];
     item2.rowName = @"WYAChooseMenu 菜单";

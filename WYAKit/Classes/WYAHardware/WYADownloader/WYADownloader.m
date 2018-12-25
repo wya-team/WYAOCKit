@@ -229,7 +229,7 @@ didCompleteWithError:(nullable NSError *)error{
     }else{
         [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.isSuccess == NO) {
-                
+
                 [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
                 dispatch_sync(dispatch_get_main_queue(), ^{
                    self.userResultHandle(obj.model, @"该资源有误");

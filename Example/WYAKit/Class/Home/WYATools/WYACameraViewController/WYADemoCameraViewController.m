@@ -31,12 +31,6 @@
     imageV.userInteractionEnabled = YES;
     [self.view addSubview:imageV];
     
-    CGFloat imageV_X = (ScreenWidth - 200*SizeAdapter)/2;
-    CGFloat imageV_Y = WYATopHeight + 20*SizeAdapter;
-    CGFloat imageV_Width = 200*SizeAdapter;
-    CGFloat imageV_Height = 200*SizeAdapter;
-    imageV.frame = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
-    
     UIButton * playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [playButton setImage:[UIImage imageNamed:@"icon_begin"] forState:UIControlStateNormal];
     [playButton setImage:[UIImage imageNamed:@"icon_pause"] forState:UIControlStateSelected];
@@ -44,31 +38,24 @@
         button.selected = !button.selected;
         if (button.selected) {
             if (weakSelf.player) {
-                [weakSelf.player pause];
+                [weakSelf.player play];
             }
         }else{
+            
             if (weakSelf.player) {
-                [weakSelf.player play];
+                [weakSelf.player pause];
             }
         }
         
     }];
     playButton.hidden = YES;
     [self.view addSubview:playButton];
-    playButton.center = imageV.center;
-    playButton.bounds = CGRectMake(0, 0, 30*SizeAdapter, 30*SizeAdapter);
     
     UILabel * videoPathLabel = [[UILabel alloc]init];
     videoPathLabel.textColor = random(51, 51, 51, 1);
     videoPathLabel.font = FONT(13);
     videoPathLabel.numberOfLines = 0;
     [self.view addSubview:videoPathLabel];
-    
-    CGFloat videoPathLabel_X = 10;
-    CGFloat videoPathLabel_Y = CGRectGetMaxY(imageV.frame)+10*SizeAdapter;
-    CGFloat videoPathLabel_Width = ScreenWidth-20;
-    CGFloat videoPathLabel_Height = 60*SizeAdapter;
-    videoPathLabel.frame = CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
     
     UILabel * label = [[UILabel alloc]init];
     label.text = @"最长拍摄时间(s)";
@@ -77,7 +64,7 @@
     [self.view addSubview:label];
     
     CGFloat label_X = 10;
-    CGFloat label_Y = CGRectGetMaxY(videoPathLabel.frame)+10*SizeAdapter;
+    CGFloat label_Y = WYATopHeight+20*SizeAdapter;
     CGFloat label_Width = ScreenWidth-20;
     CGFloat label_Height = 20*SizeAdapter;
     label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
@@ -214,11 +201,11 @@
         playButton.hidden = YES;
         WYACameraViewController * cameraVC = [[WYACameraViewController alloc]initWithType:self.type];
         cameraVC.time = [self.time floatValue];
-        cameraVC.TakePhoto = ^(UIImage *photo) {
+        cameraVC.takePhoto = ^(UIImage *photo) {
             imageV.image = photo;
         };
         StrongSelf(strongSelf);
-        cameraVC.TakeVideo = ^(NSString *videoPath) {
+        cameraVC.takeVideo = ^(NSString *videoPath) {
             videoPathLabel.text = [NSString stringWithFormat:@"视频地址：%@",videoPath];
             playButton.hidden = NO;
             imageV.image = nil;
@@ -241,6 +228,21 @@
     startButton.frame = CGRectMake(startButton_X, startButton_Y, startButton_Width, startButton_Height);
     
     self.array = @[button,button1,button2];
+    
+    CGFloat imageV_X = (ScreenWidth - 200*SizeAdapter)/2;
+    CGFloat imageV_Y = CGRectGetMaxY(startButton.frame) + 20*SizeAdapter;
+    CGFloat imageV_Width = 200*SizeAdapter;
+    CGFloat imageV_Height = 200*SizeAdapter;
+    imageV.frame = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
+    
+    playButton.center = imageV.center;
+    playButton.bounds = CGRectMake(0, 0, 30*SizeAdapter, 30*SizeAdapter);
+    
+    CGFloat videoPathLabel_X = 10;
+    CGFloat videoPathLabel_Y = CGRectGetMaxY(imageV.frame)+10*SizeAdapter;
+    CGFloat videoPathLabel_Width = ScreenWidth-20;
+    CGFloat videoPathLabel_Height = 60*SizeAdapter;
+    videoPathLabel.frame = CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
 }
 
 #pragma mark - UITextFieldDelegate -

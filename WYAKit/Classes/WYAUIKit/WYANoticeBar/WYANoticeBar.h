@@ -51,6 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor * noticeBackgroundColor;
 
+@property (nonatomic, copy)   void(^leftButtonHandle)(void);
+@property (nonatomic, copy)   void(^rightButtonHandle)(void);
 /**
  开始动画
  */

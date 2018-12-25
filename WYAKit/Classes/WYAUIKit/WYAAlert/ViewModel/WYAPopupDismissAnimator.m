@@ -15,6 +15,8 @@
     switch (self.dismissStyle) {
         case WYAPopupDismissStyleFadeOut:
             return 0.15;
+        case WYAPopupDismissStyleShrink:
+            return 0.3;
         case WYAPopupDismissStyleContractHorizontal:
             return 0.2;
         case WYAPopupDismissStyleContractVertical:
@@ -38,6 +40,9 @@
     switch (self.dismissStyle) {
         case WYAPopupDismissStyleFadeOut:
             [self fadeOutAnimationWithContext:transitionContext];
+            break;
+        case WYAPopupDismissStyleShrink:
+            [self shrinkAnimationWithContext:transitionContext];
             break;
         case WYAPopupDismissStyleContractHorizontal:
             [self contractHorizontalAnimationWithContext:transitionContext];
@@ -71,6 +76,22 @@
                      completion:^(BOOL finished) {
                          [transitionContext completeTransition:YES];
                      }];
+}
+
+- (void)shrinkAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+    WYAAlertController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    fromVC.backgroundButton.alpha = as_backgroundAlpha;
+    fromVC.alertView.alpha = 1;
+    fromVC.alertView.transform = CGAffineTransformMakeScale(1, 1);
+    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.95 initialSpringVelocity:50 options:UIViewAnimationOptionLayoutSubviews | UIViewAnimationOptionCurveEaseOut animations:^{
+        fromVC.backgroundButton.alpha = 0;
+        fromVC.alertView.alpha = 0;
+//        fromVC.alertView.transform = CGAffineTransformMakeRotation(M_PI);
+        fromVC.alertView.transform = CGAffineTransformMakeScale(0.01, 0.01);
+    } completion:^(BOOL finished) {
+        [transitionContext completeTransition:YES];
+    }];
 }
 
 - (void)contractHorizontalAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {

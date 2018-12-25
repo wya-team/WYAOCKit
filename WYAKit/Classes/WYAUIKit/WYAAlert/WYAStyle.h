@@ -18,6 +18,7 @@ typedef NS_ENUM(NSInteger, WYAPopupPresentStyle) {
 /** dismiss style */
 typedef NS_ENUM(NSInteger, WYAPopupDismissStyle) {
     WYAPopupDismissStyleFadeOut,             // 渐出
+    WYAPopupDismissStyleShrink,              // 缩起
     WYAPopupDismissStyleContractHorizontal,  // 水平收起
     WYAPopupDismissStyleContractVertical,    // 垂直收起
     WYAPopupDismissStyleSlideDown,           // 向下划出

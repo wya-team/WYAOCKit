@@ -26,15 +26,18 @@
 }
 
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model{
+    
+    //    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    //    [request setHTTPMethod:@"HEAD"];
+    //    self.downloadTask = [session downloadTaskWithRequest:request];
+    
     NSURL * url = [NSURL URLWithString:model.urlString];
     _urlString = model.urlString;
     _model = model;
     self.destinationPath = model.destinationPath;
     self.downloadState = WYADownloadStateDownloading;
-    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-    [request setHTTPMethod:@"HEAD"];
-    self.downloadTask = [session downloadTaskWithRequest:request];
-//    self.downloadTask = [session downloadTaskWithURL:url];
+
+    self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
 }
 

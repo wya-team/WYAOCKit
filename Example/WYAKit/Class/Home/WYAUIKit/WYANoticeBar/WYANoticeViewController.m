@@ -67,6 +67,10 @@
     self.bar2.showText = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar2.showTextColor = REDCOLOR;
     self.bar2.noticeBackgroundColor = random(253, 253, 240, 1);
+    WeakSelf(weakSelf);
+    self.bar2.rightButtonHandle = ^{
+        [weakSelf.bar2 removeFromSuperview];
+    };
     [self.view addSubview:self.bar2];
     
     self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
