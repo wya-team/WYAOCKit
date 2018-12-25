@@ -29,7 +29,6 @@
 		21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C11219ABF640099CB6F /* WYABannerViewController.m */; };
 		21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */; };
 		21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */; };
-		21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */; };
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
@@ -160,7 +159,6 @@
 		21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloaderViewController.m; sourceTree = "<group>"; };
 		21470C1F219ABFB10099CB6F /* WYAVideoPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAVideoPlayerViewController.h; sourceTree = "<group>"; };
 		21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAVideoPlayerViewController.m; sourceTree = "<group>"; };
-		21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYAIMGCodeViewController.xib; sourceTree = "<group>"; };
 		21470C89219BB2370099CB6F /* WYAUIAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAUIAlertViewController.h; sourceTree = "<group>"; };
 		21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAUIAlertViewController.m; sourceTree = "<group>"; };
 		21470CA7219E93D30099CB6F /* WYAPopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPopViewController.h; sourceTree = "<group>"; };
@@ -533,7 +531,6 @@
 			children = (
 				21470C0D219ABF570099CB6F /* WYAIMGCodeViewController.h */,
 				21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */,
-				21470C26219AC9D80099CB6F /* WYAIMGCodeViewController.xib */,
 			);
 			path = WYAIMGCode;
 			sourceTree = "<group>";
@@ -1033,7 +1030,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				21C0EA4821CBA2AE00559A37 /* spin.svg in Resources */,
-				21470C27219AC9D80099CB6F /* WYAIMGCodeViewController.xib in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				95F0946321CBD0CA00FFC0CF /* Images.xcassets in Resources */,
 				21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */,
