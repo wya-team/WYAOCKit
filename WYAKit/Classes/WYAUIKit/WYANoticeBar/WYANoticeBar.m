@@ -53,10 +53,21 @@
 
 -(void)createUI{
     self.layer.masksToBounds = YES;
+    WeakSelf(weakSelf);
     self.noticeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.noticeButton addCallBackAction:^(UIButton *button) {
+        if (weakSelf.leftButtonHandle) {
+            weakSelf.leftButtonHandle();
+        }
+    }];
     [self addSubview:self.noticeButton];
     
     self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.rightButton addCallBackAction:^(UIButton *button) {
+        if (weakSelf.rightButtonHandle) {
+            weakSelf.rightButtonHandle();
+        }
+    }];
     [self addSubview:self.rightButton];
     
     self.titleView = [[UIView alloc]init];

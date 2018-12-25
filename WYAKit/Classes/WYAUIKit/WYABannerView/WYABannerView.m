@@ -21,7 +21,7 @@
 
 @implementation WYABannerView
 
-- (instancetype)initWithFrame:(CGRect)frame BannerSourceStyle:(WYABannerSourceStyle)sourceStyle TimeInterval:(CGFloat)time
+- (instancetype)initWithFrame:(CGRect)frame bannerSourceStyle:(WYABannerSourceStyle)sourceStyle timeInterval:(CGFloat)time
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -59,6 +59,7 @@
 
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:self.time>0 ? self.time : 2 target:self selector:@selector(scrollTimerDidFired:) userInfo:nil repeats:true];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)setScrollViewContentOffsetCenter {
@@ -113,9 +114,11 @@
     switch (gesture.direction) {
         case UISwipeGestureRecognizerDirectionLeft:
             newOffset = CGPointMake(self.scrollView.contentOffset.x + CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
+            NSLog(@"左扫");
             break;
          case UISwipeGestureRecognizerDirectionRight:
             newOffset = CGPointMake(self.scrollView.contentOffset.x - CGRectGetWidth(self.scrollView.bounds), self.scrollView.contentOffset.y);
+            NSLog(@"右扫");
             break;
         default:
             return;
@@ -123,6 +126,9 @@
     
     [self.scrollView setContentOffset:newOffset animated:YES];
 }
+
+#pragma mark - Public Method -
+
 #pragma mark - Setter -
 
 - (void)setCurrentIndex:(NSInteger)currentIndex{
@@ -160,7 +166,7 @@
         self.currentIndex = 0;
         
         if (images.count > 1) {
-            [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:2]];
+            [self.timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:3]];
             self.pageControl.numberOfPages = images.count;
             self.pageControl.currentPage = 0;
             self.pageControl.hidden = NO;

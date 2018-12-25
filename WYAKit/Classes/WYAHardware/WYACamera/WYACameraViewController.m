@@ -47,6 +47,7 @@
 {
     self = [super init];
     if (self) {
+        self.time = 15.0;
         self.cameraType = type;
     }
     return self;
@@ -248,12 +249,12 @@
 - (void)sureClick{
     [self dismissViewControllerAnimated:YES completion:^{
         if (self.placeholdImageView.image) {
-            if (self.TakePhoto) {
-                self.TakePhoto(self.placeholdImageView.image);
+            if (self.takePhoto) {
+                self.takePhoto(self.placeholdImageView.image);
             }
         }else{
-            if (self.TakeVideo) {
-                self.TakeVideo(self.videoTool.videoPath);
+            if (self.takeVideo) {
+                self.takeVideo(self.videoTool.videoPath);
             }
         }
     }];
@@ -297,7 +298,16 @@
 
     self.timeCount = self.timeCount + self.timeMargin;
     CGFloat progress = self.timeCount/self.time;
+    NSLog(@"progress==%f",progress);
     self.progressView.progress = progress;
+}
+
+#pragma mark - Public Method -
+- (void)clearCache{
+    NSFileManager * fileManage = [NSFileManager defaultManager];
+    NSError * error;
+    [fileManage removeItemAtPath:[self.videoTool getVideoPathCache] error:&error];
+    NSLog(@"error==%@",[error localizedDescription]);
 }
 
 #pragma mark - Setter -
@@ -395,7 +405,6 @@
         _progressView.borderWidth = 10*SizeAdapter;
         _progressView.layer.cornerRadius = 40*SizeAdapter;
         _progressView.layer.masksToBounds = YES;
-        _progressView.progress = 0.f;
         if (self.cameraType == WYACameraTypeAll) {
             UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(takingPictures)];
             [_progressView addGestureRecognizer:tap];
@@ -443,8 +452,8 @@
                 vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
                     [vc dismissViewControllerAnimated:NO completion:^{
                         [strongSelf dismissViewControllerAnimated:YES completion:^{
-                            if (strongSelf.TakePhoto) {
-                                strongSelf.TakePhoto(image);
+                            if (strongSelf.takePhoto) {
+                                strongSelf.takePhoto(image);
                             }
                         }];
                     }];

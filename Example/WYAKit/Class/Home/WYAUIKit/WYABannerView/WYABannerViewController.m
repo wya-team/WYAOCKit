@@ -80,7 +80,7 @@
 - (WYABannerView *)bannerView{
     if(!_bannerView){
         _bannerView = ({
-            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) BannerSourceStyle:WYABannerSourceStyleLocal TimeInterval:1];
+            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleLocal timeInterval:1];
             object.images = [@[@"0",@"1",@"2",] mutableCopy];
             object;
        });
@@ -91,7 +91,7 @@
 - (WYABannerView *)netBannerView{
     if(!_netBannerView){
         _netBannerView = ({
-            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) BannerSourceStyle:WYABannerSourceStyleNet TimeInterval:2];
+            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleNet timeInterval:2];
             object.placeholdImage = [UIImage imageNamed:@"icon_picture"];
             object.images = [@[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543397933202&di=89eecac599e0e2c145e7d2d477dc1681&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D9c1b09f27c094b36cf9f13aecba516ac%2Fadaf2edda3cc7cd920a6c3f43301213fb80e9110.jpg",
                              @"https://wx4.sinaimg.cn/large/a1b61d0aly1fn2h3xwat6j20dw0dwtbp.jpg",

@@ -11,6 +11,10 @@
 
 @interface WYAPickerViewController ()<WYAPickerViewDelegate, UITableViewDelegate, UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) WYAPickerView * pickerView;
+@property (nonatomic, strong) WYADatePicker * datePicker;
+@property (nonatomic, strong) WYAAlertController * alert;
+@property (nonatomic, strong) WYAAlertController * dateAlert;
 @end
 
 @implementation WYAPickerViewController
@@ -144,19 +148,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.section == 0) {
-        WYAPickerView * pickerView = [[WYAPickerView alloc]init];
-        pickerView.delegate = self;
-        pickerView.titleKeyWords = @"title";
-        pickerView.arrayKeyWords = @"array";
-        pickerView.pickerHeight = 260;
-        pickerView.pickerItemHeight = 60;
+        self.pickerView = [[WYAPickerView alloc]init];
+        self.pickerView.delegate = self;
+        self.pickerView.titleKeyWords = @"title";
+        self.pickerView.arrayKeyWords = @"array";
+        self.pickerView.pickerHeight = 260;
+        self.pickerView.pickerItemHeight = 60;
 //        pickerView.pickerViewStyle = WYAPickerViewStyleSystem;
         if (indexPath.row == 0) {
-            pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;
-            pickerView.dataArray = [@[@"A",@"B",@"C"] mutableCopy];
+            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;
+            self.pickerView.dataArray = [@[@"A",@"B",@"C"] mutableCopy];
         }else if (indexPath.row == 1) {
-            pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleDouble;
-            pickerView.dataArray = [@[@{
+            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleDouble;
+            self.pickerView.dataArray = [@[@{
                                           @"title":@"A",
                                           @"array":@[
                                                     @{
@@ -188,8 +192,8 @@
                                           }] mutableCopy];
            
         }else{
-            pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleThree;
-            pickerView.dataArray = [@[@{
+            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleThree;
+            self.pickerView.dataArray = [@[@{
                                           @"title":@"A",
                                           @"array":@[
                                                   @{
@@ -247,53 +251,53 @@
             
         }
         
-        pickerView.bounds = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
-        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
-        [self presentViewController:alert animated:YES completion:nil];
-        pickerView.viewController = alert;
+        self.pickerView.bounds = CGRectMake(0, 0, self.view.frame.size.width, [self.pickerView wya_GetPickerViewHeight]);
+        self.alert = [WYAAlertController wya_AlertWithCustomView:self.pickerView AlertStyle:WYAAlertStyleCustomSheet];
+        [self presentViewController:self.alert animated:YES completion:nil];
+        self.pickerView.viewController = self.alert;
     }else if (indexPath.section == 1){
-        WYADatePicker * datePicker = [[WYADatePicker alloc]init];
-        datePicker.pickerHeight = 260;
+        self.datePicker = [[WYADatePicker alloc]init];
+        self.datePicker.pickerHeight = 260;
         if (indexPath.row == 0) {
-            datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
+            self.datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
         }else if (indexPath.row == 1) {
-            datePicker.datePickerStyle = WYADatePickerStyleYear;
+            self.datePicker.datePickerStyle = WYADatePickerStyleYear;
         }else if (indexPath.row == 2) {
-            datePicker.datePickerStyle = WYADatePickerStyleMouth;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMouth;
         }else if (indexPath.row == 3) {
-            datePicker.datePickerStyle = WYADatePickerStyleHour;
+            self.datePicker.datePickerStyle = WYADatePickerStyleHour;
         }else if (indexPath.row == 4) {
-            datePicker.datePickerStyle = WYADatePickerStyleMinute;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMinute;
         }else if (indexPath.row == 5) {
-            datePicker.datePickerStyle = WYADatePickerStyleSecond;
+            self.datePicker.datePickerStyle = WYADatePickerStyleSecond;
         }else if (indexPath.row == 6) {
-            datePicker.datePickerStyle = WYADatePickerStyleYearAndMonth;
+            self.datePicker.datePickerStyle = WYADatePickerStyleYearAndMonth;
         }else if (indexPath.row == 7) {
-            datePicker.datePickerStyle = WYADatePickerStyleDate;
+            self.datePicker.datePickerStyle = WYADatePickerStyleDate;
         }else if (indexPath.row == 8) {
-            datePicker.datePickerStyle = WYADatePickerStyleDateHour;
+            self.datePicker.datePickerStyle = WYADatePickerStyleDateHour;
         }else if (indexPath.row == 9) {
-            datePicker.datePickerStyle = WYADatePickerStyleDateHourMinute;
+            self.datePicker.datePickerStyle = WYADatePickerStyleDateHourMinute;
         }else if (indexPath.row == 10) {
-            datePicker.datePickerStyle = WYADatePickerStyleMonthDay;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDay;
         }else if (indexPath.row == 11) {
-            datePicker.datePickerStyle = WYADatePickerStyleMonthDayHour;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHour;
         }else if (indexPath.row == 12) {
-            datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinute;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinute;
         }else if (indexPath.row == 13) {
-            datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinuteSecond;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinuteSecond;
         }else if (indexPath.row == 14) {
-            datePicker.datePickerStyle = WYADatePickerStyleTime;
+            self.datePicker.datePickerStyle = WYADatePickerStyleTime;
         }else if (indexPath.row == 15) {
-            datePicker.datePickerStyle = WYADatePickerStyleTimeAndSecond;
+            self.datePicker.datePickerStyle = WYADatePickerStyleTimeAndSecond;
         }else if (indexPath.row == 16) {
-            datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
+            self.datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
         }
         
-        datePicker.bounds = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);
-        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:datePicker AlertStyle:WYAAlertStyleCustomSheet];
-        [self presentViewController:alert animated:YES completion:nil];
-        datePicker.viewController = alert;
+        self.datePicker.bounds = CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
+        self.dateAlert = [WYAAlertController wya_AlertWithCustomView:self.datePicker AlertStyle:WYAAlertStyleCustomSheet];
+        [self presentViewController:self.dateAlert animated:YES completion:nil];
+        self.datePicker.viewController = self.dateAlert;
     }else if (indexPath.section == 2) {
 //        WYAPickerView * pickerView = [[WYAPickerView alloc]init];
 //        pickerView.pickerViewStyle = WYAPickerViewStyleCustom;
@@ -312,65 +316,12 @@
 
 - (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result{
     NSLog(@"result==%@",result);
+    [self.alert dismissViewControllerAnimated:YES completion:nil];
 }
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+
+-(void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result{
+    [self.dateAlert dismissViewControllerAnimated:YES completion:nil];
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Table view delegate
-
-// In a xib-based application, navigation from a table can be handled in -tableView:didSelectRowAtIndexPath:
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here, for example:
-    // Create the next view controller.
-    <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:<#@"Nib name"#> bundle:nil];
-    
-    // Pass the selected object to the new view controller.
-    
-    // Push the view controller.
-    [self.navigationController pushViewController:detailViewController animated:YES];
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

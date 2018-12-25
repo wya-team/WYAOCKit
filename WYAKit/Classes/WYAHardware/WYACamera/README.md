@@ -8,14 +8,39 @@
 
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
-TakePhoto|获取拍摄的照片|block|-
-TakeVideo|获取拍摄的视频路径|block|-
+takePhoto|获取拍摄的照片|block|-
+takeVideo|获取拍摄的视频路径|block|-
+time|录制视频时间|CGFloat|不能小于0
+
+- WYACameraType
+
+类型 | 说明
+---|---
+WYACameraTypeAll|拍照和录制（默认）
+WYACameraTypeImage|拍照
+WYACameraTypeVideo|录制
 
 - WYAQRCodeViewController
 
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
 ScanReault|返回扫描结果|block|-
+
+## 方法
+```objc
+/**
+初始化
+
+@param type 相机类型
+@return self
+*/
+- (instancetype)initWithType:(WYACameraType)type;
+
+/**
+清除缓存
+*/
+- (void)clearCache;
+```
 
 ## 基础用法
 - 添加关键key
@@ -30,15 +55,7 @@ ScanReault|返回扫描结果|block|-
 <key>NSPhotoLibraryUsageDescription</key>
 <string>填写关于相册的描述</string>
 ```
-```objc
-/**
-初始化
 
-@param type 相机类型
-@return self
-*/
-- (instancetype)initWithType:(WYACameraType)type;
-```
 - 导入头文件
 
 ```

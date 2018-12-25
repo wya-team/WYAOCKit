@@ -176,7 +176,7 @@
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0*SizeAdapter, 10, 0*SizeAdapter, 10);
+    return UIEdgeInsetsMake(10*SizeAdapter, 10, 10*SizeAdapter, 10);
 }
 
 //设置每个item水平间距
@@ -200,7 +200,7 @@
         WeakSelf(weakSelf);
         WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
             WYACameraViewController * camera = [[WYACameraViewController alloc]initWithType:WYACameraTypeAll];
-            camera.TakePhoto = ^(UIImage *photo) {
+            camera.takePhoto = ^(UIImage *photo) {
                 [self.dataSource insertObject:photo atIndex:0];
                 [self.collectionView reloadData];
             };

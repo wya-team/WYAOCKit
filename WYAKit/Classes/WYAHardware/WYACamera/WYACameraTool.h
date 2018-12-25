@@ -45,6 +45,7 @@
  */
 - (void)startTakingPhoto:(void(^)(UIImage * image))image;
 
+- (NSString *)getVideoPathCache;
 @end
 
 @interface WYACameraTool(Authorization)
