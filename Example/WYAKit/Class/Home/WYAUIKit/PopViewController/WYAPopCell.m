@@ -30,7 +30,7 @@
     [super layoutSubviews];
     [self.leftImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
-        make.left.mas_equalTo(self.contentView.mas_left).with.offset(5*SizeAdapter);
+        make.left.mas_equalTo(self.contentView.mas_left).with.offset(10*SizeAdapter);
         make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
     }];
     

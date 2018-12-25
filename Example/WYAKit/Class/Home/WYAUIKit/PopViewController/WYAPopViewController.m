@@ -9,8 +9,9 @@
 #import "WYAPopViewController.h"
 #import "WYATestViewController.h"
 #import "WYAIMGCodeViewController.h"
-@interface WYAPopViewController ()<UIPopoverPresentationControllerDelegate>
 
+@interface WYAPopViewController ()<UIPopoverPresentationControllerDelegate>
+@property (nonatomic, strong) UIButton * button;
 @end
 
 @implementation WYAPopViewController
@@ -21,6 +22,13 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+//    [self.view addSubview:self.button];
+//    [self.button mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerY.mas_equalTo(self.view.mas_centerY);
+//        make.centerX.equalTo(self.view.mas_centerX).offset(20);
+//        make.size.mas_equalTo(CGSizeMake(100, 80));
+//    }];
+//
     [self wya_addRightNavBarButtonWithNormalImage:@[@"list"] highlightedImg:@[]];
     
     UILabel * label = [[UILabel alloc]init];
@@ -51,20 +59,22 @@
             WYAIMGCodeViewController * imgCode = [[WYAIMGCodeViewController alloc]init];
             [self.navigationController pushViewController:imgCode animated:YES];
         }
-        
+
     };
     UIPopoverPresentationController * popover = [test popoverPresentationController];
-//    popover.presentedView
     popover.delegate = self;
-    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;//设置箭头位置
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;//设置箭头位置
     popover.sourceView = sender;//设置目标视图
     popover.sourceRect = sender.bounds;//弹出视图显示位置
     popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
-    [self presentViewController:test animated:YES completion:nil];
+//    [WYAArrowBackgroundColorConfig wya_arrowBackgroundColorString:@"#333333"];
+//    [WYAArrowBackgroundColorConfig wya_arrowBackgroundColor:[UIColor greenColor]];
+    popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
     
-    
-//    UIPopoverController * popvc = [[UIPopoverController alloc]init];
-//    popvc.popoverBackgroundViewClass
+    [self presentViewController:test animated:YES completion:^{
+  
+    }];
+
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
@@ -103,4 +113,45 @@
 }
 */
 
+
+- (UIButton *)button{
+    if(!_button){
+        _button = ({
+            UIButton * object = [[UIButton alloc]init];
+            object.backgroundColor = [UIColor redColor];
+            [object addTarget:self action:@selector(test:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+       });
+    }
+    return _button;
+}
+- (void)test:(UIButton *)sender{
+    WYATestViewController * test = [[WYATestViewController alloc]init];
+    test.preferredContentSize = CGSizeMake(120*SizeAdapter, 132*SizeAdapter);
+    test.modalPresentationStyle = UIModalPresentationPopover;
+    __block WYATestViewController * vc = test;
+    test.popCallback = ^(NSIndexPath * _Nonnull indexPath) {
+        [vc dismissViewControllerAnimated:YES completion:nil];
+        if (indexPath.row == 0) {
+            WYAQRCodeViewController * qr = [[WYAQRCodeViewController alloc]init];
+            [self presentViewController:qr animated:YES completion:nil];
+        }else if (indexPath.row == 1) {
+            WYAIMGCodeViewController * imgCode = [[WYAIMGCodeViewController alloc]init];
+            [self.navigationController pushViewController:imgCode animated:YES];
+        }
+
+    };
+    UIPopoverPresentationController * popover = [test popoverPresentationController];
+    popover.delegate = self;
+    //        popover.permittedArrowDirections = UIPopoverArrowDirectionDown;//设置箭头位置
+    //        popover.permittedArrowDirections = UIPopoverArrowDirectionLeft;//设置箭头位置
+            popover.permittedArrowDirections = UIPopoverArrowDirectionRight;//设置箭头位置
+    //
+//    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;//设置箭头位置
+    popover.sourceView = sender;//设置目标视图
+    popover.sourceRect = sender.bounds;//弹出视图显示位置
+    popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
+    popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
+    [self presentViewController:test animated:YES completion:nil];
+}
 @end

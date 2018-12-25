@@ -14,7 +14,12 @@
 @end
 
 @implementation WYAPopVerReadMeViewController
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.view.superview.clipsToBounds = NO;
+    self.view.layer.cornerRadius = 3.f;
+    self.view.layer.masksToBounds = YES;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame];

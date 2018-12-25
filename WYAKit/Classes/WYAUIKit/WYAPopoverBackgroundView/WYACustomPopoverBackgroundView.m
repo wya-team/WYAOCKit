@@ -7,9 +7,11 @@
 //
 
 #import "WYACustomPopoverBackgroundView.h"
-#define HArrowHeight 30
-#define HArrowBase 30
+#define HArrowHeight 10
+#define HArrowBase 10
 #define HArrowInsets 0
+
+#define WYAARROWBACKGROUNDCOLOR @"arrowbackgroundcolor"
 
 @implementation WYACustomPopoverBackgroundView
 //以下两个属性需要被覆盖
@@ -19,8 +21,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         NSLog(@"%@",NSStringFromCGRect(frame));
-         self.backgroundColor = [UIColor grayColor];
         //创建箭头
+        
         UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         self.arrowImageView = arrowImageView;
         [self addSubview:self.arrowImageView];
@@ -32,6 +34,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    self.layer.shadowOpacity = 0.0f;
     
     //更改箭头位置
     CGSize arrowSize = CGSizeMake([[self class] arrowBase], [[self class] arrowHeight]);
@@ -39,7 +42,7 @@
     
     CGFloat x;
     CGFloat y;
-    
+
     CGFloat selfWidth = self.bounds.size.width;
     CGFloat selfHeight = self.bounds.size.height;
     CGFloat arrowWidth = arrowSize.width;
@@ -59,6 +62,7 @@
             y = selfHeight - arrowHeigt;
             break;
         case UIPopoverArrowDirectionRight:
+
             x = selfWidth - arrowWidth;
             y = (selfHeight - arrowHeigt)/2.0+ _arrowOffset;
             break;
@@ -70,6 +74,8 @@
     }
     
     self.arrowImageView.frame = CGRectMake(x, y, arrowSize.width, arrowSize.height);
+    self.layer.cornerRadius = 0.f;
+    self.superview.clipsToBounds = NO;
 }
 
 //绘制箭头图片
@@ -127,12 +133,17 @@
     
     CGContextAddPath(ctx, arrowPath);
     CGPathRelease(arrowPath);
-    UIColor *fillColor = [UIColor whiteColor];
+    NSString * str = [[NSUserDefaults standardUserDefaults]objectForKey:WYAARROWBACKGROUNDCOLOR];
+    if (str.length <= 0) {
+        str = @"#FFFFFF";
+    }
+    UIColor *fillColor = [UIColor wya_hex:str];
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
     CGContextDrawPath(ctx, kCGPathFill);
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+    [[NSUserDefaults standardUserDefaults]setObject:@"#FFFFFF" forKey:WYAARROWBACKGROUNDCOLOR];
     return image;
 }
 
@@ -153,7 +164,18 @@
 
 //是否使用默认的内置阴影和圆角
 +(BOOL)wantsDefaultContentAppearance {
-    return YES;
+    return NO;
 }
 
+@end
+
+@implementation WYAArrowBackgroundColorConfig
+
++ (void)wya_arrowBackgroundColorString:(NSString *)colorString{
+     [[NSUserDefaults standardUserDefaults]setObject:colorString forKey:WYAARROWBACKGROUNDCOLOR];
+}
++ (void)wya_arrowBackgroundColor:(UIColor *)arrowColor{
+    NSString * colorString = [UIColor wya_toStrByUIColor:arrowColor];
+     [[NSUserDefaults standardUserDefaults]setObject:colorString forKey:WYAARROWBACKGROUNDCOLOR];
+}
 @end

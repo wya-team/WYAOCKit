@@ -28,7 +28,7 @@
 #pragma mark ======= popverPresentVC
 - (void)showPopverPresentVC:(UIButton *)sender{
     WYAPopVerReadMeViewController * test = [[WYAPopVerReadMeViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(180*SizeAdapter, 142*SizeAdapter);
+    test.preferredContentSize = CGSizeMake(180*SizeAdapter, 130*SizeAdapter);
     test.dataSource = @[@"WYACamera(相机)",@"WYAPhotoBrowser(相册)",@"WYAImageCrop(裁剪)"];
     test.modalPresentationStyle = UIModalPresentationPopover;
     __block WYAPopVerReadMeViewController * vc = test;
@@ -59,6 +59,7 @@
     popover.sourceView = sender;//设置目标视图
     popover.sourceRect = sender.bounds;//弹出视图显示位置
     popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
+    popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
     [self presentViewController:test animated:YES completion:nil];
 }
 

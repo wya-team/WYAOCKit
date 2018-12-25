@@ -14,15 +14,22 @@
 @end
 
 @implementation WYATestViewController
+- (void)viewWillAppear:(BOOL)animated
+{
+    self.view.superview.clipsToBounds = NO;
+    self.view.layer.cornerRadius = 3.f;
+    self.view.layer.masksToBounds = YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
-    
+//    self.view.backgroundColor = [UIColor whiteColor];
+  
     self.tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.scrollEnabled = NO;
     [self.tableView registerClass:[WYAPopCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];

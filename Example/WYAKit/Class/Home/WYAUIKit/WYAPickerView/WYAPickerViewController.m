@@ -31,7 +31,7 @@
 #pragma mark ======= popverPresentVC
 - (void)showPopverPresentVC:(UIButton *)sender{
     WYAPopVerReadMeViewController * test = [[WYAPopVerReadMeViewController alloc]init];
-    test.preferredContentSize = CGSizeMake(150*SizeAdapter, 88*SizeAdapter);
+    test.preferredContentSize = CGSizeMake(150*SizeAdapter, 87*SizeAdapter);
     test.dataSource = @[@"DatePickerView",@"CustomPickerView",@"dsf"];
     test.modalPresentationStyle = UIModalPresentationPopover;
     __block WYAPopVerReadMeViewController * vc = test;
@@ -56,6 +56,7 @@
     popover.sourceView = sender;//设置目标视图
     popover.sourceRect = sender.bounds;//弹出视图显示位置
     popover.backgroundColor = [UIColor whiteColor];//设置弹窗背景颜色
+    popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
     [self presentViewController:test animated:YES completion:nil];
 }
 

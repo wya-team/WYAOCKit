@@ -9,7 +9,7 @@
 #import "Masonry.h"
 #define TITLEFONT 18
 #define BUTTON_TITLEFONT 16
-#define ITEMSPACE_DEFAULT 0.f
+#define ITEMSPACE_DEFAULT 10.f
 #define LEFT_OR_RIGHT_SPACE 10.0
 #define BUTTONWIDTH 36
 #define LEFT_BASE_TAG 1000
@@ -72,7 +72,7 @@
     }];
     
     [_navBarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
+    make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
         make.left.mas_equalTo(self.backgroundImageView);
         make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
     }];
@@ -152,8 +152,19 @@
             }
             
         }
-        
-        customButton.frame = CGRectMake(startX + column*(width + space), startY, width, height);
+        if (i==0) {
+            [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.navBarView.mas_right).offset(20);
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        }else{
+            [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.navBarView.mas_right).offset(startX + column*(width + space));
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        }
         
         [customButton addTarget:self action:@selector (customLeftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -215,12 +226,19 @@
         
         
         [customButton addTarget:self action:@selector (customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
-        
+        if (i==0) {
+            [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.right.equalTo(self.navBarView.mas_right).offset(-20);
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        }else{
         [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.navBarView.mas_right).offset(-space - column*(width + space));
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.top.equalTo(self.navBarView.mas_top).offset(startY);
         }];
+        }
     }
     
 }
@@ -356,7 +374,7 @@
 }
 - (void)customLeftButtonPressed:(UIButton *)sender{
     NSLog(@"%@",sender.titleLabel.text);
-    
+//    sender.tag = sender.tag - LEFT_BASE_TAG;
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_leftBarButtonItemPressed:)]) {
         [self.delegate wya_leftBarButtonItemPressed:sender];
     }
@@ -364,6 +382,7 @@
 #pragma mark ======= rightAction
 - (void)customRightButtonpressed:(UIButton *)sender{
     NSLog(@"%@",sender.titleLabel.text);
+//    sender.tag = sender.tag - RIGHT_BASE_TAG;
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_rightBarButtonItemPressed:)]) {
         [self.delegate wya_rightBarButtonItemPressed:sender];
     }
