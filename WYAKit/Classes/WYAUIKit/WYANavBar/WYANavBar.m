@@ -167,7 +167,8 @@
         }
         
         [customButton addTarget:self action:@selector (customLeftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        
+        [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
+
         [self.navBarView addSubview:customButton];
     }
 }
@@ -224,7 +225,8 @@
         }
         [self.navBarView addSubview:customButton];
         
-        
+        [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
+
         [customButton addTarget:self action:@selector (customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
         if (i==0) {
             [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -266,7 +268,7 @@
         [customButton setImage:[UIImage imageNamed:imageNamed] forState:UIControlStateNormal];
     }
     [customButton addTarget:self action:@selector (goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
     [self.navBarView addSubview:customButton];
 }
 #pragma mark ======= setter
