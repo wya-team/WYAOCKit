@@ -92,13 +92,21 @@
         UILabel* lbindex1 = self.titleLabelArray[1];
         
         [UIView transitionWithView:self duration:[self displayDurationForString:self.titleLabel.text] options:UIViewAnimationOptionCurveLinear animations:^{
-            //
             
-            lbindex0.frame = CGRectMake(-self->rectMark1.size.width, 0, self->rectMark1.size.width, self->rectMark1.size.height);
-            lbindex1.frame = CGRectMake(lbindex0.frame.origin.x+lbindex0.frame.size.width, 0, lbindex1.frame.size.width, lbindex1.frame.size.height);
+            CGFloat lbindex0_X = -self->rectMark1.size.width;
+            CGFloat lbindex0_Y = 0;
+            CGFloat lbindex0_Width = self->rectMark1.size.width;
+            CGFloat lbindex0_Height = self->rectMark1.size.height;
+            lbindex0.frame = CGRectMake(lbindex0_X, lbindex0_Y, lbindex0_Width, lbindex0_Height);
+            
+            CGFloat lbindex1_X = lbindex0.frame.origin.x+lbindex0.frame.size.width;
+            CGFloat lbindex1_Y = 0;
+            CGFloat lbindex1_Width = lbindex1.frame.size.width;
+            CGFloat lbindex1_Height = lbindex1.frame.size.height;
+            lbindex1.frame = CGRectMake(lbindex1_X, lbindex1_Y, lbindex1_Width, lbindex1_Height);
             
         } completion:^(BOOL finished) {
-            //
+            
             lbindex0.frame = self->rectMark2;
             lbindex1.frame = self->rectMark1;
             

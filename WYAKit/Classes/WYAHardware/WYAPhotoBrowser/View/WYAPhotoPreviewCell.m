@@ -63,7 +63,9 @@
 
 @interface WYAVideoPreviewCell ()
 @property (nonatomic, strong) AVPlayer * player;
-@property (nonatomic, strong) AVPlayerLayer * layer;
+@property (nonatomic, strong) AVPlayerLayer * playerlayer;
+@property (nonatomic, strong) AVPlayerItem * playerItem;
+@property (nonatomic, strong) UIImageView * playImageView;
 @property (nonatomic, strong) UIButton * playButton;
 @end
 
@@ -72,6 +74,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        [self.contentView addSubview:self.playImageView];
         [self.contentView addSubview:self.playButton];
     }
     return self;
@@ -80,37 +83,82 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     
-//    CGFloat <#view#>_Width = ;
-//    CGFloat <#view#>_Height = ;
-//    <#view#>.frame = CGRectMake(<#view#>_X, <#view#>_Y, <#view#>_Width, <#view#>_Height);
+    self.playImageView.frame = self.contentView.frame;
+    
+    self.playButton.center = self.contentView.center;
+    CGFloat playButton_Width = 50*SizeAdapter;
+    CGFloat playButton_Height = 50*SizeAdapter;
+    self.playButton.bounds = CGRectMake(0, 0, playButton_Width, playButton_Height);
+}
+
+- (void)buttonClick{
+    self.playButton.selected = !self.playButton.selected;
+    if (self.playButton.selected) {
+        self.playImageView.hidden = YES;
+        [self.player play];
+    }else{
+        [self.player pause];
+    }
+}
+
+- (void)playEnd:(NSNotification *)n{
+    
+    AVPlayerItem * p = [n object];
+    //关键代码
+    [p seekToTime:kCMTimeZero];
+    
+    [self.player play];
+    self.playButton.selected = YES;
 }
 
 #pragma mark - Setter -
 -(void)setModel:(WYAPhotoBrowserModel *)model{
     if (model) {
         PHAsset * asset = model.asset;
+        PHImageManager * manager = [PHImageManager defaultManager];
+        if (model.cacheImage) {
+            self.playImageView.image = model.cacheImage;
+        }else {
+            [manager requestImageForAsset:asset targetSize:CGSizeMake(self.cmam_width, self.cmam_height) contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                self.playImageView.image = result;
+            }];
+        }
         if (asset.mediaType == PHAssetMediaTypeVideo) {
-            PHImageManager * manager = [PHImageManager defaultManager];
+            
 //            PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc]init];
 //            option.version = PHVideoRequestOptionsVersionOriginal;
             [manager requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
-                self.player = [AVPlayer playerWithPlayerItem:playerItem];
-                self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-                self.layer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-                self.layer.frame = self.bounds;
-                [self.contentView.layer addSublayer:self.layer];
-                
+                self.playerItem = playerItem;
             }];
         }
     }
 }
 
+-(void)setPlayerItem:(AVPlayerItem *)playerItem{
+    self.player = [AVPlayer playerWithPlayerItem:playerItem];
+    self.playerlayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+    self.playerlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    self.playerlayer.frame = self.bounds;
+    [self.contentView.layer insertSublayer:self.playerlayer below:self.playButton.layer];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+}
+
 #pragma mark - Getter -
+- (UIImageView *)playImageView{
+    if(!_playImageView){
+        _playImageView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object;
+        });
+    }
+    return _playImageView;
+}
 - (UIButton *)playButton{
     if(!_playButton){
         _playButton = ({
             UIButton * object = [[UIButton alloc]init];
             [object setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
             [object addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
             object;
         });

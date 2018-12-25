@@ -122,7 +122,7 @@
     for (WYADownloadModel * model in self.models) {
         [downloader wya_DownloadTaskWithModel:model ResultHandle:^(WYADownloadModel * resultModel, NSString * _Nonnull result) {
             NSLog(@"re==%@",result);
-            [UIView wya_ShowBottomToastWithMessage:result];
+            [UIView wya_showBottomToastWithMessage:result];
         }];
     }
     

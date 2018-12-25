@@ -36,7 +36,7 @@
 }
 
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
-    [UIView wya_ShowCenterToastWithMessage:@"复制成功!"];
+    [UIView wya_showCenterToastWithMessage:@"复制成功!"];
     // 复制链接
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     pasteboard.string = self.readMeUrl;
@@ -126,7 +126,7 @@
         if ([[navigationAction.request.URL absoluteString] isEqualToString:self.readMeUrl] || self.isAllowPush) {
             decisionHandler(WKNavigationActionPolicyAllow);
         } else {
-            [UIView wya_ShowCenterToastWithMessage:@"当前页面不支持跳转"];
+            [UIView wya_showCenterToastWithMessage:@"当前页面不支持跳转"];
             decisionHandler(WKNavigationActionPolicyCancel);
         }
 

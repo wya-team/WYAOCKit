@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface WYAPhotoEditControlView : UIView
+@property (nonatomic, assign) BOOL  videoHidden;
+
 @property (nonatomic, weak) id<WYAPhotoEditControlViewDelegate> delegate;
 @end
 

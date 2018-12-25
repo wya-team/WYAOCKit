@@ -10,7 +10,7 @@
 #import <YYImage/YYImage.h>
 @implementation UIView (WYAToast)
 
-+ (void)wya_ShowBottomToastWithMessage:(NSString *)message{
++ (void)wya_showBottomToastWithMessage:(NSString *)message{
     
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = Window.bounds;
@@ -54,7 +54,7 @@
     }];
 }
 
-+ (void)wya_ShowCenterToastWithMessage:(NSString *)message{
++ (void)wya_showCenterToastWithMessage:(NSString *)message{
 
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = Window.bounds;
@@ -96,23 +96,32 @@
     }];
 }
 
-+ (void)wya_SuccessToastWithMessage:(NSString *)message{
-    [UIView wya_ToastWithMessage:message ImageString:@"" imageType:WYAToastImageTypePNG SourceInWYAKitBundle:YES AutoDismiss:YES];
++ (void)wya_showToastImage:(NSString *)imageString
+              autoRotation:(BOOL)autoRotation
+                 ImageType:(WYAToastImageType)imageType
+      sourceInWYAKitBundle:(BOOL)isSource
+               autoDismiss:(BOOL)autoDismiss{
+    [UIView wya_toastWithMessage:@"" imageString:imageString autoRotation:autoRotation imageType:imageType sourceInWYAKitBundle:isSource autoDismiss:autoDismiss];
 }
 
-+ (void)wya_FailToastWithMessage:(NSString *)message{
-    [UIView wya_ToastWithMessage:message ImageString:@"" imageType:WYAToastImageTypePNG SourceInWYAKitBundle:YES AutoDismiss:YES];
++ (void)wya_successToastWithMessage:(NSString *)message{
+    [UIView wya_toastWithMessage:message imageString:@"icon_succesful" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
 }
 
-+ (void)wya_WarningToastWithMessage:(NSString *)message{
-    [UIView wya_ToastWithMessage:message ImageString:@"" imageType:WYAToastImageTypePNG SourceInWYAKitBundle:YES AutoDismiss:YES];
++ (void)wya_failToastWithMessage:(NSString *)message{
+    [UIView wya_toastWithMessage:message imageString:@"icon_fail" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
 }
 
-+ (void)wya_ToastWithMessage:(NSString *)message
-                 ImageString:(NSString *)imageString
++ (void)wya_warningToastWithMessage:(NSString *)message{
+    [UIView wya_toastWithMessage:message imageString:@"icon_waring" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
+}
+
++ (void)wya_toastWithMessage:(NSString *)message
+                 imageString:(NSString *)imageString
+                autoRotation:(BOOL)autoRotation
                    imageType:(WYAToastImageType)imageType
-        SourceInWYAKitBundle:(BOOL)isSource
-                 AutoDismiss:(BOOL)autoDismiss
+        sourceInWYAKitBundle:(BOOL)isSource
+                 autoDismiss:(BOOL)autoDismiss
 {
     UIButton * button;
     if (autoDismiss) {
@@ -145,7 +154,9 @@
                 image = [UIImage imageNamed:imageString];
             }
             iview = [[UIImageView alloc]initWithImage:image];
-            
+            if (autoRotation) {
+                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
+            }
         }
             break;
         case WYAToastImageTypeJPEG:
@@ -222,7 +233,12 @@
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
         make.width.mas_equalTo(90*SizeAdapter);
-        CGFloat hei = 60*SizeAdapter+height;
+        CGFloat hei = 0.f;
+        if (label.text.length>0) {
+            hei = 60*SizeAdapter + height;
+        }else{
+            hei = 50*SizeAdapter + height;
+        }
         make.height.mas_equalTo(hei);
     }];
     
@@ -238,7 +254,7 @@
     
 }
 
-+(void)wya_DismissToast{
++(void)wya_dismissToast{
     UIView * view = (UIView *)[Window viewWithTag:1080];
     [view removeFromSuperview];
     Window.userInteractionEnabled = YES;
