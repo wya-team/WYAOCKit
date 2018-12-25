@@ -344,6 +344,6 @@
     return _shareView;
 }
 - (void)wya_shareView:(WYAShareView *)shareView didSelectItemAtIndexPath:(NSIndexPath *)indexPath itemTitle:(NSString *)title{
-    [UIView wya_ShowCenterToastWithMessage:title];
+    [UIView wya_showCenterToastWithMessage:title];
 }
 @end

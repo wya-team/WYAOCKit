@@ -30,7 +30,7 @@
     
     WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(10, 100, self.view.frame.size.width-20, 100)];
     [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
-    textView.textViewWordsCount = 1000;
+    textView.textViewWordsCount = 50;
     textView.showTitle = NO;
     textView.layer.cornerRadius = 4.f;
     textView.layer.masksToBounds = YES;

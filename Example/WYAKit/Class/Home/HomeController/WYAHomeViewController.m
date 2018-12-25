@@ -118,7 +118,7 @@
     WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
     if (itemModel.className) {
         if ([itemModel.className isEqualToString:@"WYADrawerViewController"]) {
-            [UIView wya_ShowCenterToastWithMessage:@"抽屉视图不能作为二级控制器使用"];
+            [UIView wya_showCenterToastWithMessage:@"抽屉视图不能作为二级控制器使用"];
             return;
         }
         WYABaseViewController * vc = [[NSClassFromString(itemModel.className) alloc]init];
@@ -145,7 +145,7 @@
         [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
             NSLog(@"清理成功");
             [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
-                [UIView wya_ShowBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%.2fMB",folderSize]];
+                [UIView wya_showBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%.2fMB",folderSize]];
             } UnitType:WYAFileSizeUnitMB];
         }];
     }];

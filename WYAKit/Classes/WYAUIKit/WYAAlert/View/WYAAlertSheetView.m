@@ -86,7 +86,7 @@
     
     [self.buttonView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.containerView);
-        make.bottom.mas_equalTo(self.cancelButton.mas_top).with.offset(-5);
+        make.bottom.mas_equalTo(self.cancelButton.mas_top).with.offset(self.buttons.count>0 ? -5 : 0);
         make.height.mas_equalTo(self.buttons.count*50*SizeAdapter).priorityHigh();
     }];
     

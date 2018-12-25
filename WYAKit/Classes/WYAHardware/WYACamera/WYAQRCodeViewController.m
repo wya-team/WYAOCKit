@@ -66,7 +66,7 @@ static CGFloat QRCodeWidth = 220;
         [self setupCamera];
        
     }else if (AVstatus == AVAuthorizationStatusDenied) {
-        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
+        [UIView wya_showCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         });
@@ -312,7 +312,7 @@ static CGFloat QRCodeWidth = 220;
     }else if (status == PHAuthorizationStatusAuthorized) {
         [self goPhotoLibrary];
     }else if (status == PHAuthorizationStatusDenied){
-        [UIView wya_ShowCenterToastWithMessage:@"检测到您没有开启相册权限，请前往设置开启"];
+        [UIView wya_showCenterToastWithMessage:@"检测到您没有开启相册权限，请前往设置开启"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         });

@@ -171,15 +171,30 @@
     if (model.asset.mediaType == PHAssetMediaTypeVideo) {
         WYAVideoPreviewCell * videoCell = (WYAVideoPreviewCell *)cell;
         videoCell.model = model;
+        self.controlView.videoHidden = YES;
+        
     }else if (model.asset.mediaType == PHAssetMediaTypeImage) {
         WYAPhotoPreviewCell * imageCell = (WYAPhotoPreviewCell *)cell;
         imageCell.model = model;
         [imageCell setScrollZoom];
+        self.controlView.videoHidden = NO;
+    }else {
+        self.controlView.videoHidden = NO;
+    }
+    
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYAPhotoBrowserModel * model = self.models[indexPath.item];
+    if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+       
+        
+    }else if (model.asset.mediaType == PHAssetMediaTypeImage) {
+        
         
     }else {
         
     }
-    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
