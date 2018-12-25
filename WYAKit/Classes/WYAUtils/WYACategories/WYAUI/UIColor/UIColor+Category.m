@@ -74,6 +74,21 @@
 
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
 }
+
+
+
++(NSString*)wya_toStrByUIColor:(UIColor*)color{
+    
+        CGFloat r, g, b, a;
+    
+        [color getRed:&r green:&g blue:&b alpha:&a];
+    
+        int rgb = (int) (r * 255.0f)<<16 | (int) (g * 255.0f)<<8 | (int) (b * 255.0f)<<0;
+    
+        return [NSString stringWithFormat:@"#%06x", rgb];
+    
+}
+
 @end
 UIColor * wya_rgb (CGFloat red, CGFloat green, CGFloat blue)
 {

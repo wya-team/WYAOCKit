@@ -16,11 +16,15 @@
 @end
 
 @implementation WYADemoCameraViewController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/WYACamera/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.navTitle = @"WYACamera";
-    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
     [self configUI];
 }
 
