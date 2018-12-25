@@ -9,10 +9,6 @@
 #import "WYAIMGCodeViewController.h"
 
 @interface WYAIMGCodeViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewOne;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewTwo;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewThree;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewFour;
 
 @end
 
@@ -31,56 +27,65 @@
 
     self.navTitle = NSStringFromClass([self class]);
     
-    self.imageViewOne.image = [WYAIMGCode wya_GenerateWithDefaultQRCodeData:@"二维码扫描结果" imageViewWidth:self.imageViewOne.frame.size.width];
+    UITextField * textField = [[UITextField alloc]init];
+    textField.placeholder = @"请输入要生成二维码的字符串";
+    textField.backgroundColor = WHITECOLOR;
+    [self.view addSubview:textField];
+    CGFloat textField_X = 10;
+    CGFloat textField_Y = WYATopHeight + 20*SizeAdapter;
+    CGFloat textField_Width = ScreenWidth-20;
+    CGFloat textField_Height = 40*SizeAdapter;
+    textField.frame = CGRectMake(textField_X, textField_Y, textField_Width, textField_Height);
     
-    self.imageViewTwo.image = [WYAIMGCode wya_GenerateWithColorQRCodeData:@"二维码扫描结果" backgroundColor:[CIColor colorWithRed:155.0/255.0 green:133.0/255.0 blue:100.0/255.0] mainColor:[CIColor colorWithRed:200.0/255.0 green:210.0/255.0 blue:220.0/255.0]];
+    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:@"生成二维码" forState:UIControlStateNormal];
+    [button setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    button.titleLabel.font = FONT(15);
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    button.bounds = CGRectMake(0, 0, 100*SizeAdapter, 40*SizeAdapter);
+    [textField wya_setRightButtonWithView:button];
     
-    self.imageViewThree.image = [WYAIMGCode wya_GenerateWithLogoQRCodeData:@"二维码扫描结果" logoImageName:@"icon_block" logoScaleToSuperView:0.3];
+    UITextField * barTextField = [[UITextField alloc]init];
+    barTextField.placeholder = @"请输入要生成条形码的字符串";
+    barTextField.backgroundColor = WHITECOLOR;
+    [self.view addSubview:barTextField];
+    CGFloat barTextField_X = 10;
+    CGFloat barTextField_Y = CGRectGetMaxY(textField.frame) + 10*SizeAdapter;
+    CGFloat barTextField_Width = ScreenWidth-20;
+    CGFloat barTextField_Height = 40*SizeAdapter;
+    barTextField.frame = CGRectMake(barTextField_X, barTextField_Y, barTextField_Width, barTextField_Height);
     
-    self.imageViewFour.image = [WYAIMGCode wya_BarcodeImageWithContent:@"ssdsdsd" codeImageSize:CGSizeMake(self.imageViewFour.cmam_width, self.imageViewFour.cmam_height) red:100.0 green:150.0 blue:200.0];
+    UIButton * barButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [barButton setTitle:@"生成条形码" forState:UIControlStateNormal];
+    [barButton setTitleColor:WHITECOLOR forState:UIControlStateNormal];
+    barButton.titleLabel.font = FONT(15);
+    [barButton setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    barButton.bounds = CGRectMake(0, 0, 100*SizeAdapter, 40*SizeAdapter);
+    [barTextField wya_setRightButtonWithView:barButton];
     
-    [self.imageViewOne wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
-        NSLog(@"单击");
+    UIImageView * imageV = [[UIImageView alloc]init];
+    [self.view addSubview:imageV];
+    CGFloat imageV_X = (ScreenWidth-100*SizeAdapter)/2;
+    CGFloat imageV_Y = CGRectGetMaxY(barTextField.frame)+20*SizeAdapter;
+    CGFloat imageV_Width = 100*SizeAdapter;
+    CGFloat imageV_Height = 100*SizeAdapter;
+    imageV.frame = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
+    
+    
+    [button addCallBackAction:^(UIButton *button) {
+        [textField resignFirstResponder];
+        imageV.image = [WYAIMGCode wya_GenerateWithDefaultQRCodeData:textField.text imageViewWidth:imageV.cmam_width];
     }];
-
-    [self.imageViewOne wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleDouble TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
-        NSLog(@"双击");
-    }];
     
-    [self.imageViewOne wya_AddLongPressGestureWithDuration:2 Handle:^(UILongPressGestureRecognizer * _Nonnull gesture) {
-        NSLog(@"长按");
-    }];
-    CGRect rect = self.imageViewTwo.frame;
-    [self.imageViewTwo wya_AddPanGestureWithHandle:^(UIPanGestureRecognizer * _Nonnull gesture) {
-        NSLog(@"平移");
-        CGPoint point = [gesture locationInView:gesture.view];
-
-        if (gesture.state == UIGestureRecognizerStateChanged) {
-            gesture.view.frame = CGRectMake(point.x, rect.origin.y, rect.size.width, rect.size.height);
-        }else if (gesture.state == UIGestureRecognizerStateEnded) {
-            gesture.view.frame = rect;
+    [barButton addCallBackAction:^(UIButton *button) {
+        [barTextField resignFirstResponder];
+        if (barTextField.text.length>0 && [barTextField.text wya_isOnlyChinese]) {
+            [UIView wya_showBottomToastWithMessage:@"条形码不能有汉字"];
+            return;
         }
+        imageV.image = [WYAIMGCode wya_BarcodeImageWithContent:barTextField.text codeImageSize:barTextField.cmam_size red:100.0 green:150.0 blue:200.0];
     }];
     
-    [self.imageViewThree wya_AddSwipeGestureWithSwipeDirection:UISwipeGestureRecognizerDirectionRight SwipeHandle:^(UISwipeGestureRecognizer * _Nonnull gesture) {
-        NSLog(@"轻扫");
-    }];
-    
-    [self.imageViewOne wya_AddRotationGestureWithHandle:^(UIRotationGestureRecognizer * _Nonnull gesture) {
-        if (gesture.state == UIGestureRecognizerStateChanged) {
-            gesture.view.transform = CGAffineTransformMakeRotation(gesture.rotation);
-        }else if (gesture.state == UIGestureRecognizerStateEnded) {
-            gesture.view.transform = CGAffineTransformIdentity;
-        }
-    }];
-    
-    [self.imageViewThree wya_AddPinchGestureWithHandle:^(UIPinchGestureRecognizer * _Nonnull gesture) {
-        if (gesture.state == UIGestureRecognizerStateChanged) {
-            gesture.view.transform = CGAffineTransformMakeScale(gesture.scale, gesture.scale);
-        }else if (gesture.state == UIGestureRecognizerStateEnded) {
-            gesture.view.transform = CGAffineTransformIdentity;
-        }
-    }];
 }
 
 /*

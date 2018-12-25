@@ -43,7 +43,7 @@
     label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
     
     
-    self.bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(label.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter) barStyle:WYANoticeBarStyleLeft];
+    self.bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(label.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar.showNoticeButton = YES;
     self.bar.noticeButtonImage = [UIImage imageNamed:@"icon_voiceorange"];
     self.bar.showRightButton = YES;
@@ -53,7 +53,7 @@
     self.bar.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar];
 
-    self.bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter) barStyle:WYANoticeBarStyleRight];
+    self.bar1 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar1.showNoticeButton = YES;
     self.bar1.noticeButtonImage = [UIImage imageNamed:@"icon_voiceorange"];
     self.bar1.showText = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
@@ -61,7 +61,7 @@
     self.bar1.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar1];
 
-    self.bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar1.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter) barStyle:WYANoticeBarStyleTop];
+    self.bar2 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar1.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar2.showRightButton = YES;
     self.bar2.rightButtonImage = [UIImage imageNamed:@"icon_cancel_notice"];
     self.bar2.showText = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
@@ -73,7 +73,7 @@
     };
     [self.view addSubview:self.bar2];
     
-    self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter) barStyle:WYANoticeBarStyleBottom];
+    self.bar3 = [[WYANoticeBar alloc]initWithFrame:CGRectMake(10*SizeAdapter, CGRectGetMaxY(self.bar2.frame)+20*SizeAdapter, self.view.frame.size.width-20*SizeAdapter, 44*SizeAdapter)];
     self.bar3.showText = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar3.showTextColor = REDCOLOR;
     self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
