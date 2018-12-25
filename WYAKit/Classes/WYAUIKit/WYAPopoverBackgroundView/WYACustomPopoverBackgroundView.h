@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACustomPopoverBackgroundView : UIPopoverBackgroundView
-//用于绘制箭头，如果不绘制，将没有箭头
-@property (nonatomic, strong) UIImageView *arrowImageView;
+
+
 @end
 
 @interface WYAArrowBackgroundColorConfig : NSObject

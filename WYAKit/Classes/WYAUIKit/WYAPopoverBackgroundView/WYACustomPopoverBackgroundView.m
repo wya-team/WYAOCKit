@@ -12,7 +12,10 @@
 #define HArrowInsets 0
 
 #define WYAARROWBACKGROUNDCOLOR @"arrowbackgroundcolor"
-
+@interface WYACustomPopoverBackgroundView()
+//用于绘制箭头，如果不绘制，将没有箭头
+@property (nonatomic, strong) UIImageView *arrowImageView;
+@end
 @implementation WYACustomPopoverBackgroundView
 //以下两个属性需要被覆盖
 @synthesize arrowDirection = _arrowDirection;//箭头位置
