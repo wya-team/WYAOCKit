@@ -1,8 +1,8 @@
 //
-//  WYASearchBarViewController.h
+//  WYACustomSearchController.h
 //  WYAKit_Example
 //
-//  Created by 李世航 on 2018/12/19.
+//  Created by 李俊恒 on 2018/12/26.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYASearchBarViewController : WYABaseViewController
+@interface WYACustomSearchController : WYABaseViewController
 
 @end
 

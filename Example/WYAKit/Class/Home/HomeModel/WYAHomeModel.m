@@ -43,12 +43,13 @@
     item7.className = @"WYAPageViewController";
     
     WYAHomeItemModel * item8 = [[WYAHomeItemModel alloc]init];
-    item8.rowName = @"WYASearchBar 搜索栏";
-    item8.className = @"WYASearchBarViewController";
+    item8.rowName = @"WYACustomSearchController 搜索栏";
+    item8.className = @"WYACustomSearchController";
     
     WYAHomeItemModel * item9 = [[WYAHomeItemModel alloc]init];
     item9.rowName = @"UIPopoverPresentationController 气泡";
     item9.className = @"WYAPopViewController";
+    
     
     WYAHomeModel * model1 = [[WYAHomeModel alloc]init];
     model1.sectionName = @"导航 Navigation";

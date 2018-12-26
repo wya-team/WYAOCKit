@@ -126,6 +126,14 @@
 }
 
 #pragma mark ======= setter
+- (void)setHiddenNavBar:(BOOL)hiddenNavBar{
+    _hiddenNavBar = hiddenNavBar;
+    if (hiddenNavBar) {
+        self.navBar.hidden = YES;
+    }else{
+        self.navBar.hidden = NO;
+    }
+}
 - (void)setNavTitle:(NSString *)navTitle{
     _navTitle = navTitle;
     self.navBar.navTitle = _navTitle;

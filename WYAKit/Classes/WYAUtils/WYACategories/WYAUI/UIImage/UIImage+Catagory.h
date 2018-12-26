@@ -89,4 +89,19 @@
  @return image
  */
 + (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size;
+
+
+/// 返回一张可拉伸的图片
++ (instancetype)wya_resizeImageNamed:(NSString *)name;
+
+
+/**
+ 颜色生成图片是否需要切圆角
+
+ @param color 颜色
+ @param size 图片尺寸
+ @param rate 圆角系数为0不切圆角
+ @return 图片
+ */
++ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate;
 @end
