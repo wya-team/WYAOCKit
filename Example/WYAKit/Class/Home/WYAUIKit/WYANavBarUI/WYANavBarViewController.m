@@ -53,7 +53,9 @@
         _tempNavBar2 = ({
             WYANavBar * object = [[WYANavBar alloc]init];
             object.navTitle = @"WYANavBar";
-            [object wya_addLeftNavBarButtonWithNormalTitle:@[@"返回"] normalColor:@[BLUECOLOR] highlightedColor:@[WHITECOLOR]];
+            [object wya_goBackButtonWithTitle:@"返回" normalColor:BLUECOLOR highlightedColor:GRAYTITLECOLOR];
+
+//            [object wya_addLeftNavBarButtonWithNormalTitle:@[@"返回"] normalColor:@[BLUECOLOR] highlightedColor:@[WHITECOLOR]];
             [object wya_addRightNavBarButtonWithNormalTitle:@[@"搜索",@"更多"] normalColor:@[BLUECOLOR,BLUECOLOR] highlightedColor:@[WHITECOLOR,WHITECOLOR]];
             object;
        });
