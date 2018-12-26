@@ -34,7 +34,7 @@
     self.searchBarStyle = UISearchBarStyleMinimal;
     self.searchTextPositionAdjustment = UIOffsetMake(3, 0);
     _customBgColor = [UIColor whiteColor];
-    _roundRate = 8;
+    _roundRate = 5;
     
     self.searchIconHeight = self.bounds.size.height-8;
     self.selfWidth = self.bounds.size.width;
