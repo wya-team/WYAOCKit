@@ -2,7 +2,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, WYAAlertActionStyle) {
-    WYAAlertActionStyleDefault, //蓝色 (16, 142, 233)
+    WYAAlertActionStyleDefault, //蓝色 (0, 122, 1)
     WYAAlertActionStyleCancel, //黑色 （0，0，0）
     WYAAlertActionStyleDestructive //红色 (244, 51, 60)
 };

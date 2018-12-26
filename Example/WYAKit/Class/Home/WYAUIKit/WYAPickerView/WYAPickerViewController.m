@@ -153,8 +153,8 @@
         self.pickerView.delegate = self;
         self.pickerView.titleKeyWords = @"title";
         self.pickerView.arrayKeyWords = @"array";
-        self.pickerView.pickerHeight = 260;
-        self.pickerView.pickerItemHeight = 60;
+        self.pickerView.pickerHeight = 220;
+        self.pickerView.pickerItemHeight = 44;
 //        pickerView.pickerViewStyle = WYAPickerViewStyleSystem;
         if (indexPath.row == 0) {
             self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;

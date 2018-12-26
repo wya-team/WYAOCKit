@@ -39,7 +39,7 @@
     CGFloat button_Height = 44*SizeAdapter;
     button.frame = CGRectMake(button_X, button_Y, button_Width, button_Height);
     
-    UIImage * animation = [UIImage wya_svgImageName:@"Cycling_Lambie" size:CGSizeMake(15, 15)];
+    UIImage * animation = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(15, 15)];
     UIButton * animationButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [animationButton setTitle:@"主按钮 Loading" forState:UIControlStateNormal];
     [animationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -108,7 +108,7 @@
     CGFloat button3_Height = 44*SizeAdapter;
     button3.frame = CGRectMake(button3_X, button3_Y, button3_Width, button3_Height);
     
-    UIImage * loading = [UIImage imageNamed:@"icon_loading"];
+    UIImage * loading = [UIImage wya_svgImageName:@"spin" size:CGSizeMake(15, 15)];
     UIButton * loadingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [loadingButton setTitle:@"次按钮 Loading" forState:UIControlStateNormal];
     [loadingButton setTitleColor:random(196, 196, 196, 1) forState:UIControlStateNormal];
@@ -148,17 +148,18 @@
     CGFloat button4_Height = 44*SizeAdapter;
     button4.frame = CGRectMake(button4_X, button4_Y, button4_Width, button4_Height);
     
-    NSString *svgName = @"Cycling_Lambie";
+    NSString *svgName = @"spin";
     SVGKImage *svgImage = [SVGKImage imageNamed:svgName];
+//    svgImage.size = CGSizeMake(44*SizeAdapter, 44*SizeAdapter);
     SVGKFastImageView *svgView = [[SVGKFastImageView alloc] initWithSVGKImage:svgImage];
-    
-    [self.view addSubview:svgView];
-    [svgView wya_setRotationAnimation:360 time:1 repeatCount:0];
-    CGFloat svgView_X = CGRectGetMaxX(button4.frame)+10*SizeAdapter;
-    CGFloat svgView_Y = CGRectGetMaxY(loadingButton.frame)+5*SizeAdapter;
-    CGFloat svgView_Width = 44*SizeAdapter;
-    CGFloat svgView_Height = 44*SizeAdapter;
-    svgView.frame = CGRectMake(svgView_X, svgView_Y, svgView_Width, svgView_Height);
+    svgView.frame = CGRectMake(0, (ScreenHeight-ScreenWidth)/2, ScreenWidth, ScreenWidth);
+    [Window addSubview:svgView];
+//    [svgView wya_setRotationAnimation:360 time:1 repeatCount:0];
+//    CGFloat svgView_X = CGRectGetMaxX(button4.frame)+10*SizeAdapter;
+//    CGFloat svgView_Y = CGRectGetMaxY(loadingButton.frame)+12*SizeAdapter;
+//    CGFloat svgView_Width = 30*SizeAdapter;
+//    CGFloat svgView_Height = 30*SizeAdapter;
+//    svgView.frame = CGRectMake(svgView_X, svgView_Y, svgView_Width, svgView_Height);
 }
 
 

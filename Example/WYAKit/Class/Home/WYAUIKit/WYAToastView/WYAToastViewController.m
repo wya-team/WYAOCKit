@@ -138,7 +138,7 @@
     loadingButton.titleLabel.font = FONT(15);
     [loadingButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     [loadingButton addCallBackAction:^(UIButton *button) {
-        [UIView wya_toastWithMessage:@"正在加载" imageString:@"icon_loading" autoRotation:YES imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:NO];
+        [UIView wya_toastWithMessage:@"正在加载" imageString:@"spin_white" autoRotation:YES imageType:WYAToastImageTypeSVG sourceInWYAKitBundle:NO autoDismiss:NO];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView wya_dismissToast];
         });

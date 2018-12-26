@@ -39,8 +39,8 @@
     label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
     
     UIProgressView * progressView = [[UIProgressView alloc]init];
-    progressView.progressTintColor = [UIColor redColor];
-    progressView.trackTintColor = [UIColor grayColor];
+    progressView.progressTintColor = BLUECOLOR;
+    progressView.trackTintColor = GRAYBGCOLOR;
     [self.view addSubview:progressView];
     [progressView setProgress:0.5 animated:YES];
     CGFloat progressView_X = 10;
