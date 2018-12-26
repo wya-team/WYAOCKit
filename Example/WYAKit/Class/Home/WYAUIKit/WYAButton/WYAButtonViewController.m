@@ -26,7 +26,7 @@
     [button setTitle:@"主按钮 Select" forState:UIControlStateSelected];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = FONT(15);
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:random(67, 152, 229, 1)] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage wya_createImageWithColor:random(60, 141, 212, 1)] forState:UIControlStateHighlighted];
     [button setBackgroundImage:[UIImage wya_createImageWithColor:random(195, 240, 255, 1)] forState:UIControlStateSelected];
     [self.view addSubview:button];
@@ -45,7 +45,7 @@
     [animationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     animationButton.titleLabel.font = FONT(15);
     [animationButton setImage:animation forState:UIControlStateNormal];
-    [animationButton setBackgroundImage:[UIImage wya_createImageWithColor:random(67, 152, 229, 1)] forState:UIControlStateNormal];
+    [animationButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]] forState:UIControlStateNormal];
     [animationButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [animationButton setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width+5*SizeAdapter, 0, 0)];
     [animationButton addCallBackAction:^(UIButton *button) {
@@ -148,18 +148,19 @@
     CGFloat button4_Height = 44*SizeAdapter;
     button4.frame = CGRectMake(button4_X, button4_Y, button4_Width, button4_Height);
     
-    NSString *svgName = @"spin";
-    SVGKImage *svgImage = [SVGKImage imageNamed:svgName];
-//    svgImage.size = CGSizeMake(44*SizeAdapter, 44*SizeAdapter);
-    SVGKFastImageView *svgView = [[SVGKFastImageView alloc] initWithSVGKImage:svgImage];
-    svgView.frame = CGRectMake(0, (ScreenHeight-ScreenWidth)/2, ScreenWidth, ScreenWidth);
-    [Window addSubview:svgView];
-//    [svgView wya_setRotationAnimation:360 time:1 repeatCount:0];
-//    CGFloat svgView_X = CGRectGetMaxX(button4.frame)+10*SizeAdapter;
-//    CGFloat svgView_Y = CGRectGetMaxY(loadingButton.frame)+12*SizeAdapter;
-//    CGFloat svgView_Width = 30*SizeAdapter;
-//    CGFloat svgView_Height = 30*SizeAdapter;
-//    svgView.frame = CGRectMake(svgView_X, svgView_Y, svgView_Width, svgView_Height);
+    UIButton * imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [imageButton setImage:[UIImage wya_svgImageName:@"spin" size:CGSizeMake(44*SizeAdapter, 44*SizeAdapter)] forState:UIControlStateNormal];
+    [self.view addSubview:imageButton];
+    imageButton.layer.cornerRadius = 2.f;
+    imageButton.layer.masksToBounds = YES;
+    imageButton.layer.borderColor = random(132, 185, 228, 1).CGColor;
+    imageButton.layer.borderWidth = 0.5;
+    [imageButton.imageView wya_setRotationAnimation:360 time:1 repeatCount:0];
+    CGFloat svgView_X = CGRectGetMaxX(button4.frame)+10*SizeAdapter;
+    CGFloat svgView_Y = CGRectGetMaxY(loadingButton.frame)+5*SizeAdapter;
+    CGFloat svgView_Width = 44*SizeAdapter;
+    CGFloat svgView_Height = 44*SizeAdapter;
+    imageButton.frame = CGRectMake(svgView_X, svgView_Y, svgView_Width, svgView_Height);
 }
 
 

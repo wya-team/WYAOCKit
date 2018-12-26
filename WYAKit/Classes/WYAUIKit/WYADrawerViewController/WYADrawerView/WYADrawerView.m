@@ -13,6 +13,12 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
     WYADrawerViewStyleRight,
 };
 
+typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
+    WYADrawerViewMoveStyleNone,
+    WYADrawerViewMoveStyleLeft,
+    WYADrawerViewMoveStyleRight,
+};
+
 @interface WYADrawerView ()<UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIButton * leftSuperView;
 @property (nonatomic, strong) UIButton * rightSuperView;
@@ -21,6 +27,7 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
 @property (nonatomic, strong) UIView * leftView;
 @property (nonatomic, strong) UIView * rightView;
 @property (nonatomic, assign) WYADrawerViewStyle  drawerStyle;
+@property (nonatomic, assign) WYADrawerViewMoveStyle  moveStyle;
 @end
 
 @implementation WYADrawerView
@@ -117,10 +124,21 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
 #pragma mark - Private Method -
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
     CGPoint point = [gestureRecognizer locationInView:gestureRecognizer.view];
-//    NSLog(@"point.x==%f",point.x);
-    if (20.f<point.x && point.x<ScreenWidth-20.f) {
-        return NO;
+    NSLog(@"point.x==%f",point.x);
+    if (self.drawerStyle == WYADrawerViewStyleCenter) {
+        if (30.f<point.x && point.x<ScreenWidth-30.f) {
+            return NO;
+        }
+    } else if (self.drawerStyle == WYADrawerViewStyleLeft) {
+        if (point.x>ScreenWidth-30.f) {
+            return NO;
+        }
+    } else if (self.drawerStyle == WYADrawerViewStyleRight) {
+        if (point.x<30.f) {
+            return NO;
+        }
     }
+    
     return YES;
 }
 
@@ -154,61 +172,115 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
 - (void)viewBeginMove:(CGPoint)point{}
 
 - (void)viewChangeMove:(CGPoint)point{
-    
-    if (point.x>0 && point.x<self.cmam_width*self.leftRatio && self.drawerStyle == WYADrawerViewStyleCenter) {
-        //左滑
-        self.leftSuperView.hidden = NO;
-        self.rightSuperView.hidden = YES;
-        self.leftView.frame = CGRectMake(point.x+self.leftRect.origin.x, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
-        NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
-        
-        
-    }else if (point.x < 0 && point.x>-self.cmam_width*self.rightRatio && self.drawerStyle == WYADrawerViewStyleCenter){
-        //右滑
-        self.rightSuperView.hidden = NO;
-        self.leftSuperView.hidden = YES;
-        self.rightView.frame = CGRectMake(point.x+self.rightRect.origin.x, self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
-//        NSLog(@"rightframe == %@",NSStringFromCGRect(self.leftView.frame));
+    if (self.drawerStyle == WYADrawerViewStyleCenter) {
+        if (point.x>0 && point.x<self.cmam_width*self.leftRatio) {
+            if (self.moveStyle == WYADrawerViewMoveStyleRight) {
+                return;
+            }
+            //左滑
+            self.leftSuperView.hidden = NO;
+            self.rightSuperView.hidden = YES;
+            self.leftView.frame = CGRectMake(point.x+self.leftRect.origin.x, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
+            
+            self.moveStyle = WYADrawerViewMoveStyleLeft;
+            
+        }else if (point.x < 0 && point.x>-self.cmam_width*self.rightRatio){
+            if (self.moveStyle == WYADrawerViewMoveStyleLeft) {
+                return;
+            }
+            //右滑
+            self.rightSuperView.hidden = NO;
+            self.leftSuperView.hidden = YES;
+            self.rightView.frame = CGRectMake(point.x+self.rightRect.origin.x, self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
+            //        NSLog(@"rightframe == %@",NSStringFromCGRect(self.leftView.frame));
+            self.moveStyle = WYADrawerViewMoveStyleRight;
+        }
+    }else if (self.drawerStyle == WYADrawerViewStyleLeft) {
+        if (point.x<0) {
+            NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
+            self.leftView.frame = CGRectMake(point.x, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
+            NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
+        }
+    }else if (self.drawerStyle == WYADrawerViewStyleRight) {
+        if (point.x>0) {
+            self.rightView.frame = CGRectMake(point.x+self.rightSuperView.cmam_width*(1-self.rightRatio), self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
+        }
     }
+    
 }
 
 - (void)viewEndMove:(CGPoint)point{
-    
-    if (point.x>0 && self.drawerStyle == WYADrawerViewStyleCenter) {
-        if (self.leftView.cmam_left>self.leftRect.origin.x/2) {
-            [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                self.leftView.frame = CGRectMake(0, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
-            } completion:^(BOOL finished) {
-                self.leftSuperView.hidden = NO;
-                self.drawerStyle = WYADrawerViewStyleLeft;
-            }];
-
-        }else{
-            [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                self.leftView.frame = self.leftRect;
-            } completion:^(BOOL finished) {
-                self.drawerStyle = WYADrawerViewStyleCenter;
-            }];
+    if (self.drawerStyle == WYADrawerViewStyleCenter) {
+        if (point.x>0) {
+            if (self.leftView.cmam_left>self.leftRect.origin.x/2) {
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    self.leftView.frame = CGRectMake(0, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
+                } completion:^(BOOL finished) {
+                    self.leftSuperView.hidden = NO;
+                    self.drawerStyle = WYADrawerViewStyleLeft;
+                }];
+                
+            }else{
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    self.leftView.frame = self.leftRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
+            }
+            
+        }else if (point.x<0){
+            if (self.rightRect.origin.x-self.rightView.cmam_left>self.rightView.cmam_width/2) {
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    self.rightView.frame = CGRectMake(self.rightSuperView.cmam_width*(1-self.rightRatio), self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
+                } completion:^(BOOL finished) {
+                    self.rightSuperView.hidden = NO;
+                    self.drawerStyle = WYADrawerViewStyleRight;
+                }];
+            }else{
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    self.rightView.frame = self.rightRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
+            }
         }
-
-    }else if (point.x<0 && self.drawerStyle == WYADrawerViewStyleCenter){
-        if (self.rightRect.origin.x-self.rightView.cmam_left>self.rightView.cmam_width/2) {
-            [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                self.rightView.frame = CGRectMake(self.rightSuperView.cmam_width*(1-self.rightRatio), self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
-            } completion:^(BOOL finished) {
-                self.rightSuperView.hidden = NO;
-                self.drawerStyle = WYADrawerViewStyleRight;
-            }];
-        }else{
-            [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                self.rightView.frame = self.rightRect;
-            } completion:^(BOOL finished) {
-                self.drawerStyle = WYADrawerViewStyleCenter;
-            }];
+    }else if (self.drawerStyle == WYADrawerViewStyleLeft) {
+        if (point.x<0) {
+            if (self.leftView.cmam_left>self.leftRect.origin.x/2) {
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    self.leftView.frame = CGRectMake(0, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
+                } completion:^(BOOL finished) {
+                    self.leftSuperView.hidden = NO;
+                    self.drawerStyle = WYADrawerViewStyleLeft;
+                }];
+                
+            }else{
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    self.leftView.frame = self.leftRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
+            }
         }
-    }else{
-        NSLog(@"特殊情况");
+    }else if (self.drawerStyle == WYADrawerViewStyleRight) {
+        if (point.x>0) {
+            if (self.rightRect.origin.x-self.rightView.cmam_left>self.rightView.cmam_width/2) {
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    self.rightView.frame = CGRectMake(self.rightSuperView.cmam_width*(1-self.rightRatio), self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
+                } completion:^(BOOL finished) {
+                    self.rightSuperView.hidden = NO;
+                    self.drawerStyle = WYADrawerViewStyleRight;
+                }];
+            }else{
+                [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveEaseOut animations:^{
+                    self.rightView.frame = self.rightRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
+            }
+        }
     }
+    
 }
 
 #pragma mark - Setter -
@@ -227,6 +299,7 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
     if (drawerStyle == WYADrawerViewStyleCenter) {
         self.leftSuperView.hidden = YES;
         self.rightSuperView.hidden = YES;
+        self.moveStyle = WYADrawerViewMoveStyleNone;
     } else if (drawerStyle == WYADrawerViewStyleLeft) {
         self.rightSuperView.hidden = YES;
     } else if (drawerStyle == WYADrawerViewStyleRight) {
@@ -243,8 +316,11 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
             object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
             object.hidden = YES;
             [object addCallBackAction:^(UIButton *button) {
-                self.leftView.frame = self.leftRect;
-                self.drawerStyle = WYADrawerViewStyleCenter;
+                [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
+                    self.leftView.frame = self.leftRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
             }];
             object;
        });
@@ -259,8 +335,11 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewStyle) {
             object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
             object.hidden = YES;
             [object addCallBackAction:^(UIButton *button) {
-                self.rightView.frame = self.rightRect;
-                self.drawerStyle = WYADrawerViewStyleCenter;
+                [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
+                    self.rightView.frame = self.rightRect;
+                } completion:^(BOOL finished) {
+                    self.drawerStyle = WYADrawerViewStyleCenter;
+                }];
             }];
             object;
        });

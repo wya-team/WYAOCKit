@@ -8,18 +8,9 @@
 
 #import "UIImage+Catagory.h"
 #import <ImageIO/ImageIO.h>
+#import <AVFoundation/AVFoundation.h>
 
-@implementation UIImage (WYAImage)
-
-+(UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className{
-    NSString *bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)].resourcePath
-                            stringByAppendingPathComponent:@"/WYAKit.bundle"];
-    NSBundle *resource_bundle = [NSBundle bundleWithPath:bundlePath];
-    UIImage *image = [UIImage imageNamed:imageName
-                                inBundle:resource_bundle
-           compatibleWithTraitCollection:nil];
-    return image;
-}
+@implementation UIImage (Catagory)
 
 + (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image {
     
@@ -40,29 +31,6 @@
     UIGraphicsEndImageContext();
     
     return newImage;
-}
-
-+ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color{
-   
-    CGRect rect = CGRectMake(0.0f,0.0f,1.0f,1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    
-    CGContextFillRect(context, rect);
-    
-    UIImage * tempImage=UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return tempImage;
-}
-
-+(NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString{
-    NSURL * url = [NSURL URLWithString:urlString];
-    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
-    NSDictionary* imageHeader = (__bridge NSDictionary*) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
-    NSLog(@"Image header %@",imageHeader);
-    return imageHeader;
 }
 
 - (BOOL)hasAlpha
@@ -165,10 +133,62 @@
     return newImage;
 }
 
+@end
+
+@implementation UIImage (Source)
+
++(UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className{
+    NSString *bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)].resourcePath
+                            stringByAppendingPathComponent:@"/WYAKit.bundle"];
+    NSBundle *resource_bundle = [NSBundle bundleWithPath:bundlePath];
+    UIImage *image = [UIImage imageNamed:imageName
+                                inBundle:resource_bundle
+           compatibleWithTraitCollection:nil];
+    return image;
+}
+
++ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color{
+    
+    CGRect rect = CGRectMake(0.0f,0.0f,1.0f,1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    
+    CGContextFillRect(context, rect);
+    
+    UIImage * tempImage=UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return tempImage;
+}
+
++ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString{
+    NSURL * url = [NSURL URLWithString:urlString];
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
+    NSDictionary* imageHeader = (__bridge NSDictionary*) CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    NSLog(@"Image header %@",imageHeader);
+    return imageHeader;
+}
+
 + (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size{
     SVGKImage * image = [SVGKImage imageNamed:name];
     image.size = size;
     return image.UIImage;
+}
+
+// 获取视频第一帧
++ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path
+{
+    AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:path options:nil];
+    AVAssetImageGenerator *assetGen = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    assetGen.appliesPreferredTrackTransform = YES;
+    CMTime time = CMTimeMakeWithSeconds(0.0, 600);
+    NSError *error = nil;
+    CMTime actualTime;
+    CGImageRef image = [assetGen copyCGImageAtTime:time actualTime:&actualTime error:&error];
+    UIImage *videoImage = [[UIImage alloc] initWithCGImage:image];
+    CGImageRelease(image);
+    return videoImage;
 }
 
 @end

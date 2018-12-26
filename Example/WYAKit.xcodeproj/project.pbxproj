@@ -43,8 +43,9 @@
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
 		21DAB4F721D0AE2100E43594 /* WYADemoDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */; };
-		21DAB52121D350A100E43594 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB52021D350A100E43594 /* spin.svg */; };
-		21DAB52321D3517000E43594 /* spin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB52221D3517000E43594 /* spin_white.svg */; };
+		21DAB52C21D3609600E43594 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB52A21D3609600E43594 /* spin.svg */; };
+		21DAB52D21D3609600E43594 /* spin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB52B21D3609600E43594 /* spin_white.svg */; };
+		21DAB53021D3637A00E43594 /* WYACameraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB52F21D3637A00E43594 /* WYACameraModel.m */; };
 		21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E5A60A21B1072B007E8C5F /* WYACameraCell.m */; };
 		21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -187,8 +188,10 @@
 		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
 		21DAB4F521D0AE2100E43594 /* WYADemoDrawerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDrawerViewController.h; sourceTree = "<group>"; };
 		21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDrawerViewController.m; sourceTree = "<group>"; };
-		21DAB52021D350A100E43594 /* spin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin.svg; sourceTree = "<group>"; };
-		21DAB52221D3517000E43594 /* spin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin_white.svg; sourceTree = "<group>"; };
+		21DAB52A21D3609600E43594 /* spin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin.svg; sourceTree = "<group>"; };
+		21DAB52B21D3609600E43594 /* spin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin_white.svg; sourceTree = "<group>"; };
+		21DAB52E21D3637A00E43594 /* WYACameraModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraModel.h; sourceTree = "<group>"; };
+		21DAB52F21D3637A00E43594 /* WYACameraModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraModel.m; sourceTree = "<group>"; };
 		21E5A60921B1072B007E8C5F /* WYACameraCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraCell.h; sourceTree = "<group>"; };
 		21E5A60A21B1072B007E8C5F /* WYACameraCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraCell.m; sourceTree = "<group>"; };
 		21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYACameraCell.xib; sourceTree = "<group>"; };
@@ -421,6 +424,8 @@
 				21E5A60921B1072B007E8C5F /* WYACameraCell.h */,
 				21E5A60A21B1072B007E8C5F /* WYACameraCell.m */,
 				21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */,
+				21DAB52E21D3637A00E43594 /* WYACameraModel.h */,
+				21DAB52F21D3637A00E43594 /* WYACameraModel.m */,
 			);
 			path = WYACameraVC;
 			sourceTree = "<group>";
@@ -584,6 +589,7 @@
 			children = (
 				2186911E21CC980500DA6849 /* WYALoadingViewController.h */,
 				2186911F21CC980500DA6849 /* WYALoadingViewController.m */,
+				21DAB52A21D3609600E43594 /* spin.svg */,
 			);
 			path = WYALoading;
 			sourceTree = "<group>";
@@ -854,8 +860,7 @@
 				95F0944621CA7F7E00FFC0CF /* WYAButtonViewController.h */,
 				95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */,
 				2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */,
-				21DAB52021D350A100E43594 /* spin.svg */,
-				21DAB52221D3517000E43594 /* spin_white.svg */,
+				21DAB52B21D3609600E43594 /* spin_white.svg */,
 			);
 			path = WYAButton;
 			sourceTree = "<group>";
@@ -1033,12 +1038,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
-				21DAB52121D350A100E43594 /* spin.svg in Resources */,
+				21DAB52C21D3609600E43594 /* spin.svg in Resources */,
 				95F0946321CBD0CA00FFC0CF /* Images.xcassets in Resources */,
 				21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */,
-				21DAB52321D3517000E43594 /* spin_white.svg in Resources */,
+				21DAB52D21D3609600E43594 /* spin_white.svg in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1207,6 +1212,7 @@
 				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
 				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
+				21DAB53021D3637A00E43594 /* WYACameraModel.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */,
 				954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */,

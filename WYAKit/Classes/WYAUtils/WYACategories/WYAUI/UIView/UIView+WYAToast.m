@@ -47,10 +47,10 @@
         
     }];
     
-    [UIView animateWithDuration:3 animations:^{
+    [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         label.alpha = 0;
     } completion:^(BOOL finished) {
-        [button removeFromSuperview];
+        [label removeFromSuperview];
     }];
 }
 
@@ -89,7 +89,7 @@
         }
     }];
     
-    [UIView animateWithDuration:3 animations:^{
+    [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         label.alpha = 0;
     } completion:^(BOOL finished) {
         [label removeFromSuperview];
@@ -128,6 +128,9 @@
         button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = Window.bounds;
         [Window addSubview:button];
+        [button addCallBackAction:^(UIButton *button) {
+            [button removeFromSuperview];
+        }];
     }
     UIView * view = [[UIView alloc]init];
     view.backgroundColor = random(77, 77, 77, 1);
@@ -206,7 +209,7 @@
     [view addSubview:iview];
     
     UILabel * label = [[UILabel alloc]init];
-    label.font = [UIFont systemFontOfSize:15*SizeAdapter];
+    label.font = FONT(13);
     label.text = message;
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
@@ -214,43 +217,37 @@
     label.layer.masksToBounds = YES;
     
     [view addSubview:label];
-    CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width>80*SizeAdapter) {
+    CGFloat width = [message wya_widthWithFontSize:13 height:20*SizeAdapter];
+    if (width>90*SizeAdapter) {
         label.numberOfLines = 0;
     }else{
         label.numberOfLines = 1;
     }
-    CGFloat height = [UILabel getHeightByWidth:80*SizeAdapter title:message font:label.font];
-    [iview mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(view.mas_centerX);
-        make.top.mas_equalTo(view.mas_top).with.offset(10*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(30*SizeAdapter, 30*SizeAdapter));
-    }];
+    CGFloat height = [message wya_heightWithFontSize:13 width:90*SizeAdapter];
     
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(view.mas_centerX);
-        make.left.mas_equalTo(view.mas_left).with.offset(5*SizeAdapter);
-        make.right.mas_equalTo(view.mas_right).with.offset(-5*SizeAdapter);
-        make.height.mas_equalTo(height);
-        make.top.mas_equalTo(iview.mas_bottom).with.offset(10*SizeAdapter);
-    }];
+    CGFloat hei = 50*SizeAdapter + height;
     
-    [view mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(Window.mas_centerX);
-        make.centerY.mas_equalTo(Window.mas_centerY);
-        make.width.mas_equalTo(90*SizeAdapter);
-        CGFloat hei = 0.f;
-        if (label.text.length>0) {
-            hei = 60*SizeAdapter + height;
-        }else{
-            hei = 50*SizeAdapter + height;
-        }
-        make.height.mas_equalTo(hei);
-    }];
+    CGFloat view_X = (ScreenWidth-100*SizeAdapter)/2;
+    CGFloat view_Y = (ScreenHeight-hei)/2;
+    CGFloat view_Width = 100*SizeAdapter;
+    CGFloat view_Height = hei;
+    view.frame = CGRectMake(view_X, view_Y, view_Width, view_Height);
+    
+    CGFloat iview_X = (view.cmam_width-30*SizeAdapter)/2;
+    CGFloat iview_Y = 10*SizeAdapter;
+    CGFloat iview_Width = 30*SizeAdapter;
+    CGFloat iview_Height = 30*SizeAdapter;
+    iview.frame = CGRectMake(iview_X, iview_Y, iview_Width, iview_Height);
+    
+    CGFloat label_X = 5*SizeAdapter;
+    CGFloat label_Y = CGRectGetMaxY(iview.frame)+5*SizeAdapter;
+    CGFloat label_Width = view.cmam_width-10*SizeAdapter;
+    CGFloat label_Height = height;
+    label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
     
     if (autoDismiss) {
-        [UIView animateWithDuration:3 animations:^{
-            view.alpha = 0;
+        [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
+             view.alpha = 0;
         } completion:^(BOOL finished) {
             [button removeFromSuperview];
         }];

@@ -51,15 +51,15 @@
     CGFloat customLabel_Height = 20;
     customLabel.frame = CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
     
-    UIImageView * imageV = [[UIImageView alloc]init];
-    imageV.image = [UIImage imageNamed:@"icon_loading"];
+    UIImage * image = [UIImage wya_svgImageName:@"spin" size:CGSizeMake(30*SizeAdapter, 30*SizeAdapter)];
+    UIImageView * imageV = [[UIImageView alloc]initWithImage:image];
     [self.view addSubview:imageV];
     [imageV wya_setRotationAnimation:360 time:1 repeatCount:0];
     
     CGFloat imageV_X = (ScreenWidth-30)/2;
     CGFloat imageV_Y = CGRectGetMaxY(customLabel.frame)+20*SizeAdapter;
-    CGFloat imageV_Width = 30;
-    CGFloat imageV_Height = 30;
+    CGFloat imageV_Width = 30*SizeAdapter;
+    CGFloat imageV_Height = 30*SizeAdapter;
     imageV.frame = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
 }
 

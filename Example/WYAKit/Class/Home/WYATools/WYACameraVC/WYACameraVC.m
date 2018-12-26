@@ -8,6 +8,7 @@
 
 #import "WYACameraVC.h"
 #import "WYACameraCell.h"
+#import "WYACameraModel.h"
 #import "WYAPopVerReadMeViewController.h"
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) UIImageView * imageV;
 @end
 
 @implementation WYACameraVC
@@ -85,6 +87,9 @@
     self.textField.frame = CGRectMake(textField_X, textField_Y, textField_Width, textField_Height);
     
     [self.view addSubview:self.collectionView];
+    
+    [self.view addSubview:self.imageV];
+    
 }
 #pragma mark --- Getter
 - (UICollectionView *)collectionView{
@@ -113,6 +118,28 @@
         });
     }
     return _dataSource;
+}
+
+- (UIImageView *)imageV{
+    if(!_imageV){
+        _imageV = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.alpha = 0;
+            object.frame = self.view.frame;
+            object.contentMode = UIViewContentModeScaleAspectFit;
+            [object wya_AddPanGestureWithHandle:^(UIPanGestureRecognizer * _Nonnull gesture) {
+                if (gesture.state == UIGestureRecognizerStateBegan) {
+                    
+                }else if (gesture.state == UIGestureRecognizerStateChanged) {
+                    
+                }else if (gesture.state == UIGestureRecognizerStateEnded) {
+                    
+                }
+            }];
+            object;
+        });
+    }
+    return _imageV;
 }
 
 #pragma mark - UITextFieldDelegate  -
@@ -145,8 +172,9 @@
         WYACameraCell * cameraCell = (WYACameraCell *)cell;
         cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
     }else{
+        WYACameraModel * model = self.dataSource[indexPath.item];
         WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
-        editCell.image = self.dataSource[indexPath.item];
+        editCell.image = model.image;
         editCell.editBlock = ^{
             [self.dataSource removeObjectAtIndex:indexPath.row];
             [self.collectionView reloadData];
@@ -202,7 +230,18 @@
         WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
             WYACameraViewController * camera = [[WYACameraViewController alloc]initWithType:WYACameraTypeAll];
             camera.takePhoto = ^(UIImage *photo) {
-                [self.dataSource insertObject:photo atIndex:0];
+                WYACameraModel * model = [[WYACameraModel alloc]init];
+                model.image = photo;
+                model.sourceType = WYACameraSourceTypeImage;
+                [self.dataSource insertObject:model atIndex:0];
+                [self.collectionView reloadData];
+            };
+            camera.takeVideo = ^(NSString *videoPath) {
+                WYACameraModel * model = [[WYACameraModel alloc]init];
+                UIImage * image = [UIImage wya_getVideoPreViewImage:[NSURL fileURLWithPath:videoPath]];
+                model.image = image;
+                model.sourceType = WYACameraSourceTypeVideo;
+                [self.dataSource insertObject:model atIndex:0];
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:camera animated:YES completion:nil];
@@ -213,7 +252,14 @@
             WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:[self.textField.text integerValue]];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
-                [self.dataSource insertObjects:images atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
+                NSMutableArray * array = [NSMutableArray array];
+                for (UIImage * image in images) {
+                    WYACameraModel * model = [[WYACameraModel alloc]init];
+                    model.image = image;
+                    model.sourceType = WYACameraSourceTypeImage;
+                    [array addObject:model];
+                }
+                [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:photo animated:YES completion:nil];
@@ -224,53 +270,20 @@
         [alert wya_AddAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
         
+    }else{
+        WYACameraModel * model = self.dataSource[indexPath.item];
+        
+//        [UIView transitionWithView:self.imageV duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+//            self.imageV.alpha = 1;
+//        } completion:^(BOOL finished) {
+//            self.imageV.image = model.image;
+//        }];
     }
     
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 

@@ -61,7 +61,22 @@
     if (AVstatus == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             if (granted) {
-                [self setupCaptureSession];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [self setupCaptureSession];
+                });
+                
+            }else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [UIView wya_warningToastWithMessage:@"检测到您未开启相机，将在三秒钟返回"];
+                });
+                
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (self.navigationController) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }else{
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }
+                });
             }
         }];
     }else if (AVstatus == AVAuthorizationStatusAuthorized) {
@@ -191,22 +206,25 @@
     }else if (longPress.state == UIGestureRecognizerStateEnded){
         [self endRecordingVideo];
         [self.videoTool stopRecordFunction];
+        
         [UIView animateWithDuration:0.2 animations:^{
             self.progressView.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            if (self.videoTool.videoPath) {
+                
+                self.placeholdImageView.hidden = NO;
+                NSURL * url = [NSURL fileURLWithPath:self.videoTool.videoPath];
+                self.player = [AVPlayer playerWithURL:url];
+                AVPlayerLayer * layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+                layer.frame = self.placeholdImageView.frame;
+                [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
+                [self.player play];
+                //注册通知
+                [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(runLoopTheMovie:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+                
+            }
         }];
-        if (self.videoTool.videoPath) {
-
-            self.placeholdImageView.hidden = NO;
-            NSURL * url = [NSURL fileURLWithPath:self.videoTool.videoPath];
-            self.player = [AVPlayer playerWithURL:url];
-            AVPlayerLayer * layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-            layer.frame = self.placeholdImageView.frame;
-            [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
-            [self.player play];
-            //注册通知
-            [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(runLoopTheMovie:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-
-        }
+        
     }
     
 }
