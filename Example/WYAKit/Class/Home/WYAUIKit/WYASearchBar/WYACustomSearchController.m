@@ -20,14 +20,25 @@
 @end
 
 @implementation WYACustomSearchController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    // 查看README文档
+    NSLog(@"查看文档");
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
+    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYASearchBar/README.md";
+    [self.navigationController pushViewController:vc animated:YES];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
+    
     [self.bgView addSubview:self.titleLabel1];
     [self.bgView addSubview:self.customSearchBar1];
 
     [self.bgView addSubview:self.titleLabel2];
     [self.bgView addSubview:self.customSearchBar2];
+    [self.customSearchBar2 becomeFirstResponder];
     
     [self.bgView addSubview:self.titleLabel3];
     [self.bgView addSubview:self.customSearchBar3];
