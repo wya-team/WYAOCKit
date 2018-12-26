@@ -251,7 +251,7 @@
     }else{
         NSMutableArray * arr = [NSMutableArray array];
         for (NSInteger index = 0; index<self.dataSource.count-1; index++) {
-            WYACameraModel * model = self.dataSource[indexPath.item];
+            WYACameraModel * model = self.dataSource[index];
             [arr addObject:model.image];
         }
         
