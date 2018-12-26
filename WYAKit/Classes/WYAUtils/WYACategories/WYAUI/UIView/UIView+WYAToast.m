@@ -224,7 +224,9 @@
         label.numberOfLines = 1;
     }
     CGFloat height = [message wya_heightWithFontSize:13 width:90*SizeAdapter];
-    
+    if (message.length<1) {
+        height = 0;
+    }
     CGFloat hei = 50*SizeAdapter + height;
     
     CGFloat view_X = (ScreenWidth-100*SizeAdapter)/2;
