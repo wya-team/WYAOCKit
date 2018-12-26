@@ -26,7 +26,7 @@
 #import <WYAKit/WYAChooseMenuModel.h>
 #import <WYAKit/WYAEditCameraCell.h>
 #import <WYAKit/WYATableViewCell.h>
-#import <WYAKit/WYASearchBar.h>
+
 
 #import <WYAKit/WYAAlertController.h>
 #import <WYAKit/WYAPickerView.h>
