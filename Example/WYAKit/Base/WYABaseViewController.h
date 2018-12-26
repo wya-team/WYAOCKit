@@ -56,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString * navBackGroundImageNamed;
 
+@property (nonatomic, assign) BOOL  hiddenNavBar;
 /**
  用于创建多个右侧按钮时调整按钮之间的间距，在创建之前先赋值，然后再创建按钮顺序不要搞错了默认为0，一般情况下建议不设置
  示例：
