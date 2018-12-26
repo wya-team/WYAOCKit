@@ -28,7 +28,12 @@
         UIImage * image = [UIImage imageNamed:array[index]];
         [images addObject:image];
     }
-    view.images = [images copy];
+    if (self.array) {
+        view.images = self.array;
+    }else{
+        view.images = [images copy];
+    }
+    
     [self.view addSubview:view];
 }
 

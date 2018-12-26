@@ -149,7 +149,8 @@
     button4.frame = CGRectMake(button4_X, button4_Y, button4_Width, button4_Height);
     
     UIButton * imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imageButton setImage:[UIImage wya_svgImageName:@"spin" size:CGSizeMake(44*SizeAdapter, 44*SizeAdapter)] forState:UIControlStateNormal];
+    [imageButton setImage:[UIImage wya_svgImageName:@"spin" size:CGSizeMake(30*SizeAdapter, 30*SizeAdapter)] forState:UIControlStateNormal];
+    [imageButton setBackgroundImage:[UIImage wya_createImageWithColor:WHITECOLOR] forState:UIControlStateNormal];
     [self.view addSubview:imageButton];
     imageButton.layer.cornerRadius = 2.f;
     imageButton.layer.masksToBounds = YES;
