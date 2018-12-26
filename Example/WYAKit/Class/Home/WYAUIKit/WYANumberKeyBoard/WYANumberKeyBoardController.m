@@ -60,6 +60,9 @@
             object.layer.borderWidth = 0.5;
             object.layer.masksToBounds = YES;
             object.backgroundColor = WHITECOLOR;
+            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(10,0,7,26)];
+            leftView.backgroundColor = [UIColor clearColor];
+            object.leftView = leftView;
             object;
        });
     }
@@ -76,6 +79,10 @@
             object.layer.borderWidth = 0.5;
             object.layer.masksToBounds = YES;
             object.backgroundColor = WHITECOLOR;
+            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(10,0,7,26)];
+            leftView.backgroundColor = [UIColor clearColor];
+            object.leftView = leftView;
+            
             object;
        });
     }
