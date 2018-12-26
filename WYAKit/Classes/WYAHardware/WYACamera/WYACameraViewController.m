@@ -466,6 +466,11 @@
             };
             object.editHandle = ^(UIImage * _Nonnull previewImage) {
                 StrongSelf(strongSelf);
+                if (self.videoTool.videoPath) {
+                    [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
+                    return ;
+                }
+                
                 WYAImageCropViewController * vc = [[WYAImageCropViewController alloc]initWithImage:previewImage];
                 vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
                     [vc dismissViewControllerAnimated:NO completion:^{

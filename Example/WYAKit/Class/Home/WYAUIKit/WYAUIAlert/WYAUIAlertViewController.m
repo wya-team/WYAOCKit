@@ -106,7 +106,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             WYAAlertController *alert = [WYAAlertController wya_AlertWithTitle:@"Welcome"
-                                                                       Message:@"欢迎使用 Ant Design ！！"
+                                                                       Message:@"欢迎使用 WYAKit ！！"
                                                               AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             // 创建 action

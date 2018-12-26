@@ -107,6 +107,7 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
     [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options: UIViewAnimationOptionCurveLinear animations:^{
         
         self.leftView.frame = CGRectMake(0, 0, self.leftView.cmam_width, self.leftView.cmam_height);
+        self.leftSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.5];
     } completion:^(BOOL finished) {
         self.drawerStyle = WYADrawerViewStyleLeft;
     }];
@@ -116,6 +117,7 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
     self.rightSuperView.hidden = NO;
     [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:10 options:UIViewAnimationOptionCurveLinear animations:^{
         self.rightView.frame = CGRectMake(self.cmam_width*(1-self.rightRatio), 0, self.rightView.cmam_width, self.rightView.cmam_height);
+        self.rightSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.5];
     } completion:^(BOOL finished) {
         self.drawerStyle = WYADrawerViewStyleRight;
     }];
@@ -181,7 +183,8 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
             self.leftSuperView.hidden = NO;
             self.rightSuperView.hidden = YES;
             self.leftView.frame = CGRectMake(point.x+self.leftRect.origin.x, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
-            
+            NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
+            self.leftSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:fabsf(point.x)*0.5/self.leftView.cmam_width];
             self.moveStyle = WYADrawerViewMoveStyleLeft;
             
         }else if (point.x < 0 && point.x>-self.cmam_width*self.rightRatio){
@@ -193,17 +196,20 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
             self.leftSuperView.hidden = YES;
             self.rightView.frame = CGRectMake(point.x+self.rightRect.origin.x, self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
             //        NSLog(@"rightframe == %@",NSStringFromCGRect(self.leftView.frame));
+            self.rightSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:fabsf(point.x)*0.5/self.rightView.cmam_width];
             self.moveStyle = WYADrawerViewMoveStyleRight;
         }
     }else if (self.drawerStyle == WYADrawerViewStyleLeft) {
         if (point.x<0) {
             NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
             self.leftView.frame = CGRectMake(point.x, self.leftView.cmam_top, self.leftView.cmam_width, self.leftView.cmam_height);
+            self.leftSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:(self.leftView.cmam_width-fabsf(point.x))*0.5/self.leftView.cmam_width];
             NSLog(@"leftframe == %@",NSStringFromCGRect(self.leftView.frame));
         }
     }else if (self.drawerStyle == WYADrawerViewStyleRight) {
         if (point.x>0) {
             self.rightView.frame = CGRectMake(point.x+self.rightSuperView.cmam_width*(1-self.rightRatio), self.rightView.cmam_top, self.rightView.cmam_width, self.rightView.cmam_height);
+            self.rightSuperView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:(self.rightView.cmam_width - fabsf(point.x))*0.5/self.rightView.cmam_width];
         }
     }
     
@@ -313,11 +319,12 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
     if(!_leftSuperView){
         _leftSuperView = ({
             UIButton * object = [[UIButton alloc]init];
-            object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
+            object.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
             object.hidden = YES;
             [object addCallBackAction:^(UIButton *button) {
                 [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
                     self.leftView.frame = self.leftRect;
+                    button.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
                 } completion:^(BOOL finished) {
                     self.drawerStyle = WYADrawerViewStyleCenter;
                 }];
@@ -332,11 +339,12 @@ typedef NS_ENUM(NSUInteger, WYADrawerViewMoveStyle) {
     if(!_rightSuperView){
         _rightSuperView = ({
             UIButton * object = [[UIButton alloc]init];
-            object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.3];
+            object.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.5];
             object.hidden = YES;
             [object addCallBackAction:^(UIButton *button) {
                 [UIView animateWithDuration:0.3 delay:0 options:0 animations:^{
                     self.rightView.frame = self.rightRect;
+                    button.backgroundColor = [UIColor colorWithWhite:0 alpha:0];
                 } completion:^(BOOL finished) {
                     self.drawerStyle = WYADrawerViewStyleCenter;
                 }];

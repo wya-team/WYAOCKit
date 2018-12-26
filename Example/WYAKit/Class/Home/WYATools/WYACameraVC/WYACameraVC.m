@@ -10,6 +10,8 @@
 #import "WYACameraCell.h"
 #import "WYACameraModel.h"
 #import "WYAPopVerReadMeViewController.h"
+#import "WYAImageBrowserViewController.h"
+
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
 
@@ -17,7 +19,7 @@
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) UIImageView * imageV;
+
 @end
 
 @implementation WYACameraVC
@@ -88,8 +90,6 @@
     
     [self.view addSubview:self.collectionView];
     
-    [self.view addSubview:self.imageV];
-    
 }
 #pragma mark --- Getter
 - (UICollectionView *)collectionView{
@@ -118,28 +118,6 @@
         });
     }
     return _dataSource;
-}
-
-- (UIImageView *)imageV{
-    if(!_imageV){
-        _imageV = ({
-            UIImageView * object = [[UIImageView alloc]init];
-            object.alpha = 0;
-            object.frame = self.view.frame;
-            object.contentMode = UIViewContentModeScaleAspectFit;
-            [object wya_AddPanGestureWithHandle:^(UIPanGestureRecognizer * _Nonnull gesture) {
-                if (gesture.state == UIGestureRecognizerStateBegan) {
-                    
-                }else if (gesture.state == UIGestureRecognizerStateChanged) {
-                    
-                }else if (gesture.state == UIGestureRecognizerStateEnded) {
-                    
-                }
-            }];
-            object;
-        });
-    }
-    return _imageV;
 }
 
 #pragma mark - UITextFieldDelegate  -
@@ -271,16 +249,21 @@
         [self presentViewController:alert animated:YES completion:nil];
         
     }else{
-        WYACameraModel * model = self.dataSource[indexPath.item];
+        NSMutableArray * arr = [NSMutableArray array];
+        for (NSInteger index = 0; index<self.dataSource.count-1; index++) {
+            WYACameraModel * model = self.dataSource[index];
+            [arr addObject:model.image];
+        }
         
-//        [UIView transitionWithView:self.imageV duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
-//            self.imageV.alpha = 1;
-//        } completion:^(BOOL finished) {
-//            self.imageV.image = model.image;
-//        }];
+        WYAImageBrowserViewController * vc = [[WYAImageBrowserViewController alloc]init];
+        vc.array = [arr copy];;
+        [self.navigationController pushViewController:vc animated:YES];
+
     }
     
 }
+
+
 
 
 
