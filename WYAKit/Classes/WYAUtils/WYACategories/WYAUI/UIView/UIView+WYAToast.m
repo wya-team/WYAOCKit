@@ -40,9 +40,9 @@
         make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50*SizeAdapter);
         make.width.mas_equalTo(width+30*SizeAdapter);
         if (width<ScreenWidth/2) {
-            make.height.mas_equalTo(40*SizeAdapter);
+            make.height.mas_equalTo(35*SizeAdapter);
         }else{
-            make.height.mas_equalTo(height+20*SizeAdapter);
+            make.height.mas_equalTo(height+15*SizeAdapter);
         }
         
     }];
@@ -83,9 +83,9 @@
         make.centerY.mas_equalTo(Window.mas_centerY);
         make.width.mas_equalTo(width+30*SizeAdapter);
         if (width<ScreenWidth/2) {
-            make.height.mas_equalTo(40*SizeAdapter);
+            make.height.mas_equalTo(35*SizeAdapter);
         }else{
-            make.height.mas_equalTo(height+20*SizeAdapter);
+            make.height.mas_equalTo(height+15*SizeAdapter);
         }
     }];
     
@@ -174,16 +174,22 @@
             break;
         case WYAToastImageTypeSVG:
         {
-            SVGKImage * image;
+            UIImage * image;
             if (isSource) {
                 NSString *bundlePath = [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")].resourcePath
                                         stringByAppendingPathComponent:@"/WYAKit.bundle"];
                 NSBundle *resource_bundle = [NSBundle bundleWithPath:bundlePath];
-                image = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
+                SVGKImage * svgImage = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
+                image = svgImage.UIImage;
             }else{
-                image = [SVGKImage imageNamed:imageString];
+//                image = [SVGKImage imageNamed:imageString];
+                image = [UIImage wya_svgImageName:imageString size:CGSizeMake(30*SizeAdapter, 30*SizeAdapter)];
             }
-            iview = [[SVGKLayeredImageView alloc] initWithSVGKImage:image];
+//            iview = [[SVGKFastImageView alloc] initWithSVGKImage:image];
+            iview = [[UIImageView alloc]initWithImage:image];
+            if (autoRotation) {
+                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
+            }
         }
             break;
         case WYAToastImageTypeGIF:

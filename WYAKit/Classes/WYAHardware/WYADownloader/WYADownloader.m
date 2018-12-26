@@ -177,6 +177,23 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 //    }
 }
 
+- (void)wya_removeDownloadWithTaskManager:(WYADownloadTaskManager *)manager{
+    NSMutableArray * arr = [[self mutableArrayValueForKey:@"downloadFinishArray"] mutableCopy];
+    [arr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        WYADownloadTaskManager * taskManager = (WYADownloadTaskManager *)obj;
+        if (manager == taskManager) {
+            NSFileManager * fileManager = [NSFileManager defaultManager];
+            if (manager.destinationPath) {
+                NSError * error;
+                [fileManager removeItemAtPath:manager.destinationPath error:&error];
+                NSLog(@"removeManagerError==%@",error);
+            }
+            
+            [[self mutableArrayValueForKey:@"downloadFinishArray"] removeObject:taskManager];
+        }
+    }];
+}
+
 - (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle{
     self.appBackground = handle;
 }

@@ -9,6 +9,8 @@
 #import "WYADownloadModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
+@class WYADownloadTaskManager;
+
 @interface WYADownloader : NSObject
 @property (nonatomic, copy)   NSString * identifier;
 @property (nonatomic, assign) BOOL allowsCellularAccess;
@@ -40,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
 
 /**
- 删除下载任务
+ 取消下载任务（调用此方法resumeData将会不存在）
 
  @param model 数据模型
  */
@@ -52,6 +54,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param model 数据模型
  */
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+
+- (void)wya_removeDownloadWithTaskManager:(WYADownloadTaskManager *)manager;
 
 - (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
 

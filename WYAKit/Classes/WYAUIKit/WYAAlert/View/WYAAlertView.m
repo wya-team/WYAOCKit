@@ -243,7 +243,7 @@
     } else if (action.style == WYAAlertActionStyleCancel) {
         [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     } else {
-        [actionButton setTitleColor:[UIColor colorWithRed:16.0/255.0 green:142.0/255.0 blue:233.0/255.0 alpha:1] forState:UIControlStateNormal];
+        [actionButton setTitleColor:[UIColor colorWithRed:0.0/255.0 green:122.0/255.0 blue:1 alpha:1] forState:UIControlStateNormal];
     }
     [actionButton addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
     

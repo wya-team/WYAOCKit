@@ -44,7 +44,7 @@
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
         make.left.mas_equalTo(self.imgView.mas_right).with.offset(10*SizeAdapter);
         make.right.mas_equalTo(self.contentView.mas_right);
-        make.height.mas_equalTo(40*SizeAdapter);
+        make.height.mas_equalTo(80*SizeAdapter);
     }];
 }
 
