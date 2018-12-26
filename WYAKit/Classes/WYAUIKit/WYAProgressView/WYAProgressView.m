@@ -51,7 +51,7 @@
 - (void)initialization {
     self.backgroundColor = [UIColor whiteColor];
     _trackTintColor = [UIColor lightGrayColor];
-    _progressTintColor = [UIColor blueColor];
+    _progressTintColor = [UIColor wya_hex:@"#108DE7"];
     
     self.borderWidth = 5;//线宽默认为10
     _startAngle = WYACircleDegreeToRadian(270);//圆起点位置
