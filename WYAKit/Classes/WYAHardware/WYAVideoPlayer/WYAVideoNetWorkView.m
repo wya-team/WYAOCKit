@@ -33,7 +33,7 @@
     [self.button mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX);
         make.bottom.mas_equalTo(self.mas_bottom).with.offset(0);
-        make.size.mas_equalTo(CGSizeMake(50*SizeAdapter, 25*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(60*SizeAdapter, 25*SizeAdapter));
     }];
 }
 
