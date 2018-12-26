@@ -50,11 +50,12 @@
         _lineView = [[UIView alloc]init];
         _pageItemView = [[UIView alloc]init];
         
-        [self addSubview:_backgroundImageView];
-        [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_titleLabel];
         [_navBarView addSubview:_pageItemView];
         [_navBarView addSubview:_lineView];
+        [_backgroundImageView addSubview:_navBarView];
+        [self addSubview:_backgroundImageView];
+
         [self setUp];
         
     }
@@ -72,7 +73,7 @@
     }];
     
     [_navBarView mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
+        make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
         make.left.mas_equalTo(self.backgroundImageView);
         make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
     }];
@@ -103,6 +104,11 @@
     _backgroundImageView.userInteractionEnabled = YES;
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     _lineView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    _navTitleFont = TITLEFONT;
+    _space = ITEMSPACE_DEFAULT;
+    _leftBarButtonItemTitleFont = BUTTON_TITLEFONT;
+    _rightBarButtonItemTitleFont = BUTTON_TITLEFONT;
+
 }
 - (void)addLeftBarViewButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
                                 normalColor:(NSArray<UIColor *> *)normalColors
@@ -152,15 +158,17 @@
             }
             
         }
+        [self.navBarView addSubview:customButton];
+
         if (i==0) {
             [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self.navBarView.mas_right).offset(20);
+                make.left.equalTo(self.navBarView.mas_left).offset(20);
                 make.size.mas_equalTo(CGSizeMake(width, height));
                 make.top.equalTo(self.navBarView.mas_top).offset(startY);
             }];
         }else{
             [customButton mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.equalTo(self.navBarView.mas_right).offset(startX + column*(width + space));
+                make.left.equalTo(self.navBarView.mas_left).offset(startX + column*(width + space));
                 make.size.mas_equalTo(CGSizeMake(width, height));
                 make.top.equalTo(self.navBarView.mas_top).offset(startY);
             }];
@@ -169,7 +177,6 @@
         [customButton addTarget:self action:@selector (customLeftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
 
-        [self.navBarView addSubview:customButton];
     }
 }
 
@@ -252,21 +259,19 @@
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
     
     customButton.frame = CGRectMake(LEFT_OR_RIGHT_SPACE, 4, 36, 36);
-    if (title) {
-        customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-        
-        customButton.titleLabel.font = [UIFont systemFontOfSize:self.navTitleFont];
-        
-        [customButton setTitle:title forState:UIControlStateNormal];
-        
-        [customButton setTitleColor:normalColor forState:UIControlStateNormal];
-        
-        if (highlightedColor) {
-            [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
+
+    customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    customButton.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
+    
+    [customButton setTitle:title forState:UIControlStateNormal];
+    
+    [customButton setTitleColor:normalColor forState:UIControlStateNormal];
+    
+    if (highlightedColor) {
+        [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
         }
-    }else if(imageNamed){
-        [customButton setImage:[UIImage imageNamed:imageNamed] forState:UIControlStateNormal];
-    }
+    
     [customButton addTarget:self action:@selector (goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
     [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
     [self.navBarView addSubview:customButton];
@@ -292,9 +297,6 @@
     self.titleLabel.text = _navTitle;
 }
 - (void)setNavTitleFont:(CGFloat)navTitleFont{
-    if (!_navTitleFont) {
-        _navTitleFont = TITLEFONT;
-    }
     _navTitleFont = navTitleFont;
     self.titleLabel.font = [UIFont systemFontOfSize:_navTitleFont];
 }
@@ -302,30 +304,11 @@
     _navTitleColor = navTitleColor;
     self.titleLabel.textColor = _navTitleColor;
 }
-#pragma mark ======= getter
-- (CGFloat)space{
-    if (!_space) {
-        _space = ITEMSPACE_DEFAULT;
-    }
-    return _space;
-}
-- (CGFloat)leftBarButtonItemTitleFont{
-    if (!_leftBarButtonItemTitleFont) {
-        return BUTTON_TITLEFONT;
-    }
-    return _leftBarButtonItemTitleFont;
-}
-- (CGFloat)rightBarButtonItemTitleFont{
-    if (!_rightBarButtonItemTitleFont) {
-        return BUTTON_TITLEFONT;
-    }
-    return _rightBarButtonItemTitleFont;
-}
 #pragma mark ======= public methods
 #pragma mark ======= left
 #pragma mark --------- goBack
 - (void)wya_goBackButtonWithImage:(NSString *)imageNamed{
-    [self addLeftGoBackWithTitle:nil normalColor:nil highlightedColor:nil Image:imageNamed];
+    [self wya_customGobackWithImage:[UIImage imageNamed:imageNamed]];
 }
 - (void)wya_customGobackWithImage:(UIImage *)image{
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];

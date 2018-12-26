@@ -8,7 +8,6 @@
 
 #import "WYACustomSearchController.h"
 @interface WYACustomSearchController ()<UISearchBarDelegate>
-@property (nonatomic, strong) UIView * bgView;
 @property (nonatomic, strong) UILabel * titleLabel1;
 @property (nonatomic, strong) WYACustomSearchBar * customSearchBar1;
 @property (nonatomic, strong) UILabel * titleLabel2;
@@ -27,36 +26,27 @@
     vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYASearchBar/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
 
     
-    [self.bgView addSubview:self.titleLabel1];
-    [self.bgView addSubview:self.customSearchBar1];
+    [self.view addSubview:self.titleLabel1];
+    [self.view addSubview:self.customSearchBar1];
 
-    [self.bgView addSubview:self.titleLabel2];
-    [self.bgView addSubview:self.customSearchBar2];
+    [self.view addSubview:self.titleLabel2];
+    [self.view addSubview:self.customSearchBar2];
     [self.customSearchBar2 becomeFirstResponder];
     
-    [self.bgView addSubview:self.titleLabel3];
-    [self.bgView addSubview:self.customSearchBar3];
+    [self.view addSubview:self.titleLabel3];
+    [self.view addSubview:self.customSearchBar3];
     
-    [self.bgView addSubview:self.button];
+    [self.view addSubview:self.button];
     
-    [self.view addSubview:self.bgView];
 }
 #pragma mark ======= getter
-- (UIView *)bgView{
-    if(!_bgView){
-        _bgView = ({
-            UIView * object = [[UIView alloc]initWithFrame:self.view.frame];
-            object;
-        });
-    }
-    return _bgView;
-}
 
 - (UILabel *)titleLabel1{
     if(!_titleLabel1){

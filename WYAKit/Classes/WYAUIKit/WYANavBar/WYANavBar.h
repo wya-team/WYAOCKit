@@ -117,8 +117,8 @@ NS_ASSUME_NONNULL_BEGIN
                                 highlightedImg:(NSArray<NSString *> *)highlightedImgs;
 
 - (void)wya_goBackButtonWithTitle:(NSString *)title
-                      normalColor:(UIColor * _Nullable)normalColor
-                 highlightedColor:(UIColor * _Nullable)highlightedColor;
+                      normalColor:(UIColor *_Nullable)normalColor
+                 highlightedColor:(UIColor *_Nullable)highlightedColor;
 
 - (void)wya_goBackButtonWithImage:(NSString *)imageNamed;
 
