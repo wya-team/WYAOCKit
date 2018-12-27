@@ -10,8 +10,7 @@
 
 
 @interface WYABannerViewController ()
-@property (nonatomic, strong) WYABannerView * bannerView;
-@property (nonatomic, strong) WYABannerView * netBannerView;
+
 @end
 
 @implementation WYABannerViewController
@@ -55,11 +54,10 @@
     CGFloat bannerView_Height = 200*SizeAdapter;
     CGRect rectB = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
     
-    SDCycleScrollView *banner1 = [SDCycleScrollView cycleScrollViewWithFrame:rectB delegate:nil placeholderImage:nil];
-    banner1.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    WYABannerView *banner1 = [WYABannerView wya_bannerViewWithFrame:rectB delegate:nil placeholderImage:nil];
     banner1.localizationImageNamesGroup = @[@"0",@"1",@"2"];
-//    banner1.titlesGroup = titles;
-    banner1.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
+    banner1.pageControlAliment = WYABannerViewPageContolAlimentCenter;
+    banner1.pageControlStyle = WYABannerViewPageContolStyleClassic;
     [self.view addSubview:banner1];
     
     UILabel * label1 = [[UILabel alloc]init];
@@ -68,12 +66,12 @@
     label1.font = FONT(15);
     [self.view addSubview:label1];
     CGFloat label1_X = 10;
-    CGFloat label1_Y = CGRectGetMaxY(self.bannerView.frame)+120*SizeAdapter;
+    CGFloat label1_Y = CGRectGetMaxY(banner1.frame)+20*SizeAdapter;
     CGFloat label1_Width = ScreenWidth-20;
     CGFloat label1_Height = 20*SizeAdapter;
     label1.frame = CGRectMake(label1_X, label1_Y, label1_Width, label1_Height);
 
-//    [self.view addSubview:self.netBannerView];
+
     CGFloat netBannerView_X = 0;
     CGFloat netBannerView_Y = CGRectGetMaxY(label1.frame);
     CGFloat netBannerView_Width = ScreenWidth;
@@ -100,38 +98,12 @@
 //    CGFloat banner2_Height = 140;
 //    CGRect rect = CGRectMake(banner2_X, banner2_Y, banner2_Width, banner2_Height);
     
-    SDCycleScrollView *banner2 = [SDCycleScrollView cycleScrollViewWithFrame:rect2 delegate:nil placeholderImage:nil];
-    banner2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    WYABannerView *banner2 = [WYABannerView wya_bannerViewWithFrame:rect2 delegate:nil placeholderImage:nil];
+    banner2.pageControlAliment = WYABannerViewPageContolAlimentRight;
     banner2.imageURLStringsGroup = imagesURLStrings;
     banner2.titlesGroup = titles;
-    banner2.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
+    banner2.pageControlStyle = WYABannerViewPageContolStyleAnimated;
     [self.view addSubview:banner2];
 }
 
-
-
-- (WYABannerView *)bannerView{
-    if(!_bannerView){
-        _bannerView = ({
-            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleLocal timeInterval:2];
-            object.images = [@[@"0",@"1",@"2",] mutableCopy];
-            object;
-       });
-    }
-    return _bannerView;
-}
-
-- (WYABannerView *)netBannerView{
-    if(!_netBannerView){
-        _netBannerView = ({
-            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleNet timeInterval:2];
-            object.placeholdImage = [UIImage imageNamed:@"icon_picture"];
-            object.images = [@[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543397933202&di=89eecac599e0e2c145e7d2d477dc1681&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D9c1b09f27c094b36cf9f13aecba516ac%2Fadaf2edda3cc7cd920a6c3f43301213fb80e9110.jpg",
-                             @"https://wx4.sinaimg.cn/large/a1b61d0aly1fn2h3xwat6j20dw0dwtbp.jpg",
-                             @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1543397575223&di=031c91014151391d9502840cbf85953f&imgtype=0&src=http%3A%2F%2Fimgsrc.baidu.com%2Fimage%2Fc0%253Dshijue1%252C0%252C0%252C294%252C40%2Fsign%3D6f4ac07d0633874488c8273f3966b38c%2Feaf81a4c510fd9f94e44cb442f2dd42a2834a448.jpg"] mutableCopy];
-            object;
-       });
-    }
-    return _netBannerView;
-}
 @end

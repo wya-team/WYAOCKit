@@ -10,7 +10,7 @@
 #import "WYADownloadCell.h"
 #import "WYADownloadCompleteCell.h"
 
-#define Path [[NSString wya_libCachePath] stringByAppendingPathComponent:@"xxx.mp4"]
+#define Path [[NSString wya_libCachePath] stringByAppendingPathComponent:@"video.mp4"]
 #define OtherPath [[NSString wya_libCachePath] stringByAppendingPathComponent:@"other.mp4"]
 
 @interface WYADownloaderViewController ()<UITableViewDelegate,UITableViewDataSource>

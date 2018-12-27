@@ -1,15 +1,14 @@
 //
-//  SDCollectionViewCell.h
-//  SDCycleScrollView
+//  WYABannerCell.h
+//  WYAKit
 //
-//  Created by aier on 15-3-22.
-//  Copyright (c) 2015年 GSD. All rights reserved.
+//  Created by 李世航 on 2018/11/27.
 //
 
 
 #import <UIKit/UIKit.h>
 
-@interface SDCollectionViewCell : UICollectionViewCell
+@interface WYABannerCell : UICollectionViewCell
 
 @property (weak, nonatomic) UIImageView *imageView;
 @property (copy, nonatomic) NSString *title;

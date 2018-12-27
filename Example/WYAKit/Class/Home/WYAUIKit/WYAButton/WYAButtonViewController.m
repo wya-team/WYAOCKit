@@ -49,11 +49,12 @@
     [animationButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [animationButton setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width+5*SizeAdapter, 0, 0)];
     [animationButton addCallBackAction:^(UIButton *button) {
-        [button.imageView wya_setRotationAnimation:360 time:1 repeatCount:0];
+        
     }];
     [self.view addSubview:animationButton];
     animationButton.layer.cornerRadius = 4.f;
     animationButton.layer.masksToBounds = YES;
+    [animationButton.imageView wya_setRotationAnimation:360 time:1 repeatCount:0];
     
     CGFloat animationButton_X = 10*SizeAdapter;
     CGFloat animationButton_Y = CGRectGetMaxY(button.frame)+5*SizeAdapter;
@@ -118,11 +119,12 @@
     [loadingButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loadingButton setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width+5*SizeAdapter, 0, 0)];
     [loadingButton addCallBackAction:^(UIButton *button) {
-        [button.imageView wya_setRotationAnimation:360 time:1 repeatCount:0];
+        
     }];
     [self.view addSubview:loadingButton];
     loadingButton.layer.cornerRadius = 4.f;
     loadingButton.layer.masksToBounds = YES;
+    [loadingButton.imageView wya_setRotationAnimation:360 time:1 repeatCount:0];
     
     CGFloat loadingButton_X = 10*SizeAdapter;
     CGFloat loadingButton_Y = CGRectGetMaxY(button3.frame)+5*SizeAdapter;

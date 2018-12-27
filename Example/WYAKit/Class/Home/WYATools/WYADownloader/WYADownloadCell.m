@@ -53,13 +53,15 @@
 }
 
 - (void)buttonClick{
-
     switch (self.model.downloadState) {
         case WYADownloadStateDownloading:
+        {
             [self.model suspendDownload];
+        }
             break;
         case WYADownloadStateSuspend:
             [self.model keepDownloadWithSession:nil ResumeData:nil];
+            NSLog(@"Downcell64");
         default:
             break;
     }
@@ -88,9 +90,11 @@
             [self.button setTitle:@"等待" forState:UIControlStateNormal];
             break;
         case WYADownloadStateDownloading:
+            NSLog(@"下载中");
             [self.button setTitle:@"下载中" forState:UIControlStateNormal];
             break;
         case WYADownloadStateSuspend:
+            NSLog(@"暂停");
             [self.button setTitle:@"暂停" forState:UIControlStateNormal];
             break;
         case WYADownloadStateComplete:
@@ -165,7 +169,8 @@
             button.titleLabel.font = FONT(15);
             [button setBackgroundColor:[UIColor redColor]];
             [button addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
-
+            button.layer.cornerRadius = 5*SizeAdapter;
+            button.layer.masksToBounds = YES;
             button;
        });
     }

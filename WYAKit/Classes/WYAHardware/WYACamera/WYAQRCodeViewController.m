@@ -368,6 +368,7 @@ static CGFloat QRCodeWidth = 220;
     
     if ([metadataObjects count] >0)
     {
+        [self closeFlashLight];
         //停止扫描
         [self.session stopRunning];
         [self.timer setFireDate:[NSDate distantFuture]];
@@ -385,7 +386,12 @@ static CGFloat QRCodeWidth = 220;
             [self.timer invalidate];
             self.timer = nil;
         }
-        [self.navigationController popViewControllerAnimated:YES];
+        if (self.navigationController) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        
         
         if (self.ScanReault) {
             self.ScanReault(stringValue);

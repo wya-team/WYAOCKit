@@ -261,7 +261,7 @@
         }
         
     }
-    
+    /*
     CGFloat maxHeight;
     if (self.textViewMaxHeight>1) {
         maxHeight = self.textViewMaxHeight;
@@ -287,7 +287,7 @@
     textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, size.height+20*SizeAdapter);
     [self setNeedsLayout];
-    [self layoutIfNeeded];
+    [self layoutIfNeeded];*/
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
         [self.wya_delegate wya_TextViewDidChange:textView];
     }

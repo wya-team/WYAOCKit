@@ -36,6 +36,7 @@
 @property (nonatomic, assign) CGFloat                sumTime;//用来保存快进的总时长
 @property (nonatomic, strong) WYABrightnessView * brightnessView;
 @property (nonatomic, assign) BOOL  isLockScrren;
+@property (nonatomic, strong) MPVolumeView *volumeView;
 
 @end
 
@@ -491,8 +492,13 @@
  */
 -(void)editVolumeOrBrigressWithNumber:(CGFloat)number{
     if (isVolume) {
+//        self.volumeView.frame = CGRectMake(0, 0, 155, 155);
+//        self.volumeView.hidden = NO;
         self.volumeSlider.value -= number/10000;
+        self.brightnessView.alpha = 0;
     }else{
+//        self.volumeView.frame = CGRectZero;
+        self.volumeView.hidden = YES;
         NSLog(@"改变之前xxx==%f",[UIScreen mainScreen].brightness);
         CGFloat x = [UIScreen mainScreen].brightness;
         x = x - number/10000;
@@ -506,9 +512,10 @@
  配置修改音量视图
  */
 - (void)configureVolume {
-    MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+    self.volumeView = [[MPVolumeView alloc] init];
     _volumeSlider = nil;
-    for (UIView *view in [volumeView subviews]){
+    for (UIView *view in [self.volumeView subviews]){
+        NSLog(@"view.class.description==%@",view.class.description);
         if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
             _volumeSlider = (UISlider *)view;
             break;

@@ -23,6 +23,7 @@
     dispatch_once(&onceToken, ^{
         instance = [[WYABrightnessView alloc] init];
         [[UIApplication sharedApplication].keyWindow addSubview:instance];
+        
     });
     return instance;
 }
@@ -122,6 +123,7 @@
                        context:(void *)context {
     
     CGFloat sound = [change[@"new"] floatValue];
+    Window.windowLevel = UIWindowLevelAlert+1000;
     [self appearSoundView];
     [self updateLongView:sound];
 }

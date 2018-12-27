@@ -26,7 +26,6 @@
 }
 
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model{
-    
     //    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
     //    [request setHTTPMethod:@"HEAD"];
     //    self.downloadTask = [session downloadTaskWithRequest:request];
@@ -42,15 +41,18 @@
 }
 
 - (void)suspendDownload{
+    
     self.downloadState = WYADownloadStateSuspend;
+    
     [self.downloadTask suspend];
 }
 
 - (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data{
     self.downloadState = WYADownloadStateDownloading;
-    if (session && data) {
-        self.downloadTask = [session downloadTaskWithResumeData:data];
-    }
+//    if (session && data) {
+//        self.downloadTask = [session downloadTaskWithResumeData:data];
+//    }
+    
     [self.downloadTask resume];
 }
 
@@ -86,8 +88,9 @@
         _isSuccess = YES;
     }
     self.progress = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
+    NSLog(@"taskManager91");
     self.downloadState = WYADownloadStateDownloading;
-    NSLog(@"pro==%f",_progress);
+//    NSLog(@"pro==%f",_progress);
     if (startTime) {
         CFAbsoluteTime startTimeValue = [startTime doubleValue];
         

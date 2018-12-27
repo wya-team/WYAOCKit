@@ -166,6 +166,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.urlString isEqualToString:model.urlString]) {
             [obj keepDownloadWithSession:nil ResumeData:nil];
+            NSLog(@"downloader169");
             *stop = YES;
         }
     }];
@@ -301,7 +302,10 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.downloadTask == downloadTask) {
             [obj readDownloadProgressWithdidWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+            NSLog(@"++++++++++++");
             *stop = YES;
+        }else{
+            NSLog(@"------------");
         }
     }];
 }

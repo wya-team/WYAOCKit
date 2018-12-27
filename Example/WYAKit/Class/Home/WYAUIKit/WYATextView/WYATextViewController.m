@@ -34,6 +34,7 @@
     textView.showTitle = NO;
     textView.layer.cornerRadius = 4.f;
     textView.layer.masksToBounds = YES;
+    textView.textViewMaxHeight = 100;
     [self.view addSubview:textView];
     
     WYATextView * textView1 = [[WYATextView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame)+20, self.view.frame.size.width-20, 100)];
@@ -42,6 +43,7 @@
     textView1.title = @"哈哈";
     textView1.layer.cornerRadius = 4.f;
     textView1.layer.masksToBounds = YES;
+    textView1.textViewMaxHeight = 100;
     [self.view addSubview:textView1];
     
     

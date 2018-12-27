@@ -21,7 +21,6 @@
 #import <WYAKit/Category.h>
 #import <WYAKit/WYAPageController.h>
 #import <WYAKit/WYABannerView.h>
-#import <WYAKit/SDCycleScrollView.h>
 #import <WYAKit/WYANoticeBar.h>
 #import <WYAKit/WYAImageBrowser.h>
 #import <WYAKit/WYASlider.h>

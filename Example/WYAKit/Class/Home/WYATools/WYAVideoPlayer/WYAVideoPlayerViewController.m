@@ -46,6 +46,7 @@
 
 -(void)dealloc{
     NSLog(@"销毁");
+    [self.playView wya_ResetPlayer];
     [self.playView removeFromSuperview];
 }
 
