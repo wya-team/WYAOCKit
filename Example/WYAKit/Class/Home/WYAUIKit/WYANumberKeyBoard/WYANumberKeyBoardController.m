@@ -54,13 +54,13 @@
     if(!_textField2){
         _textField2 = ({
             UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(20*SizeAdapter, WYATopHeight + 20*SizeAdapter, ScreenWidth - 40*SizeAdapter, 44*SizeAdapter)];
-            object.placeholder = @"  点击弹出随机数字键盘";
+            object.placeholder = @"点击弹出随机数字键盘";
             object.layer.cornerRadius = 8*SizeAdapter;
             object.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
             object.layer.borderWidth = 0.5;
             object.layer.masksToBounds = YES;
             object.backgroundColor = WHITECOLOR;
-            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(15,0,7,26)];
+            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,26)];
             leftView.backgroundColor = [UIColor clearColor];
             object.leftView = leftView;
             object.leftViewMode = UITextFieldViewModeAlways;
@@ -75,13 +75,13 @@
     if(!_textField1){
         _textField1 = ({
             UITextField * object = [[UITextField alloc]initWithFrame:CGRectMake(20*SizeAdapter, CGRectGetMaxY(self.textField2.frame)+20*SizeAdapter, ScreenWidth - 40*SizeAdapter, 44*SizeAdapter)];
-            object.placeholder = @"  点击弹出数字键盘";
+            object.placeholder = @"点击弹出数字键盘";
             object.layer.cornerRadius = 8*SizeAdapter;
             object.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
             object.layer.borderWidth = 0.5;
             object.layer.masksToBounds = YES;
             object.backgroundColor = WHITECOLOR;
-            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(15,0,7,26)];
+            UILabel * leftView = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,26)];
             leftView.backgroundColor = [UIColor clearColor];
             object.leftView = leftView;
             object.leftViewMode = UITextFieldViewModeAlways;
