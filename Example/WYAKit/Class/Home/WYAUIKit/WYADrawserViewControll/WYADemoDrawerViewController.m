@@ -7,11 +7,15 @@
 //
 
 #import "WYADemoDrawerViewController.h"
+#import "WYADemoDrawerLeftViewController.h"
+#import "WYADemoDrawerRightViewController.h"
 
 @interface WYADemoDrawerViewController ()
 @property (nonatomic, strong) WYADrawerView * drawerView;
 @property (nonatomic, strong) UIView * leftView;
 @property (nonatomic, strong) UIView * rightView;
+@property (nonatomic, strong) WYADemoDrawerLeftViewController * leftVC;
+@property (nonatomic, strong) WYADemoDrawerRightViewController * rightVC;
 @end
 
 @implementation WYADemoDrawerViewController
@@ -35,7 +39,7 @@
     // Do any additional setup after loading the view.
     
     
-    [self.view addSubview:self.drawerView];
+//    [self.view addSubview:self.drawerView];
     WeakSelf(weakSelf);
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"左侧视图" forState:UIControlStateNormal];
@@ -43,12 +47,14 @@
     button.titleLabel.font = FONT(15);
     [button setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
     [button addCallBackAction:^(UIButton *button) {
-        [weakSelf.drawerView wya_leftViewMove];
+//        [weakSelf.drawerView wya_leftViewMove];
+        [weakSelf cw_showDefaultDrawerViewController:weakSelf.leftVC];
+        
     }];
-    [self.drawerView addSubview:button];
+    [self.view addSubview:button];
     
     CGFloat button_X = 50*SizeAdapter;
-    CGFloat button_Y = 20;
+    CGFloat button_Y = WYATopHeight+20*SizeAdapter;
     CGFloat button_Width = 100*SizeAdapter;
     CGFloat button_Height = 44*SizeAdapter;
     button.frame = CGRectMake(button_X, button_Y, button_Width, button_Height);
@@ -59,16 +65,30 @@
     button1.titleLabel.font = FONT(15);
     [button1 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
     [button1 addCallBackAction:^(UIButton *button) {
-        [weakSelf.drawerView wya_rightViewMove];
+//        [weakSelf.drawerView wya_rightViewMove];
     }];
-    [self.drawerView addSubview:button1];
+    [self.view addSubview:button1];
     
     CGFloat button1_X = CGRectGetMaxX(button.frame) + 50*SizeAdapter;
-    CGFloat button1_Y = 20;
+    CGFloat button1_Y = WYATopHeight+20*SizeAdapter;
     CGFloat button1_Width = 100*SizeAdapter;
     CGFloat button1_Height = 44*SizeAdapter;
     button1.frame = CGRectMake(button1_X, button1_Y, button1_Width, button1_Height);
 
+    [self cw_registerShowIntractiveWithEdgeGesture:NO transitionDirectionAutoBlock:^(CWDrawerTransitionDirection direction) {
+        if (direction == CWDrawerTransitionFromLeft) { // 左侧滑出
+            [weakSelf cw_showDefaultDrawerViewController:weakSelf.leftVC];
+        } else if (direction == CWDrawerTransitionFromRight) { // 右侧滑出
+            CWLateralSlideConfiguration *conf = [CWLateralSlideConfiguration defaultConfiguration];
+            conf.direction = CWDrawerTransitionFromRight; // 从右边滑出
+            conf.finishPercent = 0.2f;
+            conf.showAnimDuration = 0.2;
+            conf.HiddenAnimDuration = 0.2;
+            conf.maskAlpha = 0.1;
+            
+            [weakSelf cw_showDrawerViewController:self.rightVC animationType:CWDrawerAnimationTypeDefault configuration:conf];
+        }
+    }];
 }
 
 #pragma mark - Getter -
@@ -87,7 +107,7 @@
     if(!_leftView){
         _leftView = ({
             UIView * object = [[UIView alloc]init];
-            object.backgroundColor = [UIColor redColor];
+            object.backgroundColor = REDCOLOR;
             object;
        });
     }
@@ -98,10 +118,30 @@
     if(!_rightView){
         _rightView = ({
             UIView * object = [[UIView alloc]init];
-            object.backgroundColor = [UIColor blueColor];
+            object.backgroundColor = BLUECOLOR;
             object;
        });
     }
     return _rightView;
+}
+
+- (WYADemoDrawerLeftViewController *)leftVC{
+    if(!_leftVC){
+        _leftVC = ({
+            WYADemoDrawerLeftViewController * object = [[WYADemoDrawerLeftViewController alloc]init];
+            object;
+       });
+    }
+    return _leftVC;
+}
+
+- (WYADemoDrawerRightViewController *)rightVC{
+    if(!_rightVC){
+        _rightVC = ({
+            WYADemoDrawerRightViewController * object = [[WYADemoDrawerRightViewController alloc]init];
+            object;
+       });
+    }
+    return _rightVC;
 }
 @end

@@ -102,6 +102,7 @@
             [button setImage:[UIImage loadBundleImage:@"icon_cameraOriginal_normal" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
             [button setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
             button.titleLabel.font = FONT(13);
+            button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20*SizeAdapter);
             [button addTarget:self action:@selector(centerClick:) forControlEvents:UIControlEventTouchUpInside];
             button;
        });
@@ -117,7 +118,7 @@
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button.titleLabel.font = FONT(13);
             
-            [button setBackgroundColor:[UIColor greenColor]];
+            [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108DE7"]] forState:UIControlStateNormal];
             [button addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
             button;
        });

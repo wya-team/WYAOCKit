@@ -38,7 +38,7 @@
 
 - (void)configUI{
     UILabel * label = [[UILabel alloc]init];
-    label.text = @"加载本地图片，时间1s";
+    label.text = @"加载本地图片，时间2s";
     label.textColor = random(51, 51, 51, 1);
     label.font = FONT(15);
     [self.view addSubview:label];
@@ -52,9 +52,15 @@
     CGFloat bannerView_X = 0;
     CGFloat bannerView_Y = CGRectGetMaxY(label.frame);
     CGFloat bannerView_Width = ScreenWidth;
-    CGFloat bannerView_Height = 100*SizeAdapter;
-    self.bannerView.frame = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
-    [self.view addSubview:self.bannerView];
+    CGFloat bannerView_Height = 200*SizeAdapter;
+    CGRect rectB = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
+    
+    SDCycleScrollView *banner1 = [SDCycleScrollView cycleScrollViewWithFrame:rectB delegate:nil placeholderImage:nil];
+    banner1.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    banner1.localizationImageNamesGroup = @[@"0",@"1",@"2"];
+//    banner1.titlesGroup = titles;
+    banner1.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
+    [self.view addSubview:banner1];
     
     UILabel * label1 = [[UILabel alloc]init];
     label1.text = @"加载网络图片，时间2s";
@@ -67,12 +73,39 @@
     CGFloat label1_Height = 20*SizeAdapter;
     label1.frame = CGRectMake(label1_X, label1_Y, label1_Width, label1_Height);
 
-    [self.view addSubview:self.netBannerView];
+//    [self.view addSubview:self.netBannerView];
     CGFloat netBannerView_X = 0;
     CGFloat netBannerView_Y = CGRectGetMaxY(label1.frame);
     CGFloat netBannerView_Width = ScreenWidth;
-    CGFloat netBannerView_Height = 100*SizeAdapter;
-    self.netBannerView.frame = CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
+    CGFloat netBannerView_Height = 200*SizeAdapter;
+    CGRect rect2 = CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
+    
+    
+    NSArray *imagesURLStrings = @[
+                                  @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
+                                  @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
+                                  @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
+                                  ];
+    
+    // 图片配文字
+    NSArray *titles = @[@"感谢您的支持，如果下载的",
+                        @"如果代码在使用过程中出现问题",
+                        @"您可以发邮件到",
+                        @"感谢您的支持"
+                        ];
+    
+//    CGFloat banner2_X = 0;
+//    CGFloat banner2_Y = CGRectGetMaxY(self.netBannerView.frame)+20*SizeAdapter;
+//    CGFloat banner2_Width = ScreenWidth;
+//    CGFloat banner2_Height = 140;
+//    CGRect rect = CGRectMake(banner2_X, banner2_Y, banner2_Width, banner2_Height);
+    
+    SDCycleScrollView *banner2 = [SDCycleScrollView cycleScrollViewWithFrame:rect2 delegate:nil placeholderImage:nil];
+    banner2.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+    banner2.imageURLStringsGroup = imagesURLStrings;
+    banner2.titlesGroup = titles;
+    banner2.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
+    [self.view addSubview:banner2];
 }
 
 
@@ -80,7 +113,7 @@
 - (WYABannerView *)bannerView{
     if(!_bannerView){
         _bannerView = ({
-            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleLocal timeInterval:1];
+            WYABannerView * object = [[WYABannerView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 200*SizeAdapter) bannerSourceStyle:WYABannerSourceStyleLocal timeInterval:2];
             object.images = [@[@"0",@"1",@"2",] mutableCopy];
             object;
        });

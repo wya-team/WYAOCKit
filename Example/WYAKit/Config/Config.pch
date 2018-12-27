@@ -13,11 +13,15 @@
 /*********** WYAKit **************/
 #import <WYAKit/WYADrawerViewController.h>
 #import <WYAKit/WYADrawerView.h>
+
+#import <WYAKit/UIViewController+CWLateralSlide.h>
+
 #import <WYAKit/WYATextView.h>
 #import <WYAKit/WYANavBar.h>
 #import <WYAKit/Category.h>
 #import <WYAKit/WYAPageController.h>
 #import <WYAKit/WYABannerView.h>
+#import <WYAKit/SDCycleScrollView.h>
 #import <WYAKit/WYANoticeBar.h>
 #import <WYAKit/WYAImageBrowser.h>
 #import <WYAKit/WYASlider.h>

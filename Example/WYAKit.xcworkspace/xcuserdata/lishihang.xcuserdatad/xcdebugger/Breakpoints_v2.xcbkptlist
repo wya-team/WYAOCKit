@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-            timestampString = "567527262.92892"
+            timestampString = "567578023.507457"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "270"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAPaginationView/WYAPaginationView.m"
-            timestampString = "567527262.928991"
+            timestampString = "567578023.507531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "113"
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAAlert/ViewModel/WYAPopupPresentAnimator.m"
-            timestampString = "567527262.929047"
+            timestampString = "567578023.507588"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "101"
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYABannerView/WYABannerView.m"
-            timestampString = "567527262.929112"
+            timestampString = "567578023.507653"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
             landmarkName = "-swipeImageView:"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYADrawerViewController/WYADrawerView/WYADrawerView.m"
-            timestampString = "567527262.929267"
+            timestampString = "567578023.508098"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "158"
-            endingLineNumber = "158"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "-viewMove:"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,12 +106,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYADrawerViewController/WYADrawerView/WYADrawerView.m"
-            timestampString = "567527262.929341"
+            timestampString = "567578023.508214"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "-viewEndMove:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYABannerView/WYABannerView.m"
+            timestampString = "567578023.508302"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
+            landmarkName = "-imageClicked:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WYAKit/Class/Home/WYAUIKit/WYADrawserViewControll/WYADemoDrawerLeftViewController.m"
+            timestampString = "567584344.790666"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WYAKit/Base/WYABaseViewController.m"
+            timestampString = "567584344.790728"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "-setHiddenNavBar:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

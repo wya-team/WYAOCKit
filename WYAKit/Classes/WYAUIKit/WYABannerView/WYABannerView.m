@@ -59,7 +59,7 @@
 
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:self.time>0 ? self.time : 2 target:self selector:@selector(scrollTimerDidFired:) userInfo:nil repeats:true];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+//    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
 - (void)setScrollViewContentOffsetCenter {
@@ -219,8 +219,6 @@
 - (UIImageView *)leftImageView {
     if (!_leftImageView) {
         _leftImageView = [UIImageView new];
-//        _leftImageView.contentMode = UIViewContentModeScaleAspectFit;
-        
     }
     
     return _leftImageView;
@@ -230,16 +228,8 @@
     if (!_middleImageView) {
         _middleImageView = [UIImageView new];
         _middleImageView.userInteractionEnabled = YES;
-//        _middleImageView.contentMode = UIViewContentModeScaleAspectFit;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageClicked:)];
         [_middleImageView addGestureRecognizer:tap];
-        
-        UISwipeGestureRecognizer * leftSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImageView:)];
-        leftSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
-        [_middleImageView addGestureRecognizer:leftSwipe];
-        
-        UISwipeGestureRecognizer * rightSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeImageView:)];
-        [_middleImageView addGestureRecognizer:rightSwipe];
     }
     
     return _middleImageView;
@@ -248,7 +238,7 @@
 - (UIImageView *)rightImageView {
     if (!_rightImageView) {
         _rightImageView = [UIImageView new];
-//        _rightImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _rightImageView.userInteractionEnabled = YES;
     }
     
     return _rightImageView;
