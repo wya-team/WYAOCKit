@@ -199,6 +199,12 @@ static char associatedObjectNamesKey;
     if ([deviceModel isEqualToString:@"iPhone10,5"]) return @"iPhone_8_Plus";
     if ([deviceModel isEqualToString:@"iPhone10,3"]) return @"iPhone_X";
     if ([deviceModel isEqualToString:@"iPhone10,6"]) return @"iPhone_X";
+    if ([deviceModel isEqualToString:@"iPhone11,2"]) return @"iPhone_X";
+    if ([deviceModel isEqualToString:@"iPhone11,4"]) return @"iPhone_Xs_Max";
+    if ([deviceModel isEqualToString:@"iPhone11,6"]) return @"iPhone_Xs_Max";
+    if ([deviceModel isEqualToString:@"iPhone11,8"]) return @"iPhone_XR";
+
+    
     if ([deviceModel isEqualToString:@"iPod1,1"]) return @"iPod Touch 1G";
     if ([deviceModel isEqualToString:@"iPod2,1"]) return @"iPod Touch 2G";
     if ([deviceModel isEqualToString:@"iPod3,1"]) return @"iPod Touch 3G";
@@ -235,6 +241,11 @@ static char associatedObjectNamesKey;
     if ([deviceModel isEqualToString:@"iPad6,4"]) return @"iPad Pro 9.7";
     if ([deviceModel isEqualToString:@"iPad6,7"]) return @"iPad Pro 12.9";
     if ([deviceModel isEqualToString:@"iPad6,8"]) return @"iPad Pro 12.9";
+    if ([deviceModel isEqualToString:@"iPad7,1"]) return @"iPad Pro 12.9";
+    if ([deviceModel isEqualToString:@"iPad7,2"]) return @"iPad Pro 12.9";
+    if ([deviceModel isEqualToString:@"iPad7,3"]) return @"iPad Pro 10.5";
+    if ([deviceModel isEqualToString:@"iPad7,4"]) return @"iPad Pro 10.5";
+
 
     if ([deviceModel isEqualToString:@"AppleTV2,1"]) return @"Apple TV 2";
     if ([deviceModel isEqualToString:@"AppleTV3,1"]) return @"Apple TV 3";
