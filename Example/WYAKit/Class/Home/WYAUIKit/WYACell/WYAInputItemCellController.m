@@ -20,10 +20,14 @@
 @end
 
 @implementation WYAInputItemCellController
-
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+    [UIView wya_showCenterToastWithMessage:@"如果无法退出键盘请点击完成即可"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.view addSubview:self.tableView];
+    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+
 }
 #pragma mark ======= UITableViewDelegate,UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -81,6 +81,7 @@
 		954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */; };
 		954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */; };
 		954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76A21A94DD50016C0F5 /* WYATablePageController.m */; };
+		9555A60C21D4B6E400DD21B6 /* WYALeftIconCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9555A60B21D4B6E400DD21B6 /* WYALeftIconCell.m */; };
 		9559283421AE82D400C46D6D /* WYAGridItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9559283321AE82D400C46D6D /* WYAGridItemCell.m */; };
 		9563FEA321B7609E00DA82D7 /* WYARealmCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9563FEA221B7609E00DA82D7 /* WYARealmCell.m */; };
 		9563FEA621B760B100DA82D7 /* WYARealmHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9563FEA521B760B100DA82D7 /* WYARealmHeaderView.m */; };
@@ -256,6 +257,8 @@
 		954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATwoTableViewController.m; sourceTree = "<group>"; };
 		954CB76921A94DD50016C0F5 /* WYATablePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATablePageController.h; sourceTree = "<group>"; };
 		954CB76A21A94DD50016C0F5 /* WYATablePageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATablePageController.m; sourceTree = "<group>"; };
+		9555A60A21D4B6E400DD21B6 /* WYALeftIconCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALeftIconCell.h; sourceTree = "<group>"; };
+		9555A60B21D4B6E400DD21B6 /* WYALeftIconCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALeftIconCell.m; sourceTree = "<group>"; };
 		9559283221AE82D400C46D6D /* WYAGridItemCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAGridItemCell.h; sourceTree = "<group>"; };
 		9559283321AE82D400C46D6D /* WYAGridItemCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAGridItemCell.m; sourceTree = "<group>"; };
 		9563FEA121B7609E00DA82D7 /* WYARealmCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYARealmCell.h; sourceTree = "<group>"; };
@@ -755,6 +758,8 @@
 				95369EAD21CE1F2400D0DDA5 /* WYANoBorderCell.m */,
 				95369EAF21CE221800D0DDA5 /* WYAGridHeaderView.h */,
 				95369EB021CE221900D0DDA5 /* WYAGridHeaderView.m */,
+				9555A60A21D4B6E400DD21B6 /* WYALeftIconCell.h */,
+				9555A60B21D4B6E400DD21B6 /* WYALeftIconCell.m */,
 			);
 			path = WYAGridViewController;
 			sourceTree = "<group>";
@@ -1180,6 +1185,7 @@
 				21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */,
 				954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */,
 				95F0944E21CB79DB00FFC0CF /* WYAMineViewController.m in Sources */,
+				9555A60C21D4B6E400DD21B6 /* WYALeftIconCell.m in Sources */,
 				9578497021AFDD9A001E19DC /* WYAInputItemCellController.m in Sources */,
 				21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */,
 				956BCC9021B567E60044095E /* Student.m in Sources */,

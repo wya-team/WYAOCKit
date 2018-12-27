@@ -62,6 +62,7 @@
     [self.tableView registerClass:[WYADownloadCell class] forCellReuseIdentifier:@"cell"];
     [self.tableView registerClass:[WYADownloadCompleteCell class] forCellReuseIdentifier:@"completeCell"];
     [self.view addSubview:self.tableView];
+    self.tableView.tableFooterView = [[UIView alloc]init];
     CGFloat tableView_X = 0;
     CGFloat tableView_Y = CGRectGetMaxY(button.frame)+20*SizeAdapter;
     CGFloat tableView_Width = ScreenWidth;
@@ -104,18 +105,21 @@
     if (indexPath.section == 0) {
         WYADownloadCell * downloadCell = (WYADownloadCell *)cell;
         downloadCell.model = self.downloader.downloadingArray[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else{
         WYADownloadCompleteCell * completeCell = (WYADownloadCompleteCell *)cell;
         completeCell.model = self.downloader.downloadCompleteArray[indexPath.row];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
 }
+//_destinationPath    NSPathStore2 *    @"/var/mobile/Containers/Data/Application/AC3CD2F9-CC19-4782-A0EF-E2F40094A236/Library/Caches/xxx.mp4"    0x000000028035c8c0
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return @"下载中";
+        return self.downloader.downloadingArray.count > 0 ? @"下载中":@"";
     } else {
-        return @"已完成";
+        return self.downloader.downloadCompleteArray.count > 0 ? @"已完成":@"";
     }
 }
 

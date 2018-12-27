@@ -59,8 +59,9 @@
 -(void)setModel:(WYADownloadTaskManager *)model{
     _model = model;
     if (model) {
-        self.titleLabel.text = model.destinationPath;
-        self.imgView.backgroundColor = [UIColor redColor];
+        NSArray * tempArray = [model.destinationPath componentsSeparatedByString:@"Caches/"];
+        self.titleLabel.text = [tempArray lastObject];
+        self.imgView.backgroundColor = GRAYBGCOLOR;
     }
 }
 

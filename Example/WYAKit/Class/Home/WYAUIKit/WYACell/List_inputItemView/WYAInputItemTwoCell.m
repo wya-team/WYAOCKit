@@ -31,24 +31,24 @@
     
     [self.leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(leftSpace);
-        make.top.equalTo(self.mas_top).offset(leftSpace);
+        make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(80*SizeAdapter, 20*SizeAdapter));
     }];
     [self.textFiled mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.leftButton.mas_right).offset(5*SizeAdapter);
-        make.top.equalTo(self.mas_top).offset(leftSpace);
+        make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(200*SizeAdapter, 20*SizeAdapter));
     }];
     
     [self.arrowButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-leftSpace);
-        make.top.equalTo(self.mas_top).offset(leftSpace);
+        make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(15*SizeAdapter,15*SizeAdapter));
     }];
     
     [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.arrowButton.mas_left).offset(-5*SizeAdapter);
-        make.top.equalTo(self.mas_top).offset(leftSpace);
+        make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(80*SizeAdapter,20*SizeAdapter));
     }];
 }
@@ -69,7 +69,7 @@
             object.textColor = [UIColor blackColor];
             object.font = FONT(14);
             object.delegate = self;
-            object.returnKeyType = UIReturnKeyDefault;
+            object.returnKeyType = UIReturnKeyDone;
             object;
        });
     }
