@@ -66,11 +66,11 @@
 }
 
 -(void)setModel:(WYADownloadTaskManager *)model{
-    if (_model) {
-        [_model removeObserver:self forKeyPath:@"progress"];
-        [_model removeObserver:self forKeyPath:@"downloadState"];
-        [_model removeObserver:self forKeyPath:@"speed"];
-    }
+//    if (_model) {
+//        [_model removeObserver:self forKeyPath:@"progress"];
+//        [_model removeObserver:self forKeyPath:@"downloadState"];
+//        [_model removeObserver:self forKeyPath:@"speed"];
+//    }
     _model = model;
     if (model) {
         [model addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
@@ -193,4 +193,11 @@
     }
     return _speedLabel;
 }
+
+-(void)dealloc{
+    [self.model removeObserver:self forKeyPath:@"progress"];
+    [self.model removeObserver:self forKeyPath:@"downloadState"];
+    [self.model removeObserver:self forKeyPath:@"speed"];
+}
+
 @end

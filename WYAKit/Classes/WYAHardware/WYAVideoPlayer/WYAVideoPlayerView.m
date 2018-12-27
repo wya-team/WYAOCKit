@@ -90,6 +90,7 @@
 }
 #pragma mark - Private Method -
 - (void)setupUI{
+//    self.isLockScrren = YES;
     self.brightnessView;
     [self.layer addSublayer:self.playerLayer];
     [self addSubview:self.previewImageView];
@@ -122,10 +123,13 @@
             break;
         case UIDeviceOrientationLandscapeLeft:
             NSLog(@"屏幕向左横置");
+            self.isLockScrren = YES;
             [self enterFullscreenWithLeft:YES];
+            
             break;
         case UIDeviceOrientationLandscapeRight:
             NSLog(@"屏幕向右橫置");
+            self.isLockScrren = YES;
             [self enterFullscreenWithLeft:NO];
             break;
         case UIDeviceOrientationPortrait:
@@ -354,10 +358,10 @@
      * 执行动画
      */
     [UIView animateWithDuration:0.5 animations:^{
-        self.transform = CGAffineTransformMakeRotation(isLeft? -M_PI_2 : M_PI_2);
+        self.transform = CGAffineTransformMakeRotation(isLeft? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
-        self.brightnessView.transform = CGAffineTransformMakeRotation(isLeft ? -M_PI_2 : M_PI_2);
+        self.brightnessView.transform = CGAffineTransformMakeRotation(isLeft? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
     } completion:^(BOOL finished){
         [self setNeedsLayout];
         [self layoutIfNeeded];
@@ -368,7 +372,7 @@
         [self.playerDelegate wya_playerView:self isfullScreen:YES];
     }
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight animated:YES];
+    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? (self.isLockScrren ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight)  : (self.isLockScrren ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationLandscapeLeft) animated:YES];
 }
 
 - (void)exitFullscreen

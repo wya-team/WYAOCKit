@@ -113,7 +113,7 @@
     }
     
 }
-//_destinationPath    NSPathStore2 *    @"/var/mobile/Containers/Data/Application/AC3CD2F9-CC19-4782-A0EF-E2F40094A236/Library/Caches/xxx.mp4"    0x000000028035c8c0
+
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section == 0) {
@@ -152,7 +152,7 @@
             WYADownloadCompleteCell * cell = [tableView cellForRowAtIndexPath:indexPath];
             [self.downloader wya_removeDownloadWithTaskManager:cell.model];
         }
-        [tableView reloadSections:[[NSIndexSet alloc] initWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [tableView reloadData];
     }
 }
 
@@ -229,6 +229,10 @@
     return _models;
 }
 
-
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WYADownloaderDownloadArrayObserveKeyPath object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:WYADownloaderCompleteArrayObserveKeyPath object:nil];
+    
+}
 
 @end
