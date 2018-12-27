@@ -19,6 +19,7 @@
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, assign) BOOL  allImage;
 
 @end
 
@@ -113,7 +114,6 @@
     if(!_dataSource){
         _dataSource = ({
             NSMutableArray * object = [[NSMutableArray alloc]init];
-            [object addObject:@""];
             object;
         });
     }
@@ -127,29 +127,32 @@
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.dataSource.count;
+    return self.dataSource.count + (self.allImage ? 0 : 1);
     
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.item == self.dataSource.count-1) {
-        WYACameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CameraCell forIndexPath:indexPath];
-        return cell;
-    }else{
+    if (self.allImage) {
         WYAEditCameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:EditCameraCell forIndexPath:indexPath];
         return cell;
+    }else{
+        if (indexPath.item == self.dataSource.count) {
+            WYACameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:CameraCell forIndexPath:indexPath];
+            return cell;
+        }else{
+            WYAEditCameraCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:EditCameraCell forIndexPath:indexPath];
+            return cell;
+        }
     }
+    
     
 }
 
 #pragma mark ======= UICollectionViewDelegate
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.item == self.dataSource.count-1) {
-        WYACameraCell * cameraCell = (WYACameraCell *)cell;
-        cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
-    }else{
+    if (self.allImage) {
         WYACameraModel * model = self.dataSource[indexPath.item];
         WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
         editCell.image = model.image;
@@ -157,9 +160,20 @@
             [self.dataSource removeObjectAtIndex:indexPath.row];
             [self.collectionView reloadData];
         };
+    }else{
+        if (indexPath.item == self.dataSource.count) {
+            WYACameraCell * cameraCell = (WYACameraCell *)cell;
+            cameraCell.imageView.image = [UIImage imageNamed:@"icon_add"];
+        }else{
+            WYACameraModel * model = self.dataSource[indexPath.item];
+            WYAEditCameraCell * editCell = (WYAEditCameraCell *)cell;
+            editCell.image = model.image;
+            editCell.editBlock = ^{
+                [self.dataSource removeObjectAtIndex:indexPath.row];
+                [self.collectionView reloadData];
+            };
+        }
     }
-    
-    
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -168,17 +182,6 @@
     return CGSizeMake(width, width);
     
 }
-//footer的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
-
-//header的size
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(10, 10);
-//}
 
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
@@ -202,7 +205,11 @@
 {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self.view endEditing:YES];
-    if (indexPath.item == self.dataSource.count-1) {
+    if (indexPath.item == self.dataSource.count) {
+        if (self.textField.text.length<1 || [self.textField.text integerValue] == 0) {
+            [UIView wya_showCenterToastWithMessage:@"请输入正确的图片数量"];
+            return;
+        }
         WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"" Message:@""];
         WeakSelf(weakSelf);
         WYAAlertAction *defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
@@ -212,6 +219,9 @@
                 model.image = photo;
                 model.sourceType = WYACameraSourceTypeImage;
                 [self.dataSource insertObject:model atIndex:0];
+                if ([self.textField.text integerValue] == self.dataSource.count) {
+                    self.allImage = YES;
+                }
                 [self.collectionView reloadData];
             };
             camera.takeVideo = ^(NSString *videoPath) {
@@ -220,14 +230,20 @@
                 model.image = image;
                 model.sourceType = WYACameraSourceTypeVideo;
                 [self.dataSource insertObject:model atIndex:0];
+                if ([self.textField.text integerValue] == self.dataSource.count) {
+                    self.allImage = YES;
+                }
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:camera animated:YES completion:nil];
             
         }];
         WYAAlertAction *cancelAction = [WYAAlertAction wya_ActionWithTitle:@"相册" style:WYAAlertActionStyleDefault handler:^{
-            
-            WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:[self.textField.text integerValue]];
+            NSInteger inter = [self.textField.text integerValue] - self.dataSource.count ;
+            if (inter == 0) {
+                return ;
+            }
+            WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc]initWithMaxCount:inter];
             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                 NSLog(@"images==%@",images);
                 NSMutableArray * array = [NSMutableArray array];
@@ -238,6 +254,9 @@
                     [array addObject:model];
                 }
                 [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
+                if ([self.textField.text integerValue] == self.dataSource.count) {
+                    self.allImage = YES;
+                }
                 [self.collectionView reloadData];
             };
             [weakSelf presentViewController:photo animated:YES completion:nil];
@@ -263,7 +282,9 @@
     
 }
 
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
 
 
 

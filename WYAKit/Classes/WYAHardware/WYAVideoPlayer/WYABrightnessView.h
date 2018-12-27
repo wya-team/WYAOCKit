@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYABrightnessView : UIView
 
-
++ (instancetype)sharedBrightnessView;
 
 @end
 

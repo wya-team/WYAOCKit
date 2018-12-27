@@ -12,15 +12,34 @@
 @property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UIView * gridView;
 @property (nonatomic, strong) NSMutableArray * tips;
-@property (nonatomic, strong) UIToolbar * toolbar;
+@property (nonatomic, assign) BOOL orientationDidChange;
 @end
 
 @implementation WYABrightnessView
+
++ (instancetype)sharedBrightnessView {
+    static WYABrightnessView *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[WYABrightnessView alloc] init];
+        [[UIApplication sharedApplication].keyWindow addSubview:instance];
+    });
+    return instance;
+}
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
+        self.frame = CGRectMake(ScreenWidth * 0.5, ScreenHeight * 0.5, 155, 155);
+        self.layer.cornerRadius  = 10;
+        self.layer.masksToBounds = YES;
+        
+        // 使用UIToolbar实现毛玻璃效果，简单粗暴，支持iOS7+
+        UIToolbar *toolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+        toolbar.alpha = 0.97;
+        [self addSubview:toolbar];
+        
         [self setup];
     }
     return self;
@@ -28,30 +47,25 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    [self.toolbar mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.edges.mas_equalTo(self);
-    }];
+    self.center = CGPointMake(Window.bounds.size.width * 0.5, Window.bounds.size.height * 0.5);
     
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.mas_equalTo(self);
-        make.top.mas_equalTo(self.mas_top).with.offset(5*SizeAdapter);
-        make.height.mas_equalTo(20*SizeAdapter);
-    }];
+    CGFloat titleLabel_X = 0;
+    CGFloat titleLabel_Y = 5;
+    CGFloat titleLabel_Width = self.cmam_width;
+    CGFloat titleLabel_Height = 30;
+    self.titleLabel.frame = CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
     
-    [self.imageView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.mas_centerX);
-        make.centerY.mas_equalTo(self.mas_centerY);
-        make.size.mas_equalTo(CGSizeMake(44*SizeAdapter, 44*SizeAdapter));
-    }];
+    self.imageView.center = CGPointMake(155 * 0.5, 155 * 0.5);
+    CGFloat imageView_Width = 79;
+    CGFloat imageView_Height = 76;
+    self.imageView.bounds = CGRectMake(0, 0, imageView_Width, imageView_Height);
     
-    [self.gridView mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
-        make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
-        make.bottom.mas_equalTo(self.mas_bottom).with.offset(-5*SizeAdapter);
-        make.height.mas_equalTo(10*SizeAdapter);
-    }];
+    CGFloat gridView_X = 13;
+    CGFloat gridView_Y = 132;
+    CGFloat gridView_Width = self.bounds.size.width - 26;
+    CGFloat gridView_Height = 7;
+    self.gridView.frame = CGRectMake(gridView_X, gridView_Y, gridView_Width, gridView_Height);
     
-    [self.gridView.subviews wya_mas_distributeSudokuViewsWithFixedLineSpacing:0 fixedInteritemSpacing:1 warpCount:10 topSpacing:1 bottomSpacing:1 leadSpacing:1 tailSpacing:1];
 }
 
 #pragma mark - Private Method -
@@ -59,40 +73,72 @@
     self.layer.cornerRadius = 5.f;
     self.layer.masksToBounds = YES;
     
-    [self addSubview:self.toolbar];
     [self addSubview:self.titleLabel];
     [self addSubview:self.imageView];
     [self addSubview:self.gridView];
     
-    for (NSInteger index = 0; index<10; index++) {
-        UIView * view = [[UIView alloc]init];
-        view.backgroundColor = [UIColor whiteColor];
-        view.layer.cornerRadius = 2.f;
-        view.layer.masksToBounds = YES;
-        [self.gridView addSubview:view];
-        [self.tips addObject:view];
-    }
-    
-    [[UIScreen mainScreen] addObserver:self forKeyPath:@"brightness" options:NSKeyValueObservingOptionNew context:nil];
+    [self createTips];
+    [self addNotification];
+    [self addObserver];
 }
 
--(void)setScreenBridghtnessNumber:(CGFloat)number{
-    CGFloat stage = 0.1;
-    NSInteger level = number / stage;
+- (void)createTips {
     
-    for (int i = 0; i < self.tips.count; i++) {
-        UIView *view = self.tips[i];
-        
-        if (i <= level) {
-            view.hidden = NO;
-        } else {
-            view.hidden = YES;
-        }
+    self.tips = [NSMutableArray arrayWithCapacity:16];
+    
+    CGFloat tipW = (132 - 17) / 16;
+    CGFloat tipH = 5;
+    CGFloat tipY = 1;
+    
+    for (int i = 0; i < 16; i++) {
+        CGFloat tipX          = i * (tipW + 1) + 1;
+        UIImageView *image    = [[UIImageView alloc] init];
+        image.backgroundColor = [UIColor whiteColor];
+        image.frame           = CGRectMake(tipX, tipY, tipW, tipH);
+        [self.gridView addSubview:image];
+        [self.tips addObject:image];
     }
+    [self updateLongView:[UIScreen mainScreen].brightness];
 }
+
+- (void)addNotification {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateLayer:)
+                                                 name:UIDeviceOrientationDidChangeNotification
+                                               object:nil];
+}
+
+- (void)addObserver {
+    
+    [[UIScreen mainScreen] addObserver:self
+                            forKeyPath:@"brightness"
+                               options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    
+    CGFloat sound = [change[@"new"] floatValue];
+    [self appearSoundView];
+    [self updateLongView:sound];
+}
+
+- (void)updateLayer:(NSNotification *)notify {
+    [Window bringSubviewToFront:self];
+    
+    self.orientationDidChange = YES;
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+}
+
+#pragma mark - Methond
 
 - (void)appearSoundView {
     if (self.alpha == 0.0) {
+        self.orientationDidChange = NO;
         self.alpha = 1.0;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self disAppearSoundView];
@@ -109,13 +155,20 @@
     }
 }
 
-#pragma mark - KVO  -
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"brightness"]) {
-        CGFloat number = [change[@"new"] floatValue];
-        [self setScreenBridghtnessNumber:number];
-        [self appearSoundView];
+#pragma mark - Update View
+
+- (void)updateLongView:(CGFloat)sound {
+    CGFloat stage = 1 / 15.0;
+    NSInteger level = sound / stage;
+    
+    for (int i = 0; i < self.tips.count; i++) {
+        UIImageView *img = self.tips[i];
+        
+        if (i <= level) {
+            img.hidden = NO;
+        } else {
+            img.hidden = YES;
+        }
     }
 }
 
@@ -124,17 +177,6 @@
 
 
 #pragma mark - Getter -
-- (UIToolbar *)toolbar{
-    if(!_toolbar){
-        _toolbar = ({
-            UIToolbar * object = [[UIToolbar alloc]init];
-            object.alpha = 0.97;
-            object;
-        });
-    }
-    return _toolbar;
-}
-
 - (UILabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
@@ -153,7 +195,7 @@
     if(!_imageView){
         _imageView = ({
             UIImageView * object = [[UIImageView alloc]init];
-            object.backgroundColor = [UIColor redColor];
+            object.image = [UIImage loadBundleImage:@"icon_video_brightness" ClassName:NSStringFromClass(self.class)];
             object;
         });
     }
@@ -164,23 +206,12 @@
     if(!_gridView){
         _gridView = ({
             UIView * object = [[UIView alloc]init];
-            object.backgroundColor = [UIColor grayColor];
+            object.backgroundColor = [UIColor colorWithRed:0.25f green:0.22f blue:0.21f alpha:1.00f];
             object;
         });
     }
     return _gridView;
 }
-
-- (NSMutableArray *)tips{
-    if(!_tips){
-        _tips = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
-            object;
-        });
-    }
-    return _tips;
-}
-
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

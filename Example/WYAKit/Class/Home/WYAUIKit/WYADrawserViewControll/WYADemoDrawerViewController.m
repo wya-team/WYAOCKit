@@ -66,6 +66,14 @@
     [button1 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
     [button1 addCallBackAction:^(UIButton *button) {
 //        [weakSelf.drawerView wya_rightViewMove];
+        CWLateralSlideConfiguration *conf = [CWLateralSlideConfiguration defaultConfiguration];
+        conf.direction = CWDrawerTransitionFromRight; // 从右边滑出
+        conf.finishPercent = 0.2f;
+        conf.showAnimDuration = 0.2;
+        conf.HiddenAnimDuration = 0.2;
+        conf.maskAlpha = 0.1;
+        
+        [weakSelf cw_showDrawerViewController:self.rightVC animationType:CWDrawerAnimationTypeDefault configuration:conf];
     }];
     [self.view addSubview:button1];
     

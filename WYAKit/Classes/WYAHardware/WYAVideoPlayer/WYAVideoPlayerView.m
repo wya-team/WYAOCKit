@@ -35,6 +35,7 @@
 @property (nonatomic, strong) UISlider * volumeSlider;
 @property (nonatomic, assign) CGFloat                sumTime;//用来保存快进的总时长
 @property (nonatomic, strong) WYABrightnessView * brightnessView;
+@property (nonatomic, assign) BOOL  isLockScrren;
 
 @end
 
@@ -86,20 +87,14 @@
     CGFloat controlView_Height = self.bounds.size.height;
     self.controlView.frame = CGRectMake(controlView_X, controlView_Y, controlView_Width, controlView_Height);
 
-    CGFloat brightnessView_X = (self.bounds.size.width-100*SizeAdapter)*0.5;
-    CGFloat brightnessView_Y = (self.bounds.size.height-100*SizeAdapter)*0.5;
-    CGFloat brightnessView_Width = 100*SizeAdapter;
-    CGFloat brightnessView_Height = 100*SizeAdapter;
-    self.brightnessView.frame = CGRectMake(brightnessView_X, brightnessView_Y, brightnessView_Width, brightnessView_Height);
-
 }
 #pragma mark - Private Method -
 - (void)setupUI{
+    self.brightnessView;
     [self.layer addSublayer:self.playerLayer];
     [self addSubview:self.previewImageView];
     [self addSubview:self.loadingImageView];
     [self addSubview:self.controlView];
-    [self addSubview:self.brightnessView];
     
     self.backgroundColor = [UIColor grayColor];
     
@@ -226,7 +221,7 @@
 
 - (WYABrightnessView *)brightnessView{
     if(!_brightnessView){
-        _brightnessView = [[WYABrightnessView alloc]init];
+        _brightnessView = [WYABrightnessView sharedBrightnessView];
         _brightnessView.alpha = 0;
     }
     return _brightnessView;
@@ -359,19 +354,21 @@
      * 执行动画
      */
     [UIView animateWithDuration:0.5 animations:^{
-        self.transform = CGAffineTransformMakeRotation(isLeft? M_PI_2 : -M_PI_2);
+        self.transform = CGAffineTransformMakeRotation(isLeft? -M_PI_2 : M_PI_2);
         self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
         self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
+        self.brightnessView.transform = CGAffineTransformMakeRotation(isLeft ? -M_PI_2 : M_PI_2);
     } completion:^(BOOL finished){
         [self setNeedsLayout];
         [self layoutIfNeeded];
+        [Window bringSubviewToFront:self.brightnessView];
     }];
     
     if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
         [self.playerDelegate wya_playerView:self isfullScreen:YES];
     }
     
-    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationLandscapeLeft animated:YES];
+    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight animated:YES];
 }
 
 - (void)exitFullscreen
@@ -391,6 +388,7 @@
         [self removeFromSuperview];
         self.frame = self.videoItem.rect;
         [self.videoItem.superV addSubview:self];
+        self.brightnessView.transform = CGAffineTransformIdentity;
     }];
     
     if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
