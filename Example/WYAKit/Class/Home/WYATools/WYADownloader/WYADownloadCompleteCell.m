@@ -61,7 +61,7 @@
     if (model) {
         NSArray * tempArray = [model.destinationPath componentsSeparatedByString:@"Caches/"];
         self.titleLabel.text = [tempArray lastObject];
-        self.imgView.backgroundColor = [UIColor redColor];
+        self.imgView.backgroundColor = GRAYBGCOLOR;
     }
 }
 
