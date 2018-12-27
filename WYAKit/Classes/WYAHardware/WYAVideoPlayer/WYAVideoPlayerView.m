@@ -124,13 +124,13 @@
         case UIDeviceOrientationLandscapeLeft:
             NSLog(@"屏幕向左横置");
             self.isLockScrren = YES;
-            [self enterFullscreenWithLeft:YES];
+            [self enterFullscreenWithLeft:NO];
             
             break;
         case UIDeviceOrientationLandscapeRight:
             NSLog(@"屏幕向右橫置");
             self.isLockScrren = YES;
-            [self enterFullscreenWithLeft:NO];
+            [self enterFullscreenWithLeft:YES];
             break;
         case UIDeviceOrientationPortrait:
             NSLog(@"屏幕直立");
@@ -600,7 +600,7 @@
 {
     if (zoomButton.selected) {
         //全屏
-        [self enterFullscreenWithLeft:NO];
+        [self enterFullscreenWithLeft:YES];
         
        
     } else {
