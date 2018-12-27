@@ -7,7 +7,7 @@
 //
 
 #import "WYACustomPopoverBackgroundView.h"
-#define HArrowHeight 10
+#define HArrowHeight 7
 #define HArrowBase 10
 #define HArrowInsets 0
 

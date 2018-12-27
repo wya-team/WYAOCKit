@@ -11,7 +11,9 @@
 #import "WYAAdjustCell.h"
 #import "WYANoBorderCell.h"
 #import "WYAGridHeaderView.h"
+#import "WYALeftIconCell.h"
 
+#define LEFTICONCELL @"WYALeftIconCell"
 #define HEADERVIEW @"WYAGridHeaderView"
 #define GRIDCELL @"GridCell"
 #define NOBORDERCELL @"WYANoBorderCell"
@@ -47,6 +49,7 @@
             [object registerClass:[WYAGridItemCell class] forCellWithReuseIdentifier:GRIDCELL];
             [object registerClass:[WYAAdjustCell class] forCellWithReuseIdentifier:ADJUSTCELL];
             [object registerClass:[WYANoBorderCell class] forCellWithReuseIdentifier:NOBORDERCELL];
+            [object registerClass:[WYALeftIconCell class] forCellWithReuseIdentifier:LEFTICONCELL];
             [object registerClass:[WYAGridHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW];
             object;
         });
@@ -58,8 +61,10 @@
         return CGSizeMake(ScreenWidth/4, 100);
     }if (indexPath.section == 1) {
         return CGSizeMake(ScreenWidth/4, 130);
-    }else{
+    }else if(indexPath.section == 2){
         return CGSizeMake(ScreenWidth/3, 100);
+    }else{
+        return CGSizeMake(ScreenWidth/2, 40);
     }
 }
 - (NSArray *)dataSource{
@@ -83,7 +88,10 @@
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.dataSource.count;
+    if (section != 3) {
+        return self.dataSource.count;
+    }
+    return 4;
 }
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return self.titleArray.count;
@@ -98,12 +106,15 @@
         WYAAdjustCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:ADJUSTCELL forIndexPath:indexPath];
         cell.titleString = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
         return cell;
-    }else{
+    }else if(indexPath.section == 2){
         WYANoBorderCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:NOBORDERCELL forIndexPath:indexPath];
         cell.titleString = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
         return cell;
+    }else {
+        WYALeftIconCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:LEFTICONCELL forIndexPath:indexPath];
+        cell.titleString = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
+        return cell;
     }
-
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
         WYAGridHeaderView * view = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:HEADERVIEW forIndexPath:indexPath];
@@ -114,7 +125,7 @@
 - (NSArray *)titleArray{
     if(!_titleArray){
         _titleArray = ({
-            NSArray * object = @[@"  Alwats square grid item",@"  Grid item adjust accrodiding to img size",@"  No border"];
+            NSArray * object = @[@"  Alwats square grid item",@"  Grid item adjust accrodiding to img size",@"  No border",@"  leftIcon layout"];
             object;
        });
     }
