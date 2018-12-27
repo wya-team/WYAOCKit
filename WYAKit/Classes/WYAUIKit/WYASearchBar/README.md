@@ -15,7 +15,8 @@
 customBgColor | 背景色默认白色 | UIColor | 白色
 roundRate | 切圆角的系数 | CGFloat | 8
 placeholderString | 占位文字,用来代替系统的placeholder | NSString | -
-
+placeholderColor | 占位文字颜色 | UIColor | 系统灰色
+placeholderFont | 占位文字字体大小 | CGFloat | 12 
 ---
 
 ## 方法

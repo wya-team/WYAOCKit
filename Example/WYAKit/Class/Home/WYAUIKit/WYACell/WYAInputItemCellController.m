@@ -128,6 +128,8 @@
     return nil;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    
     UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 30*SizeAdapter)];
     label.backgroundColor = [UIColor groupTableViewBackgroundColor];
     label.font = FONT(16);
@@ -144,6 +146,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 #pragma mark ======= getter
 - (UITableView *)tableView{
@@ -261,5 +264,7 @@
     BOOL isShow = cell.textFiled.secureTextEntry;
     cell.textFiled.secureTextEntry = !isShow;
 }
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self resignFirstResponder];
+}
 @end

@@ -59,7 +59,7 @@
         nav.tabBarItem.title = model.tabBarTitle;
         nav.tabBarItem.image = [model normalImage];
         nav.tabBarItem.selectedImage = [model selectedImage];
-        CGFloat fontSize = self.tabBarTitleFont == 0? 14:self.tabBarTitleFont;
+        CGFloat fontSize = self.tabBarTitleFont == 0? 12:self.tabBarTitleFont;
         [[UITabBarItem appearance]setTitleTextAttributes:@{NSForegroundColorAttributeName:self.normalTitleColor==nil?WYA_RGB_COLOR(102, 102, 102):self.normalTitleColor ,NSFontAttributeName:FONT(fontSize)} forState:UIControlStateNormal];
         
         [[UITabBarItem appearance]setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:self.selectedTitleColor==nil?WYA_RGB_COLOR(77, 154, 247):self.selectedTitleColor,NSForegroundColorAttributeName, nil] forState:(UIControlStateSelected)];
@@ -69,7 +69,7 @@
     #pragma mark ======= 调整文字和图片的间距
     for (UITabBarItem * i in self.tabBar.items) {
         i.titlePositionAdjustment = UIOffsetMake(0, 2);
-        i.imageInsets = UIEdgeInsetsMake(-1, 0, 2, 0);
+        i.imageInsets = UIEdgeInsetsMake(-2, 0, 2, 0);
     }
 
 }

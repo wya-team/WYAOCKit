@@ -126,10 +126,10 @@
 - (UIButton *)button{
     if(!_button){
         _button = ({
-            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.customSearchBar3.frame)+20, ScreenWidth-40, 49)];
+            UIButton * object = [[UIButton alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(self.customSearchBar3.frame)+20, ScreenWidth-40, 36)];
             [object setTitle:@"click to focus" forState:UIControlStateNormal];
             [object setTitleColor:BLACKTITLECOLOR forState:UIControlStateNormal];
-            object.titleLabel.font = FONT(15);
+            object.titleLabel.font = FONT(14);
             object.backgroundColor = WHITECOLOR;
             object.layer.cornerRadius = 8;
             object.layer.borderColor = GRAYBGCOLOR.CGColor;

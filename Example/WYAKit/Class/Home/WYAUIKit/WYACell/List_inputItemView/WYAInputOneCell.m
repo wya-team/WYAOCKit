@@ -66,6 +66,7 @@
             object.textColor = [UIColor blackColor];
             object.font = FONT(14);
             object.delegate = self;
+            object.returnKeyType = UIReturnKeyDefault;
             object;
         });
     }
@@ -113,12 +114,16 @@
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputOneCell:textFiledDidEndEditing:)]) {
         [self.delegate wya_inputOneCell:self textFiledDidEndEditing:textField.text];
     }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputOneCell:textFiledShouldReturn:)]) {
         [self.delegate wya_inputOneCell:self textFiledShouldReturn:textField.text];
     }
@@ -126,8 +131,13 @@
 }
 #pragma mark ======= Event
 - (void)rightButtonPressed:(UIButton *)sender{
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputOneCell:rightButtonDidSelected:)]) {
         [self.delegate wya_inputOneCell:self rightButtonDidSelected:sender];
     }
+}
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.textFiled resignFirstResponder];
 }
 @end

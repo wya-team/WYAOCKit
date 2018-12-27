@@ -35,8 +35,8 @@
     if(!_ableStepperView){
         _ableStepperView = ({
             WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth - 100*SizeAdapter, 0 , 100*SizeAdapter, 40*SizeAdapter)];
-            object.childFrame = CGRectMake(0, 0, 20*SizeAdapter, 20*SizeAdapter);
-            object.ImageNamedArray = @[@"icon_stepper_minus", @"icon_add_enable"];
+            object.childFrame = CGRectMake(0, 0, 30*SizeAdapter, 30*SizeAdapter);
+            object.ImageNamedArray = @[@"icon_stepper_minus", @"icon_stepper_plus"];
             object.delegate = self;
             object;
        });
@@ -48,8 +48,8 @@
     if(!_disableAtepperView){
         _disableAtepperView = ({
             WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(ScreenWidth - 100*SizeAdapter, 0 , 100*SizeAdapter, 40*SizeAdapter)];
-            object.childFrame = CGRectMake(0, 0, 20*SizeAdapter, 20*SizeAdapter);
-            object.ImageNamedArray = @[@"icon_stepper_minus", @"icon_add_enable"];
+            object.childFrame = CGRectMake(0, 0, 30*SizeAdapter, 30*SizeAdapter);
+            object.ImageNamedArray = @[@"icon_stepper_minus_normal", @"icon_stepper_normal"];
             object.delegate = self;
             object.tintColor = WHITECOLOR;
             object.userInteractionEnabled = NO;

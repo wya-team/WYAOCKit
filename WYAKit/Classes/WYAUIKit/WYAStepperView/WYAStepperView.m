@@ -38,6 +38,7 @@
     [self.addButton setImage:[UIImage imageNamed:[ImageNamedArray wya_safeObjectAtIndex:1]] forState:UIControlStateNormal];
 
 }
+
 #pragma mark ======= getter
 - (UIButton *)subtractButton{
     if(!_subtractButton){

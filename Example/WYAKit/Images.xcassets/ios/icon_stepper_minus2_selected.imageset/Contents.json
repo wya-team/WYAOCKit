@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icon_row_right.png",
+      "filename" : "icon_stepper_minus2_selected.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icon_row_right@2x.png",
+      "filename" : "icon_stepper_minus2_selected@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icon_row_right@3x.png",
+      "filename" : "icon_stepper_minus2_selected@3x.png",
       "scale" : "3x"
     }
   ],
