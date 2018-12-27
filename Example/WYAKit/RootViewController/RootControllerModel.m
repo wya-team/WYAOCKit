@@ -36,12 +36,15 @@
 
 - (UIImage *)normalImage
 {
-    return [[UIImage imageNamed:self.normalImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    
+    return [[UIImage imageNamed:self.normalImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
 - (UIImage *)selectedImage
 {
-    return [[UIImage imageNamed:self.selectedImageName]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    return [[UIImage imageNamed:self.selectedImageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
 }
 @end

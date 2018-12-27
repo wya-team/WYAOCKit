@@ -69,6 +69,7 @@
             object.textColor = [UIColor blackColor];
             object.font = FONT(14);
             object.delegate = self;
+            object.returnKeyType = UIReturnKeyDefault;
             object;
        });
     }
@@ -124,12 +125,15 @@
 }
 -(void)textFieldDidEndEditing:(UITextField *)textField
 {
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:textFiledDidEndEditing:)]) {
         [self.delegate wya_inputItemTwoCell:self textFiledDidEndEditing:textField.text];
     }
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
+    [self.textFiled resignFirstResponder];
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:textFiledShouldReturn:)]) {
         [self.delegate wya_inputItemTwoCell:self textFiledShouldReturn:textField.text];
     }
@@ -137,11 +141,15 @@
 }
 #pragma mark ======= Event
 - (void)rightButtonPressed:(UIButton *)sender{
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:rightButtonDidSelected:)]) {
         [self.delegate wya_inputItemTwoCell:self rightButtonDidSelected:sender];
     }
 }
 - (void)arrowButtonPressed:(UIButton *)sender{
+    [self.textFiled resignFirstResponder];
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:imageButtonDidSelected:)]) {
         [self.delegate wya_inputItemTwoCell:self imageButtonDidSelected:sender];
     }

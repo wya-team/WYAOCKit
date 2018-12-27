@@ -11,7 +11,7 @@
 @class WYAInputItemTwoCell;
 NS_ASSUME_NONNULL_BEGIN
 @protocol WYAInputItemTwoCellDelegate <NSObject>
-
+@optional
 - (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell textFiledChangeingValue:(NSString *)text;
 - (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell textFiledDidEndEditing:(NSString *)text;
 - (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell textFiledShouldReturn:(NSString *)text;

@@ -35,7 +35,7 @@
     self.searchTextPositionAdjustment = UIOffsetMake(3, 0);
     _customBgColor = [UIColor whiteColor];
     _roundRate = 5;
-    
+    _placeholderFont = 12;
     self.searchIconHeight = self.bounds.size.height-8;
     self.selfWidth = self.bounds.size.width;
     self.selfHeight = self.bounds.size.height;
@@ -72,12 +72,24 @@
 - (void)setPlaceholderString:(NSString *)placeholderString{
     _placeholderString = placeholderString;
     self.placeholder = placeholderString;
-    self.placeholderWidth = [placeholderString wya_widthWithFontSize:15 height:self.bounds.size.height];
+    UITextField * searchField = [self valueForKey:@"_searchField"];
+    [searchField setValue:[UIFont boldSystemFontOfSize:_placeholderFont] forKeyPath:@"_placeholderLabel.font"];
+    self.placeholderWidth = [placeholderString wya_widthWithFontSize:self.placeholderFont height:self.selfHeight];
     CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight)*0.5;
     [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
   
 }
 
+- (void)setPlaceholderFont:(CGFloat)placeholderFont{
+    _placeholderFont = placeholderFont;
+    UITextField * searchField = [self valueForKey:@"_searchField"];
+    [searchField setValue:[UIFont boldSystemFontOfSize:_placeholderFont] forKeyPath:@"_placeholderLabel.font"];
+}
+- (void)setPlaceholderColor:(UIColor *)placeholderColor{
+    _placeholderColor = placeholderColor;
+    UITextField * searchField = [self valueForKey:@"_searchField"];
+    [searchField setValue:_placeholderColor forKeyPath:@"_placeholderLabel.textColor"];
+}
 - (void)setRoundRate:(CGFloat)roundRate{
     _roundRate = roundRate;
     UIImage * image = [UIImage wya_imageWithColor:self.customBgColor size:CGSizeMake(self.bounds.size.width, self.searchIconHeight) rate:roundRate];

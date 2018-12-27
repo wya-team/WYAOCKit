@@ -21,7 +21,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat  roundRate;
 
+/**
+ 默认灰色
+ */
+@property (nonatomic, strong) UIColor * placeholderColor;
 
+/**
+ 默认10
+ */
+@property (nonatomic, assign) CGFloat  placeholderFont;
 
 /**
  占位文字，必须赋值，用来代替系统的placeholder
