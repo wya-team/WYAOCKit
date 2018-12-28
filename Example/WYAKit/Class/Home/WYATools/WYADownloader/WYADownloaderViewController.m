@@ -151,6 +151,7 @@
         if (indexPath.section == 1) {
             WYADownloadCompleteCell * cell = [tableView cellForRowAtIndexPath:indexPath];
             [self.downloader wya_removeDownloadWithTaskManager:cell.model];
+            cell.model = nil;
         }
         [tableView reloadData];
     }
@@ -207,10 +208,10 @@
             model.destinationPath = Path;
             [object addObject:model];
             
-            //            WYADownloadModel * model1 = [[WYADownloadModel alloc]init];
-            //            model1.urlString = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
-            //            model1.destinationPath = OtherPath;
-            //            [object addObject:model1];
+//            WYADownloadModel * model1 = [[WYADownloadModel alloc]init];
+//            model1.urlString = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
+//            model1.destinationPath = OtherPath;
+//            [object addObject:model1];
             
             //            WYADownloadModel * model2 = [[WYADownloadModel alloc]init];
             //            model2.urlString = @"https://video.pc6.com/v/1810/pyqxxjc3.mp4";

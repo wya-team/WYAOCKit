@@ -27,7 +27,8 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 @property (nonatomic, assign) WYADownloadState  downloadState; //下载状态
 @property (nonatomic, copy) NSString *  speed; //下载速度，直接显示就好
 @property (nonatomic, strong) WYADownloadModel * model;
-@property (nonatomic, assign) BOOL  isSuccess;
+@property (nonatomic, assign) BOOL  isSuccess; //用来判断是否已经进入下载
+@property (nonatomic, assign) BOOL  ifFinish;
 
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model;
 - (void)suspendDownload;
@@ -37,6 +38,12 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
+
+
+@property (nonatomic, strong) NSURLSession * session;
+@property (nonatomic, strong) NSData * downloadData;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

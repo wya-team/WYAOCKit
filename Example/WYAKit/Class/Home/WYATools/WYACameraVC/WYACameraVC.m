@@ -158,6 +158,9 @@
         editCell.image = model.image;
         editCell.editBlock = ^{
             [self.dataSource removeObjectAtIndex:indexPath.row];
+            if (self.dataSource.count == 0) {
+                self.allImage = NO;
+            }
             [self.collectionView reloadData];
         };
     }else{
@@ -170,6 +173,9 @@
             editCell.image = model.image;
             editCell.editBlock = ^{
                 [self.dataSource removeObjectAtIndex:indexPath.row];
+                if (self.dataSource.count == 0) {
+                    self.allImage = NO;
+                }
                 [self.collectionView reloadData];
             };
         }

@@ -21,6 +21,7 @@
     self = [super init];
     if (self) {
         _isSuccess = NO;
+        _downloadState = WYADownloadStateDownloading;
     }
     return self;
 }
@@ -34,26 +35,27 @@
     _urlString = model.urlString;
     _model = model;
     self.destinationPath = model.destinationPath;
-    self.downloadState = WYADownloadStateDownloading;
-
+    self.session = session;
     self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
+    self.downloadState = WYADownloadStateDownloading;
 }
 
 - (void)suspendDownload{
     
     self.downloadState = WYADownloadStateSuspend;
-    
-    [self.downloadTask suspend];
+    NSLog(@"下载暂停");
+    [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+        self.downloadData = resumeData;
+    }];
+
 }
 
 - (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data{
     self.downloadState = WYADownloadStateDownloading;
-//    if (session && data) {
-//        self.downloadTask = [session downloadTaskWithResumeData:data];
-//    }
-    
+    self.downloadTask = [session downloadTaskWithResumeData:self.downloadData];
     [self.downloadTask resume];
+    
 }
 
 - (void)giveupDownload{
@@ -88,8 +90,7 @@
         _isSuccess = YES;
     }
     self.progress = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
-    NSLog(@"taskManager91");
-    self.downloadState = WYADownloadStateDownloading;
+//    NSLog(@"taskManager91");
 //    NSLog(@"pro==%f",_progress);
     if (startTime) {
         CFAbsoluteTime startTimeValue = [startTime doubleValue];

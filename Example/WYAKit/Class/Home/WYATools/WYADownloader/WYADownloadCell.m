@@ -60,7 +60,7 @@
         }
             break;
         case WYADownloadStateSuspend:
-            [self.model keepDownloadWithSession:nil ResumeData:nil];
+            [self.model keepDownloadWithSession:self.model.session ResumeData:self.model.downloadData];
             NSLog(@"Downcell64");
         default:
             break;
@@ -68,17 +68,18 @@
 }
 
 -(void)setModel:(WYADownloadTaskManager *)model{
-//    if (_model) {
-//        [_model removeObserver:self forKeyPath:@"progress"];
-//        [_model removeObserver:self forKeyPath:@"downloadState"];
-//        [_model removeObserver:self forKeyPath:@"speed"];
-//    }
+    if (_model) {
+        [_model removeObserver:self forKeyPath:@"progress"];
+        [_model removeObserver:self forKeyPath:@"downloadState"];
+        [_model removeObserver:self forKeyPath:@"speed"];
+    }
     _model = model;
     if (model) {
         [model addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
         [model addObserver:self forKeyPath:@"downloadState" options:NSKeyValueObservingOptionNew context:nil];
         [model addObserver:self forKeyPath:@"speed" options:NSKeyValueObservingOptionNew context:nil];
     }
+    [self configButton:model.downloadState];
 }
 
 -(void)configButton:(WYADownloadState)state{
@@ -95,7 +96,7 @@
             break;
         case WYADownloadStateSuspend:
             NSLog(@"暂停");
-            [self.button setTitle:@"暂停" forState:UIControlStateNormal];
+            [self.button setTitle:@"已暂停" forState:UIControlStateNormal];
             break;
         case WYADownloadStateComplete:
             [self.button setTitle:@"完成" forState:UIControlStateNormal];
@@ -119,6 +120,7 @@
         WYADownloadState state = [change[@"new"] integerValue];
         self.index = state;
 //        NSLog(@"state.currentThred==%@",[NSThread currentThread]);
+        NSLog(@"下载状态 state==%d",state);
         if ([[NSThread currentThread] isMainThread]) {
             [self configButton:state];
         }else{

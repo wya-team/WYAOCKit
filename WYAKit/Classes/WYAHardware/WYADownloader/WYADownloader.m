@@ -70,7 +70,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
             NSLog(@"a==%d",a);
         }
     }
-    
+
     for (WYADownloadTaskManager * manager in self.downloadFinishArray) {
         NSArray * arr = [self.fmdb jq_lookupTable:WYADownloadCompleteTable dicOrModel:[WYADownloadTaskManager class] whereFormat:[NSString stringWithFormat:@"WHERE urlString = '%@'",manager.urlString]];
         if (arr.count>0) {
@@ -89,13 +89,13 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
         [[self mutableArrayValueForKey:@"downloadArray"] removeAllObjects];
         [[self mutableArrayValueForKey:@"downloadArray"] addObjectsFromArray:arr];
     }
-    
+
     NSArray * completeArray = [self.fmdb jq_lookupTable:WYADownloadCompleteTable dicOrModel:[WYADownloadTaskManager class] whereFormat:nil];
     if (completeArray.count>0) {
         [[self mutableArrayValueForKey:@"downloadFinishArray"] removeAllObjects];
         [[self mutableArrayValueForKey:@"downloadFinishArray"] addObjectsFromArray:completeArray];
     }
-    
+
     NSURLSessionConfiguration * config = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:NSStringFromClass(self.class)];
     self.session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:self.downloadQueue];
 }
@@ -126,9 +126,15 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
         return;
     }
     self.userResultHandle = handle;
+    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        NSLog(@"dataTask==%@",dataTasks);
+        NSLog(@"uploadTasks==%@",uploadTasks);
+        NSLog(@"downloadTasks==%@",downloadTasks);
+    }];
     WYADownloadTaskManager * manager = [[WYADownloadTaskManager alloc]init];
-    [manager startDownloadWithSession:self.session Model:model];
     [[self mutableArrayValueForKey:@"downloadArray"] addObject:manager];
+    [manager startDownloadWithSession:self.session Model:model];
+    
     
 }
 
@@ -165,8 +171,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 -(void)wya_keepDownloadWithModel:(WYADownloadModel *)model{
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.urlString isEqualToString:model.urlString]) {
-            [obj keepDownloadWithSession:nil ResumeData:nil];
-            NSLog(@"downloader169");
+            [obj keepDownloadWithSession:obj.session ResumeData:obj.downloadData];
             *stop = YES;
         }
     }];
@@ -189,22 +194,22 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
                 [fileManager removeItemAtPath:manager.destinationPath error:&error];
                 NSLog(@"removeManagerError==%@",error);
             }
-            
+
             [[self mutableArrayValueForKey:@"downloadFinishArray"] removeObject:taskManager];
         }
     }];
 }
 
 - (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle{
-    self.appBackground = handle;
+//    self.appBackground = handle;
 }
 
 #pragma mark - NSURLSessionDelegate  -
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session{
-    if (session.configuration.identifier) {
-        //处理后台下载任务
-        self.appBackground(session);
-    }
+//    if (session.configuration.identifier) {
+//        //处理后台下载任务
+//        self.appBackground(session);
+//    }
 }
 
 - (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field{
@@ -228,22 +233,42 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
  */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error{
+//    NSURLErrorUnknown
     NSLog(@"err==%@",error);
-    NSLog(@"error==%@",[error localizedDescription]);
+    NSLog(@"error.code==%d",error.code);
+    NSLog(@"error.localizedDescription==%@",[error localizedDescription]);
+    NSLog(@"error.localizedFailureReason==%@",[error localizedFailureReason]);
+    NSLog(@"error.localizedRecoveryOptions==%@",[error localizedRecoveryOptions]);
+    NSLog(@"error.localizedRecoverySuggestion==%@",[error localizedRecoverySuggestion]);
     if (error) {
+        NSLog(@"self.downloadArray==%@",self.downloadArray);
         
-        if ([error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]){
-            NSData * data = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
-            NSURLSessionDownloadTask * task = [session downloadTaskWithResumeData:data];
-            [task resume];
-            NSString * string = [error.userInfo objectForKey:NSURLErrorFailingURLStringErrorKey];
-            [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([string isEqualToString:obj.urlString]) {
-                    obj.downloadTask = task;
-                    *stop = YES;
+        if (error.code == -999) {
+            //下载被暂停或者取消
+            for (WYADownloadTaskManager * obj in self.downloadingArray) {
+                if (obj.downloadTask == task) {
+                    //暂停或者取消
+                    NSLog(@"下载被取消");
+                    return ;
                 }
-            }];
+            }
+            
+            
+            if ([error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData]){
+                NSData * data = [error.userInfo objectForKey:NSURLSessionDownloadTaskResumeData];
+                NSURLSessionDownloadTask * task = [session downloadTaskWithResumeData:data];
+                [task resume];
+                NSString * string = [error.userInfo objectForKey:NSURLErrorFailingURLStringErrorKey];
+                [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([string isEqualToString:obj.urlString]) {
+                        obj.downloadTask = task;
+                        *stop = YES;
+                    }
+                }];
+            }
+            
         }
+        
     }else{
         [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.isSuccess == NO) {
@@ -298,11 +323,11 @@ didFinishDownloadingToURL:(NSURL *)location
       didWriteData:(int64_t)bytesWritten
  totalBytesWritten:(int64_t)totalBytesWritten
 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
-    
+//    NSLog(@"下载进度");
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.downloadTask == downloadTask) {
             [obj readDownloadProgressWithdidWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
-            NSLog(@"++++++++++++");
+//            NSLog(@"++++++++++++");
             *stop = YES;
         }else{
             NSLog(@"------------");
@@ -321,7 +346,7 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
  didResumeAtOffset:(int64_t)fileOffset
 expectedTotalBytes:(int64_t)expectedTotalBytes{
-    
+    NSLog(@"继续下载");
 }
 
 #pragma mark - Setter -
