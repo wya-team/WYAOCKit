@@ -32,7 +32,7 @@
     //    self.downloadTask = [session downloadTaskWithRequest:request];
 //    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     //这里需要判断是编码还是解码
-    NSString * utf8String = [model.urlString stringByRemovingPercentEncoding];
+    NSString * utf8String = model.urlString;
     NSURL * url = [NSURL URLWithString:utf8String];
     _urlString = utf8String;
     _model = model;

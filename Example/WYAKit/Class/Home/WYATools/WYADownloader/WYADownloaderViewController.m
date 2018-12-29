@@ -203,7 +203,7 @@
         _models = ({
             NSMutableArray * object = [[NSMutableArray alloc]init];
             WYADownloadModel * model = [[WYADownloadModel alloc]init];
-            model.urlString = @"https://vdse.bdstatic.com//e509104a380c00fa8d2cb13d2fa2c1ec?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2017-05-11T09%3A02%3A31Z%2F-1%2F%2F9f71c27b020218c3dc417156e4b6dc243373f6c7c1caf189ffacc83a580ca57a";
+            model.urlString = [@"https://vdse.bdstatic.com//e509104a380c00fa8d2cb13d2fa2c1ec?authorization=bce-auth-v1%2F40f207e648424f47b2e3dfbb1014b1a5%2F2017-05-11T09%3A02%3A31Z%2F-1%2F%2F9f71c27b020218c3dc417156e4b6dc243373f6c7c1caf189ffacc83a580ca57a"  stringByRemovingPercentEncoding];
             model.destinationPath = Path;
             [object addObject:model];
 

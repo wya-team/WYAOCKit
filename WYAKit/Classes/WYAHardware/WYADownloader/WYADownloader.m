@@ -101,8 +101,11 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 -(BOOL)compareDownloadTasks:(WYADownloadModel *)model ResultHandle:(void(^)(WYADownloadModel * resultModel, NSString * result))handle{
+    NSLog(@"model.urlstring==%@",model.urlString);
     __block BOOL isHave = NO;
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSLog(@"obj.urlString==%@",obj.urlString);
         if ([model.urlString isEqualToString:obj.urlString]) {
             handle(model, @"该任务已存在与下载列表");
             isHave = YES;
@@ -330,8 +333,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
             [obj readDownloadProgressWithdidWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
 //            NSLog(@"++++++++++++");
             *stop = YES;
-        }else{
-            NSLog(@"------------");
         }
     }];
 }
