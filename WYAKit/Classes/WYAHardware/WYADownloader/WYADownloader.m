@@ -59,11 +59,11 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 - (void)saveDownloadTask{
-    
+//
     for (WYADownloadTaskManager * manager in self.downloadArray) {
-        NSArray * arr = [self.fmdb jq_lookupTable:WYADownloadingTable dicOrModel:[WYADownloadTaskManager class] whereFormat:[NSString stringWithFormat:@"WHERE urlString = '%@'",manager.urlString]];
+        NSArray * arr = [self.fmdb jq_lookupTable:WYADownloadingTable dicOrModel:[WYADownloadTaskManager class] whereFormat:[NSString stringWithFormat:@"where urlString = '%@'",manager.urlString]];
         if (arr.count>0) {
-            BOOL b = [self.fmdb jq_updateTable:WYADownloadingTable dicOrModel:manager whereFormat:[NSString stringWithFormat:@"WHERE urlString = '%@'",manager.urlString]];
+            BOOL b = [self.fmdb jq_updateTable:WYADownloadingTable dicOrModel:manager whereFormat:[NSString stringWithFormat:@"where urlString = '%@'",manager.urlString]];
             NSLog(@"b=%d",b);
         } else {
             BOOL a = [self.fmdb jq_insertTable:WYADownloadingTable dicOrModel:manager];
@@ -126,11 +126,6 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
         return;
     }
     self.userResultHandle = handle;
-    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
-        NSLog(@"dataTask==%@",dataTasks);
-        NSLog(@"uploadTasks==%@",uploadTasks);
-        NSLog(@"downloadTasks==%@",downloadTasks);
-    }];
     WYADownloadTaskManager * manager = [[WYADownloadTaskManager alloc]init];
     [[self mutableArrayValueForKey:@"downloadArray"] addObject:manager];
     [manager startDownloadWithSession:self.session Model:model];
@@ -168,10 +163,10 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 #pragma mark 继续
--(void)wya_keepDownloadWithModel:(WYADownloadModel *)model{
+-(void) wya_keepDownloadWithModel:(WYADownloadModel *)model{
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.urlString isEqualToString:model.urlString]) {
-            [obj keepDownloadWithSession:obj.session ResumeData:obj.downloadData];
+            [obj keepDownloadWithSession:self.session ResumeData:obj.downloadData];
             *stop = YES;
         }
     }];
@@ -270,7 +265,8 @@ didCompleteWithError:(nullable NSError *)error{
         }
         
     }else{
-        [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray * arr = [self.downloadArray copy];
+        [arr enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.isSuccess == NO) {
 
                 [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
@@ -280,7 +276,7 @@ didCompleteWithError:(nullable NSError *)error{
                 *stop = YES;
             }
             if (obj.downloadTask == task) {
-                [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
+                [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
                 [[self mutableArrayValueForKey:@"downloadFinishArray"] addObject:obj];
                 *stop = YES;
             }

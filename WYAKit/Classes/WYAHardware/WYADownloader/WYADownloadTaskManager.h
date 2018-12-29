@@ -40,7 +40,6 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
 
 
-@property (nonatomic, strong) NSURLSession * session;
 @property (nonatomic, strong) NSData * downloadData;
 
 

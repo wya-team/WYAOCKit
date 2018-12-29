@@ -18,7 +18,6 @@
 @property (nonatomic, strong) NSMutableArray * models;
 @property (nonatomic, strong) WYADownloader * downloader;
 
-
 @end
 
 @implementation WYADownloaderViewController
@@ -34,7 +33,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
-
+    
     WeakSelf(weakSelf);
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"下载视频" forState:UIControlStateNormal];
@@ -208,10 +207,10 @@
             model.destinationPath = Path;
             [object addObject:model];
             
-//            WYADownloadModel * model1 = [[WYADownloadModel alloc]init];
-//            model1.urlString = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
-//            model1.destinationPath = OtherPath;
-//            [object addObject:model1];
+            WYADownloadModel * model1 = [[WYADownloadModel alloc]init];
+            model1.urlString = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
+            model1.destinationPath = OtherPath;
+            [object addObject:model1];
             
             //            WYADownloadModel * model2 = [[WYADownloadModel alloc]init];
             //            model2.urlString = @"https://video.pc6.com/v/1810/pyqxxjc3.mp4";
@@ -231,8 +230,8 @@
 }
 
 - (void)dealloc{
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:WYADownloaderDownloadArrayObserveKeyPath object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:WYADownloaderCompleteArrayObserveKeyPath object:nil];
+    [self.downloader removeObserver:self forKeyPath:WYADownloaderDownloadArrayObserveKeyPath];
+    [self.downloader removeObserver:self forKeyPath:WYADownloaderCompleteArrayObserveKeyPath];
     
 }
 

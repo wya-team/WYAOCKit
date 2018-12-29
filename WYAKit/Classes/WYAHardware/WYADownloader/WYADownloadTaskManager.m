@@ -30,12 +30,13 @@
     //    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
     //    [request setHTTPMethod:@"HEAD"];
     //    self.downloadTask = [session downloadTaskWithRequest:request];
-    
-    NSURL * url = [NSURL URLWithString:model.urlString];
-    _urlString = model.urlString;
+//    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    //这里需要判断是编码还是解码
+    NSString * utf8String = [model.urlString stringByRemovingPercentEncoding];
+    NSURL * url = [NSURL URLWithString:utf8String];
+    _urlString = utf8String;
     _model = model;
     self.destinationPath = model.destinationPath;
-    self.session = session;
     self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
     self.downloadState = WYADownloadStateDownloading;

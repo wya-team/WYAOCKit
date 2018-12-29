@@ -60,8 +60,11 @@
         }
             break;
         case WYADownloadStateSuspend:
-            [self.model keepDownloadWithSession:self.model.session ResumeData:self.model.downloadData];
-            NSLog(@"Downcell64");
+        {
+            WYADownloader * download = [WYADownloader sharedDownloader];
+            [download wya_keepDownloadWithModel:self.model];
+        }
+           
         default:
             break;
     }
@@ -79,6 +82,8 @@
         [model addObserver:self forKeyPath:@"downloadState" options:NSKeyValueObservingOptionNew context:nil];
         [model addObserver:self forKeyPath:@"speed" options:NSKeyValueObservingOptionNew context:nil];
     }
+    self.speedLabel.text = @"0KB/s";
+    self.progressView.progress = model.progress;
     [self configButton:model.downloadState];
 }
 
