@@ -382,13 +382,19 @@ didCompleteWithError:(nullable NSError *)error{
         [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
-            if (response.statusCode == 403 || response.statusCode == 404) {
+            if (400 <= response.statusCode && response.statusCode < 499) {
                 [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     self.userResultHandle(obj.model, @"该资源有误");
                 });
                 *stop = YES;
-            }else{
+            } else if (500 <= response.statusCode && response.statusCode <= 599){
+                [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    self.userResultHandle(obj.model, @"服务器错误");
+                });
+                *stop = YES;
+            } else {
                 if (obj.downloadTask == task) {
                     [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
                     [[self mutableArrayValueForKey:@"downloadFinishArray"] wya_safeAddObject:obj];
