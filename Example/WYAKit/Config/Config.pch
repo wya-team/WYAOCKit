@@ -11,10 +11,8 @@
 #import <UIKit/UIKit.h>
 #import "WYAReadMeViewController.h"
 /*********** WYAKit **************/
-#import <WYAKit/WYADrawerViewController.h>
-#import <WYAKit/WYADrawerView.h>
 
-#import <WYAKit/UIViewController+CWLateralSlide.h>
+#import <WYAKit/UIViewController+WYADrawerView.h>
 
 #import <WYAKit/WYATextView.h>
 #import <WYAKit/WYANavBar.h>

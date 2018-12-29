@@ -1,39 +1,37 @@
 //
-//  CWDrawerTransition.m
+//  WYADrawerTransition.m
 //  ViewControllerTransition
 //
-//  Created by chavez on 2017/6/27.
-//  Copyright © 2017年 chavez. All rights reserved.
 //
 
-#import "CWDrawerTransition.h"
+#import "WYADrawerTransition.h"
 #import <objc/runtime.h>
-@interface CWDrawerTransition ()
+@interface WYADrawerTransition ()
 
-@property (nonatomic,weak) CWLateralSlideConfiguration *configuration;
+@property (nonatomic,weak) WYALateralSlideConfiguration *configuration;
 
 @end
 
-@implementation CWDrawerTransition
+@implementation WYADrawerTransition
 {
-    CWDrawerTransitiontype _TransitionType;
-    CWDrawerAnimationType _animationType;
+    WYADrawerTransitiontype _TransitionType;
+    WYADrawerAnimationType _animationType;
     CGFloat _hiddenDelayTime;
 }
 
 
-- (instancetype)initWithTransitionType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration {
+- (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration {
     if (self = [super init]) {
         _TransitionType = transitionType;
         _animationType = animationType;
         _configuration = configuration;
-        if (_TransitionType == CWDrawerTransitiontypeHidden)
+        if (_TransitionType == WYADrawerTransitiontypeHidden)
         [self setupHiddenAnimationDelayTime];
     }
     return self;
 }
 
-+ (instancetype)transitionWithType:(CWDrawerTransitiontype)transitionType animationType:(CWDrawerAnimationType)animationType configuration:(CWLateralSlideConfiguration *)configuration {
++ (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration {
     return [[self alloc] initWithTransitionType:transitionType animationType:animationType configuration:configuration];
 }
 
@@ -46,15 +44,15 @@
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 - (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext {
-    return _TransitionType == CWDrawerTransitiontypeShow ? self.configuration.showAnimDuration : self.configuration.HiddenAnimDuration;
+    return _TransitionType == WYADrawerTransitiontypeShow ? self.configuration.showAnimDuration : self.configuration.HiddenAnimDuration;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     switch (_TransitionType) {
-        case CWDrawerTransitiontypeShow:
+        case WYADrawerTransitiontypeShow:
             [self animationViewShow:transitionContext];
             break;
-        case CWDrawerTransitiontypeHidden:
+        case WYADrawerTransitiontypeHidden:
             [self animationViewHidden:transitionContext];
             break;
         default:
@@ -64,9 +62,9 @@
 
 #pragma mark - private methods
 - (void)animationViewShow:(id <UIViewControllerContextTransitioning>)transitionContext {
-    if (_animationType == CWDrawerAnimationTypeDefault) {
+    if (_animationType == WYADrawerAnimationTypeDefault) {
         [self defaultAnimationWithContext:transitionContext];
-    }else if (_animationType == CWDrawerAnimationTypeMask) {
+    }else if (_animationType == WYADrawerAnimationTypeMask) {
         [self maskAnimationWithContext:transitionContext];
     }else {
         
@@ -78,7 +76,7 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    CWMaskView *maskView = [CWMaskView shareInstance];
+    WYAMaskView *maskView = [WYAMaskView shareInstance];
     // 导航控制器的navigationBar在导航栏先隐藏后显示的情况下会被删除，所以过滤掉导航控制器
     if (![toVC isKindOfClass:[UINavigationController class]]) {
         for (UIView *view in toVC.view.subviews) {
@@ -105,7 +103,7 @@
     } completion:^(BOOL finished) {
         if (![transitionContext transitionWasCancelled]) {
             maskView.toViewSubViews = nil;
-            [CWMaskView releaseInstance];
+            [WYAMaskView releaseInstance];
             [backImageView removeFromSuperview];
         }
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
@@ -117,7 +115,7 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    CWMaskView *maskView = [CWMaskView shareInstance];
+    WYAMaskView *maskView = [WYAMaskView shareInstance];
     maskView.frame = fromVC.view.bounds;
     [fromVC.view addSubview:maskView];
     UIView *containerView = [transitionContext containerView];
@@ -134,20 +132,20 @@
     CGFloat width = self.configuration.distance;
     CGFloat x = - width / 2;
     CGFloat ret = 1;
-    if (self.configuration.direction == CWDrawerTransitionFromRight) {
-        x = kCWSCREENWIDTH - width / 2;
+    if (self.configuration.direction == WYADrawerTransitionFromRight) {
+        x = ScreenWidth - width / 2;
         ret = -1;
     }
     toVC.view.frame = CGRectMake(x, 0, CGRectGetWidth(containerView.frame), CGRectGetHeight(containerView.frame));
     [containerView addSubview:toVC.view];
     [containerView addSubview:fromVC.view];
     // 计算缩放后需要平移的距离
-    CGFloat translationX = width - (kCWSCREENWIDTH * (1 - self.configuration.scaleY) / 2);
+    CGFloat translationX = width - (ScreenWidth * (1 - self.configuration.scaleY) / 2);
     CGAffineTransform t1 = CGAffineTransformMakeScale(self.configuration.scaleY, self.configuration.scaleY);
     CGAffineTransform t2 = CGAffineTransformMakeTranslation(ret * translationX, 0);
     CGAffineTransform fromVCTransform = CGAffineTransformConcat(t1, t2);
     CGAffineTransform toVCTransform;
-    if (self.configuration.direction == CWDrawerTransitionFromRight) {
+    if (self.configuration.direction == WYADrawerTransitionFromRight) {
         toVCTransform = CGAffineTransformMakeTranslation(ret * (x - CGRectGetWidth(containerView.frame) + width), 0);
     }else {
         toVCTransform = CGAffineTransformMakeTranslation(ret * width / 2, 0);
@@ -175,7 +173,7 @@
             [containerView addSubview:fromVC.view];
         }else {
             [imageV removeFromSuperview];
-            [CWMaskView releaseInstance];
+            [WYAMaskView releaseInstance];
             [transitionContext completeTransition:NO];
         }
     }];
@@ -185,7 +183,7 @@
     UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
-    CWMaskView *maskView = [CWMaskView shareInstance];
+    WYAMaskView *maskView = [WYAMaskView shareInstance];
     maskView.frame = fromVC.view.bounds;
     [fromVC.view addSubview:maskView];
     
@@ -194,8 +192,8 @@
     CGFloat width = self.configuration.distance;
     CGFloat x = - width;
     CGFloat ret = 1;
-    if (self.configuration.direction == CWDrawerTransitionFromRight) {
-        x = kCWSCREENWIDTH;
+    if (self.configuration.direction == WYADrawerTransitionFromRight) {
+        x = ScreenWidth;
         ret = -1;
     }
     toVC.view.frame = CGRectMake(x, 0, width, CGRectGetHeight(containerView.frame));
@@ -221,7 +219,7 @@
             [containerView bringSubviewToFront:toVC.view];
             maskView.userInteractionEnabled = YES;
         }else {
-            [CWMaskView releaseInstance];
+            [WYAMaskView releaseInstance];
             [transitionContext completeTransition:NO];
         }
     }];
@@ -236,21 +234,21 @@
 @end
 
 
-@implementation CWMaskView
+@implementation WYAMaskView
 
-static CWMaskView *cw_shareInstance = nil;
-static dispatch_once_t cw_onceToken;
+static WYAMaskView * wya_shareInstance = nil;
+static dispatch_once_t wya_onceToken;
 + (instancetype)shareInstance {
-    dispatch_once(&cw_onceToken, ^{
-        cw_shareInstance = [[CWMaskView alloc] init];
+    dispatch_once(&wya_onceToken, ^{
+        wya_shareInstance = [[WYAMaskView alloc] init];
     });
-    return cw_shareInstance;
+    return wya_shareInstance;
 }
 
 + (void)releaseInstance{
-    [cw_shareInstance removeFromSuperview];
-    cw_onceToken = 0;
-    cw_shareInstance = nil;
+    [wya_shareInstance removeFromSuperview];
+    wya_onceToken = 0;
+    wya_shareInstance = nil;
 }
 
 - (void)dealloc {
@@ -276,11 +274,11 @@ static dispatch_once_t cw_onceToken;
 }
 
 - (void)singleTap {
-    [[NSNotificationCenter defaultCenter] postNotificationName:CWLateralSlideTapNoticationKey object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlideTapNoticationKey object:self];
 }
 
 - (void)handleGesture:(UIPanGestureRecognizer *)pan {
-    [[NSNotificationCenter defaultCenter] postNotificationName:CWLateralSlidePanNoticationKey object:pan];
+    [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlidePanNoticationKey object:pan];
 }
 
 // 屏蔽掉touchesbegin的响应链
@@ -288,14 +286,14 @@ static dispatch_once_t cw_onceToken;
 
 @end
 
-NSString *const CWLateralSlideMaskViewKey = @"CWLateralSlideMaskViewKey";
-NSString *const CWLateralSlideAnimatorKey = @"CWLateralSlideAnimatorKey";
-NSString *const CWLateralSlideInterativeKey = @"CWLateralSlideInterativeKey";
+NSString *const WYALateralSlideMaskViewKey = @"WYALateralSlideMaskViewKey";
+NSString *const WYALateralSlideAnimatorKey = @"WYALateralSlideAnimatorKey";
+NSString *const WYALateralSlideInterativeKey = @"WYALateralSlideInterativeKey";
 
-NSString *const CWLateralSlidePanNoticationKey = @"CWLateralSlidePanNoticationKey";
-NSString *const CWLateralSlideTapNoticationKey = @"CWLateralSlideTapNoticationKey";
+NSString *const WYALateralSlidePanNoticationKey = @"WYALateralSlidePanNoticationKey";
+NSString *const WYALateralSlideTapNoticationKey = @"WYALateralSlideTapNoticationKey";
 
-NSString *const CWLateralSlideDirectionKey = @"CWLateralSlideDirectionKey";
+NSString *const WYALateralSlideDirectionKey = @"WYALateralSlideDirectionKey";
 
 
 

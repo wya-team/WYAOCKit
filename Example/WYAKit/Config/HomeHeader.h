@@ -35,8 +35,7 @@
 #import "WYAHomeModel.h"
 #import "WYAHomeHeaderView.h"
 #import "WYAHomeTableCell.h"
-#import "WYADrawserCenterViewController.h"
-#import "WYADrawserLeftViewController.h"
+
 
 #import "WYAListViewController.h"
 #import "WYAInputItemCellController.h"
