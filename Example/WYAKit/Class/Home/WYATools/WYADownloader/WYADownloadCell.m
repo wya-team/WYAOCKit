@@ -13,7 +13,7 @@
 @property (nonatomic, strong) UIProgressView * progressView;
 @property (nonatomic, strong) UIButton * button;//开始或暂停
 @property (nonatomic, strong) UIButton * suspendButton;
-@property (nonatomic, assign) NSInteger  index;
+@property (nonatomic, strong) UILabel * downloadNameLabel;
 @end
 
 @implementation WYADownloadCell
@@ -22,6 +22,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.speedLabel];
+        [self.contentView addSubview:self.downloadNameLabel];
         [self.contentView addSubview:self.progressView];
         [self.contentView addSubview:self.button];
     }
@@ -40,6 +41,13 @@
         make.left.mas_equalTo(self.contentView.mas_left).with.offset(20*SizeAdapter);
         make.top.mas_equalTo(self.contentView.mas_top).with.offset(5*SizeAdapter);
         make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 20*SizeAdapter));
+    }];
+    
+    [self.downloadNameLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.speedLabel.mas_right);
+        make.right.mas_equalTo(self.button.mas_left);
+        make.centerY.mas_equalTo(self.speedLabel.mas_centerY);
+        make.height.mas_equalTo(20*SizeAdapter);
     }];
     
     [self.progressView mas_remakeConstraints:^(MASConstraintMaker *make) {
@@ -83,6 +91,7 @@
         [model addObserver:self forKeyPath:@"speed" options:NSKeyValueObservingOptionNew context:nil];
     }
     self.speedLabel.text = @"0KB/s";
+//    self.downloadNameLabel.text = model.urlString.lastPathComponent;
     self.progressView.progress = model.progress;
     [self configButton:model.downloadState];
 }
@@ -123,7 +132,7 @@
         });
     } else if ([keyPath isEqualToString:@"downloadState"]) {
         WYADownloadState state = [change[@"new"] integerValue];
-        self.index = state;
+
 //        NSLog(@"state.currentThred==%@",[NSThread currentThread]);
         NSLog(@"下载状态 state==%d",state);
         if ([[NSThread currentThread] isMainThread]) {
@@ -206,10 +215,24 @@
     return _speedLabel;
 }
 
+- (UILabel *)downloadNameLabel{
+    if(!_downloadNameLabel){
+        _downloadNameLabel = ({
+            UILabel * object = [[UILabel alloc]init];
+            object.textColor = [UIColor redColor];
+            object.font = FONT(15);
+            object;
+        });
+    }
+    return _downloadNameLabel;
+}
+
 -(void)dealloc{
     [self.model removeObserver:self forKeyPath:@"progress"];
     [self.model removeObserver:self forKeyPath:@"downloadState"];
     [self.model removeObserver:self forKeyPath:@"speed"];
 }
+
+
 
 @end

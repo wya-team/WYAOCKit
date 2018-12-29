@@ -163,7 +163,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 #pragma mark 继续
--(void) wya_keepDownloadWithModel:(WYADownloadModel *)model{
+-(void) wya_keepDownloadWithModel:(WYADownloadTaskManager *)model{
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.urlString isEqualToString:model.urlString]) {
             [obj keepDownloadWithSession:self.session ResumeData:obj.downloadData];
@@ -269,17 +269,20 @@ didCompleteWithError:(nullable NSError *)error{
         [arr enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.isSuccess == NO) {
 
-                [[self mutableArrayValueForKey:@"downloadArray"] removeObject:obj];
+                [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
                 dispatch_sync(dispatch_get_main_queue(), ^{
                    self.userResultHandle(obj.model, @"该资源有误");
                 });
                 *stop = YES;
+            }else{
+                if (obj.downloadTask == task) {
+                    [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
+                    [[self mutableArrayValueForKey:@"downloadFinishArray"] wya_safeAddObject:obj];
+                    [self.fmdb jq_deleteTable:WYADownloadingTable whereFormat:[NSString stringWithFormat:@"WHERE urlString = '%@'",obj.urlString]];
+                    *stop = YES;
+                }
             }
-            if (obj.downloadTask == task) {
-                [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
-                [[self mutableArrayValueForKey:@"downloadFinishArray"] addObject:obj];
-                *stop = YES;
-            }
+            
         }];
     }
     
@@ -299,7 +302,9 @@ didFinishDownloadingToURL:(NSURL *)location
     
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.downloadTask == downloadTask) {
-            [obj moveLocationPathWithOldUrl:location];
+            [obj moveLocationPathWithOldUrl:location handle:^(WYADownloadTaskManager * _Nonnull manager) {
+                [[self mutableArrayValueForKey:@"downloadFinishArray"] removeObject:manager];
+            }];
             *stop = YES;
         }
     }];

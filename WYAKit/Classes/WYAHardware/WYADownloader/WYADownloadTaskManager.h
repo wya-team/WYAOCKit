@@ -34,7 +34,7 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 - (void)suspendDownload;
 - (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data;
 - (void)giveupDownload;
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl;
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void(^)(WYADownloadTaskManager * manager))handle;
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;

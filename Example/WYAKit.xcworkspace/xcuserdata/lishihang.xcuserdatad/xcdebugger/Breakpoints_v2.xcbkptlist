@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "567744839.953868"
+            timestampString = "567748928.461527"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "567744839.953953"
+            timestampString = "567748928.4619859"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "-resumeDownloadTask"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "-saveDownloadTask"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,12 +42,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
-            timestampString = "567744839.95402"
+            timestampString = "567748928.4623131"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
-            landmarkName = "-saveDownloadTask"
+            startingLineNumber = "272"
+            endingLineNumber = "272"
+            landmarkName = "-URLSession:task:didCompleteWithError:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/WYADownloader.m"
+            timestampString = "567748928.462634"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "306"
+            endingLineNumber = "306"
+            landmarkName = "-URLSession:downloadTask:didFinishDownloadingToURL:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param model 数据模型
  */
-- (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+- (void)wya_keepDownloadWithModel:(WYADownloadTaskManager *)model;
 
 - (void)wya_removeDownloadWithTaskManager:(WYADownloadTaskManager *)manager;
 

@@ -64,7 +64,7 @@
     [self.downloadTask cancel];
 }
 
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl{
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void(^)(WYADownloadTaskManager * manager))handle{
     self.downloadState = WYADownloadStateComplete;
     NSFileManager * fileManager = [NSFileManager defaultManager];
     NSURL * url;
@@ -80,6 +80,9 @@
     }
     NSError * fileError;
     BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:url error:&fileError];
+    if (!isfile) {
+        handle(self);
+    }
     NSLog(@"file==%d",isfile);
     NSLog(@"fileError==%@",[fileError localizedDescription]);
 }
