@@ -27,9 +27,9 @@
 }
 
 - (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model{
-    //    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    
     //    [request setHTTPMethod:@"HEAD"];
-    //    self.downloadTask = [session downloadTaskWithRequest:request];
+    
 //    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     //这里需要判断是编码还是解码
     NSString * utf8String = model.urlString;
@@ -37,9 +37,12 @@
     _urlString = utf8String;
     _model = model;
     self.destinationPath = model.destinationPath;
-    self.downloadTask = [session downloadTaskWithURL:url];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
+    self.downloadTask = [session downloadTaskWithRequest:request];
+//    self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
     self.downloadState = WYADownloadStateDownloading;
+    NSLog(@"respond==%@",self.downloadTask.response);
 }
 
 - (void)suspendDownload{

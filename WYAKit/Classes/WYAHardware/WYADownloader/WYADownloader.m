@@ -16,7 +16,7 @@ NSString * const WYADownloaderCompleteArrayObserveKeyPath = @"downloadFinishArra
 NSString * const WYADownloadingTable = @"WYADownloadingTable";
 NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 
-@interface WYADownloader ()<NSURLSessionDownloadDelegate,NSURLSessionDelegate>
+@interface WYADownloader ()<NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 
 @property (nonatomic, strong) NSURLSession * session;
 @property (nonatomic, strong) NSURLSessionConfiguration * config;
@@ -101,11 +101,8 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 -(BOOL)compareDownloadTasks:(WYADownloadModel *)model ResultHandle:(void(^)(WYADownloadModel * resultModel, NSString * result))handle{
-    NSLog(@"model.urlstring==%@",model.urlString);
     __block BOOL isHave = NO;
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        NSLog(@"obj.urlString==%@",obj.urlString);
         if ([model.urlString isEqualToString:obj.urlString]) {
             handle(model, @"该任务已存在与下载列表");
             isHave = YES;
@@ -202,7 +199,16 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 //    self.appBackground = handle;
 }
 
+- (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field{
+    [self.httpHeader setValue:value forKey:field];
+    self.config.HTTPAdditionalHeaders = self.httpHeader;
+}
+
 #pragma mark - NSURLSessionDelegate  -
+- (void)URLSession:(NSURLSession *)session didBecomeInvalidWithError:(NSError *)error{
+    NSLog(@"error==%@",error);
+}
+
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session{
 //    if (session.configuration.identifier) {
 //        //处理后台下载任务
@@ -210,12 +216,116 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 //    }
 }
 
-- (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field{
-    [self.httpHeader setValue:value forKey:field];
-    self.config.HTTPAdditionalHeaders = self.httpHeader;
+#pragma mark - NSURLSessionTaskDelegate -
+/**
+ 开始加载延迟的URL会话任务
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param request <#request description#>
+ @param completionHandler <#completionHandler description#>
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+willBeginDelayedRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler{
+    NSLog(@"开始加载延迟的URL会话任务");
 }
 
-#pragma mark - NSURLSessionTaskDelegate -
+/**
+ 告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用
+
+ @param session <#session description#>
+ @param task <#task description#>
+ */
+- (void)URLSession:(NSURLSession *)session taskIsWaitingForConnectivity:(NSURLSessionTask *)task{
+    NSLog(@"告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用");
+}
+
+/**
+ 上传相关的？
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param completionHandler <#completionHandler description#>
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+ needNewBodyStream:(void (^)(NSInputStream * _Nullable bodyStream))completionHandler{
+
+}
+
+/**
+ 上传相关的？
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param bytesSent <#bytesSent description#>
+ @param totalBytesSent <#totalBytesSent description#>
+ @param totalBytesExpectedToSend <#totalBytesExpectedToSend description#>
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+   didSendBodyData:(int64_t)bytesSent
+    totalBytesSent:(int64_t)totalBytesSent
+totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend{
+
+}
+
+/**
+ 重定向
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param response <#response description#>
+ @param request <#request description#>
+ @param completionHandler <#completionHandler description#>
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+willPerformHTTPRedirection:(NSHTTPURLResponse *)response
+        newRequest:(NSURLRequest *)request
+ completionHandler:(void (^)(NSURLRequest * _Nullable))completionHandler{
+    NSLog(@"重定向");
+}
+
+/**
+ 身份验证
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param challenge <#challenge description#>
+ @param completionHandler <#completionHandler description#>
+ */
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler{
+    NSLog(@"身份验证");
+//    completionHandler(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        NSLog(@"调用了里面这一层是服务器信任的证书");
+        /*
+         NSURLSessionAuthChallengeUseCredential = 0,                     使用证书
+         NSURLSessionAuthChallengePerformDefaultHandling = 1,            忽略证书(默认的处理方式)
+         NSURLSessionAuthChallengeCancelAuthenticationChallenge = 2,     忽略书证, 并取消这次请求
+         NSURLSessionAuthChallengeRejectProtectionSpace = 3,            拒绝当前这一次, 下一次再询问
+         */
+        //        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+
+        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential, nil);
+    }
+}
+
+/**
+ 该会话已完成收集任务的度量标准
+
+ @param session <#session description#>
+ @param task <#task description#>
+ @param metrics <#metrics description#>
+ */
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics API_AVAILABLE(ios(10.0)){
+    NSLog(@"该会话已完成收集任务的度量标准");
+}
+
 /**
  在任务下载完成、下载失败
 或者是应用被杀掉后，重新启动应用并创建相关identifier的Session时调用
@@ -232,6 +342,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didCompleteWithError:(nullable NSError *)error{
 //    NSURLErrorUnknown
+    NSLog(@"task.respond==%@",task.response);
     NSLog(@"err==%@",error);
     NSLog(@"error.code==%d",error.code);
     NSLog(@"error.localizedDescription==%@",[error localizedDescription]);
@@ -268,13 +379,13 @@ didCompleteWithError:(nullable NSError *)error{
         }
         
     }else{
-        NSArray * arr = [self.downloadArray copy];
-        [arr enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (obj.isSuccess == NO) {
-
+        [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSHTTPURLResponse * response = (NSHTTPURLResponse *)task.response;
+            if (response.statusCode == 403 || response.statusCode == 404) {
                 [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                   self.userResultHandle(obj.model, @"该资源有误");
+                    self.userResultHandle(obj.model, @"该资源有误");
                 });
                 *stop = YES;
             }else{
@@ -289,6 +400,39 @@ didCompleteWithError:(nullable NSError *)error{
         }];
     }
     
+}
+
+
+
+#pragma mark - NSURLSessionDataDelegate  -
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler{
+    NSLog(@"response==%@",response);
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask{
+    NSLog(@"转为下载");
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didBecomeStreamTask:(NSURLSessionStreamTask *)streamTask{
+    NSLog(@"告知代理该数据任务已更改为下载任务");
+}
+
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+    didReceiveData:(NSData *)data{
+    NSLog(@"告诉代理数据任务已收到一些预期的数据");
+}
+
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+ willCacheResponse:(NSCachedURLResponse *)proposedResponse
+ completionHandler:(void (^)(NSCachedURLResponse * _Nullable cachedResponse))completionHandler{
+    NSLog(@"向代表询问数据（或上传）任务是否应将响应存储在缓存中");
 }
 
 #pragma mark - NSURLSessionDownloadDelegate -
@@ -338,12 +482,12 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
 }
 
 /**
- 恢复下载回调
+ 恢复(暂停)下载回调
 
  @param session 会话
  @param downloadTask 任务
- @param fileOffset <#fileOffset description#>
- @param expectedTotalBytes <#expectedTotalBytes description#>
+ @param fileOffset 如果文件的缓存策略或上次修改日期阻止重用现有内容，则此值为零。否则，此值是一个整数，表示磁盘上不需要再次检索的字节数。
+ @param expectedTotalBytes 文件的预期长度，由Content-Length标头提供。如果未提供此标头，则值为。NSURLSessionTransferSizeUnknown
  */
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
  didResumeAtOffset:(int64_t)fileOffset
