@@ -34,11 +34,11 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAOptionMenuStyle)chooseMenuStyle
+- (instancetype)initWithFrame:(CGRect)frame optionMenuStyle:(WYAOptionMenuStyle)optionMenuStyle
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.menuStyle = chooseMenuStyle;
+        self.menuStyle = optionMenuStyle;
         [self createUI];
     }
     return self;
