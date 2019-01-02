@@ -9,10 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WYAChooseMenuModel;
+@class WYAOptionMenuModel;
 
-@interface WYAChooseMenuCell : UITableViewCell
-@property (nonatomic, strong) WYAChooseMenuModel * model;
+@interface WYAOptionMenuCell : UITableViewCell
+@property (nonatomic, strong) WYAOptionMenuModel * model;
 @end
 
 NS_ASSUME_NONNULL_END

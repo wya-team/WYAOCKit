@@ -22,8 +22,8 @@
     //    item1.className = @"WYADrawerViewController";
 
     WYAHomeItemModel * item2 = [[WYAHomeItemModel alloc] init];
-    item2.rowName            = @"WYAChooseMenu 菜单";
-    item2.className          = @"WYAChooseMenuViewController";
+    item2.rowName            = @"WYAOptionMenu 菜单";
+    item2.className          = @"WYAOptionMenuViewController";
 
     WYAHomeItemModel * item3 = [[WYAHomeItemModel alloc] init];
     item3.rowName            = @"WYANavBar 导航栏";

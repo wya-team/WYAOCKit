@@ -23,8 +23,8 @@
 #import <WYAKit/WYAImageBrowser.h>
 #import <WYAKit/WYASlider.h>
 #import <WYAKit/WYAPaginationView.h>
-#import <WYAKit/WYAChooseMenu.h>
-#import <WYAKit/WYAChooseMenuModel.h>
+#import <WYAKit/WYAOptionMenu.h>
+#import <WYAKit/WYAOptionMenuModel.h>
 #import <WYAKit/WYAEditCameraCell.h>
 #import <WYAKit/WYATableViewCell.h>
 

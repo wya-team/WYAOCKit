@@ -1,28 +1,28 @@
 //
-//  WYAChooseMenuViewController.m
+//  WYAOptionMenuViewController.m
 //  WYAKit_Example
 //
 //  Created by 李世航 on 2018/11/20.
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYAChooseMenuViewController.h"
+#import "WYAOptionMenuViewController.h"
 
-@interface WYAChooseMenuViewController () <WYAChooseMenuDelegate>
+@interface WYAOptionMenuViewController () <WYAOptionMenuDelegate>
 @property (nonatomic, strong) UIButton * menuSuperView;
-@property (nonatomic, strong) NSArray<WYAChooseMenuModel *> * titles;
-@property (nonatomic, strong) WYAChooseMenu * singleMenu;
-@property (nonatomic, strong) WYAChooseMenu * menu;
-@property (nonatomic, strong) WYAChooseMenu * otherMenu;
+@property (nonatomic, strong) NSArray<WYAOptionMenuModel *> * titles;
+@property (nonatomic, strong) WYAOptionMenu * singleMenu;
+@property (nonatomic, strong) WYAOptionMenu * menu;
+@property (nonatomic, strong) WYAOptionMenu * otherMenu;
 @end
 
-@implementation WYAChooseMenuViewController
+@implementation WYAOptionMenuViewController
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
 {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAChooseMenu/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAOptionMenu/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)viewDidLoad
@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navTitle             = @"WYAChooseMenu";
+    self.navTitle             = @"WYAOptionMenu";
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
     [self configUI];
@@ -152,7 +152,7 @@
     self.otherMenu.frame     = CGRectMake(otherMenu_X, otherMenu_Y, otherMenu_Width, otherMenu_Height);
 }
 
-#pragma mark--- WYAChooseMenuDelegate
+#pragma mark--- WYAOptionMenuDelegate
 - (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath
 {
 }
@@ -182,11 +182,11 @@
     return _menuSuperView;
 }
 
-- (WYAChooseMenu *)singleMenu
+- (WYAOptionMenu *)singleMenu
 {
     if (!_singleMenu) {
         _singleMenu = ({
-            WYAChooseMenu * object     = [[WYAChooseMenu alloc] initWithFrame:CGRectZero ChooseMenuStyle:WYAChooseMenuStyleTable];
+            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTable];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 1;
@@ -196,11 +196,11 @@
     return _singleMenu;
 }
 
-- (WYAChooseMenu *)menu
+- (WYAOptionMenu *)menu
 {
     if (!_menu) {
         _menu = ({
-            WYAChooseMenu * object     = [[WYAChooseMenu alloc] initWithFrame:CGRectZero ChooseMenuStyle:WYAChooseMenuStyleTable];
+            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTable];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 0.5;
@@ -210,11 +210,11 @@
     return _menu;
 }
 
-- (WYAChooseMenu *)otherMenu
+- (WYAOptionMenu *)otherMenu
 {
     if (!_otherMenu) {
         _otherMenu = ({
-            WYAChooseMenu * object     = [[WYAChooseMenu alloc] initWithFrame:CGRectZero ChooseMenuStyle:WYAChooseMenuStyleTableAndCollection];
+            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTableAndCollection];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 0.5;
@@ -224,55 +224,55 @@
     return _otherMenu;
 }
 
-- (NSArray<WYAChooseMenuModel *> *)titles
+- (NSArray<WYAOptionMenuModel *> *)titles
 {
     if (!_titles) {
-        WYAChooseMenuSecondLevelModel * item1 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item1 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item1.title                           = @"All Foods";
         item1.enableCell                      = NO;
         item1.select                          = YES;
 
-        WYAChooseMenuSecondLevelModel * item2 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item2 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item2.title                           = @"Chinese Foods";
         item2.enableCell                      = NO;
         item2.select                          = NO;
 
-        WYAChooseMenuSecondLevelModel * item3 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item3 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item3.title                           = @"Hot Pot";
         item3.enableCell                      = NO;
         item3.select                          = NO;
 
-        WYAChooseMenuSecondLevelModel * item4 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item4 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item4.title                           = @"Buffet";
         item4.enableCell                      = NO;
         item4.select                          = NO;
 
-        WYAChooseMenuSecondLevelModel * item5 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item5 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item5.title                           = @"Fast Food";
         item5.enableCell                      = NO;
         item5.select                          = NO;
 
-        WYAChooseMenuModel * model1 = [[WYAChooseMenuModel alloc] init];
+        WYAOptionMenuModel * model1 = [[WYAOptionMenuModel alloc] init];
         model1.select               = YES;
         model1.title                = @"Food";
         model1.secondLevelModels    = @[ item1, item2, item3, item4, item5 ];
 
-        WYAChooseMenuSecondLevelModel * item6 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item6 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item6.title                           = @"All SuperMarket";
         item6.enableCell                      = NO;
         item6.select                          = YES;
 
-        WYAChooseMenuSecondLevelModel * item7 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item7 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item7.title                           = @"SuperMarket";
         item7.enableCell                      = YES;
         item7.select                          = NO;
 
-        WYAChooseMenuSecondLevelModel * item8 = [[WYAChooseMenuSecondLevelModel alloc] init];
+        WYAOptionMenuSecondLevelModel * item8 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item8.title                           = @"C-Store";
         item8.enableCell                      = NO;
         item8.select                          = NO;
 
-        WYAChooseMenuModel * model2 = [[WYAChooseMenuModel alloc] init];
+        WYAOptionMenuModel * model2 = [[WYAOptionMenuModel alloc] init];
         model2.select               = NO;
         model2.title                = @"SuperMarket";
         model2.secondLevelModels    = @[ item6, item7, item8 ];

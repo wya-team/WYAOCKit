@@ -5,9 +5,9 @@
 //  Created by 李世航 on 2018/11/20.
 //
 
-#import "WYAChooseMenuModel.h"
+#import "WYAOptionMenuModel.h"
 
-@implementation WYAChooseMenuSecondLevelModel
+@implementation WYAOptionMenuSecondLevelModel
 
 - (instancetype)init
 {
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation WYAChooseMenuModel
+@implementation WYAOptionMenuModel
 
 - (instancetype)init
 {

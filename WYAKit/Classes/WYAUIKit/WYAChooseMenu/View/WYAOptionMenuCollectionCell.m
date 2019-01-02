@@ -5,15 +5,15 @@
 //  Created by 李世航 on 2018/11/29.
 //
 
-#import "WYAMenuCollectionCell.h"
-#import "WYAChooseMenuModel.h"
+#import "WYAOptionMenuCollectionCell.h"
+#import "WYAOptionMenuModel.h"
 
-@interface WYAMenuCollectionCell ()
+@interface WYAOptionMenuCollectionCell ()
 @property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UILabel * titleLabel;
 @end
 
-@implementation WYAMenuCollectionCell
+@implementation WYAOptionMenuCollectionCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -51,7 +51,7 @@
     }];
 }
 
-- (void)setModel:(WYAChooseMenuSecondLevelModel *)model
+- (void)setModel:(WYAOptionMenuSecondLevelModel *)model
 {
     _model = model;
     if (model) {

@@ -5,14 +5,14 @@
 //  Created by 李世航 on 2018/11/20.
 //
 
-#import "WYAChooseMenu.h"
-#import "WYAChooseMenuCell.h"
-#import "WYAChooseMenuModel.h"
-#import "WYAChooseMenuSecondLevelCell.h"
+#import "WYAOptionMenu.h"
+#import "WYAOptionMenuCell.h"
+#import "WYAOptionMenuModel.h"
+#import "WYAOptionMenuSecondLevelCell.h"
 
-#import "WYAMenuCollectionCell.h"
+#import "WYAOptionMenuCollectionCell.h"
 
-@interface WYAChooseMenu () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
+@interface WYAOptionMenu () <UITableViewDataSource, UITableViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UITableView * leftTableView;
 @property (nonatomic, strong) UITableView * rightTableView;
@@ -22,19 +22,19 @@
 
 @end
 
-@implementation WYAChooseMenu
+@implementation WYAOptionMenu
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        self.menuStyle = WYAChooseMenuStyleTable;
+        self.menuStyle = WYAOptionMenuStyleTable;
         [self createUI];
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAChooseMenuStyle)chooseMenuStyle
+- (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAOptionMenuStyle)chooseMenuStyle
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -52,14 +52,14 @@
         make.width.mas_equalTo(self.mas_width).multipliedBy(self.leftTableProportion);
     }];
 
-    if (self.menuStyle == WYAChooseMenuStyleTable) {
+    if (self.menuStyle == WYAOptionMenuStyleTable) {
         [self.rightTableView mas_remakeConstraints:^(MASConstraintMaker * make) {
             make.right.top.bottom.mas_equalTo(self);
             make.left.mas_equalTo(self.leftTableView.mas_right);
         }];
     }
 
-    if (self.menuStyle == WYAChooseMenuStyleTableAndCollection) {
+    if (self.menuStyle == WYAOptionMenuStyleTableAndCollection) {
         [self.collectionView mas_remakeConstraints:^(MASConstraintMaker * make) {
             make.right.top.bottom.mas_equalTo(self);
             make.left.mas_equalTo(self.leftTableView.mas_right);
@@ -68,10 +68,10 @@
 }
 
 #pragma mark--- Setter
-- (void)setMenuStyle:(WYAChooseMenuStyle)menuStyle
+- (void)setMenuStyle:(WYAOptionMenuStyle)menuStyle
 {
     _menuStyle = menuStyle;
-    if (menuStyle == WYAChooseMenuStyleTable) {
+    if (menuStyle == WYAOptionMenuStyleTable) {
         [self.collectionView removeFromSuperview];
         self.collectionView = nil;
     } else {
@@ -80,12 +80,12 @@
     }
 }
 
-- (void)setTitleArray:(NSMutableArray<WYAChooseMenuModel *> *)titleArray
+- (void)setTitleArray:(NSMutableArray<WYAOptionMenuModel *> *)titleArray
 {
     _titleArray = titleArray;
     if (titleArray) {
         [self.leftTableView reloadData];
-        if (self.menuStyle == WYAChooseMenuStyleTable) {
+        if (self.menuStyle == WYAOptionMenuStyleTable) {
             [self.rightTableView reloadData];
         } else {
             [self.collectionView reloadData];
@@ -108,7 +108,7 @@
         _leftTableView.dataSource      = self;
         _leftTableView.separatorStyle  = UITableViewCellSeparatorStyleNone;
         _leftTableView.backgroundColor = [UIColor wya_hex:@"#f6f6f6"];
-        [_leftTableView registerClass:[WYAChooseMenuCell class] forCellReuseIdentifier:@"menu"];
+        [_leftTableView registerClass:[WYAOptionMenuCell class] forCellReuseIdentifier:@"menu"];
     }
     return _leftTableView;
 }
@@ -119,7 +119,7 @@
         _rightTableView            = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _rightTableView.delegate   = self;
         _rightTableView.dataSource = self;
-        [_rightTableView registerClass:[WYAChooseMenuSecondLevelCell class] forCellReuseIdentifier:@"secondLevel"];
+        [_rightTableView registerClass:[WYAOptionMenuSecondLevelCell class] forCellReuseIdentifier:@"secondLevel"];
         //        _rightTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         //        _rightTableView.backgroundColor = random(203, 203, 203, 1);
     }
@@ -133,7 +133,7 @@
         _collectionView.dataSource          = self;
         _collectionView.delegate            = self;
         _collectionView.backgroundColor     = [UIColor whiteColor];
-        [_collectionView registerClass:[WYAMenuCollectionCell class] forCellWithReuseIdentifier:@"cell"];
+        [_collectionView registerClass:[WYAOptionMenuCollectionCell class] forCellWithReuseIdentifier:@"cell"];
     }
     return _collectionView;
 }
@@ -142,7 +142,7 @@
 {
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.leftTableView];
-    if (self.menuStyle == WYAChooseMenuStyleTable) {
+    if (self.menuStyle == WYAOptionMenuStyleTable) {
         [self addSubview:self.rightTableView];
     } else {
         [self addSubview:self.collectionView];
@@ -157,7 +157,7 @@
     if (tableView == self.leftTableView) {
         return self.titleArray.count;
     } else {
-        WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+        WYAOptionMenuModel * model = self.titleArray[self.currentRow];
         return model.secondLevelModels.count;
     }
 }
@@ -165,10 +165,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.leftTableView) {
-        WYAChooseMenuCell * cell = [tableView dequeueReusableCellWithIdentifier:@"menu" forIndexPath:indexPath];
+        WYAOptionMenuCell * cell = [tableView dequeueReusableCellWithIdentifier:@"menu" forIndexPath:indexPath];
         return cell;
     } else {
-        WYAChooseMenuSecondLevelCell * cell = [tableView dequeueReusableCellWithIdentifier:@"secondLevel" forIndexPath:indexPath];
+        WYAOptionMenuSecondLevelCell * cell = [tableView dequeueReusableCellWithIdentifier:@"secondLevel" forIndexPath:indexPath];
         return cell;
     }
 }
@@ -176,11 +176,11 @@
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (tableView == self.leftTableView) {
-        WYAChooseMenuCell * menuCell = (WYAChooseMenuCell *)cell;
+        WYAOptionMenuCell * menuCell = (WYAOptionMenuCell *)cell;
         menuCell.model               = self.titleArray[indexPath.row];
     } else {
-        WYAChooseMenuSecondLevelCell * menuCell = (WYAChooseMenuSecondLevelCell *)cell;
-        WYAChooseMenuModel * model              = self.titleArray[self.currentRow];
+        WYAOptionMenuSecondLevelCell * menuCell = (WYAOptionMenuSecondLevelCell *)cell;
+        WYAOptionMenuModel * model              = self.titleArray[self.currentRow];
         menuCell.model                          = model.secondLevelModels[indexPath.row];
     }
 }
@@ -215,23 +215,23 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (tableView == self.leftTableView) {
-        WYAChooseMenuModel * currentModel = self.titleArray[self.currentRow];
+        WYAOptionMenuModel * currentModel = self.titleArray[self.currentRow];
         currentModel.select               = NO;
-        WYAChooseMenuModel * model        = self.titleArray[indexPath.row];
+        WYAOptionMenuModel * model        = self.titleArray[indexPath.row];
         model.select                      = YES;
         self.currentRow                   = indexPath.row;
         if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_leftTableDidSelectedRow:)]) {
             [self.wya_delegate wya_leftTableDidSelectedRow:indexPath];
         }
         [tableView reloadData];
-        if (self.menuStyle == WYAChooseMenuStyleTable) {
+        if (self.menuStyle == WYAOptionMenuStyleTable) {
             [self.rightTableView reloadData];
         } else {
             [self.collectionView reloadData];
         }
     } else {
-        WYAChooseMenuModel * model         = self.titleArray[self.currentRow];
-        WYAChooseMenuSecondLevelModel * mo = model.secondLevelModels[indexPath.row];
+        WYAOptionMenuModel * model         = self.titleArray[self.currentRow];
+        WYAOptionMenuSecondLevelModel * mo = model.secondLevelModels[indexPath.row];
         if (mo.enableCell) {
             return;
         }
@@ -246,15 +246,15 @@
 #pragma mark - UICollectionViewDataSource  -
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    WYAChooseMenuModel * model = self.titleArray[self.currentRow];
+    WYAOptionMenuModel * model = self.titleArray[self.currentRow];
     return model.secondLevelModels.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    WYAMenuCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    WYAChooseMenuModel * model   = self.titleArray[self.currentRow];
-    cell.model                   = model.secondLevelModels[indexPath.row];
+    WYAOptionMenuCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    WYAOptionMenuModel * model         = self.titleArray[self.currentRow];
+    cell.model                         = model.secondLevelModels[indexPath.row];
     return cell;
 }
 
