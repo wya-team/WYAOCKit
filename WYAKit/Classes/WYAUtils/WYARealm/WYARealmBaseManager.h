@@ -9,6 +9,7 @@
 #import <Realm/Realm.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface WYARealmBaseManager : NSObject
 
 #pragma mark ======= 创建数据库
@@ -35,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return 存储是否成功
  */
 - (BOOL)wya_insertRealmWithObject:(RLMObject *)model;
-
 
 /**
  删除某一个数据

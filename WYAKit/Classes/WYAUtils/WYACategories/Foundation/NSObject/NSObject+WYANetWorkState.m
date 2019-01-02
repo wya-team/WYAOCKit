@@ -7,24 +7,26 @@
 
 #import "NSObject+WYANetWorkState.h"
 #import "Reachability.h"
+
 @implementation NSObject (WYANetWorkState)
 
--(void)wya_getNetWorkStatus:(void(^)(WYANetWorkStatus status))handle{
-    Reachability *reachability   = [Reachability reachabilityWithHostName:@"www.apple.com"];
+- (void)wya_getNetWorkStatus:(void (^)(WYANetWorkStatus status))handle
+{
+    Reachability * reachability  = [Reachability reachabilityWithHostName:@"www.apple.com"];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    
+
     switch (internetStatus) {
         case ReachableViaWiFi:
             handle(WYANetWorkStatusWIFI);
             break;
-            
+
         case ReachableViaWWAN:
             handle(WYANetWorkStatusWWAN);
             break;
-            
+
         case NotReachable:
             handle(WYANetWorkStatusNoReach);
-            
+
         default:
             break;
     }

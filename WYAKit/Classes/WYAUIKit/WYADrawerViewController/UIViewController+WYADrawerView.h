@@ -5,9 +5,9 @@
 //  Created by 李世航 on 2018/11/16.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYALateralSlideAnimator.h"
 #import "WYALateralSlideConfiguration.h"
+#import <UIKit/UIKit.h>
 
 @interface UIViewController (WYADrawerView)
 
@@ -26,8 +26,8 @@
  @param configuration 侧滑过程的一些参数配置，如果传nil会创建一个默认的配置参数
  */
 - (void)wya_showDrawerViewController:(UIViewController *)viewController
-                      animationType:(WYADrawerAnimationType)animationType
-                      configuration:(WYALateralSlideConfiguration *)configuration;
+                       animationType:(WYADrawerAnimationType)animationType
+                       configuration:(WYALateralSlideConfiguration *)configuration;
 
 /**
  注册手势驱动方法，侧滑呼出的方向自动确定，一般在viewDidLoad调用，调用之后会添加一个支持侧滑的手势到本控制器
@@ -35,7 +35,7 @@
  @param openEdgeGesture 是否开启边缘手势,边缘手势的开始范围为距离边缘50以内
  @param transitionDirectionAutoBlock 手势过程中执行的操作。根据参数direction传整个点击present的事件即可（看demo的使用）
  */
-- (void)wya_registerShowIntractiveWithEdgeGesture:(BOOL)openEdgeGesture transitionDirectionAutoBlock:(void(^)(WYADrawerTransitionDirection direction))transitionDirectionAutoBlock;
+- (void)wya_registerShowIntractiveWithEdgeGesture:(BOOL)openEdgeGesture transitionDirectionAutoBlock:(void (^)(WYADrawerTransitionDirection direction))transitionDirectionAutoBlock;
 
 /**
  Custom push method 自定义的push动画
@@ -72,7 +72,5 @@
  必须要是通过wya_presentViewController的控制器才能使用这个方法dismiss
  */
 - (void)wya_dismissViewController;
-
-
 
 @end

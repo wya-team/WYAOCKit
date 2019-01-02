@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIMenuItem (Category)
-- (instancetype)initWithTitle:(NSString *)title actionBlock:(void (^) (id sender))block;
+- (instancetype)initWithTitle:(NSString *)title actionBlock:(void (^)(id sender))block;
 @end

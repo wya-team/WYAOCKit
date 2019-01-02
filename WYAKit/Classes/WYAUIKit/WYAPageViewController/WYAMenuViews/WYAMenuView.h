@@ -5,32 +5,31 @@
 //  Created by 李俊恒 on 2018/11/14.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAMenuItem.h"
 #import "WYAPageProgressView.h"
+#import <UIKit/UIKit.h>
 
 #define WYAUNDEFINED_VALUE -1
 
 @class WYAMenuView;
 // 标题栏的样式
 typedef NS_ENUM(NSUInteger, WYAMenuViewStyle) {
-    WYAMenuViewStyleDefault,        // 默认
-    WYAMenuViewStyleLine,           // 带下划线（若要选中字体大小不变，设置选中合肥选中大小一样即可）
-    WYAMenuViewStyleTriangle,       // 三角形(progressHeight 为三角形的高，progressWidths为底边长)
-    WYAMenuViewStyleFlood,          // 涌入效果（填充）
-    WYAMenuViewStyleFloodHollow,    // 涌入效果（空心的）
-    WYAMenuViewStyleSegmented,      // 涌入带边框的，类似网易新闻选项卡
+    WYAMenuViewStyleDefault,     // 默认
+    WYAMenuViewStyleLine,        // 带下划线（若要选中字体大小不变，设置选中合肥选中大小一样即可）
+    WYAMenuViewStyleTriangle,    // 三角形(progressHeight 为三角形的高，progressWidths为底边长)
+    WYAMenuViewStyleFlood,       // 涌入效果（填充）
+    WYAMenuViewStyleFloodHollow, // 涌入效果（空心的）
+    WYAMenuViewStyleSegmented,   // 涌入带边框的，类似网易新闻选项卡
 };
-
 
 /**
  关于布局格式的样式
  */
-typedef NS_ENUM(NSUInteger,WYAMenuViewLayoutMode) {
-    WYAMenuViewLayoutModeScatter,   // 默认的布局模式，item会均匀的分布在屏幕上，成分散状
-    WYAMenuViewLayoutModeLeft,      // Item紧靠屏幕左侧
-    WYAMenuViewLayoutModeRight,     // Item紧靠屏幕右侧
-    WYAMenuViewLayoutModeCenter,    // Item紧挨且居中分布
+typedef NS_ENUM(NSUInteger, WYAMenuViewLayoutMode) {
+    WYAMenuViewLayoutModeScatter, // 默认的布局模式，item会均匀的分布在屏幕上，成分散状
+    WYAMenuViewLayoutModeLeft,    // Item紧靠屏幕左侧
+    WYAMenuViewLayoutModeRight,   // Item紧靠屏幕右侧
+    WYAMenuViewLayoutModeCenter,  // Item紧挨且居中分布
 };
 NS_ASSUME_NONNULL_BEGIN
 
@@ -145,15 +144,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (WYAMenuItem *)wya_menuView:(WYAMenuView *)meun initialMenuItem:(WYAMenuItem *)initialMenuItem atIndex:(NSInteger)index;
 @end
 
-@interface WYAMenuView : UIView<WYAMenuItemDelegate>
+@interface WYAMenuView : UIView <WYAMenuItemDelegate>
 @property (nonatomic, strong) NSArray * progressWidths;
-@property (nonatomic, weak)   WYAPageProgressView * progressView;
-@property (nonatomic, assign) CGFloat  progressHeight;
-@property (nonatomic, assign) WYAMenuViewStyle  style;
-@property (nonatomic, assign) WYAMenuViewLayoutMode  layoutMode;
-@property (nonatomic, assign) CGFloat  contentMargin;
+@property (nonatomic, weak) WYAPageProgressView * progressView;
+@property (nonatomic, assign) CGFloat progressHeight;
+@property (nonatomic, assign) WYAMenuViewStyle style;
+@property (nonatomic, assign) WYAMenuViewLayoutMode layoutMode;
+@property (nonatomic, assign) CGFloat contentMargin;
 @property (nonatomic, strong) UIColor * lineColor;
-@property (nonatomic, assign) CGFloat  progressViewBottomSpace;
+@property (nonatomic, assign) CGFloat progressViewBottomSpace;
 
 @property (nonatomic, weak) id<WYAMenuViewDelegate> delegate;
 @property (nonatomic, weak) id<WYAMenuViewDataSource> dataSource;
@@ -166,10 +165,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  进度条的速度因数，默认为15，越小越快，大于0
  */
-@property (nonatomic, assign) CGFloat  speedFactor;
-@property (nonatomic, assign) CGFloat  progressViewCornerRadius;
-@property (nonatomic, assign) BOOL  progressViewIsNaughty;
-@property (nonatomic, assign) BOOL  showOnNavigationBar;
+@property (nonatomic, assign) CGFloat speedFactor;
+@property (nonatomic, assign) CGFloat progressViewCornerRadius;
+@property (nonatomic, assign) BOOL progressViewIsNaughty;
+@property (nonatomic, assign) BOOL showOnNavigationBar;
 
 - (void)wya_slidMenuAtProgress:(CGFloat)progress;
 - (void)wya_selectItemAtIndex:(NSInteger)index;

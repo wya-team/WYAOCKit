@@ -12,8 +12,8 @@
  The shape of the cropping region of this crop view controller
  */
 typedef NS_ENUM(NSInteger, WYACropViewCroppingStyle) {
-    WYACropViewCroppingStyleDefault,     // The regular, rectangular crop box
-    WYACropViewCroppingStyleCircular     // A fixed, circular crop box
+    WYACropViewCroppingStyleDefault, // The regular, rectangular crop box
+    WYACropViewCroppingStyleCircular // A fixed, circular crop box
 };
 
 /**

@@ -8,48 +8,48 @@
 
 #import "WYATextViewController.h"
 
-
 @interface WYATextViewController ()
 
 @end
 
 @implementation WYATextViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
-    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc]init];
-    vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYATextView/README.md";
+    WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYATextView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self wya_addRightNavBarButtonWithNormalImage:@[@"icon_help"] highlightedImg:@[]];
+    [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    
-    WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(10, 100, self.view.frame.size.width-20, 100)];
+
+    WYATextView * textView = [[WYATextView alloc] initWithFrame:CGRectMake(10, 100, self.view.frame.size.width - 20, 100)];
     [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
-    textView.textViewWordsCount = 50;
-    textView.showTitle = NO;
-    textView.layer.cornerRadius = 4.f;
+    textView.textViewWordsCount  = 50;
+    textView.showTitle           = NO;
+    textView.layer.cornerRadius  = 4.f;
     textView.layer.masksToBounds = YES;
-    textView.textViewMaxHeight = 100;
+    textView.textViewMaxHeight   = 100;
     [self.view addSubview:textView];
-    
-    WYATextView * textView1 = [[WYATextView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame)+20, self.view.frame.size.width-20, 100)];
+
+    WYATextView * textView1 = [[WYATextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame) + 20, self.view.frame.size.width - 20, 100)];
     [textView1 wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
-    textView1.textViewWordsCount = 100;
-    textView1.title = @"哈哈";
-    textView1.layer.cornerRadius = 4.f;
+    textView1.textViewWordsCount  = 100;
+    textView1.title               = @"哈哈";
+    textView1.layer.cornerRadius  = 4.f;
     textView1.layer.masksToBounds = YES;
-    textView1.textViewMaxHeight = 100;
+    textView1.textViewMaxHeight   = 100;
     [self.view addSubview:textView1];
-    
-    
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.view endEditing:YES];
 }
 

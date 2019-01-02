@@ -14,17 +14,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  是否显示左侧按钮（显示的是图片或者文字）
  */
-@property (nonatomic, assign) BOOL  showNoticeButton;
+@property (nonatomic, assign) BOOL showNoticeButton;
 
 /**
  是否显示右侧按钮（显示的是图片或者文字）
  */
-@property (nonatomic, assign) BOOL  showRightButton;
+@property (nonatomic, assign) BOOL showRightButton;
 
 /**
  显示的文字
  */
-@property (nonatomic, copy)   NSString * showText;
+@property (nonatomic, copy) NSString * showText;
 
 /**
  显示的文字颜色
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  显示的文字大小
  */
-@property (nonatomic, assign) CGFloat  showTextFont;
+@property (nonatomic, assign) CGFloat showTextFont;
 
 /**
  左侧要显示的图片
@@ -51,8 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor * noticeBackgroundColor;
 
-@property (nonatomic, copy)   void(^leftButtonHandle)(void);
-@property (nonatomic, copy)   void(^rightButtonHandle)(void);
+@property (nonatomic, copy) void (^leftButtonHandle)(void);
+@property (nonatomic, copy) void (^rightButtonHandle)(void);
 /**
  开始动画
  */

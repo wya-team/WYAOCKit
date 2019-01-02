@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^ButtonActionCallBack) (UIButton * button);
+typedef void (^ButtonActionCallBack)(UIButton * button);
 
 @interface UIButton (Category)
 
@@ -17,7 +17,7 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
 
 - (void)addCallBackAction:(ButtonActionCallBack)action;
 
-- (void)wya_gifImageWithSource:(NSArray <NSString *>*)source;
+- (void)wya_gifImageWithSource:(NSArray<NSString *> *)source;
 
 /**
  设置背景色
@@ -42,7 +42,6 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
  */
 - (void)setEnlargeEdgeWithTop:(CGFloat)top right:(CGFloat)right bottom:(CGFloat)bottom left:(CGFloat)left;
 
-
 /**
  设置图片在右，需先指定button.frame
  
@@ -63,6 +62,5 @@ typedef void (^ButtonActionCallBack) (UIButton * button);
  @param space 间距
  */
 - (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space;
-
 
 @end

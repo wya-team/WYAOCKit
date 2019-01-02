@@ -36,18 +36,18 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 
 @interface WYAPickerView : UIView
 
-@property (nonatomic, weak)   id <WYAPickerViewDelegate> delegate;
+@property (nonatomic, weak) id<WYAPickerViewDelegate> delegate;
 @property (nonatomic, weak) UIViewController * viewController;
 
 /**
  pickerView样式（暂不提供使用）
  */
-@property (nonatomic, assign) WYAPickerViewStyle  pickerViewStyle;
+@property (nonatomic, assign) WYAPickerViewStyle pickerViewStyle;
 
 /**
  pickerView列样式
  */
-@property (nonatomic, assign) WYAPickerViewColumnStyle  pickerViewColumnStyle;
+@property (nonatomic, assign) WYAPickerViewColumnStyle pickerViewColumnStyle;
 /**
  设置pickerView整体字体颜色
  */
@@ -61,35 +61,34 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 /**
  设置pickerView高度
  */
-@property (nonatomic, assign) CGFloat    pickerHeight;
+@property (nonatomic, assign) CGFloat pickerHeight;
 
 /**
  设置pickerView的Item高度
  */
-@property (nonatomic, assign) CGFloat    pickerItemHeight;
+@property (nonatomic, assign) CGFloat pickerItemHeight;
 
 /**
  标题关键字(需要先指定)
  */
-@property (nonatomic, copy)   NSString * titleKeyWords;
+@property (nonatomic, copy) NSString * titleKeyWords;
 
 /**
  array关键字(需要先指定)
  */
-@property (nonatomic, copy)   NSString * arrayKeyWords;
+@property (nonatomic, copy) NSString * arrayKeyWords;
 
 /**
  数据源
  */
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
-
 /**
  获取pickerView高度
 
  @return 高度
  */
--(CGFloat)wya_GetPickerViewHeight;
+- (CGFloat)wya_GetPickerViewHeight;
 
 @end
 

@@ -14,12 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UITextField * titleTextField;
 @property (nonatomic, strong) UIButton * downButton;
 
-@property (nonatomic, strong, nullable) NSMutableArray<UIView *> * views;//要添加的子视图
-@property (nonatomic, strong) NSMutableArray * viewHeights;//子视图高度
+@property (nonatomic, strong, nullable) NSMutableArray<UIView *> * views; //要添加的子视图
+@property (nonatomic, strong) NSMutableArray * viewHeights;               //子视图高度
 
-@property (nonatomic, copy)   void(^buttonClick)(UIButton * button);
+@property (nonatomic, copy) void (^buttonClick)(UIButton * button);
 
-+(CGFloat)wya_cellHeight:(NSMutableArray *)viewHeightArray;
++ (CGFloat)wya_cellHeight:(NSMutableArray *)viewHeightArray;
 
 @end
 

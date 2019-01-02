@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPopCell : UITableViewCell
-@property (nonatomic, copy)   NSString * title;
-@property (nonatomic, copy)   NSString * imageName;
+@property (nonatomic, copy) NSString * title;
+@property (nonatomic, copy) NSString * imageName;
 @property (nonatomic, strong) UIView * line;
 @end
 

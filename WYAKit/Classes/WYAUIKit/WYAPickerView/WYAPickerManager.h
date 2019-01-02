@@ -19,10 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray * minuteArray;
 @property (nonatomic, strong) NSMutableArray * secondArray;
 
-@property (nonatomic, assign)   NSInteger  selectYear;
-@property (nonatomic, assign)   NSInteger  selectMonth;
+@property (nonatomic, assign) NSInteger selectYear;
+@property (nonatomic, assign) NSInteger selectMonth;
 
-@property (nonatomic, strong) NSDateComponents *selectComponents;
+@property (nonatomic, strong) NSDateComponents * selectComponents;
 @end
 
 NS_ASSUME_NONNULL_END

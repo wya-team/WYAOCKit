@@ -41,6 +41,6 @@
  */
 + (void)exchangeClassMethod:(SEL)origSelector withClassMethod:(SEL)newSelector;
 @end
-NSString * checkString (NSString * str);
-NSString * checkNumber (NSString * str);
-NSArray * checkArray (id arr);
+NSString * checkString(NSString * str);
+NSString * checkNumber(NSString * str);
+NSArray * checkArray(id arr);

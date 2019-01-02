@@ -14,12 +14,12 @@
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:compareDate / 1000];
 
     NSTimeInterval timeInterval = [confromTimesp timeIntervalSinceNow];
-    timeInterval = -timeInterval;
-    long temp = 0;
+    timeInterval                = -timeInterval;
+    long temp                   = 0;
     NSString * result;
 
     NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
+    NSInteger unitFlags   = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
                         NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     NSDateComponents * referenceComponents = [calendar components:unitFlags fromDate:confromTimesp];
     //    NSInteger referenceYear  =referenceComponents.year;
@@ -49,7 +49,7 @@
     else if ((temp = timeInterval / 3600 / 24 / 30) < 12) {
         result = [NSString stringWithFormat:@"%ld个月前", temp];
     } else {
-        temp = temp / 12;
+        temp   = temp / 12;
         result = [NSString stringWithFormat:@"%ld年前", temp];
     }
 
@@ -58,13 +58,13 @@
 + (NSString *)wya_getDateStringWithTimestamp:(NSTimeInterval)timestamp
 {
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:timestamp / 1000];
-    NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
+    NSCalendar * calendar  = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSInteger unitFlags    = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
                         NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
     NSDateComponents * referenceComponents = [calendar components:unitFlags fromDate:confromTimesp];
-    NSInteger referenceYear = referenceComponents.year;
-    NSInteger referenceMonth = referenceComponents.month;
-    NSInteger referenceDay = referenceComponents.day;
+    NSInteger referenceYear                = referenceComponents.year;
+    NSInteger referenceMonth               = referenceComponents.month;
+    NSInteger referenceDay                 = referenceComponents.day;
 
     return [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)referenceYear, (long)referenceMonth, (long)referenceDay];
 }

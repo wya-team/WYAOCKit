@@ -10,8 +10,8 @@
 #import <objc/runtime.h>
 #import <sys/utsname.h>
 
-typedef void (^TYNCountDownBlock) (NSUInteger timer);
-typedef void (^TYNFinishBlock) (void);
+typedef void (^TYNCountDownBlock)(NSUInteger timer);
+typedef void (^TYNFinishBlock)(void);
 
 @interface NSObject (Category)
 @property (nonatomic, strong, readonly) NSMutableArray * associatedObjectNames; // 相关对象的名字

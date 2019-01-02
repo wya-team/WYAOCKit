@@ -15,37 +15,37 @@
 // PHAssetCollectionTypeSmartAlbum     （相簿）
 // PHAssetCollectionTypeMoment          (照片)
 typedef NS_OPTIONS(NSInteger, AssetCollectionType) {
-    AssetCollectionTypeAlbum,             //用户创建智能相册(自建)
-    AssetCollectionTypeSmartAlbum,        //系统创建智能相册
+    AssetCollectionTypeAlbum,      //用户创建智能相册(自建)
+    AssetCollectionTypeSmartAlbum, //系统创建智能相册
 };
 
 typedef NS_OPTIONS(NSInteger, AssetCollectionSubType) {
-    AssetCollectionSubTypeUserLibrary,    //用户相册
-    AssetCollectionSubTypeAlbumRegular,   //在照片应用中创建的相册
-    AssetCollectionSubTypeVideo,          //视频
-    AssetCollectionSubTypeScreenshots,    //屏幕快照
-    AssetCollectionSubTypeRecentlyAdded,  //最近添加
-    AssetCollectionSubTypeLivePhotos,     //实况照片
+    AssetCollectionSubTypeUserLibrary,   //用户相册
+    AssetCollectionSubTypeAlbumRegular,  //在照片应用中创建的相册
+    AssetCollectionSubTypeVideo,         //视频
+    AssetCollectionSubTypeScreenshots,   //屏幕快照
+    AssetCollectionSubTypeRecentlyAdded, //最近添加
+    AssetCollectionSubTypeLivePhotos,    //实况照片
     AssetCollectionSubTypeAny,
 };
 
 typedef NS_OPTIONS(NSInteger, AssetCollectionSort) {
-//    AssetCollectionLocalIdentifier,     //资源标识符
-//    AssetCollectionLocalizedTitle,      //资源名称
-    AssetCollectionStartDate,           //资源创建日期
-    AssetCollectionEndDate,             //资源最新编辑日期
-//    AssetCollectionEstimatedAssetCount, //预估资源个数
+    //    AssetCollectionLocalIdentifier,     //资源标识符
+    //    AssetCollectionLocalizedTitle,      //资源名称
+    AssetCollectionStartDate, //资源创建日期
+    AssetCollectionEndDate,   //资源最新编辑日期
+    //    AssetCollectionEstimatedAssetCount, //预估资源个数
 };
 
 typedef NS_OPTIONS(NSInteger, AssetSort) {
-//    AssetLocalIdentifier,               //资源标识符
-    AssetCreationDate,                  //资源创建日期
-    AssetModificationDate,              //资源最新编辑日期
-//    AssetDuration,                      //资源持续时间
-//    AssetWidth,                         //资源宽度
-//    AssetHeight,                        //资源高度
-//    AssetFavorite,                      //资源是否被标记喜欢
-//    AssetHidden,                        //资源是否隐藏
+    //    AssetLocalIdentifier,               //资源标识符
+    AssetCreationDate,     //资源创建日期
+    AssetModificationDate, //资源最新编辑日期
+    //    AssetDuration,                      //资源持续时间
+    //    AssetWidth,                         //资源宽度
+    //    AssetHeight,                        //资源高度
+    //    AssetFavorite,                      //资源是否被标记喜欢
+    //    AssetHidden,                        //资源是否隐藏
 };
 
 typedef NS_OPTIONS(NSInteger, AssetMediaType) {
@@ -57,7 +57,7 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
 
 @interface WYAPhotoBrowserManager : NSObject
 
-@property (nonatomic, assign) AssetMediaType  mediaType;
+@property (nonatomic, assign) AssetMediaType mediaType;
 
 /**
  获取图片资源

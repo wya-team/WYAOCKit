@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPopVerReadMeViewController : WYABaseViewController
-@property (nonatomic, copy)   void(^pushCallback)(NSIndexPath * indexPath);
+@property (nonatomic, copy) void (^pushCallback)(NSIndexPath * indexPath);
 @property (nonatomic, strong) NSArray * dataSource;
 @end
 

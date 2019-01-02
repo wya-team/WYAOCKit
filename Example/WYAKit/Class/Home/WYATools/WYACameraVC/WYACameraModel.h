@@ -16,9 +16,9 @@ typedef NS_ENUM(NSUInteger, WYACameraSourceType) {
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACameraModel : NSObject
-@property (nonatomic, assign) WYACameraSourceType  sourceType;
+@property (nonatomic, assign) WYACameraSourceType sourceType;
 @property (nonatomic, strong) UIImage * image;
-@property (nonatomic, copy)   NSString * videoPath;
+@property (nonatomic, copy) NSString * videoPath;
 
 @end
 

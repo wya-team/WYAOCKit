@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAPageScrollView : UIScrollView<UIGestureRecognizerDelegate>
+@interface WYAPageScrollView : UIScrollView <UIGestureRecognizerDelegate>
 
 @end
 

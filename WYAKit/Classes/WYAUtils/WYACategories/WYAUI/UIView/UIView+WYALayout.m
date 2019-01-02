@@ -11,50 +11,50 @@
 @implementation UIView (WYALayout)
 - (UIImage *)cmam_snapshotImage
 {
-    UIGraphicsBeginImageContextWithOptions (self.bounds.size, self.opaque, 0);
-    [self.layer renderInContext:UIGraphicsGetCurrentContext ()];
-    UIImage * snap = UIGraphicsGetImageFromCurrentImageContext ();
-    UIGraphicsEndImageContext ();
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * snap = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     return snap;
 }
 
 - (UIImage *)cmam_snapshotImageAfterScreenUpdates:(BOOL)afterUpdates
 {
-    if (![self respondsToSelector:@selector (drawViewHierarchyInRect:afterScreenUpdates:)]) {
+    if (![self respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
         return [self cmam_snapshotImage];
     }
-    UIGraphicsBeginImageContextWithOptions (self.bounds.size, self.opaque, 0);
+    UIGraphicsBeginImageContextWithOptions(self.bounds.size, self.opaque, 0);
     [self drawViewHierarchyInRect:self.bounds afterScreenUpdates:afterUpdates];
-    UIImage * snap = UIGraphicsGetImageFromCurrentImageContext ();
-    UIGraphicsEndImageContext ();
+    UIImage * snap = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     return snap;
 }
 
 - (NSData *)cmam_snapshotPDF
 {
-    CGRect bounds = self.bounds;
-    NSMutableData * data = [NSMutableData data];
-    CGDataConsumerRef consumer = CGDataConsumerCreateWithCFData ((__bridge CFMutableDataRef)data);
-    CGContextRef context = CGPDFContextCreate (consumer, &bounds, NULL);
-    CGDataConsumerRelease (consumer);
+    CGRect bounds              = self.bounds;
+    NSMutableData * data       = [NSMutableData data];
+    CGDataConsumerRef consumer = CGDataConsumerCreateWithCFData((__bridge CFMutableDataRef)data);
+    CGContextRef context       = CGPDFContextCreate(consumer, &bounds, NULL);
+    CGDataConsumerRelease(consumer);
     if (!context) return nil;
-    CGPDFContextBeginPage (context, NULL);
-    CGContextTranslateCTM (context, 0, bounds.size.height);
-    CGContextScaleCTM (context, 1.0, -1.0);
+    CGPDFContextBeginPage(context, NULL);
+    CGContextTranslateCTM(context, 0, bounds.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
     [self.layer renderInContext:context];
-    CGPDFContextEndPage (context);
-    CGPDFContextClose (context);
-    CGContextRelease (context);
+    CGPDFContextEndPage(context);
+    CGPDFContextClose(context);
+    CGContextRelease(context);
     return data;
 }
 
 - (void)cmam_setLayerShadow:(UIColor *)color offset:(CGSize)offset radius:(CGFloat)radius
 {
-    self.layer.shadowColor = color.CGColor;
-    self.layer.shadowOffset = offset;
-    self.layer.shadowRadius = radius;
-    self.layer.shadowOpacity = 1;
-    self.layer.shouldRasterize = YES;
+    self.layer.shadowColor        = color.CGColor;
+    self.layer.shadowOffset       = offset;
+    self.layer.shadowRadius       = radius;
+    self.layer.shadowOpacity      = 1;
+    self.layer.shouldRasterize    = YES;
     self.layer.rasterizationScale = [UIScreen mainScreen].scale;
 }
 
@@ -85,7 +85,7 @@
     }
     if (!self.window) return 0;
     CGFloat alpha = 1;
-    UIView * v = self;
+    UIView * v    = self;
     while (v) {
         if (v.hidden) {
             alpha = 0;
@@ -108,7 +108,7 @@
     }
 
     UIWindow * from = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
-    UIWindow * to = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
+    UIWindow * to   = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
     if ((!from || !to) || (from == to)) return [self convertPoint:point toView:view];
     point = [self convertPoint:point toView:from];
     point = [to convertPoint:point fromWindow:from];
@@ -127,7 +127,7 @@
     }
 
     UIWindow * from = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
-    UIWindow * to = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
+    UIWindow * to   = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
     if ((!from || !to) || (from == to)) return [self convertPoint:point fromView:view];
     point = [from convertPoint:point fromView:view];
     point = [to convertPoint:point fromWindow:from];
@@ -146,7 +146,7 @@
     }
 
     UIWindow * from = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
-    UIWindow * to = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
+    UIWindow * to   = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
     if (!from || !to) return [self convertRect:rect toView:view];
     if (from == to) return [self convertRect:rect toView:view];
     rect = [self convertRect:rect toView:from];
@@ -166,7 +166,7 @@
     }
 
     UIWindow * from = [view isKindOfClass:[UIWindow class]] ? (id)view : view.window;
-    UIWindow * to = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
+    UIWindow * to   = [self isKindOfClass:[UIWindow class]] ? (id)self : self.window;
     if ((!from || !to) || (from == to)) return [self convertRect:rect fromView:view];
     rect = [from convertRect:rect fromView:view];
     rect = [to convertRect:rect fromWindow:from];
@@ -181,9 +181,9 @@
 
 - (void)setCmam_left:(CGFloat)x
 {
-    CGRect frame = self.frame;
+    CGRect frame   = self.frame;
     frame.origin.x = x;
-    self.frame = frame;
+    self.frame     = frame;
 }
 
 - (CGFloat)cmam_top
@@ -193,9 +193,9 @@
 
 - (void)setCmam_top:(CGFloat)y
 {
-    CGRect frame = self.frame;
+    CGRect frame   = self.frame;
     frame.origin.y = y;
-    self.frame = frame;
+    self.frame     = frame;
 }
 
 - (CGFloat)cmam_right
@@ -205,9 +205,9 @@
 
 - (void)setCmam_right:(CGFloat)right
 {
-    CGRect frame = self.frame;
+    CGRect frame   = self.frame;
     frame.origin.x = right - frame.size.width;
-    self.frame = frame;
+    self.frame     = frame;
 }
 
 - (CGFloat)cmam_bottom
@@ -217,9 +217,9 @@
 
 - (void)setCmam_bottom:(CGFloat)bottom
 {
-    CGRect frame = self.frame;
+    CGRect frame   = self.frame;
     frame.origin.y = bottom - frame.size.height;
-    self.frame = frame;
+    self.frame     = frame;
 }
 
 - (CGFloat)cmam_width
@@ -229,9 +229,9 @@
 
 - (void)setCmam_width:(CGFloat)width
 {
-    CGRect frame = self.frame;
+    CGRect frame     = self.frame;
     frame.size.width = width;
-    self.frame = frame;
+    self.frame       = frame;
 }
 
 - (CGFloat)cmam_height
@@ -241,9 +241,9 @@
 
 - (void)setCmam_height:(CGFloat)height
 {
-    CGRect frame = self.frame;
+    CGRect frame      = self.frame;
     frame.size.height = height;
-    self.frame = frame;
+    self.frame        = frame;
 }
 
 - (CGFloat)cmam_centerX
@@ -253,7 +253,7 @@
 
 - (void)setCmam_centerX:(CGFloat)centerX
 {
-    self.center = CGPointMake (centerX, self.center.y);
+    self.center = CGPointMake(centerX, self.center.y);
 }
 
 - (CGFloat)cmam_centerY
@@ -263,7 +263,7 @@
 
 - (void)setCmam_centerY:(CGFloat)centerY
 {
-    self.center = CGPointMake (self.center.x, centerY);
+    self.center = CGPointMake(self.center.x, centerY);
 }
 
 - (CGPoint)cmam_origin
@@ -275,7 +275,7 @@
 {
     CGRect frame = self.frame;
     frame.origin = origin;
-    self.frame = frame;
+    self.frame   = frame;
 }
 
 - (CGSize)cmam_size
@@ -286,8 +286,8 @@
 - (void)setCmam_size:(CGSize)size
 {
     CGRect frame = self.frame;
-    frame.size = size;
-    self.frame = frame;
+    frame.size   = size;
+    self.frame   = frame;
 }
 
 + (void)cmam_showOscillatoryAnimationWithLayer:(CALayer * _Nullable)layer type:(CMAMOscillatoryAnimationType)type
@@ -319,7 +319,7 @@
                 withRadii:(CGSize)radii
 {
     UIBezierPath * rounded = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:corners cornerRadii:radii];
-    CAShapeLayer * shape = [[CAShapeLayer alloc] init];
+    CAShapeLayer * shape   = [[CAShapeLayer alloc] init];
     [shape setPath:rounded.CGPath];
 
     self.layer.mask = shape;
@@ -337,7 +337,7 @@
                  viewRect:(CGRect)rect
 {
     UIBezierPath * rounded = [UIBezierPath bezierPathWithRoundedRect:rect byRoundingCorners:corners cornerRadii:radii];
-    CAShapeLayer * shape = [[CAShapeLayer alloc] init];
+    CAShapeLayer * shape   = [[CAShapeLayer alloc] init];
     [shape setPath:rounded.CGPath];
 
     self.layer.mask = shape;

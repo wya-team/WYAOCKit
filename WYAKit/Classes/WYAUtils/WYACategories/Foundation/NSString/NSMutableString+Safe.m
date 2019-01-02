@@ -41,7 +41,7 @@
 - (NSUInteger)wya_safeReplaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options range:(NSRange)searchRange
 {
     NSUInteger location = searchRange.location;
-    NSUInteger length = searchRange.length;
+    NSUInteger length   = searchRange.length;
 
     if (target == nil || replacement == nil) {
         return 0;

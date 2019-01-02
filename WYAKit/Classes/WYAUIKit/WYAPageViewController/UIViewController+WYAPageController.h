@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAPageController;
+
 @interface UIViewController (WYAPageController)
 
 /**

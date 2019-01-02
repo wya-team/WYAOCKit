@@ -30,7 +30,7 @@
 - (NSString *)wya_safeSubstringWithRange:(NSRange)range
 {
     NSUInteger location = range.location;
-    NSUInteger length = range.length;
+    NSUInteger length   = range.length;
     if (location + length > self.length) {
         return nil;
     } else {
@@ -41,7 +41,7 @@
 - (NSRange)wya_safeRangeOfString:(NSString *)aString
 {
     if (aString == nil) {
-        return NSMakeRange (NSNotFound, 0);
+        return NSMakeRange(NSNotFound, 0);
     } else {
         return [self rangeOfString:aString];
     }
@@ -50,7 +50,7 @@
 - (NSRange)wya_safeRangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask
 {
     if (aString == nil) {
-        return NSMakeRange (NSNotFound, 0);
+        return NSMakeRange(NSNotFound, 0);
     } else {
         return [self rangeOfString:aString options:mask];
     }

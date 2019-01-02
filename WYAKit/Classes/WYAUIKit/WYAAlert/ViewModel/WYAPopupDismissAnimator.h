@@ -6,10 +6,10 @@
 //  Copyright © 2016年 code. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAStyle.h"
+#import <UIKit/UIKit.h>
 
-@interface WYAPopupDismissAnimator : NSObject<UIViewControllerAnimatedTransitioning>
+@interface WYAPopupDismissAnimator : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (assign, nonatomic) WYAPopupDismissStyle dismissStyle;
 

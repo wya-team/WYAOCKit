@@ -9,5 +9,4 @@
 
 @implementation WYADownloadModel
 
-
 @end

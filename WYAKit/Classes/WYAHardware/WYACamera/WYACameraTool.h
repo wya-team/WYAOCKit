@@ -1,14 +1,14 @@
 
 
-#import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
+#import <Foundation/Foundation.h>
 
 @interface WYACameraTool : NSObject
 
 /**
  只有在录制完成后才能获取到视频地址
  */
-@property (readonly, nonatomic) NSString *videoPath;//视频路径
+@property (readonly, nonatomic) NSString * videoPath; //视频路径
 
 //捕获到的视频呈现的layer
 - (AVCaptureVideoPreviewLayer *)previewLayer;
@@ -20,10 +20,10 @@
 - (void)stopRecordFunction;
 
 //开始录制
-- (void) startCapture;
+- (void)startCapture;
 
 //停止录制
-- (void) stopCapture;
+- (void)stopCapture;
 
 //开启手电筒
 - (void)openFlashLight;
@@ -43,12 +43,12 @@
 /**
  拍照
  */
-- (void)startTakingPhoto:(void(^)(UIImage * image))image;
+- (void)startTakingPhoto:(void (^)(UIImage * image))image;
 
 - (NSString *)getVideoPathCache;
 @end
 
-@interface WYACameraTool(Authorization)
+@interface WYACameraTool (Authorization)
 
 /**
    相机是否可以用

@@ -26,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_surePressed:(NSString *)senderTitle;
 @end
+
 @interface WYANumberImage : UICollectionReusableView
 @property (nonatomic, weak) id<WYANumberImageDelegate> delegate;
 @end

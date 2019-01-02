@@ -7,8 +7,8 @@
 //
 //  推荐宽高比例为9：16
 
-#import <UIKit/UIKit.h>
 #import "WYAVideoItem.h"
+#import <UIKit/UIKit.h>
 
 // 播放器的几种状态
 typedef NS_ENUM(NSInteger, PlayerStatus) {

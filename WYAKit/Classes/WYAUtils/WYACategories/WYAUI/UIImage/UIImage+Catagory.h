@@ -94,11 +94,8 @@
 
 + (UIImage *)wya_getVideoPreViewImage:(NSURL *)path;
 
-
-
 /// 返回一张可拉伸的图片
 + (instancetype)wya_resizeImageNamed:(NSString *)name;
-
 
 /**
  颜色生成图片是否需要切圆角

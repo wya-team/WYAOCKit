@@ -13,7 +13,7 @@
 {
     if (phoneNum.length == 11) {
         NSMutableString * newStr = [NSMutableString stringWithString:phoneNum];
-        NSRange range = NSMakeRange (3, 7);
+        NSRange range            = NSMakeRange(3, 7);
         [newStr replaceCharactersInRange:range withString:@"*****"];
         return newStr;
     }
@@ -23,7 +23,7 @@
 + (NSString *)wya_getSecrectStringWithAccountNo:(NSString *)accountNo
 {
     NSMutableString * newStr = [NSMutableString stringWithString:accountNo];
-    NSRange range = NSMakeRange (4, 8);
+    NSRange range            = NSMakeRange(4, 8);
     if (newStr.length > 12) {
         [newStr replaceCharactersInRange:range withString:@" **** **** "];
     }
@@ -56,21 +56,21 @@
 + (NSString *)wya_countNumAndChangeformat:(NSString *)num
 {
     NSNumberFormatter * moneyFormatter = [[NSNumberFormatter alloc] init];
-    moneyFormatter.positiveFormat = @"###,###";
+    moneyFormatter.positiveFormat      = @"###,###";
     //如要增加小数点请自行修改为@"###,###,##"
     return [moneyFormatter stringFromNumber:[num wya_toNumber]];
 }
 
 - (CGFloat)wya_heightWithFontSize:(CGFloat)fontSize width:(CGFloat)width
 {
-    NSDictionary * attrs = @{NSFontAttributeName : FONT (fontSize)};
-    return [self boundingRectWithSize:CGSizeMake (width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.height + fontSize;
+    NSDictionary * attrs = @{NSFontAttributeName : FONT(fontSize)};
+    return [self boundingRectWithSize:CGSizeMake(width, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.height + fontSize;
 }
 
 - (CGFloat)wya_widthWithFontSize:(CGFloat)fontSize height:(CGFloat)maxHeight
 {
-    NSDictionary * attrs = @{NSFontAttributeName : FONT (fontSize)};
-    return [self boundingRectWithSize:CGSizeMake (0, maxHeight) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.width + fontSize;
+    NSDictionary * attrs = @{NSFontAttributeName : FONT(fontSize)};
+    return [self boundingRectWithSize:CGSizeMake(0, maxHeight) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attrs context:nil].size.width + fontSize;
 }
 
 - (NSNumber *)wya_toNumber
@@ -84,12 +84,12 @@
 /*抹除运费小数末尾的0*/
 - (NSString *)wya_removeUnwantedZero
 {
-    if ([[self substringWithRange:NSMakeRange (self.length - 3, 3)] isEqualToString:@"000"]) {
-        return [self substringWithRange:NSMakeRange (0, self.length - 4)]; // 多一个小数点
-    } else if ([[self substringWithRange:NSMakeRange (self.length - 2, 2)] isEqualToString:@"00"]) {
-        return [self substringWithRange:NSMakeRange (0, self.length - 2)];
-    } else if ([[self substringWithRange:NSMakeRange (self.length - 1, 1)] isEqualToString:@"0"]) {
-        return [self substringWithRange:NSMakeRange (0, self.length - 1)];
+    if ([[self substringWithRange:NSMakeRange(self.length - 3, 3)] isEqualToString:@"000"]) {
+        return [self substringWithRange:NSMakeRange(0, self.length - 4)]; // 多一个小数点
+    } else if ([[self substringWithRange:NSMakeRange(self.length - 2, 2)] isEqualToString:@"00"]) {
+        return [self substringWithRange:NSMakeRange(0, self.length - 2)];
+    } else if ([[self substringWithRange:NSMakeRange(self.length - 1, 1)] isEqualToString:@"0"]) {
+        return [self substringWithRange:NSMakeRange(0, self.length - 1)];
     } else {
         return self;
     }
@@ -105,10 +105,10 @@
 {
     NSUInteger length = [self length];
     for (NSUInteger i = 0; i < length; i++) {
-        NSRange range = NSMakeRange (i, 1);
+        NSRange range        = NSMakeRange(i, 1);
         NSString * subString = [self substringWithRange:range];
         const char * cString = [subString UTF8String];
-        if (strlen (cString) == 3) {
+        if (strlen(cString) == 3) {
             return YES;
         }
     }
@@ -171,7 +171,7 @@
 
 - (NSString *)wya_stringByStrippingHTML
 {
-    return [self stringByReplacingOccurrencesOfString:@"<[^>]+>" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange (0, self.length)];
+    return [self stringByReplacingOccurrencesOfString:@"<[^>]+>" withString:@"" options:NSRegularExpressionSearch range:NSMakeRange(0, self.length)];
 }
 
 - (NSString *)wya_stringByRemovingScriptsAndStrippingHTML
@@ -179,7 +179,7 @@
     NSMutableString * mString = [self mutableCopy];
     NSError * error;
     NSRegularExpression * regex = [NSRegularExpression regularExpressionWithPattern:@"<script[^>]*>[\\w\\W]*</script>" options:NSRegularExpressionCaseInsensitive error:&error];
-    NSArray * matches = [regex matchesInString:mString options:NSMatchingReportProgress range:NSMakeRange (0, [mString length])];
+    NSArray * matches           = [regex matchesInString:mString options:NSMatchingReportProgress range:NSMakeRange(0, [mString length])];
     for (NSTextCheckingResult * match in [matches reverseObjectEnumerator]) {
         [mString replaceCharactersInRange:match.range withString:@""];
     }

@@ -7,27 +7,25 @@
 //
 
 #import "WYAVideoPlayerControlView.h"
-#import "WYAVideoSlider.h"
 #import "WYAVideoFastView.h"
 #import "WYAVideoNetWorkView.h"
+#import "WYAVideoSlider.h"
 
-@interface WYAVideoPlayerControlView ()<WYAVideoSliderDelegate>
+@interface WYAVideoPlayerControlView () <WYAVideoSliderDelegate>
 
-
-@property (nonatomic, strong) UIButton *likeButton;//收藏按钮
-@property (nonatomic, strong) UIButton *downloadButton;//下载按钮
-@property (nonatomic, strong) UIImageView *bottomImageView;//底部控制栏
-@property (nonatomic, strong) UIButton *playButton;//播放和暂停按钮
-@property (nonatomic, strong) UILabel *currentProgressLabel;//当前播放时间进度
-@property (nonatomic, strong) UILabel *allProgressLabel;//视频长度
-@property (nonatomic, strong) WYAVideoSlider * slider;// 滑块
-@property (nonatomic, strong) WYAVideoItem *item;
-@property (nonatomic, strong) UITapGestureRecognizer *oneFingerTap;
+@property (nonatomic, strong) UIButton * likeButton;          //收藏按钮
+@property (nonatomic, strong) UIButton * downloadButton;      //下载按钮
+@property (nonatomic, strong) UIImageView * bottomImageView;  //底部控制栏
+@property (nonatomic, strong) UIButton * playButton;          //播放和暂停按钮
+@property (nonatomic, strong) UILabel * currentProgressLabel; //当前播放时间进度
+@property (nonatomic, strong) UILabel * allProgressLabel;     //视频长度
+@property (nonatomic, strong) WYAVideoSlider * slider;        // 滑块
+@property (nonatomic, strong) WYAVideoItem * item;
+@property (nonatomic, strong) UITapGestureRecognizer * oneFingerTap;
 @property (nonatomic, strong) WYAVideoFastView * fastView;
-@property (nonatomic, assign) CGFloat  allTime;//当前视频的播放总长度
+@property (nonatomic, assign) CGFloat allTime; //当前视频的播放总长度
 @property (nonatomic, strong) WYAVideoNetWorkView * networkView;
 @end
-
 
 @implementation WYAVideoPlayerControlView
 
@@ -36,7 +34,7 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
-        self.item = item;
+        self.item            = item;
 
         [self addSubview:self.backButton];
         //        [self addSubview:self.likeButton];
@@ -44,7 +42,7 @@
         [self addSubview:self.bottomImageView];
         [self addSubview:self.fastView];
         [self addSubview:self.networkView];
-        
+
         [self.bottomImageView addSubview:self.playButton];
         [self.bottomImageView addSubview:self.currentProgressLabel];
         [self.bottomImageView addSubview:self.allProgressLabel];
@@ -52,21 +50,21 @@
         [self.bottomImageView addSubview:self.zoomButton];
 
         [self autoFadeOutControlView];
-        
+
         self.oneFingerClick = YES;
-        
+
         [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
             if (status != WYANetWorkStatusWIFI) {
-                self.networkView.hidden = NO;
+                self.networkView.hidden     = NO;
                 self.bottomImageView.hidden = YES;
                 if (status == WYANetWorkStatusNoReach) {
                     self.networkView.titleLabel.text = @"当前没有网络";
                     [self.networkView.button setTitle:@"重试" forState:UIControlStateNormal];
-                }else{
+                } else {
                     self.networkView.titleLabel.text = @"当前是数据网络";
                     [self.networkView.button setTitle:@"继续播放" forState:UIControlStateNormal];
                 }
-            }else{
+            } else {
                 self.networkView.hidden = YES;
             }
         }];
@@ -78,7 +76,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self.backButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.backButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(10);
         make.top.mas_equalTo(self.mas_top).with.offset(20);
         make.size.mas_equalTo(CGSizeMake(44, 44));
@@ -96,55 +94,56 @@
     //        make.size.mas_equalTo(CGSizeMake(44, 44));
     //    }];
 
-    [self.bottomImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.bottomImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.right.bottom.mas_equalTo(self);
         make.height.mas_equalTo(44);
     }];
 
-    [self.playButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.playButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.bottomImageView).with.offset(10);
         make.top.bottom.mas_equalTo(self.bottomImageView);
         make.width.mas_equalTo(44);
     }];
 
-    [self.currentProgressLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.currentProgressLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.bottomImageView.mas_centerY);
         make.left.mas_equalTo(self.playButton.mas_right).with.offset(5);
         make.width.mas_lessThanOrEqualTo(100);
     }];
 
-    [self.zoomButton mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.zoomButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.right.mas_equalTo(self.bottomImageView.mas_right).with.offset(-20);
         make.top.bottom.mas_equalTo(self.bottomImageView);
         make.width.mas_equalTo(44);
     }];
 
-    [self.allProgressLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.allProgressLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.bottomImageView.mas_centerY);
         make.right.mas_equalTo(self.zoomButton.mas_left).with.offset(-5);
         make.width.mas_lessThanOrEqualTo(100);
     }];
 
-    [self.slider mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.slider mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.bottomImageView.mas_centerY);
         make.left.mas_equalTo(self.currentProgressLabel.mas_right).with.offset(10);
         make.right.mas_equalTo(self.allProgressLabel.mas_left).with.offset(-10);
         make.height.mas_equalTo(self.bottomImageView.mas_height);
     }];
-    
-    [self.fastView mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.fastView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.center.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(100*SizeAdapter, 80*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(100 * SizeAdapter, 80 * SizeAdapter));
     }];
-    
-    [self.networkView mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.networkView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.center.mas_equalTo(self);
-        make.size.mas_equalTo(CGSizeMake(200*SizeAdapter, 50*SizeAdapter));
+        make.size.mas_equalTo(CGSizeMake(200 * SizeAdapter, 50 * SizeAdapter));
     }];
 }
 
 #pragma mark - Getter -
--(UIButton *)backButton{
+- (UIButton *)backButton
+{
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
@@ -176,9 +175,9 @@
 - (UIImageView *)bottomImageView
 {
     if (!_bottomImageView) {
-        _bottomImageView = [[UIImageView alloc] init];
+        _bottomImageView                        = [[UIImageView alloc] init];
         _bottomImageView.userInteractionEnabled = YES;
-        _bottomImageView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.2];
+        _bottomImageView.backgroundColor        = [UIColor colorWithWhite:0.5 alpha:0.2];
     }
     return _bottomImageView;
 }
@@ -198,10 +197,10 @@
 - (UILabel *)currentProgressLabel
 {
     if (!_currentProgressLabel) {
-        _currentProgressLabel = [[UILabel alloc] init];
-        _currentProgressLabel.textColor = [UIColor whiteColor];
-        _currentProgressLabel.font = [UIFont systemFontOfSize:12];
-        _currentProgressLabel.text = @"00:00";
+        _currentProgressLabel               = [[UILabel alloc] init];
+        _currentProgressLabel.textColor     = [UIColor whiteColor];
+        _currentProgressLabel.font          = [UIFont systemFontOfSize:12];
+        _currentProgressLabel.text          = @"00:00";
         _currentProgressLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _currentProgressLabel;
@@ -210,10 +209,10 @@
 - (UILabel *)allProgressLabel
 {
     if (!_allProgressLabel) {
-        _allProgressLabel = [[UILabel alloc] init];
-        _allProgressLabel.textColor = [UIColor whiteColor];
-        _allProgressLabel.font = [UIFont systemFontOfSize:12];
-        _allProgressLabel.text = @"00:00";
+        _allProgressLabel               = [[UILabel alloc] init];
+        _allProgressLabel.textColor     = [UIColor whiteColor];
+        _allProgressLabel.font          = [UIFont systemFontOfSize:12];
+        _allProgressLabel.text          = @"00:00";
         _allProgressLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _allProgressLabel;
@@ -222,7 +221,7 @@
 - (WYAVideoSlider *)slider
 {
     if (!_slider) {
-        _slider = [[WYAVideoSlider alloc] init];
+        _slider          = [[WYAVideoSlider alloc] init];
         _slider.delegate = self;
     }
     return _slider;
@@ -239,20 +238,22 @@
     return _zoomButton;
 }
 
-- (WYAVideoFastView *)fastView{
+- (WYAVideoFastView *)fastView
+{
     if (!_fastView) {
-        _fastView = [[WYAVideoFastView alloc]init];
-        _fastView.hidden = YES;
-        _fastView.layer.cornerRadius = 5.f;
+        _fastView                     = [[WYAVideoFastView alloc] init];
+        _fastView.hidden              = YES;
+        _fastView.layer.cornerRadius  = 5.f;
         _fastView.layer.masksToBounds = YES;
     }
     return _fastView;
 }
 
-- (WYAVideoNetWorkView *)networkView{
-    if(!_networkView){
+- (WYAVideoNetWorkView *)networkView
+{
+    if (!_networkView) {
         _networkView = ({
-            WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc]init];
+            WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc] init];
             WeakSelf(weakSelf);
             object.retryHandle = ^{
                 weakSelf.bottomImageView.hidden = NO;
@@ -318,7 +319,8 @@
     sender.selected = !sender.selected;
 }
 
--(void)wya_SliderStartRun{
+- (void)wya_SliderStartRun
+{
     self.playButton.selected = NO;
     [self cancelAutoFadeOutControlView];
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideBegin:)]) {
@@ -326,13 +328,15 @@
     }
 }
 
--(void)wya_SliderRunningWithValue:(CGFloat)value{
+- (void)wya_SliderRunningWithValue:(CGFloat)value
+{
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideChange:)]) {
         [self.videoControlDelegate videoControl:self SlideChange:self.slider];
     }
 }
 
--(void)wya_SliderEndRun{
+- (void)wya_SliderEndRun
+{
     self.playButton.selected = YES;
     [self hiddenBottomControl];
     if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideEnd:)]) {
@@ -391,7 +395,7 @@
     NSInteger durSec = totalTime % 60; //总分钟
     // 更新slider
     self.slider.value = slideValue;
-    self.allTime = totalTime;
+    self.allTime      = totalTime;
     // 更新当前播放时间
     self.currentProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
     // 更新总时间
@@ -399,20 +403,21 @@
     self.allProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", durMin, durSec];
 }
 
-- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView{
-//    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
-//        if (status != WYANetWorkStatusWIFI) {
-//            self.playButton.selected = NO;
-//            self.networkView.hidden = NO;
-//        }else{
-//            if (autoPlay == YES) {
-//                self.playButton.selected = YES;
-//            } else {
-//                self.playButton.selected = NO;
-//            }
-//        }
-//    }];
-    
+- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
+{
+    //    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
+    //        if (status != WYANetWorkStatusWIFI) {
+    //            self.playButton.selected = NO;
+    //            self.networkView.hidden = NO;
+    //        }else{
+    //            if (autoPlay == YES) {
+    //                self.playButton.selected = YES;
+    //            } else {
+    //                self.playButton.selected = NO;
+    //            }
+    //        }
+    //    }];
+
     if (autoPlay == YES) {
         self.playButton.selected = YES;
     } else {
@@ -423,14 +428,14 @@
     NSInteger proMin = dragTime / 60; //当前秒
     NSInteger proSec = dragTime % 60; //当前分钟
     // 更新当前播放时间
-    NSString * currentTime = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
+    NSString * currentTime         = [NSString stringWithFormat:@"%02zd:%02zd", proMin, proSec];
     self.currentProgressLabel.text = currentTime;
-    self.fastView.hidden = hiddenFastView;
-    self.fastView.isSpeed = fastForward;
-    NSString * string = [NSString stringWithFormat:@"%@/%@",currentTime,self.allProgressLabel.text];
-    self.fastView.text = string;
-    CGFloat  draggedValue    = (CGFloat)dragTime/self.allTime;
-    NSLog(@"value==%f",draggedValue);
+    self.fastView.hidden           = hiddenFastView;
+    self.fastView.isSpeed          = fastForward;
+    NSString * string              = [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
+    self.fastView.text             = string;
+    CGFloat draggedValue           = (CGFloat)dragTime / self.allTime;
+    NSLog(@"value==%f", draggedValue);
     self.fastView.number = draggedValue;
 }
 
@@ -441,18 +446,19 @@
 
 - (void)resetVideoPlayControl
 {
-    self.playButton.selected = NO;
+    self.playButton.selected       = NO;
     self.currentProgressLabel.text = @"00:00";
-    self.allProgressLabel.text = @"00:00";
+    self.allProgressLabel.text     = @"00:00";
 }
 
-- (void)wya_playerSetProgress:(CGFloat)progress{
+- (void)wya_playerSetProgress:(CGFloat)progress
+{
     self.slider.bufferValue = progress;
 }
 
-- (void)playFail{
+- (void)playFail
+{
     self.networkView.hidden = NO;
-    
 }
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -461,7 +467,5 @@
     // Drawing code
 }
 */
-
-
 
 @end

@@ -8,45 +8,46 @@
 #import "UIView+WYAToast.h"
 #import <SVGKit/SVGKit.h>
 #import <YYImage/YYImage.h>
+
 @implementation UIView (WYAToast)
 
-+ (void)wya_showBottomToastWithMessage:(NSString *)message{
-    
++ (void)wya_showBottomToastWithMessage:(NSString *)message
+{
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = Window.bounds;
-    [button addCallBackAction:^(UIButton *button) {
+    button.frame      = Window.bounds;
+    [button addCallBackAction:^(UIButton * button) {
         [button removeFromSuperview];
     }];
     [Window addSubview:button];
-    
-    UILabel * label = [[UILabel alloc]init];
-    label.font = FONT(15);
-    label.text = message;
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = random(77, 77, 77, 1);
-    label.textAlignment = NSTextAlignmentCenter;
-    label.numberOfLines = 0;
-    label.layer.cornerRadius = 5*SizeAdapter;
+
+    UILabel * label           = [[UILabel alloc] init];
+    label.font                = FONT(15);
+    label.text                = message;
+    label.textColor           = [UIColor whiteColor];
+    label.backgroundColor     = random(77, 77, 77, 1);
+    label.textAlignment       = NSTextAlignmentCenter;
+    label.numberOfLines       = 0;
+    label.layer.cornerRadius  = 5 * SizeAdapter;
     label.layer.masksToBounds = YES;
     [button addSubview:label];
 
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width>ScreenWidth/2) {
-        width = ScreenWidth/2;
+    if (width > ScreenWidth / 2) {
+        width = ScreenWidth / 2;
     }
-    CGFloat height = [UILabel getHeightByWidth:width+30*SizeAdapter title:message font:label.font];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat height = [UILabel getHeightByWidth:width + 30 * SizeAdapter title:message font:label.font];
+    [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
-        make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50*SizeAdapter);
-        make.width.mas_equalTo(width+30*SizeAdapter);
-        if (width<ScreenWidth/2) {
-            make.height.mas_equalTo(35*SizeAdapter);
-        }else{
-            make.height.mas_equalTo(height+15*SizeAdapter);
+        make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50 * SizeAdapter);
+        make.width.mas_equalTo(width + 30 * SizeAdapter);
+        if (width < ScreenWidth / 2) {
+            make.height.mas_equalTo(35 * SizeAdapter);
+        } else {
+            make.height.mas_equalTo(height + 15 * SizeAdapter);
         }
-        
+
     }];
-    
+
     [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         label.alpha = 0;
     } completion:^(BOOL finished) {
@@ -54,41 +55,41 @@
     }];
 }
 
-+ (void)wya_showCenterToastWithMessage:(NSString *)message{
-
++ (void)wya_showCenterToastWithMessage:(NSString *)message
+{
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = Window.bounds;
-    [button addCallBackAction:^(UIButton *button) {
+    button.frame      = Window.bounds;
+    [button addCallBackAction:^(UIButton * button) {
         [button removeFromSuperview];
     }];
     [Window addSubview:button];
-    
-    UILabel * label = [[UILabel alloc]init];
-    label.font = [UIFont systemFontOfSize:15*SizeAdapter];
-    label.text = message;
-    label.textColor = [UIColor whiteColor];
-    label.backgroundColor = random(77, 77, 77, 1);
-    label.textAlignment = NSTextAlignmentCenter;
-    label.layer.cornerRadius = 5*SizeAdapter;
+
+    UILabel * label           = [[UILabel alloc] init];
+    label.font                = [UIFont systemFontOfSize:15 * SizeAdapter];
+    label.text                = message;
+    label.textColor           = [UIColor whiteColor];
+    label.backgroundColor     = random(77, 77, 77, 1);
+    label.textAlignment       = NSTextAlignmentCenter;
+    label.layer.cornerRadius  = 5 * SizeAdapter;
     label.layer.masksToBounds = YES;
-    label.numberOfLines = 0;
+    label.numberOfLines       = 0;
     [button addSubview:label];
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width>ScreenWidth/2) {
-        width = ScreenWidth/2;
+    if (width > ScreenWidth / 2) {
+        width = ScreenWidth / 2;
     }
-    CGFloat height = [UILabel getHeightByWidth:width+30*SizeAdapter title:message font:label.font];
-    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+    CGFloat height = [UILabel getHeightByWidth:width + 30 * SizeAdapter title:message font:label.font];
+    [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
-        make.width.mas_equalTo(width+30*SizeAdapter);
-        if (width<ScreenWidth/2) {
-            make.height.mas_equalTo(35*SizeAdapter);
-        }else{
-            make.height.mas_equalTo(height+15*SizeAdapter);
+        make.width.mas_equalTo(width + 30 * SizeAdapter);
+        if (width < ScreenWidth / 2) {
+            make.height.mas_equalTo(35 * SizeAdapter);
+        } else {
+            make.height.mas_equalTo(height + 15 * SizeAdapter);
         }
     }];
-    
+
     [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
         label.alpha = 0;
     } completion:^(BOOL finished) {
@@ -100,19 +101,23 @@
               autoRotation:(BOOL)autoRotation
                  ImageType:(WYAToastImageType)imageType
       sourceInWYAKitBundle:(BOOL)isSource
-               autoDismiss:(BOOL)autoDismiss{
+               autoDismiss:(BOOL)autoDismiss
+{
     [UIView wya_toastWithMessage:@"" imageString:imageString autoRotation:autoRotation imageType:imageType sourceInWYAKitBundle:isSource autoDismiss:autoDismiss];
 }
 
-+ (void)wya_successToastWithMessage:(NSString *)message{
++ (void)wya_successToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message imageString:@"icon_succesful" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
 }
 
-+ (void)wya_failToastWithMessage:(NSString *)message{
++ (void)wya_failToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message imageString:@"icon_fail" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
 }
 
-+ (void)wya_warningToastWithMessage:(NSString *)message{
++ (void)wya_warningToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message imageString:@"icon_waring" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
 }
 
@@ -125,141 +130,131 @@
 {
     UIButton * button;
     if (autoDismiss) {
-        button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button       = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = Window.bounds;
         [Window addSubview:button];
-        [button addCallBackAction:^(UIButton *button) {
+        [button addCallBackAction:^(UIButton * button) {
             [button removeFromSuperview];
         }];
     }
-    UIView * view = [[UIView alloc]init];
-    view.backgroundColor = random(77, 77, 77, 1);
-    view.layer.cornerRadius = 5*SizeAdapter;
+    UIView * view            = [[UIView alloc] init];
+    view.backgroundColor     = random(77, 77, 77, 1);
+    view.layer.cornerRadius  = 5 * SizeAdapter;
     view.layer.masksToBounds = YES;
-    view.tag = 1080;
+    view.tag                 = 1080;
     if (button) {
         [button addSubview:view];
-    }else{
+    } else {
         [Window addSubview:view];
     }
-    
-    
-    
+
     UIView * iview;
     switch (imageType) {
-        case WYAToastImageTypePNG:
-        {
+        case WYAToastImageTypePNG: {
             UIImage * image;
             if (isSource) {
                 image = [UIImage loadBundleImage:imageString ClassName:@"WYAAlertController"];
-                
-            }else{
+
+            } else {
                 image = [UIImage imageNamed:imageString];
             }
-            iview = [[UIImageView alloc]initWithImage:image];
+            iview = [[UIImageView alloc] initWithImage:image];
             if (autoRotation) {
                 [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
             }
-        }
-            break;
-        case WYAToastImageTypeJPEG:
-        {
+        } break;
+        case WYAToastImageTypeJPEG: {
             UIImage * image;
             if (isSource) {
                 image = [UIImage loadBundleImage:imageString ClassName:@"WYAAlertController"];
-                
-            }else{
+
+            } else {
                 image = [UIImage imageNamed:imageString];
             }
-            iview = [[UIImageView alloc]initWithImage:image];
-            
-        }
-            break;
-        case WYAToastImageTypeSVG:
-        {
+            iview = [[UIImageView alloc] initWithImage:image];
+
+        } break;
+        case WYAToastImageTypeSVG: {
             UIImage * image;
             if (isSource) {
-                NSString *bundlePath = [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")].resourcePath
-                                        stringByAppendingPathComponent:@"/WYAKit.bundle"];
-                NSBundle *resource_bundle = [NSBundle bundleWithPath:bundlePath];
-                SVGKImage * svgImage = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
-                image = svgImage.UIImage;
-            }else{
-//                image = [SVGKImage imageNamed:imageString];
-                image = [UIImage wya_svgImageName:imageString size:CGSizeMake(30*SizeAdapter, 30*SizeAdapter)];
+                NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")].resourcePath
+                                    stringByAppendingPathComponent:@"/WYAKit.bundle"];
+                NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
+                SVGKImage * svgImage       = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
+                image                      = svgImage.UIImage;
+            } else {
+                //                image = [SVGKImage imageNamed:imageString];
+                image = [UIImage wya_svgImageName:imageString size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)];
             }
-//            iview = [[SVGKFastImageView alloc] initWithSVGKImage:image];
-            iview = [[UIImageView alloc]initWithImage:image];
+            //            iview = [[SVGKFastImageView alloc] initWithSVGKImage:image];
+            iview = [[UIImageView alloc] initWithImage:image];
             if (autoRotation) {
                 [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
             }
-        }
-            break;
-        case WYAToastImageTypeGIF:
-        {
-            NSLog(@"%d",isSource);
+        } break;
+        case WYAToastImageTypeGIF: {
+            NSLog(@"%d", isSource);
             NSAssert(isSource == NO, @"只加载项目中的gif图片");
             UIImage * image = [YYImage imageNamed:imageString];
-            iview = [[YYAnimatedImageView alloc]initWithImage:image];
-        }
-            break;
+            iview           = [[YYAnimatedImageView alloc] initWithImage:image];
+        } break;
         default:
             break;
     }
     [view addSubview:iview];
-    
-    UILabel * label = [[UILabel alloc]init];
-    label.font = FONT(13);
-    label.text = message;
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.layer.cornerRadius = 5*SizeAdapter;
+
+    UILabel * label           = [[UILabel alloc] init];
+    label.font                = FONT(13);
+    label.text                = message;
+    label.textColor           = [UIColor whiteColor];
+    label.textAlignment       = NSTextAlignmentCenter;
+    label.layer.cornerRadius  = 5 * SizeAdapter;
     label.layer.masksToBounds = YES;
-    
+
     [view addSubview:label];
-    CGFloat width = [message wya_widthWithFontSize:13 height:20*SizeAdapter];
-    if (width>90*SizeAdapter) {
+    CGFloat width = [message wya_widthWithFontSize:13 height:20 * SizeAdapter];
+    if (width > 90 * SizeAdapter) {
         label.numberOfLines = 0;
-    }else{
+    } else {
         label.numberOfLines = 1;
     }
-    CGFloat height = [message wya_heightWithFontSize:13 width:90*SizeAdapter];
-    if (message.length<1) {
+    CGFloat height = [message wya_heightWithFontSize:13 width:90 * SizeAdapter];
+    if (message.length < 1) {
         height = 0;
     }
-    CGFloat hei = 50*SizeAdapter + height;
-    
-    CGFloat view_X = (ScreenWidth-100*SizeAdapter)/2;
-    CGFloat view_Y = (ScreenHeight-hei)/2;
-    CGFloat view_Width = 100*SizeAdapter;
+    CGFloat hei = 50 * SizeAdapter + height;
+
+    CGFloat view_X      = (ScreenWidth - 100 * SizeAdapter) / 2;
+    CGFloat view_Y      = (ScreenHeight - hei) / 2;
+    CGFloat view_Width  = 100 * SizeAdapter;
     CGFloat view_Height = hei;
-    view.frame = CGRectMake(view_X, view_Y, view_Width, view_Height);
-    
-    CGFloat iview_X = (view.cmam_width-30*SizeAdapter)/2;
-    CGFloat iview_Y = 10*SizeAdapter;
-    CGFloat iview_Width = 30*SizeAdapter;
-    CGFloat iview_Height = 30*SizeAdapter;
-    iview.frame = CGRectMake(iview_X, iview_Y, iview_Width, iview_Height);
-    
-    CGFloat label_X = 5*SizeAdapter;
-    CGFloat label_Y = CGRectGetMaxY(iview.frame)+5*SizeAdapter;
-    CGFloat label_Width = view.cmam_width-10*SizeAdapter;
+    view.frame          = CGRectMake(view_X, view_Y, view_Width, view_Height);
+
+    CGFloat iview_X      = (view.cmam_width - 30 * SizeAdapter) / 2;
+    CGFloat iview_Y      = 10 * SizeAdapter;
+    CGFloat iview_Width  = 30 * SizeAdapter;
+    CGFloat iview_Height = 30 * SizeAdapter;
+    iview.frame          = CGRectMake(iview_X, iview_Y, iview_Width, iview_Height);
+
+    CGFloat label_X      = 5 * SizeAdapter;
+    CGFloat label_Y      = CGRectGetMaxY(iview.frame) + 5 * SizeAdapter;
+    CGFloat label_Width  = view.cmam_width - 10 * SizeAdapter;
     CGFloat label_Height = height;
-    label.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
-    
+    label.frame          = CGRectMake(label_X, label_Y, label_Width, label_Height);
+
     if (autoDismiss) {
         [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-             view.alpha = 0;
+            view.alpha = 0;
         } completion:^(BOOL finished) {
             [button removeFromSuperview];
         }];
-    }else{
+    } else {
         Window.userInteractionEnabled = NO;
     }
-    
 }
 
-+(void)wya_dismissToast{
++ (void)wya_dismissToast
+{
     UIView * view = (UIView *)[Window viewWithTag:1080];
     [view removeFromSuperview];
     Window.userInteractionEnabled = YES;

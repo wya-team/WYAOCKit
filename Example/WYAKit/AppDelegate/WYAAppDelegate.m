@@ -13,17 +13,17 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-//    UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
-//    self.window.rootViewController = homevc;
-    RootViewController * rootViewController = [[RootViewController alloc]init];
-    self.window.rootViewController = rootViewController;
+    //    UINavigationController * homevc = [[UINavigationController alloc]initWithRootViewController:[[WYAHomeViewController alloc]init]];
+    //    self.window.rootViewController = homevc;
+    RootViewController * rootViewController = [[RootViewController alloc] init];
+    self.window.rootViewController          = rootViewController;
     // Override point for customization after application launch.
-    
+
     [self.window makeKeyAndVisible];
     [WYADownloader sharedDownloader];
-    
+
     return YES;
 }
 
@@ -54,10 +54,11 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler{
-//    [[WYADownloader sharedDownloader] wya_AppGoBackgroundWithSessionHandle:^(NSURLSession * _Nonnull session) {
-//        completionHandler();
-//    }];
+- (void)application:(UIApplication *)application handleEventsForBackgroundURLSession:(NSString *)identifier completionHandler:(void (^)(void))completionHandler
+{
+    //    [[WYADownloader sharedDownloader] wya_AppGoBackgroundWithSessionHandle:^(NSURLSession * _Nonnull session) {
+    //        completionHandler();
+    //    }];
 }
 
 @end

@@ -9,27 +9,28 @@
 
 @implementation UIViewController (Catagory)
 
-+ (void)load {
++ (void)load
+{
     static dispatch_once_t onceToken;
-    
+
     dispatch_once(&onceToken, ^{
-        
-        Class class = [self class];
+
+        Class class          = [self class];
         SEL originalSelector = @selector(viewWillAppear:);
-        SEL swizzledSelector= @selector(wya_viewWillAppear:);
-        
-        Method originalMethod = class_getInstanceMethod(class,originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class,swizzledSelector);
-        method_exchangeImplementations(originalMethod,swizzledMethod);
-        
+        SEL swizzledSelector = @selector(wya_viewWillAppear:);
+
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+        method_exchangeImplementations(originalMethod, swizzledMethod);
+
     });
 }
 
-- (void)wya_viewWillAppear:(BOOL)animated {
-    
+- (void)wya_viewWillAppear:(BOOL)animated
+{
     [self wya_viewWillAppear:animated];
-    UIScrollView *scrollView = nil;
-    for (UIView *view in self.view.subviews) {
+    UIScrollView * scrollView = nil;
+    for (UIView * view in self.view.subviews) {
         if ([view isKindOfClass:[UITableView class]] || [view isKindOfClass:[UICollectionView class]]) {
             scrollView = (UIScrollView *)view;
             break;
@@ -39,35 +40,37 @@
         if (@available(iOS 11.0, *)) {
             scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         }
-    }
-    else {
+    } else {
         if (@available(iOS 11.0, *)) {
             scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
         }
     }
 }
 
-- (void)wya_setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets {
-    
+- (void)wya_setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets
+{
     [self wya_setAutomaticallyAdjustsScrollViewInsets:automaticallyAdjustsScrollViewInsets];
-    
 }
 
 //页面如果要修改statusBar请重写以下两个方法
-- (BOOL)prefersStatusBarHidden{
+- (BOOL)prefersStatusBarHidden
+{
     return NO;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle{
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleDefault;
 }
 
 //设置页面支持手机方向，如果想要修改请重写以下两个方法
-- (BOOL)shouldAutorotate{
+- (BOOL)shouldAutorotate
+{
     return NO;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
     return UIInterfaceOrientationMaskPortrait;
 }
 

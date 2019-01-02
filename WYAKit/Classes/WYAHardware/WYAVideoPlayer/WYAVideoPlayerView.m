@@ -7,25 +7,26 @@
 //
 
 #import "WYAVideoPlayerView.h"
-#import <AVFoundation/AVFoundation.h>
-#import <MediaPlayer/MediaPlayer.h>
+#import "WYABrightnessView.h"
 #import "WYAVideoPlayerControlView.h"
 #import "WYAVideoSlider.h"
-#import "WYABrightnessView.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
+
 @interface WYAVideoPlayerView () <VideoControlDelegate>
 
-@property (nonatomic, assign) PlayerStatus  playerStatus;
-@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, assign) PlayerStatus playerStatus;
+@property (nonatomic, strong) AVPlayer * player;
 
-@property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (nonatomic, strong) AVPlayerItem * playerItem;
 
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+@property (nonatomic, strong) AVPlayerLayer * playerLayer;
 
-@property (nonatomic, strong) UIImageView *previewImageView;
+@property (nonatomic, strong) UIImageView * previewImageView;
 
-@property (nonatomic, strong) WYAVideoPlayerControlView *controlView;
+@property (nonatomic, strong) WYAVideoPlayerControlView * controlView;
 
-@property (nonatomic, strong) WYAVideoItem *videoItem;
+@property (nonatomic, strong) WYAVideoItem * videoItem;
 
 @property (nonatomic, strong) id timeObserve;
 
@@ -33,19 +34,18 @@
 
 @property (nonatomic, assign) BOOL isFullScreen;
 @property (nonatomic, strong) UISlider * volumeSlider;
-@property (nonatomic, assign) CGFloat                sumTime;//用来保存快进的总时长
+@property (nonatomic, assign) CGFloat sumTime; //用来保存快进的总时长
 @property (nonatomic, strong) WYABrightnessView * brightnessView;
-@property (nonatomic, assign) BOOL  isLockScrren;
-@property (nonatomic, strong) MPVolumeView *volumeView;
+@property (nonatomic, assign) BOOL isLockScrren;
+@property (nonatomic, strong) MPVolumeView * volumeView;
 
 @end
 
-
-@implementation WYAVideoPlayerView{
-    BOOL isVolume;//是否是音量改变，否则就是亮度改变
-    BOOL isVertical;//是否是垂直移动，否则横向移动
+@implementation WYAVideoPlayerView
+{
+    BOOL isVolume;   //是否是音量改变，否则就是亮度改变
+    BOOL isVertical; //是否是垂直移动，否则横向移动
 }
-
 
 - (instancetype)init
 {
@@ -56,10 +56,10 @@
     return self;
 }
 
--(instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
-        
     }
     return self;
 }
@@ -67,50 +67,52 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    self.playerLayer.frame = self.bounds;
-    
-    CGFloat previewImageView_X = 0;
-    CGFloat previewImageView_Y = 0;
-    CGFloat previewImageView_Width = self.bounds.size.width;
-    CGFloat previewImageView_Height = self.bounds.size.height;
-    self.previewImageView.frame = CGRectMake(previewImageView_X, previewImageView_Y, previewImageView_Width, previewImageView_Height);
-    
-    CGFloat loadingImageView_X = (self.bounds.size.width-30)*0.5;
-    CGFloat loadingImageView_Y = (self.bounds.size.height-30)*0.5;
-    CGFloat loadingImageView_Width = 30;
-    CGFloat loadingImageView_Height = 30;
-    self.loadingImageView.frame = CGRectMake(loadingImageView_X, loadingImageView_Y, loadingImageView_Width, loadingImageView_Height);
-    
-    CGFloat controlView_X = 0;
-    CGFloat controlView_Y = 0;
-    CGFloat controlView_Width = self.bounds.size.width;
-    CGFloat controlView_Height = self.bounds.size.height;
-    self.controlView.frame = CGRectMake(controlView_X, controlView_Y, controlView_Width, controlView_Height);
 
+    self.playerLayer.frame = self.bounds;
+
+    CGFloat previewImageView_X      = 0;
+    CGFloat previewImageView_Y      = 0;
+    CGFloat previewImageView_Width  = self.bounds.size.width;
+    CGFloat previewImageView_Height = self.bounds.size.height;
+    self.previewImageView.frame     = CGRectMake(previewImageView_X, previewImageView_Y, previewImageView_Width, previewImageView_Height);
+
+    CGFloat loadingImageView_X      = (self.bounds.size.width - 30) * 0.5;
+    CGFloat loadingImageView_Y      = (self.bounds.size.height - 30) * 0.5;
+    CGFloat loadingImageView_Width  = 30;
+    CGFloat loadingImageView_Height = 30;
+    self.loadingImageView.frame     = CGRectMake(loadingImageView_X, loadingImageView_Y, loadingImageView_Width, loadingImageView_Height);
+
+    CGFloat controlView_X      = 0;
+    CGFloat controlView_Y      = 0;
+    CGFloat controlView_Width  = self.bounds.size.width;
+    CGFloat controlView_Height = self.bounds.size.height;
+    self.controlView.frame     = CGRectMake(controlView_X, controlView_Y, controlView_Width, controlView_Height);
 }
 #pragma mark - Private Method -
-- (void)setupUI{
-//    self.isLockScrren = YES;
+- (void)setupUI
+{
+    //    self.isLockScrren = YES;
     self.brightnessView;
     [self.layer addSublayer:self.playerLayer];
     [self addSubview:self.previewImageView];
     [self addSubview:self.loadingImageView];
     [self addSubview:self.controlView];
-    
+
     self.backgroundColor = [UIColor grayColor];
-    
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panClick:)];
+
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
     [self addGestureRecognizer:pan];
     [self configureVolume];
     [self addNotice];
 }
 
-- (void)addNotice{
+- (void)addNotice
+{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configVideoScreen) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-- (void)configVideoScreen{
+- (void)configVideoScreen
+{
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     switch (orientation) {
         case UIDeviceOrientationFaceUp:
@@ -126,7 +128,7 @@
             NSLog(@"屏幕向左横置");
             self.isLockScrren = YES;
             [self enterFullscreenWithLeft:NO];
-            
+
             break;
         case UIDeviceOrientationLandscapeRight:
             NSLog(@"屏幕向右橫置");
@@ -148,11 +150,12 @@
 }
 
 #pragma mark - Setter -
--(void)setPlayerStatus:(PlayerStatus)playerStatus{
+- (void)setPlayerStatus:(PlayerStatus)playerStatus
+{
     _playerStatus = playerStatus;
     if (playerStatus == PlayerStateBuffering) {
         self.loadingImageView.hidden = NO;
-    }else{
+    } else {
         self.loadingImageView.hidden = YES;
     }
 }
@@ -190,24 +193,26 @@
 //}
 
 #pragma mark - Getter -
--(PlayerStatus)status{
+- (PlayerStatus)status
+{
     return self.playerStatus;
 }
 
 - (UIImageView *)previewImageView
 {
     if (!_previewImageView) {
-        _previewImageView = [[UIImageView alloc] init];
+        _previewImageView       = [[UIImageView alloc] init];
         _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
     }
     return _previewImageView;
 }
 
-- (UIImageView *)loadingImageView{
-    if(!_loadingImageView){
+- (UIImageView *)loadingImageView
+{
+    if (!_loadingImageView) {
         _loadingImageView = ({
-            UIImageView * object = [[UIImageView alloc]init];
-            object.image = [UIImage imageNamed:@"icon_loading"];
+            UIImageView * object = [[UIImageView alloc] init];
+            object.image         = [UIImage imageNamed:@"icon_loading"];
             [object wya_setRotationAnimation:360 time:1 repeatCount:0];
             object;
         });
@@ -218,15 +223,16 @@
 - (WYAVideoPlayerControlView *)controlView
 {
     if (!_controlView) {
-        _controlView = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
+        _controlView                      = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
         _controlView.videoControlDelegate = self;
     }
     return _controlView;
 }
 
-- (WYABrightnessView *)brightnessView{
-    if(!_brightnessView){
-        _brightnessView = [WYABrightnessView sharedBrightnessView];
+- (WYABrightnessView *)brightnessView
+{
+    if (!_brightnessView) {
+        _brightnessView       = [WYABrightnessView sharedBrightnessView];
         _brightnessView.alpha = 0;
     }
     return _brightnessView;
@@ -235,7 +241,7 @@
 #pragma mark KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    AVPlayerItem *playerItem = (AVPlayerItem *)object;
+    AVPlayerItem * playerItem = (AVPlayerItem *)object;
     if ([keyPath isEqualToString:@"status"]) {
         if ([playerItem status] == AVPlayerStatusReadyToPlay) {
             NSLog(@"AVPlayerStatusReadyToPlay");
@@ -245,13 +251,13 @@
                 [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
                     if (status == WYANetWorkStatusWIFI) {
                         [self seekToTime:self.videoItem.seekTime AutoPlay:self.videoItem.seekToTimeAutoPlay FastForward:NO HiddenFastView:YES];
-                    }else if (status == WYANetWorkStatusWWAN) {
+                    } else if (status == WYANetWorkStatusWWAN) {
                         [self.player pause];
                         [self.controlView playFail];
                     }
                 }];
             }
-            
+
         } else if ([playerItem status] == AVPlayerStatusFailed) {
             NSLog(@"AVPlayerStatusFailed");
             self.playerStatus = PlayerStateFailed;
@@ -263,21 +269,19 @@
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         // 计算缓冲进度
         NSTimeInterval timeInterval = [self availableDuration];
-        CMTime duration = self.playerItem.duration;
-        CGFloat totalDuration = CMTimeGetSeconds(duration);
+        CMTime duration             = self.playerItem.duration;
+        CGFloat totalDuration       = CMTimeGetSeconds(duration);
 
         [self.controlView wya_playerSetProgress:timeInterval / totalDuration];
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         // 当缓冲是空的时候
         if (self.playerItem.playbackBufferEmpty) {
             self.playerStatus = PlayerStateBuffering;
-            
         }
 
     } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
         // 当缓冲好的时候
         if (self.playerItem.playbackLikelyToKeepUp && self.playerStatus == PlayerStateBuffering) {
-
         }
     }
 }
@@ -286,34 +290,32 @@
 - (void)playerItemDidReachEnd:(NSNotification *) not
 {
     [self.controlView playerEnd];
-//    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(videoEnd)]) {
-//        [self.playerDelegate videoEnd];
-//    }
+    //    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(videoEnd)]) {
+    //        [self.playerDelegate videoEnd];
+    //    }
 }
-
 
 #pragma mark Private Action
 - (void)configPlayInfo
 {
-    self.playerItem = [[AVPlayerItem alloc] initWithURL:self.videoItem.videoUrl];
-    self.player = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
+    self.playerItem  = [[AVPlayerItem alloc] initWithURL:self.videoItem.videoUrl];
+    self.player      = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
     self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
     if (WYAiPhoneX) {
         self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
     }
-    
 }
 
 - (void)createTimer
 {
     __weak typeof(self) weakSelf = self;
-    self.timeObserve = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, 1) queue:nil usingBlock:^(CMTime time) {
-        AVPlayerItem *currentItem = weakSelf.playerItem;
-        NSArray *loadedRanges = currentItem.seekableTimeRanges;
+    self.timeObserve             = [self.player addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, 1) queue:nil usingBlock:^(CMTime time) {
+        AVPlayerItem * currentItem = weakSelf.playerItem;
+        NSArray * loadedRanges     = currentItem.seekableTimeRanges;
         if (loadedRanges.count > 0 && currentItem.duration.timescale != 0) {
             NSInteger currentTime = (NSInteger)CMTimeGetSeconds([currentItem currentTime]);
-            CGFloat totalTime = (CGFloat)currentItem.duration.value / currentItem.duration.timescale;
-            CGFloat value = CMTimeGetSeconds([currentItem currentTime]) / totalTime;
+            CGFloat totalTime     = (CGFloat)currentItem.duration.value / currentItem.duration.timescale;
+            CGFloat value         = CMTimeGetSeconds([currentItem currentTime]) / totalTime;
             [weakSelf.controlView getCurrentTime:currentTime TotalTime:totalTime SlideValue:value];
         }
     }];
@@ -326,21 +328,21 @@
  */
 - (NSTimeInterval)availableDuration
 {
-    NSArray *loadedTimeRanges = [[_player currentItem] loadedTimeRanges];
-    CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue]; // 获取缓冲区域
-    float startSeconds = CMTimeGetSeconds(timeRange.start);
-    float durationSeconds = CMTimeGetSeconds(timeRange.duration);
-    NSTimeInterval result = startSeconds + durationSeconds; // 计算缓冲总进度
+    NSArray * loadedTimeRanges = [[_player currentItem] loadedTimeRanges];
+    CMTimeRange timeRange      = [loadedTimeRanges.firstObject CMTimeRangeValue]; // 获取缓冲区域
+    float startSeconds         = CMTimeGetSeconds(timeRange.start);
+    float durationSeconds      = CMTimeGetSeconds(timeRange.duration);
+    NSTimeInterval result      = startSeconds + durationSeconds; // 计算缓冲总进度
     return result;
 }
 
 - (void)enterFullscreenWithLeft:(BOOL)isLeft
 {
     self.controlView.zoomButton.selected = YES;
-    self.controlView.backButton.hidden = NO;
+    self.controlView.backButton.hidden   = NO;
     if (!self.videoItem.superV) {
         self.videoItem.superV = self.superview;
-        self.videoItem.rect = self.frame;
+        self.videoItem.rect   = self.frame;
     }
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -359,33 +361,33 @@
      * 执行动画
      */
     [UIView animateWithDuration:0.5 animations:^{
-        self.transform = CGAffineTransformMakeRotation(isLeft? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
-        self.bounds = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds)-(WYAiPhoneX?WYAStatusBarHeight:0)-WYABottomHeight, CGRectGetWidth(self.superview.bounds));
-        self.center = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
-        self.brightnessView.transform = CGAffineTransformMakeRotation(isLeft? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
-    } completion:^(BOOL finished){
+        self.transform                = CGAffineTransformMakeRotation(isLeft ? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
+        self.bounds                   = CGRectMake(0, 0, CGRectGetHeight(self.superview.bounds) - (WYAiPhoneX ? WYAStatusBarHeight : 0) - WYABottomHeight, CGRectGetWidth(self.superview.bounds));
+        self.center                   = CGPointMake(CGRectGetMidX(self.superview.bounds), CGRectGetMidY(self.superview.bounds));
+        self.brightnessView.transform = CGAffineTransformMakeRotation(isLeft ? (self.isLockScrren ? -M_PI_2 : M_PI_2) : (self.isLockScrren ? M_PI_2 : -M_PI_2));
+    } completion:^(BOOL finished) {
         [self setNeedsLayout];
         [self layoutIfNeeded];
         [Window bringSubviewToFront:self.brightnessView];
     }];
-    
+
     if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
         [self.playerDelegate wya_playerView:self isfullScreen:YES];
     }
-    
-    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? (self.isLockScrren ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight)  : (self.isLockScrren ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationLandscapeLeft) animated:YES];
+
+    [[UIApplication sharedApplication] setStatusBarOrientation:isLeft ? (self.isLockScrren ? UIInterfaceOrientationLandscapeLeft : UIInterfaceOrientationLandscapeRight) : (self.isLockScrren ? UIInterfaceOrientationLandscapeRight : UIInterfaceOrientationLandscapeLeft) animated:YES];
 }
 
 - (void)exitFullscreen
 {
     self.controlView.zoomButton.selected = NO;
-    self.controlView.backButton.hidden = YES;
-    self.isFullScreen = NO;
+    self.controlView.backButton.hidden   = YES;
+    self.isFullScreen                    = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
     CGRect frame = [self.videoItem.superV convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
     [UIView animateWithDuration:0.5 animations:^{
         self.transform = CGAffineTransformIdentity;
-        self.frame = frame;
+        self.frame     = frame;
     } completion:^(BOOL finished) {
         /*
          * movieView回到小屏位置
@@ -395,11 +397,11 @@
         [self.videoItem.superV addSubview:self];
         self.brightnessView.transform = CGAffineTransformIdentity;
     }];
-    
+
     if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(wya_playerView:isfullScreen:)]) {
         [self.playerDelegate wya_playerView:self isfullScreen:NO];
     }
-    
+
     [[UIApplication sharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortrait animated:YES];
 }
 
@@ -414,7 +416,7 @@
                 [self.player pause];
             }
         }
-        
+
     }];
     [self.controlView getDragTime:time AutoPlay:autoPlay FastForward:fastForward HiddenFastView:hiddenFastView];
 }
@@ -424,41 +426,41 @@
  
  @param gestureRecognizer 手势
  */
--(void)panClick:(UIPanGestureRecognizer *)gestureRecognizer{
+- (void)panClick:(UIPanGestureRecognizer *)gestureRecognizer
+{
     CGPoint point = [gestureRecognizer locationInView:self];
-//    NSLog(@"point.x==%f,point.y==%f",point.x,point.y);
+    //    NSLog(@"point.x==%f,point.y==%f",point.x,point.y);
     CGPoint speedPoint = [gestureRecognizer velocityInView:self];
-//    NSLog(@"speedPoint.x==%f,speedPoint.y==%f",speedPoint.x,speedPoint.y);
+    //    NSLog(@"speedPoint.x==%f,speedPoint.y==%f",speedPoint.x,speedPoint.y);
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        
         CGFloat x = fabs(speedPoint.x);
         CGFloat y = fabs(speedPoint.y);
-        if (x>y) {
+        if (x > y) {
             //横向移动
-            isVertical = NO;
-            CMTime time       = self.player.currentTime;
-            self.sumTime      = time.value/time.timescale;
-        }else{
+            isVertical   = NO;
+            CMTime time  = self.player.currentTime;
+            self.sumTime = time.value / time.timescale;
+        } else {
             //纵向移动
             isVertical = YES;
-            if (point.x>self.cmam_width/2) {
+            if (point.x > self.cmam_width / 2) {
                 isVolume = YES;
-            }else{
+            } else {
                 isVolume = NO;
             }
         }
-        
-    }else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
+
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
         if (isVertical) {
             [self editVolumeOrBrigressWithNumber:speedPoint.y];
-        }else{
+        } else {
             [self editVideoFastMoveWithNumber:speedPoint.x];
         }
-        
-    }else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         if (isVertical) {
             isVolume = NO;
-        }else{
+        } else {
             [self seekToTime:self.sumTime AutoPlay:YES FastForward:NO HiddenFastView:YES];
         }
     }
@@ -469,19 +471,30 @@
  
  @param number 数值
  */
--(void)editVideoFastMoveWithNumber:(CGFloat)number{
+- (void)editVideoFastMoveWithNumber:(CGFloat)number
+{
     // 每次滑动需要叠加时间
     self.sumTime += number / 200;
     // 需要限定sumTime的范围
     CMTime totalTime           = self.playerItem.duration;
-    CGFloat totalMovieDuration = (CGFloat)totalTime.value/totalTime.timescale;
-    if (self.sumTime > totalMovieDuration) { self.sumTime = totalMovieDuration;}
-    if (self.sumTime < 0) { self.sumTime = 0; }
-    
+    CGFloat totalMovieDuration = (CGFloat)totalTime.value / totalTime.timescale;
+    if (self.sumTime > totalMovieDuration) {
+        self.sumTime = totalMovieDuration;
+    }
+    if (self.sumTime < 0) {
+        self.sumTime = 0;
+    }
+
     BOOL style = false;
-    if (number > 0) { style = YES; }
-    if (number < 0) { style = NO; }
-    if (number == 0) { return; }
+    if (number > 0) {
+        style = YES;
+    }
+    if (number < 0) {
+        style = NO;
+    }
+    if (number == 0) {
+        return;
+    }
     [self seekToTime:self.sumTime AutoPlay:NO FastForward:style HiddenFastView:NO];
 }
 
@@ -490,45 +503,48 @@
  
  @param number 数值
  */
--(void)editVolumeOrBrigressWithNumber:(CGFloat)number{
+- (void)editVolumeOrBrigressWithNumber:(CGFloat)number
+{
     if (isVolume) {
-//        self.volumeView.frame = CGRectMake(0, 0, 155, 155);
-//        self.volumeView.hidden = NO;
-        self.volumeSlider.value -= number/10000;
+        //        self.volumeView.frame = CGRectMake(0, 0, 155, 155);
+        //        self.volumeView.hidden = NO;
+        self.volumeSlider.value -= number / 10000;
         self.brightnessView.alpha = 0;
-    }else{
-//        self.volumeView.frame = CGRectZero;
+    } else {
+        //        self.volumeView.frame = CGRectZero;
         self.volumeView.hidden = YES;
-        NSLog(@"改变之前xxx==%f",[UIScreen mainScreen].brightness);
+        NSLog(@"改变之前xxx==%f", [UIScreen mainScreen].brightness);
         CGFloat x = [UIScreen mainScreen].brightness;
-        x = x - number/10000;
-        NSLog(@"x==%f",x);
+        x         = x - number / 10000;
+        NSLog(@"x==%f", x);
         [[UIScreen mainScreen] setBrightness:x];
-        NSLog(@"改变之后xxx==%f",[UIScreen mainScreen].brightness);
+        NSLog(@"改变之后xxx==%f", [UIScreen mainScreen].brightness);
     }
 }
 
 /**
  配置修改音量视图
  */
-- (void)configureVolume {
+- (void)configureVolume
+{
     self.volumeView = [[MPVolumeView alloc] init];
-    _volumeSlider = nil;
-    for (UIView *view in [self.volumeView subviews]){
-        NSLog(@"view.class.description==%@",view.class.description);
-        if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+    _volumeSlider   = nil;
+    for (UIView * view in [self.volumeView subviews]) {
+        NSLog(@"view.class.description==%@", view.class.description);
+        if ([view.class.description isEqualToString:@"MPVolumeSlider"]) {
             _volumeSlider = (UISlider *)view;
             break;
         }
     }
-    
+
     // 使用这个category的应用不会随着手机静音键打开而静音，可在手机静音下播放声音
-    NSError *setCategoryError = nil;
-    BOOL success = [[AVAudioSession sharedInstance]
-                    setCategory: AVAudioSessionCategoryPlayback
-                    error: &setCategoryError];
-    
-    if (!success) { /* handle the error in setCategoryError */ }
+    NSError * setCategoryError = nil;
+    BOOL success               = [[AVAudioSession sharedInstance]
+                        setCategory:AVAudioSessionCategoryPlayback
+                              error:&setCategoryError];
+
+    if (!success) { /* handle the error in setCategoryError */
+    }
 }
 
 #pragma mark Public Action
@@ -536,7 +552,7 @@
 {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
-//    [self wya_ResetPlayer];
+    //    [self wya_ResetPlayer];
     [self configPlayInfo];
     [self.layer insertSublayer:self.playerLayer atIndex:0];
     [self createTimer];
@@ -552,8 +568,8 @@
     }
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
-    self.playerItem = nil;
-    self.player = nil;
+    self.playerItem  = nil;
+    self.player      = nil;
     [self.controlView resetVideoPlayControl];
 }
 
@@ -590,15 +606,15 @@
 
 - (void)videoControl:(UIView *)videoControl SlideChange:(WYAVideoSlider *)slide
 {
-    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
+    CGFloat totalTime   = self.playerItem.duration.value / self.playerItem.duration.timescale;
     CGFloat currentTime = floorf(totalTime * slide.value);
-    
+
     [self.controlView getDragTime:currentTime AutoPlay:NO FastForward:slide.isFastForward HiddenFastView:NO];
 }
 
 - (void)videoControl:(UIView *)videoControl SlideEnd:(WYAVideoSlider *)slide
 {
-    CGFloat totalTime = self.playerItem.duration.value / self.playerItem.duration.timescale;
+    CGFloat totalTime   = self.playerItem.duration.value / self.playerItem.duration.timescale;
     CGFloat currentTime = floorf(totalTime * slide.value);
     [self seekToTime:currentTime AutoPlay:YES FastForward:NO HiddenFastView:YES];
 }
@@ -608,20 +624,20 @@
     if (zoomButton.selected) {
         //全屏
         [self enterFullscreenWithLeft:YES];
-        
-       
+
     } else {
         [self exitFullscreen];
-        
     }
 }
 
-- (void)videoControlRetry:(UIView *)videoControl{
-    NSLog(@"self.videoItem==%@",self.videoItem);
+- (void)videoControlRetry:(UIView *)videoControl
+{
+    NSLog(@"self.videoItem==%@", self.videoItem);
     [self wya_RegisterPlayerItem:self.videoItem];
 }
 
-- (void)videoControlGoOn:(UIView *)videoControl{
+- (void)videoControlGoOn:(UIView *)videoControl
+{
     [self.player play];
 }
 
@@ -635,10 +651,9 @@
     self.controlView.videoControlDelegate = nil;
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
-    self.playerItem = nil;
-    self.player = nil;
+    self.playerItem  = nil;
+    self.player      = nil;
 }
-
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -647,9 +662,5 @@
     // Drawing code
 }
 */
-
-
-
-
 
 @end

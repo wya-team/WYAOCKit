@@ -19,6 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property NSString * grade;
 @property NSString * studentId;
 @end
-RLM_ARRAY_TYPE(Student)
+RLM_ARRAY_TYPE(Student);
 
 NS_ASSUME_NONNULL_END

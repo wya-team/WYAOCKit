@@ -25,24 +25,24 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  标题字体大小
  */
-@property (nonatomic, assign) CGFloat  navTitleFont;
+@property (nonatomic, assign) CGFloat navTitleFont;
 
 /**
  返回按钮标题字体大小
  */
-@property (nonatomic, assign) CGFloat  leftBarButtonItemTitleFont;
+@property (nonatomic, assign) CGFloat leftBarButtonItemTitleFont;
 
 /**
  右侧标题字体大小
  
  */
-@property (nonatomic, assign) CGFloat  rightBarButtonItemTitleFont;
+@property (nonatomic, assign) CGFloat rightBarButtonItemTitleFont;
 
 /**
  导航栏是否展示横线 默认显示YES
  
  */
-@property (nonatomic, assign) BOOL  isShowNavLine;
+@property (nonatomic, assign) BOOL isShowNavLine;
 
 /**
  导航栏背景色 默认白色
@@ -56,14 +56,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString * navBackGroundImageNamed;
 
-@property (nonatomic, assign) BOOL  hiddenNavBar;
+@property (nonatomic, assign) BOOL hiddenNavBar;
 /**
  用于创建多个右侧按钮时调整按钮之间的间距，在创建之前先赋值，然后再创建按钮顺序不要搞错了默认为0，一般情况下建议不设置
  示例：
  self.itemsSpace = 10;
  [self createNavigationItemsRightBarButtonWithNormalImg:@[@"img1",@"img2"] highlightedImg:nil];
  */
-@property (nonatomic, assign) CGFloat  itemsSpace;
+@property (nonatomic, assign) CGFloat itemsSpace;
 #pragma mark ======= 版本对比
 - (void)wya_versionUpdateAlertView;
 #pragma mark ======= Create RightBarButton
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param normalTitles 需要显示的标题
  */
-- (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *>* _Nonnull)normalTitles;
+- (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> * _Nonnull)normalTitles;
 
 /**
  创建多个导航右侧文字按钮，标题颜色自定义两种状态
@@ -83,8 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
                                     normalColor:(NSArray<UIColor *> * _Nonnull)normalColors
-                               highlightedColor:(NSArray<UIColor *>* _Nonnull)highlightedColors;
-
+                               highlightedColor:(NSArray<UIColor *> * _Nonnull)highlightedColors;
 
 /**
  创建多个图片类型的右侧导航栏按钮
@@ -92,9 +91,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param normalImages normalImages 必传项
  @param highlightedImgs highlightedImgs 可以为nil
  */
-- (void)wya_addRightNavBarButtonWithNormalImage:(NSArray<NSString *>* _Nonnull)normalImages
+- (void)wya_addRightNavBarButtonWithNormalImage:(NSArray<NSString *> * _Nonnull)normalImages
                                  highlightedImg:(NSArray<NSString *> *)highlightedImgs;
-
 
 #pragma mark ======= createLeftButton
 /**
@@ -102,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param normalTitles 需要显示的标题
  */
-- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *>* _Nonnull)normalTitles;
+- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> * _Nonnull)normalTitles;
 
 /**
  创建多个导航左侧文字按钮，标题颜色自定义两种状态
@@ -113,8 +111,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
                                    normalColor:(NSArray<UIColor *> * _Nonnull)normalColors
-                              highlightedColor:(NSArray<UIColor *>* _Nonnull)highlightedColors;
-
+                              highlightedColor:(NSArray<UIColor *> * _Nonnull)highlightedColors;
 
 /**
  创建多个图片类型的左侧导航栏按钮
@@ -122,9 +119,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param normalImages normalImages 必传项
  @param highlightedImgs highlightedImgs 可以为nil
  */
-- (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *>* _Nonnull)normalImages
+- (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *> * _Nonnull)normalImages
                                 highlightedImg:(NSArray<NSString *> *)highlightedImgs;
-
 
 /// 自定义左侧按钮点击事件
 - (void)wya_customLeftBarButtonItemPressed:(UIButton *)sender;

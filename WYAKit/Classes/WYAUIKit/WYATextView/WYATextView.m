@@ -7,15 +7,15 @@
 
 #import "WYATextView.h"
 
-@interface WYATextView ()<UITextViewDelegate>
+@interface WYATextView () <UITextViewDelegate>
 @property (nonatomic, strong) UITextView * textView;
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * noteLabel;
-@property (nonatomic, copy)   NSString * placeHold;//占位文字
+@property (nonatomic, copy) NSString * placeHold; //占位文字
 @property (nonatomic, strong) UIColor * placeHoldColor;
-@property (nonatomic, assign) CGFloat  placeHoldFont;
+@property (nonatomic, assign) CGFloat placeHoldFont;
 
-@property (nonatomic, copy)   NSString * lastPlaceHold;
+@property (nonatomic, copy) NSString * lastPlaceHold;
 @end
 
 @implementation WYATextView
@@ -33,138 +33,149 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-       [self createUI];
+        [self createUI];
     }
     return self;
 }
 
--(void)createUI{
+- (void)createUI
+{
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.titleLabel];
     [self addSubview:self.noteLabel];
     [self addSubview:self.textView];
-    
-    self.showTitle = YES;
-    self.showWordsCount = YES;
+
+    self.showTitle          = YES;
+    self.showWordsCount     = YES;
     self.textViewWordsCount = 0;
 }
 
-#pragma mark --- Private Method
--(void)layoutSubviews{
+#pragma mark--- Private Method
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).with.offset(5*SizeAdapter);
-        make.top.mas_equalTo(self.mas_top).with.offset(7*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(40*SizeAdapter, 20*SizeAdapter));
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
+        make.left.mas_equalTo(self.mas_left).with.offset(5 * SizeAdapter);
+        make.top.mas_equalTo(self.mas_top).with.offset(7 * SizeAdapter);
+        make.size.mas_equalTo(CGSizeMake(40 * SizeAdapter, 20 * SizeAdapter));
     }];
-    
-    [self.noteLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.noteLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.bottom.mas_equalTo(self);
-        make.right.mas_equalTo(self.mas_right).with.offset(-5*SizeAdapter);
-        make.height.mas_equalTo(20*SizeAdapter);
+        make.right.mas_equalTo(self.mas_right).with.offset(-5 * SizeAdapter);
+        make.height.mas_equalTo(20 * SizeAdapter);
     }];
-    
-    [self.textView mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.textView mas_remakeConstraints:^(MASConstraintMaker * make) {
         if (self.showTitle == NO) {
             make.left.mas_equalTo(self.mas_left);
-        }else{
+        } else {
             make.left.mas_equalTo(self.titleLabel.mas_right).with.offset(0);
         }
-        
+
         make.top.right.mas_equalTo(self);
         if (self.showWordsCount == YES) {
             make.bottom.mas_equalTo(self.noteLabel.mas_top);
-        }else {
+        } else {
             make.bottom.mas_equalTo(self.mas_bottom);
         }
-        
-        
+
     }];
 }
 
-#pragma mark --- Public Method
--(void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont{
-    self.textView.text = placeHoldString;
-    self.lastPlaceHold = placeHoldString;
+#pragma mark--- Public Method
+- (void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont
+{
+    self.textView.text      = placeHoldString;
+    self.lastPlaceHold      = placeHoldString;
     self.textView.textColor = placeHoldColor;
-    self.placeHoldColor = placeHoldColor;
-    self.textView.font = FONT(placeHoldFont);
-    self.placeHoldFont = placeHoldFont;
+    self.placeHoldColor     = placeHoldColor;
+    self.textView.font      = FONT(placeHoldFont);
+    self.placeHoldFont      = placeHoldFont;
 }
 
-#pragma mark --- Setter
--(void)setTextViewMaxHeight:(float)textViewMaxHeight{
+#pragma mark--- Setter
+- (void)setTextViewMaxHeight:(float)textViewMaxHeight
+{
     _textViewMaxHeight = textViewMaxHeight;
 }
 
--(void)setTextViewWordsCount:(NSUInteger)textViewWordsCount{
+- (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount
+{
     _textViewWordsCount = textViewWordsCount;
-    self.noteLabel.text = [NSString stringWithFormat:@"0/%lu",(unsigned long)textViewWordsCount];
+    self.noteLabel.text = [NSString stringWithFormat:@"0/%lu", (unsigned long)textViewWordsCount];
 }
 
--(void)setTitle:(NSString *)title{
+- (void)setTitle:(NSString *)title
+{
     _title = title;
     if (title) {
         self.titleLabel.text = title;
     }
 }
 
--(void)setShowTitle:(BOOL)showTitle{
+- (void)setShowTitle:(BOOL)showTitle
+{
     _showTitle = showTitle;
     if (showTitle == NO) {
         self.titleLabel.hidden = YES;
-    }else{
+    } else {
         self.titleLabel.hidden = NO;
     }
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
--(void)setShowWordsCount:(BOOL)showWordsCount{
+- (void)setShowWordsCount:(BOOL)showWordsCount
+{
     _showWordsCount = showWordsCount;
     if (showWordsCount == NO) {
         self.noteLabel.hidden = YES;
-    }else{
+    } else {
         self.noteLabel.hidden = NO;
     }
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
-#pragma mark --- Getter
--(UILabel *)titleLabel{
+#pragma mark--- Getter
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]init];
-        _titleLabel.font = FONT(15);
+        _titleLabel               = [[UILabel alloc] init];
+        _titleLabel.font          = FONT(15);
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _titleLabel;
 }
 
--(UITextView *)textView{
+- (UITextView *)textView
+{
     if (!_textView) {
-        _textView = [[UITextView alloc]init];
+        _textView          = [[UITextView alloc] init];
         _textView.delegate = self;
     }
     return _textView;
 }
 
--(UILabel *)noteLabel{
+- (UILabel *)noteLabel
+{
     if (!_noteLabel) {
-        _noteLabel = [[UILabel alloc]init];
-        _noteLabel.textColor = random(153, 153, 153, 1);
-        _noteLabel.font = FONT(12);
+        _noteLabel               = [[UILabel alloc] init];
+        _noteLabel.textColor     = random(153, 153, 153, 1);
+        _noteLabel.font          = FONT(12);
         _noteLabel.textAlignment = NSTextAlignmentRight;
     }
     return _noteLabel;
 }
 
-#pragma mark --- UITextViewDelegate
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+#pragma mark--- UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
     if ([textView.text isEqualToString:self.lastPlaceHold]) {
-        textView.text = @"";
+        textView.text      = @"";
         textView.textColor = [UIColor blackColor];
-        textView.font = FONT(17);
+        textView.font      = FONT(17);
     }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldBeginEditing:textView];
@@ -172,16 +183,17 @@
     return YES;
 }
 
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
-    if (textView.text.length<1) {
-        textView.text = self.lastPlaceHold;
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    if (textView.text.length < 1) {
+        textView.text      = self.lastPlaceHold;
         textView.textColor = _placeHoldColor;
-        textView.font = FONT(_placeHoldFont);
-    }else{
+        textView.font      = FONT(_placeHoldFont);
+    } else {
         if ([textView.text isEqualToString:self.lastPlaceHold]) {
-            textView.text = self.lastPlaceHold;
+            textView.text      = self.lastPlaceHold;
             textView.textColor = _placeHoldColor;
-            textView.font = FONT(_placeHoldFont);
+            textView.font      = FONT(_placeHoldFont);
         }
     }
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
@@ -190,76 +202,68 @@
     return YES;
 }
 
-- (void)textViewDidBeginEditing:(UITextView *)textView{
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidBeginEditing:)]) {
         [self.wya_delegate wya_TextViewDidBeginEditing:textView];
     }
-    
 }
-- (void)textViewDidEndEditing:(UITextView *)textView{
-    
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
         [self.wya_delegate wya_TextViewDidEndEditing:textView];
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldChangeTextInRange:replacementText:)]) {
         return [self.wya_delegate wya_TextView:textView shouldChangeTextInRange:range replacementText:text];
     }
     return YES;
 }
 
-- (void)textViewDidChange:(UITextView *)textView{
-    
+- (void)textViewDidChange:(UITextView *)textView
+{
     NSInteger length = self.textView.text.length;
-    
-    NSString *toBeString = textView.text;
-    
+
+    NSString * toBeString = textView.text;
+
     // 获取键盘输入模式
-    
-    NSString *lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
-    
+
+    NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
+
     if ([lang isEqualToString:@"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
-        
-        UITextRange *selectedRange = [textView markedTextRange];
-        
+
+        UITextRange * selectedRange = [textView markedTextRange];
+
         //获取高亮部分
-        
-        UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
-        
+
+        UITextPosition * position = [textView positionFromPosition:selectedRange.start offset:0];
+
         // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
-        
+
         if (!position) {
-            
             if (toBeString.length > self.textViewWordsCount) {
-                
-                textView.text = [toBeString substringToIndex:self.textViewWordsCount];//超出限制则截取最大限制的文本
-                
-                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld",self.textViewWordsCount,self.textViewWordsCount];
-                
+                textView.text = [toBeString substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
+
+                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+
             } else {
-                
-                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld",toBeString.length,self.textViewWordsCount];
-                
+                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
             }
-            
         }
-        
-    } else {// 中文输入法以外的直接统计
-        
+
+    } else { // 中文输入法以外的直接统计
+
         if (toBeString.length > self.textViewWordsCount) {
-            
             textView.text = [toBeString substringToIndex:self.textViewWordsCount];
-            
-            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld",self.textViewWordsCount,self.textViewWordsCount];
-            
+
+            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+
         } else {
-            
-            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld",toBeString.length,self.textViewWordsCount];
-            
+            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
         }
-        
     }
     /*
     CGFloat maxHeight;
@@ -293,27 +297,28 @@
     }
 }
 
-- (void)textViewDidChangeSelection:(UITextView *)textView{
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChangeSelection:)]) {
         [self.wya_delegate wya_TextViewDidChangeSelection:textView];
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0){
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0)
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldInteractWithURL:inRange:interaction:)]) {
         return [self.wya_delegate wya_TextView:textView shouldInteractWithURL:URL inRange:characterRange interaction:interaction];
     }
     return YES;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0){
+- (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0)
+{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldInteractWithTextAttachment:inRange:interaction:)]) {
         return [self.wya_delegate wya_TextView:textView shouldInteractWithTextAttachment:textAttachment inRange:characterRange interaction:interaction];
     }
     return YES;
 }
-
-
 
 /*
 // Only override drawRect: if you perform custom drawing.

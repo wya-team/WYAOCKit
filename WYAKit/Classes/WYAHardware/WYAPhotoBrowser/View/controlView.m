@@ -18,14 +18,13 @@
 
 @implementation controlView
 
--(instancetype)initWithFrame:(CGRect)frame{
-    
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    
+
     if (self) {
-        
         self.backgroundColor = [UIColor colorWithWhite:1 alpha:1];
-        
+
         self.previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.previewButton setTitle:@"预览" forState:UIControlStateNormal];
         [self.previewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
@@ -33,28 +32,30 @@
         self.previewButton.frame = CGRectMake(15, 0, 45, frame.size.height);
         [self.previewButton addTarget:self action:@selector(previewClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.previewButton];
-        
+
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.doneButton setTitle:@"完成" forState:UIControlStateNormal];
         [self.doneButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
         [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
-        self.doneButton.frame = CGRectMake(ScreenWidth-60, 15, 45, frame.size.height-30);
+        self.doneButton.frame = CGRectMake(ScreenWidth - 60, 15, 45, frame.size.height - 30);
         [self.doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.doneButton];
     }
     return self;
 }
 
-- (void)previewClick{
+- (void)previewClick
+{
     NSLog(@"1");
     if (self.previewBlock) {
         self.previewBlock();
     }
 }
 
-- (void)doneClick{
+- (void)doneClick
+{
     NSLog(@"2");
     if (self.doneBlock) {
         self.doneBlock();

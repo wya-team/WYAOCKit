@@ -15,60 +15,62 @@
 
 @implementation WYAChooseMenuCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        
-        self.titleLabel = [[UILabel alloc]init];
+        self.titleLabel           = [[UILabel alloc] init];
         self.titleLabel.textColor = [UIColor wya_hex:@"#000000"];
-        self.titleLabel.font = FONT(16);
+        self.titleLabel.font      = FONT(16);
         [self.contentView addSubview:self.titleLabel];
-        
-        self.rightImageView = [[UIImageView alloc]init];
+
+        self.rightImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:self.rightImageView];
     }
     return self;
 }
 
--(void)layoutSubviews{
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-    [self.rightImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.rightImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
-        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-5*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(20*SizeAdapter, 20*SizeAdapter));
+        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-5 * SizeAdapter);
+        make.size.mas_equalTo(CGSizeMake(20 * SizeAdapter, 20 * SizeAdapter));
     }];
-    
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_left).with.offset(12*SizeAdapter);
+        make.left.mas_equalTo(self.contentView.mas_left).with.offset(12 * SizeAdapter);
         make.right.mas_equalTo(self.rightImageView.mas_left);
     }];
 }
 
-#pragma mark --- Setter
--(void)setModel:(WYAChooseMenuModel *)model{
+#pragma mark--- Setter
+- (void)setModel:(WYAChooseMenuModel *)model
+{
     _model = model;
     if (model) {
         if (model.select) {
             self.contentView.backgroundColor = [UIColor whiteColor];
-        }else{
+        } else {
             self.contentView.backgroundColor = random(248, 248, 248, 1);
         }
         self.titleLabel.text = model.title;
     }
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
-
-
 
 @end

@@ -8,11 +8,9 @@
 
 #import "WYABaseViewController.h"
 
-
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAReamlViewController : WYABaseViewController
-
 
 @end
 

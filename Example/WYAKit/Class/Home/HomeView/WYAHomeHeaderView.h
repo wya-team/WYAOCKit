@@ -10,9 +10,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAHomeModel;
+
 @interface WYAHomeHeaderView : UITableViewHeaderFooterView
 @property (nonatomic, strong) WYAHomeModel * model;
-@property (nonatomic, copy)   void(^headerHandle)(void);
+@property (nonatomic, copy) void (^headerHandle)(void);
 @end
 
 NS_ASSUME_NONNULL_END

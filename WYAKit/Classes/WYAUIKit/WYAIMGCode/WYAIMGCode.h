@@ -44,8 +44,6 @@
                              backgroundColor:(CIColor *)backgroundColor
                                    mainColor:(CIColor *)mainColor;
 
-
-
 /**
  生成条形码（原生只支持ios8.0以后）
 
@@ -61,6 +59,5 @@
                                      red:(CGFloat)red
                                    green:(CGFloat)green
                                     blue:(CGFloat)blue;
-
 
 @end

@@ -6,8 +6,8 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import <Photos/Photos.h>
+#import <UIKit/UIKit.h>
 
 @interface WYAPhotoBrowserViewController : UIViewController
 @property (nonatomic, strong) PHAssetCollection * collection;

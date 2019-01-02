@@ -9,18 +9,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-
 @interface WYAVideoItem : NSObject
 
 /**
  视频url（必传属性）
  */
-@property (nonatomic, strong) NSURL *videoUrl;
+@property (nonatomic, strong) NSURL * videoUrl;
 
 /**
  父视图（必传属性）
  */
-@property (nonatomic, strong) UIView *superV;
+@property (nonatomic, strong) UIView * superV;
 
 /**
  位置（必传属性）
@@ -30,7 +29,7 @@
 /**
  预览图url（网络url）
  */
-@property (nonatomic, copy) NSString *previewImage;
+@property (nonatomic, copy) NSString * previewImage;
 
 /**
  从哪个时间点开始（单位：s）
@@ -41,7 +40,5 @@
  是否需要自动播放
  */
 @property (nonatomic, assign) BOOL seekToTimeAutoPlay;
-
-
 
 @end

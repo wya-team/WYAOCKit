@@ -7,7 +7,8 @@
 //
 
 #import "WYARealmSectionView.h"
-@interface WYARealmSectionView()
+
+@interface WYARealmSectionView ()
 @property (nonatomic, strong) UILabel * name;
 @property (nonatomic, strong) UILabel * age;
 @property (nonatomic, strong) UILabel * height;
@@ -16,8 +17,10 @@
 @property (nonatomic, strong) UILabel * grade;
 @property (nonatomic, strong) UILabel * studentId;
 @end
+
 @implementation WYARealmSectionView
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.name];
         [self addSubview:self.age];
@@ -30,167 +33,173 @@
     }
     return self;
 }
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-    CGFloat margin = 0*SizeAdapter;
-    CGFloat width = (ScreenWidth)/7;
+    CGFloat margin = 0 * SizeAdapter;
+    CGFloat width  = (ScreenWidth) / 7;
     CGFloat height = 44;
-    
-    [self.name mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.name mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.mas_left).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.age mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.age mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.name.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.height mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.height mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.age.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.weight mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.weight mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.height.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.score mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.score mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.weight.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.grade mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.grade mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.score.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
-    [self.studentId mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [self.studentId mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.grade.mas_right).offset(margin);
         make.centerY.equalTo(self.mas_centerY).offset(0);
         make.size.mas_equalTo(CGSizeMake(width, height));
     }];
-    
 }
 
 #pragma mark ======= getter
 
-
-- (UILabel *)name{
-    if(!_name){
+- (UILabel *)name
+{
+    if (!_name) {
         _name = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"name\nString";
-            object.textColor = WHITECOLOR;
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"name\nString";
+            object.textColor     = WHITECOLOR;
             object.numberOfLines = 0;
-            object.font = FONT(12);
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _name;
 }
 
-- (UILabel *)age{
-    if(!_age){
+- (UILabel *)age
+{
+    if (!_age) {
         _age = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"age\nint";
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"age\nint";
             object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
+            object.textColor     = WHITECOLOR;
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _age;
 }
 
-- (UILabel *)height{
-    if(!_height){
+- (UILabel *)height
+{
+    if (!_height) {
         _height = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"height\nfloat";
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"height\nfloat";
             object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
+            object.textColor     = WHITECOLOR;
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _height;
 }
 
-- (UILabel *)weight{
-    if(!_weight){
+- (UILabel *)weight
+{
+    if (!_weight) {
         _weight = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"weight\nfloat";
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"weight\nfloat";
             object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
+            object.textColor     = WHITECOLOR;
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _weight;
 }
 
-- (UILabel *)score{
-    if(!_score){
+- (UILabel *)score
+{
+    if (!_score) {
         _score = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"score\nfloat";
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"score\nfloat";
             object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
+            object.textColor     = WHITECOLOR;
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _score;
 }
 
-- (UILabel *)grade{
-    if(!_grade){
+- (UILabel *)grade
+{
+    if (!_grade) {
         _grade = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"grade\nString";
+            UILabel * object     = [[UILabel alloc] init];
+            object.text          = @"grade\nString";
             object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
+            object.textColor     = WHITECOLOR;
+            object.font          = FONT(12);
             object.textAlignment = NSTextAlignmentCenter;
 
             object;
-       });
+        });
     }
     return _grade;
 }
 
-- (UILabel *)studentId{
-    if(!_studentId){
+- (UILabel *)studentId
+{
+    if (!_studentId) {
         _studentId = ({
-            UILabel * object = [[UILabel alloc]init];
-            object.text = @"studentId\nString,Primarykey";
-            object.numberOfLines = 0;
-            object.textColor = WHITECOLOR;
-            object.font = FONT(12);
-            object.textAlignment = NSTextAlignmentCenter;
+            UILabel * object                 = [[UILabel alloc] init];
+            object.text                      = @"studentId\nString,Primarykey";
+            object.numberOfLines             = 0;
+            object.textColor                 = WHITECOLOR;
+            object.font                      = FONT(12);
+            object.textAlignment             = NSTextAlignmentCenter;
             object.adjustsFontSizeToFitWidth = YES;
             object;
-       });
+        });
     }
     return _studentId;
 }

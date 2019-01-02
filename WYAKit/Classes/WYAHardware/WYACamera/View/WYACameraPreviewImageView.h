@@ -11,9 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACameraPreviewImageView : UIImageView
 
-@property (nonatomic, copy)   void(^cancelHandle)(void);
-@property (nonatomic, copy)   void(^finishHandle)(UIImage * previewImage);
-@property (nonatomic, copy)   void(^editHandle)(UIImage * previewImage);
+@property (nonatomic, copy) void (^cancelHandle)(void);
+@property (nonatomic, copy) void (^finishHandle)(UIImage * previewImage);
+@property (nonatomic, copy) void (^editHandle)(UIImage * previewImage);
 @end
 
 NS_ASSUME_NONNULL_END

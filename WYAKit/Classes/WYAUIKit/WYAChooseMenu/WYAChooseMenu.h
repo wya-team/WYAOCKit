@@ -38,9 +38,9 @@ typedef NS_ENUM(NSUInteger, WYAChooseMenuStyle) {
 @interface WYAChooseMenu : UIView
 
 @property (nonatomic, weak) id<WYAChooseMenuDelegate> wya_delegate;
-@property (nonatomic, strong) NSMutableArray <WYAChooseMenuModel *>* titleArray;
-@property (nonatomic, assign) CGFloat  leftTableProportion;//取值范围0~1，适用于左侧table，右侧table自适应
-@property (nonatomic, assign) WYAChooseMenuStyle  menuStyle;
+@property (nonatomic, strong) NSMutableArray<WYAChooseMenuModel *> * titleArray;
+@property (nonatomic, assign) CGFloat leftTableProportion; //取值范围0~1，适用于左侧table，右侧table自适应
+@property (nonatomic, assign) WYAChooseMenuStyle menuStyle;
 
 - (instancetype)initWithFrame:(CGRect)frame ChooseMenuStyle:(WYAChooseMenuStyle)chooseMenuStyle;
 @end

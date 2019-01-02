@@ -6,8 +6,8 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAVideoItem.h"
+#import <UIKit/UIKit.h>
 
 @class WYAVideoSlider;
 
@@ -34,15 +34,13 @@
 - (void)videoControlGoOn:(UIView *)videoControl;
 @end
 
-
 @interface WYAVideoPlayerControlView : UIView
-
 
 /**
  放大按钮
  */
-@property (nonatomic, strong) UIButton *zoomButton;
-@property (nonatomic, strong) UIButton *backButton;//返回按钮
+@property (nonatomic, strong) UIButton * zoomButton;
+@property (nonatomic, strong) UIButton * backButton; //返回按钮
 @property (nonatomic, weak) id<VideoControlDelegate> videoControlDelegate;
 
 /**

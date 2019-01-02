@@ -6,8 +6,8 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAInputItemModel.h"
+#import <UIKit/UIKit.h>
 @class WYAInputItemTwoCell;
 NS_ASSUME_NONNULL_BEGIN
 @protocol WYAInputItemTwoCellDelegate <NSObject>
@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell rightButtonDidSelected:(UIButton *)sender;
 - (void)wya_inputItemTwoCell:(WYAInputItemTwoCell *)cell imageButtonDidSelected:(UIButton *)sender;
 @end
+
 @interface WYAInputItemTwoCell : UITableViewCell
 @property (nonatomic, weak) id<WYAInputItemTwoCellDelegate> delegate;
 @property (nonatomic, strong) UITextField * textFiled;
@@ -26,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton * rightButton;
 @property (nonatomic, strong) WYAInputItemModel * model;
 /// 默认为NO不可编辑状态
-@property (nonatomic, assign) BOOL  isEditor;
+@property (nonatomic, assign) BOOL isEditor;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,65 +20,66 @@
 {
     self = [super init];
     if (self) {
-        _isSuccess = NO;
+        _isSuccess     = NO;
         _downloadState = WYADownloadStateDownloading;
     }
     return self;
 }
 
-- (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model{
-    
+- (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model
+{
     //    [request setHTTPMethod:@"HEAD"];
-    
-//    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+
+    //    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     //这里需要判断是编码还是解码
-    NSString * utf8String = model.urlString;
-    NSURL * url = [NSURL URLWithString:utf8String];
-    _urlString = utf8String;
-    _model = model;
-    self.destinationPath = model.destinationPath;
+    NSString * utf8String         = model.urlString;
+    NSURL * url                   = [NSURL URLWithString:utf8String];
+    _urlString                    = utf8String;
+    _model                        = model;
+    self.destinationPath          = model.destinationPath;
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
-    self.downloadTask = [session downloadTaskWithRequest:request];
-//    self.downloadTask = [session downloadTaskWithURL:url];
+    self.downloadTask             = [session downloadTaskWithRequest:request];
+    //    self.downloadTask = [session downloadTaskWithURL:url];
     [self.downloadTask resume];
     self.downloadState = WYADownloadStateDownloading;
-    NSLog(@"respond==%@",self.downloadTask.response);
+    NSLog(@"respond==%@", self.downloadTask.response);
 }
 
-- (void)suspendDownload{
-    
+- (void)suspendDownload
+{
     self.downloadState = WYADownloadStateSuspend;
     NSLog(@"下载暂停");
     [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
         self.downloadData = resumeData;
     }];
-
 }
 
-- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data{
+- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data
+{
     self.downloadState = WYADownloadStateDownloading;
-    self.downloadTask = [session downloadTaskWithResumeData:self.downloadData];
+    self.downloadTask  = [session downloadTaskWithResumeData:self.downloadData];
     [self.downloadTask resume];
-    
 }
 
-- (void)giveupDownload{
+- (void)giveupDownload
+{
     self.downloadState = WYADownloadStateFail;
     [self.downloadTask cancel];
 }
 
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void(^)(WYADownloadTaskManager * manager))handle{
-    self.downloadState = WYADownloadStateComplete;
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadTaskManager * manager))handle
+{
+    self.downloadState          = WYADownloadStateComplete;
     NSFileManager * fileManager = [NSFileManager defaultManager];
     NSURL * url;
     if (self.destinationPath) {
         url = [NSURL fileURLWithPath:self.destinationPath];
     } else {
         NSString * path = [floderPath stringByAppendingPathComponent:_urlString.lastPathComponent];
-        if (path.pathExtension.length<1) {
+        if (path.pathExtension.length < 1) {
             path = [path stringByAppendingPathExtension:@"mp4"];
         }
-        url = [NSURL fileURLWithPath:path];
+        url                  = [NSURL fileURLWithPath:path];
         self.destinationPath = path;
     }
     NSError * fileError;
@@ -86,32 +87,33 @@
     if (!isfile) {
         handle(self);
     }
-    NSLog(@"file==%d",isfile);
-    NSLog(@"fileError==%@",[fileError localizedDescription]);
+    NSLog(@"file==%d", isfile);
+    NSLog(@"fileError==%@", [fileError localizedDescription]);
 }
 
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
-                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite{
-    if (totalBytesExpectedToWrite>0) {
+                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    if (totalBytesExpectedToWrite > 0) {
         _isSuccess = YES;
     }
-    self.progress = 1.0*totalBytesWritten/totalBytesExpectedToWrite;
-//    NSLog(@"taskManager91");
-//    NSLog(@"pro==%f",_progress);
+    self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
+    //    NSLog(@"taskManager91");
+    //    NSLog(@"pro==%f",_progress);
     if (startTime) {
         CFAbsoluteTime startTimeValue = [startTime doubleValue];
-        
+
         CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
-        
-        if (downloadSpeed>1024*1024*1024) {
-            self.speed = [NSString stringWithFormat:@"%.2fGB/s",downloadSpeed/(1024*1024*1024)];
-        }else if (downloadSpeed>1024*1024) {
-            self.speed = [NSString stringWithFormat:@"%.2fMB/s",downloadSpeed/(1024*1024)];
-        }else if (downloadSpeed>1024){
-            self.speed = [NSString stringWithFormat:@"%.2fKB/s",downloadSpeed/1024];
-        }else{
-            self.speed = [NSString stringWithFormat:@"%.2fB/s",downloadSpeed];
+
+        if (downloadSpeed > 1024 * 1024 * 1024) {
+            self.speed = [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
+        } else if (downloadSpeed > 1024 * 1024) {
+            self.speed = [NSString stringWithFormat:@"%.2fMB/s", downloadSpeed / (1024 * 1024)];
+        } else if (downloadSpeed > 1024) {
+            self.speed = [NSString stringWithFormat:@"%.2fKB/s", downloadSpeed / 1024];
+        } else {
+            self.speed = [NSString stringWithFormat:@"%.2fB/s", downloadSpeed];
         }
     } else {
         startTime = @(CFAbsoluteTimeGetCurrent());
@@ -119,8 +121,8 @@
 }
 
 #pragma mark - Setter -
--(void)setDestinationPath:(NSString *)destinationPath{
-    
+- (void)setDestinationPath:(NSString *)destinationPath
+{
     if (destinationPath) {
         NSAssert(![NSString wya_IsDirectory:destinationPath], @"该路径不能是文件夹");
         _destinationPath = destinationPath;

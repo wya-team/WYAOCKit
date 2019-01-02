@@ -11,6 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class WYAPhotoPreview;
+
 @interface WYAPhotoPreviewCell : UICollectionViewCell
 @property (nonatomic, strong) WYAPhotoPreview * preview;
 @property (nonatomic, strong) WYAPhotoBrowserModel * model;

@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  线宽
  */
-@property (nonatomic, assign) CGFloat  borderWidth;
+@property (nonatomic, assign) CGFloat borderWidth;
 
 /**
  进度（0~1）
  */
-@property (nonatomic, assign) CGFloat  progress;
+@property (nonatomic, assign) CGFloat progress;
 
 /**
  设置进度
@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param progress 进度
  @param animation 是否动画
  */
--(void)wya_setProgress:(CGFloat)progress Animation:(BOOL)animation;
+- (void)wya_setProgress:(CGFloat)progress Animation:(BOOL)animation;
 
 @end
 

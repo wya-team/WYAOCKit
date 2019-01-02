@@ -12,15 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol WYAPhotoEditControlViewDelegate <NSObject>
 
 @optional
--(void)edit;
+- (void)edit;
 
--(void)editWithOriginalImage:(BOOL)original;
+- (void)editWithOriginalImage:(BOOL)original;
 
--(void)done;
+- (void)done;
 @end
 
 @interface WYAPhotoEditControlView : UIView
-@property (nonatomic, assign) BOOL  videoHidden;
+@property (nonatomic, assign) BOOL videoHidden;
 
 @property (nonatomic, weak) id<WYAPhotoEditControlViewDelegate> delegate;
 @end

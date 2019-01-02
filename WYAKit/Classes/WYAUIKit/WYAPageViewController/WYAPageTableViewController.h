@@ -5,9 +5,9 @@
 //  Created by 李俊恒 on 2018/11/23.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAMenuView.h"
 #import "WYAPageScrollView.h"
+#import <UIKit/UIKit.h>
 @class WYAPageTableViewController;
 /*
  *  WYAPageController 的缓存设置，默认缓存为无限制，当收到 memoryWarning 时，会自动切换到低缓存模式 (WYAPageControllerCachePolicyLowMemory)，并在一段时间后切换到 High .
@@ -18,11 +18,11 @@
  If recieved too much times, the cache policy will stay at 'LowMemory' and don't grow back any more.
  */
 typedef NS_ENUM(NSInteger, WYAPageTableControllerCachePolicy) {
-    WYAPageTableControllerCachePolicyDisabled   = -1,  // Disable Cache
-    WYAPageTableControllerCachePolicyNoLimit    = 0,   // No limit
-    WYAPageTableControllerCachePolicyLowMemory  = 1,   // Low Memory but may block when scroll
-    WYAPageTableControllerCachePolicyBalanced   = 3,   // Balanced ↑ and ↓
-    WYAPageTableControllerCachePolicyHigh       = 5    // High
+    WYAPageTableControllerCachePolicyDisabled  = -1, // Disable Cache
+    WYAPageTableControllerCachePolicyNoLimit   = 0,  // No limit
+    WYAPageTableControllerCachePolicyLowMemory = 1,  // Low Memory but may block when scroll
+    WYAPageTableControllerCachePolicyBalanced  = 3,  // Balanced ↑ and ↓
+    WYAPageTableControllerCachePolicyHigh      = 5   // High
 };
 
 typedef NS_ENUM(NSUInteger, WYAPageTableControllerPreloadPolicy) {
@@ -54,7 +54,6 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
  @return UIViewController instance
  */
 - (__kindof UIViewController *)wya_pageController:(WYAPageTableViewController *)pageController viewControllerAtIndex:(NSInteger)index;
-
 
 /**
  WYAMenuView中显示的每个标题
@@ -128,8 +127,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 
 @end
 
-@interface WYAPageTableViewController : UIViewController
-<WYAMenuViewDataSource,WYAMenuViewDelegate,UIScrollViewDelegate,WYAPageTableControllerDelegate,WYAPageTableControllerDataSource>
+@interface WYAPageTableViewController : UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate, WYAPageTableControllerDelegate, WYAPageTableControllerDataSource>
 @property (nonatomic, weak) id<WYAPageTableControllerDelegate> delegate;
 @property (nonatomic, weak) id<WYAPageTableControllerDataSource> dataSource;
 @property (nonatomic, strong) UITableView * tableView;
@@ -137,7 +135,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
  *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
  使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")
  */
-@property (nonatomic, strong) NSMutableArray <id> * values;
+@property (nonatomic, strong) NSMutableArray<id> * values;
 @property (nonatomic, strong) NSMutableArray<NSString *> * keys;
 
 /**
@@ -154,32 +152,32 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  设置选中几号item
  */
-@property (nonatomic, assign) int  selectIndex;
+@property (nonatomic, assign) int selectIndex;
 
 /**
  点击的MenuItem是否触发滚动效果动画
  */
-@property (nonatomic, assign) BOOL  pageAnimatable;
+@property (nonatomic, assign) BOOL pageAnimatable;
 
 /**
  是否通过字符串内容自动计算MenuItem的宽度，默认为NO
  */
-@property (nonatomic, assign) BOOL  automaticallyCalculatesItemWidths;
+@property (nonatomic, assign) BOOL automaticallyCalculatesItemWidths;
 
 /**
  是否可以滑动切换，默认是YES
  */
-@property (nonatomic, assign) BOOL  scrollEnable;
+@property (nonatomic, assign) BOOL scrollEnable;
 
 /**
  标题选中时的尺寸
  */
-@property (nonatomic, assign) CGFloat  titleSizeSelected;
+@property (nonatomic, assign) CGFloat titleSizeSelected;
 
 /**
  标题未选中时的尺寸
  */
-@property (nonatomic, assign) CGFloat  titleSizeNormal;
+@property (nonatomic, assign) CGFloat titleSizeNormal;
 
 /**
  *  标题选中时的颜色, 颜色是可动画的.
@@ -199,7 +197,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  每个Item的宽度
  */
-@property (nonatomic, assign) CGFloat  menuItemWidth;
+@property (nonatomic, assign) CGFloat menuItemWidth;
 
 /**
  各个item的宽度，可不等，数组内存放NSNumber
@@ -209,12 +207,12 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  menuView的样式 默认为无下划线
  */
-@property (nonatomic, assign) WYAMenuViewStyle  menuViewStyle;
+@property (nonatomic, assign) WYAMenuViewStyle menuViewStyle;
 
 /**
  item布局分布样式居左 居中 居右 默认
  */
-@property (nonatomic, assign) WYAMenuViewLayoutMode  menuViewLayoutMode;
+@property (nonatomic, assign) WYAMenuViewLayoutMode menuViewLayoutMode;
 
 /**
  进度条颜色，默认和选中颜色一致（如果style为default,该属性无效）
@@ -229,49 +227,48 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  若每个进度条宽度一致，可设置该属性
  */
-@property (nonatomic, assign) CGFloat  progressWidth;
+@property (nonatomic, assign) CGFloat progressWidth;
 
 /**
  使用这个属性请设置一个小的progressWidth,用于实现腾讯视频新效果
  */
-@property (nonatomic, assign) BOOL  progressViewIsNaughty;
+@property (nonatomic, assign) BOOL progressViewIsNaughty;
 
 /**
  是否发送在创建控制器或者视图完全展现在用户眼前时通知观察者，默认为不开启，如需利用通知请开启
  */
-@property (nonatomic, assign) BOOL  postNotification;
+@property (nonatomic, assign) BOOL postNotification;
 /**
  *  是否记录 Controller 的位置，并在下次回来的时候回到相应位置，默认为 NO (若当前缓存中存在不会触发)
  *  Whether to remember controller's positon if it's a kind of scrollView controller,like UITableViewController,The default value is NO.
  *  比如 `UITabelViewController`, 当然你也可以在自己的控制器中自行设置, 如果将 Controller.view 替换为 scrollView 或者在Controller.view 上添加了一个和自身 bounds 一样的 scrollView 也是OK的
  */
-@property (nonatomic, assign) BOOL  rememberLocation __deprecated_msg("Because of the cache policy,this property can abondon now.");
+@property (nonatomic, assign) BOOL rememberLocation __deprecated_msg("Because of the cache policy,this property can abondon now.");
 
 /**
  缓存机制，默认无限制（如果收到内存警告，会自动切换）
  */
-@property (nonatomic, assign) WYAPageTableControllerCachePolicy  cachePolicy;
+@property (nonatomic, assign) WYAPageTableControllerCachePolicy cachePolicy;
 
 /**
  预加载机制，在停止滑动的时候预加载n页
  */
-@property (nonatomic, assign) WYAPageTableControllerPreloadPolicy  preloadPolicy;
+@property (nonatomic, assign) WYAPageTableControllerPreloadPolicy preloadPolicy;
 
 /**
  ContentView是否需要弹簧效果
  */
-@property (nonatomic, assign) BOOL  bounces;
-
+@property (nonatomic, assign) BOOL bounces;
 
 /**
  用代码设置ContentView的contentOffset之前请设置startDragging = YES
  */
-@property (nonatomic, assign) BOOL  startDragging;
+@property (nonatomic, assign) BOOL startDragging;
 
 /**
  下划线进度条的高度
  */
-@property (nonatomic, assign) CGFloat  progressHeight;
+@property (nonatomic, assign) CGFloat progressHeight;
 
 /**
  顶部菜单栏各个item的间隙，因为包括头为两端，所以确保他的数量等于控制器数量+1，默认间距为0
@@ -287,12 +284,12 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  progressView到menuview底部的距离
  */
-@property (nonatomic, assign) CGFloat  progressViewBottomSpace;
+@property (nonatomic, assign) CGFloat progressViewBottomSpace;
 
 /**
  progressView's cornerRadius
  */
-@property (nonatomic, assign) CGFloat  progressViewCornerRadius;
+@property (nonatomic, assign) CGFloat progressViewCornerRadius;
 
 /**
  顶部导航栏
@@ -311,7 +308,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  tableView 的section是否悬停 默认NO UITableViewStylePlain
  */
-@property (nonatomic, assign) BOOL  isPlain;
+@property (nonatomic, assign) BOOL isPlain;
 
 /**
  tableView的头部视图
@@ -321,11 +318,11 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 /**
  是否接收子控制器的tableView偏移量修正self.tableView的偏移量（如果设置头部视图需要打开接受通知）
  */
-@property (nonatomic, assign) BOOL  acceptNotification;
+@property (nonatomic, assign) BOOL acceptNotification;
 /**
  menuView内部视图与左右的间距
  */
-@property (nonatomic, assign) CGFloat  menuViewContentMargin;
+@property (nonatomic, assign) CGFloat menuViewContentMargin;
 
 /**
  构造方法，使用该方法创建控制器，或者实现数据源方法
@@ -334,7 +331,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
  @param titles 各个子控制器的标题，string类型
  @return instancetype
  */
-- (instancetype)initWithViewControllerClasses:(NSArray<Class>*)classes anTheirTitles:(NSArray<NSString *>*)titles;
+- (instancetype)initWithViewControllerClasses:(NSArray<Class> *)classes anTheirTitles:(NSArray<NSString *> *)titles;
 
 /**
  该方法用于重置刷新父控制器，该刷新包括顶部 MenuView 和 childViewControllers.如果之前设置过 `itemsMargins` 和 `itemsWidths` `values` 以及 `keys` 属性，请确保在调用 reload 之前也同时更新了这些属性。并且，最最最重要的，注意数组的个数以防止溢出。

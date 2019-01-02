@@ -9,7 +9,7 @@
 #import "WYATestViewController.h"
 #import "WYAPopCell.h"
 
-@interface WYATestViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface WYATestViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UITableView * tableView;
 @end
 
@@ -17,38 +17,41 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     self.view.superview.clipsToBounds = NO;
-    self.view.layer.cornerRadius = 3.f;
-    self.view.layer.masksToBounds = YES;
+    self.view.layer.cornerRadius      = 3.f;
+    self.view.layer.masksToBounds     = YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor whiteColor];
-  
-    self.tableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
+    //    self.view.backgroundColor = [UIColor whiteColor];
+
+    self.tableView               = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.tableView.delegate      = self;
+    self.tableView.dataSource    = self;
     self.tableView.scrollEnabled = NO;
     [self.tableView registerClass:[WYAPopCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 3;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAPopCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     if (indexPath.row == 0) {
-        cell.title = @"Scan";
+        cell.title     = @"Scan";
         cell.imageName = @"iocn_saoyisao";
-    }else if (indexPath.row == 1) {
-        cell.title = @"My Qrcode";
+    } else if (indexPath.row == 1) {
+        cell.title     = @"My Qrcode";
         cell.imageName = @"icon_QRcode";
-    }else {
-        cell.title = @"Help";
+    } else {
+        cell.title     = @"Help";
         cell.imageName = @"icon_help";
     }
     if (indexPath.row == 2) {
@@ -57,11 +60,13 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44*SizeAdapter;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44 * SizeAdapter;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.popCallback) {
         self.popCallback(indexPath);

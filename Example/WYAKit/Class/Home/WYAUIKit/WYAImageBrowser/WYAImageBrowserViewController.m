@@ -14,26 +14,27 @@
 
 @implementation WYAImageBrowserViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+
     self.navTitle = NSStringFromClass([self class]);
-    
-    NSArray * array = @[@"0",@"1",@"2"];
-    
-    WYAImageBrowser * view = [[WYAImageBrowser alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight)];
-    NSMutableArray * images = [[NSMutableArray alloc]init];
-    for (NSInteger index = 0; index<array.count; index++) {
+
+    NSArray * array = @[ @"0", @"1", @"2" ];
+
+    WYAImageBrowser * view  = [[WYAImageBrowser alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)];
+    NSMutableArray * images = [[NSMutableArray alloc] init];
+    for (NSInteger index = 0; index < array.count; index++) {
         UIImage * image = [UIImage imageNamed:array[index]];
         [images addObject:image];
     }
     if (self.array) {
         view.images = self.array;
-    }else{
+    } else {
         view.images = [images copy];
     }
-    
+
     [self.view addSubview:view];
 }
 

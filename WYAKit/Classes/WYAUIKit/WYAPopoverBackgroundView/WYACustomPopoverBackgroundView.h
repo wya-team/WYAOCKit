@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACustomPopoverBackgroundView : UIPopoverBackgroundView
 
-
 @end
 
 @interface WYAArrowBackgroundColorConfig : NSObject

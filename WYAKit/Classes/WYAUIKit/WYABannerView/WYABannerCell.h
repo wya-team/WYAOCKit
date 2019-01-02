@@ -5,17 +5,16 @@
 //  Created by 李世航 on 2018/11/27.
 //
 
-
 #import <UIKit/UIKit.h>
 
 @interface WYABannerCell : UICollectionViewCell
 
-@property (weak, nonatomic) UIImageView *imageView;
-@property (copy, nonatomic) NSString *title;
+@property (weak, nonatomic) UIImageView * imageView;
+@property (copy, nonatomic) NSString * title;
 
-@property (nonatomic, strong) UIColor *titleLabelTextColor;
-@property (nonatomic, strong) UIFont *titleLabelTextFont;
-@property (nonatomic, strong) UIColor *titleLabelBackgroundColor;
+@property (nonatomic, strong) UIColor * titleLabelTextColor;
+@property (nonatomic, strong) UIFont * titleLabelTextFont;
+@property (nonatomic, strong) UIColor * titleLabelBackgroundColor;
 @property (nonatomic, assign) CGFloat titleLabelHeight;
 @property (nonatomic, assign) NSTextAlignment titleLabelTextAlignment;
 

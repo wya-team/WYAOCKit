@@ -6,7 +6,6 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-
 @interface NSArray (Sudoku)
 
 /**
@@ -21,12 +20,12 @@
  *  @param tailSpacing     右间距
  */
 - (void)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
-                                    fixedItemHeight:(CGFloat)fixedItemHeight
-                                          warpCount:(NSInteger)warpCount
-                                         topSpacing:(CGFloat)topSpacing
-                                      bottomSpacing:(CGFloat)bottomSpacing
-                                        leadSpacing:(CGFloat)leadSpacing
-                                        tailSpacing:(CGFloat)tailSpacing;
+                                        fixedItemHeight:(CGFloat)fixedItemHeight
+                                              warpCount:(NSInteger)warpCount
+                                             topSpacing:(CGFloat)topSpacing
+                                          bottomSpacing:(CGFloat)bottomSpacing
+                                            leadSpacing:(CGFloat)leadSpacing
+                                            tailSpacing:(CGFloat)tailSpacing;
 
 /**
  *  九宫格布局 可变ItemSize 固定ItemSpacing
@@ -40,12 +39,12 @@
  *  @param tailSpacing           右间距
  */
 - (void)wya_mas_distributeSudokuViewsWithFixedLineSpacing:(CGFloat)fixedLineSpacing
-                                fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
-                                            warpCount:(NSInteger)warpCount
-                                           topSpacing:(CGFloat)topSpacing
-                                        bottomSpacing:(CGFloat)bottomSpacing
-                                          leadSpacing:(CGFloat)leadSpacing
-                                          tailSpacing:(CGFloat)tailSpacing;
+                                    fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                                warpCount:(NSInteger)warpCount
+                                               topSpacing:(CGFloat)topSpacing
+                                            bottomSpacing:(CGFloat)bottomSpacing
+                                              leadSpacing:(CGFloat)leadSpacing
+                                              tailSpacing:(CGFloat)tailSpacing;
 
 /**
  *  九宫格布局 固定ItemSize 固定ItemSpacing
@@ -78,7 +77,6 @@
                                                  leadSpacing:(CGFloat)leadSpacing
                                                  tailSpacing:(CGFloat)tailSpacing;
 
-
 /**
  特殊的布局方式（一行或者一列）
 
@@ -93,8 +91,8 @@
  @param tailSpacing 右间距
  @return return array
  */
-- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber*>*)fixedItemWidths
-                                                    fixedItemHeights:(NSArray<NSNumber*>*)fixedItemHeights
+- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber *> *)fixedItemWidths
+                                                    fixedItemHeights:(NSArray<NSNumber *> *)fixedItemHeights
                                                     fixedLineSpacing:(CGFloat)fixedLineSpacing
                                                fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
                                                            warpCount:(NSInteger)warpCount

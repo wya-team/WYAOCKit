@@ -5,19 +5,19 @@
 //  Created by 李世航 on 2018/12/6.
 //
 
-#import <Foundation/Foundation.h>
 #import "WYADownloadModel.h"
+#import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @class WYADownloadTaskManager;
 
 @interface WYADownloader : NSObject
-@property (nonatomic, copy)   NSString * identifier;
+@property (nonatomic, copy) NSString * identifier;
 @property (nonatomic, assign) BOOL allowsCellularAccess;
 //@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
 
-@property (nonatomic, strong, readonly) NSArray * downloadingArray;//正在下载的数组（ui使用）
-@property (nonatomic, strong, readonly) NSArray * downloadCompleteArray;//已经下载完成的数组（ui使用）
+@property (nonatomic, strong, readonly) NSArray * downloadingArray;      //正在下载的数组（ui使用）
+@property (nonatomic, strong, readonly) NSArray * downloadCompleteArray; //已经下载完成的数组（ui使用）
 
 /**
  初始化
@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param model 数据模型
  @param handle 回调，用来提示下载是否成功加入下载列表
  */
-- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void(^)(WYADownloadModel * resultModel, NSString * result))handle;
+- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void (^)(WYADownloadModel * resultModel, NSString * result))handle;
 
 /**
  暂停下载
@@ -62,8 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 //- (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle;
 @end
 
-FOUNDATION_EXPORT NSString * const WYADownloaderDownloadArrayObserveKeyPath;//监测下载队列的变化
+FOUNDATION_EXPORT NSString * const WYADownloaderDownloadArrayObserveKeyPath; //监测下载队列的变化
 
-FOUNDATION_EXPORT NSString * const WYADownloaderCompleteArrayObserveKeyPath;//监测下载完成队列的变化
+FOUNDATION_EXPORT NSString * const WYADownloaderCompleteArrayObserveKeyPath; //监测下载完成队列的变化
 
 NS_ASSUME_NONNULL_END

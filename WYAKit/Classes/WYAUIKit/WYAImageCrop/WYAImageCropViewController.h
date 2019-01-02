@@ -8,8 +8,8 @@
 #import <UIKit/UIKit.h>
 
 #import "WYAImageCrop.h"
-#import "WYAImageCropView.h"
 #import "WYAImageCropToolBar.h"
+#import "WYAImageCropView.h"
 
 @class WYAImageCropViewController;
 
@@ -25,7 +25,6 @@
  */
 - (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropImageToRect:(CGRect)cropRect angle:(NSInteger)angle;
 
-
 /**
  获取裁剪后的图片
 
@@ -36,7 +35,6 @@
  */
 - (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropToImage:(nonnull UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle;
 
-
 /**
  获取圆形模板裁剪的图片
 
@@ -46,7 +44,6 @@
  @param angle 角度
  */
 - (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropToCircularImage:(nonnull UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle;
-
 
 /**
  完成时调用
@@ -65,20 +62,20 @@
 /**
  原始图片
  */
-@property (nonnull, nonatomic, readonly) UIImage *image;
+@property (nonnull, nonatomic, readonly) UIImage * image;
 
-@property (nonnull, nonatomic, strong, readonly) WYAImageCropView *cropView;
-@property (nonnull, nonatomic, strong, readonly) WYAImageCropToolBar *toolbar;
+@property (nonnull, nonatomic, strong, readonly) WYAImageCropView * cropView;
+@property (nonnull, nonatomic, strong, readonly) WYAImageCropToolBar * toolbar;
 @property (nonatomic, readonly) WYACropViewCroppingStyle croppingStyle;
 
 @property (nullable, nonatomic, strong) void (^onDidFinishCancelled)(BOOL isFinished);
 @property (nullable, nonatomic, strong) void (^onDidCropImageToRect)(CGRect cropRect, NSInteger angle);
-@property (nullable, nonatomic, strong) void (^onDidCropToRect)(UIImage* _Nonnull image, CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropToRect)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
 
 /**
  圆形裁剪器时提供的图片
  */
-@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage* _Nonnull image, CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
 
 /**
  初始化
@@ -87,7 +84,6 @@
  @return self
  */
 - (nonnull instancetype)initWithImage:(nonnull UIImage *)image;
-
 
 /**
  初始化
@@ -102,7 +98,7 @@
 
 ///**
 // 自定义淡入动画
-// 
+//
 // @param viewController 起始控制器
 // @param fromView 起始视图
 // @param fromFrame 起始坐标
@@ -118,7 +114,7 @@
 //
 ///**
 // 自定义淡入动画
-// 
+//
 // @param viewController 起始控制器
 // @param image image
 // @param fromView 起始视图
@@ -140,7 +136,7 @@
 //
 ///**
 // 自定义淡出状态
-// 
+//
 // @param viewController 起始控制器
 // @param toView 结束视图
 // @param frame 结束位置
@@ -156,7 +152,7 @@
 //
 ///**
 // 自定义淡出状态
-// 
+//
 // @param viewController 起始控制器
 // @param image image
 // @param toView 结束视图

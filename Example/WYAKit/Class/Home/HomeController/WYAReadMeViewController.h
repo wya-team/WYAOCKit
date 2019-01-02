@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAReadMeViewController : WYABaseViewController
 @property (nonatomic, copy) NSString * readMeUrl;
-@property (nonatomic, assign) BOOL  isAllowPush;
+@property (nonatomic, assign) BOOL isAllowPush;
 @end
 
 NS_ASSUME_NONNULL_END

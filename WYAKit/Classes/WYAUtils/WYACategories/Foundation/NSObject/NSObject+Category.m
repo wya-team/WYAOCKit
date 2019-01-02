@@ -20,50 +20,50 @@ static char associatedObjectNamesKey;
 
 - (void)setTimer:(dispatch_source_t)timer
 {
-    objc_setAssociatedObject (self, @selector (timer), timer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, @selector(timer), timer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (dispatch_source_t)timer
 {
-    return objc_getAssociatedObject (self, @selector (timer));
+    return objc_getAssociatedObject(self, @selector(timer));
 }
 
 - (void)wya_countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock
 {
     __block NSUInteger second = time;
 
-    self.timer = dispatch_source_create (DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue (0, 0));
+    self.timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_global_queue(0, 0));
 
-    dispatch_source_set_timer (self.timer, DISPATCH_TIME_NOW, 1.0f * NSEC_PER_SEC, 1.0f * NSEC_PER_SEC);
-    dispatch_source_set_event_handler (self.timer, ^{
+    dispatch_source_set_timer(self.timer, DISPATCH_TIME_NOW, 1.0f * NSEC_PER_SEC, 1.0f * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(self.timer, ^{
 
-        dispatch_sync (dispatch_get_main_queue (), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             if (countDownBlock != nil) {
-                countDownBlock (second);
+                countDownBlock(second);
             }
         });
 
         if ((second--) == 0) {
-            dispatch_cancel (self.timer);
+            dispatch_cancel(self.timer);
             self.timer = nil;
-            dispatch_sync (dispatch_get_main_queue (), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 if (finishBlock != nil) {
-                    finishBlock ();
+                    finishBlock();
                 }
             });
         }
     });
 
-    dispatch_resume (self.timer);
+    dispatch_resume(self.timer);
 }
 - (void)setAssociatedObjectNames:(NSMutableArray *)associatedObjectNames
 {
-    objc_setAssociatedObject (self, &associatedObjectNamesKey, associatedObjectNames, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    objc_setAssociatedObject(self, &associatedObjectNamesKey, associatedObjectNames, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (NSMutableArray *)associatedObjectNames
 {
-    NSMutableArray * array = objc_getAssociatedObject (self, &associatedObjectNamesKey);
+    NSMutableArray * array = objc_getAssociatedObject(self, &associatedObjectNamesKey);
     if (!array) {
         array = [NSMutableArray array];
         [self setAssociatedObjectNames:array];
@@ -73,29 +73,29 @@ static char associatedObjectNamesKey;
 
 - (void)objc_setAssociatedObject:(NSString *)propertyName value:(id)value policy:(objc_AssociationPolicy)policy
 {
-    objc_setAssociatedObject (self, (__bridge objc_objectptr_t)propertyName, value, policy);
+    objc_setAssociatedObject(self, (__bridge objc_objectptr_t)propertyName, value, policy);
     [self.associatedObjectNames addObject:propertyName];
 }
 
 - (id)objc_getAssociatedObject:(NSString *)propertyName
 {
-    return objc_getAssociatedObject (self, (__bridge objc_objectptr_t)propertyName);
+    return objc_getAssociatedObject(self, (__bridge objc_objectptr_t)propertyName);
 }
 
 - (void)objc_removeAssociatedObjects
 {
     [self.associatedObjectNames removeAllObjects];
-    objc_removeAssociatedObjects (self);
+    objc_removeAssociatedObjects(self);
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key
 {
-    NSLog (@"setValue %@ forUndefinedKey %@", value, key);
+    NSLog(@"setValue %@ forUndefinedKey %@", value, key);
 }
 
 - (void)setNilValueForKey:(NSString *)key
 {
-    NSLog (@"setNilValue forKey %@", key);
+    NSLog(@"setNilValue forKey %@", key);
 }
 
 /**
@@ -109,14 +109,14 @@ static char associatedObjectNamesKey;
     unsigned int outCount, i;
     Class targetClass = [self class];
     while (targetClass != [NSObject class]) {
-        objc_property_t * properties = class_copyPropertyList (targetClass, &outCount);
+        objc_property_t * properties = class_copyPropertyList(targetClass, &outCount);
         for (i = 0; i < outCount; i++) {
             objc_property_t property = properties[i];
-            const char * char_f = property_getName (property);
-            NSString * propertyName = [NSString stringWithUTF8String:char_f];
+            const char * char_f      = property_getName(property);
+            NSString * propertyName  = [NSString stringWithUTF8String:char_f];
             [props addObject:propertyName];
         }
-        free (properties);
+        free(properties);
         targetClass = [targetClass superclass];
     }
     return props;
@@ -126,39 +126,39 @@ static char associatedObjectNamesKey;
 - (void)printMothList
 {
     unsigned int mothCout_f = 0;
-    Method * mothList_f = class_copyMethodList ([self class], &mothCout_f);
+    Method * mothList_f     = class_copyMethodList([self class], &mothCout_f);
     for (int i = 0; i < mothCout_f; i++) {
         Method temp_f = mothList_f[i];
         //        IMP imp_f = method_getImplementation(temp_f);
-        SEL name_f = method_getName (temp_f);
-        const char * name_s = sel_getName (name_f);
-        int arguments = method_getNumberOfArguments (temp_f);
-        const char * encoding = method_getTypeEncoding (temp_f);
+        SEL name_f            = method_getName(temp_f);
+        const char * name_s   = sel_getName(name_f);
+        int arguments         = method_getNumberOfArguments(temp_f);
+        const char * encoding = method_getTypeEncoding(temp_f);
 
-        NSLog (@"方法名：%@,参数个数：%d,编码方式：%@", [NSString stringWithUTF8String:name_s], arguments, [NSString stringWithUTF8String:encoding]);
+        NSLog(@"方法名：%@,参数个数：%d,编码方式：%@", [NSString stringWithUTF8String:name_s], arguments, [NSString stringWithUTF8String:encoding]);
     }
 
-    free (mothList_f);
+    free(mothList_f);
 }
 
 + (NSString *)wya_version
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString * app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString * app_Version        = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     return app_Version;
 }
 
 + (NSInteger)wya_build
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString * app_build = [infoDictionary objectForKey:@"CFBundleVersion"];
+    NSString * app_build          = [infoDictionary objectForKey:@"CFBundleVersion"];
     return [app_build integerValue];
 }
 
 + (NSString *)wya_identifier
 {
     NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    NSString * bundleIdentifier = [infoDictionary objectForKey:@"CFBundleIdentifier"];
+    NSString * bundleIdentifier   = [infoDictionary objectForKey:@"CFBundleIdentifier"];
     return bundleIdentifier;
 }
 
@@ -170,7 +170,7 @@ static char associatedObjectNamesKey;
 + (NSString *)wya_deviceModel
 {
     struct utsname systemInfo;
-    uname (&systemInfo);
+    uname(&systemInfo);
     NSString * deviceModel = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
 
     if ([deviceModel isEqualToString:@"iPhone3,1"]) return @"iPhone 4";
@@ -204,7 +204,6 @@ static char associatedObjectNamesKey;
     if ([deviceModel isEqualToString:@"iPhone11,6"]) return @"iPhone_Xs_Max";
     if ([deviceModel isEqualToString:@"iPhone11,8"]) return @"iPhone_XR";
 
-    
     if ([deviceModel isEqualToString:@"iPod1,1"]) return @"iPod Touch 1G";
     if ([deviceModel isEqualToString:@"iPod2,1"]) return @"iPod Touch 2G";
     if ([deviceModel isEqualToString:@"iPod3,1"]) return @"iPod Touch 3G";
@@ -245,7 +244,6 @@ static char associatedObjectNamesKey;
     if ([deviceModel isEqualToString:@"iPad7,2"]) return @"iPad Pro 12.9";
     if ([deviceModel isEqualToString:@"iPad7,3"]) return @"iPad Pro 10.5";
     if ([deviceModel isEqualToString:@"iPad7,4"]) return @"iPad Pro 10.5";
-
 
     if ([deviceModel isEqualToString:@"AppleTV2,1"]) return @"Apple TV 2";
     if ([deviceModel isEqualToString:@"AppleTV3,1"]) return @"Apple TV 3";

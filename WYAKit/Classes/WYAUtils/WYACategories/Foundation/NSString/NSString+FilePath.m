@@ -12,36 +12,36 @@
 
 + (NSString *)wya_homePath
 {
-    return NSHomeDirectory ();
+    return NSHomeDirectory();
 }
 
 + (NSString *)wya_appPath
 {
-    NSArray * paths = NSSearchPathForDirectoriesInDomains (NSApplicationDirectory, NSUserDomainMask, YES);
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES);
     return [paths wya_safeObjectAtIndex:0];
 }
 
 + (NSString *)wya_docPath
 {
-    NSArray * paths = NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES);
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths wya_safeObjectAtIndex:0];
 }
 
 + (NSString *)wya_libPrefPath
 {
-    NSArray * paths = NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES);
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Preferences"];
 }
 
 + (NSString *)wya_libCachePath
 {
-    NSArray * paths = NSSearchPathForDirectoriesInDomains (NSLibraryDirectory, NSUserDomainMask, YES);
+    NSArray * paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Caches"];
 }
 
 + (NSString *)wya_tmpPath
 {
-    return [NSHomeDirectory () stringByAppendingFormat:@"/tmp"];
+    return [NSHomeDirectory() stringByAppendingFormat:@"/tmp"];
 }
 
 + (BOOL)wya_IsDirectory:(NSString *)filePath

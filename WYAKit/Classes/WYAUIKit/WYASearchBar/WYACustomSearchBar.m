@@ -7,21 +7,22 @@
 
 #import "WYACustomSearchBar.h"
 
-@interface WYACustomSearchBar()
+@interface WYACustomSearchBar ()
 
-@property (nonatomic, assign) CGFloat  placeholderWidth;
+@property (nonatomic, assign) CGFloat placeholderWidth;
 
-@property (nonatomic, assign) CGFloat  searchIconHeight;
+@property (nonatomic, assign) CGFloat searchIconHeight;
 
-@property (nonatomic, assign) CGFloat  selfWidth;
+@property (nonatomic, assign) CGFloat selfWidth;
 
-@property (nonatomic, assign) CGFloat  selfHeight;
+@property (nonatomic, assign) CGFloat selfHeight;
 
 @end
 
 @implementation WYACustomSearchBar
 #pragma mark ======= Life Cycle
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self setupUI];
     }
@@ -29,75 +30,84 @@
 }
 #pragma mark ======= private
 
-- (void)setupUI{
+- (void)setupUI
+{
     [self setBackgroundImage:[UIImage new]];
-    self.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBarStyle               = UISearchBarStyleMinimal;
     self.searchTextPositionAdjustment = UIOffsetMake(3, 0);
-    _customBgColor = [UIColor whiteColor];
-    _roundRate = 5;
-    _placeholderFont = 12;
-    self.searchIconHeight = self.bounds.size.height-8;
-    self.selfWidth = self.bounds.size.width;
-    self.selfHeight = self.bounds.size.height;
-    UIImage * image = [UIImage wya_imageWithColor:_customBgColor size:CGSizeMake(self.selfWidth, self.selfHeight) rate:_roundRate];
+    _customBgColor                    = [UIColor whiteColor];
+    _roundRate                        = 5;
+    _placeholderFont                  = 12;
+    self.searchIconHeight             = self.bounds.size.height - 8;
+    self.selfWidth                    = self.bounds.size.width;
+    self.selfHeight                   = self.bounds.size.height;
+    UIImage * image                   = [UIImage wya_imageWithColor:_customBgColor size:CGSizeMake(self.selfWidth, self.selfHeight) rate:_roundRate];
     [self setSearchFieldBackgroundImage:image forState:UIControlStateNormal];
     [self sizeToFit];
 }
 
 #pragma mark ======= public
-- (void)wya_shouldBeginEditingState{
+- (void)wya_shouldBeginEditingState
+{
     [self setPositionAdjustment:UIOffsetMake(0, 0) forSearchBarIcon:UISearchBarIconSearch];
 }
-- (void)wya_touchesBeganState{
+- (void)wya_touchesBeganState
+{
     if (self.text.length == 0) {
-        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight)*0.5;
+        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight) * 0.5;
         [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
     }
 }
-- (void)wya_cancleButtonClickedState{
+- (void)wya_cancleButtonClickedState
+{
     if (self.text.length == 0) {
-        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight)*0.5;
+        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight) * 0.5;
         [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
     }
 }
 
-- (void)wya_searchButtonClickedState{
+- (void)wya_searchButtonClickedState
+{
     if (self.text.length == 0) {
-        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight)*0.5;
+        CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight) * 0.5;
         [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
     }
 }
 
 #pragma mark ======= setter
-- (void)setPlaceholderString:(NSString *)placeholderString{
-    _placeholderString = placeholderString;
-    self.placeholder = placeholderString;
+- (void)setPlaceholderString:(NSString *)placeholderString
+{
+    _placeholderString        = placeholderString;
+    self.placeholder          = placeholderString;
     UITextField * searchField = [self valueForKey:@"_searchField"];
     [searchField setValue:[UIFont boldSystemFontOfSize:_placeholderFont] forKeyPath:@"_placeholderLabel.font"];
     self.placeholderWidth = [placeholderString wya_widthWithFontSize:self.placeholderFont height:self.selfHeight];
-    CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight)*0.5;
+    CGFloat offsetX       = (self.selfWidth - self.placeholderWidth - self.searchIconHeight) * 0.5;
     [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
-  
 }
 
-- (void)setPlaceholderFont:(CGFloat)placeholderFont{
-    _placeholderFont = placeholderFont;
+- (void)setPlaceholderFont:(CGFloat)placeholderFont
+{
+    _placeholderFont          = placeholderFont;
     UITextField * searchField = [self valueForKey:@"_searchField"];
     [searchField setValue:[UIFont boldSystemFontOfSize:_placeholderFont] forKeyPath:@"_placeholderLabel.font"];
 }
-- (void)setPlaceholderColor:(UIColor *)placeholderColor{
-    _placeholderColor = placeholderColor;
+- (void)setPlaceholderColor:(UIColor *)placeholderColor
+{
+    _placeholderColor         = placeholderColor;
     UITextField * searchField = [self valueForKey:@"_searchField"];
     [searchField setValue:_placeholderColor forKeyPath:@"_placeholderLabel.textColor"];
 }
-- (void)setRoundRate:(CGFloat)roundRate{
-    _roundRate = roundRate;
+- (void)setRoundRate:(CGFloat)roundRate
+{
+    _roundRate      = roundRate;
     UIImage * image = [UIImage wya_imageWithColor:self.customBgColor size:CGSizeMake(self.bounds.size.width, self.searchIconHeight) rate:roundRate];
     [self setSearchFieldBackgroundImage:image forState:UIControlStateNormal];
 }
 
-- (void)setCustomBgColor:(UIColor *)customBgColor{
-    _customBgColor = customBgColor;
+- (void)setCustomBgColor:(UIColor *)customBgColor
+{
+    _customBgColor  = customBgColor;
     UIImage * image = [UIImage wya_imageWithColor:_customBgColor size:CGSizeMake(self.selfWidth, self.searchIconHeight) rate:self.roundRate];
     [self setSearchFieldBackgroundImage:image forState:UIControlStateNormal];
 }

@@ -29,7 +29,6 @@
  */
 + (NSString *)wya_getSecrectStringWithAccountNo:(NSString *)accountNo;
 
-
 /**
  转为手机格式，默认为-
 

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAInteractive : UIPercentDrivenInteractiveTransition
 @property (nonatomic, assign) BOOL interacting;
 
-- (void)wireToViewController:(UIViewController*)viewController;
+- (void)wireToViewController:(UIViewController *)viewController;
 @end
 
 NS_ASSUME_NONNULL_END

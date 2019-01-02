@@ -8,56 +8,63 @@
 
 #import "WYAOneTableViewController.h"
 #import "MJRefresh.h"
+
 @interface WYAOneTableViewController ()
 
 @end
 
 @implementation WYAOneTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"oneCellID"];
-    self.tableView.tableFooterView = [[UIView alloc]init];
-    self.tableView.tableHeaderView = [[UIView alloc]init];
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    self.tableView.tableHeaderView = [[UIView alloc] init];
+    self.tableView.mj_header       = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self performSelector:@selector(end) withObject:self afterDelay:0.5];
     }];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self performSelector:@selector(enddd) withObject:self afterDelay:0.5];
     }];
 }
-- (void)end{
+- (void)end
+{
     [self.tableView.mj_header endRefreshing];
 }
-- (void)enddd{
+- (void)enddd
+{
     [self.tableView.mj_footer endRefreshing];
-
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (scrollView == self.tableView) {
         CGPoint point = scrollView.contentOffset;
-        NSLog(@"%f",scrollView.contentOffset.y);
+        NSLog(@"%f", scrollView.contentOffset.y);
         [[NSNotificationCenter defaultCenter] postNotificationName:self.notificationName object:self userInfo:[NSDictionary dictionaryWithObject:@(point.y) forKey:@"key"]];
     }
 }
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 20;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"oneCellID" forIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"indexPath.row = %d",(int)indexPath.row];
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"oneCellID" forIndexPath:indexPath];
+    cell.textLabel.text    = [NSString stringWithFormat:@"indexPath.row = %d", (int)indexPath.row];
+
     return cell;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 60;
 }
 

@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYADownloadCompleteCell : UITableViewCell
-@property (nonatomic, copy)   NSString * title;
+@property (nonatomic, copy) NSString * title;
 @property (nonatomic, strong) UIImage * image;
 @property (nonatomic, strong) WYADownloadTaskManager * model;
 @end

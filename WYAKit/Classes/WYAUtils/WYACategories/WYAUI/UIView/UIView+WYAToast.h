@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, WYAToastImageType) {
 /**
  请和wya_toastWithMessage配合使用
  */
-+(void)wya_dismissToast;
++ (void)wya_dismissToast;
 @end
 
 NS_ASSUME_NONNULL_END

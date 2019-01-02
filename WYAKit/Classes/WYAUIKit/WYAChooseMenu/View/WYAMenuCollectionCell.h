@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAChooseMenuSecondLevelModel;
+
 @interface WYAMenuCollectionCell : UICollectionViewCell
 @property (nonatomic, strong) WYAChooseMenuSecondLevelModel * model;
 @end

@@ -15,7 +15,6 @@
 @property (nonatomic, strong) WYAPhotoBrowserModel * model;
 @property (nonatomic, strong) UIImageView * imageV;
 
-
-@property (nonatomic, copy) void(^selectImage)(UIButton * btn);
+@property (nonatomic, copy) void (^selectImage)(UIButton * btn);
 
 @end

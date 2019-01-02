@@ -29,17 +29,17 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置圆角系数默认8
  */
-@property (nonatomic, assign) CGFloat  cornerRadius;
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 /**
  设置默认选择项索引,默认选中第一个只写
  */
-@property (nonatomic, assign, readwrite) NSInteger  selectedSegmentIndex;
+@property (nonatomic, assign, readwrite) NSInteger selectedSegmentIndex;
 
 /**
  只读获取当前选中的索引，只读
  */
-@property (nonatomic, assign, readonly) NSInteger  getSelectedIndex;
+@property (nonatomic, assign, readonly) NSInteger getSelectedIndex;
 /**
  按钮以及视图的边框色默认蓝色
  */
@@ -60,13 +60,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor * itemHighlightedColor;
 
-
 /**
  items字体大小默认15
  */
-@property (nonatomic, assign) CGFloat  itemsFont;
+@property (nonatomic, assign) CGFloat itemsFont;
 
-@property (nonatomic, assign) BOOL  itemsIsEnable;
+@property (nonatomic, assign) BOOL itemsIsEnable;
 /**
  构造方法返回一个实例对象
 
@@ -74,8 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param itemsTitleArray 标题数据
  @return instance
  */
-+ (instancetype)wya_initWithFrame:(CGRect)frame itemsTitleArray:(NSArray <NSString *> *)itemsTitleArray;
-
++ (instancetype)wya_initWithFrame:(CGRect)frame itemsTitleArray:(NSArray<NSString *> *)itemsTitleArray;
 
 /**
  构造方法返回一个实例对象
@@ -85,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param imagesSelectlArray 选中状态images
  @return instance
  */
-+ (instancetype)wya_initWithFrame:(CGRect)frame imagesNormalArray:(NSArray <NSString *> *)imagesNormalArray imagesSelectlArray:(NSArray <NSString *> *)imagesSelectlArray;
++ (instancetype)wya_initWithFrame:(CGRect)frame imagesNormalArray:(NSArray<NSString *> *)imagesNormalArray imagesSelectlArray:(NSArray<NSString *> *)imagesSelectlArray;
 
 @end
 

@@ -9,71 +9,78 @@
 
 @implementation WYALateralSlideConfiguration
 
-+ (instancetype)defaultConfiguration {
++ (instancetype)defaultConfiguration
+{
     return [WYALateralSlideConfiguration configurationWithDistance:ScreenWidth * 0.75 maskAlpha:0.4 scaleY:1.0 direction:WYADrawerTransitionFromLeft backImage:nil];
 }
 
-- (instancetype)initWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage {
+- (instancetype)initWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage
+{
     if (self = [super init]) {
-        _distance = distance;
-        _maskAlpha = alpha;
-        _direction = direction;
-        _backImage = backImage;
-        _scaleY = scaleY;
-        _finishPercent = 0.4;
-        _showAnimDuration = 0.25;
+        _distance           = distance;
+        _maskAlpha          = alpha;
+        _direction          = direction;
+        _backImage          = backImage;
+        _scaleY             = scaleY;
+        _finishPercent      = 0.4;
+        _showAnimDuration   = 0.25;
         _HiddenAnimDuration = 0.25;
     }
     return self;
 }
 
-+ (instancetype)configurationWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage {
++ (instancetype)configurationWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage
+{
     return [[self alloc] initWithDistance:distance maskAlpha:alpha scaleY:scaleY direction:direction backImage:backImage];
 }
 
-- (float)distance {
+- (float)distance
+{
     if (_distance <= 0)
         return ScreenWidth * 0.75;
     return _distance;
 }
 
-- (float)maskAlpha {
+- (float)maskAlpha
+{
     if (_maskAlpha <= 0)
         return 0.4;
     return _maskAlpha;
 }
 
-- (float)scaleY {
+- (float)scaleY
+{
     if (_scaleY <= 0)
         return 1.0;
     return _scaleY;
 }
 
-- (float)finishPercent {
+- (float)finishPercent
+{
     if (_finishPercent <= 0)
         return 0.4;
     return _finishPercent;
 }
 
-- (NSTimeInterval)showAnimDuration {
+- (NSTimeInterval)showAnimDuration
+{
     if (_showAnimDuration <= 0)
         return 0.25;
-    
+
     return _showAnimDuration;
 }
 
-- (NSTimeInterval)HiddenAnimDuration {
+- (NSTimeInterval)HiddenAnimDuration
+{
     if (_HiddenAnimDuration <= 0)
         return 0.25;
-    
+
     return _HiddenAnimDuration;
 }
 
-- (void)dealloc {
-//    NSLog(@"%s",__func__);
+- (void)dealloc
+{
+    //    NSLog(@"%s",__func__);
 }
 
 @end
-
-
-

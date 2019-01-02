@@ -13,17 +13,17 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 /**
  获取拍摄照片
  */
-@property (nonatomic, copy) void(^takePhoto)(UIImage * photo);
+@property (nonatomic, copy) void (^takePhoto)(UIImage * photo);
 
 /**
  获取拍摄视频
  */
-@property (nonatomic, copy) void(^takeVideo)(NSString * videoPath);
+@property (nonatomic, copy) void (^takeVideo)(NSString * videoPath);
 
 /**
  设置录制时间
  */
-@property (nonatomic, assign) CGFloat  time;
+@property (nonatomic, assign) CGFloat time;
 
 /**
  初始化

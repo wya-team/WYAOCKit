@@ -39,12 +39,12 @@
 - (NSArray *)wya_safeSubarrayWithRange:(NSRange)range
 {
     NSUInteger location = range.location;
-    NSUInteger length = range.length;
+    NSUInteger length   = range.length;
     if (location + length > self.count) {
         //超过了边界,就获取从loction开始所有的item
         if ((location + length) > self.count) {
             length = (self.count - location);
-            return [self wya_safeSubarrayWithRange:NSMakeRange (location, length)];
+            return [self wya_safeSubarrayWithRange:NSMakeRange(location, length)];
         }
 
         return nil;

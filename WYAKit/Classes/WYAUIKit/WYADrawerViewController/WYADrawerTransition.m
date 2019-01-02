@@ -6,9 +6,10 @@
 
 #import "WYADrawerTransition.h"
 #import <objc/runtime.h>
+
 @interface WYADrawerTransition ()
 
-@property (nonatomic,weak) WYALateralSlideConfiguration *configuration;
+@property (nonatomic, weak) WYALateralSlideConfiguration * configuration;
 
 @end
 
@@ -19,23 +20,25 @@
     CGFloat _hiddenDelayTime;
 }
 
-
-- (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration {
+- (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration
+{
     if (self = [super init]) {
         _TransitionType = transitionType;
-        _animationType = animationType;
-        _configuration = configuration;
+        _animationType  = animationType;
+        _configuration  = configuration;
         if (_TransitionType == WYADrawerTransitiontypeHidden)
-        [self setupHiddenAnimationDelayTime];
+            [self setupHiddenAnimationDelayTime];
     }
     return self;
 }
 
-+ (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration {
++ (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration
+{
     return [[self alloc] initWithTransitionType:transitionType animationType:animationType configuration:configuration];
 }
 
-- (void)setupHiddenAnimationDelayTime {
+- (void)setupHiddenAnimationDelayTime
+{
     _hiddenDelayTime = 0;
     if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
         _hiddenDelayTime = 0.03;
@@ -43,11 +46,13 @@
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
-- (NSTimeInterval)transitionDuration:(nullable id <UIViewControllerContextTransitioning>)transitionContext {
+- (NSTimeInterval)transitionDuration:(nullable id<UIViewControllerContextTransitioning>)transitionContext
+{
     return _TransitionType == WYADrawerTransitiontypeShow ? self.configuration.showAnimDuration : self.configuration.HiddenAnimDuration;
 }
 
-- (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     switch (_TransitionType) {
         case WYADrawerTransitiontypeShow:
             [self animationViewShow:transitionContext];
@@ -61,45 +66,45 @@
 }
 
 #pragma mark - private methods
-- (void)animationViewShow:(id <UIViewControllerContextTransitioning>)transitionContext {
+- (void)animationViewShow:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     if (_animationType == WYADrawerAnimationTypeDefault) {
         [self defaultAnimationWithContext:transitionContext];
-    }else if (_animationType == WYADrawerAnimationTypeMask) {
+    } else if (_animationType == WYADrawerAnimationTypeMask) {
         [self maskAnimationWithContext:transitionContext];
-    }else {
-        
+    } else {
     }
 }
 
-- (void)animationViewHidden:(id <UIViewControllerContextTransitioning>)transitionContext {
-    
-    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
-    WYAMaskView *maskView = [WYAMaskView shareInstance];
+- (void)animationViewHidden:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController * fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController * toVC   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
+    WYAMaskView * maskView = [WYAMaskView shareInstance];
     // 导航控制器的navigationBar在导航栏先隐藏后显示的情况下会被删除，所以过滤掉导航控制器
     if (![toVC isKindOfClass:[UINavigationController class]]) {
-        for (UIView *view in toVC.view.subviews) {
+        for (UIView * view in toVC.view.subviews) {
             if (![maskView.toViewSubViews containsObject:view]) {
                 [view removeFromSuperview];
             }
         }
     }
 
-    UIView *containerView = [transitionContext containerView];
-    UIImageView *backImageView;
+    UIView * containerView = [transitionContext containerView];
+    UIImageView * backImageView;
     if ([containerView.subviews.firstObject isKindOfClass:[UIImageView class]])
         backImageView = containerView.subviews.firstObject;
-    
+
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext] delay:_hiddenDelayTime options:UIViewKeyframeAnimationOptionCalculationModeLinear animations:^{
 
         [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:1.0 animations:^{
-            toVC.view.transform = CGAffineTransformIdentity;
-            fromVC.view.transform = CGAffineTransformIdentity;
-            maskView.alpha = 0;
+            toVC.view.transform     = CGAffineTransformIdentity;
+            fromVC.view.transform   = CGAffineTransformIdentity;
+            maskView.alpha          = 0;
             backImageView.transform = CGAffineTransformMakeScale(1.4, 1.4);
         }];
-        
+
     } completion:^(BOOL finished) {
         if (![transitionContext transitionWasCancelled]) {
             maskView.toViewSubViews = nil;
@@ -107,61 +112,62 @@
             [backImageView removeFromSuperview];
         }
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-        
+
     }];
 }
 
-- (void)defaultAnimationWithContext:(id <UIViewControllerContextTransitioning>)transitionContext {
-    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
-    WYAMaskView *maskView = [WYAMaskView shareInstance];
-    maskView.frame = fromVC.view.bounds;
+- (void)defaultAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController * fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController * toVC   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
+    WYAMaskView * maskView = [WYAMaskView shareInstance];
+    maskView.frame         = fromVC.view.bounds;
     [fromVC.view addSubview:maskView];
-    UIView *containerView = [transitionContext containerView];
-    
-    UIImageView *imageV;
+    UIView * containerView = [transitionContext containerView];
+
+    UIImageView * imageV;
     if (self.configuration.backImage) {
-        imageV = [[UIImageView alloc] initWithFrame:containerView.bounds];
-        imageV.image = self.configuration.backImage;
-        imageV.transform = CGAffineTransformMakeScale(1.4, 1.4);
-        imageV.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
+        imageV                  = [[UIImageView alloc] initWithFrame:containerView.bounds];
+        imageV.image            = self.configuration.backImage;
+        imageV.transform        = CGAffineTransformMakeScale(1.4, 1.4);
+        imageV.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     [containerView addSubview:imageV];
-    
+
     CGFloat width = self.configuration.distance;
-    CGFloat x = - width / 2;
-    CGFloat ret = 1;
+    CGFloat x     = -width / 2;
+    CGFloat ret   = 1;
     if (self.configuration.direction == WYADrawerTransitionFromRight) {
-        x = ScreenWidth - width / 2;
+        x   = ScreenWidth - width / 2;
         ret = -1;
     }
     toVC.view.frame = CGRectMake(x, 0, CGRectGetWidth(containerView.frame), CGRectGetHeight(containerView.frame));
     [containerView addSubview:toVC.view];
     [containerView addSubview:fromVC.view];
     // 计算缩放后需要平移的距离
-    CGFloat translationX = width - (ScreenWidth * (1 - self.configuration.scaleY) / 2);
-    CGAffineTransform t1 = CGAffineTransformMakeScale(self.configuration.scaleY, self.configuration.scaleY);
-    CGAffineTransform t2 = CGAffineTransformMakeTranslation(ret * translationX, 0);
+    CGFloat translationX              = width - (ScreenWidth * (1 - self.configuration.scaleY) / 2);
+    CGAffineTransform t1              = CGAffineTransformMakeScale(self.configuration.scaleY, self.configuration.scaleY);
+    CGAffineTransform t2              = CGAffineTransformMakeTranslation(ret * translationX, 0);
     CGAffineTransform fromVCTransform = CGAffineTransformConcat(t1, t2);
     CGAffineTransform toVCTransform;
     if (self.configuration.direction == WYADrawerTransitionFromRight) {
         toVCTransform = CGAffineTransformMakeTranslation(ret * (x - CGRectGetWidth(containerView.frame) + width), 0);
-    }else {
+    } else {
         toVCTransform = CGAffineTransformMakeTranslation(ret * width / 2, 0);
     }
-    
+
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
-        
+
         [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:1.0 animations:^{
-            
+
             fromVC.view.transform = fromVCTransform;
-            toVC.view.transform = toVCTransform;
-            imageV.transform = CGAffineTransformIdentity;
-            maskView.alpha = self.configuration.maskAlpha;
-            
+            toVC.view.transform   = toVCTransform;
+            imageV.transform      = CGAffineTransformIdentity;
+            maskView.alpha        = self.configuration.maskAlpha;
+
         }];
-        
+
     } completion:^(BOOL finished) {
         if (![transitionContext transitionWasCancelled]) {
             maskView.userInteractionEnabled = YES;
@@ -171,7 +177,7 @@
             }
             [transitionContext completeTransition:YES];
             [containerView addSubview:fromVC.view];
-        }else {
+        } else {
             [imageV removeFromSuperview];
             [WYAMaskView releaseInstance];
             [transitionContext completeTransition:NO];
@@ -179,121 +185,121 @@
     }];
 }
 
-- (void)maskAnimationWithContext:(id <UIViewControllerContextTransitioning>)transitionContext {
-    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    
-    WYAMaskView *maskView = [WYAMaskView shareInstance];
-    maskView.frame = fromVC.view.bounds;
+- (void)maskAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext
+{
+    UIViewController * fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController * toVC   = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+
+    WYAMaskView * maskView = [WYAMaskView shareInstance];
+    maskView.frame         = fromVC.view.bounds;
     [fromVC.view addSubview:maskView];
-    
-    UIView *containerView = [transitionContext containerView];
-    
+
+    UIView * containerView = [transitionContext containerView];
+
     CGFloat width = self.configuration.distance;
-    CGFloat x = - width;
-    CGFloat ret = 1;
+    CGFloat x     = -width;
+    CGFloat ret   = 1;
     if (self.configuration.direction == WYADrawerTransitionFromRight) {
-        x = ScreenWidth;
+        x   = ScreenWidth;
         ret = -1;
     }
     toVC.view.frame = CGRectMake(x, 0, width, CGRectGetHeight(containerView.frame));
-    
+
     [containerView addSubview:fromVC.view];
     [containerView addSubview:toVC.view];
-    
-    CGAffineTransform toVCTransiform = CGAffineTransformMakeTranslation(ret * width , 0);
-    
+
+    CGAffineTransform toVCTransiform = CGAffineTransformMakeTranslation(ret * width, 0);
+
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext] delay:0 options:0 animations:^{
-        
+
         [UIView addKeyframeWithRelativeStartTime:0.0 relativeDuration:1.0 animations:^{
             toVC.view.transform = toVCTransiform;
-            maskView.alpha = self.configuration.maskAlpha;
+            maskView.alpha      = self.configuration.maskAlpha;
         }];
-        
+
     } completion:^(BOOL finished) {
-        
+
         if (![transitionContext transitionWasCancelled]) {
             [transitionContext completeTransition:YES];
             maskView.toViewSubViews = fromVC.view.subviews;
             [containerView addSubview:fromVC.view];
             [containerView bringSubviewToFront:toVC.view];
             maskView.userInteractionEnabled = YES;
-        }else {
+        } else {
             [WYAMaskView releaseInstance];
             [transitionContext completeTransition:NO];
         }
     }];
 }
 
-
-- (void)dealloc {
-//    NSLog(@"%s",__func__);
+- (void)dealloc
+{
+    //    NSLog(@"%s",__func__);
 }
 
-
 @end
-
 
 @implementation WYAMaskView
 
 static WYAMaskView * wya_shareInstance = nil;
 static dispatch_once_t wya_onceToken;
-+ (instancetype)shareInstance {
++ (instancetype)shareInstance
+{
     dispatch_once(&wya_onceToken, ^{
         wya_shareInstance = [[WYAMaskView alloc] init];
     });
     return wya_shareInstance;
 }
 
-+ (void)releaseInstance{
++ (void)releaseInstance
+{
     [wya_shareInstance removeFromSuperview];
-    wya_onceToken = 0;
+    wya_onceToken     = 0;
     wya_shareInstance = nil;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     //    NSLog(@"mask dealloc");
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
-        
         self.backgroundColor = [UIColor blackColor];
-        self.alpha = 0;
-        
-        self.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap)];
-        tap.numberOfTapsRequired = 1;
+        self.alpha           = 0;
+
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTap)];
+        tap.numberOfTapsRequired     = 1;
         [self addGestureRecognizer:tap];
-        
-        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
         [self addGestureRecognizer:pan];
     }
     return self;
 }
 
-- (void)singleTap {
+- (void)singleTap
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlideTapNoticationKey object:self];
 }
 
-- (void)handleGesture:(UIPanGestureRecognizer *)pan {
+- (void)handleGesture:(UIPanGestureRecognizer *)pan
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlidePanNoticationKey object:pan];
 }
 
 // 屏蔽掉touchesbegin的响应链
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { }
-
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {}
 @end
 
-NSString *const WYALateralSlideMaskViewKey = @"WYALateralSlideMaskViewKey";
-NSString *const WYALateralSlideAnimatorKey = @"WYALateralSlideAnimatorKey";
-NSString *const WYALateralSlideInterativeKey = @"WYALateralSlideInterativeKey";
+NSString * const WYALateralSlideMaskViewKey   = @"WYALateralSlideMaskViewKey";
+NSString * const WYALateralSlideAnimatorKey   = @"WYALateralSlideAnimatorKey";
+NSString * const WYALateralSlideInterativeKey = @"WYALateralSlideInterativeKey";
 
-NSString *const WYALateralSlidePanNoticationKey = @"WYALateralSlidePanNoticationKey";
-NSString *const WYALateralSlideTapNoticationKey = @"WYALateralSlideTapNoticationKey";
+NSString * const WYALateralSlidePanNoticationKey = @"WYALateralSlidePanNoticationKey";
+NSString * const WYALateralSlideTapNoticationKey = @"WYALateralSlideTapNoticationKey";
 
-NSString *const WYALateralSlideDirectionKey = @"WYALateralSlideDirectionKey";
-
-
-
+NSString * const WYALateralSlideDirectionKey = @"WYALateralSlideDirectionKey";

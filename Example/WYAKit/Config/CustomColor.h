@@ -20,7 +20,6 @@
 
 #define BGCOLOR [UIColor wya_hex:@"#F6F6F6"] // 背景色
 
-
 #define BLACKTITLECOLOR [UIColor wya_hex:@"#000000"] // 标题黑色
 
 #define BLACKTEXTCOLOR [UIColor wya_hex:@"#333333"] // 内容黑色

@@ -19,7 +19,7 @@
  *
  *  example: rgb(173.0,23.0,11.0)
  */
-UIColor * wya_rgb (CGFloat red, CGFloat green, CGFloat blue);
+UIColor * wya_rgb(CGFloat red, CGFloat green, CGFloat blue);
 
 /**
  *  功能:通过RGB以及alpha创建颜色
@@ -33,7 +33,7 @@ UIColor * wya_rgb (CGFloat red, CGFloat green, CGFloat blue);
  *
  *  example: rgbA(173.0,23.0,11.0,0.5)
  */
-UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
+UIColor * wya_rgbA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
 
 @interface UIColor (Category)
 
@@ -78,14 +78,12 @@ UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
  */
 + (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withAlphaDelta:(CGFloat)delta;
 
-
 /**
  将UIColor对象转换为字符串
 
  @param color 需要转换的对象
  @return 返回字符串
  */
-+(NSString*)wya_toStrByUIColor:(UIColor*)color;
-
++ (NSString *)wya_toStrByUIColor:(UIColor *)color;
 
 @end

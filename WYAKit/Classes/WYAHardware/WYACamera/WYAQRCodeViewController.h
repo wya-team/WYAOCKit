@@ -10,6 +10,6 @@
 
 @interface WYAQRCodeViewController : UIViewController
 
-@property (nonatomic, copy) void(^ScanReault)(NSString * reault);
+@property (nonatomic, copy) void (^ScanReault)(NSString * reault);
 
 @end

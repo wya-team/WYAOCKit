@@ -59,5 +59,4 @@
  */
 + (CGFloat)getWidthWithTitle:(NSString *)title font:(UIFont *)font;
 
-
 @end

@@ -7,23 +7,25 @@
 
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserAlbum.h"
+
 @interface WYAPhotoBrowser ()
 
 @end
 
 @implementation WYAPhotoBrowser
 
--(instancetype)initWithMaxCount:(NSInteger)maxCount{
-    WYAPhotoBrowserAlbum * album = [[WYAPhotoBrowserAlbum alloc]init];
-    album.maxCount = maxCount;
-    self = [super initWithRootViewController:album];
+- (instancetype)initWithMaxCount:(NSInteger)maxCount
+{
+    WYAPhotoBrowserAlbum * album = [[WYAPhotoBrowserAlbum alloc] init];
+    album.maxCount               = maxCount;
+    self                         = [super initWithRootViewController:album];
     if (self) {
-        
     }
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }

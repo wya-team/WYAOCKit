@@ -11,14 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol WYAVideoSliderDelegate <NSObject>
 
--(void)wya_SliderStartRun;
+- (void)wya_SliderStartRun;
 
--(void)wya_SliderRunningWithValue:(CGFloat)value;
+- (void)wya_SliderRunningWithValue:(CGFloat)value;
 
--(void)wya_SliderEndRun;
+- (void)wya_SliderEndRun;
 
 @end
-
 
 @interface WYAVideoSliderButton : UIButton
 
@@ -27,9 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAVideoSlider : UIView
 @property (nonatomic, weak) id<WYAVideoSliderDelegate> delegate;
 
-@property (nonatomic, assign) CGFloat value;//滑杆进度
-@property (nonatomic, assign) CGFloat  bufferValue;
-@property (nonatomic, assign, readonly) BOOL  isFastForward;//是否快进，否则就是快退
+@property (nonatomic, assign) CGFloat value; //滑杆进度
+@property (nonatomic, assign) CGFloat bufferValue;
+@property (nonatomic, assign, readonly) BOOL isFastForward; //是否快进，否则就是快退
 @end
 
 NS_ASSUME_NONNULL_END

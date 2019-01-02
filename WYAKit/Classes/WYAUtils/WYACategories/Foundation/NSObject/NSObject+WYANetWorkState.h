@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, WYANetWorkStatus) {
 
 @interface NSObject (WYANetWorkState)
 
--(void)wya_getNetWorkStatus:(void(^)(WYANetWorkStatus status))handle;
+- (void)wya_getNetWorkStatus:(void (^)(WYANetWorkStatus status))handle;
 
 @end
 

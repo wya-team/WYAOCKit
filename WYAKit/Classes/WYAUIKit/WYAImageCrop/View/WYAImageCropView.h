@@ -5,15 +5,15 @@
 //  Created by 李世航 on 2018/12/3.
 //
 
-#import <UIKit/UIKit.h>
 #import "WYAImageCrop.h"
+#import <UIKit/UIKit.h>
 
 @class WYAImageCropPhotoFramesView;
 @class WYAImageCropView;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol WYAImageCropViewDelegate<NSObject>
+@protocol WYAImageCropViewDelegate <NSObject>
 
 - (void)cropViewDidBecomeResettable:(nonnull WYAImageCropView *)cropView;
 - (void)cropViewDidBecomeNonResettable:(nonnull WYAImageCropView *)cropView;
@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The image that the crop view is displaying. This cannot be changed once the crop view is instantiated.
  */
-@property (nonnull, nonatomic, strong, readonly) UIImage *image;
+@property (nonnull, nonatomic, strong, readonly) UIImage * image;
 
 /**
  The cropping style of the crop view (eg, rectangular or circular)
@@ -35,12 +35,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  A grid view overlaid on top of the foreground image view's container.
  */
-@property (nonnull, nonatomic, strong, readonly) WYAImageCropPhotoFramesView *gridOverlayView;
+@property (nonnull, nonatomic, strong, readonly) WYAImageCropPhotoFramesView * gridOverlayView;
 
 /**
  A container view that clips the a copy of the image so it appears over the dimming view
  */
-@property (nonnull, nonatomic, readonly) UIView *foregroundContainerView;
+@property (nonnull, nonatomic, readonly) UIView * foregroundContainerView;
 
 /**
  A delegate object that receives notifications from the crop view

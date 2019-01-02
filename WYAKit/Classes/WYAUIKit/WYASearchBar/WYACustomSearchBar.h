@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYACustomSearchBar : UISearchBar 
+@interface WYACustomSearchBar : UISearchBar
 
 /**
  背景色默认白色
@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  切圆角的系数，默认为8
  */
-@property (nonatomic, assign) CGFloat  roundRate;
+@property (nonatomic, assign) CGFloat roundRate;
 
 /**
  默认灰色
@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  默认10
  */
-@property (nonatomic, assign) CGFloat  placeholderFont;
+@property (nonatomic, assign) CGFloat placeholderFont;
 
 /**
  占位文字，必须赋值，用来代替系统的placeholder

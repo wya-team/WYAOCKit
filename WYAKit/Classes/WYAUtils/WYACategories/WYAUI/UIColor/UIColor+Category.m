@@ -21,14 +21,14 @@
         return [UIColor blackColor];
 
     NSRange range;
-    range.location = 0;
-    range.length = 2;
+    range.location     = 0;
+    range.length       = 2;
     NSString * rString = [cString substringWithRange:range];
 
-    range.location = 2;
+    range.location     = 2;
     NSString * gString = [cString substringWithRange:range];
 
-    range.location = 4;
+    range.location     = 4;
     NSString * bString = [cString substringWithRange:range];
 
     unsigned int r, g, b;
@@ -49,10 +49,10 @@
 
 + (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withBrighnessDelta:(CGFloat)delta
 {
-    CGFloat hue = 0.0f;
+    CGFloat hue        = 0.0f;
     CGFloat saturation = 0.0f;
     CGFloat brightness = 0.0f;
-    CGFloat alpha = 0.0f;
+    CGFloat alpha      = 0.0f;
 
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
 
@@ -63,10 +63,10 @@
 
 + (UIColor *)wya_colorRGBonvertToHSB:(UIColor *)color withAlphaDelta:(CGFloat)delta
 {
-    CGFloat hue = 0.0f;
+    CGFloat hue        = 0.0f;
     CGFloat saturation = 0.0f;
     CGFloat brightness = 0.0f;
-    CGFloat alpha = 0.0f;
+    CGFloat alpha      = 0.0f;
 
     [color getHue:&hue saturation:&saturation brightness:&brightness alpha:&alpha];
 
@@ -75,27 +75,24 @@
     return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:alpha];
 }
 
-
-
-+(NSString*)wya_toStrByUIColor:(UIColor*)color{
-    
++ (NSString *)wya_toStrByUIColor:(UIColor *)color
+{
         CGFloat r, g, b, a;
-    
+
         [color getRed:&r green:&g blue:&b alpha:&a];
-    
-        int rgb = (int) (r * 255.0f)<<16 | (int) (g * 255.0f)<<8 | (int) (b * 255.0f)<<0;
-    
+
+        int rgb = (int)(r * 255.0f) << 16 | (int)(g * 255.0f) << 8 | (int)(b * 255.0f) << 0;
+
         return [NSString stringWithFormat:@"#%06x", rgb];
-    
 }
 
 @end
-UIColor * wya_rgb (CGFloat red, CGFloat green, CGFloat blue)
+UIColor * wya_rgb(CGFloat red, CGFloat green, CGFloat blue)
 {
     return [UIColor colorWithRed:red / 255.0 green:green / 255.0 blue:blue / 255.0 alpha:1];
 }
 
-UIColor * wya_rgbA (CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha)
+UIColor * wya_rgbA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha)
 {
     return [UIColor colorWithRed:red / 255.0 green:green / 255.0 blue:blue / 255.0 alpha:alpha];
 }

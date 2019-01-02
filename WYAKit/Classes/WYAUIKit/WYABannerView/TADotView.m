@@ -10,17 +10,15 @@
 
 @implementation TADotView
 
-
 - (instancetype)init
 {
     self = [super init];
     if (self) {
         [self initialization];
     }
-    
+
     return self;
 }
-
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -31,14 +29,13 @@
     return self;
 }
 
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self initialization];
     }
-    
+
     return self;
 }
 
@@ -49,7 +46,6 @@
     self.layer.borderColor  = [UIColor whiteColor].CGColor;
     self.layer.borderWidth  = 2;
 }
-
 
 - (void)changeActivityState:(BOOL)active
 {

@@ -11,13 +11,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPageProgressView : UIView
 @property (nonatomic, strong) NSArray * itemFrames;
-@property (nonatomic, assign) CGColorRef  color;
-@property (nonatomic, assign) CGFloat  progress;
+@property (nonatomic, assign) CGColorRef color;
+@property (nonatomic, assign) CGFloat progress;
 /**
  进度条速度引述，默认15，越小越快，不得小于等于0
  */
-@property (nonatomic, assign) CGFloat  speedFactor;
-@property (nonatomic, assign) CGFloat  cornerRadius;
+@property (nonatomic, assign) CGFloat speedFactor;
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 // 调皮属性，用于实现新腾讯视频效果
 @property (nonatomic, assign) BOOL naughty;

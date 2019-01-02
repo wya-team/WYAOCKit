@@ -10,6 +10,6 @@
 
 @interface controlView : UIView
 
-@property (nonatomic, copy)   void(^previewBlock)(void);
-@property (nonatomic, copy)   void(^doneBlock)(void);
+@property (nonatomic, copy) void (^previewBlock)(void);
+@property (nonatomic, copy) void (^doneBlock)(void);
 @end

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_shareView:(WYAShareView *)shareView didSelectItemAtIndexPath:(NSIndexPath *)indexPath itemTitle:(NSString *)title;
 @end
+
 @interface WYAShareView : UIView
 /**
  存放shareArray otherArray例如:@[@[@“微博”，@“微信”],@[@"复制链接"，@“刷新”]]

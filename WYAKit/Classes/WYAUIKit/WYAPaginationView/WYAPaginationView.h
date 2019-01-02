@@ -40,9 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param titleColor 文字颜色
  @param titleFont 文字大小
  */
--(void)wya_SetLeftButtonWithTitle:(NSString *)title
-                       TitleColor:(UIColor *)titleColor
-                        TitleFont:(CGFloat)titleFont;
+- (void)wya_SetLeftButtonWithTitle:(NSString *)title
+                        TitleColor:(UIColor *)titleColor
+                         TitleFont:(CGFloat)titleFont;
 
 /**
  设置右边按钮文字，颜色，字体大小
@@ -51,9 +51,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param titleColor 文字颜色
  @param titleFont 文字大小
  */
--(void)wya_SetRightButtonWithTitle:(NSString *)title
-                        TitleColor:(UIColor *)titleColor
-                         TitleFont:(CGFloat)titleFont;
+- (void)wya_SetRightButtonWithTitle:(NSString *)title
+                         TitleColor:(UIColor *)titleColor
+                          TitleFont:(CGFloat)titleFont;
 
 /**
  设置标题文字、颜色、字体大小
@@ -62,9 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param textColor 文字颜色
  @param textFont 文字大小
  */
--(void)wya_SetTitleLabelWithText:(NSString *)text
-                       TextColor:(UIColor *)textColor
-                        TextFont:(CGFloat)textFont;
+- (void)wya_SetTitleLabelWithText:(NSString *)text
+                        TextColor:(UIColor *)textColor
+                         TextFont:(CGFloat)textFont;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -12,8 +12,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoEditViewController : UIViewController
-@property (nonatomic, strong) NSMutableArray <WYAPhotoBrowserModel *> * models;
-@property (nonatomic, copy)   void(^callback)(NSMutableArray <WYAPhotoBrowserModel *> * array);
+@property (nonatomic, strong) NSMutableArray<WYAPhotoBrowserModel *> * models;
+@property (nonatomic, copy) void (^callback)(NSMutableArray<WYAPhotoBrowserModel *> * array);
 
 @end
 

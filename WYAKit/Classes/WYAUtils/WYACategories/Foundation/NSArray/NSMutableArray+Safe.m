@@ -53,17 +53,18 @@
 - (void)wya_safeRemoveObjectsInRange:(NSRange)range
 {
     NSUInteger location = range.location;
-    NSUInteger length = range.length;
+    NSUInteger length   = range.length;
     if (location + length > self.count) {
         return;
     } else {
         [self removeObjectsInRange:range];
     }
 }
-- (void)wya_safeReplaceObjectAtIndex:(NSUInteger)index withObject:(id)object{
+- (void)wya_safeReplaceObjectAtIndex:(NSUInteger)index withObject:(id)object
+{
     if (index >= self.count) {
         return;
-    }else{
+    } else {
         [self replaceObjectAtIndex:index withObject:object];
     }
 }

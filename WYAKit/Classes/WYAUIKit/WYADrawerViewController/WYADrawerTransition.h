@@ -4,22 +4,21 @@
 //
 //
 
+#import "WYALateralSlideConfiguration.h"
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "WYALateralSlideConfiguration.h"
 
-typedef NS_ENUM(NSUInteger,WYADrawerTransitiontype) {
-    WYADrawerTransitiontypeShow = 0,      // 显示抽屉
-    WYADrawerTransitiontypeHidden,        // 隐藏抽屉
+typedef NS_ENUM(NSUInteger, WYADrawerTransitiontype) {
+    WYADrawerTransitiontypeShow = 0, // 显示抽屉
+    WYADrawerTransitiontypeHidden,   // 隐藏抽屉
 };
 
-
-typedef NS_ENUM(NSUInteger,WYADrawerAnimationType) {
+typedef NS_ENUM(NSUInteger, WYADrawerAnimationType) {
     WYADrawerAnimationTypeDefault = 0,
     WYADrawerAnimationTypeMask
 };
 
-@interface WYADrawerTransition : NSObject<UIViewControllerAnimatedTransitioning>
+@interface WYADrawerTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
 - (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration;
 
@@ -27,10 +26,9 @@ typedef NS_ENUM(NSUInteger,WYADrawerAnimationType) {
 
 @end
 
+@interface WYAMaskView : UIView <UIGestureRecognizerDelegate>
 
-@interface WYAMaskView : UIView<UIGestureRecognizerDelegate>
-
-@property (nonatomic,copy) NSArray *toViewSubViews;
+@property (nonatomic, copy) NSArray * toViewSubViews;
 
 + (instancetype)shareInstance;
 
@@ -38,15 +36,11 @@ typedef NS_ENUM(NSUInteger,WYADrawerAnimationType) {
 
 @end
 
+UIKIT_EXTERN NSString * const WYALateralSlideAnimatorKey;
+UIKIT_EXTERN NSString * const WYALateralSlideMaskViewKey;
+UIKIT_EXTERN NSString * const WYALateralSlideInterativeKey;
 
-UIKIT_EXTERN NSString *const WYALateralSlideAnimatorKey;
-UIKIT_EXTERN NSString *const WYALateralSlideMaskViewKey;
-UIKIT_EXTERN NSString *const WYALateralSlideInterativeKey;
+UIKIT_EXTERN NSString * const WYALateralSlidePanNoticationKey;
+UIKIT_EXTERN NSString * const WYALateralSlideTapNoticationKey;
 
-UIKIT_EXTERN NSString *const WYALateralSlidePanNoticationKey;
-UIKIT_EXTERN NSString *const WYALateralSlideTapNoticationKey;
-
-UIKIT_EXTERN NSString *const WYALateralSlideDirectionKey;
-
-
-
+UIKIT_EXTERN NSString * const WYALateralSlideDirectionKey;

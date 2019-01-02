@@ -8,6 +8,7 @@
 
 #import "WYAHomeTableCell.h"
 #import "WYAHomeModel.h"
+
 @interface WYAHomeTableCell ()
 @property (nonatomic, strong) UIView * backgroundV;
 @property (nonatomic, strong) UILabel * titleLabel;
@@ -16,10 +17,11 @@
 
 @implementation WYAHomeTableCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.selectionStyle              = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         [self.contentView addSubview:self.backgroundV];
         [self.backgroundV addSubview:self.titleLabel];
@@ -28,42 +30,43 @@
     return self;
 }
 
-- (void)layoutSubviews{
+- (void)layoutSubviews
+{
     [super layoutSubviews];
-    [self.backgroundV mas_remakeConstraints:^(MASConstraintMaker *make) {
+    [self.backgroundV mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_left).with.offset(10*SizeAdapter);
-        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-10*SizeAdapter);
+        make.left.mas_equalTo(self.contentView.mas_left).with.offset(10 * SizeAdapter);
+        make.right.mas_equalTo(self.contentView.mas_right).with.offset(-10 * SizeAdapter);
     }];
-    
-    [self.arrowImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.arrowImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.backgroundV.mas_centerY);
-        make.right.mas_equalTo(self.backgroundV.mas_right).with.offset(-10*SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(15*SizeAdapter, 15*SizeAdapter));
+        make.right.mas_equalTo(self.backgroundV.mas_right).with.offset(-10 * SizeAdapter);
+        make.size.mas_equalTo(CGSizeMake(15 * SizeAdapter, 15 * SizeAdapter));
     }];
-    
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+
+    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self.backgroundV);
-        make.left.mas_equalTo(self.backgroundV.mas_left).with.offset(16*SizeAdapter);
+        make.left.mas_equalTo(self.backgroundV.mas_left).with.offset(16 * SizeAdapter);
         make.right.mas_equalTo(self.arrowImageView.mas_left);
     }];
-    
-    
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     if (selected) {
         [UIView animateWithDuration:0.3 animations:^{
             self.backgroundV.backgroundColor = GRAYBGCOLOR;
         }];
-    }else{
+    } else {
         if (animated) {
             [UIView animateWithDuration:0.3 animations:^{
                 self.backgroundV.backgroundColor = [UIColor whiteColor];
@@ -74,7 +77,8 @@
 }
 
 #pragma mark - Setter -
--(void)setModel:(WYAHomeItemModel *)model{
+- (void)setModel:(WYAHomeItemModel *)model
+{
     _model = model;
     if (model) {
         self.titleLabel.text = model.rowName;
@@ -82,10 +86,11 @@
 }
 
 #pragma mark - Getter -
-- (UIView *)backgroundV{
-    if(!_backgroundV){
+- (UIView *)backgroundV
+{
+    if (!_backgroundV) {
         _backgroundV = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = [UIColor whiteColor];
             object;
         });
@@ -93,26 +98,27 @@
     return _backgroundV;
 }
 
-- (UILabel *)titleLabel{
-    if(!_titleLabel){
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
         _titleLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object = [[UILabel alloc] init];
             object.textColor = random(51, 51, 51, 1);
-            object.font = FONT(13);
+            object.font      = FONT(13);
             object;
-       });
+        });
     }
     return _titleLabel;
 }
 
-
-- (UIImageView *)arrowImageView{
-    if(!_arrowImageView){
+- (UIImageView *)arrowImageView
+{
+    if (!_arrowImageView) {
         _arrowImageView = ({
-            UIImageView * object = [[UIImageView alloc]init];
-            object.image = [UIImage imageNamed:@"icon_arrow"];
+            UIImageView * object = [[UIImageView alloc] init];
+            object.image         = [UIImage imageNamed:@"icon_arrow"];
             object;
-       });
+        });
     }
     return _arrowImageView;
 }

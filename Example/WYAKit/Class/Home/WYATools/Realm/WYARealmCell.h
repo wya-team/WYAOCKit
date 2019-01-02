@@ -6,8 +6,8 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "Student.h"
+#import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYARealmCell : UITableViewCell

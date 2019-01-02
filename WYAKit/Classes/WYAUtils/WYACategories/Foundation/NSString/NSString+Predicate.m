@@ -19,7 +19,7 @@
 
 - (BOOL)wya_isValidVerifyCode
 {
-    NSString * pattern = @"^[0-9]{4}";
+    NSString * pattern      = @"^[0-9]{4}";
     NSPredicate * predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
     return [predicate evaluateWithObject:self];
 }
@@ -36,7 +36,7 @@
 
 - (BOOL)wya_isOnlyChinese
 {
-    NSString * chineseTest = @"^[\u4e00-\u9fa5]{0,}$";
+    NSString * chineseTest         = @"^[\u4e00-\u9fa5]{0,}$";
     NSPredicate * chinesePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", chineseTest];
     return [chinesePredicate evaluateWithObject:self];
 }
@@ -51,7 +51,7 @@
 
 - (BOOL)wya_isValidEmail
 {
-    NSString * emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSString * emailRegex   = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     NSPredicate * emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
 
     return [emailTest evaluateWithObject:self];
@@ -66,21 +66,21 @@
 }
 - (BOOL)wya_isValidAlphaNumberPassword
 {
-    NSString * regex = @"^(?!\\d+$|[a-zA-Z]+$)\\w{6,12}$";
+    NSString * regex                    = @"^(?!\\d+$|[a-zA-Z]+$)\\w{6,12}$";
     NSPredicate * identityCardPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     return [identityCardPredicate evaluateWithObject:self];
 }
 
 - (BOOL)wya_isValidIdentifyFifteen
 {
-    NSString * identifyTest = @"^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$";
+    NSString * identifyTest         = @"^[1-9]\\d{7}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}$";
     NSPredicate * identifyPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", identifyTest];
     return [identifyPredicate evaluateWithObject:self];
 }
 
 - (BOOL)wya_isValidIdentifyEighteen
 {
-    NSString * identifyTest = @"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$";
+    NSString * identifyTest         = @"^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$";
     NSPredicate * identifyPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", identifyTest];
     return [identifyPredicate evaluateWithObject:self];
 }
@@ -98,7 +98,7 @@
 {
     //车牌号:湘K-DE829 香港车牌号码:粤Z-J499港
     NSString * carRegex = @"^[\u4e00-\u9fff]{1}[a-zA-Z]{1}[-][a-zA-Z_0-9]{4}[a-zA-Z_0-9_\u4e00-\u9fff]$"; //其中\u4e00-\u9fa5表示unicode编码中汉字已编码部分，\u9fa5-\u9fff是保留部分，将来可能会添加
-    NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", carRegex];
+    NSPredicate * pre   = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", carRegex];
     return [pre evaluateWithObject:self];
 }
 
@@ -121,7 +121,7 @@
     NSArray * areasArray = @[ @"11", @"12", @"13", @"14", @"15", @"21", @"22", @"23", @"31", @"32", @"33", @"34", @"35", @"36", @"37", @"41", @"42", @"43", @"44", @"45", @"46", @"50", @"51", @"52", @"53", @"54", @"61", @"62", @"63", @"64", @"65", @"71", @"81", @"82", @"91" ];
 
     NSString * valueStart2 = [value substringToIndex:2];
-    BOOL areaFlag = NO;
+    BOOL areaFlag          = NO;
     for (NSString * areaCode in areasArray) {
         if ([areaCode isEqualToString:valueStart2]) {
             areaFlag = YES;
@@ -139,7 +139,7 @@
     int year = 0;
     switch (length) {
         case 15:
-            year = [value substringWithRange:NSMakeRange (6, 2)].intValue + 1900;
+            year = [value substringWithRange:NSMakeRange(6, 2)].intValue + 1900;
 
             if (year % 4 == 0 || (year % 100 == 0 && year % 4 == 0)) {
                 regularExpression = [[NSRegularExpression alloc] initWithPattern:@"^[1-9][0-9]{5}[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}$"
@@ -152,7 +152,7 @@
             }
             numberofMatch = [regularExpression numberOfMatchesInString:value
                                                                options:NSMatchingReportProgress
-                                                                 range:NSMakeRange (0, value.length)];
+                                                                 range:NSMakeRange(0, value.length)];
 
             if (numberofMatch > 0) {
                 return YES;
@@ -160,7 +160,7 @@
                 return NO;
             }
         case 18:
-            year = [value substringWithRange:NSMakeRange (6, 4)].intValue;
+            year = [value substringWithRange:NSMakeRange(6, 4)].intValue;
             if (year % 4 == 0 || (year % 100 == 0 && year % 4 == 0)) {
                 regularExpression = [[NSRegularExpression alloc] initWithPattern:@"^[1-9][0-9]{5}19[0-9]{2}((01|03|05|07|08|10|12)(0[1-9]|[1-2][0-9]|3[0-1])|(04|06|09|11)(0[1-9]|[1-2][0-9]|30)|02(0[1-9]|[1-2][0-9]))[0-9]{3}[0-9Xx]$"
                                                                          options:NSRegularExpressionCaseInsensitive
@@ -172,15 +172,15 @@
             }
             numberofMatch = [regularExpression numberOfMatchesInString:value
                                                                options:NSMatchingReportProgress
-                                                                 range:NSMakeRange (0, value.length)];
+                                                                 range:NSMakeRange(0, value.length)];
 
             if (numberofMatch > 0) {
-                int S = ([value substringWithRange:NSMakeRange (0, 1)].intValue + [value substringWithRange:NSMakeRange (10, 1)].intValue) * 7 + ([value substringWithRange:NSMakeRange (1, 1)].intValue + [value substringWithRange:NSMakeRange (11, 1)].intValue) * 9 + ([value substringWithRange:NSMakeRange (2, 1)].intValue + [value substringWithRange:NSMakeRange (12, 1)].intValue) * 10 + ([value substringWithRange:NSMakeRange (3, 1)].intValue + [value substringWithRange:NSMakeRange (13, 1)].intValue) * 5 + ([value substringWithRange:NSMakeRange (4, 1)].intValue + [value substringWithRange:NSMakeRange (14, 1)].intValue) * 8 + ([value substringWithRange:NSMakeRange (5, 1)].intValue + [value substringWithRange:NSMakeRange (15, 1)].intValue) * 4 + ([value substringWithRange:NSMakeRange (6, 1)].intValue + [value substringWithRange:NSMakeRange (16, 1)].intValue) * 2 + [value substringWithRange:NSMakeRange (7, 1)].intValue * 1 + [value substringWithRange:NSMakeRange (8, 1)].intValue * 6 + [value substringWithRange:NSMakeRange (9, 1)].intValue * 3;
-                int Y = S % 11;
-                NSString * M = @"F";
-                NSString * JYM = @"10X98765432";
-                M = [JYM substringWithRange:NSMakeRange (Y, 1)]; // 判断校验位
-                NSString * test = [value substringWithRange:NSMakeRange (17, 1)];
+                int S           = ([value substringWithRange:NSMakeRange(0, 1)].intValue + [value substringWithRange:NSMakeRange(10, 1)].intValue) * 7 + ([value substringWithRange:NSMakeRange(1, 1)].intValue + [value substringWithRange:NSMakeRange(11, 1)].intValue) * 9 + ([value substringWithRange:NSMakeRange(2, 1)].intValue + [value substringWithRange:NSMakeRange(12, 1)].intValue) * 10 + ([value substringWithRange:NSMakeRange(3, 1)].intValue + [value substringWithRange:NSMakeRange(13, 1)].intValue) * 5 + ([value substringWithRange:NSMakeRange(4, 1)].intValue + [value substringWithRange:NSMakeRange(14, 1)].intValue) * 8 + ([value substringWithRange:NSMakeRange(5, 1)].intValue + [value substringWithRange:NSMakeRange(15, 1)].intValue) * 4 + ([value substringWithRange:NSMakeRange(6, 1)].intValue + [value substringWithRange:NSMakeRange(16, 1)].intValue) * 2 + [value substringWithRange:NSMakeRange(7, 1)].intValue * 1 + [value substringWithRange:NSMakeRange(8, 1)].intValue * 6 + [value substringWithRange:NSMakeRange(9, 1)].intValue * 3;
+                int Y           = S % 11;
+                NSString * M    = @"F";
+                NSString * JYM  = @"10X98765432";
+                M               = [JYM substringWithRange:NSMakeRange(Y, 1)]; // 判断校验位
+                NSString * test = [value substringWithRange:NSMakeRange(17, 1)];
                 if ([[M lowercaseString] isEqualToString:[test lowercaseString]]) {
                     return YES; // 检测ID的校验位
                 } else {
@@ -205,12 +205,12 @@
  */
 - (BOOL)wya_bankCardluhmCheck
 {
-    NSString * lastNum = [[self substringFromIndex:(self.length - 1)] copy];  //取出最后一位
-    NSString * forwardNum = [[self substringToIndex:(self.length - 1)] copy]; //前15或18位
+    NSString * lastNum    = [[self substringFromIndex:(self.length - 1)] copy]; //取出最后一位
+    NSString * forwardNum = [[self substringToIndex:(self.length - 1)] copy];   //前15或18位
 
     NSMutableArray * forwardArr = [[NSMutableArray alloc] initWithCapacity:0];
     for (int i = 0; i < forwardNum.length; i++) {
-        NSString * subStr = [forwardNum substringWithRange:NSMakeRange (i, 1)];
+        NSString * subStr = [forwardNum substringWithRange:NSMakeRange(i, 1)];
         [forwardArr addObject:subStr];
     }
 
@@ -219,7 +219,7 @@
         [forwardDescArr addObject:forwardArr[i]];
     }
 
-    NSMutableArray * arrOddNum = [[NSMutableArray alloc] initWithCapacity:0];  //奇数位*2的积 < 9
+    NSMutableArray * arrOddNum  = [[NSMutableArray alloc] initWithCapacity:0]; //奇数位*2的积 < 9
     NSMutableArray * arrOddNum2 = [[NSMutableArray alloc] initWithCapacity:0]; //奇数位*2的积 > 9
     NSMutableArray * arrEvenNum = [[NSMutableArray alloc] initWithCapacity:0]; //偶数位数组
 
@@ -232,7 +232,7 @@
                 [arrOddNum addObject:[NSNumber numberWithInteger:num * 2]];
             } else {
                 NSInteger decadeNum = (num * 2) / 10;
-                NSInteger unitNum = (num * 2) % 10;
+                NSInteger unitNum   = (num * 2) % 10;
                 [arrOddNum2 addObject:[NSNumber numberWithInteger:unitNum]];
                 [arrOddNum2 addObject:[NSNumber numberWithInteger:decadeNum]];
             }
@@ -263,9 +263,9 @@
 
 - (BOOL)wya_isIPAddress
 {
-    NSString * regex = [NSString stringWithFormat:@"^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$"];
+    NSString * regex  = [NSString stringWithFormat:@"^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$"];
     NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
-    BOOL rc = [pre evaluateWithObject:self];
+    BOOL rc           = [pre evaluateWithObject:self];
 
     if (rc) {
         NSArray * componds = [self componentsSeparatedByString:@","];
@@ -287,13 +287,13 @@
 - (BOOL)wya_isMacAddress
 {
     NSString * macAddRegex = @"([A-Fa-f\\d]{2}:){5}[A-Fa-f\\d]{2}";
-    NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", macAddRegex];
+    NSPredicate * pre      = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", macAddRegex];
     return [pre evaluateWithObject:self];
 }
 
 - (BOOL)wya_isValidUrl
 {
-    NSString * regex = @"^((http)|(https))+:[^\\s]+\\.[^\\s]*$";
+    NSString * regex  = @"^((http)|(https))+:[^\\s]+\\.[^\\s]*$";
     NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
     return [pre evaluateWithObject:self];
 }
@@ -301,25 +301,25 @@
 - (BOOL)wya_isValidPostalcode
 {
     NSString * postalRegex = @"^[0-8]\\d{5}(?!\\d)$";
-    NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", postalRegex];
+    NSPredicate * pre      = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", postalRegex];
     return [pre evaluateWithObject:self];
 }
 
 - (BOOL)wya_isValidTaxNo
 {
     NSString * taxNoRegex = @"[0-9]\\d{13}([0-9]|X)$";
-    NSPredicate * pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", taxNoRegex];
+    NSPredicate * pre     = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", taxNoRegex];
     return [pre evaluateWithObject:self];
 }
 
 - (BOOL)wya_isOnlyNumber
 {
-    BOOL res = YES;
+    BOOL res                = YES;
     NSCharacterSet * tmpSet = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-    int i = 0;
+    int i                   = 0;
     while (i < self.length) {
-        NSString * string = [self substringWithRange:NSMakeRange (i, 1)];
-        NSRange range = [string rangeOfCharacterFromSet:tmpSet];
+        NSString * string = [self substringWithRange:NSMakeRange(i, 1)];
+        NSRange range     = [string rangeOfCharacterFromSet:tmpSet];
         if (range.length == 0) {
             res = NO;
             break;

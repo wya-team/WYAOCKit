@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @interface WYANumberKeyboard : UIView
 @property (nonatomic, strong) UIColor * bgColor;
 
@@ -29,14 +30,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param textFiled 传入一个textFiled
  @return 返回一个随机数字键盘对象 (高度为200 + 底部安全区域（0/34）的键盘)
  */
-+(instancetype)initRandomKeyboardWithTextFiled:(UITextField *)textFiled;
++ (instancetype)initRandomKeyboardWithTextFiled:(UITextField *)textFiled;
 
 /**
  输入框value改变的事件回调
 
  @param numberKeyboardChangeValue numberKeyboardChangeValue
  */
-- (void)wya_numberKeyboadrDidChanged:(void(^)(NSString * value))numberKeyboardChangeValue;
+- (void)wya_numberKeyboadrDidChanged:(void (^)(NSString * value))numberKeyboardChangeValue;
 
 /**
  确定按钮点击事件

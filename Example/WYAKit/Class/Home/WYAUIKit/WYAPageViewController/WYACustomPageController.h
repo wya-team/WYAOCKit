@@ -13,8 +13,9 @@ typedef NS_ENUM(NSUInteger, WYAMenuViewPosition) {
     WYAMenuViewPositionDefault,
     WYAMenuViewPositionBottom,
 };
+
 @interface WYACustomPageController : WYAPageController
-@property (nonatomic, assign) WYAMenuViewPosition  menuViewPosition;
+@property (nonatomic, assign) WYAMenuViewPosition menuViewPosition;
 @end
 
 NS_ASSUME_NONNULL_END

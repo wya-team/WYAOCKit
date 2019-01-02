@@ -8,19 +8,16 @@
 
 #import "WYAVideoItem.h"
 
-
 @implementation WYAVideoItem
 
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        _seekTime = 0;
+        _seekTime           = 0;
         _seekToTimeAutoPlay = YES;
     }
     return self;
 }
-
-
 
 @end

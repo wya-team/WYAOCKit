@@ -29,7 +29,6 @@
  */
 @property (nonatomic, copy) NSString * selectedImageName;
 
-
 /**
  create model object
 

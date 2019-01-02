@@ -4,14 +4,13 @@
 //
 //
 
-#import <UIKit/UIKit.h>
 #import "WYADrawerTransition.h"
+#import <UIKit/UIKit.h>
 
 @interface WYAInteractiveTransition : UIPercentDrivenInteractiveTransition
 
-@property (nonatomic,weak) WYALateralSlideConfiguration *configuration;
-@property (nonatomic,assign) BOOL interacting;
-
+@property (nonatomic, weak) WYALateralSlideConfiguration * configuration;
+@property (nonatomic, assign) BOOL interacting;
 
 - (instancetype)initWithTransitiontype:(WYADrawerTransitiontype)type;
 
@@ -20,6 +19,3 @@
 - (void)addPanGestureForViewController:(UIViewController *)viewController;
 
 @end
-
-
-

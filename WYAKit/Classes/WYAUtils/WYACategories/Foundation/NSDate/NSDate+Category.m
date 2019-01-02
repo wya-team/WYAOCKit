@@ -163,7 +163,7 @@
 
 + (NSDate *)wya_dateAfterDate:(NSDate *)date day:(NSInteger)day
 {
-    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSCalendar * calendar              = [NSCalendar currentCalendar];
     NSDateComponents * componentsToAdd = [[NSDateComponents alloc] init];
     [componentsToAdd setDay:day];
 
@@ -179,7 +179,7 @@
 
 + (NSDate *)wya_dateAfterDate:(NSDate *)date month:(NSInteger)month
 {
-    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSCalendar * calendar              = [NSCalendar currentCalendar];
     NSDateComponents * componentsToAdd = [[NSDateComponents alloc] init];
     [componentsToAdd setMonth:month];
     NSDate * dateAfterMonth = [calendar dateByAddingComponents:componentsToAdd toDate:date options:0];
@@ -235,8 +235,8 @@
     NSCalendar * gregorian = [[NSCalendar alloc]
                         initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     NSDateComponents * comps = [gregorian components:(NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear | NSCalendarUnitWeekday) fromDate:date];
-    NSInteger weekday = [comps weekday];
-    weekday == 1 ? weekday = 7 : weekday--;
+    NSInteger weekday        = [comps weekday];
+    weekday == 1 ? weekday   = 7 : weekday--;
     return weekday;
 }
 
@@ -277,7 +277,7 @@
 
 - (BOOL)wya_isSameDay:(NSDate *)anotherDate
 {
-    NSCalendar * calendar = [NSCalendar currentCalendar];
+    NSCalendar * calendar          = [NSCalendar currentCalendar];
     NSDateComponents * components1 = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay)
                                                  fromDate:self];
     NSDateComponents * components2 = [calendar components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay)
@@ -293,7 +293,7 @@
 - (NSDate *)wya_dateByAddingDays:(NSUInteger)days
 {
     NSDateComponents * c = [[NSDateComponents alloc] init];
-    c.day = days;
+    c.day                = days;
     return [[NSCalendar currentCalendar] dateByAddingComponents:c toDate:self options:0];
 }
 
@@ -413,12 +413,12 @@
 {
     NSDate * date = [self wya_dateWithString:dateString format:[self wya_ymdHmsFormat]];
 
-    NSDate * curDate = [NSDate date];
+    NSDate * curDate    = [NSDate date];
     NSTimeInterval time = -[date timeIntervalSinceDate:curDate];
 
     int month = (int)([curDate wya_month] - [date wya_month]);
-    int year = (int)([curDate wya_year] - [date wya_year]);
-    int day = (int)([curDate wya_day] - [date wya_day]);
+    int year  = (int)([curDate wya_year] - [date wya_year]);
+    int day   = (int)([curDate wya_day] - [date wya_day]);
 
     NSTimeInterval retTime = 1.0;
     if (time < 3600) { // 小于一小时
@@ -434,7 +434,7 @@
     }
     // 第一个条件是同年，且相隔时间在一个月内
     // 第二个条件是隔年，对于隔年，只能是去年12月与今年1月这种情况
-    else if ((abs (year) == 0 && abs (month) <= 1) || (abs (year) == 1 && [curDate wya_month] == 1 && [date wya_month] == 12)) {
+    else if ((abs(year) == 0 && abs(month) <= 1) || (abs(year) == 1 && [curDate wya_month] == 1 && [date wya_month] == 12)) {
         int retDay = 0;
         if (year == 0) {      // 同年
             if (month == 0) { // 同月
@@ -450,23 +450,23 @@
             retDay = (int)[curDate wya_day] + (totalDays - (int)[date wya_day]);
         }
 
-        return [NSString stringWithFormat:@"%d天前", (abs) (retDay)];
+        return [NSString stringWithFormat:@"%d天前", (abs)(retDay)];
     } else {
-        if (abs (year) <= 1) {
+        if (abs(year) <= 1) {
             if (year == 0) { // 同年
-                return [NSString stringWithFormat:@"%d个月前", abs (month)];
+                return [NSString stringWithFormat:@"%d个月前", abs(month)];
             }
 
             // 隔年
-            int month = (int)[curDate wya_month];
+            int month    = (int)[curDate wya_month];
             int preMonth = (int)[date wya_month];
             if (month == 12 && preMonth == 12) { // 隔年，但同月，就作为满一年来计算
                 return @"1年前";
             }
-            return [NSString stringWithFormat:@"%d个月前", (abs) (12 - preMonth + month)];
+            return [NSString stringWithFormat:@"%d个月前", (abs)(12 - preMonth + month)];
         }
 
-        return [NSString stringWithFormat:@"%d年前", abs (year)];
+        return [NSString stringWithFormat:@"%d年前", abs(year)];
     }
 
     return @"1小时前";
@@ -590,7 +590,7 @@
 
 + (NSString *)wya_stringNowWithFullFormatter
 {
-    NSDate * now = [NSDate date];
+    NSDate * now                = [NSDate date];
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSString * str = [formatter stringFromDate:now];
@@ -599,7 +599,7 @@
 
 + (NSString *)wya_stringNowWithFormatter:(NSString *)format
 {
-    NSDate * now = [NSDate date];
+    NSDate * now                = [NSDate date];
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:format];
     NSString * str = [formatter stringFromDate:now];
@@ -611,17 +611,17 @@
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:format];
     NSTimeZone * localtimezone = [NSTimeZone systemTimeZone];
-    NSInteger offset = [localtimezone secondsFromGMT];
-    NSDate * date = [NSDate dateWithTimeIntervalSince1970:(time - offset)];
-    NSString * timeStr = [formatter stringFromDate:date];
+    NSInteger offset           = [localtimezone secondsFromGMT];
+    NSDate * date              = [NSDate dateWithTimeIntervalSince1970:(time - offset)];
+    NSString * timeStr         = [formatter stringFromDate:date];
     return timeStr;
 }
 
 + (NSTimeInterval)wya_now
 {
-    NSDate * now = [NSDate date];
+    NSDate * now      = [NSDate date];
     NSTimeZone * zone = [NSTimeZone systemTimeZone];
-    NSInteger offset = [zone secondsFromGMT];
+    NSInteger offset  = [zone secondsFromGMT];
     return [now timeIntervalSince1970] + offset;
 }
 
@@ -629,9 +629,9 @@
 {
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:format];
-    NSDate * date = [formatter dateFromString:timeStr];
+    NSDate * date     = [formatter dateFromString:timeStr];
     NSTimeZone * zone = [NSTimeZone systemTimeZone];
-    NSInteger offset = [zone secondsFromGMT];
+    NSInteger offset  = [zone secondsFromGMT];
     return ([date timeIntervalSince1970] + offset);
 }
 + (NSString *)wya_getNowTimeTimes

@@ -2,12 +2,11 @@
 //  WYALateralSlideConfiguration.h
 //  ViewControllerTransition
 //
-//  
+//
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-
 
 typedef NS_ENUM(NSUInteger, WYADrawerTransitionDirection) {
     WYADrawerTransitionFromLeft = 0, // 左侧滑出
@@ -19,44 +18,42 @@ typedef NS_ENUM(NSUInteger, WYADrawerTransitionDirection) {
 /**
  根控制器可偏移的距离，默认为屏幕的0.75
  */
-@property (nonatomic,assign) float distance;
+@property (nonatomic, assign) float distance;
 
 /**
  手势驱动动画完成的临界点（范围0 - 1.0），默认为0.5（表示手势驱动到动画的一半则执行完动画，拖动不到一半则会取消动画）
  */
-@property (nonatomic,assign) float finishPercent;
+@property (nonatomic, assign) float finishPercent;
 
 /**
  抽屉显示动画的持续时间，默认为0.25f
  */
-@property (nonatomic,assign) NSTimeInterval showAnimDuration;
+@property (nonatomic, assign) NSTimeInterval showAnimDuration;
 
 /**
  抽屉隐藏动画的持续时间，默认为0.25f
  */
-@property (nonatomic,assign) NSTimeInterval HiddenAnimDuration;
+@property (nonatomic, assign) NSTimeInterval HiddenAnimDuration;
 
 /**
  遮罩的透明度
  */
-@property (nonatomic,assign) float maskAlpha;
+@property (nonatomic, assign) float maskAlpha;
 
 /**
  根控制器在y方向的缩放，默认为不缩放
  */
-@property (nonatomic,assign) float scaleY;
+@property (nonatomic, assign) float scaleY;
 
 /**
  菜单滑出的方向，默认为从左侧滑出
  */
-@property (nonatomic,assign) WYADrawerTransitionDirection direction;
+@property (nonatomic, assign) WYADrawerTransitionDirection direction;
 
 /**
  动画切换过程中，最底层的背景图片
  */
-@property (nonatomic,strong) UIImage *backImage;
-
-
+@property (nonatomic, strong) UIImage * backImage;
 
 /**
  默认配置

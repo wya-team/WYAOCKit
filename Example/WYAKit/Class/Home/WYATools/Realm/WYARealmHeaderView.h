@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_headerViewLookButton:(UIButton *)sender;
 
 @end
+
 @interface WYARealmHeaderView : UIView
 @property (nonatomic, weak) id<WYARealmHeaderViewDelegate> delegate;
 @end
