@@ -17,35 +17,26 @@
 
 @property (nonatomic, assign) PlayerStatus playerStatus;
 @property (nonatomic, strong) AVPlayer * player;
-
 @property (nonatomic, strong) AVPlayerItem * playerItem;
-
 @property (nonatomic, strong) AVPlayerLayer * playerLayer;
 
-@property (nonatomic, strong) UIImageView * previewImageView;
-
-@property (nonatomic, strong) WYAVideoPlayerControlView * controlView;
-
+@property (nonatomic, strong) UIImageView * previewImageView;          //用来显示预览图片的
+@property (nonatomic, strong) UIImageView * loadingImageView;          //loading视图
+@property (nonatomic, strong) WYAVideoPlayerControlView * controlView; //控制视图
 @property (nonatomic, strong) WYAVideoItem * videoItem;
 
 @property (nonatomic, strong) id timeObserve;
-
-@property (nonatomic, strong) UIImageView * loadingImageView;
-
-@property (nonatomic, assign) BOOL isFullScreen;
-@property (nonatomic, strong) UISlider * volumeSlider;
-@property (nonatomic, assign) CGFloat sumTime; //用来保存快进的总时长
-@property (nonatomic, strong) WYABrightnessView * brightnessView;
-@property (nonatomic, assign) BOOL isLockScrren;
+@property (nonatomic, assign) BOOL isFullScreen;                  //记录是否是全屏状态
+@property (nonatomic, strong) UISlider * volumeSlider;            //系统调节音量的滑动条
+@property (nonatomic, assign) CGFloat sumTime;                    //用来保存快进的总时长
+@property (nonatomic, strong) WYABrightnessView * brightnessView; //亮度视图
+@property (nonatomic, assign) BOOL isLockScrren;                  //是否是锁屏状态
 @property (nonatomic, strong) MPVolumeView * volumeView;
-
+@property (nonatomic, assign) BOOL isVolume;   //是否是音量改变，否则就是亮度改变
+@property (nonatomic, assign) BOOL isVertical; //是否是垂直移动，否则横向移动
 @end
 
 @implementation WYAVideoPlayerView
-{
-    BOOL isVolume;   //是否是音量改变，否则就是亮度改变
-    BOOL isVertical; //是否是垂直移动，否则横向移动
-}
 
 - (instancetype)init
 {
@@ -212,7 +203,7 @@
     if (!_loadingImageView) {
         _loadingImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage imageNamed:@"icon_loading"];
+            object.image         = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(30, 30)];
             [object wya_setRotationAnimation:360 time:1 repeatCount:0];
             object;
         });
@@ -254,6 +245,7 @@
                     } else if (status == WYANetWorkStatusWWAN) {
                         [self.player pause];
                         [self.controlView playFail];
+                        self.loadingImageView.hidden = YES;
                     }
                 }];
             }
@@ -437,29 +429,29 @@
         CGFloat y = fabs(speedPoint.y);
         if (x > y) {
             //横向移动
-            isVertical   = NO;
-            CMTime time  = self.player.currentTime;
-            self.sumTime = time.value / time.timescale;
+            self.isVertical = NO;
+            CMTime time     = self.player.currentTime;
+            self.sumTime    = time.value / time.timescale;
         } else {
             //纵向移动
-            isVertical = YES;
+            self.isVertical = YES;
             if (point.x > self.cmam_width / 2) {
-                isVolume = YES;
+                self.isVolume = YES;
             } else {
-                isVolume = NO;
+                self.isVolume = NO;
             }
         }
 
     } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
-        if (isVertical) {
+        if (self.isVertical) {
             [self editVolumeOrBrigressWithNumber:speedPoint.y];
         } else {
             [self editVideoFastMoveWithNumber:speedPoint.x];
         }
 
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        if (isVertical) {
-            isVolume = NO;
+        if (self.isVertical) {
+            self.isVolume = NO;
         } else {
             [self seekToTime:self.sumTime AutoPlay:YES FastForward:NO HiddenFastView:YES];
         }
@@ -505,7 +497,7 @@
  */
 - (void)editVolumeOrBrigressWithNumber:(CGFloat)number
 {
-    if (isVolume) {
+    if (self.isVolume) {
         //        self.volumeView.frame = CGRectMake(0, 0, 155, 155);
         //        self.volumeView.hidden = NO;
         self.volumeSlider.value -= number / 10000;

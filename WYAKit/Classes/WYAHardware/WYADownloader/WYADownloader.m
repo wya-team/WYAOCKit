@@ -229,31 +229,31 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 #pragma mark - NSURLSessionTaskDelegate -
-/**
- 开始加载延迟的URL会话任务
-
- @param session <#session description#>
- @param task <#task description#>
- @param request <#request description#>
- @param completionHandler <#completionHandler description#>
- */
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
-                    willBeginDelayedRequest:(NSURLRequest *)request
-                          completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler
-{
-    NSLog(@"开始加载延迟的URL会话任务");
-}
-
-/**
- 告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用
-
- @param session <#session description#>
- @param task <#task description#>
- */
-- (void)URLSession:(NSURLSession *)session taskIsWaitingForConnectivity:(NSURLSessionTask *)task
-{
-    NSLog(@"告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用");
-}
+///**
+// 开始加载延迟的URL会话任务
+//
+// @param session <#session description#>
+// @param task <#task description#>
+// @param request <#request description#>
+// @param completionHandler <#completionHandler description#>
+// */
+//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+//                    willBeginDelayedRequest:(NSURLRequest *)request
+//                          completionHandler:(void (^)(NSURLSessionDelayedRequestDisposition disposition, NSURLRequest * _Nullable newRequest))completionHandler
+//{
+//    NSLog(@"开始加载延迟的URL会话任务");
+//}
+//
+///**
+// 告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用
+//
+// @param session <#session description#>
+// @param task <#task description#>
+// */
+//- (void)URLSession:(NSURLSession *)session taskIsWaitingForConnectivity:(NSURLSessionTask *)task
+//{
+//    NSLog(@"告知代理在开始网络加载之前，任务正在等待，直到有适当的连接可用");
+//}
 
 /**
  上传相关的？
@@ -325,7 +325,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
         //        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
 
         NSURLCredential * card = [[NSURLCredential alloc] initWithTrust:challenge.protectionSpace.serverTrust];
-        completionHandler(NSURLSessionAuthChallengeUseCredential, nil);
+        completionHandler(NSURLSessionAuthChallengePerformDefaultHandling, card);
     }
 }
 
@@ -491,7 +491,7 @@ didReceiveResponse:(NSURLResponse *)response
                             totalBytesWritten:(int64_t)totalBytesWritten
                     totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    //    NSLog(@"下载进度");
+    NSLog(@"下载进度");
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadTaskManager * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.downloadTask == downloadTask) {
             [obj readDownloadProgressWithdidWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
