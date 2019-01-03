@@ -44,9 +44,8 @@
 #import <WYAKit/WYAVideoPlayerView.h>
 #import <WYAKit/WYAImageCropViewController.h>
 #import <WYAKit/WYADownloader.h>
-#import <WYAKit/WYADownloadTaskManager.h>
+#import <WYAKit/WYADownloadModel.h>
 #import <WYAKit/WYASegmentedControl.h>
-//#import <WYAKit/WYADownloadModel.h>
 #import <WYAKit/WYANumberKeyboard.h>
 #import <WYAKit/WYAClearCache.h>
 

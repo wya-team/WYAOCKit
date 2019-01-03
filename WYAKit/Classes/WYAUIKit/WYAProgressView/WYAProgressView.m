@@ -46,7 +46,12 @@
 {
     [super layoutSubviews];
 
-    self.bgImageView.frame              = CGRectMake(self.borderWidth, self.borderWidth, self.cmam_width - self.borderWidth * 2, self.cmam_width - self.borderWidth * 2);
+    CGFloat bgImageView_X      = self.borderWidth;
+    CGFloat bgImageView_Y      = self.borderWidth;
+    CGFloat bgImageView_Width  = self.cmam_width - self.borderWidth * 2;
+    CGFloat bgImageView_Height = self.cmam_width - self.borderWidth * 2;
+    self.bgImageView.frame     = CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
+
     self.bgImageView.layer.cornerRadius = (self.cmam_width - self.borderWidth * 2) / 2;
 }
 

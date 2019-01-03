@@ -27,11 +27,6 @@
 @property (nonatomic, assign) CGRect rect;
 
 /**
- 预览图url（网络url）
- */
-@property (nonatomic, copy) NSString * previewImage;
-
-/**
  从哪个时间点开始（单位：s）
  */
 @property (nonatomic, assign) NSInteger seekTime;

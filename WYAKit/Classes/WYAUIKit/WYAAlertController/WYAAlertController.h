@@ -3,10 +3,10 @@
 #import "WYAStyle.h"
 #import <UIKit/UIKit.h>
 
+@class WYAPopupView;
+
 /** 灰色背景透明度 */
 static const CGFloat as_backgroundAlpha = 0.4;
-
-@class WYAPopupView;
 
 @interface WYAAlertController : UIViewController
 

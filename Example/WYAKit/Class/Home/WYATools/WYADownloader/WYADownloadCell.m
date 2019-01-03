@@ -76,7 +76,7 @@
     }
 }
 
-- (void)setModel:(WYADownloadTaskManager *)model
+- (void)setModel:(WYADownloadModel *)model
 {
     if (_model) {
         [_model removeObserver:self forKeyPath:@"progress"];

@@ -60,7 +60,7 @@
     self.imgView.image = image;
 }
 
-- (void)setModel:(WYADownloadTaskManager *)model
+- (void)setModel:(WYADownloadModel *)model
 {
     _model = model;
     if (model) {

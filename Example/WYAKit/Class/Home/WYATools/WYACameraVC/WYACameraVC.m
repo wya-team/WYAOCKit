@@ -276,14 +276,13 @@
 
     } else {
         NSMutableArray * arr = [NSMutableArray array];
-        for (NSInteger index = 0; index < self.dataSource.count - 1; index++) {
+        for (NSInteger index = 0; index < self.dataSource.count; index++) {
             WYACameraModel * model = self.dataSource[index];
             [arr addObject:model.image];
         }
 
         WYAImageBrowserViewController * vc = [[WYAImageBrowserViewController alloc] init];
         vc.array                           = [arr copy];
-        ;
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

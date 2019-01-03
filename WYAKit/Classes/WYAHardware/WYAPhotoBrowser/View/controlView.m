@@ -48,7 +48,6 @@
 
 - (void)previewClick
 {
-    NSLog(@"1");
     if (self.previewBlock) {
         self.previewBlock();
     }
@@ -56,7 +55,6 @@
 
 - (void)doneClick
 {
-    NSLog(@"2");
     if (self.doneBlock) {
         self.doneBlock();
     }

@@ -100,6 +100,12 @@
 - (void)addNotice
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configVideoScreen) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeVideoPlayer) name:UIApplicationWillTerminateNotification object:nil];
+}
+
+- (void)closeVideoPlayer
+{
+    [self wya_ResetPlayer];
 }
 
 - (void)configVideoScreen
@@ -193,7 +199,7 @@
 {
     if (!_previewImageView) {
         _previewImageView       = [[UIImageView alloc] init];
-        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
+        _previewImageView.image = [UIImage wya_getVideoPreViewImage:self.videoItem.videoUrl];
     }
     return _previewImageView;
 }
@@ -203,7 +209,7 @@
     if (!_loadingImageView) {
         _loadingImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(30, 30)];
+            object.image         = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(30, 30) ClassName:NSStringFromClass(self.class)];
             [object wya_setRotationAnimation:360 time:1 repeatCount:0];
             object;
         });
@@ -229,7 +235,7 @@
     return _brightnessView;
 }
 
-#pragma mark KVO
+#pragma mark - KVO -
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     AVPlayerItem * playerItem = (AVPlayerItem *)object;

@@ -11,10 +11,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol WYAVideoSliderDelegate <NSObject>
 
+/**
+ 滑动条开始运动
+ */
 - (void)wya_SliderStartRun;
 
+/**
+ 滑动条数值改变
+
+ @param value 数值
+ */
 - (void)wya_SliderRunningWithValue:(CGFloat)value;
 
+/**
+ 滑动条结束
+ */
 - (void)wya_SliderEndRun;
 
 @end

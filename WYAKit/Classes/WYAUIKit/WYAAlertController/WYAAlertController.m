@@ -2,12 +2,10 @@
 #import "WYAAlertController.h"
 #import "WYAAlertSheetView.h"
 #import "WYAAlertView.h"
-#import "WYAInteractive.h"
 #import "WYAPopupDismissAnimator.h"
 #import "WYAPopupPresentAnimator.h"
 
 @interface WYAAlertController () <UIViewControllerTransitioningDelegate>
-@property (nonatomic, strong) WYAInteractive * interactive;
 @property (nonatomic, strong) UIView * bottomView;
 @end
 
@@ -25,7 +23,6 @@
         self.backgroundButton.alpha           = as_backgroundAlpha;
         [self.backgroundButton addTarget:self action:@selector(dismissBackgroundView:) forControlEvents:UIControlEventTouchUpInside];
 
-        //        self.interactive = [[WYAInteractive alloc]init];
 
         self.bottomView                 = [[UIView alloc] init];
         self.bottomView.backgroundColor = [UIColor whiteColor];
@@ -122,8 +119,6 @@
 
         }];
     }
-
-    //    [self.interactive wireToViewController:self];
 }
 
 #pragma mark--- Method
@@ -158,7 +153,6 @@
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate
-
 /** 返回Present动画 */
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
 {
@@ -173,12 +167,6 @@
     WYAPopupDismissAnimator * animator = [[WYAPopupDismissAnimator alloc] init];
     animator.dismissStyle              = self.dismissStyle;
     return animator;
-}
-
-//返回一个管理pop动画过渡的对象
-- (nullable id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator
-{
-    return self.interactive.interacting ? self.interactive : nil;
 }
 
 #pragma mark--- Setter

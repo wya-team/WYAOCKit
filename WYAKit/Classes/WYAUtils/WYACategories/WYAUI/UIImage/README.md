@@ -61,7 +61,7 @@
 - (nonnull UIImage *)croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
 
 /// 返回一张可拉伸的图片
-+ (instancetype)wya_resizeImageNamed:(NSString *)name;
++ (UIImage *)wya_resizeImageNamed:(NSString *)name;
 
 
 /**

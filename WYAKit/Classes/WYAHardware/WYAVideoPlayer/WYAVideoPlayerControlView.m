@@ -405,19 +405,6 @@
 
 - (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
 {
-    //    [self wya_getNetWorkStatus:^(WYANetWorkStatus status) {
-    //        if (status != WYANetWorkStatusWIFI) {
-    //            self.playButton.selected = NO;
-    //            self.networkView.hidden = NO;
-    //        }else{
-    //            if (autoPlay == YES) {
-    //                self.playButton.selected = YES;
-    //            } else {
-    //                self.playButton.selected = NO;
-    //            }
-    //        }
-    //    }];
-
     if (autoPlay == YES) {
         self.playButton.selected = YES;
     } else {
@@ -435,8 +422,7 @@
     NSString * string              = [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
     self.fastView.text             = string;
     CGFloat draggedValue           = (CGFloat)dragTime / self.allTime;
-    NSLog(@"value==%f", draggedValue);
-    self.fastView.number = draggedValue;
+    self.fastView.number           = draggedValue;
 }
 
 - (void)playerEnd

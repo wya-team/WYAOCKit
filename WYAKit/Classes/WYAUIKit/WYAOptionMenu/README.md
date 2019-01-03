@@ -1,4 +1,4 @@
-# WYAChooseMenu
+# WYAOptionMenu
 
 适用于列表间的联动，例如天猫的物品种类效果
 
@@ -6,8 +6,8 @@
 
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
-titleArray|存放第一列数据|NSMutableArray <WYAChooseMenuModel *>|-
-contentArray|存放第一列对应数据|NSMutableArray <WYAChooseMenuSecondLevelModel *>|-
+titleArray|存放第一列数据|NSMutableArray <WYAOptionMenuModel *>|-
+contentArray|存放第一列对应数据|NSMutableArray <WYAOptionMenuSecondLevelModel *>|-
 leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适应|CGFloat|0.3
 
 ## 方法
@@ -29,9 +29,8 @@ leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适�
 * 导入头文件
 
 ```
-#import <WYAKit/WYAChooseMenu.h>
-#import <WYAKit/WYAChooseMenuModel.h>
-#import <WYAKit/WYAChooseMenuSecondLevelModel.h>
+#import <WYAKit/WYAOptionMenu.h>
+#import <WYAKit/WYAOptionMenuModel.h>
 ```
 
 

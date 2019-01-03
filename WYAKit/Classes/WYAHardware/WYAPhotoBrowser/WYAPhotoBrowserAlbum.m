@@ -55,7 +55,6 @@
 
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"取消" forState:UIControlStateNormal];
-
     [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
     button.frame           = CGRectMake(0, 0, 40, 30);
     button.titleLabel.font = FONT(15);
@@ -79,7 +78,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-
     return cell;
 }
 
@@ -104,9 +102,6 @@
             if ([obj isKindOfClass:[PHAsset class]]) {
                 PHAsset * asset          = (PHAsset *)obj;
                 PHImageManager * manager = [PHImageManager defaultManager];
-                //                PHImageRequestOptions * opi = [[PHImageRequestOptions alloc]init];
-                //                opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-                //                opi.deliveryMode = PHImageRequestOptionsDeliveryModeFastFormat;
                 [manager requestImageForAsset:asset targetSize:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter) contentMode:PHImageContentModeAspectFit options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         albumCell.imgView.image = result;
@@ -116,8 +111,6 @@
                             [self.images addObject:@""];
                         }
                     });
-                    NSLog(@"result==%@", result);
-                    NSLog(@"info==%@", info);
                 }];
             }
         }

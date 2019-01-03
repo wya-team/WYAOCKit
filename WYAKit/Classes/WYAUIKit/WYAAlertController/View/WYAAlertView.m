@@ -210,11 +210,12 @@
 }
 
 #pragma mark--- Setter
-- (void)setLayoutStyle:(int)layoutStyle
+- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
 {
     _layoutStyle = layoutStyle;
     [self layoutIfNeeded];
 }
+
 
 - (CGFloat)width
 {

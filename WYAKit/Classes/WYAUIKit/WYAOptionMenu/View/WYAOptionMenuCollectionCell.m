@@ -24,8 +24,6 @@
         [self.contentView addSubview:self.imageView];
 
         self.titleLabel      = [[UILabel alloc] init];
-        self.titleLabel.text = @"占位置";
-        //        label.textColor = random(<#r#>, <#g#>, <#b#>, <#a#>);
         self.titleLabel.font          = FONT(15);
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         ;

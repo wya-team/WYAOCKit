@@ -21,10 +21,12 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 
 @protocol VideoPlayerDelegate <NSObject>
 
-//- (void)playerView:(UIView *)playerView backButton:(UIButton *)backButton;
-//视频播放结束
-//- (void)videoEnd;
+/**
+ 全屏切换的时间
 
+ @param playerView self
+ @param fullScreen 是否是全屏状态
+ */
 - (void)wya_playerView:(UIView *)playerView isfullScreen:(BOOL)fullScreen;
 
 @end
@@ -36,7 +38,7 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 
 @property (nonatomic, weak) id<VideoPlayerDelegate> playerDelegate;
 
-@property (nonatomic, assign, readonly) PlayerStatus status;
+@property (nonatomic, assign, readonly) PlayerStatus status; //获取视频当前的状态
 
 /**
  是否需要单击手势（用来触发控制栏的）
@@ -51,12 +53,7 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 - (void)wya_RegisterPlayerItem:(WYAVideoItem *)item;
 
 /**
- 重置需要重新配置播放信息
+ 重置需要重新配置播放信息（pop时需调用此方法，关闭视频）
  */
 - (void)wya_ResetPlayer;
-
-/**
- 恢复播放器初始位置(需要在全屏状态下才可以调用)
- */
-//- (void)RestorePlayerToOriginalFrame;
 @end
