@@ -23,7 +23,7 @@
         self.imageView.backgroundColor = randomColor;
         [self.contentView addSubview:self.imageView];
 
-        self.titleLabel      = [[UILabel alloc] init];
+        self.titleLabel               = [[UILabel alloc] init];
         self.titleLabel.font          = FONT(15);
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         ;

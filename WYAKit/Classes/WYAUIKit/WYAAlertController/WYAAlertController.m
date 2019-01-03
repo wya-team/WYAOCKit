@@ -23,7 +23,6 @@
         self.backgroundButton.alpha           = as_backgroundAlpha;
         [self.backgroundButton addTarget:self action:@selector(dismissBackgroundView:) forControlEvents:UIControlEventTouchUpInside];
 
-
         self.bottomView                 = [[UIView alloc] init];
         self.bottomView.backgroundColor = [UIColor whiteColor];
     }

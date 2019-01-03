@@ -22,8 +22,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

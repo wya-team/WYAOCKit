@@ -37,8 +37,6 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
 
-
-
 @end
 
 NS_ASSUME_NONNULL_END

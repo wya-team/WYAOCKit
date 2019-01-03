@@ -216,7 +216,6 @@
     [self layoutIfNeeded];
 }
 
-
 - (CGFloat)width
 {
     return ScreenWidth - self->containerPadding;

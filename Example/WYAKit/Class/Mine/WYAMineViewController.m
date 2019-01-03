@@ -140,7 +140,7 @@
     switch (indexPath.row) {
         case 0: {
             vc.isAllowPush = YES;
-            vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit";
+            vc.readMeUrl   = @"https://github.com/wya-team/WYAOCKit";
         } break;
         case 1: {
             vc.isAllowPush = YES;

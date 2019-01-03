@@ -32,17 +32,16 @@
     NSString * urlS = [self.urlString stringByRemovingPercentEncoding];
 
     // 第一种下载
-//    NSURL * url                   = [NSURL URLWithString:urlS];
-//    self.downloadTask             = [session downloadTaskWithURL:url];
-    
+    //    NSURL * url                   = [NSURL URLWithString:urlS];
+    //    self.downloadTask             = [session downloadTaskWithURL:url];
+
     // 第二种下载
     NSURL * url                   = [NSURL URLWithString:urlS];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
     self.downloadTask             = [session downloadTaskWithRequest:request];
-    
+
     [self.downloadTask resume];
     self.downloadState = WYADownloadStateDownloading;
-
 }
 
 - (void)suspendDownload
@@ -94,7 +93,6 @@
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    
     self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
     if (startTime) {
         CFAbsoluteTime startTimeValue = [startTime doubleValue];
