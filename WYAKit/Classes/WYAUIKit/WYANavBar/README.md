@@ -15,6 +15,8 @@ backgroundImage | 导航栏背景图 | UIImage | -
 navTitle | 导航栏标题 | NSString|-
 space | 左右按钮多个时候的间距 | CGFloat | 0
 delegate | 导航栏的点击事件的代理 | WYANavBarDelegate | -
+rightButtons | 设置右侧文字图片混合模式的右侧多个按钮 | `NSArray <UIButton *>* `| -
+leftButtons | 设置左侧文字图片混合模式的右侧多个按钮 | `NSArray <UIButton *>* `| -
 
 ## 方法
 

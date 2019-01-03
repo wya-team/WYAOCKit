@@ -9,7 +9,7 @@
 #import "WYABaseViewController.h"
 
 @interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate>
-@property (nonatomic, strong) WYANavBar * navBar;
+
 @end
 
 @implementation WYABaseViewController
