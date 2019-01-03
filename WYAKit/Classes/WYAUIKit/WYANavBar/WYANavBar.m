@@ -229,14 +229,16 @@
                 [customButton setImage:imageHighlighted forState:UIControlStateHighlighted];
             }
         }
+        
         [self.navBarView addSubview:customButton];
 
         [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
 
         [customButton addTarget:self action:@selector(customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
+        
         if (i == 0) {
             [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.right.equalTo(self.navBarView.mas_right).offset(-20);
+                make.right.equalTo(self.navBarView.mas_right).offset(-16*SizeAdapter);
                 make.size.mas_equalTo(CGSizeMake(width, height));
                 make.top.equalTo(self.navBarView.mas_top).offset(startY);
             }];
@@ -257,7 +259,7 @@
 {
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    customButton.frame = CGRectMake(LEFT_OR_RIGHT_SPACE, 4, 36, 36);
+    customButton.frame = CGRectMake(16*SizeAdapter, 4, 36, 36);
 
     customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 
@@ -277,6 +279,61 @@
 }
 #pragma mark ======= setter
 
+- (void)setLeftButtons:(NSArray *)leftButtons{
+    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
+    CGFloat space   = self.space;
+    NSUInteger count = leftButtons.count;
+    _leftButtons = leftButtons;
+    for (int i = 0; i < count; i++) {
+        int column = i % count;
+        UIButton * tempButton = [_leftButtons wya_safeObjectAtIndex:i];
+        CGFloat width = tempButton.bounds.size.width;
+        CGFloat height = tempButton.bounds.size.height;
+        CGFloat startY  = (44 - width)*0.5;
+
+        [self.navBarView addSubview:tempButton];
+        if (i == 0) {
+            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
+                make.left.equalTo(self.navBarView.mas_left).offset(16*SizeAdapter);
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        } else {
+            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
+                make.left.equalTo(self.navBarView.mas_left).offset(startX + column * (width + space));
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        }
+    }
+}
+- (void)setRightButtons:(NSArray *)rightButtons{
+//    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
+    CGFloat startY  = 4.0f;
+    CGFloat space   = self.space;
+    NSUInteger count = rightButtons.count;
+    _rightButtons = rightButtons;
+    for (int i = 0; i < count; i++) {
+        int column = i % count;
+        UIButton * tempButton = [_rightButtons wya_safeObjectAtIndex:i];
+        CGFloat width = tempButton.bounds.size.width;
+        CGFloat height = tempButton.bounds.size.height;
+        [self.navBarView addSubview:tempButton];
+        if (i == 0) {
+            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
+                make.right.equalTo(self.navBarView.mas_right).offset(-16*SizeAdapter);
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        } else {
+            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
+                make.right.equalTo(self.navBarView.mas_right).offset(-space - column * (width + space));
+                make.size.mas_equalTo(CGSizeMake(width, height));
+                make.top.equalTo(self.navBarView.mas_top).offset(startY);
+            }];
+        }
+    }
+}
 - (void)setIsShowLine:(BOOL)isShowLine
 {
     _isShowLine = isShowLine;
@@ -319,7 +376,7 @@
 {
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    customButton.frame = CGRectMake(LEFT_OR_RIGHT_SPACE, 4, 36, 36);
+    customButton.frame = CGRectMake(16*SizeAdapter, 4, 36, 36);
 
     [customButton setImage:image forState:UIControlStateNormal];
 

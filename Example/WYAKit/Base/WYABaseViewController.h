@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <WYAKit/WYANavBar.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYABaseViewController : UIViewController
+
+@property (nonatomic, strong) WYANavBar * navBar;
+
 /**
  导航栏标题
  
