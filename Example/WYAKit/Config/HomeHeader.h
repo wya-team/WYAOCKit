@@ -12,9 +12,9 @@
 #import "WYABannerHeaderView.h"
 
 #import "WYACameraVC.h"
-#import "WYAChooseMenuViewController.h"
 #import "WYAIMGCodeViewController.h"
 #import "WYAImageBrowserViewController.h"
+#import "WYAOptionMenuViewController.h"
 #import "WYAPickerViewController.h"
 #import "WYAPopViewController.h"
 #import "WYAPopViewController.h"

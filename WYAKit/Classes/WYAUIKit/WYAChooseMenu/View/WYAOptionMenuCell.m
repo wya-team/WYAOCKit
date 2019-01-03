@@ -5,15 +5,15 @@
 //  Created by 李世航 on 2018/11/20.
 //
 
-#import "WYAChooseMenuCell.h"
-#import "WYAChooseMenuModel.h"
+#import "WYAOptionMenuCell.h"
+#import "WYAOptionMenuModel.h"
 
-@interface WYAChooseMenuCell ()
+@interface WYAOptionMenuCell ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UIImageView * rightImageView;
 @end
 
-@implementation WYAChooseMenuCell
+@implementation WYAOptionMenuCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -47,7 +47,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setModel:(WYAChooseMenuModel *)model
+- (void)setModel:(WYAOptionMenuModel *)model
 {
     _model = model;
     if (model) {

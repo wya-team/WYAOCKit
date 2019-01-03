@@ -37,7 +37,7 @@
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
-		21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */; };
+		21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAOptionMenuViewController.m */; };
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
@@ -176,8 +176,8 @@
 		21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCompleteCell.m; sourceTree = "<group>"; };
 		21A8731721A3956B007F2921 /* WYAPaginationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPaginationViewController.h; sourceTree = "<group>"; };
 		21A8731821A3956B007F2921 /* WYAPaginationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPaginationViewController.m; sourceTree = "<group>"; };
-		21A8732021A3A67C007F2921 /* WYAChooseMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAChooseMenuViewController.h; sourceTree = "<group>"; };
-		21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAChooseMenuViewController.m; sourceTree = "<group>"; };
+		21A8732021A3A67C007F2921 /* WYAOptionMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAOptionMenuViewController.h; sourceTree = "<group>"; };
+		21A8732121A3A67C007F2921 /* WYAOptionMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAOptionMenuViewController.m; sourceTree = "<group>"; };
 		21A8735021A3E1F0007F2921 /* WYASliderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYASliderViewController.h; sourceTree = "<group>"; };
 		21A8735121A3E1F0007F2921 /* WYASliderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASliderViewController.m; sourceTree = "<group>"; };
 		21A8735D21A4F502007F2921 /* WYANoticeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANoticeViewController.h; sourceTree = "<group>"; };
@@ -459,7 +459,7 @@
 				210E9F7A21AD403400BFE994 /* WYACell */,
 				21A8735C21A4F4EB007F2921 /* WYANoticeBar */,
 				21A8734F21A3E1D5007F2921 /* WYASlider */,
-				21A8731F21A3A65D007F2921 /* WYAChooseMenu */,
+				21A8731F21A3A65D007F2921 /* WYAOptionMenu */,
 				21A8731621A39550007F2921 /* WYAPaginationView */,
 				21470CA6219E93B10099CB6F /* PopViewController */,
 				21470BF2219ABE880099CB6F /* WYAProgressView */,
@@ -605,13 +605,13 @@
 			path = WYAPaginationView;
 			sourceTree = "<group>";
 		};
-		21A8731F21A3A65D007F2921 /* WYAChooseMenu */ = {
+		21A8731F21A3A65D007F2921 /* WYAOptionMenu */ = {
 			isa = PBXGroup;
 			children = (
-				21A8732021A3A67C007F2921 /* WYAChooseMenuViewController.h */,
-				21A8732121A3A67C007F2921 /* WYAChooseMenuViewController.m */,
+				21A8732021A3A67C007F2921 /* WYAOptionMenuViewController.h */,
+				21A8732121A3A67C007F2921 /* WYAOptionMenuViewController.m */,
 			);
-			path = WYAChooseMenu;
+			path = WYAOptionMenu;
 			sourceTree = "<group>";
 		};
 		21A8734F21A3E1D5007F2921 /* WYASlider */ = {
@@ -1206,7 +1206,7 @@
 				956BCC8621B5329C0044095E /* WYAReamlViewController.m in Sources */,
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
-				21A8732221A3A67C007F2921 /* WYAChooseMenuViewController.m in Sources */,
+				21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */,
 				957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */,
 				2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */,
 				9578498521B11074001E19DC /* WYAListModel.m in Sources */,

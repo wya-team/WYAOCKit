@@ -5,14 +5,14 @@
 //  Created by 李世航 on 2018/11/20.
 //
 
-#import "WYAChooseMenuSecondLevelCell.h"
-#import "WYAChooseMenuModel.h"
+#import "WYAOptionMenuSecondLevelCell.h"
+#import "WYAOptionMenuModel.h"
 
-@interface WYAChooseMenuSecondLevelCell ()
+@interface WYAOptionMenuSecondLevelCell ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @end
 
-@implementation WYAChooseMenuSecondLevelCell
+@implementation WYAOptionMenuSecondLevelCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -35,7 +35,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setModel:(WYAChooseMenuSecondLevelModel *)model
+- (void)setModel:(WYAOptionMenuSecondLevelModel *)model
 {
     _model = model;
     if (model) {

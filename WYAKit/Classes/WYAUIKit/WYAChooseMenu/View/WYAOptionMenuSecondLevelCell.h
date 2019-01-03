@@ -8,10 +8,10 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-@class WYAChooseMenuSecondLevelModel;
+@class WYAOptionMenuSecondLevelModel;
 
-@interface WYAChooseMenuSecondLevelCell : UITableViewCell
-@property (nonatomic, strong) WYAChooseMenuSecondLevelModel * model;
+@interface WYAOptionMenuSecondLevelCell : UITableViewCell
+@property (nonatomic, strong) WYAOptionMenuSecondLevelModel * model;
 @end
 
 NS_ASSUME_NONNULL_END
