@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_leftBarButtonItemPressed:(UIButton *)sender;
 /// 自定义右侧按钮点击事件
 - (void)wya_rightBarButtonItemPressed:(UIButton *)sender;
-
 @end
 
 @interface WYANavBar : UIView

@@ -229,11 +229,13 @@
                 [customButton setImage:imageHighlighted forState:UIControlStateHighlighted];
             }
         }
+        
         [self.navBarView addSubview:customButton];
 
         [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
 
         [customButton addTarget:self action:@selector(customRightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
+        
         if (i == 0) {
             [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
                 make.right.equalTo(self.navBarView.mas_right).offset(-16*SizeAdapter);
@@ -306,7 +308,7 @@
     }
 }
 - (void)setRightButtons:(NSArray *)rightButtons{
-    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
+//    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
     CGFloat startY  = 4.0f;
     CGFloat space   = self.space;
     NSUInteger count = rightButtons.count;

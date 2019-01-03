@@ -20,6 +20,7 @@
 {
     [super viewDidLoad];
     self.navTitle = @"README";
+    [self wya_addRightNavBarButtonWithNormalTitle:@[ @"复制链接" ]];
     [self.view addSubview:self.webView];
     [self.view addSubview:self.myProgressView];
 }

@@ -21,6 +21,9 @@
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYATextView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

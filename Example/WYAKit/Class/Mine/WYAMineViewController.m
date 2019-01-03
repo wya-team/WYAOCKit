@@ -140,7 +140,6 @@
     switch (indexPath.row) {
         case 0: {
             vc.isAllowPush = YES;
-            [vc wya_addRightNavBarButtonWithNormalTitle:@[ @"复制链接" ]];
             vc.readMeUrl = @"https://github.com/wya-team/WYAOCKit";
         } break;
         case 1: {
