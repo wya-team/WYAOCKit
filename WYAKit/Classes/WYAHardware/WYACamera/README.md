@@ -31,7 +31,7 @@ scanReault|返回扫描结果|block|-
 ---
 
 ## 方法
-```objc
+```objective-c
 /**
 初始化
 
@@ -50,7 +50,7 @@ scanReault|返回扫描结果|block|-
 ## 基础用法
 - 添加关键key
 
-```objc
+```objective-c
 <key>NSCameraUsageDescription</key>
 <string>填写关于相机的描述</string>
 <key>NSMicrophoneUsageDescription</key>
@@ -63,8 +63,17 @@ scanReault|返回扫描结果|block|-
 
 - 导入头文件
 
-```objc
+```objective-c
 #import <WYAKit/WYACameraViewController.h>
 #import <WYAKit/WYAQRCodeViewController.h>
 ```
+```objective-c
+WYACameraViewController * cameraVC = [[WYACameraViewController alloc] initWithType:self.type];
+cameraVC.takePhoto                 = ^(UIImage * photo) {
 
+};
+cameraVC.takeVideo = ^(NSString * videoPath) {
+
+};
+[weakSelf presentViewController:cameraVC animated:YES completion:nil];
+```
