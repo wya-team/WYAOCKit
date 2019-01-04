@@ -281,6 +281,9 @@
                 self.takePhoto(self.placeholdImageView.image);
             }
         } else {
+            [self.player pause];
+            [self.captureVideoPreviewLayer removeFromSuperlayer];
+
             if (self.takeVideo) {
                 self.takeVideo(self.videoTool.videoPath);
             }
@@ -473,6 +476,14 @@
                 StrongSelf(strongSelf);
                 if (self.videoTool.videoPath) {
                     [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
+                    //                    if ([UIVideoEditorController canEditVideoAtPath:self.videoTool.videoPath]) {
+                    //                        UIVideoEditorController * vc = [[UIVideoEditorController alloc]init];
+                    //                        vc.videoPath = strongSelf.videoTool.videoPath;
+                    //                        vc.delegate = self;
+                    //                        [strongSelf presentViewController:vc animated:YES completion:nil];
+                    //                        NSLog(@"yes");
+                    //                    }
+
                     return;
                 }
 

@@ -11,11 +11,11 @@ images|图片数组| NSArray<UIImage *>|-
 ## 基础用法
 
 导入头文件
-```
+```objective-c
 #import <WYAKit/WYABannerView.h>
 ```
 
-```object-C
+```objective-c
 NSArray * array = @[@"0",@"1",@"2"];
     
 WYAImageBrowser * view = [[WYAImageBrowser alloc]initWithFrame:self.view.frame];

@@ -259,9 +259,9 @@
 {
     [super layoutSubviews];
 
-    CGFloat scrollV_X      = 10;
+    CGFloat scrollV_X      = 0;
     CGFloat scrollV_Y      = 0;
-    CGFloat scrollV_Width  = self.cmam_width - 20;
+    CGFloat scrollV_Width  = self.cmam_width - 0;
     CGFloat scrollV_Height = self.cmam_height;
     self.scrollV.frame     = CGRectMake(scrollV_X, scrollV_Y, scrollV_Width, scrollV_Height);
 

@@ -105,7 +105,7 @@
 
 - (void)closeVideoPlayer
 {
-    [self wya_ResetPlayer];
+    [self wya_resetPlayer];
 }
 
 - (void)configVideoScreen
@@ -338,9 +338,9 @@
 {
     self.controlView.zoomButton.selected = YES;
     self.controlView.backButton.hidden   = NO;
-    if (!self.videoItem.superV) {
-        self.videoItem.superV = self.superview;
-        self.videoItem.rect   = self.frame;
+    if (!self.videoItem.superView) {
+        self.videoItem.superView = self.superview;
+        self.videoItem.rect      = self.frame;
     }
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -382,7 +382,7 @@
     self.controlView.backButton.hidden   = YES;
     self.isFullScreen                    = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    CGRect frame = [self.videoItem.superV convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
+    CGRect frame = [self.videoItem.superView convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
     [UIView animateWithDuration:0.5 animations:^{
         self.transform = CGAffineTransformIdentity;
         self.frame     = frame;
@@ -392,7 +392,7 @@
          */
         [self removeFromSuperview];
         self.frame = self.videoItem.rect;
-        [self.videoItem.superV addSubview:self];
+        [self.videoItem.superView addSubview:self];
         self.brightnessView.transform = CGAffineTransformIdentity;
     }];
 
@@ -546,7 +546,7 @@
 }
 
 #pragma mark Public Action
-- (void)wya_RegisterPlayerItem:(WYAVideoItem *)item
+- (void)wya_registerPlayerItem:(WYAVideoItem *)item
 {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
@@ -558,7 +558,7 @@
     [self layoutIfNeeded];
 }
 
-- (void)wya_ResetPlayer
+- (void)wya_resetPlayer
 {
     if (self.timeObserve) {
         [self.player removeTimeObserver:self.timeObserve];
@@ -631,7 +631,7 @@
 - (void)videoControlRetry:(UIView *)videoControl
 {
     NSLog(@"self.videoItem==%@", self.videoItem);
-    [self wya_RegisterPlayerItem:self.videoItem];
+    [self wya_registerPlayerItem:self.videoItem];
 }
 
 - (void)videoControlGoOn:(UIView *)videoControl

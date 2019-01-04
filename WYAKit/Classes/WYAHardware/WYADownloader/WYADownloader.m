@@ -18,6 +18,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 
 @interface WYADownloader () <NSURLSessionDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 
+@property (nonatomic, copy) NSString * identifier; // 下载的唯一标示用于恢复下载获取NSUrlSession
 @property (nonatomic, strong) NSURLSession * session;
 @property (nonatomic, strong) NSURLSessionConfiguration * config;
 @property (nonatomic, strong) NSOperationQueue * downloadQueue;
@@ -174,6 +175,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
     [self.downloadArray enumerateObjectsUsingBlock:^(WYADownloadModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.urlString isEqualToString:model.urlString]) {
             [obj giveupDownload];
+            [[self mutableArrayValueForKey:@"downloadArray"] wya_safeRemoveObjectAtIndex:idx];
             *stop = YES;
         }
     }];
@@ -202,16 +204,16 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 }
 
 #pragma mark 删除已下载的任务
-- (void)wya_removeDownloadWithTaskManager:(WYADownloadModel *)manager
+- (void)wya_removeDownloadWithModel:(WYADownloadModel *)model
 {
     NSMutableArray * arr = [[self mutableArrayValueForKey:@"downloadFinishArray"] mutableCopy];
     [arr enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         WYADownloadModel * taskManager = (WYADownloadModel *)obj;
-        if (manager == taskManager) {
+        if (model == taskManager) {
             NSFileManager * fileManager = [NSFileManager defaultManager];
-            if (manager.destinationPath) {
+            if (model.destinationPath) {
                 NSError * error;
-                [fileManager removeItemAtPath:manager.destinationPath error:&error];
+                [fileManager removeItemAtPath:model.destinationPath error:&error];
                 NSLog(@"removeManagerError==%@", error);
             }
 
@@ -220,12 +222,6 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
     }];
 }
 
-/**
- 设置请求头
-
- @param value value
- @param field key
- */
 - (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field
 {
     [self.httpHeader setValue:value forKey:field];

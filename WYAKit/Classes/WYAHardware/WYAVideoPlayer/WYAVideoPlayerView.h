@@ -19,10 +19,10 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
     PlayerStatePause      // 暂停播放
 };
 
-@protocol VideoPlayerDelegate <NSObject>
-
+@protocol WYAVideoPlayerDelegate <NSObject>
+@required
 /**
- 全屏切换的时间
+ 全屏切换的事件
 
  @param playerView self
  @param fullScreen 是否是全屏状态
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
  */
 @interface WYAVideoPlayerView : UIView
 
-@property (nonatomic, weak) id<VideoPlayerDelegate> playerDelegate;
+@property (nonatomic, weak) id<WYAVideoPlayerDelegate> playerDelegate;
 
 @property (nonatomic, assign, readonly) PlayerStatus status; //获取视频当前的状态
 
@@ -50,10 +50,10 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 
  @param item WYAVideoItem
  */
-- (void)wya_RegisterPlayerItem:(WYAVideoItem *)item;
+- (void)wya_registerPlayerItem:(WYAVideoItem *)item;
 
 /**
  重置需要重新配置播放信息（pop时需调用此方法，关闭视频）
  */
-- (void)wya_ResetPlayer;
+- (void)wya_resetPlayer;
 @end

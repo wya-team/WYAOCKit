@@ -10,6 +10,9 @@
 
 @interface WYAQRCodeViewController : UIViewController
 
-@property (nonatomic, copy) void (^ScanReault)(NSString * reault);
+/**
+ 获取扫描结果
+ */
+@property (nonatomic, copy) void (^scanReault)(NSString * reault);
 
 @end

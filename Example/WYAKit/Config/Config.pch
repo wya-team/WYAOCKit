@@ -53,6 +53,7 @@
 #import <WYAKit/UIView+Gestures.h>
 #import <WYAKit/UIView+WYAAnimation.h>
 #import <WYAKit/UIButton+Category.h>
+#import <WYAKit/NSNotificationCenter+WYANotificationCenter.h>
 #import <WYAKit/WYACustomPopoverBackgroundView.h>
 #import <WYAKit/WYACustomSearchBar.h>
 /******************************常用宏*******************/

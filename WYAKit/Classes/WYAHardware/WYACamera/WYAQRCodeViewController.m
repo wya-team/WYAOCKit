@@ -415,8 +415,8 @@ static CGFloat QRCodeWidth = 220;
             [self dismissViewControllerAnimated:YES completion:nil];
         }
 
-        if (self.ScanReault) {
-            self.ScanReault(stringValue);
+        if (self.scanReault) {
+            self.scanReault(stringValue);
         }
 
     } else {
@@ -463,8 +463,8 @@ static CGFloat QRCodeWidth = 220;
         for (int index = 0; index < [features count]; index++) {
             CIQRCodeFeature * feature = [features wya_safeObjectAtIndex:index];
             NSString * resultStr      = feature.messageString;
-            if (self.ScanReault) {
-                self.ScanReault(resultStr);
+            if (self.scanReault) {
+                self.scanReault(resultStr);
             }
         }
         [self dismissViewControllerAnimated:YES completion:^{

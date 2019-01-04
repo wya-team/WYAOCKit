@@ -31,7 +31,7 @@
 
 #pragma mark - 类方法返回实例
 /** 默认转场初始化 */
-+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
++ (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title
                                     Message:(NSString * _Nullable)message
                            AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
 {
@@ -45,7 +45,7 @@
     return alertController;
 }
 
-+ (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
++ (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message
 {
     WYAAlertController * alertController                          = [[WYAAlertController alloc] init];
@@ -57,7 +57,7 @@
     return alertController;
 }
 
-+ (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
++ (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
                                       AlertStyle:(WYAAlertStyle)alertStyle
 {
     WYAAlertController * alertController = [[WYAAlertController alloc] init];
@@ -122,27 +122,27 @@
 
 #pragma mark--- Method
 /** 添加 action */
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
 {
     if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
-        [(WYAAlertView *)self.alertView wya_AddAction:action];
+        [(WYAAlertView *)self.alertView wya_addAction:action];
     } else if ([self.alertView isMemberOfClass:[WYAAlertSheetView class]]) {
-        [(WYAAlertSheetView *)self.alertView wya_AddAction:action];
+        [(WYAAlertSheetView *)self.alertView wya_addAction:action];
     }
 }
 
 /** 直接添加一个数组的 action */
-- (void)wya_AddActions:(NSArray<WYAAlertAction *> * _Nonnull)actions
+- (void)wya_addActions:(NSArray<WYAAlertAction *> * _Nonnull)actions
 {
     for (WYAAlertAction * action in actions) {
-        [self wya_AddAction:action];
+        [self wya_addAction:action];
     }
 }
 
-- (void)wya_AddTextField:(UITextField *)textField
+- (void)wya_addTextField:(UITextField *)textField
 {
     if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
-        [(WYAAlertView *)self.alertView wya_AddTextField:textField];
+        [(WYAAlertView *)self.alertView wya_addTextField:textField];
     }
 }
 

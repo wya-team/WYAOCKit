@@ -23,8 +23,8 @@
  *
  *    @param action action
  */
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action;
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action;
 
-- (void)wya_AddTextField:(UITextField *)textField;
+- (void)wya_addTextField:(UITextField *)textField;
 
 @end

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  背景图片
  */
-@property (nonatomic, strong) UIImage * backGroundImage;
+@property (nonatomic, strong) UIImage * backgroundImage;
 
 /**
  背景线的颜色

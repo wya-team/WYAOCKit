@@ -3,7 +3,7 @@
 
 @implementation WYAAlertAction
 
-+ (instancetype)wya_ActionWithTitle:(NSString *)title style:(WYAAlertActionStyle)style handler:(void (^)(void))handler
++ (instancetype)wya_actionWithTitle:(NSString *)title style:(WYAAlertActionStyle)style handler:(void (^)(void))handler
 {
     WYAAlertAction * action = [[WYAAlertAction alloc] init];
     action.title            = title;

@@ -19,12 +19,12 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 
 @interface WYADownloadModel : NSObject
 
-@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask; //下载任务
 @property (nonatomic, copy) NSString * urlString;                      //下载地址（需要解码）
 @property (nonatomic, copy) NSString * destinationPath;                //本地文件路径
 @property (nonatomic, assign) CGFloat progress;                        //进度
-@property (nonatomic, assign) WYADownloadState downloadState;          //下载状态
 @property (nonatomic, copy) NSString * speed;                          //下载速度，直接显示就好
+@property (nonatomic, assign) WYADownloadState downloadState;          //下载状态
+@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask; //下载任务
 @property (nonatomic, strong) NSData * downloadData;
 
 //以下方法请勿调用

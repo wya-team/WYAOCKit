@@ -8,6 +8,7 @@
 
 #import "WYAHomeViewController.h"
 #import "HomeHeader.h"
+#import "WYAFunctionModel.h"
 
 #define HOMEITEMCELL @"WYAHomeItemCell"
 #define HEADERVIEW @"HEADERVIEW"
@@ -35,6 +36,17 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
+    NSDictionary * dic = @{ @"name" : @"lishihang",
+                            @"age" : @"18" };
+    WYAFunctionModel * model = [[WYAFunctionModel alloc] init];
+    [model setModel:^(WYAFunctionModel * _Nonnull model) {
+        model.nameBlock(dic[@"name"]).ageBlock(dic[@"age"]);
+    }];
+    NSLog(@"model==%@", model);
+    [[NSNotificationCenter defaultCenter] wya_addObserverWithName:@"aaa" object:nil selector:^(NSNotification * _Nonnull not) {
+        NSDictionary * dic = not.userInfo;
+        NSLog(@"dic==%@", dic);
+    }];
 }
 #pragma mark ======= 懒加载
 
@@ -150,12 +162,12 @@
 // 缓存弹框提示
 - (void)showAlertWith:(NSString *)size
 {
-    WYAAlertController * alert = [WYAAlertController wya_AlertWithTitle:@"清理缓存"
+    WYAAlertController * alert = [WYAAlertController wya_alertWithTitle:@"清理缓存"
                                                                 Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
                                                        AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction wya_ActionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{
+    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{
         NSLog(@"Default");
         [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
             NSLog(@"清理成功");
@@ -164,9 +176,9 @@
             } UnitType:WYAFileSizeUnitMB];
         }];
     }];
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_ActionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
-    [alert wya_AddAction:cancelAction];
-    [alert wya_AddAction:defaultAction];
+    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
+    [alert wya_addAction:cancelAction];
+    [alert wya_addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
 }
 

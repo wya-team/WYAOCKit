@@ -135,7 +135,7 @@
     }];
 }
 
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
 {
     for (UIView * view in self.buttonView.subviews) {
         [view removeFromSuperview];

@@ -217,9 +217,9 @@
             [UIView wya_showCenterToastWithMessage:@"请输入正确的图片数量"];
             return;
         }
-        WYAAlertController * alert = [WYAAlertController wya_AlertSheetWithTitle:@"" Message:@""];
+        WYAAlertController * alert = [WYAAlertController wya_alertSheetWithTitle:@"" Message:@""];
         WeakSelf(weakSelf);
-        WYAAlertAction * defaultAction = [WYAAlertAction wya_ActionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
+        WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"相机" style:WYAAlertActionStyleDefault handler:^{
             WYACameraViewController * camera = [[WYACameraViewController alloc] initWithType:WYACameraTypeAll];
             camera.takePhoto                 = ^(UIImage * photo) {
                 WYACameraModel * model = [[WYACameraModel alloc] init];
@@ -245,7 +245,7 @@
             [weakSelf presentViewController:camera animated:YES completion:nil];
 
         }];
-        WYAAlertAction * cancelAction = [WYAAlertAction wya_ActionWithTitle:@"相册" style:WYAAlertActionStyleDefault handler:^{
+        WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"相册" style:WYAAlertActionStyleDefault handler:^{
             NSInteger inter = [self.textField.text integerValue] - self.dataSource.count;
             if (inter == 0) {
                 return;
@@ -270,8 +270,8 @@
 
         }];
 
-        [alert wya_AddAction:defaultAction];
-        [alert wya_AddAction:cancelAction];
+        [alert wya_addAction:defaultAction];
+        [alert wya_addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
 
     } else {

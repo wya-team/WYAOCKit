@@ -3,6 +3,8 @@
 - 相机拍摄照片、拍摄视频。<font color="red">注意：要使用`WYACameraViewController`</font>
 - 二维码扫描，和本地相册二维码扫描。<font color="red">注意：要使用`WYAQRCodeViewController`</font>
 
+---
+
 ## 属性
 - WYACameraViewController
 
@@ -24,7 +26,9 @@ WYACameraTypeVideo|录制
 
 属性 | 说明 | 类型 | 默认值
 ---|---|---|---
-ScanReault|返回扫描结果|block|-
+scanReault|返回扫描结果|block|-
+
+---
 
 ## 方法
 ```objc
@@ -41,11 +45,12 @@ ScanReault|返回扫描结果|block|-
 */
 - (void)clearCache;
 ```
+---
 
 ## 基础用法
 - 添加关键key
 
-```
+```objc
 <key>NSCameraUsageDescription</key>
 <string>填写关于相机的描述</string>
 <key>NSMicrophoneUsageDescription</key>
@@ -58,7 +63,7 @@ ScanReault|返回扫描结果|block|-
 
 - 导入头文件
 
-```
+```objc
 #import <WYAKit/WYACameraViewController.h>
 #import <WYAKit/WYAQRCodeViewController.h>
 ```

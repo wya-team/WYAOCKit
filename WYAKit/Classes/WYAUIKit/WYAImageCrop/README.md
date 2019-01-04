@@ -20,7 +20,7 @@ onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  初始化
 
@@ -41,7 +41,7 @@ onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 
 ## delegate
 
-```Object-C
+```objective-c
 @optional
 /**
  提供当前裁剪的矩形
@@ -88,8 +88,18 @@ onDidCropToCircleImage|圆形裁剪器完成时回调|block|-
 
 - 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYAImageCropViewController.h>
+```
+
+```objective-c
+WYAImageCropViewController * vc = [[WYAImageCropViewController alloc] initWithImage:previewImage];
+vc.onDidCropToRect              = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+    [vc dismissViewControllerAnimated:NO completion:^{
+        
+    }];
+};
+[strongSelf presentViewController:vc animated:YES completion:nil];
 ```
 
 

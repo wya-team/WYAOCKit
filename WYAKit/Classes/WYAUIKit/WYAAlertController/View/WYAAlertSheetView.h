@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
  *
  *    @param action action
  */
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action;
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action;
 @end
 
 NS_ASSUME_NONNULL_END

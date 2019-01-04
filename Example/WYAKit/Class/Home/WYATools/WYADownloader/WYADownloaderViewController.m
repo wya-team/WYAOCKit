@@ -151,7 +151,7 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         if (indexPath.section == 1) {
             WYADownloadCompleteCell * cell = [tableView cellForRowAtIndexPath:indexPath];
-            [self.downloader wya_removeDownloadWithTaskManager:cell.model];
+            [self.downloader wya_removeDownloadWithModel:cell.model];
             cell.model = nil;
         }
         [tableView reloadData];

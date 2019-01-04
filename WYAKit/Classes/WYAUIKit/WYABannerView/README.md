@@ -41,7 +41,7 @@ titleLabelTextAlignment|轮播文字label对齐方式|NSTextAlignment|NSTextAlig
 
 * 代理方法
 
-```objc
+```objective-c
 /**
  点击图片回调
 
@@ -91,7 +91,7 @@ titleLabelTextAlignment|轮播文字label对齐方式|NSTextAlignment|NSTextAlig
 
 * 类方法
 
-```Object-C
+```objective-c
 /**
  初始化
 
@@ -138,7 +138,7 @@ titleLabelTextAlignment|轮播文字label对齐方式|NSTextAlignment|NSTextAlig
 
 * 实例方法
 
-```objc
+```objective-c
 /**
  可以调用此方法手动控制滚动到哪一个index
 
@@ -162,11 +162,11 @@ titleLabelTextAlignment|轮播文字label对齐方式|NSTextAlignment|NSTextAlig
 
 导入头文件
 
-```objc
+```objective-c
 #import <WYAKit/WYABannerView.h>
 ```
 
-```objc
+```objective-c
 CGFloat bannerView_X = 0;
 CGFloat bannerView_Y = CGRectGetMaxY(label.frame);
 CGFloat bannerView_Width = ScreenWidth;

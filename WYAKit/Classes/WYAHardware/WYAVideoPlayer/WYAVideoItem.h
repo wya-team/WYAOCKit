@@ -19,7 +19,7 @@
 /**
  父视图（必传属性）
  */
-@property (nonatomic, strong) UIView * superV;
+@property (nonatomic, strong) UIView * superView;
 
 /**
  位置（必传属性）

@@ -15,7 +15,7 @@ leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适�
 
 ## delegate
 
-```Object-C
+```objective-c
 /**
  左侧tablecell点击事件
 
@@ -26,11 +26,18 @@ leftTableProportion|取值范围0~1，适用于左侧table，右侧table自适�
 
 ## 基础用法
 
-* 导入头文件
+- 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYAOptionMenu.h>
 #import <WYAKit/WYAOptionMenuModel.h>
 ```
+- 数据需要自己拼接数组元素必须是WYAOptionMenuModel和WYAOptionMenuSecondLevelModel的二维数组
 
+```objective-c
+WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTable];
+object.titleArray          = [self.titles mutableCopy];
+object.wya_delegate        = self;
+object.leftTableProportion = 0.5;
+```
 

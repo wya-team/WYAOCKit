@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class WYADownloadModel;
 
 @interface WYADownloader : NSObject
-@property (nonatomic, copy) NSString * identifier;       // 下载的唯一标示用于恢复下载获取NSUrlSession
+
 @property (nonatomic, assign) BOOL allowsCellularAccess; //是否允许数据网络连接
 //@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
 
@@ -54,8 +54,19 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
 
-- (void)wya_removeDownloadWithTaskManager:(WYADownloadModel *)manager;
+/**
+ 移除下载完成的任务
 
+ @param model 数据模型
+ */
+- (void)wya_removeDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+ 设置请求头
+ 
+ @param value value
+ @param field key
+ */
 - (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
 
 @end
