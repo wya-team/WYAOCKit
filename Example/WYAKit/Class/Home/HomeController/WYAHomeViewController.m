@@ -151,35 +151,7 @@
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
-    if ([itemModel.rowName isEqualToString:@"WYAClearCache 清理缓存"]) {
-        // 清理缓存
-        [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
-            NSLog(@"%.2fMB", folderSize);
-            [self showAlertWith:[NSString stringWithFormat:@"%.2fMB", folderSize]];
-        } UnitType:WYAFileSizeUnitMB];
-    }
 }
-// 缓存弹框提示
-- (void)showAlertWith:(NSString *)size
-{
-    WYAAlertController * alert = [WYAAlertController wya_alertWithTitle:@"清理缓存"
-                                                                Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
-                                                       AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
-    alert.backgroundButton.enabled = NO;
-    // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{
-        NSLog(@"Default");
-        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
-            NSLog(@"清理成功");
-            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
-                [UIView wya_showBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%.2fMB", folderSize]];
-            } UnitType:WYAFileSizeUnitMB];
-        }];
-    }];
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
-    [alert wya_addAction:cancelAction];
-    [alert wya_addAction:defaultAction];
-    [self presentViewController:alert animated:YES completion:nil];
-}
+
 
 @end
