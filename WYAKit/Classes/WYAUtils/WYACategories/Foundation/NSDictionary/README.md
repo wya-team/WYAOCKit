@@ -5,7 +5,7 @@
 
 ## NSDictionary+Category
 
-```Object-C
+```objective-c
 /**
  *  字段转成json的字符串
  *
@@ -16,7 +16,7 @@
 
 ## NSDictionary+Safe
 
-```Object-C
+```objective-c
 /**
  通过key获取Value值
 
@@ -46,7 +46,7 @@
 
 ## NSMutableDictionary+Safe
 
-```Object-C
+```objective-c
 - (void)wya_safeSetObject:(id)aObj forKey:(id<NSCopying>)aKey;
 
 - (id)wya_safeObjectForKey:(id<NSCopying>)aKey;

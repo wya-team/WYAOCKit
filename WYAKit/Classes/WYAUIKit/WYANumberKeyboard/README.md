@@ -14,7 +14,7 @@ spaceNum | 由于输入的值紧贴着输入框左侧，不是很美观。光标
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  必须用此方法初始化
 
@@ -49,7 +49,7 @@ spaceNum | 由于输入的值紧贴着输入框左侧，不是很美观。光标
 
 ## 基本用法
 
-```Object-C
+```objective-c
 #import "WYANumberKeyBoardController.h"
 #import <WYAKit/WYANumberKeyboard.h>
 

@@ -5,7 +5,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 
 /**
  不对外使用

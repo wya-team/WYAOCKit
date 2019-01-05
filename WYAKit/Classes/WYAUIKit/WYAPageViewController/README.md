@@ -45,7 +45,7 @@ scrollView | 内部容器视图 | WYAPageScrollView | -
 menuViewContentMargin | menuView内部视图与左右的间距 | CGFloat | -
 
 ## 方法
-```Object-C
+```objective-c
 /**
  构造方法，使用该方法创建控制器，或者实现数据源方法
 
@@ -98,7 +98,7 @@ menuViewContentMargin | menuView内部视图与左右的间距 | CGFloat | -
 
 
 ## delegate
-```Object-C
+```objective-c
 @optional
 
 /**
@@ -140,7 +140,7 @@ menuViewContentMargin | menuView内部视图与左右的间距 | CGFloat | -
 
 ## DataSource
 
-```Object-C
+```objective-c
 @optional
 
 /**
@@ -195,7 +195,7 @@ menuViewContentMargin | menuView内部视图与左右的间距 | CGFloat | -
 - 构建继承与WYAPageController的Class
 
 
-```Object-C
+```objective-c
 #import "WYAPageController.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -206,7 +206,7 @@ NS_ASSUME_NONNULL_END
 ```
 - 设置相关属性
  
-```Object-C
+```objective-c
     WYACustomPageController * vc = [[WYACustomPageController alloc]init];
     vc.selectIndex = 1;
     vc.title = key;
@@ -216,7 +216,7 @@ NS_ASSUME_NONNULL_END
 
 - 实现代理
 
-```Object-C
+```objective-c
 #pragma mark ======= delegate
 - (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu{
     return 3;
@@ -271,7 +271,7 @@ menuViewBackroundColor | menuView的背景色设置 | UIColor | whiteColor
 
 - 在需要push或者呈现Controller之前先设置(注意这里要给titles赋值)
 
-```Object-C
+```objective-c
  WYATablePageController * vc = [[WYATablePageController alloc]init];
         vc.selectIndex = 0;
         vc.menuViewStyle = WYAMenuViewStyleLine;
@@ -289,7 +289,7 @@ menuViewBackroundColor | menuView的背景色设置 | UIColor | whiteColor
 ``` 
 - 父容器视图控制器（继承WYAPageTableViewController）
 
-```Object-C
+```objective-c
 #import "WYAPageTableViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -303,7 +303,7 @@ NS_ASSUME_NONNULL_END
 - 需要将
 <font color="red">WYATabControllerChildControllerChangeContentOffstNotification</font>传给子控制器，这个是通知名字，用来监听tableView的偏移量
 
-```Object-C
+```objective-c
 @interface WYATablePageController ()
 @property (nonatomic, strong) UIImageView * headerImageView;
 @end
@@ -391,7 +391,7 @@ NS_ASSUME_NONNULL_END
 ```
 - 子视图必须实现的方法(这里可以继承UITableViewController或者UIViewController)
 
-```Object-C
+```objective-c
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -405,7 +405,7 @@ NS_ASSUME_NONNULL_END
 ```
 - 需要实现scrollView的代理方法，发送相关通知
 
-```Object-C
+```objective-c
 @interface WYAOneTableViewController ()
 
 @end

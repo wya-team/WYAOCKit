@@ -25,7 +25,7 @@
 ```
 ## 方法
 
-```Object-C
+```objective-c
 /**
  默认Realm数据库
 
@@ -134,7 +134,7 @@
 
 - 先创建需要存储的Model
 
-```Object-C
+```objective-c
 #import <Realm/Realm.h>
 
 NS_ASSUME_NONNULL_BEGIN
@@ -163,7 +163,7 @@ NS_ASSUME_NONNULL_END
 ```
 - 基本的增删改查
 
-```Object-C
+```objective-c
 Student * model = [[Student alloc]init];
 model.name = @"娜美";
 model.age = 18;

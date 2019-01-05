@@ -8,7 +8,7 @@
 
 ## NSString+Safe
 
-```Object-C
+```objective-c
 - (NSString *)wya_safeSubstringFromIndex:(NSUInteger)from;
 
 - (NSString *)wya_safeSubstringToIndex:(NSUInteger)to;
@@ -24,7 +24,7 @@
 
 ## NSMutableString+Safe
 
-```Object-C
+```objective-c
 - (void)wya_safeInsertString:(NSString *)aString atIndex:(NSUInteger)loc;
 
 - (void)wya_safeAppendString:(NSString *)aString;
@@ -35,7 +35,7 @@
 ```
 ## NSString+Category
 
-```Object-C
+```objective-c
 /**
  电话号码中间4位*显示
  
@@ -176,7 +176,7 @@
 
 ## NSString+DisplayTime
 
-```Object-C
+```objective-c
 /**
  通过时间戳计算时间差（几小时前、几天前
  
@@ -204,7 +204,7 @@
 
 ## NSString+FilePath
 
-```Object-C
+```objective-c
 /**
  程序主目录，可见子目录(3个):Documents、Library、tmp
  
@@ -250,7 +250,7 @@
 
 ## NSString+MD5
 
-```Object-C
+```objective-c
 - (NSString *)wya_md5WithString; //MD5加密
 - (NSString *)wya_to16MD5;
 - (NSString *)wya_sha1;
@@ -260,7 +260,7 @@
 
 ## NSString+Predicate
 
-```Object-C
+```objective-c
 
 /**
  有效的电话号码
@@ -388,7 +388,7 @@
 
 ## NSString+WYAVersionCompare
 
-```Object-C
+```objective-c
 /**
  对比版本号
  

@@ -16,7 +16,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  十六进制字符串方式修改颜色
  
@@ -39,13 +39,13 @@
 需要注意几点：
 1.你需要设置UIPopoverPresentationController的popoverBackgroundViewClass。
 
-```Object-C
+```objective-c
 popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
 ```
 
 2. 如果需要修改箭头颜色，需要在设置popoverBackgroundViewClass之前设置颜色，代码如下：
 
-```Object-C
+```objective-c
 
 [WYAArrowBackgroundColorConfig wya_arrowBackgroundColorString:@"#333333"];
 
@@ -56,7 +56,7 @@ popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
 
 方法一在退出控制器时写入代码：
 
-```Object-C
+```objective-c
 [self presentViewController:test animated:YES completion:^{
   // 设置关闭圆角
   test.view.superview.clipsToBounds = NO;
@@ -79,7 +79,7 @@ popover.popoverBackgroundViewClass = [WYACustomPopoverBackgroundView class];
 
 代码如下：
 
-```Object-C
+```objective-c
  WYATestViewController * test = [[WYATestViewController alloc]init];
     test.preferredContentSize = CGSizeMake(120*SizeAdapter, 132*SizeAdapter);
     test.modalPresentationStyle = UIModalPresentationPopover;

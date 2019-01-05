@@ -12,7 +12,7 @@ delegate | item点击事件 |WYAShareViewDelegate | -
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  展示分享视图
 
@@ -22,7 +22,7 @@ delegate | item点击事件 |WYAShareViewDelegate | -
 ```
 ## 代理
 
-```Object-C
+```objective-c
 /**
  item点击事件
 
@@ -33,7 +33,7 @@ delegate | item点击事件 |WYAShareViewDelegate | -
 ```
 ## 基础用法
 
-```Object-C
+```objective-c
 WYAShareView * view = [[WYAShareView alloc]init];
 view.dataArray = @[@[@"微博",@"微信好友",@"微信朋友圈",@"QQ",@"QQ控件"], @[@"字号",@"刷新",@"复制链接",@"投诉"]];
 view.delegate = self;

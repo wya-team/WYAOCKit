@@ -3,7 +3,7 @@
 - 实现cell加载的动画效果
 
 ## 方法
-```Object-C
+```objective-c
 - (void)wya_moveAnimation;        //左侧飞入
 - (void)wya_alphaAnimation;       //透明
 - (void)wya_fallAnimation;        //上面掉落

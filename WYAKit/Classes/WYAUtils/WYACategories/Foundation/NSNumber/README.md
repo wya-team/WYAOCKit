@@ -4,7 +4,7 @@
 
 ## NSNumber+Category
 
-```Object-C
+```objective-c
 /** 返回自己对应的罗马数字 */
 - (NSString *)wya_romanNumeral;
 

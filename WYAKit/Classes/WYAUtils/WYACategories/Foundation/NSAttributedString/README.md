@@ -4,7 +4,7 @@
 - 动态计算NSAttributedString的高度
 
 ## 方法
-```Object-C
+```objective-c
 /**
  Get the AttributedString height
 

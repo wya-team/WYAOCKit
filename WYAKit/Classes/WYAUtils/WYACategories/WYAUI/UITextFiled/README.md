@@ -4,7 +4,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  设置placeholder可以定制颜色字体大小
 
