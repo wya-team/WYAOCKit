@@ -62,12 +62,12 @@
 
 - (void)buttonClick
 {
+    WYADownloader * download = [WYADownloader sharedDownloader];
     switch (self.model.downloadState) {
         case WYADownloadStateDownloading: {
-            [self.model suspendDownload];
+            [download wya_suspendDownloadWithModel:self.model];
         } break;
         case WYADownloadStateSuspend: {
-            WYADownloader * download = [WYADownloader sharedDownloader];
             [download wya_keepDownloadWithModel:self.model];
         }
 
@@ -76,7 +76,7 @@
     }
 }
 
-- (void)setModel:(WYADownloadTaskManager *)model
+- (void)setModel:(WYADownloadModel *)model
 {
     if (_model) {
         [_model removeObserver:self forKeyPath:@"progress"];

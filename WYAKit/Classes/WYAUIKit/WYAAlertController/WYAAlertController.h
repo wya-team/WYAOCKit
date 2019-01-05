@@ -3,10 +3,10 @@
 #import "WYAStyle.h"
 #import <UIKit/UIKit.h>
 
+@class WYAPopupView;
+
 /** 灰色背景透明度 */
 static const CGFloat as_backgroundAlpha = 0.4;
-
-@class WYAPopupView;
 
 @interface WYAAlertController : UIViewController
 
@@ -32,7 +32,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @param message 消息
  @return alert控制器
  */
-+ (_Nonnull instancetype)wya_AlertWithTitle:(NSString * _Nullable)title
++ (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title
                                     Message:(NSString * _Nullable)message
                            AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle;
 
@@ -43,7 +43,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @param message 消息
  @return alert控制器
  */
-+ (_Nonnull instancetype)wya_AlertSheetWithTitle:(NSString * _Nullable)title
++ (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message;
 
 /**
@@ -52,7 +52,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @param view 自定义视图
  @return alert控制器
  */
-+ (_Nonnull instancetype)wya_AlertWithCustomView:(UIView *)view
++ (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
                                       AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
@@ -60,19 +60,19 @@ static const CGFloat as_backgroundAlpha = 0.4;
  
  @param action action
  */
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action;
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action;
 
 /**
  *    直接添加一个数组的 action
  *
  *    @param actions 放有 action 的数组
  */
-- (void)wya_AddActions:(NSArray<WYAAlertAction *> * _Nonnull)actions;
+- (void)wya_addActions:(NSArray<WYAAlertAction *> * _Nonnull)actions;
 
 /**
  添加输入框
 
  @param textField 输入框
  */
-- (void)wya_AddTextField:(UITextField *)textField;
+- (void)wya_addTextField:(UITextField *)textField;
 @end

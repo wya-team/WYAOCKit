@@ -34,12 +34,7 @@
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self) {
-        self.time       = 15.0;
-        self.cameraType = WYACameraTypeAll;
-    }
-    return self;
+    return [self initWithType:WYACameraTypeAll];
 }
 
 - (instancetype)initWithType:(WYACameraType)type
@@ -130,19 +125,37 @@
     [self.cameraBar addSubview:self.flashLightButton];
 
     [self.view addSubview:self.progressView];
+
     if (self.cameraType == WYACameraTypeAll) {
         [self.view addSubview:self.messageLabel];
     }
 
-    self.cameraBar.frame = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
+    CGFloat cameraBar_X      = 0;
+    CGFloat cameraBar_Y      = 0;
+    CGFloat cameraBar_Width  = ScreenWidth;
+    CGFloat cameraBar_Height = WYATopHeight;
+    self.cameraBar.frame     = CGRectMake(cameraBar_X, cameraBar_Y, cameraBar_Width, cameraBar_Height);
 
-    CGFloat width                = self.cameraBar.cmam_width / 3;
-    self.flashButton.center      = CGPointMake(width / 2, WYAStatusBarHeight + 22);
-    self.cameraButton.center     = CGPointMake(width + width / 2, WYAStatusBarHeight + 22);
-    self.flashLightButton.center = CGPointMake(width * 2 + width / 2, WYAStatusBarHeight + 22);
+    CGFloat width               = self.cameraBar.cmam_width / 3;
+    CGFloat flashButton_centerX = width / 2;
+    CGFloat flashButton_centerY = WYAStatusBarHeight + 22;
+    self.flashButton.center     = CGPointMake(flashButton_centerX, flashButton_centerY);
 
-    self.closeButton.center  = CGPointMake(ScreenWidth / 4 - 10 * SizeAdapter, self.progressView.center.y);
-    self.messageLabel.center = CGPointMake(ScreenWidth / 2, self.progressView.center.y - 60);
+    CGFloat cameraButton_centerX = width + width / 2;
+    CGFloat cameraButton_centerY = WYAStatusBarHeight + 22;
+    self.cameraButton.center     = CGPointMake(cameraButton_centerX, cameraButton_centerY);
+
+    CGFloat flashLightButton_centerX = width * 2 + width / 2;
+    CGFloat flashLightButton_centerY = WYAStatusBarHeight + 22;
+    self.flashLightButton.center     = CGPointMake(flashLightButton_centerX, flashLightButton_centerY);
+
+    CGFloat closeButton_centerX = ScreenWidth / 4 - 10 * SizeAdapter;
+    CGFloat closeButton_centerY = self.progressView.center.y;
+    self.closeButton.center     = CGPointMake(closeButton_centerX, closeButton_centerY);
+
+    CGFloat messageLabel_centerX = ScreenWidth / 2;
+    CGFloat messageLabel_centerY = self.progressView.center.y - 60;
+    self.messageLabel.center     = CGPointMake(messageLabel_centerX, messageLabel_centerY);
 }
 
 - (void)setupCaptureSession
@@ -200,6 +213,7 @@
         [UIView animateWithDuration:0.2 animations:^{
             self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
         }];
+
     } else if (longPress.state == UIGestureRecognizerStateEnded) {
         [self endRecordingVideo];
         [self.videoTool stopRecordFunction];
@@ -207,6 +221,7 @@
         [UIView animateWithDuration:0.2 animations:^{
             self.progressView.transform = CGAffineTransformIdentity;
         } completion:^(BOOL finished) {
+
             if (self.videoTool.videoPath) {
                 self.placeholdImageView.hidden = NO;
                 NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
@@ -266,6 +281,9 @@
                 self.takePhoto(self.placeholdImageView.image);
             }
         } else {
+            [self.player pause];
+            [self.captureVideoPreviewLayer removeFromSuperlayer];
+
             if (self.takeVideo) {
                 self.takeVideo(self.videoTool.videoPath);
             }
@@ -275,14 +293,10 @@
 
 - (void)runLoopTheMovie:(NSNotification *)n
 {
-    //注册的通知  可以自动把 AVPlayerItem 对象传过来，只要接收一下就OK
-
     AVPlayerItem * p = [n object];
-    //关键代码
     [p seekToTime:kCMTimeZero];
 
     [self.player play];
-    NSLog(@"重播");
 }
 
 - (void)startTimer
@@ -309,9 +323,8 @@
         return;
     }
 
-    self.timeCount   = self.timeCount + self.timeMargin;
-    CGFloat progress = self.timeCount / self.time;
-    NSLog(@"progress==%f", progress);
+    self.timeCount             = self.timeCount + self.timeMargin;
+    CGFloat progress           = self.timeCount / self.time;
     self.progressView.progress = progress;
 }
 
@@ -321,7 +334,6 @@
     NSFileManager * fileManage = [NSFileManager defaultManager];
     NSError * error;
     [fileManage removeItemAtPath:[self.videoTool getVideoPathCache] error:&error];
-    NSLog(@"error==%@", [error localizedDescription]);
 }
 
 #pragma mark - Setter -
@@ -464,6 +476,14 @@
                 StrongSelf(strongSelf);
                 if (self.videoTool.videoPath) {
                     [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
+                    //                    if ([UIVideoEditorController canEditVideoAtPath:self.videoTool.videoPath]) {
+                    //                        UIVideoEditorController * vc = [[UIVideoEditorController alloc]init];
+                    //                        vc.videoPath = strongSelf.videoTool.videoPath;
+                    //                        vc.delegate = self;
+                    //                        [strongSelf presentViewController:vc animated:YES completion:nil];
+                    //                        NSLog(@"yes");
+                    //                    }
+
                     return;
                 }
 

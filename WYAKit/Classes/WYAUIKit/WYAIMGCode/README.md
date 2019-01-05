@@ -2,13 +2,13 @@
 
 ## 功能
 
-生成二维码和条形码
+生成二维码和条形码(条形码不支持中文输入)
 
 ## 方法
 
-* 生成普通的二维码
+- 生成普通的二维码
 
-```Object-C
+```objective-c
 /**
  生成一张普通的二维码
 
@@ -20,9 +20,9 @@
                                 imageViewWidth:(CGFloat)imageViewWidth;
 ```
 
-* 生成带图片的二维码
+- 生成带图片的二维码
 
-```Object-C
+```objective-c
 /**
  生成一张带有logo的二维码
 
@@ -36,9 +36,9 @@
                        logoScaleToSuperView:(CGFloat)logoScaleToSuperView;
 ```
 
-* 生成彩色的二维码
+- 生成彩色的二维码
 
-```Object-C
+```objective-c
 /**
  生成一张彩色的二维码
 
@@ -52,13 +52,13 @@
                                    mainColor:(CIColor *)mainColor;
 ```
 
-* 生成条形码
+- 生成条形码
 
-```Object-C
+```objective-c
 /**
  生成条形码（原生只支持ios8.0以后）
 
- @param content 内容
+ @param content 内容（不能是中文）
  @param size 大小
  @param red 色值
  @param green 色值

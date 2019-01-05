@@ -29,7 +29,7 @@ WYASliderStyleSingle|单向
 WYASliderStyleDouble|双向
 
 ## 代理方法
-```objc
+```objective-c
 /**
  左侧滑动事件
 
@@ -49,11 +49,11 @@ WYASliderStyleDouble|双向
 
 * 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYASlider.h>
 ```
 
-```object-C
+```objective-c
 WYASlider * slider = [[WYASlider alloc]initWithFrame:CGRectMake(30, 100, self.view.frame.size.width-60, 30)];
 slider.showNoteLabel = NO;
 [self.view addSubview:slider];

@@ -5,19 +5,18 @@
 //  Created by 李世航 on 2018/12/6.
 //
 
-#import "WYADownloadModel.h"
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
-@class WYADownloadTaskManager;
+@class WYADownloadModel;
 
 @interface WYADownloader : NSObject
-@property (nonatomic, copy) NSString * identifier;
-@property (nonatomic, assign) BOOL allowsCellularAccess;
+
+@property (nonatomic, assign) BOOL allowsCellularAccess; //是否允许数据网络连接
 //@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
 
-@property (nonatomic, strong, readonly) NSArray * downloadingArray;      //正在下载的数组（ui使用）
-@property (nonatomic, strong, readonly) NSArray * downloadCompleteArray; //已经下载完成的数组（ui使用）
+@property (nonatomic, strong, readonly) NSArray * downloadingArray;      //正在下载的数组
+@property (nonatomic, strong, readonly) NSArray * downloadCompleteArray; //已经下载完成的数组
 
 /**
  初始化
@@ -42,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
 
 /**
- 取消下载任务（调用此方法resumeData将会不存在）
+ 放弃下载任务（调用此方法resumeData将会不存在）
 
  @param model 数据模型
  */
@@ -53,13 +52,23 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param model 数据模型
  */
-- (void)wya_keepDownloadWithModel:(WYADownloadTaskManager *)model;
+- (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
 
-- (void)wya_removeDownloadWithTaskManager:(WYADownloadTaskManager *)manager;
+/**
+ 移除下载完成的任务
 
+ @param model 数据模型
+ */
+- (void)wya_removeDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+ 设置请求头
+ 
+ @param value value
+ @param field key
+ */
 - (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
 
-//- (void)wya_AppGoBackgroundWithSessionHandle:(void(^)(NSURLSession * session))handle;
 @end
 
 FOUNDATION_EXPORT NSString * const WYADownloaderDownloadArrayObserveKeyPath; //监测下载队列的变化

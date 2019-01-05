@@ -125,6 +125,7 @@
     }
     return _rightTableView;
 }
+
 - (UICollectionView *)collectionView
 {
     if (!_collectionView) {
@@ -137,6 +138,7 @@
     }
     return _collectionView;
 }
+
 #pragma mark--- Private Method
 - (void)createUI
 {
@@ -172,6 +174,7 @@
         return cell;
     }
 }
+
 #pragma mark - UITableViewDelegate -
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {

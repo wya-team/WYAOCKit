@@ -20,8 +20,7 @@
 
 @implementation WYACameraTool
 
-#pragma mark -API
-
+#pragma mark - Public Method -
 //启动录制功能
 - (void)startRecordFunction
 {
@@ -249,7 +248,7 @@
     return fileName;
 }
 
-#pragma mark - Device init Method
+#pragma mark - Getter -
 //捕获到的视频呈现的layer
 - (AVCaptureVideoPreviewLayer *)previewLayer
 {

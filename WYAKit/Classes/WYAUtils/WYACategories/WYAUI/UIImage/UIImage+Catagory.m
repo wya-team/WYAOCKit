@@ -174,6 +174,16 @@
     return image.UIImage;
 }
 
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className
+{
+    NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)].resourcePath
+                        stringByAppendingPathComponent:@"/WYAKit.bundle"];
+    NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
+    SVGKImage * image          = [SVGKImage imageNamed:name inBundle:resource_bundle];
+    image.size                 = size;
+    return image.UIImage;
+}
+
 // 获取视频第一帧
 + (UIImage *)wya_getVideoPreViewImage:(NSURL *)path
 {
@@ -217,7 +227,7 @@
 }
 
 /// 返回一张可以拉伸的图片
-+ (instancetype)wya_resizeImageNamed:(NSString *)name
++ (UIImage *)wya_resizeImageNamed:(NSString *)name
 {
     UIImage * normal = [UIImage imageNamed:name];
     CGFloat width    = normal.size.width * 0.5;

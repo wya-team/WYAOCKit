@@ -100,6 +100,12 @@
 - (void)addNotice
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(configVideoScreen) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeVideoPlayer) name:UIApplicationWillTerminateNotification object:nil];
+}
+
+- (void)closeVideoPlayer
+{
+    [self wya_resetPlayer];
 }
 
 - (void)configVideoScreen
@@ -193,7 +199,7 @@
 {
     if (!_previewImageView) {
         _previewImageView       = [[UIImageView alloc] init];
-        _previewImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.videoItem.previewImage]]];
+        _previewImageView.image = [UIImage wya_getVideoPreViewImage:self.videoItem.videoUrl];
     }
     return _previewImageView;
 }
@@ -203,7 +209,7 @@
     if (!_loadingImageView) {
         _loadingImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(30, 30)];
+            object.image         = [UIImage wya_svgImageName:@"spin_white" size:CGSizeMake(30, 30) ClassName:NSStringFromClass(self.class)];
             [object wya_setRotationAnimation:360 time:1 repeatCount:0];
             object;
         });
@@ -229,7 +235,7 @@
     return _brightnessView;
 }
 
-#pragma mark KVO
+#pragma mark - KVO -
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     AVPlayerItem * playerItem = (AVPlayerItem *)object;
@@ -332,9 +338,9 @@
 {
     self.controlView.zoomButton.selected = YES;
     self.controlView.backButton.hidden   = NO;
-    if (!self.videoItem.superV) {
-        self.videoItem.superV = self.superview;
-        self.videoItem.rect   = self.frame;
+    if (!self.videoItem.superView) {
+        self.videoItem.superView = self.superview;
+        self.videoItem.rect      = self.frame;
     }
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
@@ -376,7 +382,7 @@
     self.controlView.backButton.hidden   = YES;
     self.isFullScreen                    = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:NO];
-    CGRect frame = [self.videoItem.superV convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
+    CGRect frame = [self.videoItem.superView convertRect:self.videoItem.rect toView:[UIApplication sharedApplication].keyWindow];
     [UIView animateWithDuration:0.5 animations:^{
         self.transform = CGAffineTransformIdentity;
         self.frame     = frame;
@@ -386,7 +392,7 @@
          */
         [self removeFromSuperview];
         self.frame = self.videoItem.rect;
-        [self.videoItem.superV addSubview:self];
+        [self.videoItem.superView addSubview:self];
         self.brightnessView.transform = CGAffineTransformIdentity;
     }];
 
@@ -540,7 +546,7 @@
 }
 
 #pragma mark Public Action
-- (void)wya_RegisterPlayerItem:(WYAVideoItem *)item
+- (void)wya_registerPlayerItem:(WYAVideoItem *)item
 {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
@@ -552,7 +558,7 @@
     [self layoutIfNeeded];
 }
 
-- (void)wya_ResetPlayer
+- (void)wya_resetPlayer
 {
     if (self.timeObserve) {
         [self.player removeTimeObserver:self.timeObserve];
@@ -625,7 +631,7 @@
 - (void)videoControlRetry:(UIView *)videoControl
 {
     NSLog(@"self.videoItem==%@", self.videoItem);
-    [self wya_RegisterPlayerItem:self.videoItem];
+    [self wya_registerPlayerItem:self.videoItem];
 }
 
 - (void)videoControlGoOn:(UIView *)videoControl

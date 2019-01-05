@@ -210,7 +210,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setLayoutStyle:(int)layoutStyle
+- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
 {
     _layoutStyle = layoutStyle;
     [self layoutIfNeeded];
@@ -229,7 +229,7 @@
 
 #pragma mark--- Method
 /** 添加 action */
-- (void)wya_AddAction:(WYAAlertAction * _Nonnull)action
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
 {
     for (UIView * view in self.buttonView.subviews) {
         [view removeFromSuperview];
@@ -282,7 +282,7 @@
     }
 }
 
-- (void)wya_AddTextField:(UITextField *)textField
+- (void)wya_addTextField:(UITextField *)textField
 {
     [self.textFieldView addSubview:textField];
     [textField mas_makeConstraints:^(MASConstraintMaker * make) {

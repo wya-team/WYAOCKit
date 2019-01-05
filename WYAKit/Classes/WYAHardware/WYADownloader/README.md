@@ -1,8 +1,9 @@
 # WYADownloader
 ## 功能
-提供下载相关的功能，暂不支持后台下载
-下载相关模型请继承或使用WYADownloadModel作为下载模型
+提供下载相关的功能
+下载相关模型请继承或使用<font color="red">`WYADownloadModel`</font>作为下载模型
 
+---
 ## 属性
 
 属性 | 说明 | 类型 | 默认值
@@ -13,7 +14,7 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  初始化
 
@@ -27,7 +28,7 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
  @param model 数据模型
  @param handle 回调，用来提示下载是否成功加入下载列表
  */
-- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void(^)(NSString * result))handle;
+- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void (^)(WYADownloadModel * resultModel, NSString * result))handle;
 
 /**
  暂停下载
@@ -37,7 +38,7 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
 - (void)wya_suspendDownloadWithModel:(WYADownloadModel *)model;
 
 /**
- 删除下载任务
+ 放弃下载任务（调用此方法resumeData将会不存在）
 
  @param model 数据模型
  */
@@ -49,7 +50,24 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
  @param model 数据模型
  */
 - (void)wya_keepDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+ 移除下载完成的任务
+
+ @param model 数据模型
+ */
+- (void)wya_removeDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+ 设置请求头
+ 
+ @param value value
+ @param field key
+ */
+- (void)wya_SetValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
 ```
+
+---
 
 # WYADownloadModel
 
@@ -82,10 +100,25 @@ WYADownloadStateFail|下载失败
 
 * 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYADownloader.h>
 #import <WYAKit/WYADownloadModel.h>
-#import <WYAKit/WYADownloadTaskManager.h>
 ```
 
+* 如果需要程序启动恢复下载请在AppDelegate中的didFinishLaunchingWithOptions调用
+
+```objective-c
+[WYADownloader sharedDownloader];
+```
+
+* 开始下载
+
+```objective-c
+WYADownloadModel * model = [[WYADownloadModel alloc] init];
+model.urlString          = @"https://video.pc6.com/v/1810/pyqxxjc3.mp4";
+[object addObject:model2];
+[self.downloader wya_DownloadTaskWithModel:model ResultHandle:^(WYADownloadModel * resultModel, NSString * _Nonnull result) {
+    [UIView wya_showBottomToastWithMessage:result];
+}];
+```
 

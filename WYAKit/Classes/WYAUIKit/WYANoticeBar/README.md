@@ -19,7 +19,7 @@ noticeBackgroundColor|背景颜色|UIColor|-
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  开始动画
  */
@@ -35,10 +35,10 @@ noticeBackgroundColor|背景颜色|UIColor|-
 
 * 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYANoticeBar.h>
 ```
-```object-C
+```objective-c
 WYANoticeBar * bar = [[WYANoticeBar alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 30)];
 bar.showNoticeButton = YES;
 bar.noticeButtonImage = [UIImage imageNamed:@"喇叭"];

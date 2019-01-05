@@ -21,6 +21,6 @@ typedef NS_ENUM(NSInteger, WYAAlertActionStyle) {
  *    @param handler 回调
  *
  */
-+ (instancetype)wya_ActionWithTitle:(NSString *)title style:(WYAAlertActionStyle)style handler:(void (^)(void))handler;
++ (instancetype)wya_actionWithTitle:(NSString *)title style:(WYAAlertActionStyle)style handler:(void (^)(void))handler;
 
 @end

@@ -60,6 +60,18 @@ static CGFloat QRCodeWidth = 220;
                 [self setCameraLayer];
                 [self createUI];
                 [self setupCamera];
+            } else {
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [UIView wya_warningToastWithMessage:@"检测到您未开启相机，将在三秒钟返回"];
+                });
+
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    if (self.navigationController) {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    } else {
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }
+                });
             }
         }];
     } else if (AVstatus == AVAuthorizationStatusAuthorized) {
@@ -201,7 +213,16 @@ static CGFloat QRCodeWidth = 220;
         [self.session addOutput:videoOutput];
     }
     // 条码类型 AVMetadataObjectTypeQRCode
-    [self.output setMetadataObjectTypes:@[ AVMetadataObjectTypeAztecCode, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeInterleaved2of5Code, AVMetadataObjectTypeITF14Code ]];
+    [self.output setMetadataObjectTypes:@[ AVMetadataObjectTypeAztecCode,
+                                           AVMetadataObjectTypeQRCode,
+                                           AVMetadataObjectTypeUPCECode,
+                                           AVMetadataObjectTypeEAN8Code,
+                                           AVMetadataObjectTypeEAN13Code,
+                                           AVMetadataObjectTypeCode39Code,
+                                           AVMetadataObjectTypeCode93Code,
+                                           AVMetadataObjectTypeCode128Code,
+                                           AVMetadataObjectTypeInterleaved2of5Code,
+                                           AVMetadataObjectTypeITF14Code ]];
 
     // Preview
     self.preview              = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
@@ -317,7 +338,7 @@ static CGFloat QRCodeWidth = 220;
     } else if (status == PHAuthorizationStatusAuthorized) {
         [self goPhotoLibrary];
     } else if (status == PHAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:@"检测到您没有开启相册权限，请前往设置开启"];
+        [UIView wya_warningToastWithMessage:@"检测到您没有开启相册权限，请前往设置开启"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
         });
@@ -394,8 +415,8 @@ static CGFloat QRCodeWidth = 220;
             [self dismissViewControllerAnimated:YES completion:nil];
         }
 
-        if (self.ScanReault) {
-            self.ScanReault(stringValue);
+        if (self.scanReault) {
+            self.scanReault(stringValue);
         }
 
     } else {
@@ -418,8 +439,6 @@ static CGFloat QRCodeWidth = 220;
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *, id> *)info
 {
-    // 对选取照片的处理，如果选取的图片尺寸过大，则压缩选取图片，否则不作处理
-    //    UIImage *image = [UIImage wya_ImageSizeWithScreenImage:info[UIImagePickerControllerOriginalImage]];
     UIImage * image = info[UIImagePickerControllerOriginalImage];
     // CIDetector(CIDetector可用于人脸识别)进行图片解析，从而使我们可以便捷的从相册中获取到二维码
     // 声明一个 CIDetector，并设定识别类型 CIDetectorTypeQRCode
@@ -444,8 +463,8 @@ static CGFloat QRCodeWidth = 220;
         for (int index = 0; index < [features count]; index++) {
             CIQRCodeFeature * feature = [features wya_safeObjectAtIndex:index];
             NSString * resultStr      = feature.messageString;
-            if (self.ScanReault) {
-                self.ScanReault(resultStr);
+            if (self.scanReault) {
+                self.scanReault(resultStr);
             }
         }
         [self dismissViewControllerAnimated:YES completion:^{

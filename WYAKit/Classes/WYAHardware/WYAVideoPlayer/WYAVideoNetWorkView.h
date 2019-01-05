@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) void (^retryHandle)(void);
 @property (nonatomic, copy) void (^goOnHandle)(void);
-- (void)netWorkStatus:(void (^)(AFNetworkReachabilityStatus status))handle;
+- (void)netWorkStatus:(void (^)(AFNetworkReachabilityStatus status))handle; //只能被动监测网络状态
 @end
 
 NS_ASSUME_NONNULL_END

@@ -46,7 +46,7 @@
 #pragma mark ======= public methods
 - (void)wya_showShareViewWithController:(UIViewController *)controller
 {
-    self.alert = [WYAAlertController wya_AlertWithCustomView:self AlertStyle:WYAAlertStyleCustomSheet];
+    self.alert = [WYAAlertController wya_alertWithCustomView:self AlertStyle:WYAAlertStyleCustomSheet];
     [controller presentViewController:self.alert animated:YES completion:nil];
 }
 

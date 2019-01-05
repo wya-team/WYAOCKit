@@ -92,10 +92,26 @@
  */
 + (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size;
 
+/**
+ 加载SVG图片
+
+ @param name 图片名
+ @param size 大小
+ @param className NSStringFromClass(self.class)
+ @return image
+ */
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className;
+
+/**
+ 获取视频第一帧图片
+
+ @param path 视频url
+ @return image
+ */
 + (UIImage *)wya_getVideoPreViewImage:(NSURL *)path;
 
 /// 返回一张可拉伸的图片
-+ (instancetype)wya_resizeImageNamed:(NSString *)name;
++ (UIImage *)wya_resizeImageNamed:(NSString *)name;
 
 /**
  颜色生成图片是否需要切圆角

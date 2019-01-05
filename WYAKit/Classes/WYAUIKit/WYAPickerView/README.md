@@ -35,7 +35,7 @@ WYADatePickerStyleTimeAndSecond|时分秒
 WYADatePickerStyleMinuteAndSecond|分秒
 
 ## 方法
-```Object-C
+```objective-c
 /**
  获取pickerView高度
 
@@ -48,11 +48,11 @@ WYADatePickerStyleMinuteAndSecond|分秒
 
 * 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYAPickerView.h>
 ```
 
-```object-C
+```objective-c
 WYADatePicker * datePicker = [[WYADatePicker alloc]init];
 datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
 datePicker.frame = CGRectMake(0, 0, self.view.frame.size.width, [datePicker getPickerViewHeight]);

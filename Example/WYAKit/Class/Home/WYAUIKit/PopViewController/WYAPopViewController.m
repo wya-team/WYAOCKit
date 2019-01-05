@@ -48,7 +48,7 @@
         [vc dismissViewControllerAnimated:YES completion:nil];
         if (indexPath.row == 0) {
             WYAQRCodeViewController * qr = [[WYAQRCodeViewController alloc] init];
-            qr.ScanReault                = ^(NSString * reault) {
+            qr.scanReault                = ^(NSString * reault) {
                 [UIView wya_showCenterToastWithMessage:reault];
             };
             [self presentViewController:qr animated:YES completion:nil];

@@ -6,40 +6,6 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-/*
- PHAsset: 代表照片库中的一个资源，跟 ALAsset 类似，通过 PHAsset 可以获取和保存资源
- PHFetchOptions: 获取资源时的参数，可以传 nil，即使用系统默认值
- PHAssetCollection: PHCollection 的子类，表示一个相册或者一个时刻，或者是一个「智能相册（系统提供的特定的一系列相册，例如：最近删除，视频列表，收藏等等，如下图所示）
- PHFetchResult: 表示一系列的资源结果集合，也可以是相册的集合，从?PHCollection 的类方法中获得
- PHImageManager: 用于处理资源的加载，加载图片的过程带有缓存处理，可以通过传入一个 PHImageRequestOptions 控制资源的输出尺寸等规格
- PHImageRequestOptions: 如上面所说，控制加载图片时的一系列参数
-*/
-
-//PHAssetCollectionType  相簿类型(手机相册APP中三个分组)
-// PHAssetCollectionTypeAlbum          (可能是自己创建的相册)
-// PHAssetCollectionTypeSmartAlbum     （相簿）
-// PHAssetCollectionTypeMoment          (照片)
-
-//PHAssetCollectionSubtype 子类型
-//PHAssetCollectionTypeAlbum regular subtypes
-// PHAssetCollectionSubtypeAlbumRegular (用户相册，照片APP中的相册)
-//PHAssetCollectionTypeAlbum shared subtypes
-// PHAssetCollectionSubtypeAlbumMyPhotoStream
-//PHAssetCollectionTypeSmartAlbum subtypes
-//  PHAssetCollectionSubtypeSmartAlbumGeneric
-
-//获取用户创建的所有相册
-//    PHFetchResult *topLevelUserCollections = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
-//
-//    for (NSInteger tag = 0; tag<topLevelUserCollections.count; tag++) {
-//        PHCollectionList * list = topLevelUserCollections[tag];
-//        NSLog(@"listName==%@",list.localizedLocationNames);
-//    }
-//
-//    // 获取所有资源的集合，并按资源的创建时间排序（默认选择的是PHAssetSourceTypeUserLibrary）
-//    PHFetchResult *assetsFetchResults = [PHAsset fetchAssetsWithOptions:options];
-//    NSLog(@"ass==%@,ass.count==%d ",assetsFetchResults, assetsFetchResults.count);
-
 #import "WYAPhotoBrowserViewController.h"
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserCell.h"
@@ -76,15 +42,18 @@
     self.title = @"相册胶卷";
     [self.view addSubview:self.controlV];
 
+    CGFloat collectionView_X      = self.view.cmam_left;
+    CGFloat collectionView_Y      = self.view.cmam_top;
+    CGFloat collectionView_Width  = self.view.cmam_width;
+    CGFloat collectionView_Height = self.view.cmam_height - WYABottomHeight - 49;
+    self.collectionView.frame     = CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
-    self.collectionView.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height - WYABottomHeight - 49);
 
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
     if (status == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
 
             if (status == PHAuthorizationStatusAuthorized) {
-                // TODO:...
                 NSLog(@"获取到权限了");
                 [self performBlock];
             } else if (status == PHAuthorizationStatusDenied) {
@@ -100,7 +69,6 @@
 
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"取消" forState:UIControlStateNormal];
-
     [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
     button.frame           = CGRectMake(0, 0, 40, 30);
     button.titleLabel.font = FONT(15);
@@ -238,7 +206,7 @@
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(8_0)
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     WYAPhotoBrowserCell * imageCell        = (WYAPhotoBrowserCell *)cell;
     imageCell.model                        = self.dataSource[indexPath.row];

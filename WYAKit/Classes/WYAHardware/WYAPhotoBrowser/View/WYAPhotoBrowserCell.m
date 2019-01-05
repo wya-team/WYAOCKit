@@ -126,8 +126,7 @@
             NSInteger dur            = time % 60;
             NSInteger due            = time / 60;
             NSString * string        = [NSString stringWithFormat:@"%ld:%ld", (long)due, (long)dur];
-            NSLog(@"string==%@", string);
-            self.videoLabel.text = string;
+            self.videoLabel.text     = string;
         }
 
         if (model.cropImage) {

@@ -113,7 +113,6 @@
 {
     WYAImageBrowserCell * imageCell = (WYAImageBrowserCell *)cell;
     imageCell.image                 = self.images[indexPath.item];
-    [imageCell.scrollV setZoomScale:1 animated:NO];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath

@@ -16,7 +16,7 @@
 
 - ~~WYAPagination~~
 
-- ~~WYAMenu~~
+- ~~WYAOptionMenu~~
 
 - ~~WYACell (inputItem, accordion, list, Card, Grid)~~
 
@@ -34,9 +34,9 @@
 
 - ~~WYAPageViewController~~
 
-- ~~WYAUIAlert~~ (ActoinSheet, Modal)
+- ~~WYAAlertController~~ (ActoinSheet, Modal)
 
-- ~~WYAToastView (ActivityIndicator, Toast)~~
+- ~~UIView+WYAToast (ActivityIndicator, Toast)~~
 
 - ~~WYAShareView~~
 
@@ -46,7 +46,7 @@
 
 - ~~WYATextView~~ (TextatraItem)
     
-- ~~WYADrawerViewController (Drawer)~~
+- ~~UIViewController+WYADrawerView (Drawer)~~
     
 - WYAKeyboard
 

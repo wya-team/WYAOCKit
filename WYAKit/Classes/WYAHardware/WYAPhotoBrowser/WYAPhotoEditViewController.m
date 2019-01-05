@@ -236,6 +236,11 @@
     [self presentViewController:imageCrop animated:YES completion:nil];
 }
 
+/**
+ 获取原图
+
+ @param original 如果为YES，获取的是本地的原图片
+ */
 - (void)editWithOriginalImage:(BOOL)original
 {
     NSInteger index              = self.collectionView.contentOffset.x / self.collectionView.cmam_width;

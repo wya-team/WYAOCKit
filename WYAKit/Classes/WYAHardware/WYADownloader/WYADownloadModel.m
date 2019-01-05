@@ -5,14 +5,14 @@
 //  Created by 李世航 on 2018/12/12.
 //
 
-#import "WYADownloadTaskManager.h"
+#import "WYADownloadModel.h"
 #define floderPath [[NSString wya_docPath] stringByAppendingPathComponent:@"WYADownload"]
 
-@interface WYADownloadTaskManager ()
+@interface WYADownloadModel ()
 
 @end
 
-@implementation WYADownloadTaskManager
+@implementation WYADownloadModel
 {
     NSNumber * startTime;
 }
@@ -20,35 +20,33 @@
 {
     self = [super init];
     if (self) {
-        _isSuccess     = NO;
         _downloadState = WYADownloadStateDownloading;
     }
     return self;
 }
 
-- (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model
+- (void)startDownloadWithSession:(NSURLSession *)session
 {
-    //    [request setHTTPMethod:@"HEAD"];
+    NSAssert(self.urlString, @"下载地址不能为空");
+    // 字符串解码
+    NSString * urlS = [self.urlString stringByRemovingPercentEncoding];
 
-    //    NSString * utf8String = [model.urlString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    //这里需要判断是编码还是解码
-    NSString * utf8String         = model.urlString;
-    NSURL * url                   = [NSURL URLWithString:utf8String];
-    _urlString                    = utf8String;
-    _model                        = model;
-    self.destinationPath          = model.destinationPath;
+    // 第一种下载
+    //    NSURL * url                   = [NSURL URLWithString:urlS];
+    //    self.downloadTask             = [session downloadTaskWithURL:url];
+
+    // 第二种下载
+    NSURL * url                   = [NSURL URLWithString:urlS];
     NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:url];
     self.downloadTask             = [session downloadTaskWithRequest:request];
-    //    self.downloadTask = [session downloadTaskWithURL:url];
+
     [self.downloadTask resume];
     self.downloadState = WYADownloadStateDownloading;
-    NSLog(@"respond==%@", self.downloadTask.response);
 }
 
 - (void)suspendDownload
 {
     self.downloadState = WYADownloadStateSuspend;
-    NSLog(@"下载暂停");
     [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
         self.downloadData = resumeData;
     }];
@@ -67,7 +65,7 @@
     [self.downloadTask cancel];
 }
 
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadTaskManager * manager))handle
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle
 {
     self.downloadState          = WYADownloadStateComplete;
     NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -75,7 +73,7 @@
     if (self.destinationPath) {
         url = [NSURL fileURLWithPath:self.destinationPath];
     } else {
-        NSString * path = [floderPath stringByAppendingPathComponent:_urlString.lastPathComponent];
+        NSString * path = [floderPath stringByAppendingPathComponent:self.urlString.lastPathComponent];
         if (path.pathExtension.length < 1) {
             path = [path stringByAppendingPathExtension:@"mp4"];
         }
@@ -85,7 +83,7 @@
     NSError * fileError;
     BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:url error:&fileError];
     if (!isfile) {
-        handle(self);
+        handle(self, [fileError localizedDescription]);
     }
     NSLog(@"file==%d", isfile);
     NSLog(@"fileError==%@", [fileError localizedDescription]);
@@ -95,12 +93,7 @@
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    if (totalBytesExpectedToWrite > 0) {
-        _isSuccess = YES;
-    }
     self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
-    //    NSLog(@"taskManager91");
-    //    NSLog(@"pro==%f",_progress);
     if (startTime) {
         CFAbsoluteTime startTimeValue = [startTime doubleValue];
 

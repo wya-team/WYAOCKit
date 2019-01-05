@@ -43,13 +43,8 @@
             if (model.cacheImage) {
                 self.preview.imageView.image = model.cacheImage;
             } else {
-                PHAsset * asset = (PHAsset *)model.asset;
-
                 PHImageManager * manager    = [PHImageManager defaultManager];
                 PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
-                //        opi.synchronous = YES; //默认no，异步加载
-                //              opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-                //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
 
                 [manager requestImageForAsset:model.asset targetSize:CGSizeMake(self.cmam_width, self.cmam_height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                     self.preview.imageView.image = result;
@@ -98,7 +93,6 @@
 {
     self.playButton.selected = !self.playButton.selected;
     if (self.playButton.selected) {
-        self.playImageView.hidden = YES;
         [self.player play];
     } else {
         [self.player pause];
@@ -115,6 +109,28 @@
     self.playButton.selected = YES;
 }
 
+#pragma mark - KVO -
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    AVPlayerItem * playerItem = (AVPlayerItem *)object;
+    if ([keyPath isEqualToString:@"status"]) {
+        if ([playerItem status] == AVPlayerStatusReadyToPlay) {
+            NSLog(@"AVPlayerStatusReadyToPlay");
+            //            self.playImageView.hidden = YES;
+        } else {
+            NSLog(@"AVPlayerStatusFailed");
+        }
+    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        // 计算缓冲进度
+        NSLog(@"缓冲中");
+    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
+        // 当缓冲是空的时候
+
+    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
+        // 当缓冲好的时候
+    }
+}
+
 #pragma mark - Setter -
 - (void)setModel:(WYAPhotoBrowserModel *)model
 {
@@ -126,12 +142,17 @@
         } else {
             [manager requestImageForAsset:asset targetSize:CGSizeMake(self.cmam_width, self.cmam_height) contentMode:PHImageContentModeAspectFill options:nil resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 self.playImageView.image = result;
+                model.cacheImage         = result;
             }];
         }
         if (asset.mediaType == PHAssetMediaTypeVideo) {
-            //            PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc]init];
-            //            option.version = PHVideoRequestOptionsVersionOriginal;
-            [manager requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+            PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc] init];
+            option.version                 = PHVideoRequestOptionsVersionOriginal;
+            option.progressHandler         = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                NSLog(@"progress==%f", progress);
+                NSLog(@"error==%@", [error localizedDescription]);
+            };
+            [manager requestPlayerItemForVideo:asset options:option resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
                 self.playerItem = playerItem;
             }];
         }
@@ -140,12 +161,21 @@
 
 - (void)setPlayerItem:(AVPlayerItem *)playerItem
 {
-    self.player                   = [AVPlayer playerWithPlayerItem:playerItem];
-    self.playerlayer              = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    self.playerlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.playerlayer.frame        = self.bounds;
-    [self.contentView.layer insertSublayer:self.playerlayer below:self.playButton.layer];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    _playerItem = playerItem;
+    if (playerItem) {
+        self.player                   = [AVPlayer playerWithPlayerItem:playerItem];
+        self.playerlayer              = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        self.playerlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+        self.playerlayer.frame        = self.bounds;
+        [self.contentView.layer insertSublayer:self.playerlayer below:self.playButton.layer];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+        [playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];           // 监听status属性
+        [playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil]; // 监听loadedTimeRanges属性
+        // 缓冲区空了，需要等待数据
+        [playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+        // 缓冲区有足够数据可以播放了
+        [playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
+    }
 }
 
 #pragma mark - Getter -
@@ -171,6 +201,15 @@
         });
     }
     return _playButton;
+}
+
+- (void)dealloc
+{
+    [self.playerItem removeObserver:self forKeyPath:@"status"];
+    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+    [self.playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+    [self.playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
 }
 
 @end
@@ -219,10 +258,13 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.scrollV.frame = CGRectMake(10, 0, self.cmam_width - 20, self.cmam_height);
 
-    //    self.imageView.frame = CGRectMake(0, 0, self.scrollV.frame.size.width, self.scrollV.frame.size.height);
-    //    self.scrollV.contentSize = CGSizeMake(self.imageView.cmam_width, self.imageView.cmam_height);
+    CGFloat scrollV_X      = 0;
+    CGFloat scrollV_Y      = 0;
+    CGFloat scrollV_Width  = self.cmam_width - 0;
+    CGFloat scrollV_Height = self.cmam_height;
+    self.scrollV.frame     = CGRectMake(scrollV_X, scrollV_Y, scrollV_Width, scrollV_Height);
+
     [self setScrollZoom];
 }
 

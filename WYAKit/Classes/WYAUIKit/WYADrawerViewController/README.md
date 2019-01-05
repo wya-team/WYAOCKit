@@ -4,7 +4,7 @@
 
 ## 方法
 
-```objc
+```objective-c
 /**
 显示默认抽屉
 从左侧滑出类似QQ抽屉效果
@@ -69,11 +69,48 @@ Custom present method 自定义的dismiss动画
 ```
 
 ## 基础用法
-* 导入头文件
 
-```
+- 导入头文件
+
+```objective-c
 #import <WYAKit/UIViewController+WYADrawerView.h>
 ```
 
+- 注册手势驱动
 
+```objective-c
+[self wya_registerShowIntractiveWithEdgeGesture:NO transitionDirectionAutoBlock:^(WYADrawerTransitionDirection direction) {
+    if (direction == WYADrawerTransitionFromLeft) { // 左侧滑出
+        [weakSelf wya_showDefaultDrawerViewController:weakSelf.leftVC];
+    } else if (direction == WYADrawerTransitionFromRight) { // 右侧滑出
+        WYALateralSlideConfiguration * conf = [WYALateralSlideConfiguration defaultConfiguration];
+        conf.direction                      = WYADrawerTransitionFromRight; // 从右边滑出
+        conf.finishPercent                  = 0.2f;
+        conf.showAnimDuration               = 0.2;
+        conf.HiddenAnimDuration             = 0.2;
+        conf.maskAlpha                      = 0.1;
+
+        [weakSelf wya_showDrawerViewController:self.rightVC animationType:WYADrawerAnimationTypeDefault configuration:conf];
+    }
+}];
+```
+
+- 事件触发左侧视图滑动
+
+```objective-c
+[self wya_showDefaultDrawerViewController:weakSelf.leftVC];
+```
+
+- 事件触发右侧视图滑动
+
+```objective-c
+WYALateralSlideConfiguration * conf = [WYALateralSlideConfiguration defaultConfiguration];
+conf.direction                      = WYADrawerTransitionFromRight; // 从右边滑出
+conf.finishPercent                  = 0.2f;
+conf.showAnimDuration               = 0.2;
+conf.HiddenAnimDuration             = 0.2;
+conf.maskAlpha                      = 0.1;
+
+[weakSelf wya_showDrawerViewController:self.rightVC animationType:WYADrawerAnimationTypeDefault configuration:conf];
+```
 

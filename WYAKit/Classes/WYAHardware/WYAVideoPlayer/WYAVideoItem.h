@@ -19,17 +19,12 @@
 /**
  父视图（必传属性）
  */
-@property (nonatomic, strong) UIView * superV;
+@property (nonatomic, strong) UIView * superView;
 
 /**
  位置（必传属性）
  */
 @property (nonatomic, assign) CGRect rect;
-
-/**
- 预览图url（网络url）
- */
-@property (nonatomic, copy) NSString * previewImage;
 
 /**
  从哪个时间点开始（单位：s）

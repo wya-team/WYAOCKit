@@ -26,7 +26,7 @@ WYAPickerViewColumnStyleDouble|双列
 WYAPickerViewColumnStyleThree|三列
 
 ## 方法
-```Object-C
+```objective-c
 /**
  获取pickerView高度
 
@@ -38,18 +38,16 @@ WYAPickerViewColumnStyleThree|三列
 ## 基本用法
 
 * 导入头文件
-```
+
+```objective-c
 #import <WYAKit/WYAPickerView.h>
 ```
 
-```object-C
+```objective-c
 WYAPickerView * pickerView = [[WYAPickerView alloc]init];
 pickerView.delegate = self;
 pickerView.titleKeyWords = @"title";
 pickerView.arrayKeyWords = @"array";
 pickerView.frame = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
-WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
-[self presentViewController:alert animated:YES completion:nil];
-pickerView.viewController = alert;
 ```
 

@@ -18,7 +18,7 @@ textView | 输入框（只读类型）| UITextView | -
 ## 方法
 设置placeholder
 
-```Object-C
+```objective-c
 /**
  设置textView的PlaceHolder
 
@@ -30,7 +30,7 @@ textView | 输入框（只读类型）| UITextView | -
 ```
 
 ## delegate
-```Object-C
+```objective-c
 
 - (BOOL)wya_TextViewShouldBeginEditing:(UITextView *)textView;
 - (BOOL)wya_TextViewShouldEndEditing:(UITextView *)textView;
@@ -49,11 +49,11 @@ textView | 输入框（只读类型）| UITextView | -
 ## 基础用法
 * 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYATextView.h>
 ```
 
-```Object-C
+```objective-c
 WYATextView * textView = [[WYATextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 100)];
 [textView wya_PlaceHoldString:@"占位文字" PlaceHoldColor:[UIColor grayColor] PlaceHoldFont:15.f];
 textView.textViewWordsCount = 1000;

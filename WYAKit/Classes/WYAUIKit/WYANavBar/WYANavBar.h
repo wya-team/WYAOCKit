@@ -60,12 +60,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  当需要右侧设置两个按钮时候有图片和文字不同类型时候可以给该属性复制
  */
-@property (nonatomic, strong) NSArray <UIButton *>* rightButtons;
+@property (nonatomic, strong) NSArray<UIButton *> * rightButtons;
 
 /**
  当需要左侧设置两个按钮时候有图片和文字不同类型时候可以给该属性复制
  */
-@property (nonatomic, strong) NSArray <UIButton *>* leftButtons;
+@property (nonatomic, strong) NSArray<UIButton *> * leftButtons;
 
 #pragma mark ======= createRightButton
 /**

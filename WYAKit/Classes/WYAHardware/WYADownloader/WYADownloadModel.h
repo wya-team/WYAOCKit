@@ -5,7 +5,6 @@
 //  Created by 李世航 on 2018/12/12.
 //
 
-#import "WYADownloadModel.h"
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,28 +17,25 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
     WYADownloadStateFail,        //下载失败,或者被删除
 };
 
-@interface WYADownloadTaskManager : NSObject
+@interface WYADownloadModel : NSObject
 
-@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask; //下载任务
-@property (nonatomic, copy) NSString * urlString;                      //下载地址
+@property (nonatomic, copy) NSString * urlString;                      //下载地址（需要解码）
 @property (nonatomic, copy) NSString * destinationPath;                //本地文件路径
 @property (nonatomic, assign) CGFloat progress;                        //进度
-@property (nonatomic, assign) WYADownloadState downloadState;          //下载状态
 @property (nonatomic, copy) NSString * speed;                          //下载速度，直接显示就好
-@property (nonatomic, strong) WYADownloadModel * model;
-@property (nonatomic, assign) BOOL isSuccess; //用来判断是否已经进入下载
-@property (nonatomic, assign) BOOL ifFinish;
+@property (nonatomic, assign) WYADownloadState downloadState;          //下载状态
+@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask; //下载任务
+@property (nonatomic, strong) NSData * downloadData;
 
-- (void)startDownloadWithSession:(NSURLSession *)session Model:(WYADownloadModel *)model;
+//以下方法请勿调用
+- (void)startDownloadWithSession:(NSURLSession *)session;
 - (void)suspendDownload;
 - (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data;
 - (void)giveupDownload;
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadTaskManager * manager))handle;
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle;
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;
-
-@property (nonatomic, strong) NSData * downloadData;
 
 @end
 

@@ -44,9 +44,8 @@
 #import <WYAKit/WYAVideoPlayerView.h>
 #import <WYAKit/WYAImageCropViewController.h>
 #import <WYAKit/WYADownloader.h>
-#import <WYAKit/WYADownloadTaskManager.h>
+#import <WYAKit/WYADownloadModel.h>
 #import <WYAKit/WYASegmentedControl.h>
-//#import <WYAKit/WYADownloadModel.h>
 #import <WYAKit/WYANumberKeyboard.h>
 #import <WYAKit/WYAClearCache.h>
 
@@ -54,6 +53,7 @@
 #import <WYAKit/UIView+Gestures.h>
 #import <WYAKit/UIView+WYAAnimation.h>
 #import <WYAKit/UIButton+Category.h>
+#import <WYAKit/NSNotificationCenter+WYANotificationCenter.h>
 #import <WYAKit/WYACustomPopoverBackgroundView.h>
 #import <WYAKit/WYACustomSearchBar.h>
 /******************************常用宏*******************/

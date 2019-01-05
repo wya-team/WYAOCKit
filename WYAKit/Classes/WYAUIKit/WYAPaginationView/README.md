@@ -14,7 +14,7 @@ rightButton|右按钮|UIButton|-
 titleLabel|显示标题|UILabel|-
 
 ## 方法
-```Object-C
+```objective-c
 /**
  设置左边按钮文字，颜色，字体大小
 
@@ -50,7 +50,8 @@ titleLabel|显示标题|UILabel|-
 ```
 
 ## delegate
-```Object-C
+```objective-c
+@optional
 /**
  左按钮点击事件
  */
@@ -65,9 +66,17 @@ titleLabel|显示标题|UILabel|-
 ## 基础用法
 - 导入头文件
 
-```
+```objective-c
 #import <WYAKit/WYAPaginationView.h>
 ```
 
-
+```objective-c
+WYAPaginationView * object           = [[WYAPaginationView alloc] init];
+object.wya_Delegate                  = self;
+object.leftButton.layer.borderColor  = [UIColor clearColor].CGColor;
+object.rightButton.layer.borderColor = [UIColor clearColor].CGColor;
+[object.leftButton setTitle:@"减" forState:UIControlStateNormal];
+object.leftButton.enabled = NO;
+[object.rightButton setTitle:@"加" forState:UIControlStateNormal];
+```
 
