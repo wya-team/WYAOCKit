@@ -54,9 +54,9 @@
 
     WYABannerView * banner1             = [WYABannerView wya_bannerViewWithFrame:rectB bannerCellStyle:WYABannerViewCellStyleCoverFlow delegate:nil placeholderImage:nil];
     banner1.localizationImageNamesGroup = @[ @"0", @"1", @"2" ];
-    banner1.autoScroll = NO;
+//    banner1.autoScroll = NO;
 //    banner1.infiniteLoop = NO;
-    banner1.autoScrollTimeInterval = 2;
+    banner1.autoScrollTimeInterval = 1;
 
     banner1.pageControlAliment          = WYABannerViewPageContolAlimentCenter;
     banner1.pageControlStyle            = WYABannerViewPageContolStyleClassic;
@@ -87,23 +87,18 @@
     ];
 
     // 图片配文字
-    NSArray * titles = @[ @"感谢您的支持，如果下载的",
-                          @"如果代码在使用过程中出现问题",
-                          @"您可以发邮件到",
-                          @"感谢您的支持" ];
+    NSArray * titles = @[ @"a",
+                          @"b",
+                          @"c",
+                          @"d" ];
 
-    //    CGFloat banner2_X = 0;
-    //    CGFloat banner2_Y = CGRectGetMaxY(self.netBannerView.frame)+20*SizeAdapter;
-    //    CGFloat banner2_Width = ScreenWidth;
-    //    CGFloat banner2_Height = 140;
-    //    CGRect rect = CGRectMake(banner2_X, banner2_Y, banner2_Width, banner2_Height);
 
-//    WYABannerView * banner2      = [WYABannerView wya_bannerViewWithFrame:rect2 bannerCellStyle:WYABannerViewCellStyleDefault delegate:nil placeholderImage:nil];
-//    banner2.pageControlAliment   = WYABannerViewPageContolAlimentRight;
-//    banner2.imageURLStringsGroup = imagesURLStrings;
-//    banner2.titlesGroup          = titles;
-//    banner2.pageControlStyle     = WYABannerViewPageContolStyleAnimated;
-//    [self.view addSubview:banner2];
+    WYABannerView * banner2      = [WYABannerView wya_bannerViewWithFrame:rect2 bannerCellStyle:WYABannerViewCellStyleDefault delegate:nil placeholderImage:nil];
+    banner2.pageControlAliment   = WYABannerViewPageContolAlimentRight;
+    banner2.imageURLStringsGroup = imagesURLStrings;
+    banner2.titlesGroup          = titles;
+    banner2.pageControlStyle     = WYABannerViewPageContolStyleAnimated;
+    [self.view addSubview:banner2];
 }
 
 @end

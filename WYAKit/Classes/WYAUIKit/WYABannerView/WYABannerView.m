@@ -122,9 +122,11 @@ NSString * const ID = @"WYABannerCell";
     
 
     UICollectionView * mainView             = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:_flowLayout];
-    mainView.backgroundColor                = [UIColor clearColor];
+    mainView.backgroundColor                = [UIColor blackColor];
     if (self.cellStyle == WYABannerViewCellStyleDefault) {
         mainView.pagingEnabled                  = YES;
+    }else{
+        [mainView setContentOffset:CGPointMake(mainView.contentOffset.x+40, mainView.contentOffset.y) animated:NO];
     }
     
     mainView.showsHorizontalScrollIndicator = NO;
@@ -136,6 +138,7 @@ NSString * const ID = @"WYABannerCell";
     mainView.scrollsToTop = NO;
     [self addSubview:mainView];
     _mainView = mainView;
+    
 }
 
 - (void)disableScrollGesture
@@ -281,7 +284,7 @@ NSString * const ID = @"WYABannerCell";
         _flowLayout.headerReferenceSize = CGSizeMake(0, 0);
     }else if (self.cellStyle == WYABannerViewCellStyleCoverFlow) {
         _flowLayout.itemSize = CGSizeMake(200, 200);
-        _flowLayout.headerReferenceSize = CGSizeMake(0, self.frame.size.height);
+        _flowLayout.headerReferenceSize = CGSizeMake(100, self.frame.size.height);
     }
 
     _mainView.frame = self.bounds;
@@ -412,7 +415,7 @@ NSString * const ID = @"WYABannerCell";
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView * view = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
-    view.backgroundColor = [UIColor redColor];
+    view.backgroundColor = [UIColor clearColor];
     return view;
     
 }
@@ -468,7 +471,11 @@ NSString * const ID = @"WYABannerCell";
     if (!self.imagePathsGroup.count) return; // 解决清除timer时偶尔会出现的问题
     int itemIndex          = [self currentIndex];
     int indexOnPageControl = [self pageControlIndexWithCurrentCellIndex:itemIndex];
-
+    
+    if (self.cellStyle == WYABannerViewCellStyleCoverFlow) {
+        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x+60, scrollView.contentOffset.y) animated:NO];
+    }
+    
     if ([self.delegate respondsToSelector:@selector(wya_bannerView:didScrollToIndex:)]) {
         [self.delegate wya_bannerView:self didScrollToIndex:indexOnPageControl];
     } else if (self.itemDidScrollOperationBlock) {
