@@ -79,12 +79,36 @@
     self.bar3.showTextColor         = REDCOLOR;
     self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
     [self.view addSubview:self.bar3];
-
+    
+    
+    CGFloat flipLabel_X = 10;
+    CGFloat flipLabel_Y = CGRectGetMaxY(self.bar3.frame)+20;
+    CGFloat flipLabel_Width = ScreenWidth-20;
+    CGFloat flipLabel_Height = 30;
+    CGRect rect = CGRectMake(flipLabel_X, flipLabel_Y, flipLabel_Width, flipLabel_Height);
+    WYANoticeBar * flipNoticeBar = [[WYANoticeBar alloc] initWithFrame:rect scrollDirection:WYANoticeBarScrollDirectionTop];
+    flipNoticeBar.textArray = @[@"哈哈",@"呵呵",@"好嗨哦"];
+    flipNoticeBar.showTextColor         = REDCOLOR;
+    flipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
+    [self.view addSubview:flipNoticeBar];
+    
+//    CGFloat bottomFlipLabel_X = 10;
+//    CGFloat bottomFlipLabel_Y = CGRectGetMaxY(flipNoticeBar.frame)+20;
+//    CGFloat bottomFlipLabel_Width = ScreenWidth-20;
+//    CGFloat bottomFlipLabel_Height = 30;
+//    CGRect bottomRect = CGRectMake(bottomFlipLabel_X, bottomFlipLabel_Y, bottomFlipLabel_Width, bottomFlipLabel_Height);
+//    WYANoticeBar * bottomFlipNoticeBar = [[WYANoticeBar alloc] initWithFrame:bottomRect scrollDirection:WYANoticeBarScrollDirectionBottom];
+//    bottomFlipNoticeBar.textArray = @[@"哈哈",@"呵呵",@"好嗨哦"];
+//    bottomFlipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
+//    [self.view addSubview:bottomFlipNoticeBar];
+    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.bar wya_start];
         [self.bar1 wya_start];
         [self.bar2 wya_start];
         [self.bar3 wya_start];
+        [flipNoticeBar wya_start];
+//        [bottomFlipNoticeBar wya_start];
     });
 }
 

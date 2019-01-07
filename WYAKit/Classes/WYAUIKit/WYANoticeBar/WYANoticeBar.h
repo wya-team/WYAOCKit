@@ -9,6 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
+    WYANoticeBarScrollDirectionLeft,
+    WYANoticeBarScrollDirectionTop,
+    WYANoticeBarScrollDirectionBottom,
+};
+
 @interface WYANoticeBar : UIView
 
 /**
@@ -22,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL showRightButton;
 
 /**
- 显示的文字
+ 显示的文字(WYANoticeBarScrollDirectionLeft模式下设置使用)
  */
 @property (nonatomic, copy) NSString * showText;
 
@@ -51,8 +57,16 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, strong) UIColor * noticeBackgroundColor;
 
+/**
+ 类型为WYANoticeBarScrollDirectionTop、WYANoticeBarScrollDirectionBottom显示的文字需要使用数组传入
+ */
+@property (nonatomic, strong) NSArray * textArray;
+
+
 @property (nonatomic, copy) void (^leftButtonHandle)(void);  //左侧按钮点击事件
 @property (nonatomic, copy) void (^rightButtonHandle)(void); // 右侧按钮点击事件
+
+- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(WYANoticeBarScrollDirection)scrollDirection;
 
 /**
  开始动画

@@ -63,7 +63,7 @@
 
     WYAHomeItemModel * item12 = [[WYAHomeItemModel alloc] init];
     item12.rowName            = @"WYACamera 相册、相机";
-    item12.className          = @"WYACameraVC";
+    item12.className          = @"WYAImagePicker";
 
     WYAHomeItemModel * item13 = [[WYAHomeItemModel alloc] init];
     item13.rowName            = @"WYATextView 多行输入";

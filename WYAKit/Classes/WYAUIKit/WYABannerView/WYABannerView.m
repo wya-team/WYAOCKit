@@ -10,28 +10,29 @@
 #import "TAPageControl.h"
 #import "UIImageView+WebCache.h"
 #import "WYABannerCell.h"
-
+#import "WYABannerViewLayout.h"
 #define kCycleScrollViewInitialPageControlDotSize CGSizeMake(10, 10)
 
 NSString * const ID = @"WYABannerCell";
 
 @interface WYABannerView () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, weak) UICollectionView * mainView; // 显示图片的collectionView
-@property (nonatomic, weak) UICollectionViewFlowLayout * flowLayout;
+@property (nonatomic, strong) UICollectionViewFlowLayout * flowLayout;
 @property (nonatomic, strong) NSArray * imagePathsGroup;
 @property (nonatomic, weak) NSTimer * timer;
 @property (nonatomic, assign) NSInteger totalItemsCount;
 @property (nonatomic, weak) UIControl * pageControl;
 
 @property (nonatomic, strong) UIImageView * backgroundImageView; // 当imageURLs为空时的背景图
-
+@property (nonatomic, assign) WYABannerViewCellStyle  cellStyle;
 @end
 
 @implementation WYABannerView
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame cellStyle:(WYABannerViewCellStyle)cellStyle
 {
     if (self = [super initWithFrame:frame]) {
+        self.cellStyle = cellStyle;
         [self initialization];
         [self setupMainView];
     }
@@ -41,6 +42,7 @@ NSString * const ID = @"WYABannerCell";
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    self.cellStyle = WYABannerViewCellStyleDefault;
     [self initialization];
     [self setupMainView];
 }
@@ -69,31 +71,31 @@ NSString * const ID = @"WYABannerCell";
     self.backgroundColor = [UIColor lightGrayColor];
 }
 
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame imageNamesGroup:(NSArray *)imageNamesGroup
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle imageNamesGroup:(NSArray *)imageNamesGroup
 {
-    WYABannerView * cycleScrollView             = [[self alloc] initWithFrame:frame];
+    WYABannerView * cycleScrollView             = [[self alloc] initWithFrame:frame cellStyle:cellStyle];
     cycleScrollView.localizationImageNamesGroup = [NSMutableArray arrayWithArray:imageNamesGroup];
     return cycleScrollView;
 }
 
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame shouldInfiniteLoop:(BOOL)infiniteLoop imageNamesGroup:(NSArray *)imageNamesGroup
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle shouldInfiniteLoop:(BOOL)infiniteLoop imageNamesGroup:(NSArray *)imageNamesGroup
 {
-    WYABannerView * cycleScrollView             = [[self alloc] initWithFrame:frame];
+    WYABannerView * cycleScrollView             = [[self alloc] initWithFrame:frame cellStyle:cellStyle];
     cycleScrollView.infiniteLoop                = infiniteLoop;
     cycleScrollView.localizationImageNamesGroup = [NSMutableArray arrayWithArray:imageNamesGroup];
     return cycleScrollView;
 }
 
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame imageURLStringsGroup:(NSArray *)imageURLsGroup
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle imageURLStringsGroup:(NSArray *)imageURLsGroup
 {
-    WYABannerView * cycleScrollView      = [[self alloc] initWithFrame:frame];
+    WYABannerView * cycleScrollView      = [[self alloc] initWithFrame:frame cellStyle:cellStyle];
     cycleScrollView.imageURLStringsGroup = [NSMutableArray arrayWithArray:imageURLsGroup];
     return cycleScrollView;
 }
 
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame delegate:(id<WYABannerViewwDelegate>)delegate placeholderImage:(UIImage *)placeholderImage
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle delegate:(id<WYABannerViewwDelegate>)delegate placeholderImage:(UIImage *)placeholderImage
 {
-    WYABannerView * cycleScrollView  = [[self alloc] initWithFrame:frame];
+    WYABannerView * cycleScrollView  = [[self alloc] initWithFrame:frame cellStyle:cellStyle];
     cycleScrollView.delegate         = delegate;
     cycleScrollView.placeholderImage = placeholderImage;
 
@@ -103,225 +105,37 @@ NSString * const ID = @"WYABannerCell";
 // 设置显示图片的collectionView
 - (void)setupMainView
 {
-    UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    flowLayout.minimumLineSpacing           = 0;
-    flowLayout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
-    _flowLayout                             = flowLayout;
+    if (self.cellStyle == WYABannerViewCellStyleDefault) {
+        UICollectionViewFlowLayout * flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        flowLayout.minimumLineSpacing           = 0;
+        flowLayout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
+        _flowLayout                             = flowLayout;
+    }else if (self.cellStyle == WYABannerViewCellStyleCoverFlow) {
+        WYABannerViewLayout * layout = [[WYABannerViewLayout alloc] init];
+        layout.minimumLineSpacing           = 50;
+        layout.minimumInteritemSpacing = 0;
+        layout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
+        
+        _flowLayout = layout;
+    }
+    
+    
 
-    UICollectionView * mainView             = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
+    UICollectionView * mainView             = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:_flowLayout];
     mainView.backgroundColor                = [UIColor clearColor];
-    mainView.pagingEnabled                  = YES;
+    if (self.cellStyle == WYABannerViewCellStyleDefault) {
+        mainView.pagingEnabled                  = YES;
+    }
+    
     mainView.showsHorizontalScrollIndicator = NO;
     mainView.showsVerticalScrollIndicator   = NO;
     [mainView registerClass:[WYABannerCell class] forCellWithReuseIdentifier:ID];
-
+    [mainView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
     mainView.dataSource   = self;
     mainView.delegate     = self;
     mainView.scrollsToTop = NO;
     [self addSubview:mainView];
     _mainView = mainView;
-}
-
-#pragma mark - properties
-
-- (void)setDelegate:(id<WYABannerViewwDelegate>)delegate
-{
-    _delegate = delegate;
-
-    if ([self.delegate respondsToSelector:@selector(wya_customCollectionViewCellClassForBannerView:)] && [self.delegate wya_customCollectionViewCellClassForBannerView:self]) {
-        [self.mainView registerClass:[self.delegate wya_customCollectionViewCellClassForBannerView:self] forCellWithReuseIdentifier:ID];
-    } else if ([self.delegate respondsToSelector:@selector(wya_customCollectionViewCellNibForBannerView:)] && [self.delegate wya_customCollectionViewCellNibForBannerView:self]) {
-        [self.mainView registerNib:[self.delegate wya_customCollectionViewCellNibForBannerView:self] forCellWithReuseIdentifier:ID];
-    }
-}
-
-- (void)setPlaceholderImage:(UIImage *)placeholderImage
-{
-    _placeholderImage = placeholderImage;
-
-    if (!self.backgroundImageView) {
-        UIImageView * bgImageView = [UIImageView new];
-        bgImageView.contentMode   = UIViewContentModeScaleAspectFit;
-        [self insertSubview:bgImageView belowSubview:self.mainView];
-        self.backgroundImageView = bgImageView;
-    }
-
-    self.backgroundImageView.image = placeholderImage;
-}
-
-- (void)setPageControlDotSize:(CGSize)pageControlDotSize
-{
-    _pageControlDotSize = pageControlDotSize;
-    [self setupPageControl];
-    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
-        TAPageControl * pageContol = (TAPageControl *)_pageControl;
-        pageContol.dotSize         = pageControlDotSize;
-    }
-}
-
-- (void)setShowPageControl:(BOOL)showPageControl
-{
-    _showPageControl = showPageControl;
-
-    _pageControl.hidden = !showPageControl;
-}
-
-- (void)setCurrentPageDotColor:(UIColor *)currentPageDotColor
-{
-    _currentPageDotColor = currentPageDotColor;
-    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
-        TAPageControl * pageControl = (TAPageControl *)_pageControl;
-        pageControl.dotColor        = currentPageDotColor;
-    } else {
-        UIPageControl * pageControl               = (UIPageControl *)_pageControl;
-        pageControl.currentPageIndicatorTintColor = currentPageDotColor;
-    }
-}
-
-- (void)setPageDotColor:(UIColor *)pageDotColor
-{
-    _pageDotColor = pageDotColor;
-
-    if ([self.pageControl isKindOfClass:[UIPageControl class]]) {
-        UIPageControl * pageControl        = (UIPageControl *)_pageControl;
-        pageControl.pageIndicatorTintColor = pageDotColor;
-    }
-}
-
-- (void)setCurrentPageDotImage:(UIImage *)currentPageDotImage
-{
-    _currentPageDotImage = currentPageDotImage;
-
-    if (self.pageControlStyle != WYABannerViewPageContolStyleAnimated) {
-        self.pageControlStyle = WYABannerViewPageContolStyleAnimated;
-    }
-
-    [self setCustomPageControlDotImage:currentPageDotImage isCurrentPageDot:YES];
-}
-
-- (void)setPageDotImage:(UIImage *)pageDotImage
-{
-    _pageDotImage = pageDotImage;
-
-    if (self.pageControlStyle != WYABannerViewPageContolStyleAnimated) {
-        self.pageControlStyle = WYABannerViewPageContolStyleAnimated;
-    }
-
-    [self setCustomPageControlDotImage:pageDotImage isCurrentPageDot:NO];
-}
-
-- (void)setCustomPageControlDotImage:(UIImage *)image isCurrentPageDot:(BOOL)isCurrentPageDot
-{
-    if (!image || !self.pageControl) return;
-
-    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
-        TAPageControl * pageControl = (TAPageControl *)_pageControl;
-        if (isCurrentPageDot) {
-            pageControl.currentDotImage = image;
-        } else {
-            pageControl.dotImage = image;
-        }
-    }
-}
-
-- (void)setInfiniteLoop:(BOOL)infiniteLoop
-{
-    _infiniteLoop = infiniteLoop;
-
-    if (self.imagePathsGroup.count) {
-        self.imagePathsGroup = self.imagePathsGroup;
-    }
-}
-
-- (void)setAutoScroll:(BOOL)autoScroll
-{
-    _autoScroll = autoScroll;
-
-    [self invalidateTimer];
-
-    if (_autoScroll) {
-        [self setupTimer];
-    }
-}
-
-- (void)setScrollDirection:(UICollectionViewScrollDirection)scrollDirection
-{
-    _scrollDirection = scrollDirection;
-
-    _flowLayout.scrollDirection = scrollDirection;
-}
-
-- (void)setAutoScrollTimeInterval:(CGFloat)autoScrollTimeInterval
-{
-    _autoScrollTimeInterval = autoScrollTimeInterval;
-
-    [self setAutoScroll:self.autoScroll];
-}
-
-- (void)setPageControlStyle:(WYABannerViewPageContolStyle)pageControlStyle
-{
-    _pageControlStyle = pageControlStyle;
-
-    [self setupPageControl];
-}
-
-- (void)setImagePathsGroup:(NSArray *)imagePathsGroup
-{
-    [self invalidateTimer];
-
-    _imagePathsGroup = imagePathsGroup;
-
-    _totalItemsCount = self.infiniteLoop ? self.imagePathsGroup.count * 100 : self.imagePathsGroup.count;
-
-    if (imagePathsGroup.count > 1) { // 由于 !=1 包含count == 0等情况
-        self.mainView.scrollEnabled = YES;
-        [self setAutoScroll:self.autoScroll];
-    } else {
-        self.mainView.scrollEnabled = NO;
-        [self invalidateTimer];
-    }
-
-    [self setupPageControl];
-    [self.mainView reloadData];
-}
-
-- (void)setImageURLStringsGroup:(NSArray *)imageURLStringsGroup
-{
-    _imageURLStringsGroup = imageURLStringsGroup;
-
-    NSMutableArray * temp = [NSMutableArray new];
-    [_imageURLStringsGroup enumerateObjectsUsingBlock:^(NSString * obj, NSUInteger idx, BOOL * stop) {
-        NSString * urlString;
-        if ([obj isKindOfClass:[NSString class]]) {
-            urlString = obj;
-        } else if ([obj isKindOfClass:[NSURL class]]) {
-            NSURL * url = (NSURL *)obj;
-            urlString   = [url absoluteString];
-        }
-        if (urlString) {
-            [temp addObject:urlString];
-        }
-    }];
-    self.imagePathsGroup = [temp copy];
-}
-
-- (void)setLocalizationImageNamesGroup:(NSArray *)localizationImageNamesGroup
-{
-    _localizationImageNamesGroup = localizationImageNamesGroup;
-    self.imagePathsGroup         = [localizationImageNamesGroup copy];
-}
-
-- (void)setTitlesGroup:(NSArray *)titlesGroup
-{
-    _titlesGroup = titlesGroup;
-    if (self.onlyDisplayText) {
-        NSMutableArray * temp = [NSMutableArray new];
-        for (int i = 0; i < _titlesGroup.count; i++) {
-            [temp addObject:@""];
-        }
-        self.backgroundColor      = [UIColor clearColor];
-        self.imageURLStringsGroup = [temp copy];
-    }
 }
 
 - (void)disableScrollGesture
@@ -413,6 +227,7 @@ NSString * const ID = @"WYABannerCell";
         }
         return;
     }
+    NSLog(@"targetIndex==%d",targetIndex);
     [_mainView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:targetIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
 }
 
@@ -424,11 +239,17 @@ NSString * const ID = @"WYABannerCell";
 
     int index = 0;
     if (_flowLayout.scrollDirection == UICollectionViewScrollDirectionHorizontal) {
-        index = (_mainView.contentOffset.x + _flowLayout.itemSize.width * 0.5) / _flowLayout.itemSize.width;
+        if (self.cellStyle == WYABannerViewCellStyleDefault) {
+            index = (_mainView.contentOffset.x + _flowLayout.itemSize.width * 0.5) / _flowLayout.itemSize.width;
+        }else{
+            index = (_mainView.contentOffset.x + (_flowLayout.itemSize.width+50) * 0.5) / (_flowLayout.itemSize.width+50);
+        }
+        
     } else {
         index = (_mainView.contentOffset.y + _flowLayout.itemSize.height * 0.5) / _flowLayout.itemSize.height;
     }
-
+    NSLog(@"_mainview.contentoffset.x==%f, _flowLayout.itemSize==%@",_mainView.contentOffset.x,NSStringFromCGSize(_flowLayout.itemSize));
+    NSLog(@"index==%d",index);
     return MAX(0, index);
 }
 
@@ -454,8 +275,14 @@ NSString * const ID = @"WYABannerCell";
     self.delegate = self.delegate;
 
     [super layoutSubviews];
-
-    _flowLayout.itemSize = self.frame.size;
+    
+    if (self.cellStyle == WYABannerViewCellStyleDefault) {
+        _flowLayout.itemSize = self.frame.size;
+        _flowLayout.headerReferenceSize = CGSizeMake(0, 0);
+    }else if (self.cellStyle == WYABannerViewCellStyleCoverFlow) {
+        _flowLayout.itemSize = CGSizeMake(200, 200);
+        _flowLayout.headerReferenceSize = CGSizeMake(0, self.frame.size.height);
+    }
 
     _mainView.frame = self.bounds;
     if (_mainView.contentOffset.x == 0 && _totalItemsCount) {
@@ -583,6 +410,13 @@ NSString * const ID = @"WYABannerCell";
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView * view = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
+    view.backgroundColor = [UIColor redColor];
+    return view;
+    
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.delegate respondsToSelector:@selector(wya_bannerView:didScrollToIndex:)]) {
@@ -653,6 +487,207 @@ NSString * const ID = @"WYABannerCell";
 
     if (self.autoScroll) {
         [self setupTimer];
+    }
+}
+
+#pragma mark - Setter -
+- (void)setDelegate:(id<WYABannerViewwDelegate>)delegate
+{
+    _delegate = delegate;
+    
+    if ([self.delegate respondsToSelector:@selector(wya_customCollectionViewCellClassForBannerView:)] && [self.delegate wya_customCollectionViewCellClassForBannerView:self]) {
+        [self.mainView registerClass:[self.delegate wya_customCollectionViewCellClassForBannerView:self] forCellWithReuseIdentifier:ID];
+    } else if ([self.delegate respondsToSelector:@selector(wya_customCollectionViewCellNibForBannerView:)] && [self.delegate wya_customCollectionViewCellNibForBannerView:self]) {
+        [self.mainView registerNib:[self.delegate wya_customCollectionViewCellNibForBannerView:self] forCellWithReuseIdentifier:ID];
+    }
+}
+
+- (void)setPlaceholderImage:(UIImage *)placeholderImage
+{
+    _placeholderImage = placeholderImage;
+    
+    if (!self.backgroundImageView) {
+        UIImageView * bgImageView = [UIImageView new];
+        bgImageView.contentMode   = UIViewContentModeScaleAspectFit;
+        [self insertSubview:bgImageView belowSubview:self.mainView];
+        self.backgroundImageView = bgImageView;
+    }
+    
+    self.backgroundImageView.image = placeholderImage;
+}
+
+- (void)setPageControlDotSize:(CGSize)pageControlDotSize
+{
+    _pageControlDotSize = pageControlDotSize;
+    [self setupPageControl];
+    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
+        TAPageControl * pageContol = (TAPageControl *)_pageControl;
+        pageContol.dotSize         = pageControlDotSize;
+    }
+}
+
+- (void)setShowPageControl:(BOOL)showPageControl
+{
+    _showPageControl = showPageControl;
+    
+    _pageControl.hidden = !showPageControl;
+}
+
+- (void)setCurrentPageDotColor:(UIColor *)currentPageDotColor
+{
+    _currentPageDotColor = currentPageDotColor;
+    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
+        TAPageControl * pageControl = (TAPageControl *)_pageControl;
+        pageControl.dotColor        = currentPageDotColor;
+    } else {
+        UIPageControl * pageControl               = (UIPageControl *)_pageControl;
+        pageControl.currentPageIndicatorTintColor = currentPageDotColor;
+    }
+}
+
+- (void)setPageDotColor:(UIColor *)pageDotColor
+{
+    _pageDotColor = pageDotColor;
+    
+    if ([self.pageControl isKindOfClass:[UIPageControl class]]) {
+        UIPageControl * pageControl        = (UIPageControl *)_pageControl;
+        pageControl.pageIndicatorTintColor = pageDotColor;
+    }
+}
+
+- (void)setCurrentPageDotImage:(UIImage *)currentPageDotImage
+{
+    _currentPageDotImage = currentPageDotImage;
+    
+    if (self.pageControlStyle != WYABannerViewPageContolStyleAnimated) {
+        self.pageControlStyle = WYABannerViewPageContolStyleAnimated;
+    }
+    
+    [self setCustomPageControlDotImage:currentPageDotImage isCurrentPageDot:YES];
+}
+
+- (void)setPageDotImage:(UIImage *)pageDotImage
+{
+    _pageDotImage = pageDotImage;
+    
+    if (self.pageControlStyle != WYABannerViewPageContolStyleAnimated) {
+        self.pageControlStyle = WYABannerViewPageContolStyleAnimated;
+    }
+    
+    [self setCustomPageControlDotImage:pageDotImage isCurrentPageDot:NO];
+}
+
+- (void)setCustomPageControlDotImage:(UIImage *)image isCurrentPageDot:(BOOL)isCurrentPageDot
+{
+    if (!image || !self.pageControl) return;
+    
+    if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
+        TAPageControl * pageControl = (TAPageControl *)_pageControl;
+        if (isCurrentPageDot) {
+            pageControl.currentDotImage = image;
+        } else {
+            pageControl.dotImage = image;
+        }
+    }
+}
+
+- (void)setInfiniteLoop:(BOOL)infiniteLoop
+{
+    _infiniteLoop = infiniteLoop;
+    
+    if (self.imagePathsGroup.count) {
+        self.imagePathsGroup = self.imagePathsGroup;
+    }
+}
+
+- (void)setAutoScroll:(BOOL)autoScroll
+{
+    _autoScroll = autoScroll;
+    
+    [self invalidateTimer];
+    
+    if (_autoScroll) {
+        [self setupTimer];
+    }
+}
+
+- (void)setScrollDirection:(UICollectionViewScrollDirection)scrollDirection
+{
+    _scrollDirection = scrollDirection;
+    
+    _flowLayout.scrollDirection = scrollDirection;
+}
+
+- (void)setAutoScrollTimeInterval:(CGFloat)autoScrollTimeInterval
+{
+    _autoScrollTimeInterval = autoScrollTimeInterval;
+    
+    [self setAutoScroll:self.autoScroll];
+}
+
+- (void)setPageControlStyle:(WYABannerViewPageContolStyle)pageControlStyle
+{
+    _pageControlStyle = pageControlStyle;
+    
+    [self setupPageControl];
+}
+
+- (void)setImagePathsGroup:(NSArray *)imagePathsGroup
+{
+    [self invalidateTimer];
+    
+    _imagePathsGroup = imagePathsGroup;
+    
+    _totalItemsCount = self.infiniteLoop ? self.imagePathsGroup.count * 100 : self.imagePathsGroup.count;
+    
+    if (imagePathsGroup.count > 1) { // 由于 !=1 包含count == 0等情况
+        self.mainView.scrollEnabled = YES;
+        [self setAutoScroll:self.autoScroll];
+    } else {
+        self.mainView.scrollEnabled = NO;
+        [self invalidateTimer];
+    }
+    
+    [self setupPageControl];
+    [self.mainView reloadData];
+}
+
+- (void)setImageURLStringsGroup:(NSArray *)imageURLStringsGroup
+{
+    _imageURLStringsGroup = imageURLStringsGroup;
+    
+    NSMutableArray * temp = [NSMutableArray new];
+    [_imageURLStringsGroup enumerateObjectsUsingBlock:^(NSString * obj, NSUInteger idx, BOOL * stop) {
+        NSString * urlString;
+        if ([obj isKindOfClass:[NSString class]]) {
+            urlString = obj;
+        } else if ([obj isKindOfClass:[NSURL class]]) {
+            NSURL * url = (NSURL *)obj;
+            urlString   = [url absoluteString];
+        }
+        if (urlString) {
+            [temp addObject:urlString];
+        }
+    }];
+    self.imagePathsGroup = [temp copy];
+}
+
+- (void)setLocalizationImageNamesGroup:(NSArray *)localizationImageNamesGroup
+{
+    _localizationImageNamesGroup = localizationImageNamesGroup;
+    self.imagePathsGroup         = [localizationImageNamesGroup copy];
+}
+
+- (void)setTitlesGroup:(NSArray *)titlesGroup
+{
+    _titlesGroup = titlesGroup;
+    if (self.onlyDisplayText) {
+        NSMutableArray * temp = [NSMutableArray new];
+        for (int i = 0; i < _titlesGroup.count; i++) {
+            [temp addObject:@""];
+        }
+        self.backgroundColor      = [UIColor clearColor];
+        self.imageURLStringsGroup = [temp copy];
     }
 }
 

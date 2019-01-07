@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
  移除旋转动画
  */
 - (void)wya_removeRotationAnimation;
+- (void)wya_setFlipAnimation;
 @end
 
 NS_ASSUME_NONNULL_END

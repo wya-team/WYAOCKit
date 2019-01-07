@@ -6,7 +6,7 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYACameraVC.h"
+#import "WYAImagePicker.h"
 #import "WYACameraCell.h"
 #import "WYACameraModel.h"
 #import "WYAImageBrowserViewController.h"
@@ -15,7 +15,7 @@
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
 
-@interface WYACameraVC () <UICollectionViewDelegate, UICollectionViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
+@interface WYAImagePicker () <UICollectionViewDelegate, UICollectionViewDataSource, UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation WYACameraVC
+@implementation WYAImagePicker
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
 {
     // 查看README文档
