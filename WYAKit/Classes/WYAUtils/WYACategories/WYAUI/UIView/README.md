@@ -23,7 +23,7 @@ cmam_visibleAlpha|返回屏幕上可见的alpha|CGFloat|-
 
 #### 方法
 
-```Object-C
+```objective-c
 /**
  Create a snapshot image of the complete view hierarchy.
  */
@@ -120,7 +120,7 @@ cmam_visibleAlpha|返回屏幕上可见的alpha|CGFloat|-
 ## UIView+WYAToast 
 
 #### 方法
-```Object-C
+```objective-c
 /**
 位于底部的toast提示框
 

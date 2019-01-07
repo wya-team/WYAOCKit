@@ -78,6 +78,7 @@
 		95369EAB21CE1F0200D0DDA5 /* WYAAdjustCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95369EAA21CE1F0200D0DDA5 /* WYAAdjustCell.m */; };
 		95369EAE21CE1F2400D0DDA5 /* WYANoBorderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95369EAD21CE1F2400D0DDA5 /* WYANoBorderCell.m */; };
 		95369EB121CE221900D0DDA5 /* WYAGridHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95369EB021CE221900D0DDA5 /* WYAGridHeaderView.m */; };
+		953CD92D21E0518600C50453 /* WYAClearCacheController.m in Sources */ = {isa = PBXBuildFile; fileRef = 953CD92C21E0518600C50453 /* WYAClearCacheController.m */; };
 		954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */; };
 		954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76621A94DC30016C0F5 /* WYATwoTableViewController.m */; };
 		954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 954CB76A21A94DD50016C0F5 /* WYATablePageController.m */; };
@@ -100,6 +101,7 @@
 		9578499421B11967001E19DC /* WYAListFourCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9578499321B11967001E19DC /* WYAListFourCell.m */; };
 		957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F649121C88D930009C044 /* WYANavBarViewController.m */; };
 		957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 957F649521C8EEDF0009C044 /* WYAListViewController.m */; };
+		95CBE19221E2E5DD005A1955 /* WYANavBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95CBE19121E2E5DD005A1955 /* WYANavBarTableViewCell.m */; };
 		95F0944821CA7F7F00FFC0CF /* WYAButtonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */; };
 		95F0944B21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944A21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m */; };
 		95F0944E21CB79DB00FFC0CF /* WYAMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95F0944D21CB79DB00FFC0CF /* WYAMineViewController.m */; };
@@ -251,6 +253,8 @@
 		95369EAD21CE1F2400D0DDA5 /* WYANoBorderCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANoBorderCell.m; sourceTree = "<group>"; };
 		95369EAF21CE221800D0DDA5 /* WYAGridHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAGridHeaderView.h; sourceTree = "<group>"; };
 		95369EB021CE221900D0DDA5 /* WYAGridHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAGridHeaderView.m; sourceTree = "<group>"; };
+		953CD92B21E0518600C50453 /* WYAClearCacheController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAClearCacheController.h; sourceTree = "<group>"; };
+		953CD92C21E0518600C50453 /* WYAClearCacheController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAClearCacheController.m; sourceTree = "<group>"; };
 		954CB76321A94DC20016C0F5 /* WYATwoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATwoTableViewController.h; sourceTree = "<group>"; };
 		954CB76421A94DC20016C0F5 /* WYAOneTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYAOneTableViewController.m; sourceTree = "<group>"; };
 		954CB76521A94DC30016C0F5 /* WYAOneTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYAOneTableViewController.h; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 		957F649321C8DED00009C044 /* CustomColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomColor.h; sourceTree = "<group>"; };
 		957F649421C8EEDF0009C044 /* WYAListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAListViewController.h; sourceTree = "<group>"; };
 		957F649521C8EEDF0009C044 /* WYAListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAListViewController.m; sourceTree = "<group>"; };
+		95CBE19021E2E5DD005A1955 /* WYANavBarTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANavBarTableViewCell.h; sourceTree = "<group>"; };
+		95CBE19121E2E5DD005A1955 /* WYANavBarTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANavBarTableViewCell.m; sourceTree = "<group>"; };
 		95F0944621CA7F7E00FFC0CF /* WYAButtonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYAButtonViewController.h; sourceTree = "<group>"; };
 		95F0944721CA7F7E00FFC0CF /* WYAButtonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYAButtonViewController.m; sourceTree = "<group>"; };
 		95F0944921CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPopVerReadMeViewController.h; sourceTree = "<group>"; };
@@ -403,6 +409,7 @@
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
+				953CD92A21E0515100C50453 /* WYAClearCache */,
 				21185D5C21CE2F1000946CBD /* WYACameraViewController */,
 				956BCC8321B532870044095E /* Realm */,
 				21470BEE219ABE880099CB6F /* WYADownloader */,
@@ -889,6 +896,15 @@
 			path = WYANumberKeyBoard;
 			sourceTree = "<group>";
 		};
+		953CD92A21E0515100C50453 /* WYAClearCache */ = {
+			isa = PBXGroup;
+			children = (
+				953CD92B21E0518600C50453 /* WYAClearCacheController.h */,
+				953CD92C21E0518600C50453 /* WYAClearCacheController.m */,
+			);
+			path = WYAClearCache;
+			sourceTree = "<group>";
+		};
 		9559282921AE27FB00C46D6D /* RootViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,6 +979,8 @@
 			children = (
 				957F649021C88D930009C044 /* WYANavBarViewController.h */,
 				957F649121C88D930009C044 /* WYANavBarViewController.m */,
+				95CBE19021E2E5DD005A1955 /* WYANavBarTableViewCell.h */,
+				95CBE19121E2E5DD005A1955 /* WYANavBarTableViewCell.m */,
 			);
 			path = WYANavBarUI;
 			sourceTree = "<group>";
@@ -1256,6 +1274,8 @@
 				21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */,
 				21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */,
 				21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */,
+				953CD92D21E0518600C50453 /* WYAClearCacheController.m in Sources */,
+				95CBE19221E2E5DD005A1955 /* WYANavBarTableViewCell.m in Sources */,
 				21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */,
 				210E9F6521A93D2300BFE994 /* WYAImagePicker.m in Sources */,
 				950B40F621CA7B52002BC685 /* WYAReadMeViewController.m in Sources */,

@@ -20,7 +20,7 @@ leftButtons | 设置左侧文字图片混合模式的右侧多个按钮 | `NSArr
 
 ## 方法
 
-```Object-C
+```objective-c
 #pragma mark ======= createRightButton
 /**
  创建多个导航右侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
@@ -88,7 +88,7 @@ leftButtons | 设置左侧文字图片混合模式的右侧多个按钮 | `NSArr
 ```
 
 ## 代理
-```Object-C
+```objective-c
 /// 返回按钮点击事件
 - (void)wya_goBackPressed:(UIButton *)sender;
 /// 自定义左侧按钮点击事件
@@ -99,7 +99,7 @@ leftButtons | 设置左侧文字图片混合模式的右侧多个按钮 | `NSArr
 
 ## 基本用法
 
-```Object-C
+```objective-c
 #import "WYABaseViewController.h"
 
 @interface WYABaseViewController ()<WYANavBarDelegate>

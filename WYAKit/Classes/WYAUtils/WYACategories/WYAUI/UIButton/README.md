@@ -5,7 +5,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 
 /**
  *  扩大 UIButton 的點擊範圍

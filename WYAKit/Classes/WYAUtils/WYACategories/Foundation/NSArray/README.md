@@ -4,7 +4,7 @@
 - 该文件夹下对NSSarry 和NSMutableArray进行了扩展
 
 ## NSArray+Category扩展方法
-```Object-C
+```objective-c
 /**
  数组转成json 字符串
 
@@ -22,7 +22,7 @@
 
 ## NSArray+Safe
 
-```Object-C
+```objective-c
 
 /**
  保证该对象不为nil
@@ -58,7 +58,7 @@
 ```
 ## NSArray+Sudoku
 
-```Object-C
+```objective-c
 /**
  *  九宫格布局 固定ItemSize 可变ItemSpacing
  *
@@ -155,7 +155,7 @@
 ```
 ## NSMutableArray+Safe
 
-```Object-C
+```objective-c
 
 /**
  添加对象

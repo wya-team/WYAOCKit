@@ -8,11 +8,16 @@
 
 #import "WYAAppDelegate.h"
 #import "RootViewController.h"
+#import <WYAKit/WYAKitInstance.h>
 
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    WYAKitInstance * instance = [WYAKitInstance sharedInstance];
+    instance.bannerConfig.autoScroll = YES;
+    
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
 
@@ -40,6 +45,7 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

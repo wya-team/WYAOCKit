@@ -13,7 +13,7 @@ associatedObjectNames | 相关对象的名字（只读属性） | NSMutableArray
 
 #### 方法
 
-```Object-C
+```objective-c
 /**
  为当前的object动态增加分类
 
@@ -90,7 +90,7 @@ associatedObjectNames | 相关对象的名字（只读属性） | NSMutableArray
 
 ## NSObject+PerformBlock
 
-```Object-C
+```objective-c
 + (NSException *)tryCatch:(void (^) (void))block;
 + (NSException *)tryCatch:(void (^) (void))block finally:(void (^) (void))aFinisheBlock;
 
@@ -124,7 +124,7 @@ associatedObjectNames | 相关对象的名字（只读属性） | NSMutableArray
 ```
 ## NSObject+Swizzle
 
-```Object-C
+```objective-c
 /**
  覆盖实例方法
 

@@ -2,7 +2,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 - (instancetype)initWithTitle:(NSString *)title actionBlock:(void (^) (id sender))block;
 
 ```

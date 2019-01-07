@@ -14,7 +14,7 @@ delegate | 按钮点击事件代理 | WYAStepperViewDelegate | -
 
 ## 代理
 
-```Object-C
+```objective-c
 /**
  左侧按钮点击事件传递
 
@@ -33,7 +33,7 @@ delegate | 按钮点击事件代理 | WYAStepperViewDelegate | -
 ```
 ## 基本用法
 
-```Object-C
+```objective-c
  WYAStepperView * object = [[WYAStepperView alloc]initWithFrame:CGRectMake(10, WYATopHeight + 20 + 40, ScreenWidth*0.35, 40)];
  object.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
  object.layer.borderWidth = 0.5;        

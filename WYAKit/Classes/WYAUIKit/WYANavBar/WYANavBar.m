@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UIImageView * backgroundImageView; // 背景图片
 @property (nonatomic, strong) UIView * navBarView;               // 导航栏View
 @property (nonatomic, strong) UIView * lineView;
+@property (nonatomic, strong) UIView * leftButtonView;
+@property (nonatomic, strong) UIView * rightButtonView;
 @end
 
 @implementation WYANavBar
@@ -33,12 +35,16 @@
         _navBarView          = [[UIView alloc] init];
         _lineView            = [[UIView alloc] init];
         _pageItemView        = [[UIView alloc] init];
-
+        _leftButtonView = [[UIView alloc]init];
+        _rightButtonView = [[UIView alloc]init];
+        
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_pageItemView];
         [_navBarView addSubview:_titleLabel];
         [_navBarView addSubview:_lineView];
+        [_navBarView addSubview:_rightButtonView];
+        [_navBarView addSubview:_leftButtonView];
         [self setUp];
     }
     return self;
@@ -89,11 +95,21 @@
         make.height.mas_equalTo(WYANavBarHeight);
     }];
 
+    [_leftButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.bottom.mas_equalTo(self.navBarView);
+        make.width.mas_equalTo((ScreenWidth - 200)*0.5);
+    }];
+    
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker * make) {
         make.center.mas_equalTo(self.navBarView);
-        make.size.mas_equalTo(CGSizeMake(200 * SizeAdapter, 44));
+        make.size.mas_equalTo(CGSizeMake(200, 44));
     }];
-
+    
+    [_rightButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.top.bottom.mas_equalTo(self.navBarView);
+        make.width.mas_equalTo((ScreenWidth - 200)*0.5);
+    }];
+    
     [_lineView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.bottom.mas_equalTo(self.navBarView);
         make.height.mas_equalTo(1);
@@ -120,6 +136,11 @@
                                 NormalImage:(NSArray<NSString *> *)normalImages
                              highlightedImg:(NSArray<NSString *> *)highlightedImgs
 {
+    for (UIView * subView in self.leftButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     CGFloat startX  = LEFT_OR_RIGHT_SPACE;
     CGFloat startY  = 4.0f;
     CGFloat width   = 36;
@@ -160,7 +181,7 @@
                 [customButton setImage:imageHighlighted forState:UIControlStateHighlighted];
             }
         }
-        [self.navBarView addSubview:customButton];
+        [self.leftButtonView addSubview:customButton];
 
         if (i == 0) {
             [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
@@ -187,6 +208,11 @@
                                  NormalImage:(NSArray<NSString *> *)normalImages
                               highlightedImg:(NSArray<NSString *> *)highlightedImgs
 {
+    for (UIView * subView in self.rightButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     //    CGFloat startX = LEFT_OR_RIGHT_SPACE;
     CGFloat startY  = 4.0f;
     CGFloat width   = 36;
@@ -230,7 +256,7 @@
             }
         }
 
-        [self.navBarView addSubview:customButton];
+        [self.rightButtonView addSubview:customButton];
 
         [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
 
@@ -257,6 +283,11 @@
               highlightedColor:(UIColor *)highlightedColor
                          Image:(NSString *)imageNamed
 {
+    for (UIView * subView in self.leftButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     customButton.frame = CGRectMake(16 * SizeAdapter, 4, 36, 36);
@@ -275,12 +306,17 @@
 
     [customButton addTarget:self action:@selector(goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
     [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
-    [self.navBarView addSubview:customButton];
+    [self.leftButtonView addSubview:customButton];
 }
 #pragma mark ======= setter
 
 - (void)setLeftButtons:(NSArray *)leftButtons
 {
+    for (UIView * subView in self.leftButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     CGFloat startX   = LEFT_OR_RIGHT_SPACE;
     CGFloat space    = self.space;
     NSUInteger count = leftButtons.count;
@@ -292,7 +328,7 @@
         CGFloat height        = tempButton.bounds.size.height;
         CGFloat startY        = (44 - width) * 0.5;
 
-        [self.navBarView addSubview:tempButton];
+        [self.leftButtonView addSubview:tempButton];
         if (i == 0) {
             [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
                 make.left.equalTo(self.navBarView.mas_left).offset(16 * SizeAdapter);
@@ -310,6 +346,11 @@
 }
 - (void)setRightButtons:(NSArray *)rightButtons
 {
+    for (UIView * subView in self.rightButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     //    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
     CGFloat startY   = 4.0f;
     CGFloat space    = self.space;
@@ -320,7 +361,7 @@
         UIButton * tempButton = [_rightButtons wya_safeObjectAtIndex:i];
         CGFloat width         = tempButton.bounds.size.width;
         CGFloat height        = tempButton.bounds.size.height;
-        [self.navBarView addSubview:tempButton];
+        [self.rightButtonView addSubview:tempButton];
         if (i == 0) {
             [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
                 make.right.equalTo(self.navBarView.mas_right).offset(-16 * SizeAdapter);
@@ -347,6 +388,9 @@
 
 - (void)setBackgroundImage:(UIImage *)backgroundImage
 {
+    if (_backgroundImage) {
+        _backgroundImageView.image = [UIImage new];
+    }
     if (backgroundImage) {
         _backgroundImage           = backgroundImage;
         _backgroundImageView.image = backgroundImage;
@@ -376,6 +420,11 @@
 }
 - (void)wya_customGobackWithImage:(UIImage *)image
 {
+    for (UIView * subView in self.leftButtonView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [subView removeFromSuperview];
+        }
+    }
     UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     customButton.frame = CGRectMake(16 * SizeAdapter, 4, 36, 36);
@@ -384,7 +433,7 @@
 
     [customButton addTarget:self action:@selector(goBackPressed:) forControlEvents:UIControlEventTouchUpInside];
 
-    [self.navBarView addSubview:customButton];
+    [self.leftButtonView addSubview:customButton];
 }
 - (void)wya_goBackButtonWithTitle:(NSString *)title normalColor:(UIColor * _Nullable)normalColor highlightedColor:(UIColor * _Nullable)highlightedColor
 {

@@ -8,7 +8,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
     WYAFileSizeUnitMB   = 0,
     WYAFileSizeUnitKB   = 1,
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
 
 ## 基本用法
 
-```Object-C
+```objective-c
 // 查看缓存
  [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {} UnitType:WYAFileSizeUnitMB];
         

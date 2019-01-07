@@ -21,7 +21,7 @@ placeholderFont | 占位文字字体大小 | CGFloat | 12
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  点击搜索状态
  */
@@ -49,7 +49,7 @@ placeholderFont | 占位文字字体大小 | CGFloat | 12
 
 导入头文件
 
-```Object-C
+```objective-c
 #import "WYACustomSearchController.h"
 @interface WYACustomSearchController ()<UISearchBarDelegate>
 

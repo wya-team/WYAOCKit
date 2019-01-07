@@ -24,7 +24,7 @@ delegate | item点击的代理方法 | WYASegmentedControlDelegate | -
 
 <font color="red">注意：只能使用一下提供的两个构造方法初始化该控件</font>
 
-```Object-C
+```objective-c
 /**
  构造方法返回一个实例对象
 
@@ -48,7 +48,7 @@ delegate | item点击的代理方法 | WYASegmentedControlDelegate | -
 ---
 ##代理
 
-```Object-C
+```objective-c
 /**
  items被点击
 
@@ -62,7 +62,7 @@ delegate | item点击的代理方法 | WYASegmentedControlDelegate | -
 
 导入头文件
 
-```Object-C
+```objective-c
 - (WYASegmentedControl *)segmentedControl{
     if(!_segmentedControl){
         _segmentedControl = ({

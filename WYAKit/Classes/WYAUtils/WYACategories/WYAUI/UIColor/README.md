@@ -5,7 +5,7 @@
 
 ## 方法
 
-```Object-C
+```objective-c
 /**
  *  Create a color from a HEX string.
  *  It supports the following type:
