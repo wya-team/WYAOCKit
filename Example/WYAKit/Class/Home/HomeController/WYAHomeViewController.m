@@ -142,10 +142,7 @@
     WYAHomeModel * homeModel     = self.dataSource[indexPath.section];
     WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
     if (itemModel.className) {
-        if ([itemModel.className isEqualToString:@"WYADrawerViewController"]) {
-            [UIView wya_showCenterToastWithMessage:@"抽屉视图不能作为二级控制器使用"];
-            return;
-        }
+        
         WYABaseViewController * vc  = [[NSClassFromString(itemModel.className) alloc] init];
         vc.navTitle                 = itemModel.className;
         vc.hidesBottomBarWhenPushed = YES;
