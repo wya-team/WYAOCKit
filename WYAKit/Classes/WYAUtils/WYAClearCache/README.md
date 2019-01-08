@@ -48,6 +48,23 @@ typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
  */
 + (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void(^)(BOOL status))clearStatus;
 
+/**
+获取可用空间/系统总空间
+例如：可用空间3.97G / 总空间59.59G
+
+@return string
+*/
++ (NSString *)wya_getDivceSize;
+
+
+/**
+获取可用空间
+
+@param folderSize 返回可用的size
+@param type 传入需要的Type
+*/
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
+
 ```
 
 ## 基本用法
@@ -58,6 +75,12 @@ typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
         
  // 清除缓存
  [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) { NSLog(@"清理成功");}];
+ 
+ // 获取可用空间
+ [WYAClearCache wya_getDivceAvailableSizeBlock:^(float folderSize) {
+ NSString * tempSize = [NSString stringWithFormat:@"%.2fG",folderSize];
+ NSLog(@"---------%@",tempSize);
+ } UnitType:WYAFileSizeUnitGB];
 ```
 
 

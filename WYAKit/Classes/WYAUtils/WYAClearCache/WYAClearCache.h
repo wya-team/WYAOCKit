@@ -55,6 +55,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)wya_getDivceSize;
 
+
+/**
+ 获取可用空间
+
+ @param folderSize 返回可用的size
+ @param type 传入需要的Type
+ */
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
 @end
 
 NS_ASSUME_NONNULL_END

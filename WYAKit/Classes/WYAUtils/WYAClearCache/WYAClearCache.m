@@ -108,4 +108,21 @@
     NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3),[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
     return sizeStr;
 }
+
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(float))folderSize UnitType:(WYAFileSizeUnit)type{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
+    float size = 0;
+    if (type == WYAFileSizeUnitMB) {
+        size = folder / (1000.0 * 1000.0);
+    }
+    if (type == WYAFileSizeUnitKB) {
+        size = folder / 1000.0;
+    }
+    if (type == WYAFileSizeUnitGB) {
+        size = folder / (1000.0 * 1000.0 * 1000.0);
+    }
+    folderSize(size);
+}
 @end
