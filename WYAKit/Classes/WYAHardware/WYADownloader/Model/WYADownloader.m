@@ -146,6 +146,7 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 #pragma mark 下载
 - (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void (^)(WYADownloadModel * resultModel, NSString * result))handle
 {
+    
     if ([self compareDownloadTasks:model ResultHandle:handle]) {
         return;
     }
@@ -508,6 +509,9 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
 }
 
 #pragma mark - Getter -
+- (NSString *)floder{
+    return floderPath;
+}
 - (NSArray *)downloadingArray
 {
     return [self.downloadArray copy];

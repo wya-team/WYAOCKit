@@ -9,46 +9,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYABannerView/WYABannerViewLayout.m"
-            timestampString = "568532255.528195"
+            filePath = "../WYAKit/Classes/WYAHardware/WYADownloader/Model/WYADownloader.m"
+            timestampString = "568611792.898145"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "-layoutAttributesForElementsInRect:"
+            startingLineNumber = "455"
+            endingLineNumber = "455"
+            landmarkName = "-URLSession:downloadTask:didFinishDownloadingToURL:"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WYABannerViewLayout layoutAttributesForElementsInRect:]"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYABannerView/WYABannerViewLayout.m"
-                  timestampString = "568525435.988446"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35"
-                  offsetFromSymbolStart = "738">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WYABannerViewLayout layoutAttributesForElementsInRect:]"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYABannerView/WYABannerViewLayout.m"
-                  timestampString = "568525435.990275"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "35"
-                  endingLineNumber = "35"
-                  offsetFromSymbolStart = "798">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

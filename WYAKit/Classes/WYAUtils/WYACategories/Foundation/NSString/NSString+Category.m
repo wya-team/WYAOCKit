@@ -7,6 +7,8 @@
 //
 
 #import "NSString+Category.h"
+#include <sys/param.h>
+#include <sys/mount.h>
 
 @implementation NSString (Category)
 + (NSString *)wya_getSecrectStringWithPhoneNumber:(NSString *)phoneNum
@@ -143,6 +145,16 @@
     }
 
     return ChineseCount;
+}
+
++ (double)wya_phoneFreeMemory{
+    //可用大小
+    struct statfs buf;
+    long long freespace = -1;
+    if(statfs("/var", &buf) >= 0){
+        freespace = (long long)(buf.f_bsize * buf.f_bfree);
+    }
+    return (double)freespace/1024/1024/1024;
 }
 
 - (unsigned long long)wya_fileSize

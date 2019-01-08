@@ -123,7 +123,7 @@ NSString * const ID = @"WYABannerCell";
     
 
     UICollectionView * mainView             = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:_flowLayout];
-    mainView.backgroundColor                = [UIColor blackColor];
+    mainView.backgroundColor                = [UIColor clearColor];
     if (self.cellStyle == WYABannerViewCellStyleDefault) {
         mainView.pagingEnabled                  = YES;
     }else{
@@ -284,7 +284,7 @@ NSString * const ID = @"WYABannerCell";
         _flowLayout.itemSize = self.frame.size;
         _flowLayout.headerReferenceSize = CGSizeMake(0, 0);
     }else if (self.cellStyle == WYABannerViewCellStyleCoverFlow) {
-        _flowLayout.itemSize = CGSizeMake(200, 200);
+        _flowLayout.itemSize = CGSizeMake(200, self.frame.size.height);
         _flowLayout.headerReferenceSize = CGSizeMake(100, self.frame.size.height);
     }
 

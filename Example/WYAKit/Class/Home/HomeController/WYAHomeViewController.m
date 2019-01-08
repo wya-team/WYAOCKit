@@ -142,7 +142,18 @@
     WYAHomeModel * homeModel     = self.dataSource[indexPath.section];
     WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
     if (itemModel.className) {
-        
+        if ([itemModel.className isEqualToString:@"WYADownloaderViewController"]) {
+            WYADownloaderViewController * vc         = [[WYADownloaderViewController alloc] init];
+            vc.selectIndex                       = 0;
+            vc.menuViewStyle                     = WYAMenuViewStyleLine;
+            vc.automaticallyCalculatesItemWidths = YES;
+            vc.titleColorSelected                = BLUECOLOR;
+            vc.titleColorNormal                  = BLACKTITLECOLOR;
+            vc.progressColor                     = BLUECOLOR;
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
+        }
         WYABaseViewController * vc  = [[NSClassFromString(itemModel.className) alloc] init];
         vc.navTitle                 = itemModel.className;
         vc.hidesBottomBarWhenPushed = YES;

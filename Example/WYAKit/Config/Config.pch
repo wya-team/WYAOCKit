@@ -56,6 +56,7 @@
 #import <WYAKit/NSNotificationCenter+WYANotificationCenter.h>
 #import <WYAKit/WYACustomPopoverBackgroundView.h>
 #import <WYAKit/WYACustomSearchBar.h>
+#import <WYAKit/WYADownloaderViewController.h>
 /******************************常用宏*******************/
 #import "CustomColor.h"
 //#import <Realm/Realm.h>

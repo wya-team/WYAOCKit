@@ -24,7 +24,7 @@
 		21470C06219ABF270099CB6F /* WYAShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C05219ABF270099CB6F /* WYAShareViewController.m */; };
 		21470C0F219ABF570099CB6F /* WYAIMGCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */; };
 		21470C12219ABF640099CB6F /* WYABannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C11219ABF640099CB6F /* WYABannerViewController.m */; };
-		21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */; };
+		21470C1B219ABF960099CB6F /* WYADemoDownloaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C1A219ABF960099CB6F /* WYADemoDownloaderViewController.m */; };
 		21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */; };
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
@@ -156,8 +156,8 @@
 		21470C0E219ABF570099CB6F /* WYAIMGCodeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAIMGCodeViewController.m; sourceTree = "<group>"; };
 		21470C10219ABF640099CB6F /* WYABannerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerViewController.h; sourceTree = "<group>"; };
 		21470C11219ABF640099CB6F /* WYABannerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerViewController.m; sourceTree = "<group>"; };
-		21470C19219ABF960099CB6F /* WYADownloaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloaderViewController.h; sourceTree = "<group>"; };
-		21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloaderViewController.m; sourceTree = "<group>"; };
+		21470C19219ABF960099CB6F /* WYADemoDownloaderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDownloaderViewController.h; sourceTree = "<group>"; };
+		21470C1A219ABF960099CB6F /* WYADemoDownloaderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDownloaderViewController.m; sourceTree = "<group>"; };
 		21470C1F219ABFB10099CB6F /* WYAVideoPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAVideoPlayerViewController.h; sourceTree = "<group>"; };
 		21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAVideoPlayerViewController.m; sourceTree = "<group>"; };
 		21470C89219BB2370099CB6F /* WYAUIAlertViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAUIAlertViewController.h; sourceTree = "<group>"; };
@@ -422,8 +422,8 @@
 		21470BEE219ABE880099CB6F /* WYADownloader */ = {
 			isa = PBXGroup;
 			children = (
-				21470C19219ABF960099CB6F /* WYADownloaderViewController.h */,
-				21470C1A219ABF960099CB6F /* WYADownloaderViewController.m */,
+				21470C19219ABF960099CB6F /* WYADemoDownloaderViewController.h */,
+				21470C1A219ABF960099CB6F /* WYADemoDownloaderViewController.m */,
 				21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */,
 				21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */,
 				21A6C47F21C0AA6C006DA6D1 /* WYADownloadCompleteCell.h */,
@@ -1233,7 +1233,7 @@
 				21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */,
 				956BCC8621B5329C0044095E /* WYAReamlViewController.m in Sources */,
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
-				21470C1B219ABF960099CB6F /* WYADownloaderViewController.m in Sources */,
+				21470C1B219ABF960099CB6F /* WYADemoDownloaderViewController.m in Sources */,
 				21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */,
 				957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */,
 				2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */,

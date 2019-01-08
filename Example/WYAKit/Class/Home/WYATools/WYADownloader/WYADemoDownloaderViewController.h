@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYADownloaderViewController : WYABaseViewController
+@interface WYADemoDownloaderViewController : WYABaseViewController
 
 @end
 

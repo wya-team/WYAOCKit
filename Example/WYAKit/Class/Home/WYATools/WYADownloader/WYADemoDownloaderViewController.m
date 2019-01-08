@@ -6,21 +6,21 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYADownloaderViewController.h"
+#import "WYADemoDownloaderViewController.h"
 #import "WYADownloadCell.h"
 #import "WYADownloadCompleteCell.h"
 
 #define Path [[NSString wya_libCachePath] stringByAppendingPathComponent:@"video.mp4"]
 #define OtherPath [[NSString wya_libCachePath] stringByAppendingPathComponent:@"other.mp4"]
 
-@interface WYADownloaderViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface WYADemoDownloaderViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSMutableArray * models;
 @property (nonatomic, strong) WYADownloader * downloader;
 
 @end
 
-@implementation WYADownloaderViewController
+@implementation WYADemoDownloaderViewController
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
 {
     // 查看README文档

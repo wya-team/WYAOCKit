@@ -49,20 +49,20 @@
     CGFloat bannerView_X      = 0;
     CGFloat bannerView_Y      = CGRectGetMaxY(label.frame);
     CGFloat bannerView_Width  = ScreenWidth;
-    CGFloat bannerView_Height = 200;
+    CGFloat bannerView_Height = 200 * SizeAdapter;
     CGRect rectB              = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
-
     WYABannerView * banner1             = [WYABannerView wya_bannerViewWithFrame:rectB bannerCellStyle:WYABannerViewCellStyleCoverFlow delegate:nil placeholderImage:nil];
     banner1.localizationImageNamesGroup = @[ @"0", @"1", @"2" ];
 //    banner1.autoScroll = NO;
 //    banner1.infiniteLoop = NO;
     banner1.autoScrollTimeInterval = 1;
-
-    banner1.pageControlAliment          = WYABannerViewPageContolAlimentCenter;
+    banner1.backgroundColor = [UIColor whiteColor];
+    banner1.pageControlAliment          = WYABannerViewPageContolAlimentRight;
     banner1.pageControlStyle            = WYABannerViewPageContolStyleClassic;
     banner1.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:banner1];
 
+    
     UILabel * label1 = [[UILabel alloc] init];
     label1.text      = @"加载网络图片，时间2s";
     label1.textColor = random(51, 51, 51, 1);

@@ -115,6 +115,13 @@
 - (NSInteger)wya_chineseCountOfStringInGBKCodeingFormat;
 
 /**
+ 获取手机可用内存
+
+ @return 数值
+ */
++ (double)wya_phoneFreeMemory;
+
+/**
  获取文件或文件夹大小
  
  @return 大小

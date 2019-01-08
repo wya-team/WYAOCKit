@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class WYADownloadModel;
 
 @interface WYADownloader : NSObject
-
+@property (nonatomic, copy)   NSString * floder;
 @property (nonatomic, assign) BOOL allowsCellularAccess; //是否允许数据网络连接
 //@property (nonatomic, assign) NSUInteger  maxConcurrentOperationCount;
 

@@ -93,24 +93,27 @@
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
 {
-    self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
-    if (startTime) {
-        CFAbsoluteTime startTimeValue = [startTime doubleValue];
-
-        CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
-
-        if (downloadSpeed > 1024 * 1024 * 1024) {
-            self.speed = [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
-        } else if (downloadSpeed > 1024 * 1024) {
-            self.speed = [NSString stringWithFormat:@"%.2fMB/s", downloadSpeed / (1024 * 1024)];
-        } else if (downloadSpeed > 1024) {
-            self.speed = [NSString stringWithFormat:@"%.2fKB/s", downloadSpeed / 1024];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
+        if (self->startTime) {
+            CFAbsoluteTime startTimeValue = [self->startTime doubleValue];
+            
+            CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
+            
+            if (downloadSpeed > 1024 * 1024 * 1024) {
+                self.speed = [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
+            } else if (downloadSpeed > 1024 * 1024) {
+                self.speed = [NSString stringWithFormat:@"%.2fMB/s", downloadSpeed / (1024 * 1024)];
+            } else if (downloadSpeed > 1024) {
+                self.speed = [NSString stringWithFormat:@"%.2fKB/s", downloadSpeed / 1024];
+            } else {
+                self.speed = [NSString stringWithFormat:@"%.2fB/s", downloadSpeed];
+            }
         } else {
-            self.speed = [NSString stringWithFormat:@"%.2fB/s", downloadSpeed];
+            self->startTime = @(CFAbsoluteTimeGetCurrent());
         }
-    } else {
-        startTime = @(CFAbsoluteTimeGetCurrent());
-    }
+    });
+    
 }
 
 #pragma mark - Setter -
