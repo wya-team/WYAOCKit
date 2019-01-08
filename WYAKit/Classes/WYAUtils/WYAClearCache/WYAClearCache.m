@@ -7,6 +7,9 @@
 
 #import "WYAClearCache.h"
 
+#include <sys/param.h>
+#include <sys/mount.h>
+
 @implementation WYAClearCache
 + (void)wya_defaultCachesFolderSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type
 {
@@ -96,5 +99,13 @@
     }
     return 0;
 }
-
++(NSString *)wya_getDivceSize{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    
+    NSLog(@"容量%.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
+    NSLog(@"可用%.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3));
+    NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3),[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
+    return sizeStr;
+}
 @end

@@ -46,6 +46,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void (^)(BOOL status))clearStatus;
 
+
+/**
+ 获取可用空间/系统总空间
+ 例如：可用空间3.97G / 总空间59.59G
+
+ @return string
+ */
++ (NSString *)wya_getDivceSize;
+
 @end
 
 NS_ASSUME_NONNULL_END
