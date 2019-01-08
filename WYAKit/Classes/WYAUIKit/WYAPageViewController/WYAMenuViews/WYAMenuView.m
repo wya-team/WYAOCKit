@@ -635,7 +635,7 @@
     }
 
     [self.selItem wya_setSelected:NO withAnimation:YES];
-    [menuItem wya_setSelected:YES withAnimation:NO];
+    [menuItem wya_setSelected:YES withAnimation:YES];
     self.selItem = menuItem;
 
     NSTimeInterval delay = self.style == WYAMenuViewStyleDefault ? 0 : 0.3f;
