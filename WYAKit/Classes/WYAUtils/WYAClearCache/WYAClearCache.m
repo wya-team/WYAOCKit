@@ -75,7 +75,7 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             //回调或者说是通知主线程刷新，
-            fileSize([self automaticUnitWith:folderSize]);
+            fileSize([self automaticCacheUnitWith:folderSize]);
         });
     });
 }
@@ -105,6 +105,17 @@
     
     folderSize([self automaticUnitWith:folder]);
 }
+
++ (NSString *)automaticCacheUnitWith:(double)folder{
+    if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
+        return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
+    }else{
+        return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
+    }
+    
+}
+
+
 
 // 自动获取单位
 + (NSString *)automaticUnitWith:(double)folder{
