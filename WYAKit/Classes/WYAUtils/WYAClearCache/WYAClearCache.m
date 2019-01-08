@@ -32,6 +32,14 @@
 {
     [self clearFileAtPath:filePath ClearStatusBlock:clearStatus];
 }
+
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
+    
+    folderSize([self automaticUnitWith:folder]);
+}
 #pragma mark ======= private methods
 + (void)clearFileAtPath:(NSString *)folderPath ClearStatusBlock:(void (^)(BOOL status))clearStatus
 {
@@ -88,24 +96,8 @@
     }
     return 0;
 }
-+(NSString *)wya_getDivceSize{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
-    
-    NSLog(@"容量%.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
-    NSLog(@"可用%.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3));
-    NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3),[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
-    return sizeStr;
-}
 
-+ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
-    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
-    
-    folderSize([self automaticUnitWith:folder]);
-}
-
+// 获取缓存精确到MB
 + (NSString *)automaticCacheUnitWith:(double)folder{
     if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
         return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
@@ -114,8 +106,6 @@
     }
     
 }
-
-
 
 // 自动获取单位
 + (NSString *)automaticUnitWith:(double)folder{
@@ -130,7 +120,6 @@
     }else{
      return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
     }
-    
 }
 
 @end
