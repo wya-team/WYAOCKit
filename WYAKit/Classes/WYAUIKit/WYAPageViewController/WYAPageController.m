@@ -528,7 +528,7 @@ static NSInteger const kWMControllerCountUndefined = -1;
 {
     int currentPage = (int)(self.scrollView.contentOffset.x / _contentViewFrame.size.width);
     int length      = (int)self.preloadPolicy;
-    int left        = currentPage - length + 1;
+    int left        = currentPage - length - 1;
     int right       = currentPage + length + 1;
     for (int i = 0; i < self.childControllersCount; i++) {
         UIViewController * vc = [self.displayVC objectForKey:@(i)];

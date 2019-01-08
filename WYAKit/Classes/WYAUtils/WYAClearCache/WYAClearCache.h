@@ -6,11 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
-    WYAFileSizeUnitMB = 0,
-    WYAFileSizeUnitKB = 1,
-    WYAFileSizeUnitGB = 2
-};
+// 使用自动计算单位方法，废弃type类型方式
+//typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
+//    WYAFileSizeUnitMB = 0,
+//    WYAFileSizeUnitKB = 1,
+//    WYAFileSizeUnitGB = 2
+//};
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAClearCache : NSObject
@@ -19,9 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
  获取系统缓存caches文件大小
 
  @param folderSize block形式传出大小
- @param type 文件大小单位 KB\MB\GB
  */
-+ (void)wya_defaultCachesFolderSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
++ (void)wya_defaultCachesFolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  清理caches路径缓存
@@ -34,9 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
  获取缓存文件大小
  
  @param folderSize block形式传出大小
- @param type 文件大小单位 KB\MB\GB
  */
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
++ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  清理自定义缓存内容
@@ -46,6 +45,22 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void (^)(BOOL status))clearStatus;
 
+
+/**
+ 获取可用空间/系统总空间
+ 例如：可用空间3.97G / 总空间59.59G
+
+ @return string
+ */
++ (NSString *)wya_getDivceSize;
+
+
+/**
+ 获取可用空间
+
+ @param folderSize 返回可用的size
+ */
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize;
 @end
 
 NS_ASSUME_NONNULL_END

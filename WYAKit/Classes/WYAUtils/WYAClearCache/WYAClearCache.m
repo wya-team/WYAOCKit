@@ -7,16 +7,19 @@
 
 #import "WYAClearCache.h"
 
+#include <sys/param.h>
+#include <sys/mount.h>
+
 @implementation WYAClearCache
-+ (void)wya_defaultCachesFolderSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type
++ (void)wya_defaultCachesFolderSizeBlock:(void (^)(NSString * folderSize))folderSize
 {
     NSString * cachPath = [NSString wya_libCachePath];
-    [self folderSizeAtPath:cachPath FolderSizeBlock:folderSize UnitType:type];
+    [self folderSizeAtPath:cachPath FolderSizeBlock:folderSize];
 }
 
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type
++ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString* folderSize))folderSize
 {
-    [self folderSizeAtPath:filePath FolderSizeBlock:folderSize UnitType:type];
+    [self folderSizeAtPath:filePath FolderSizeBlock:folderSize];
 }
 
 + (void)wya_clearCachesClearStatusBlock:(void (^)(BOOL status))clearStatus
@@ -55,7 +58,7 @@
     });
 }
 
-+ (void)folderSizeAtPath:(NSString *)folderPath FolderSizeBlock:(void (^)(float fileSize))fileSize UnitType:(WYAFileSizeUnit)type
++ (void)folderSizeAtPath:(NSString *)folderPath FolderSizeBlock:(void (^)(NSString* fileSize))fileSize
 {
     NSFileManager * manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:folderPath]) {
@@ -70,20 +73,9 @@
             NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
             folderSize += [self fileSizeAtPath:fileAbsolutePath];
         }
-        float size = 0;
-        if (type == WYAFileSizeUnitMB) {
-            size = folderSize / (1000.0 * 1000.0);
-        }
-        if (type == WYAFileSizeUnitKB) {
-            size = folderSize / 1000.0;
-        }
-        if (type == WYAFileSizeUnitGB) {
-            size = folderSize / (1000.0 * 1000.0 * 1000.0);
-        }
-
         dispatch_async(dispatch_get_main_queue(), ^{
             //回调或者说是通知主线程刷新，
-            fileSize(size);
+            fileSize([self automaticCacheUnitWith:folderSize]);
         });
     });
 }
@@ -95,6 +87,50 @@
         return [[manager attributesOfItemAtPath:filePath error:nil] fileSize];
     }
     return 0;
+}
++(NSString *)wya_getDivceSize{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    
+    NSLog(@"容量%.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
+    NSLog(@"可用%.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3));
+    NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3),[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
+    return sizeStr;
+}
+
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
+    
+    folderSize([self automaticUnitWith:folder]);
+}
+
++ (NSString *)automaticCacheUnitWith:(double)folder{
+    if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
+        return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
+    }else{
+        return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
+    }
+    
+}
+
+
+
+// 自动获取单位
++ (NSString *)automaticUnitWith:(double)folder{
+    if (folder / 1000.0 < 1 ) {
+        return [NSString stringWithFormat:@"%.2fB",folder];
+    }
+    if (folder / (1000.0 * 1000.0) < 1 ) {
+      return [NSString stringWithFormat:@"%.2fKB",folder / 1000.0];
+    }
+    if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
+       return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
+    }else{
+     return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
+    }
+    
 }
 
 @end

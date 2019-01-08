@@ -28,11 +28,10 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     // 获取缓存
-    [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
-        NSLog(@"%.2fMB", folderSize);
-        NSString * tempString = [NSString stringWithFormat:@"%.2fMB", folderSize];
-        self.contentLabel.text = tempString;
-    } UnitType:WYAFileSizeUnitMB];
+    [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {
+        NSLog(@"----%@", folderSize);
+        self.contentLabel.text = folderSize;
+    }];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -40,7 +39,6 @@
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
     [self.view addSubview:self.bgView];
-    
 }
 
 #pragma mark ======= getter
@@ -158,10 +156,10 @@
         NSLog(@"Default");
         [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
             NSLog(@"清理成功");
-            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {
-                [UIView wya_showBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%.2fMB", folderSize]];
-                self.contentLabel.text = [NSString stringWithFormat:@"%.2fMB", folderSize];
-            } UnitType:WYAFileSizeUnitMB];
+            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {
+                [UIView wya_showBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%@", folderSize]];
+                self.contentLabel.text = folderSize;
+            }];
         }];
     }];
     WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
