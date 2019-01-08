@@ -9,44 +9,35 @@
 ## 方法
 
 ```objective-c
-typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
-    WYAFileSizeUnitMB   = 0,
-    WYAFileSizeUnitKB   = 1,
-    WYAFileSizeUnitGB   = 2
-};
+/**
+获取系统缓存caches文件大小
+
+@param folderSize block形式传出大小
+*/
++ (void)wya_defaultCachesFolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
- 获取系统缓存caches文件大小
+清理caches路径缓存
 
- @param folderSize block形式传出大小
- @param type 文件大小单位 KB\MB\GB
- */
-+ (void)wya_defaultCachesFolderSizeBlock:(void(^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
-
+@param clearStatus YES or NO
+*/
++ (void)wya_clearCachesClearStatusBlock:(void (^)(BOOL status))clearStatus;
 
 /**
- 清理caches路径缓存
+获取缓存文件大小
 
- @param clearStatus YES or NO
- */
-+ (void)wya_clearCachesClearStatusBlock:(void(^)(BOOL status))clearStatus;
-
-/**
- 获取缓存文件大小
- 
- @param folderSize block形式传出大小
- @param type 文件大小单位 KB\MB\GB
- */
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void(^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
-
+@param folderSize block形式传出大小
+*/
++ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
- 清理自定义缓存内容
+清理自定义缓存内容
 
- @param filePath 路径
- @param clearStatus YES or NO
- */
-+ (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void(^)(BOOL status))clearStatus;
+@param filePath 路径
+@param clearStatus YES or NO
+*/
++ (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void (^)(BOOL status))clearStatus;
+
 
 /**
 获取可用空间/系统总空间
@@ -61,26 +52,21 @@ typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
 获取可用空间
 
 @param folderSize 返回可用的size
-@param type 传入需要的Type
 */
-+ (void)wya_getDivceAvailableSizeBlock:(void (^)(float folderSize))folderSize UnitType:(WYAFileSizeUnit)type;
-
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize;
 ```
 
 ## 基本用法
 
 ```objective-c
 // 查看缓存
- [WYAClearCache wya_defaultCachesFolderSizeBlock:^(float folderSize) {} UnitType:WYAFileSizeUnitMB];
+ [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {}];
         
  // 清除缓存
  [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) { NSLog(@"清理成功");}];
  
  // 获取可用空间
- [WYAClearCache wya_getDivceAvailableSizeBlock:^(float folderSize) {
- NSString * tempSize = [NSString stringWithFormat:@"%.2fG",folderSize];
- NSLog(@"---------%@",tempSize);
- } UnitType:WYAFileSizeUnitGB];
+ [WYAClearCache wya_getDivceAvailableSizeBlock:^(NSString folderSize) {}];
 ```
 
 
