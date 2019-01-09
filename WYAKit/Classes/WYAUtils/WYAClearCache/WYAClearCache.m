@@ -32,6 +32,14 @@
 {
     [self clearFileAtPath:filePath ClearStatusBlock:clearStatus];
 }
+
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
+    
+    folderSize([self automaticUnitWith:folder]);
+}
 #pragma mark ======= private methods
 + (void)clearFileAtPath:(NSString *)folderPath ClearStatusBlock:(void (^)(BOOL status))clearStatus
 {
@@ -88,6 +96,7 @@
     }
     return 0;
 }
+
 + (NSString *)wya_getDivceSize
 {
     NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -99,17 +108,9 @@
     return sizeStr;
 }
 
-+ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize
-{
-    NSFileManager * fileManager = [NSFileManager defaultManager];
-    NSDictionary * attributes   = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
-    double folder               = [attributes[NSFileSystemFreeSize] doubleValue];
+// 获取缓存精确到MB
++ (NSString *)automaticCacheUnitWith:(double)folder{
 
-    folderSize([self automaticUnitWith:folder]);
-}
-
-+ (NSString *)automaticCacheUnitWith:(double)folder
-{
     if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
         return [NSString stringWithFormat:@"%.2fMB", folder / (1000.0 * 1000.0)];
     } else {
