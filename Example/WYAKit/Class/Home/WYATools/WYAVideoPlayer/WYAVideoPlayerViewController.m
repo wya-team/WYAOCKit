@@ -40,28 +40,28 @@
     [self.view addSubview:self.playView];
 
     [self.playView wya_registerPlayerItem:item];
-    
+
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"下载这个视频" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = FONT(15);
     [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor redColor]] forState:UIControlStateNormal];
-    [button addCallBackAction:^(UIButton *button) {
-        
-        WYADownloadModel * model1 = [[WYADownloadModel alloc] init];
-        model1.urlString          = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
-        
+    [button addCallBackAction:^(UIButton * button) {
+
+        WYADownloadModel * model1  = [[WYADownloadModel alloc] init];
+        model1.urlString           = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
+        model1.title               = @"下载测试内容";
         WYADownloader * downloader = [WYADownloader sharedDownloader];
         [downloader wya_DownloadTaskWithModel:model1 ResultHandle:^(WYADownloadModel * _Nonnull resultModel, NSString * _Nonnull result) {
             [UIView wya_showBottomToastWithMessage:result];
         }];
     }];
     [self.view addSubview:button];
-    CGFloat button_X = (ScreenWidth - 200*SizeAdapter)/2;
-    CGFloat button_Y = CGRectGetMaxY(self.playView.frame) +50*SizeAdapter;
-    CGFloat button_Width = 200*SizeAdapter;
-    CGFloat button_Height = 50*SizeAdapter;
-    button.frame = CGRectMake(button_X, button_Y, button_Width, button_Height);
+    CGFloat button_X      = (ScreenWidth - 200 * SizeAdapter) / 2;
+    CGFloat button_Y      = CGRectGetMaxY(self.playView.frame) + 50 * SizeAdapter;
+    CGFloat button_Width  = 200 * SizeAdapter;
+    CGFloat button_Height = 50 * SizeAdapter;
+    button.frame          = CGRectMake(button_X, button_Y, button_Width, button_Height);
 }
 
 - (void)dealloc

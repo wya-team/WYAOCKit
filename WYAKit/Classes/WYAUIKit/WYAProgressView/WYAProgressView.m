@@ -22,21 +22,33 @@
 
 @property (nonatomic, assign) BOOL increaseFromLast; /**<是否从上次数值开始动画，默认为NO*/
 @property (nonatomic, strong) UIImageView * bgImageView;
+@property (nonatomic, assign) WYAProgressViewStyle style;
 @end
 
 @implementation WYAProgressView
 
-- (instancetype)init
-{
-    if (self = [super init]) {
-        [self initialization];
-    }
-    return self;
-}
+//- (instancetype)init
+//{
+//    self = [super init];
+//    if (self) {
+//        [self initialization];
+//    }
+//    return self;
+//}
+//
+//- (instancetype)initWithFrame:(CGRect)frame
+//{
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        self.style = WYAProgressViewStyleStraight;
+//    }
+//    return self;
+//}
 
-- (instancetype)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame progressViewStyle:(WYAProgressViewStyle)style
 {
     if (self = [super initWithFrame:frame]) {
+        self.style = style;
         [self initialization];
     }
     return self;
@@ -45,14 +57,21 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    if (self.style == WYAProgressViewStyleStraight) {
+        CGFloat bgImageView_X      = 0;
+        CGFloat bgImageView_Y      = 0;
+        CGFloat bgImageView_Width  = self.cmam_width * self.progress;
+        CGFloat bgImageView_Height = self.cmam_height;
+        self.bgImageView.frame     = CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
+    } else if (self.style == WYAProgressViewStyleCircle) {
+        CGFloat bgImageView_X      = self.borderWidth;
+        CGFloat bgImageView_Y      = self.borderWidth;
+        CGFloat bgImageView_Width  = self.cmam_width - self.borderWidth * 2;
+        CGFloat bgImageView_Height = self.cmam_width - self.borderWidth * 2;
+        self.bgImageView.frame     = CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
 
-    CGFloat bgImageView_X      = self.borderWidth;
-    CGFloat bgImageView_Y      = self.borderWidth;
-    CGFloat bgImageView_Width  = self.cmam_width - self.borderWidth * 2;
-    CGFloat bgImageView_Height = self.cmam_width - self.borderWidth * 2;
-    self.bgImageView.frame     = CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
-
-    self.bgImageView.layer.cornerRadius = (self.cmam_width - self.borderWidth * 2) / 2;
+        self.bgImageView.layer.cornerRadius = (self.cmam_width - self.borderWidth * 2) / 2;
+    }
 }
 
 #pragma mark - Private Method -
@@ -61,14 +80,16 @@
     self.backgroundColor = [UIColor whiteColor];
     _trackTintColor      = [UIColor lightGrayColor];
     _progressTintColor   = [UIColor wya_hex:@"#108DE7"];
-
-    self.borderWidth = 5;                            //线宽默认为10
-    _startAngle      = WYACircleDegreeToRadian(270); //圆起点位置
-    _reduceAngle     = WYACircleDegreeToRadian(0);   //整个圆缺少的角度
+    if (self.style == WYAProgressViewStyleStraight) {
+    } else if (self.style == WYAProgressViewStyleCircle) {
+        _borderWidth = 5;                            //线宽默认为5
+        _startAngle  = WYACircleDegreeToRadian(270); //圆起点位置
+        _reduceAngle = WYACircleDegreeToRadian(0);   //整个圆缺少的角度
+        _radius      = self.cmam_width / 2.0 - self.borderWidth / 2.0;
+    }
 
     _duration = 1.5; //动画时长
 
-    _radius       = self.cmam_width / 2.0 - self.borderWidth / 2.0;
     _lastProgress = 0;
     self.progress = 0;
     [self addSubview:self.bgImageView];
@@ -123,9 +144,11 @@
 {
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] init];
-
-        _bgImageView.layer.masksToBounds = YES;
-        //        _bgImageView.backgroundColor = [UIColor blueColor];
+        if (self.style == WYAProgressViewStyleStraight) {
+            _bgImageView.layer.masksToBounds = NO;
+        } else if (self.style == WYAProgressViewStyleCircle) {
+            _bgImageView.layer.masksToBounds = YES;
+        }
     }
     return _bgImageView;
 }
@@ -182,8 +205,12 @@
 {
     if (_trackTintColor != trackTintColor) {
         _trackTintColor = trackTintColor;
-        if (_backLayer) {
-            _backLayer.strokeColor = _trackTintColor.CGColor;
+        if (self.style == WYAProgressViewStyleStraight) {
+            self.backgroundColor = _trackTintColor;
+        } else if (self.style == WYAProgressViewStyleCircle) {
+            if (_backLayer) {
+                _backLayer.strokeColor = _trackTintColor.CGColor;
+            }
         }
     }
 }
@@ -192,8 +219,12 @@
 {
     if (_progressTintColor != progressTintColor) {
         _progressTintColor = progressTintColor;
-        if (_progressLayer) {
-            _progressLayer.strokeColor = _progressTintColor.CGColor;
+        if (self.style == WYAProgressViewStyleStraight) {
+            self.bgImageView.backgroundColor = _progressTintColor;
+        } else if (self.style == WYAProgressViewStyleCircle) {
+            if (_progressLayer) {
+                _progressLayer.strokeColor = _progressTintColor.CGColor;
+            }
         }
     }
 }
@@ -225,15 +256,6 @@
 
 - (void)setProgress:(CGFloat)progress
 {
-    //准备好显示
-    if (!self.backLayer.superlayer) {
-        [self.layer addSublayer:self.backLayer];
-    }
-
-    if (!self.progressLayer.superlayer) {
-        [self.layer addSublayer:self.progressLayer];
-    }
-
     _progress = progress;
     if (_progress < 0) {
         _progress = 0;
@@ -241,14 +263,27 @@
     if (_progress > 1) {
         _progress = 1;
     }
-    self.progressLayer.strokeEnd = _progress;
+
+    if (self.style == WYAProgressViewStyleCircle) {
+        //准备好显示
+        if (!self.backLayer.superlayer) {
+            [self.layer addSublayer:self.backLayer];
+        }
+
+        if (!self.progressLayer.superlayer) {
+            [self.layer addSublayer:self.progressLayer];
+        }
+        self.progressLayer.strokeEnd = _progress;
+    } else if (self.style == WYAProgressViewStyleStraight) {
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+    }
 }
 
 - (void)startAnimation:(CGFloat)prog
 {
     //线条动画
     CABasicAnimation * pathAnimation  = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    pathAnimation.timingFunction      = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.duration            = _duration;
     pathAnimation.timingFunction      = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.fromValue           = [NSNumber numberWithFloat:_lastProgress];
@@ -263,7 +298,13 @@
 //刷新最新路径
 - (UIBezierPath *)getNewBezierPath
 {
-    return [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.cmam_width / 2.0, self.cmam_width / 2.0) radius:_radius startAngle:_startAngle endAngle:(2 * M_PI - _reduceAngle + _startAngle) clockwise:YES];
+    if (self.style == WYAProgressViewStyleStraight) {
+        return [UIBezierPath bezierPath];
+    } else if (self.style == WYAProgressViewStyleCircle) {
+        return [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.cmam_width / 2.0, self.cmam_width / 2.0) radius:_radius startAngle:_startAngle endAngle:(2 * M_PI - _reduceAngle + _startAngle) clockwise:YES];
+    } else {
+        return nil;
+    }
 }
 
 @end

@@ -147,7 +147,7 @@
 
     WYAHomeItemModel * item31 = [[WYAHomeItemModel alloc] init];
     item31.rowName            = @"WYAClearCache 清理缓存";
-    item31.className = @"WYAClearCacheController";
+    item31.className          = @"WYAClearCacheController";
 
     WYAHomeItemModel * item32 = [[WYAHomeItemModel alloc] init];
     item32.rowName            = @"WYARealm 数据库基本使用";

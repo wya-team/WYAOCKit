@@ -11,9 +11,9 @@
 
 #import "WYABannerHeaderView.h"
 
-#import "WYAImagePicker.h"
 #import "WYAIMGCodeViewController.h"
 #import "WYAImageBrowserViewController.h"
+#import "WYAImagePicker.h"
 #import "WYAOptionMenuViewController.h"
 #import "WYAPickerViewController.h"
 #import "WYAPopViewController.h"

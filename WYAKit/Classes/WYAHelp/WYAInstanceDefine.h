@@ -10,5 +10,4 @@
 /****************WYABannerView*****************/
 #define BANNERAUTOSCROLL @"bannerAutoScroll" // 是否自动滚动
 
-
 #endif /* WYAInstanceDefine_h */

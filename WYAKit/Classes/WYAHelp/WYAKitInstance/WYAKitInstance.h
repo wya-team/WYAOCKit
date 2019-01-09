@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYABannerConfig : NSObject
 // 默认自动滚动
-@property (nonatomic, assign) BOOL  autoScroll;
+@property (nonatomic, assign) BOOL autoScroll;
 @end
 
 NS_ASSUME_NONNULL_END

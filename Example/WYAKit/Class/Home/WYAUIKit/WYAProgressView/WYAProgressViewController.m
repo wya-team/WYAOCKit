@@ -67,7 +67,7 @@
     CGFloat progressV_Width     = 200;
     CGFloat progressV_Height    = 200;
     CGRect rect                 = CGRectMake(progressV_X, progressV_Y, progressV_Width, progressV_Height);
-    WYAProgressView * progressV = [[WYAProgressView alloc] initWithFrame:rect];
+    WYAProgressView * progressV = [[WYAProgressView alloc] initWithFrame:rect progressViewStyle:WYAProgressViewStyleCircle];
     progressV.borderWidth       = 2;
     [self.view addSubview:progressV];
 

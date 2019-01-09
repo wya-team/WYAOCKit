@@ -7,8 +7,8 @@
 
 #import "WYAClearCache.h"
 
-#include <sys/param.h>
 #include <sys/mount.h>
+#include <sys/param.h>
 
 @implementation WYAClearCache
 + (void)wya_defaultCachesFolderSizeBlock:(void (^)(NSString * folderSize))folderSize
@@ -17,7 +17,7 @@
     [self folderSizeAtPath:cachPath FolderSizeBlock:folderSize];
 }
 
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString* folderSize))folderSize
++ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString * folderSize))folderSize
 {
     [self folderSizeAtPath:filePath FolderSizeBlock:folderSize];
 }
@@ -58,7 +58,7 @@
     });
 }
 
-+ (void)folderSizeAtPath:(NSString *)folderPath FolderSizeBlock:(void (^)(NSString* fileSize))fileSize
++ (void)folderSizeAtPath:(NSString *)folderPath FolderSizeBlock:(void (^)(NSString * fileSize))fileSize
 {
     NSFileManager * manager = [NSFileManager defaultManager];
     if (![manager fileExistsAtPath:folderPath]) {
@@ -88,49 +88,49 @@
     }
     return 0;
 }
-+(NSString *)wya_getDivceSize{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
-    
-    NSLog(@"容量%.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
-    NSLog(@"可用%.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3));
-    NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG",[attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3),[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
++ (NSString *)wya_getDivceSize
+{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSDictionary * attributes   = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+
+    NSLog(@"容量%.2fG", [attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
+    NSLog(@"可用%.2fG", [attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3));
+    NSString * sizeStr = [NSString stringWithFormat:@"可用空间%0.2fG / 总空间%0.2fG", [attributes[NSFileSystemFreeSize] doubleValue] / powf(1024, 3), [attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
     return sizeStr;
 }
 
-+ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize{
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSDictionary *attributes = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
-    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
-    
++ (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize
+{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSDictionary * attributes   = [fileManager attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
+    double folder               = [attributes[NSFileSystemFreeSize] doubleValue];
+
     folderSize([self automaticUnitWith:folder]);
 }
 
-+ (NSString *)automaticCacheUnitWith:(double)folder{
++ (NSString *)automaticCacheUnitWith:(double)folder
+{
     if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
-        return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
-    }else{
-        return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
+        return [NSString stringWithFormat:@"%.2fMB", folder / (1000.0 * 1000.0)];
+    } else {
+        return [NSString stringWithFormat:@"%.2fGB", folder / (1000.0 * 1000.0 * 1000.0)];
     }
-    
 }
 
-
-
 // 自动获取单位
-+ (NSString *)automaticUnitWith:(double)folder{
-    if (folder / 1000.0 < 1 ) {
-        return [NSString stringWithFormat:@"%.2fB",folder];
++ (NSString *)automaticUnitWith:(double)folder
+{
+    if (folder / 1000.0 < 1) {
+        return [NSString stringWithFormat:@"%.2fB", folder];
     }
-    if (folder / (1000.0 * 1000.0) < 1 ) {
-      return [NSString stringWithFormat:@"%.2fKB",folder / 1000.0];
+    if (folder / (1000.0 * 1000.0) < 1) {
+        return [NSString stringWithFormat:@"%.2fKB", folder / 1000.0];
     }
     if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
-       return [NSString stringWithFormat:@"%.2fMB",folder / (1000.0 * 1000.0)];
-    }else{
-     return [NSString stringWithFormat:@"%.2fGB",folder / (1000.0 * 1000.0 * 1000.0)];
+        return [NSString stringWithFormat:@"%.2fMB", folder / (1000.0 * 1000.0)];
+    } else {
+        return [NSString stringWithFormat:@"%.2fGB", folder / (1000.0 * 1000.0 * 1000.0)];
     }
-    
 }
 
 @end

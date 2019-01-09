@@ -27,6 +27,11 @@
 
 - (void)startDownloadWithSession:(NSURLSession *)session
 {
+    if ([NSThread isMainThread]) {
+        NSLog(@"是主线程");
+    } else {
+        NSLog(@"否主线程");
+    }
     NSAssert(self.urlString, @"下载地址不能为空");
     // 字符串解码
     NSString * urlS = [self.urlString stringByRemovingPercentEncoding];
@@ -41,7 +46,9 @@
     self.downloadTask             = [session downloadTaskWithRequest:request];
 
     [self.downloadTask resume];
-    self.downloadState = WYADownloadStateDownloading;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.downloadState = WYADownloadStateDownloading;
+    });
 }
 
 - (void)suspendDownload
@@ -55,19 +62,24 @@
 - (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data
 {
     self.downloadState = WYADownloadStateDownloading;
-    self.downloadTask  = [session downloadTaskWithResumeData:self.downloadData];
+
+    self.downloadTask = [session downloadTaskWithResumeData:self.downloadData];
     [self.downloadTask resume];
 }
 
 - (void)giveupDownload
 {
     self.downloadState = WYADownloadStateFail;
+
     [self.downloadTask cancel];
 }
 
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle
 {
-    self.downloadState          = WYADownloadStateComplete;
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.downloadState = WYADownloadStateComplete;
+    });
+
     NSFileManager * fileManager = [NSFileManager defaultManager];
     NSURL * url;
     if (self.destinationPath) {
@@ -97,9 +109,9 @@
         self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
         if (self->startTime) {
             CFAbsoluteTime startTimeValue = [self->startTime doubleValue];
-            
+
             CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
-            
+
             if (downloadSpeed > 1024 * 1024 * 1024) {
                 self.speed = [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
             } else if (downloadSpeed > 1024 * 1024) {
@@ -113,7 +125,6 @@
             self->startTime = @(CFAbsoluteTimeGetCurrent());
         }
     });
-    
 }
 
 #pragma mark - Setter -

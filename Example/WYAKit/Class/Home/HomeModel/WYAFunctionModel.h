@@ -10,14 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAFunctionModel;
-typedef WYAFunctionModel *(^block)(NSString *);
+typedef WYAFunctionModel * (^block)(NSString *);
 
 @interface WYAFunctionModel : NSObject
-@property (nonatomic, copy)  block nameBlock;
-@property (nonatomic, copy)   block ageBlock;
-@property (nonatomic, copy)   NSString * name;
-@property (nonatomic, copy)   NSString * age;
--(void)setModel:(void(^)(WYAFunctionModel * model))m;
+@property (nonatomic, copy) block nameBlock;
+@property (nonatomic, copy) block ageBlock;
+@property (nonatomic, copy) NSString * name;
+@property (nonatomic, copy) NSString * age;
+- (void)setModel:(void (^)(WYAFunctionModel * model))m;
 @end
 
 NS_ASSUME_NONNULL_END

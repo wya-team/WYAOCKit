@@ -29,13 +29,14 @@
     [self.layer removeAnimationForKey:@"rotationAnimation"];
 }
 
-- (void)wya_setFlipAnimation{
+- (void)wya_setFlipAnimation
+{
     CABasicAnimation * rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.x"];
     rotationAnimation.toValue            = [NSNumber numberWithFloat:(M_PI / 180.f) * 180];
     rotationAnimation.duration           = 0.5;
     rotationAnimation.cumulative         = NO;
-    rotationAnimation.repeatCount = 1;
-    
+    rotationAnimation.repeatCount        = 1;
+
     [self.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 

@@ -35,9 +35,9 @@
         _navBarView          = [[UIView alloc] init];
         _lineView            = [[UIView alloc] init];
         _pageItemView        = [[UIView alloc] init];
-        _leftButtonView = [[UIView alloc]init];
-        _rightButtonView = [[UIView alloc]init];
-        
+        _leftButtonView      = [[UIView alloc] init];
+        _rightButtonView     = [[UIView alloc] init];
+
         [self addSubview:_backgroundImageView];
         [_backgroundImageView addSubview:_navBarView];
         [_navBarView addSubview:_pageItemView];
@@ -95,21 +95,21 @@
         make.height.mas_equalTo(WYANavBarHeight);
     }];
 
-    [_leftButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [_leftButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200)*0.5);
+        make.width.mas_equalTo((ScreenWidth - 200) * 0.5);
     }];
-    
+
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker * make) {
         make.center.mas_equalTo(self.navBarView);
         make.size.mas_equalTo(CGSizeMake(200, 44));
     }];
-    
-    [_rightButtonView mas_makeConstraints:^(MASConstraintMaker *make) {
+
+    [_rightButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.right.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200)*0.5);
+        make.width.mas_equalTo((ScreenWidth - 200) * 0.5);
     }];
-    
+
     [_lineView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.bottom.mas_equalTo(self.navBarView);
         make.height.mas_equalTo(1);

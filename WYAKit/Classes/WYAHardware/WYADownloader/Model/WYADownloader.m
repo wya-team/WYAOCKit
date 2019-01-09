@@ -146,13 +146,18 @@ NSString * const WYADownloadCompleteTable = @"WYADownloadCompleteTable";
 #pragma mark 下载
 - (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void (^)(WYADownloadModel * resultModel, NSString * result))handle
 {
-    
     if ([self compareDownloadTasks:model ResultHandle:handle]) {
         return;
     }
     self.userResultHandle = handle;
-    [[self mutableArrayValueForKey:@"downloadArray"] addObject:model];
-    [model startDownloadWithSession:self.session];
+    WeakSelf(weakSelf);
+    NSBlockOperation * op = [NSBlockOperation blockOperationWithBlock:^{
+        [model startDownloadWithSession:weakSelf.session];
+    }];
+    [op addExecutionBlock:^{
+        [[weakSelf mutableArrayValueForKey:@"downloadArray"] addObject:model];
+    }];
+    [self.downloadQueue addOperation:op];
 }
 
 #pragma mark 暂停
@@ -509,11 +514,17 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
 }
 
 #pragma mark - Getter -
-- (NSString *)floder{
+- (NSString *)floder
+{
     return floderPath;
 }
 - (NSArray *)downloadingArray
 {
+    if ([NSThread isMainThread]) {
+        NSLog(@"是主线程");
+    } else {
+        NSLog(@"fou主线程");
+    }
     return [self.downloadArray copy];
 }
 

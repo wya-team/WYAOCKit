@@ -7,17 +7,19 @@
 
 #import "WYADownloadingCell.h"
 #import "WYADownloader.h"
+
 @interface WYADownloadingCell ()
 @property (nonatomic, strong) UILabel * speedLabel;
 @property (nonatomic, strong) UIProgressView * progressView;
 @property (nonatomic, strong) UIButton * placeholderButton;
-@property (nonatomic, strong) UILabel * downloadStateLabel;//开始或暂停
+@property (nonatomic, strong) UILabel * downloadStateLabel; //开始或暂停
 @property (nonatomic, strong) UILabel * downloadNameLabel;
 @end
 
 @implementation WYADownloadingCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
@@ -38,52 +40,36 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    CGFloat placeholderButton_X = 16;
-    CGFloat placeholderButton_Y = 5;
-    CGFloat placeholderButton_Width = 120;
-    CGFloat placeholderButton_Height = 60;
-    self.placeholderButton.frame = CGRectMake(placeholderButton_X, placeholderButton_Y, placeholderButton_Width, placeholderButton_Height);
-    
-    CGFloat downloadNameLabel_X = CGRectGetMaxX(self.placeholderButton.frame) +10;
-    CGFloat downloadNameLabel_Y = 5;
-    CGFloat downloadNameLabel_Width = ScreenWidth - CGRectGetMaxX(self.placeholderButton.frame) - 20;
-    CGFloat downloadNameLabel_Height = 30;
-    self.downloadNameLabel.frame = CGRectMake(downloadNameLabel_X, downloadNameLabel_Y, downloadNameLabel_Width, downloadNameLabel_Height);
-    
-    CGFloat speedLabel_X = CGRectGetMaxX(self.placeholderButton.frame) + 10;
-    CGFloat speedLabel_Y = CGRectGetMaxY(self.downloadNameLabel.frame) + 10;
-    CGFloat speedLabel_Width = ScreenWidth - self.placeholderButton.cmam_right - 20;
-    CGFloat speedLabel_Height = 15;
-    self.speedLabel.frame = CGRectMake(speedLabel_X, speedLabel_Y, speedLabel_Width, speedLabel_Height);
-    
-    CGFloat downloadStateLabel_X = CGRectGetMaxX(self.downloadNameLabel.frame) - 50;
-    CGFloat downloadStateLabel_Y = self.speedLabel.cmam_top;
-    CGFloat downloadStateLabel_Width = 50;
-    CGFloat downloadStateLabel_Height = 15;
-    self.downloadStateLabel.frame = CGRectMake(downloadStateLabel_X, downloadStateLabel_Y, downloadStateLabel_Width, downloadStateLabel_Height);
-    
-    CGFloat progressView_X = CGRectGetMaxX(self.placeholderButton.frame) + 10;
-    CGFloat progressView_Y = CGRectGetMaxY(self.speedLabel.frame) + 5;
-    CGFloat progressView_Width = ScreenWidth - CGRectGetMaxX(self.placeholderButton.frame) - 20;
-    CGFloat progressView_Height = 5;
-    self.progressView.frame = CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
-}
 
-- (void)buttonClick
-{
-    WYADownloader * download = [WYADownloader sharedDownloader];
-    switch (self.model.downloadState) {
-        case WYADownloadStateDownloading: {
-            [download wya_suspendDownloadWithModel:self.model];
-        } break;
-        case WYADownloadStateSuspend: {
-            [download wya_keepDownloadWithModel:self.model];
-        }
-            
-        default:
-            break;
-    }
+    CGFloat placeholderButton_X      = 16;
+    CGFloat placeholderButton_Y      = 5;
+    CGFloat placeholderButton_Width  = 120;
+    CGFloat placeholderButton_Height = 60;
+    self.placeholderButton.frame     = CGRectMake(placeholderButton_X, placeholderButton_Y, placeholderButton_Width, placeholderButton_Height);
+
+    CGFloat downloadNameLabel_X      = CGRectGetMaxX(self.placeholderButton.frame) + 10;
+    CGFloat downloadNameLabel_Y      = 5;
+    CGFloat downloadNameLabel_Width  = ScreenWidth - CGRectGetMaxX(self.placeholderButton.frame) - 20;
+    CGFloat downloadNameLabel_Height = 30;
+    self.downloadNameLabel.frame     = CGRectMake(downloadNameLabel_X, downloadNameLabel_Y, downloadNameLabel_Width, downloadNameLabel_Height);
+
+    CGFloat speedLabel_X      = CGRectGetMaxX(self.placeholderButton.frame) + 10;
+    CGFloat speedLabel_Y      = CGRectGetMaxY(self.downloadNameLabel.frame) + 10;
+    CGFloat speedLabel_Width  = ScreenWidth - self.placeholderButton.cmam_right - 20;
+    CGFloat speedLabel_Height = 15;
+    self.speedLabel.frame     = CGRectMake(speedLabel_X, speedLabel_Y, speedLabel_Width, speedLabel_Height);
+
+    CGFloat downloadStateLabel_X      = CGRectGetMaxX(self.downloadNameLabel.frame) - 50;
+    CGFloat downloadStateLabel_Y      = self.speedLabel.cmam_top;
+    CGFloat downloadStateLabel_Width  = 50;
+    CGFloat downloadStateLabel_Height = 15;
+    self.downloadStateLabel.frame     = CGRectMake(downloadStateLabel_X, downloadStateLabel_Y, downloadStateLabel_Width, downloadStateLabel_Height);
+
+    CGFloat progressView_X      = CGRectGetMaxX(self.placeholderButton.frame) + 10;
+    CGFloat progressView_Y      = CGRectGetMaxY(self.speedLabel.frame) + 5;
+    CGFloat progressView_Width  = ScreenWidth - CGRectGetMaxX(self.placeholderButton.frame) - 20;
+    CGFloat progressView_Height = 5;
+    self.progressView.frame     = CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
 }
 
 - (void)setModel:(WYADownloadModel *)model
@@ -95,10 +81,12 @@
     }
     _model = model;
     if (model) {
+        [NSThread sleepForTimeInterval:1];
         [model addObserver:self forKeyPath:@"progress" options:NSKeyValueObservingOptionNew context:nil];
         [model addObserver:self forKeyPath:@"downloadState" options:NSKeyValueObservingOptionNew context:nil];
         [model addObserver:self forKeyPath:@"speed" options:NSKeyValueObservingOptionNew context:nil];
     }
+    self.downloadNameLabel.text = model.title;
     [self.placeholderButton setImage:[UIImage wya_getVideoPreViewImage:[NSURL URLWithString:model.urlString]] forState:UIControlStateNormal];
     self.speedLabel.text = @"0KB/s";
     //    self.downloadNameLabel.text = model.urlString.lastPathComponent;
@@ -110,7 +98,7 @@
 {
     switch (state) {
         case WYADownloadStateNormal:
-            
+
             break;
         case WYADownloadStateWait:
             self.downloadStateLabel.text = @"等待";
@@ -137,16 +125,15 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey, id> *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"progress"]) {
-        CGFloat progress = [change[@"new"] floatValue];
-        NSLog(@"progress.currentThred==%@",[NSThread currentThread]);
+        CGFloat progress           = [change[@"new"] floatValue];
         self.progressView.progress = progress;
     } else if ([keyPath isEqualToString:@"downloadState"]) {
         WYADownloadState state = [change[@"new"] integerValue];
         NSLog(@"下载状态 state==%d", state);
         [self configButton:state];
-        
+
     } else if ([keyPath isEqualToString:@"speed"]) {
-        NSString * speed = change[@"new"];
+        NSString * speed     = change[@"new"];
         self.speedLabel.text = speed;
     }
 }
@@ -154,7 +141,7 @@
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
-    
+
     // Configure the view for the selected state
 }
 
@@ -175,7 +162,7 @@
 {
     if (!_placeholderButton) {
         _placeholderButton = ({
-            UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
+            UIButton * button          = [UIButton buttonWithType:UIButtonTypeCustom];
             button.layer.cornerRadius  = 5 * SizeAdapter;
             button.layer.masksToBounds = YES;
             [button setBackgroundColor:[UIColor grayColor]];
@@ -213,8 +200,8 @@
 {
     if (!_downloadStateLabel) {
         _downloadStateLabel = ({
-            UILabel * object = [[UILabel alloc] init];
-            object.font      = FONT(15);
+            UILabel * object     = [[UILabel alloc] init];
+            object.font          = FONT(15);
             object.textAlignment = NSTextAlignmentRight;
             object;
         });
@@ -228,6 +215,5 @@
     [self.model removeObserver:self forKeyPath:@"downloadState"];
     [self.model removeObserver:self forKeyPath:@"speed"];
 }
-
 
 @end

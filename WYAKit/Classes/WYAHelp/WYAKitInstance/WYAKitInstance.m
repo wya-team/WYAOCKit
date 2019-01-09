@@ -6,10 +6,9 @@
 //
 
 #import "WYAKitInstance.h"
-#import <objc/runtime.h>
-#import <objc/message.h>
 #import <WYAKit/WYABannerView.h>
-
+#import <objc/message.h>
+#import <objc/runtime.h>
 
 @implementation WYAKitInstance
 
@@ -18,8 +17,8 @@
     static WYAKitInstance * instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [super allocWithZone:zone];
-        instance.bannerConfig = [[WYABannerConfig alloc]init];
+        instance              = [super allocWithZone:zone];
+        instance.bannerConfig = [[WYABannerConfig alloc] init];
     });
     return instance;
 }
@@ -32,10 +31,11 @@
 
 @implementation WYABannerConfig
 
-- (void)setAutoScroll:(BOOL)autoScroll{
-    _autoScroll = autoScroll;
-    NSString * str = [NSString stringWithFormat:@"%d",autoScroll];
-    [[NSUserDefaults standardUserDefaults]setObject:str forKey:BANNERAUTOSCROLL];
+- (void)setAutoScroll:(BOOL)autoScroll
+{
+    _autoScroll    = autoScroll;
+    NSString * str = [NSString stringWithFormat:@"%d", autoScroll];
+    [[NSUserDefaults standardUserDefaults] setObject:str forKey:BANNERAUTOSCROLL];
 }
 
 @end

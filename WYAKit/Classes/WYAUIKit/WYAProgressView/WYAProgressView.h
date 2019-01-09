@@ -9,6 +9,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSUInteger, WYAProgressViewStyle) {
+    WYAProgressViewStyleStraight,
+    WYAProgressViewStyleCircle,
+};
+
 @interface WYAProgressView : UIView
 
 /**
@@ -35,6 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
  进度（0~1）
  */
 @property (nonatomic, assign) CGFloat progress;
+
+- (instancetype)initWithFrame:(CGRect)frame progressViewStyle:(WYAProgressViewStyle)style;
 
 /**
  设置进度

@@ -62,7 +62,6 @@ typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
  */
 @property (nonatomic, strong) NSArray * textArray;
 
-
 @property (nonatomic, copy) void (^leftButtonHandle)(void);  //左侧按钮点击事件
 @property (nonatomic, copy) void (^rightButtonHandle)(void); // 右侧按钮点击事件
 
