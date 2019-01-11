@@ -9,10 +9,8 @@
 @import UIKit;
 #import "WYAAppDelegate.h"
 
-int main(int argc, char * argv[])
-{
-    @autoreleasepool
-    {
+int main(int argc, char * argv[]) {
+    @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([WYAAppDelegate class]));
     }
 }

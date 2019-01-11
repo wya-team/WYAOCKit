@@ -65,7 +65,8 @@ typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
 @property (nonatomic, copy) void (^leftButtonHandle)(void);  //左侧按钮点击事件
 @property (nonatomic, copy) void (^rightButtonHandle)(void); // 右侧按钮点击事件
 
-- (instancetype)initWithFrame:(CGRect)frame scrollDirection:(WYANoticeBarScrollDirection)scrollDirection;
+- (instancetype)initWithFrame:(CGRect)frame
+              scrollDirection:(WYANoticeBarScrollDirection)scrollDirection;
 
 /**
  开始动画

@@ -13,8 +13,7 @@
 
 @implementation WYAVideoNetWorkView
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         [self addSubview:self.titleLabel];
@@ -23,8 +22,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.mas_equalTo(self);
@@ -39,8 +37,7 @@
 }
 
 #pragma mark - Public Method -
-- (void)netWorkStatus:(void (^)(AFNetworkReachabilityStatus status))handle
-{
+- (void)netWorkStatus:(void (^)(AFNetworkReachabilityStatus status))handle {
     AFNetworkReachabilityManager * manager = [AFNetworkReachabilityManager sharedManager];
     [manager startMonitoring];
     [manager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -68,16 +65,13 @@
             default:
                 break;
         }
-        if (handle) {
-            handle(status);
-        }
+        if (handle) { handle(status); }
 
     }];
 }
 
 #pragma mark - Getter -
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -90,8 +84,7 @@
     return _titleLabel;
 }
 
-- (UIButton *)button
-{
+- (UIButton *)button {
     if (!_button) {
         _button = ({
             UIButton * object          = [[UIButton alloc] init];
@@ -103,13 +96,9 @@
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton * button) {
                 if ([button.titleLabel.text isEqualToString:@"重试"]) {
-                    if (weakSelf.retryHandle) {
-                        weakSelf.retryHandle();
-                    }
+                    if (weakSelf.retryHandle) { weakSelf.retryHandle(); }
                 } else if ([button.titleLabel.text isEqualToString:@"继续播放"]) {
-                    if (weakSelf.goOnHandle) {
-                        weakSelf.goOnHandle();
-                    }
+                    if (weakSelf.goOnHandle) { weakSelf.goOnHandle(); }
                 }
                 weakSelf.hidden = YES;
             }];

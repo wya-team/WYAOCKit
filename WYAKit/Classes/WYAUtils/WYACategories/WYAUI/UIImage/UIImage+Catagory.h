@@ -26,7 +26,9 @@
  @param circular 是否是圆形裁剪
  @return image
  */
-- (nonnull UIImage *)wya_croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular;
+- (nonnull UIImage *)wya_croppedImageWithFrame:(CGRect)frame
+                                         angle:(NSInteger)angle
+                                  circularClip:(BOOL)circular;
 
 /**
  等比例缩放,size 是你要把图显示到 多大区域
@@ -43,7 +45,7 @@
 
 /**
  不对外使用
- 
+
  @param imageName 图片名
  @param className 类名
  @return image
@@ -52,7 +54,7 @@
 
 /**
  将颜色转化为图片
- 
+
  @param color UIColor对象
  @return Image对象
  */
@@ -77,7 +79,7 @@
  XDensity = 72;
  YDensity = 72;
  };
- 
+
  @param urlString url
  @return 信息
  */
@@ -85,7 +87,7 @@
 
 /**
  加载SVG图片
- 
+
  @param name 图片名
  @param size 大小
  @return image

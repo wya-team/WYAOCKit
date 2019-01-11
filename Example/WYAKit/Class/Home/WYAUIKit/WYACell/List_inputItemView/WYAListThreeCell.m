@@ -19,8 +19,8 @@
 @implementation WYAListThreeCell
 
 #pragma mark ======= Life Cycle
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.titLabel];
         [self.contentView addSubview:self.rightLabel];
@@ -29,8 +29,7 @@
     }
     return self;
 }
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.titLabel mas_makeConstraints:^(MASConstraintMaker * make) {
@@ -59,8 +58,7 @@
         }];
     }
 }
-- (void)setModel:(WYATextListModel *)model
-{
+- (void)setModel:(WYATextListModel *)model {
     _model                    = model;
     NSInteger type            = model.type;
     self.titLabel.text        = model.titleString;
@@ -81,8 +79,7 @@
 }
 #pragma mark ======= getter
 
-- (UILabel *)titLabel
-{
+- (UILabel *)titLabel {
     if (!_titLabel) {
         _titLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -94,8 +91,7 @@
     return _titLabel;
 }
 
-- (UIImageView *)arrowImageView
-{
+- (UIImageView *)arrowImageView {
     if (!_arrowImageView) {
         _arrowImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -105,8 +101,7 @@
     return _arrowImageView;
 }
 
-- (UILabel *)rightLabel
-{
+- (UILabel *)rightLabel {
     if (!_rightLabel) {
         _rightLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -118,8 +113,7 @@
     return _rightLabel;
 }
 
-- (UIImageView *)rightImageView
-{
+- (UIImageView *)rightImageView {
     if (!_rightImageView) {
         _rightImageView = ({
             UIImageView * object = [[UIImageView alloc] init];

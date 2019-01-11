@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UITextField (WYATextFieldBlock)
-- (void)wya_addTextChangeWithEvent:(UIControlEvents)event textHandle:(void (^)(UITextField * text))textHandle;
+- (void)wya_addTextChangeWithEvent:(UIControlEvents)event
+                        textHandle:(void (^)(UITextField * text))textHandle;
 @end
 
 NS_ASSUME_NONNULL_END

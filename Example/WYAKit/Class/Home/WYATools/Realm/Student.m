@@ -9,8 +9,7 @@
 #import "Student.h"
 
 @implementation Student
-+ (nullable NSString *)primaryKey
-{
++ (nullable NSString *)primaryKey {
     return @"studentId";
 }
 @end

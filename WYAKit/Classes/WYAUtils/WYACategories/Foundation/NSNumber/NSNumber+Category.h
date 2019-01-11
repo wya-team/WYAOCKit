@@ -15,7 +15,7 @@
 
 /**
  四舍五入
- 
+
  @param digit 限制最大位数
  @return 结果
  */
@@ -23,7 +23,7 @@
 
 /**
  取上整
- 
+
  @param digit 限制最大位数
  @return 结果
  */
@@ -31,7 +31,7 @@
 
 /**
  取下整
- 
+
  @param digit 限制最大位数
  @return 结果
  */

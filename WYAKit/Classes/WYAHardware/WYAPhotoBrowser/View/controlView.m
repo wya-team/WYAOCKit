@@ -18,8 +18,7 @@
 
 @implementation controlView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
 
     if (self) {
@@ -30,7 +29,9 @@
         [self.previewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.previewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         self.previewButton.frame = CGRectMake(15, 0, 45, frame.size.height);
-        [self.previewButton addTarget:self action:@selector(previewClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.previewButton addTarget:self
+                               action:@selector(previewClick)
+                     forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.previewButton];
 
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -38,26 +39,23 @@
         [self.doneButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateSelected];
+        [self.doneButton setBackgroundImage:[UIImage imageNamed:@""]
+                                   forState:UIControlStateSelected];
         self.doneButton.frame = CGRectMake(ScreenWidth - 60, 15, 45, frame.size.height - 30);
-        [self.doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.doneButton addTarget:self
+                            action:@selector(doneClick)
+                  forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.doneButton];
     }
     return self;
 }
 
-- (void)previewClick
-{
-    if (self.previewBlock) {
-        self.previewBlock();
-    }
+- (void)previewClick {
+    if (self.previewBlock) { self.previewBlock(); }
 }
 
-- (void)doneClick
-{
-    if (self.doneBlock) {
-        self.doneBlock();
-    }
+- (void)doneClick {
+    if (self.doneBlock) { self.doneBlock(); }
 }
 
 /*

@@ -57,7 +57,9 @@
  @param font 字体大小
  @param backGroundColor 背景色
  */
-- (void)wya_setUserNameTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
+- (void)wya_setUserNameTextFiledTextColor:(UIColor *)color
+                                 FontSize:(CGFloat)font
+                          backGroundColor:(UIColor *)backGroundColor;
 
 /**
  设置密码输入框
@@ -66,5 +68,7 @@
  @param font 字体大小
  @param backGroundColor 背景色
  */
-- (void)wya_setPasswordTextFiledTextColor:(UIColor *)color FontSize:(CGFloat)font backGroundColor:(UIColor *)backGroundColor;
+- (void)wya_setPasswordTextFiledTextColor:(UIColor *)color
+                                 FontSize:(CGFloat)font
+                          backGroundColor:(UIColor *)backGroundColor;
 @end

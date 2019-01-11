@@ -8,8 +8,9 @@
 
 @interface WYACameraViewController ()
 
-@property (nonatomic, strong) UIView * containerView;                                //内容父容器
-@property (strong, nonatomic) AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
+@property (nonatomic, strong) UIView * containerView; //内容父容器
+@property (strong, nonatomic)
+    AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool * videoTool;
 
 @property (nonatomic, strong) UIView * cameraBar;          //顶部放置以下控件的视图
@@ -32,13 +33,11 @@
 
 @implementation WYACameraViewController
 
-- (instancetype)init
-{
+- (instancetype)init {
     return [self initWithType:WYACameraTypeAll];
 }
 
-- (instancetype)initWithType:(WYACameraType)type
-{
+- (instancetype)initWithType:(WYACameraType)type {
     self = [super init];
     if (self) {
         self.time       = 15.0;
@@ -47,67 +46,73 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor           = [UIColor colorWithWhite:1 alpha:0.3];
-    AVAuthorizationStatus AVstatus      = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]; //相机权限
-    AVAuthorizationStatus avAudioStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
+    self.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
+    AVAuthorizationStatus AVstatus =
+        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]; //相机权限
+    AVAuthorizationStatus avAudioStatus =
+        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
     if (AVstatus == AVAuthorizationStatusNotDetermined) {
-        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if (granted) {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [self setupCaptureSession];
-                });
+        [AVCaptureDevice
+            requestAccessForMediaType:AVMediaTypeVideo
+                    completionHandler:^(BOOL granted) {
+                        if (granted) {
+                            dispatch_sync(dispatch_get_main_queue(),
+                                          ^{ [self setupCaptureSession]; });
 
-            } else {
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [UIView wya_warningToastWithMessage:@"检测到您未开启相机，将在三秒钟返回"];
-                });
+                        } else {
+                            dispatch_sync(dispatch_get_main_queue(), ^{
+                                [UIView wya_warningToastWithMessage:
+                                            @"检测到您未开启相机，将在三秒钟返回"];
+                            });
 
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    if (self.navigationController) {
-                        [self.navigationController popViewControllerAnimated:YES];
-                    } else {
-                        [self dismissViewControllerAnimated:YES completion:nil];
-                    }
-                });
-            }
-        }];
+                            dispatch_after(
+                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)),
+                                dispatch_get_main_queue(), ^{
+                                    if (self.navigationController) {
+                                        [self.navigationController popViewControllerAnimated:YES];
+                                    } else {
+                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                    }
+                                });
+                        }
+                    }];
     } else if (AVstatus == AVAuthorizationStatusAuthorized) {
         [self setupCaptureSession];
     } else if (AVstatus == AVAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:@"检测到您没有开启相机权限，请前往设置开启"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-        });
+        [UIView wya_showCenterToastWithMessage:
+                    @"检"
+                    @"测到您没有开启相机权限，请前往设置开启"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{
+                           [[UIApplication sharedApplication]
+                               openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                       });
     }
 
     if (avAudioStatus == AVAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:@"检测到您没有开启麦克风权限，请前往设置开启"];
+        [UIView wya_showCenterToastWithMessage:
+                    @"检"
+                    @"测到您没有开启麦克风权限，请前往设置开启"];
     }
 
     [self setupSubView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [UIView animateWithDuration:2 animations:^{
-        self.messageLabel.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self.messageLabel removeFromSuperview];
-    }];
+    [UIView animateWithDuration:2
+        animations:^{ self.messageLabel.alpha = 0; }
+        completion:^(BOOL finished) { [self.messageLabel removeFromSuperview]; }];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self.videoTool stopCapture];
     [self.videoTool stopRecordFunction];
@@ -115,8 +120,7 @@
 }
 
 #pragma mark - Private Method -
-- (void)setupSubView
-{
+- (void)setupSubView {
     [self.view addSubview:self.containerView];
     [self.view addSubview:self.closeButton];
     [self.view addSubview:self.cameraBar];
@@ -126,9 +130,7 @@
 
     [self.view addSubview:self.progressView];
 
-    if (self.cameraType == WYACameraTypeAll) {
-        [self.view addSubview:self.messageLabel];
-    }
+    if (self.cameraType == WYACameraTypeAll) { [self.view addSubview:self.messageLabel]; }
 
     CGFloat cameraBar_X      = 0;
     CGFloat cameraBar_Y      = 0;
@@ -158,8 +160,7 @@
     self.messageLabel.center     = CGPointMake(messageLabel_centerX, messageLabel_centerY);
 }
 
-- (void)setupCaptureSession
-{
+- (void)setupCaptureSession {
     self.captureVideoPreviewLayer       = [self.videoTool previewLayer];
     CALayer * layer                     = self.containerView.layer;
     layer.masksToBounds                 = YES;
@@ -169,14 +170,12 @@
     [self.videoTool startRecordFunction];
 }
 
-- (void)closeButtonClick
-{
+- (void)closeButtonClick {
     [self endRecordingVideo];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)flashButtonClick:(UIButton *)flashButton
-{
+- (void)flashButtonClick:(UIButton *)flashButton {
     flashButton.selected = !flashButton.selected;
     if (flashButton.selected) {
         [self.videoTool openFlash];
@@ -185,8 +184,7 @@
     }
 }
 
-- (void)flashLightButtonClick:(UIButton *)button
-{
+- (void)flashLightButtonClick:(UIButton *)button {
     button.selected = !button.selected;
     if (button.selected) {
         [self.videoTool openFlashLight];
@@ -195,8 +193,7 @@
     }
 }
 
-- (void)cameraButtonClick:(UIButton *)cameraButton
-{
+- (void)cameraButtonClick:(UIButton *)cameraButton {
     cameraButton.selected = !cameraButton.selected;
     if (cameraButton.selected) {
         [self.videoTool changeCameraInputDeviceisFront:YES];
@@ -205,46 +202,48 @@
     }
 }
 
-- (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress
-{
+- (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress {
     if (longPress.state == UIGestureRecognizerStateBegan) {
         [self startTimer];
         [self.videoTool startCapture];
-        [UIView animateWithDuration:0.2 animations:^{
-            self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
-        }];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                         }];
 
     } else if (longPress.state == UIGestureRecognizerStateEnded) {
         [self endRecordingVideo];
         [self.videoTool stopRecordFunction];
 
-        [UIView animateWithDuration:0.2 animations:^{
-            self.progressView.transform = CGAffineTransformIdentity;
-        } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2
+            animations:^{ self.progressView.transform = CGAffineTransformIdentity; }
+            completion:^(BOOL finished) {
 
-            if (self.videoTool.videoPath) {
-                self.placeholdImageView.hidden = NO;
-                NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
-                self.player                    = [AVPlayer playerWithURL:url];
-                AVPlayerLayer * layer          = [AVPlayerLayer playerLayerWithPlayer:self.player];
-                layer.frame                    = self.placeholdImageView.frame;
-                [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
-                [self.player play];
-                //注册通知
-                [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(runLoopTheMovie:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
-            }
-        }];
+                if (self.videoTool.videoPath) {
+                    self.placeholdImageView.hidden = NO;
+                    NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
+                    self.player                    = [AVPlayer playerWithURL:url];
+                    AVPlayerLayer * layer          = [AVPlayerLayer playerLayerWithPlayer:self.player];
+                    layer.frame                    = self.placeholdImageView.frame;
+                    [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
+                    [self.player play];
+                    //注册通知
+                    [[NSNotificationCenter defaultCenter]
+                        addObserver:self
+                           selector:@selector(runLoopTheMovie:)
+                               name:AVPlayerItemDidPlayToEndTimeNotification
+                             object:nil];
+                }
+            }];
     }
 }
 
-- (void)endRecordingVideo
-{
+- (void)endRecordingVideo {
     [self stopTimer];
     [self.videoTool stopCapture];
 }
 
-- (void)takingPictures
-{
+- (void)takingPictures {
     [self.videoTool startTakingPhoto:^(UIImage * image) {
         self.placeholdImageView.hidden = NO;
         self.placeholdImageView.image  = image;
@@ -253,8 +252,7 @@
     }];
 }
 
-- (void)cancelClick
-{
+- (void)cancelClick {
     [self.placeholdImageView removeFromSuperview];
     self.placeholdImageView = nil;
 
@@ -270,53 +268,55 @@
         self.placeholdImageView.image = nil;
     }
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:AVPlayerItemDidPlayToEndTimeNotification
+                                                  object:nil];
 }
 
-- (void)sureClick
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.placeholdImageView.image) {
-            if (self.takePhoto) {
-                self.takePhoto(self.placeholdImageView.image);
-            }
-        } else {
-            [self.player pause];
-            [self.captureVideoPreviewLayer removeFromSuperlayer];
+- (void)sureClick {
+    [self dismissViewControllerAnimated:YES
+                             completion:^{
+                                 if (self.placeholdImageView.image) {
+                                     if (self.takePhoto) {
+                                         self.takePhoto(self.placeholdImageView.image);
+                                     }
+                                 } else {
+                                     [self.player pause];
+                                     [self.captureVideoPreviewLayer removeFromSuperlayer];
 
-            if (self.takeVideo) {
-                self.takeVideo(self.videoTool.videoPath);
-            }
-        }
-    }];
+                                     if (self.takeVideo) {
+                                         self.takeVideo(self.videoTool.videoPath);
+                                     }
+                                 }
+                             }];
 }
 
-- (void)runLoopTheMovie:(NSNotification *)n
-{
+- (void)runLoopTheMovie:(NSNotification *)n {
     AVPlayerItem * p = [n object];
     [p seekToTime:kCMTimeZero];
 
     [self.player play];
 }
 
-- (void)startTimer
-{
+- (void)startTimer {
     CGFloat signleTime = self.time / 360;
     self.timeCount     = 0;
     self.timeMargin    = signleTime;
-    self.timer         = [NSTimer scheduledTimerWithTimeInterval:signleTime target:self selector:@selector(updateProgress) userInfo:nil repeats:YES];
+    self.timer         = [NSTimer scheduledTimerWithTimeInterval:signleTime
+                                                  target:self
+                                                selector:@selector(updateProgress)
+                                                userInfo:nil
+                                                 repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
-- (void)stopTimer
-{
+- (void)stopTimer {
     self.progressView.progress = 0.f;
     [self.timer invalidate];
     self.timer = nil;
 }
 
-- (void)updateProgress
-{
+- (void)updateProgress {
     if (self.timeCount >= self.time) {
         [self stopTimer];
         [self endRecordingVideo];
@@ -329,23 +329,20 @@
 }
 
 #pragma mark - Public Method -
-- (void)clearCache
-{
+- (void)clearCache {
     NSFileManager * fileManage = [NSFileManager defaultManager];
     NSError * error;
     [fileManage removeItemAtPath:[self.videoTool getVideoPathCache] error:&error];
 }
 
 #pragma mark - Setter -
-- (void)setTime:(CGFloat)time
-{
+- (void)setTime:(CGFloat)time {
     NSAssert(time > 0, @"录制时间不能小于1s");
     _time = time;
 }
 
 #pragma mark - Getter -
-- (UILabel *)messageLabel
-{
+- (UILabel *)messageLabel {
     if (!_messageLabel) {
         _messageLabel               = [[UILabel alloc] init];
         _messageLabel.text          = @"轻触拍照，按住摄像";
@@ -356,8 +353,7 @@
     return _messageLabel;
 }
 
-- (UIView *)containerView
-{
+- (UIView *)containerView {
     if (!_containerView) {
         _containerView                 = [[UIView alloc] initWithFrame:self.view.bounds];
         _containerView.backgroundColor = [UIColor whiteColor];
@@ -365,21 +361,23 @@
     return _containerView;
 }
 
-- (UIButton *)closeButton
-{
+- (UIButton *)closeButton {
     if (!_closeButton) {
         _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_closeButton setImage:[UIImage loadBundleImage:@"icon_cancel_camera" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_closeButton setImage:[UIImage loadBundleImage:@"icon_cancel_camera"
+                                              ClassName:NSStringFromClass([self class])]
+                      forState:UIControlStateNormal];
         _closeButton.bounds              = CGRectMake(0, 0, 50, 50);
         _closeButton.layer.cornerRadius  = _closeButton.bounds.size.width * 0.5;
         _closeButton.layer.masksToBounds = YES;
-        [_closeButton addTarget:self action:@selector(closeButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [_closeButton addTarget:self
+                         action:@selector(closeButtonClick)
+               forControlEvents:UIControlEventTouchUpInside];
     }
     return _closeButton;
 }
 
-- (UIView *)cameraBar
-{
+- (UIView *)cameraBar {
     if (!_cameraBar) {
         _cameraBar = ({
             UIView * object        = [[UIView alloc] init];
@@ -390,112 +388,135 @@
     return _cameraBar;
 }
 
-- (UIButton *)flashButton
-{
+- (UIButton *)flashButton {
     if (!_flashButton) {
         _flashButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_close" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
-        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_open" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
+        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_close"
+                                              ClassName:NSStringFromClass([self class])]
+                      forState:UIControlStateNormal];
+        [_flashButton setImage:[UIImage loadBundleImage:@"icon_camera_flash_open"
+                                              ClassName:NSStringFromClass([self class])]
+                      forState:UIControlStateSelected];
         _flashButton.bounds = CGRectMake(0, 0, 40, 40);
-        [_flashButton addTarget:self action:@selector(flashButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_flashButton addTarget:self
+                         action:@selector(flashButtonClick:)
+               forControlEvents:UIControlEventTouchUpInside];
     }
     return _flashButton;
 }
 
-- (UIButton *)flashLightButton
-{
+- (UIButton *)flashLightButton {
     if (!_flashLightButton) {
         _flashLightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_flashLightButton setImage:[UIImage loadBundleImage:@"icon_scan_flashlight" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_flashLightButton setImage:[UIImage loadBundleImage:@"icon_scan_flashlight"
+                                                   ClassName:NSStringFromClass([self class])]
+                           forState:UIControlStateNormal];
         _flashLightButton.bounds = CGRectMake(0, 0, 40, 40);
-        [_flashLightButton addTarget:self action:@selector(flashLightButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_flashLightButton addTarget:self
+                              action:@selector(flashLightButtonClick:)
+                    forControlEvents:UIControlEventTouchUpInside];
     }
     return _flashLightButton;
 }
 
-- (UIButton *)cameraButton
-{
+- (UIButton *)cameraButton {
     if (!_cameraButton) {
         _cameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_cameraButton setImage:[UIImage loadBundleImage:@"icon_camera_switch" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
+        [_cameraButton setImage:[UIImage loadBundleImage:@"icon_camera_switch"
+                                               ClassName:NSStringFromClass([self class])]
+                       forState:UIControlStateNormal];
         _cameraButton.bounds                = CGRectMake(0, 0, 40, 40);
         _cameraButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [_cameraButton addTarget:self action:@selector(cameraButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_cameraButton addTarget:self
+                          action:@selector(cameraButtonClick:)
+                forControlEvents:UIControlEventTouchUpInside];
     }
     return _cameraButton;
 }
 
-- (WYAProgressView *)progressView
-{
+- (WYAProgressView *)progressView {
     if (!_progressView) {
-        _progressView                     = [[WYAProgressView alloc] initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2, ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30, 80 * SizeAdapter, 80 * SizeAdapter)];
+        _progressView = [[WYAProgressView alloc]
+            initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
+                                     ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
+                                     80 * SizeAdapter, 80 * SizeAdapter)];
         _progressView.borderWidth         = 10 * SizeAdapter;
         _progressView.layer.cornerRadius  = 40 * SizeAdapter;
         _progressView.layer.masksToBounds = YES;
         if (self.cameraType == WYACameraTypeAll) {
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takingPictures)];
+            UITapGestureRecognizer * tap =
+                [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                        action:@selector(takingPictures)];
             [_progressView addGestureRecognizer:tap];
 
-            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(startRecordingVideo:)];
+            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]
+                initWithTarget:self
+                        action:@selector(startRecordingVideo:)];
             [_progressView addGestureRecognizer:longPress];
             [longPress requireGestureRecognizerToFail:tap];
         } else if (self.cameraType == WYACameraTypeImage) {
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(takingPictures)];
+            UITapGestureRecognizer * tap =
+                [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                        action:@selector(takingPictures)];
             [_progressView addGestureRecognizer:tap];
         } else {
-            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(startRecordingVideo:)];
+            UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]
+                initWithTarget:self
+                        action:@selector(startRecordingVideo:)];
             [_progressView addGestureRecognizer:longPress];
         }
     }
     return _progressView;
 }
 
-- (WYACameraTool *)videoTool
-{
-    if (!_videoTool) {
-        _videoTool = [[WYACameraTool alloc] init];
-    }
+- (WYACameraTool *)videoTool {
+    if (!_videoTool) { _videoTool = [[WYACameraTool alloc] init]; }
     return _videoTool;
 }
 
-- (WYACameraPreviewImageView *)placeholdImageView
-{
+- (WYACameraPreviewImageView *)placeholdImageView {
     if (!_placeholdImageView) {
         _placeholdImageView = ({
-            WYACameraPreviewImageView * object = [[WYACameraPreviewImageView alloc] initWithFrame:self.view.bounds];
-            object.userInteractionEnabled      = YES;
-            object.hidden                      = YES;
+            WYACameraPreviewImageView * object =
+                [[WYACameraPreviewImageView alloc] initWithFrame:self.view.bounds];
+            object.userInteractionEnabled = YES;
+            object.hidden                 = YES;
             WeakSelf(weakSelf);
-            object.cancelHandle = ^{
-                [weakSelf cancelClick];
-            };
-            object.finishHandle = ^(UIImage * _Nonnull previewImage) {
-                [weakSelf sureClick];
-            };
-            object.editHandle = ^(UIImage * _Nonnull previewImage) {
+            object.cancelHandle = ^{ [weakSelf cancelClick]; };
+            object.finishHandle = ^(UIImage * _Nonnull previewImage) { [weakSelf sureClick]; };
+            object.editHandle   = ^(UIImage * _Nonnull previewImage) {
                 StrongSelf(strongSelf);
                 if (self.videoTool.videoPath) {
                     [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
-                    //                    if ([UIVideoEditorController canEditVideoAtPath:self.videoTool.videoPath]) {
-                    //                        UIVideoEditorController * vc = [[UIVideoEditorController alloc]init];
+                    //                    if ([UIVideoEditorController
+                    //                    canEditVideoAtPath:self.videoTool.videoPath]) {
+                    //                        UIVideoEditorController * vc =
+                    //                        [[UIVideoEditorController alloc]init];
                     //                        vc.videoPath = strongSelf.videoTool.videoPath;
                     //                        vc.delegate = self;
-                    //                        [strongSelf presentViewController:vc animated:YES completion:nil];
+                    //                        [strongSelf presentViewController:vc animated:YES
+                    //                        completion:nil];
                     //                        NSLog(@"yes");
                     //                    }
 
                     return;
                 }
 
-                WYAImageCropViewController * vc = [[WYAImageCropViewController alloc] initWithImage:previewImage];
-                vc.onDidCropToRect              = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
-                    [vc dismissViewControllerAnimated:NO completion:^{
-                        [strongSelf dismissViewControllerAnimated:YES completion:^{
-                            if (strongSelf.takePhoto) {
-                                strongSelf.takePhoto(image);
-                            }
-                        }];
-                    }];
+                WYAImageCropViewController * vc =
+                    [[WYAImageCropViewController alloc] initWithImage:previewImage];
+                vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+                    [vc dismissViewControllerAnimated:NO
+                                           completion:^{
+                                               [strongSelf
+                                                   dismissViewControllerAnimated:YES
+                                                                      completion:^{
+                                                                          if (strongSelf
+                                                                                  .takePhoto) {
+                                                                              strongSelf.takePhoto(
+                                                                                  image);
+                                                                          }
+                                                                      }];
+                                           }];
                 };
                 [strongSelf presentViewController:vc animated:YES completion:nil];
             };

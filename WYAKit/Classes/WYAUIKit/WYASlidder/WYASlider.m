@@ -15,37 +15,35 @@
 @property (nonatomic, strong) UIView * mainSliderLine;
 @property (nonatomic, assign) CGFloat CurrentMinNum;
 @property (nonatomic, assign) CGFloat CurrentMaxNum;
-@property (nonatomic, strong) UIButton * minSliderButton; //min 滑块
-@property (nonatomic, strong) UIButton * maxSliderButton; //max 滑块
+@property (nonatomic, strong) UIButton * minSliderButton; // min 滑块
+@property (nonatomic, strong) UIButton * maxSliderButton; // max 滑块
 @property (nonatomic, assign) CGFloat tatol;
 @property (nonatomic, assign) CGFloat padding;
 @end
 
 @implementation WYASlider
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        [self createUI];
-    }
+    if (self) { [self createUI]; }
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.minButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.mas_centerY);
         make.left.mas_equalTo(self.mas_left).with.offset(self.padding);
-        make.size.mas_equalTo(CGSizeMake(self.showNoteLabel ? 50 * SizeAdapter : 0, self.showNoteLabel ? 20 * SizeAdapter : 0));
+        make.size.mas_equalTo(CGSizeMake(self.showNoteLabel ? 50 * SizeAdapter : 0,
+                                         self.showNoteLabel ? 20 * SizeAdapter : 0));
     }];
 
     [self.maxButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.mas_centerY);
         make.right.mas_equalTo(self.mas_right).with.offset(-self.padding);
-        make.size.mas_equalTo(CGSizeMake(self.showNoteLabel ? 50 * SizeAdapter : 0, self.showNoteLabel ? 20 * SizeAdapter : 0));
+        make.size.mas_equalTo(CGSizeMake(self.showNoteLabel ? 50 * SizeAdapter : 0,
+                                         self.showNoteLabel ? 20 * SizeAdapter : 0));
     }];
 
     [self.mainSliderLine mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -101,8 +99,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setSliderStyle:(WYASliderStyle)sliderStyle
-{
+- (void)setSliderStyle:(WYASliderStyle)sliderStyle {
     _sliderStyle = sliderStyle;
     if (sliderStyle == WYASliderStyleSingle) {
         [self.maxSliderLine removeFromSuperview];
@@ -115,8 +112,7 @@
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
-- (void)setMinTintColor:(UIColor *)minTintColor
-{
+- (void)setMinTintColor:(UIColor *)minTintColor {
     _minTintColor                      = minTintColor;
     self.minSliderLine.backgroundColor = minTintColor;
     if (self.sliderStyle == WYASliderStyleSingle) {
@@ -124,14 +120,12 @@
     }
 }
 
-- (void)setMaxTintColor:(UIColor *)maxTintColor
-{
+- (void)setMaxTintColor:(UIColor *)maxTintColor {
     _maxTintColor                      = maxTintColor;
     self.maxSliderLine.backgroundColor = maxTintColor;
 }
 
-- (void)setMainTintColor:(UIColor *)mainTintColor
-{
+- (void)setMainTintColor:(UIColor *)mainTintColor {
     _mainTintColor                      = mainTintColor;
     self.mainSliderLine.backgroundColor = mainTintColor;
     if (self.sliderStyle == WYASliderStyleDouble) {
@@ -140,28 +134,23 @@
     }
 }
 
-- (void)setMinText:(NSString *)minText
-{
+- (void)setMinText:(NSString *)minText {
     [self.minButton setTitle:minText forState:UIControlStateNormal];
 }
 
-- (void)setMaxText:(NSString *)maxText
-{
+- (void)setMaxText:(NSString *)maxText {
     [self.maxButton setTitle:maxText forState:UIControlStateNormal];
 }
 
-- (void)setMinImage:(UIImage *)minImage
-{
+- (void)setMinImage:(UIImage *)minImage {
     [self.minButton setImage:minImage forState:UIControlStateNormal];
 }
 
-- (void)setMaxImage:(UIImage *)maxImage
-{
+- (void)setMaxImage:(UIImage *)maxImage {
     [self.maxButton setImage:maxImage forState:UIControlStateNormal];
 }
 
-- (void)setShowNoteLabel:(BOOL)showNoteLabel
-{
+- (void)setShowNoteLabel:(BOOL)showNoteLabel {
     _showNoteLabel = showNoteLabel;
     if (showNoteLabel == NO) {
         self.padding = 0;
@@ -173,8 +162,7 @@
 }
 
 #pragma mark--- Getter
-- (UIView *)minSliderLine
-{
+- (UIView *)minSliderLine {
     if (!_minSliderLine) {
         _minSliderLine                 = [[UIView alloc] init];
         _minSliderLine.backgroundColor = [UIColor redColor];
@@ -182,8 +170,7 @@
     return _minSliderLine;
 }
 
-- (UIView *)maxSliderLine
-{
+- (UIView *)maxSliderLine {
     if (!_maxSliderLine) {
         _maxSliderLine                 = [[UIView alloc] init];
         _maxSliderLine.backgroundColor = [UIColor blueColor];
@@ -191,8 +178,7 @@
     return _maxSliderLine;
 }
 
-- (UIView *)mainSliderLine
-{
+- (UIView *)mainSliderLine {
     if (!_mainSliderLine) {
         _mainSliderLine                 = [[UIView alloc] init];
         _mainSliderLine.backgroundColor = [UIColor darkGrayColor];
@@ -200,40 +186,41 @@
     return _mainSliderLine;
 }
 
-- (UIButton *)minSliderButton
-{
+- (UIButton *)minSliderButton {
     if (!_minSliderButton) {
-        _minSliderButton                                             = [UIButton buttonWithType:UIButtonTypeCustom];
-        _minSliderButton.backgroundColor                             = [UIColor whiteColor];
-        _minSliderButton.showsTouchWhenHighlighted                   = YES;
-        _minSliderButton.layer.cornerRadius                          = 10 * SizeAdapter;
-        _minSliderButton.layer.masksToBounds                         = YES;
-        _minSliderButton.layer.borderColor                           = [UIColor redColor].CGColor;
-        _minSliderButton.layer.borderWidth                           = 1;
-        UIPanGestureRecognizer * minSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panMinSliderButton:)];
+        _minSliderButton                           = [UIButton buttonWithType:UIButtonTypeCustom];
+        _minSliderButton.backgroundColor           = [UIColor whiteColor];
+        _minSliderButton.showsTouchWhenHighlighted = YES;
+        _minSliderButton.layer.cornerRadius        = 10 * SizeAdapter;
+        _minSliderButton.layer.masksToBounds       = YES;
+        _minSliderButton.layer.borderColor         = [UIColor redColor].CGColor;
+        _minSliderButton.layer.borderWidth         = 1;
+        UIPanGestureRecognizer * minSliderButtonPanGestureRecognizer =
+            [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(panMinSliderButton:)];
         [_minSliderButton addGestureRecognizer:minSliderButtonPanGestureRecognizer];
     }
     return _minSliderButton;
 }
 
-- (UIButton *)maxSliderButton
-{
+- (UIButton *)maxSliderButton {
     if (!_maxSliderButton) {
-        _maxSliderButton                                             = [UIButton buttonWithType:UIButtonTypeCustom];
-        _maxSliderButton.backgroundColor                             = [UIColor whiteColor];
-        _maxSliderButton.showsTouchWhenHighlighted                   = YES;
-        _maxSliderButton.layer.cornerRadius                          = 10 * SizeAdapter;
-        _maxSliderButton.layer.masksToBounds                         = YES;
-        _maxSliderButton.layer.borderColor                           = [UIColor blueColor].CGColor;
-        _maxSliderButton.layer.borderWidth                           = 1;
-        UIPanGestureRecognizer * maxSliderButtonPanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panMaxSliderButton:)];
+        _maxSliderButton                           = [UIButton buttonWithType:UIButtonTypeCustom];
+        _maxSliderButton.backgroundColor           = [UIColor whiteColor];
+        _maxSliderButton.showsTouchWhenHighlighted = YES;
+        _maxSliderButton.layer.cornerRadius        = 10 * SizeAdapter;
+        _maxSliderButton.layer.masksToBounds       = YES;
+        _maxSliderButton.layer.borderColor         = [UIColor blueColor].CGColor;
+        _maxSliderButton.layer.borderWidth         = 1;
+        UIPanGestureRecognizer * maxSliderButtonPanGestureRecognizer =
+            [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(panMaxSliderButton:)];
         [_maxSliderButton addGestureRecognizer:maxSliderButtonPanGestureRecognizer];
     }
     return _maxSliderButton;
 }
 
-- (UIButton *)minButton
-{
+- (UIButton *)minButton {
     if (!_minButton) {
         _minButton         = [UIButton buttonWithType:UIButtonTypeCustom];
         _minButton.enabled = NO;
@@ -244,8 +231,7 @@
     return _minButton;
 }
 
-- (UIButton *)maxButton
-{
+- (UIButton *)maxButton {
     if (!_maxButton) {
         _maxButton         = [UIButton buttonWithType:UIButtonTypeCustom];
         _maxButton.enabled = NO;
@@ -257,8 +243,7 @@
 }
 
 #pragma mark--- Private Method
-- (void)createUI
-{
+- (void)createUI {
     [self addSubview:self.minButton];
     [self addSubview:self.maxButton];
     [self addSubview:self.mainSliderLine];
@@ -272,13 +257,10 @@
     self.showNoteLabel = YES;
 }
 
-- (void)panMinSliderButton:(UIPanGestureRecognizer *)pgr
-{
+- (void)panMinSliderButton:(UIPanGestureRecognizer *)pgr {
     CGPoint point = [pgr translationInView:self];
     static CGPoint center;
-    if (pgr.state == UIGestureRecognizerStateBegan) {
-        center = pgr.view.center;
-    }
+    if (pgr.state == UIGestureRecognizerStateBegan) { center = pgr.view.center; }
     pgr.view.center       = CGPointMake(center.x + point.x, center.y + point.y);
     pgr.view.cmam_centerY = self.cmam_height / 2;
 
@@ -289,41 +271,40 @@
         aaa = 5 * SizeAdapter;
     }
     if (self.sliderStyle == WYASliderStyleSingle) {
-        if (pgr.view.cmam_right > self.mainSliderLine.cmam_right + self.minSliderButton.cmam_width / 2) {
-            pgr.view.cmam_right = self.mainSliderLine.cmam_right + self.minSliderButton.cmam_width / 2;
+        if (pgr.view.cmam_right >
+            self.mainSliderLine.cmam_right + self.minSliderButton.cmam_width / 2) {
+            pgr.view.cmam_right =
+                self.mainSliderLine.cmam_right + self.minSliderButton.cmam_width / 2;
         } else {
-            if (pgr.view.cmam_centerX < aaa) {
-                pgr.view.cmam_centerX = aaa;
-            }
+            if (pgr.view.cmam_centerX < aaa) { pgr.view.cmam_centerX = aaa; }
             //            if (pgr.view.cmam_centerX > self.cmam_width-aaa) {
             //                pgr.view.cmam_centerX = self.cmam_width-aaa;
             //            }
         }
-        self.minSliderLine.frame = CGRectMake(self.minSliderLine.cmam_left, self.minSliderLine.cmam_top, pgr.view.cmam_centerX - self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
+        self.minSliderLine.frame = CGRectMake(
+            self.minSliderLine.cmam_left, self.minSliderLine.cmam_top,
+            pgr.view.cmam_centerX - self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
     } else if (self.sliderStyle == WYASliderStyleDouble) {
         if (pgr.view.cmam_right > self.maxSliderButton.cmam_left) {
             pgr.view.cmam_right = self.maxSliderButton.cmam_left;
         } else {
-            if (pgr.view.cmam_centerX < aaa) {
-                pgr.view.cmam_centerX = aaa;
-            }
+            if (pgr.view.cmam_centerX < aaa) { pgr.view.cmam_centerX = aaa; }
             if (pgr.view.cmam_centerX > self.cmam_width - aaa) {
                 pgr.view.cmam_centerX = self.cmam_width - aaa;
             }
         }
-        self.minSliderLine.frame = CGRectMake(self.minSliderLine.cmam_left, self.minSliderLine.cmam_top, pgr.view.cmam_centerX - self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
+        self.minSliderLine.frame = CGRectMake(
+            self.minSliderLine.cmam_left, self.minSliderLine.cmam_top,
+            pgr.view.cmam_centerX - self.minSliderLine.cmam_left, self.minSliderLine.cmam_height);
     }
 
     [self valueMinChange:pgr.view.cmam_right];
 }
 
-- (void)panMaxSliderButton:(UIPanGestureRecognizer *)pgr
-{
+- (void)panMaxSliderButton:(UIPanGestureRecognizer *)pgr {
     CGPoint point = [pgr translationInView:self];
     static CGPoint center;
-    if (pgr.state == UIGestureRecognizerStateBegan) {
-        center = pgr.view.center;
-    }
+    if (pgr.state == UIGestureRecognizerStateBegan) { center = pgr.view.center; }
     pgr.view.center       = CGPointMake(center.x + point.x, center.y + point.y);
     pgr.view.cmam_centerY = self.cmam_height / 2;
     CGFloat aaa;
@@ -335,34 +316,34 @@
     if (pgr.view.cmam_left < self.minSliderButton.cmam_right) {
         pgr.view.cmam_left = self.minSliderButton.cmam_right;
     } else {
-        if (pgr.view.cmam_centerX < aaa) {
-            pgr.view.cmam_centerX = aaa;
-        }
+        if (pgr.view.cmam_centerX < aaa) { pgr.view.cmam_centerX = aaa; }
         if (pgr.view.cmam_centerX > self.cmam_width - aaa) {
             pgr.view.cmam_centerX = self.cmam_width - aaa;
         }
     }
-    self.maxSliderLine.frame = CGRectMake(pgr.view.cmam_centerX, self.maxSliderLine.cmam_top, self.cmam_width - pgr.view.cmam_centerX - aaa, self.maxSliderLine.cmam_height);
+    self.maxSliderLine.frame =
+        CGRectMake(pgr.view.cmam_centerX, self.maxSliderLine.cmam_top,
+                   self.cmam_width - pgr.view.cmam_centerX - aaa, self.maxSliderLine.cmam_height);
     [self valueMaxChange:pgr.view.cmam_left];
 }
 
-- (void)valueMinChange:(CGFloat)num
-{
+- (void)valueMinChange:(CGFloat)num {
     if (self.sliderStyle == WYASliderStyleSingle) {
         self.currentMaxValue = self.minSliderLine.cmam_width / self.mainSliderLine.cmam_width;
-        if (self.delegate && [self.delegate respondsToSelector:@selector(wya_slider:MinValueChange:)]) {
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(wya_slider:MinValueChange:)]) {
             [self.delegate wya_slider:self MinValueChange:self.currentMaxValue];
         }
     } else if (self.sliderStyle == WYASliderStyleDouble) {
         self.currentMinValue = self.minSliderLine.cmam_width / self.mainSliderLine.cmam_width;
-        if (self.delegate && [self.delegate respondsToSelector:@selector(wya_slider:MinValueChange:)]) {
+        if (self.delegate &&
+            [self.delegate respondsToSelector:@selector(wya_slider:MinValueChange:)]) {
             [self.delegate wya_slider:self MinValueChange:self.currentMinValue];
         }
     }
 }
 
-- (void)valueMaxChange:(CGFloat)num
-{
+- (void)valueMaxChange:(CGFloat)num {
     self.currentMaxValue = self.maxSliderLine.cmam_width / self.mainSliderLine.cmam_width;
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_slider:MaxValueChange:)]) {
         [self.delegate wya_slider:self MaxValueChange:self.currentMaxValue];

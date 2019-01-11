@@ -72,7 +72,9 @@ typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {
  @param index index
  @param view bannerView
  */
-- (void)wya_setupCustomCell:(UICollectionViewCell *)cell forIndex:(NSInteger)index bannerView:(WYABannerView *)view;
+- (void)wya_setupCustomCell:(UICollectionViewCell *)cell
+                   forIndex:(NSInteger)index
+                 bannerView:(WYABannerView *)view;
 
 @end
 
@@ -86,7 +88,10 @@ typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {
  @param placeholderImage 占位图
  @return self
  */
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle delegate:(id<WYABannerViewwDelegate>)delegate placeholderImage:(UIImage *)placeholderImage;
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame
+                        bannerCellStyle:(WYABannerViewCellStyle)cellStyle
+                               delegate:(id<WYABannerViewwDelegate>)delegate
+                       placeholderImage:(UIImage *)placeholderImage;
 
 /**
  初始化
@@ -95,7 +100,9 @@ typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {
  @param imageURLStringsGroup 图片资源数组
  @return self
  */
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle imageURLStringsGroup:(NSArray *)imageURLStringsGroup;
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame
+                        bannerCellStyle:(WYABannerViewCellStyle)cellStyle
+                   imageURLStringsGroup:(NSArray *)imageURLStringsGroup;
 
 /**
  初始化
@@ -104,7 +111,9 @@ typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {
  @param imageNamesGroup 本地图片数组
  @return self
  */
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle imageNamesGroup:(NSArray *)imageNamesGroup;
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame
+                        bannerCellStyle:(WYABannerViewCellStyle)cellStyle
+                        imageNamesGroup:(NSArray *)imageNamesGroup;
 
 /**
  初始化
@@ -114,7 +123,10 @@ typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {
  @param imageNamesGroup 本地图片数组
  @return self
  */
-+ (instancetype)wya_bannerViewWithFrame:(CGRect)frame bannerCellStyle:(WYABannerViewCellStyle)cellStyle shouldInfiniteLoop:(BOOL)infiniteLoop imageNamesGroup:(NSArray *)imageNamesGroup;
++ (instancetype)wya_bannerViewWithFrame:(CGRect)frame
+                        bannerCellStyle:(WYABannerViewCellStyle)cellStyle
+                     shouldInfiniteLoop:(BOOL)infiniteLoop
+                        imageNamesGroup:(NSArray *)imageNamesGroup;
 
 /**
  网络图片 url string 数组

@@ -21,47 +21,37 @@
 
 @implementation WYAHomeViewController
 #pragma mark ======= Life Cycle
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
-    NSDictionary * dic = @{ @"name" : @"lishihang",
-                            @"age" : @"18" };
-    WYAFunctionModel * model = [[WYAFunctionModel alloc] init];
-    [model setModel:^(WYAFunctionModel * _Nonnull model) {
-        model.nameBlock(dic[@"name"]).ageBlock(dic[@"age"]);
-    }];
-    NSLog(@"model==%@", model);
-    [[NSNotificationCenter defaultCenter] wya_addObserverWithName:@"aaa" object:nil selector:^(NSNotification * _Nonnull not) {
-        NSDictionary * dic = not.userInfo;
-        NSLog(@"dic==%@", dic);
-    }];
 }
 #pragma mark ======= 懒加载
 
-- (UITableView *)tableView
-{
+- (UITableView *)tableView {
     if (!_tableView) {
         _tableView = ({
-            UITableView * object  = [[UITableView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight - WYATabBarHeight) style:UITableViewStyleGrouped];
+            UITableView * object = [[UITableView alloc]
+                initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth,
+                                         ScreenHeight - WYATopHeight - WYATabBarHeight)
+                        style:UITableViewStyleGrouped];
             object.delegate       = self;
             object.dataSource     = self;
             object.separatorStyle = UITableViewCellSeparatorStyleNone;
             [object registerClass:[WYAHomeTableCell class] forCellReuseIdentifier:@"cell"];
-            [object registerClass:[WYAHomeHeaderView class] forHeaderFooterViewReuseIdentifier:@"header"];
+            [object registerClass:[WYAHomeHeaderView class]
+                forHeaderFooterViewReuseIdentifier:@"header"];
 
-            UIView * view          = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 10 * SizeAdapter)];
+            UIView * view =
+                [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 10 * SizeAdapter)];
             view.backgroundColor   = [UIColor groupTableViewBackgroundColor];
             object.tableHeaderView = view;
             object;
@@ -70,8 +60,7 @@
     return _tableView;
 }
 
-- (NSArray *)dataSource
-{
+- (NSArray *)dataSource {
     if (!_dataSource) {
         _dataSource = ({
             NSArray * object = [WYAHomeModel allModel];
@@ -82,20 +71,20 @@
 }
 
 #pragma mark - UITableViewDataSource  -
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.dataSource.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     WYAHomeModel * model = self.dataSource[section];
     return model.select ? model.rows.count : 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    WYAHomeTableCell * cell      = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WYAHomeTableCell * cell =
+        [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                        forIndexPath:indexPath];
     WYAHomeModel * model         = self.dataSource[indexPath.section];
     WYAHomeItemModel * itemModel = model.rows[indexPath.row];
     cell.model                   = itemModel;
@@ -103,54 +92,44 @@
 }
 
 #pragma mark - UITableViewDelegate  -
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 44 * SizeAdapter;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 70 * SizeAdapter;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 10 * SizeAdapter;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    WYAHomeHeaderView * header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
-    WYAHomeModel * model       = self.dataSource[section];
-    header.model               = model;
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    WYAHomeHeaderView * header =
+        [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"header"];
+    WYAHomeModel * model = self.dataSource[section];
+    header.model         = model;
     WeakSelf(weakSelf);
     header.headerHandle = ^{
         model.select = !model.select;
-        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:section] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:section]
+                          withRowAnimation:UITableViewRowAnimationAutomatic];
     };
     return header;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     return [[UIView alloc] init];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     WYAHomeModel * homeModel     = self.dataSource[indexPath.section];
     WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
     if (itemModel.className) {
         if ([itemModel.className isEqualToString:@"WYADownloaderViewController"]) {
-            WYADownloaderViewController * vc     = [[WYADownloaderViewController alloc] init];
-            vc.selectIndex                       = 0;
-            vc.menuViewStyle                     = WYAMenuViewStyleLine;
-            vc.automaticallyCalculatesItemWidths = YES;
-            vc.titleColorSelected                = BLUECOLOR;
-            vc.titleColorNormal                  = BLACKTITLECOLOR;
-            vc.progressColor                     = BLUECOLOR;
-            vc.hidesBottomBarWhenPushed          = YES;
+            WYADownloaderViewController * vc = [[WYADownloaderViewController alloc] init];
+            vc.hidesBottomBarWhenPushed      = YES;
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }

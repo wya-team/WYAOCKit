@@ -17,8 +17,7 @@
 
 @implementation WYABrightnessView
 
-+ (instancetype)sharedBrightnessView
-{
++ (instancetype)sharedBrightnessView {
     static WYABrightnessView * instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -29,8 +28,7 @@
     return instance;
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.frame               = CGRectMake(ScreenWidth * 0.5, ScreenHeight * 0.5, 155, 155);
@@ -47,8 +45,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     self.center = CGPointMake(Window.bounds.size.width * 0.5, Window.bounds.size.height * 0.5);
 
@@ -56,7 +53,8 @@
     CGFloat titleLabel_Y      = 5;
     CGFloat titleLabel_Width  = self.cmam_width;
     CGFloat titleLabel_Height = 30;
-    self.titleLabel.frame     = CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
+    self.titleLabel.frame =
+        CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
 
     self.imageView.center    = CGPointMake(155 * 0.5, 155 * 0.5);
     CGFloat imageView_Width  = 79;
@@ -71,8 +69,7 @@
 }
 
 #pragma mark - Private Method -
-- (void)setup
-{
+- (void)setup {
     self.layer.cornerRadius  = 5.f;
     self.layer.masksToBounds = YES;
 
@@ -85,8 +82,7 @@
     [self addObserver];
 }
 
-- (void)createTips
-{
+- (void)createTips {
     self.tips = [NSMutableArray arrayWithCapacity:16];
 
     CGFloat tipW = (132 - 17) / 16;
@@ -104,16 +100,14 @@
     [self updateLongView:[UIScreen mainScreen].brightness];
 }
 
-- (void)addNotification
-{
+- (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateLayer:)
                                                  name:UIDeviceOrientationDidChangeNotification
                                                object:nil];
 }
 
-- (void)addObserver
-{
+- (void)addObserver {
     [[UIScreen mainScreen] addObserver:self
                             forKeyPath:@"brightness"
                                options:NSKeyValueObservingOptionNew
@@ -123,16 +117,14 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
-                       context:(void *)context
-{
+                       context:(void *)context {
     CGFloat sound      = [change[@"new"] floatValue];
     Window.windowLevel = UIWindowLevelAlert + 1000;
     [self appearSoundView];
     [self updateLongView:sound];
 }
 
-- (void)updateLayer:(NSNotification *)notify
-{
+- (void)updateLayer:(NSNotification *)notify {
     [Window bringSubviewToFront:self];
 
     self.orientationDidChange = YES;
@@ -142,30 +134,24 @@
 
 #pragma mark - Methond
 
-- (void)appearSoundView
-{
+- (void)appearSoundView {
     if (self.alpha == 0.0) {
         self.orientationDidChange = NO;
         self.alpha                = 1.0;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self disAppearSoundView];
-        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)),
+                       dispatch_get_main_queue(), ^{ [self disAppearSoundView]; });
     }
 }
 
-- (void)disAppearSoundView
-{
+- (void)disAppearSoundView {
     if (self.alpha == 1.0) {
-        [UIView animateWithDuration:0.8 animations:^{
-            self.alpha = 0.0;
-        }];
+        [UIView animateWithDuration:0.8 animations:^{ self.alpha = 0.0; }];
     }
 }
 
 #pragma mark - Update View
 
-- (void)updateLongView:(CGFloat)sound
-{
+- (void)updateLongView:(CGFloat)sound {
     CGFloat stage   = 1 / 15.0;
     NSInteger level = sound / stage;
 
@@ -183,8 +169,7 @@
 #pragma mark - Setter -
 
 #pragma mark - Getter -
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -198,24 +183,27 @@
     return _titleLabel;
 }
 
-- (UIImageView *)imageView
-{
+- (UIImageView *)imageView {
     if (!_imageView) {
         _imageView = ({
             UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage loadBundleImage:@"icon_video_brightness" ClassName:NSStringFromClass(self.class)];
+            object.image         = [UIImage loadBundleImage:@"icon_video_brightness"
+                                          ClassName:NSStringFromClass(self.class)];
             object;
         });
     }
     return _imageView;
 }
 
-- (UIView *)gridView
-{
+- (UIView *)gridView {
     if (!_gridView) {
         _gridView = ({
-            UIView * object        = [[UIView alloc] init];
-            object.backgroundColor = [UIColor colorWithRed:0.25f green:0.22f blue:0.21f alpha:1.00f];
+            UIView * object = [[UIView alloc] init];
+            object.backgroundColor =
+                [UIColor colorWithRed:0.25f
+                                green:0.22f
+                                 blue:0.21f
+                                alpha:1.00f];
             object;
         });
     }

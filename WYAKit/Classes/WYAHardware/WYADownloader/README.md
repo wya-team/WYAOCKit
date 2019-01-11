@@ -45,6 +45,13 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
 - (void)wya_giveupDownloadWithModel:(WYADownloadModel *)model;
 
 /**
+放弃下载任务
+
+@param models 数组
+*/
+- (void)wya_giveupDownloadWithSomeModel:(NSMutableArray <WYADownloadModel *>*)models;
+
+/**
  继续下载
 
  @param model 数据模型
@@ -57,6 +64,13 @@ downloadCompleteArray|已经下载完成的数组（只读）|NSArray|-
  @param model 数据模型
  */
 - (void)wya_removeDownloadWithModel:(WYADownloadModel *)model;
+
+/**
+移除下载完成的任务
+
+@param models 数组
+*/
+- (void)wya_removeDownloadWithSomeModel:(NSMutableArray <WYADownloader *> *)models;
 
 /**
  设置请求头

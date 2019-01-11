@@ -14,8 +14,7 @@
 
 @implementation WYANumberTitleCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.button];
         self.contentView.backgroundColor     = [UIColor whiteColor];
@@ -26,26 +25,22 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.button mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.bottom.mas_equalTo(self.contentView);
     }];
 }
 
-- (void)setTitleString:(NSString *)titleString
-{
+- (void)setTitleString:(NSString *)titleString {
     _titleString = titleString;
     [self.button setTitle:_titleString forState:UIControlStateNormal];
 }
-- (void)setBgColor:(UIColor *)bgColor
-{
+- (void)setBgColor:(UIColor *)bgColor {
     _bgColor                    = bgColor;
     self.button.backgroundColor = bgColor;
 }
-- (UIButton *)button
-{
+- (UIButton *)button {
     if (!_button) {
         _button = ({
             UIButton * object = [[UIButton alloc] init];
@@ -66,8 +61,7 @@
 
 @implementation WYANumberImageCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.button1];
         self.contentView.backgroundColor     = [UIColor whiteColor];
@@ -78,28 +72,26 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.button1 mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.bottom.mas_equalTo(self.contentView);
     }];
 }
 
-- (void)setImageNamed:(NSString *)imageNamed
-{
+- (void)setImageNamed:(NSString *)imageNamed {
     _imageNamed = imageNamed;
-    [self.button1 setImage:[UIImage loadBundleImage:_imageNamed ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+    [self.button1
+        setImage:[UIImage loadBundleImage:_imageNamed ClassName:NSStringFromClass(self.class)]
+        forState:UIControlStateNormal];
 }
 
-- (void)setBgColor:(UIColor *)bgColor
-{
+- (void)setBgColor:(UIColor *)bgColor {
     _bgColor                     = bgColor;
     self.button1.backgroundColor = bgColor;
 }
 
-- (UIButton *)button1
-{
+- (UIButton *)button1 {
     if (!_button1) {
         _button1 = ({
             UIButton * object             = [[UIButton alloc] init];

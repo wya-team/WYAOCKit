@@ -17,102 +17,103 @@
 @end
 
 @implementation WYACustomPageController
-- (UIView *)redView
-{
+- (UIView *)redView {
     if (!_redView) {
         _redView                 = [[UIView alloc] initWithFrame:CGRectZero];
         _redView.backgroundColor = BLUECOLOR;
     }
     return _redView;
 }
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    if (self.menuViewStyle == WYAMenuViewStyleTriangle) {
-        [self.view addSubview:self.redView];
-    }
+    if (self.menuViewStyle == WYAMenuViewStyleTriangle) { [self.view addSubview:self.redView]; }
     self.navBar          = [[WYANavBar alloc] init];
     self.navBar.navTitle = @"pageControllerExample";
     [self.navBar wya_goBackButtonWithImage:@"返回"];
     self.navBar.delegate = self;
     [self.view addSubview:self.navBar];
 }
-- (void)wya_goBackPressed:(UIButton *)sender
-{
+- (void)wya_goBackPressed:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.redView.frame = CGRectMake(0, CGRectGetMaxY(self.menuView.frame), self.view.frame.size.width, 2.0);
+    self.redView.frame =
+        CGRectMake(0, CGRectGetMaxY(self.menuView.frame), self.view.frame.size.width, 2.0);
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark ======= delegate
-- (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu
-{
+- (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu {
     return 3;
 }
-- (NSInteger)wya_numbersOfChildControllersInPageController:(WYAPageController *)pageController
-{
+- (NSInteger)wya_numbersOfChildControllersInPageController:(WYAPageController *)pageController {
     return 3;
 }
-- (NSString *)wya_pageController:(WYAPageController *)pageController titleAtIndex:(NSInteger)index
-{
+- (NSString *)wya_pageController:(WYAPageController *)pageController titleAtIndex:(NSInteger)index {
     switch (index % 3) {
-        case 0: return @"item1";
-        case 1: return @"item2";
-        case 2: return @"item3";
+        case 0:
+            return @"item1";
+        case 1:
+            return @"item2";
+        case 2:
+            return @"item3";
     }
     return @"NONE";
 }
 
-- (UIViewController *)wya_pageController:(WYAPageController *)pageController viewControllerAtIndex:(NSInteger)index
-{
+- (UIViewController *)wya_pageController:(WYAPageController *)pageController
+                   viewControllerAtIndex:(NSInteger)index {
     switch (index % 3) {
-        case 0: return [[WYAOneTableViewController alloc] init];
-        case 1: return [[WYATwoTableViewController alloc] init];
-        case 2: return [[WYAThreeTableViewController alloc] init];
+        case 0:
+            return [[WYAOneTableViewController alloc] init];
+        case 1:
+            return [[WYATwoTableViewController alloc] init];
+        case 2:
+            return [[WYAThreeTableViewController alloc] init];
     }
     return [[UIViewController alloc] init];
 }
 
-- (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index
-{
+- (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index {
     CGFloat width = [super wya_menuView:menu widthForItemAtIndex:index];
     return width + 20;
 }
-- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameForMenuView:(WYAMenuView *)menuView
-{
+- (CGRect)wya_pageController:(WYAPageController *)pageController
+   preferredFrameForMenuView:(WYAMenuView *)menuView {
     if (self.menuViewPosition == WYAMenuViewPositionBottom) {
         menuView.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
-        return CGRectMake(0, self.view.frame.size.height - WYATabBarHeight, ScreenWidth, WYATabBarHeight);
+        return CGRectMake(0, self.view.frame.size.height - WYATabBarHeight, ScreenWidth,
+                          WYATabBarHeight);
     }
     CGFloat leftMargin = self.showOnNavigationBar ? 50 : 0;
     CGFloat originY    = self.showOnNavigationBar ? 0 : WYATopHeight;
-    return CGRectMake(leftMargin, originY, self.view.frame.size.width - 2 * leftMargin, WYANavBarHeight);
+    return CGRectMake(leftMargin, originY, self.view.frame.size.width - 2 * leftMargin,
+                      WYANavBarHeight);
 }
 
-- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameContentView:(WYAPageScrollView *)contentView
-{
+- (CGRect)wya_pageController:(WYAPageController *)pageController
+   preferredFrameContentView:(WYAPageScrollView *)contentView {
     if (self.menuViewPosition == WYAMenuViewPositionBottom) {
-        return CGRectMake(0, WYATopHeight, self.view.frame.size.width, self.view.frame.size.height - WYATopHeight - WYATabBarHeight);
+        return CGRectMake(0, WYATopHeight, self.view.frame.size.width,
+                          self.view.frame.size.height - WYATopHeight - WYATabBarHeight);
     }
-    CGFloat originY = CGRectGetMaxY([self wya_pageController:pageController preferredFrameForMenuView:self.menuView]);
+    CGFloat originY = CGRectGetMaxY(
+        [self wya_pageController:pageController
+            preferredFrameForMenuView:self.menuView]);
     if (self.menuViewStyle == WYAMenuViewStyleTriangle) {
         originY += self.redView.frame.size.height;
     }
-    return CGRectMake(0, originY, self.view.frame.size.width, self.view.frame.size.height - originY);
+    return CGRectMake(0, originY, self.view.frame.size.width,
+                      self.view.frame.size.height - originY);
 }
 
 @end

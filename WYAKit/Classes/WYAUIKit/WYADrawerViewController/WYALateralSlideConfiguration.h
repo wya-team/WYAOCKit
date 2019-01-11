@@ -21,7 +21,8 @@ typedef NS_ENUM(NSUInteger, WYADrawerTransitionDirection) {
 @property (nonatomic, assign) float distance;
 
 /**
- 手势驱动动画完成的临界点（范围0 - 1.0），默认为0.5（表示手势驱动到动画的一半则执行完动画，拖动不到一半则会取消动画）
+ 手势驱动动画完成的临界点（范围0 -
+ 1.0），默认为0.5（表示手势驱动到动画的一半则执行完动画，拖动不到一半则会取消动画）
  */
 @property (nonatomic, assign) float finishPercent;
 
@@ -72,7 +73,11 @@ typedef NS_ENUM(NSUInteger, WYADrawerTransitionDirection) {
  @param backImage 动画切换过程中，最底层的背景图片 (仅WYADrawerAnimationTypeDefault动画模式有效)
  @return 配置对象本身
  */
-- (instancetype)initWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage;
+- (instancetype)initWithDistance:(float)distance
+                       maskAlpha:(float)alpha
+                          scaleY:(float)scaleY
+                       direction:(WYADrawerTransitionDirection)direction
+                       backImage:(UIImage *)backImage;
 
 /**
  创建一个配置对象的类方法
@@ -84,6 +89,10 @@ typedef NS_ENUM(NSUInteger, WYADrawerTransitionDirection) {
  @param backImage 动画切换过程中，最底层的背景图片
  @return 配置对象本身
  */
-+ (instancetype)configurationWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage;
++ (instancetype)configurationWithDistance:(float)distance
+                                maskAlpha:(float)alpha
+                                   scaleY:(float)scaleY
+                                direction:(WYADrawerTransitionDirection)direction
+                                backImage:(UIImage *)backImage;
 
 @end

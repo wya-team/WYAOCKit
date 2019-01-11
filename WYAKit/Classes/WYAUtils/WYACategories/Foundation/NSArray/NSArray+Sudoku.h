@@ -54,8 +54,10 @@
  *  Sudoku Layout, has fixed item size, and fix item space
  *  If warp count greater than self.count, It's fill empty view to superview
  *
- *  @param fixedItemWidth        固定宽度，如果设置成0，则表示自适应，If set it to zero, indicates the adaptive.
- *  @param fixedItemHeight       固定高度，如果设置成0，则表示自适应，If set it to zero, indicates the adaptive.
+ *  @param fixedItemWidth        固定宽度，如果设置成0，则表示自适应，If set it to zero, indicates
+ * the adaptive.
+ *  @param fixedItemHeight       固定高度，如果设置成0，则表示自适应，If set it to zero, indicates
+ * the adaptive.
  *  @param fixedLineSpacing      行间距
  *  @param fixedInteritemSpacing 列间距
  *  @param warpCount             折行点
@@ -64,8 +66,10 @@
  *  @param leadSpacing           左间距
  *  @param tailSpacing           右间距
  *
- *  @return 一般情况下会返回[self copy], 如果warpCount大于[self count]，则会返回一个被空白view填充过的数组，可以让你循环调用removeFromSuperview或者干一些其他的事情;
- *  @return Normal will return [self copy], If warpCount bigger than [self count] , It will return a empty views filled array, you could enumerate [subview removeFromSuperview] or do other things;
+ *  @return 一般情况下会返回[self copy], 如果warpCount大于[self
+ * count]，则会返回一个被空白view填充过的数组，可以让你循环调用removeFromSuperview或者干一些其他的事情;
+ *  @return Normal will return [self copy], If warpCount bigger than [self count] , It will return a
+ * empty views filled array, you could enumerate [subview removeFromSuperview] or do other things;
  */
 - (NSArray *)wya_mas_distributeSudokuViewsWithFixedItemWidth:(CGFloat)fixedItemWidth
                                              fixedItemHeight:(CGFloat)fixedItemHeight
@@ -91,13 +95,14 @@
  @param tailSpacing 右间距
  @return return array
  */
-- (NSArray *)wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber *> *)fixedItemWidths
-                                                    fixedItemHeights:(NSArray<NSNumber *> *)fixedItemHeights
-                                                    fixedLineSpacing:(CGFloat)fixedLineSpacing
-                                               fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
-                                                           warpCount:(NSInteger)warpCount
-                                                          topSpacing:(CGFloat)topSpacing
-                                                       bottomSpacing:(CGFloat)bottomSpacing
-                                                         leadSpacing:(CGFloat)leadSpacing
-                                                         tailSpacing:(CGFloat)tailSpacing;
+- (NSArray *)
+wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:(NSArray<NSNumber *> *)fixedItemWidths
+                                       fixedItemHeights:(NSArray<NSNumber *> *)fixedItemHeights
+                                       fixedLineSpacing:(CGFloat)fixedLineSpacing
+                                  fixedInteritemSpacing:(CGFloat)fixedInteritemSpacing
+                                              warpCount:(NSInteger)warpCount
+                                             topSpacing:(CGFloat)topSpacing
+                                          bottomSpacing:(CGFloat)bottomSpacing
+                                            leadSpacing:(CGFloat)leadSpacing
+                                            tailSpacing:(CGFloat)tailSpacing;
 @end

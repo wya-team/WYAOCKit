@@ -13,16 +13,15 @@
 @end
 
 @implementation WYAProgressViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAProgressView/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
+                   @"WYAProgressView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -49,7 +48,8 @@
     CGFloat progressView_Y      = CGRectGetMaxY(label.frame);
     CGFloat progressView_Width  = ScreenWidth - 20;
     CGFloat progressView_Height = 20;
-    progressView.frame          = CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
+    progressView.frame =
+        CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
 
     UILabel * customLabel = [[UILabel alloc] init];
     customLabel.text      = @"自定义圆环进度条";
@@ -60,27 +60,32 @@
     CGFloat customLabel_Y      = CGRectGetMaxY(progressView.frame) + 20 * SizeAdapter;
     CGFloat customLabel_Width  = ScreenWidth - 20;
     CGFloat customLabel_Height = 44 * SizeAdapter;
-    customLabel.frame          = CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
+    customLabel.frame =
+        CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
 
-    CGFloat progressV_X         = (ScreenWidth - 200) / 2;
-    CGFloat progressV_Y         = CGRectGetMaxY(customLabel.frame);
-    CGFloat progressV_Width     = 200;
-    CGFloat progressV_Height    = 200;
-    CGRect rect                 = CGRectMake(progressV_X, progressV_Y, progressV_Width, progressV_Height);
-    WYAProgressView * progressV = [[WYAProgressView alloc] initWithFrame:rect progressViewStyle:WYAProgressViewStyleCircle];
-    progressV.borderWidth       = 2;
+    CGFloat progressV_X      = (ScreenWidth - 200) / 2;
+    CGFloat progressV_Y      = CGRectGetMaxY(customLabel.frame);
+    CGFloat progressV_Width  = 200;
+    CGFloat progressV_Height = 200;
+    CGRect rect              = CGRectMake(progressV_X, progressV_Y, progressV_Width, progressV_Height);
+    WYAProgressView * progressV =
+        [[WYAProgressView alloc] initWithFrame:rect
+                             progressViewStyle:WYAProgressViewStyleCircle];
+    progressV.borderWidth = 2;
     [self.view addSubview:progressV];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        progressV.progress = 0.3;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
+                   dispatch_get_main_queue(), ^{
+                       progressV.progress = 0.3;
 
-    });
+                   });
 }
 
 /*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// In a storyboard-based application, you will often want to do a little preparation before
+navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

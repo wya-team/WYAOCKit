@@ -73,7 +73,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param itemsTitleArray 标题数据
  @return instance
  */
-+ (instancetype)wya_initWithFrame:(CGRect)frame itemsTitleArray:(NSArray<NSString *> *)itemsTitleArray;
++ (instancetype)wya_initWithFrame:(CGRect)frame
+                  itemsTitleArray:(NSArray<NSString *> *)itemsTitleArray;
 
 /**
  构造方法返回一个实例对象
@@ -83,7 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param imagesSelectlArray 选中状态images
  @return instance
  */
-+ (instancetype)wya_initWithFrame:(CGRect)frame imagesNormalArray:(NSArray<NSString *> *)imagesNormalArray imagesSelectlArray:(NSArray<NSString *> *)imagesSelectlArray;
++ (instancetype)wya_initWithFrame:(CGRect)frame
+                imagesNormalArray:(NSArray<NSString *> *)imagesNormalArray
+               imagesSelectlArray:(NSArray<NSString *> *)imagesSelectlArray;
 
 @end
 

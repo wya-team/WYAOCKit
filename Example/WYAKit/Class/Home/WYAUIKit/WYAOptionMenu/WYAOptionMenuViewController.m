@@ -17,16 +17,15 @@
 @end
 
 @implementation WYAOptionMenuViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAOptionMenu/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
+                   @"WYAOptionMenu/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
@@ -38,8 +37,7 @@
     [self.view addSubview:self.menuSuperView];
 }
 
-- (void)configUI
-{
+- (void)configUI {
     UILabel * label = [[UILabel alloc] init];
     label.text      = @"菜单";
     label.textColor = random(51, 51, 51, 1);
@@ -55,12 +53,11 @@
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"menu" forState:UIControlStateNormal];
     button.titleLabel.font = FONT(15);
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR]
+                      forState:UIControlStateNormal];
     [button addCallBackAction:^(UIButton * button) {
         self.menuSuperView.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.menu.cmam_height = 300;
-        }];
+        [UIView animateWithDuration:0.5 animations:^{ self.menu.cmam_height = 300; }];
     }];
     [self.view addSubview:button];
 
@@ -92,12 +89,11 @@
     UIButton * button1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button1 setTitle:@"OneLevel menu" forState:UIControlStateNormal];
     button1.titleLabel.font = FONT(15);
-    [button1 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    [button1 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR]
+                       forState:UIControlStateNormal];
     [button1 addCallBackAction:^(UIButton * button) {
         self.menuSuperView.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.singleMenu.cmam_height = 88;
-        }];
+        [UIView animateWithDuration:0.5 animations:^{ self.singleMenu.cmam_height = 88; }];
     }];
     [self.view addSubview:button1];
 
@@ -112,7 +108,8 @@
     CGFloat singleMenu_Y      = CGRectGetMaxY(button1.frame);
     CGFloat singleMenu_Width  = ScreenWidth;
     CGFloat singleMenu_Height = 0;
-    self.singleMenu.frame     = CGRectMake(singleMenu_X, singleMenu_Y, singleMenu_Width, singleMenu_Height);
+    self.singleMenu.frame =
+        CGRectMake(singleMenu_X, singleMenu_Y, singleMenu_Width, singleMenu_Height);
 
     UILabel * label2 = [[UILabel alloc] init];
     label2.text      = @"其他类型菜单";
@@ -129,12 +126,11 @@
     UIButton * button2 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button2 setTitle:@"Other menu" forState:UIControlStateNormal];
     button2.titleLabel.font = FONT(15);
-    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR]
+                       forState:UIControlStateNormal];
     [button2 addCallBackAction:^(UIButton * button) {
         self.menuSuperView.hidden = NO;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.otherMenu.cmam_height = 200;
-        }];
+        [UIView animateWithDuration:0.5 animations:^{ self.otherMenu.cmam_height = 200; }];
     }];
     [self.view addSubview:button2];
 
@@ -153,18 +149,15 @@
 }
 
 #pragma mark--- WYAOptionMenuDelegate
-- (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath
-{
+- (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath {
 }
 
-- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath
-{
+- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath {
     NSLog(@"section==%ld,item==%ld", (long)indexPath.section, (long)indexPath.row);
 }
 
 #pragma mark - Getter -
-- (UIButton *)menuSuperView
-{
+- (UIButton *)menuSuperView {
     if (!_menuSuperView) {
         _menuSuperView = ({
             UIButton * object      = [[UIButton alloc] initWithFrame:self.view.frame];
@@ -182,11 +175,11 @@
     return _menuSuperView;
 }
 
-- (WYAOptionMenu *)singleMenu
-{
+- (WYAOptionMenu *)singleMenu {
     if (!_singleMenu) {
         _singleMenu = ({
-            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTable];
+            WYAOptionMenu * object = [[WYAOptionMenu alloc] initWithFrame:CGRectZero
+                                                          optionMenuStyle:WYAOptionMenuStyleTable];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 1;
@@ -196,11 +189,11 @@
     return _singleMenu;
 }
 
-- (WYAOptionMenu *)menu
-{
+- (WYAOptionMenu *)menu {
     if (!_menu) {
         _menu = ({
-            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTable];
+            WYAOptionMenu * object = [[WYAOptionMenu alloc] initWithFrame:CGRectZero
+                                                          optionMenuStyle:WYAOptionMenuStyleTable];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 0.5;
@@ -210,11 +203,12 @@
     return _menu;
 }
 
-- (WYAOptionMenu *)otherMenu
-{
+- (WYAOptionMenu *)otherMenu {
     if (!_otherMenu) {
         _otherMenu = ({
-            WYAOptionMenu * object     = [[WYAOptionMenu alloc] initWithFrame:CGRectZero optionMenuStyle:WYAOptionMenuStyleTableAndCollection];
+            WYAOptionMenu * object =
+                [[WYAOptionMenu alloc] initWithFrame:CGRectZero
+                                     optionMenuStyle:WYAOptionMenuStyleTableAndCollection];
             object.titleArray          = [self.titles mutableCopy];
             object.wya_delegate        = self;
             object.leftTableProportion = 0.5;
@@ -224,8 +218,7 @@
     return _otherMenu;
 }
 
-- (NSArray<WYAOptionMenuModel *> *)titles
-{
+- (NSArray<WYAOptionMenuModel *> *)titles {
     if (!_titles) {
         WYAOptionMenuSecondLevelModel * item1 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item1.title                           = @"All Foods";
@@ -285,7 +278,8 @@
 /*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// In a storyboard-based application, you will often want to do a little preparation before
+navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

@@ -18,15 +18,18 @@
 
 @implementation WYAImageCropToolBar
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor blackColor];
 
         self.rotatingButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.rotatingButton setImage:[UIImage loadBundleImage:@"xuanzhuan" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [self.rotatingButton addTarget:self action:@selector(rotatingClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.rotatingButton
+            setImage:[UIImage loadBundleImage:@"xuanzhuan" ClassName:NSStringFromClass(self.class)]
+            forState:UIControlStateNormal];
+        [self.rotatingButton addTarget:self
+                                action:@selector(rotatingClick)
+                      forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.rotatingButton];
 
         self.line                 = [[UIView alloc] init];
@@ -34,27 +37,36 @@
         [self addSubview:self.line];
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.cancelButton setImage:[UIImage loadBundleImage:@"icon_subtract_enable" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [self.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.cancelButton setImage:[UIImage loadBundleImage:@"icon_subtract_enable"
+                                                   ClassName:NSStringFromClass(self.class)]
+                           forState:UIControlStateNormal];
+        [self.cancelButton addTarget:self
+                              action:@selector(cancelClick)
+                    forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.cancelButton];
 
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.doneButton setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [self.doneButton addTarget:self action:@selector(doneClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.doneButton setImage:[UIImage loadBundleImage:@"icon_radio_selected"
+                                                 ClassName:NSStringFromClass(self.class)]
+                         forState:UIControlStateNormal];
+        [self.doneButton addTarget:self
+                            action:@selector(doneClick)
+                  forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.doneButton];
 
         self.originalButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.originalButton setTitle:@"还原" forState:UIControlStateNormal];
         [self.originalButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.originalButton.titleLabel.font = FONT(15);
-        [self.originalButton addTarget:self action:@selector(originalClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.originalButton addTarget:self
+                                action:@selector(originalClick)
+                      forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.originalButton];
     }
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.rotatingButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(16 * SizeAdapter);
@@ -88,29 +100,25 @@
 }
 
 #pragma mark--- Private Method
-- (void)rotatingClick
-{
+- (void)rotatingClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(rotatingAction)]) {
         [self.delegate rotatingAction];
     }
 }
 
-- (void)cancelClick
-{
+- (void)cancelClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(cancelAction)]) {
         [self.delegate cancelAction];
     }
 }
 
-- (void)doneClick
-{
+- (void)doneClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(doneAction)]) {
         [self.delegate doneAction];
     }
 }
 
-- (void)originalClick
-{
+- (void)originalClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(originalAction)]) {
         [self.delegate originalAction];
     }

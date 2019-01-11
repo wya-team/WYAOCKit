@@ -17,8 +17,8 @@
 
 @implementation WYAHomeTableCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle              = UITableViewCellSelectionStyleNone;
@@ -30,8 +30,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.backgroundV mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self.contentView);
@@ -52,42 +51,35 @@
     }];
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     if (selected) {
-        [UIView animateWithDuration:0.3 animations:^{
-            self.backgroundV.backgroundColor = GRAYBGCOLOR;
-        }];
+        [UIView animateWithDuration:0.3
+                         animations:^{ self.backgroundV.backgroundColor = GRAYBGCOLOR; }];
     } else {
         if (animated) {
-            [UIView animateWithDuration:0.3 animations:^{
-                self.backgroundV.backgroundColor = [UIColor whiteColor];
-            }];
+            [UIView
+                animateWithDuration:0.3
+                         animations:^{ self.backgroundV.backgroundColor = [UIColor whiteColor]; }];
         }
     }
     // Configure the view for the selected state
 }
 
 #pragma mark - Setter -
-- (void)setModel:(WYAHomeItemModel *)model
-{
+- (void)setModel:(WYAHomeItemModel *)model {
     _model = model;
-    if (model) {
-        self.titleLabel.text = model.rowName;
-    }
+    if (model) { self.titleLabel.text = model.rowName; }
 }
 
 #pragma mark - Getter -
-- (UIView *)backgroundV
-{
+- (UIView *)backgroundV {
     if (!_backgroundV) {
         _backgroundV = ({
             UIView * object        = [[UIView alloc] init];
@@ -98,8 +90,7 @@
     return _backgroundV;
 }
 
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -111,8 +102,7 @@
     return _titleLabel;
 }
 
-- (UIImageView *)arrowImageView
-{
+- (UIImageView *)arrowImageView {
     if (!_arrowImageView) {
         _arrowImageView = ({
             UIImageView * object = [[UIImageView alloc] init];

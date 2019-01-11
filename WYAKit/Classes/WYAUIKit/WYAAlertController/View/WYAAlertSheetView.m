@@ -24,8 +24,7 @@
 
 @implementation WYAAlertSheetView
 
-- (_Nonnull instancetype)initWithTitle:(NSString *)title message:(NSString *)message
-{
+- (_Nonnull instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
     self = [super init];
     if (self) {
         self.labelPadding = 30 * SizeAdapter;
@@ -36,9 +35,13 @@
 
         self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [self.cancelButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1] forState:UIControlStateNormal];
+        [self.cancelButton
+            setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1]
+                 forState:UIControlStateNormal];
         [self.cancelButton setBackgroundColor:[UIColor whiteColor]];
-        [self.cancelButton addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
+        [self.cancelButton addTarget:self
+                              action:@selector(cancelClick)
+                    forControlEvents:UIControlEventTouchUpInside];
         [self.containerView addSubview:self.cancelButton];
 
         self.titleView                 = [[UIView alloc] init];
@@ -62,16 +65,19 @@
         self.messageLabel.backgroundColor = [UIColor whiteColor];
         [self.titleView addSubview:self.messageLabel];
 
-        self.buttonView                 = [[UIView alloc] init];
-        self.buttonView.backgroundColor = [UIColor colorWithRed:203.0 / 255.0 green:203.0 / 255.0 blue:203.0 / 255.0 alpha:1];
+        self.buttonView = [[UIView alloc] init];
+        self.buttonView.backgroundColor =
+            [UIColor colorWithRed:203.0 / 255.0
+                            green:203.0 / 255.0
+                             blue:203.0 / 255.0
+                            alpha:1];
 
         [self.containerView addSubview:self.buttonView];
     }
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -85,7 +91,8 @@
 
     [self.buttonView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.right.mas_equalTo(self.containerView);
-        make.bottom.mas_equalTo(self.cancelButton.mas_top).with.offset(self.buttons.count > 0 ? -5 : 0);
+        make.bottom.mas_equalTo(self.cancelButton.mas_top)
+            .with.offset(self.buttons.count > 0 ? -5 : 0);
         make.height.mas_equalTo(self.buttons.count * 50 * SizeAdapter).priorityHigh();
     }];
 
@@ -109,7 +116,9 @@
         make.right.mas_equalTo(self.titleView.mas_right).with.offset(-self.labelPadding);
 
         if (self.titleLabel.text && self.titleLabel.text.length > 0) {
-            CGFloat height = [self.titleLabel.text wya_heightWithFontSize:15 width:ScreenWidth - 2 * self.labelPadding];
+            CGFloat height =
+                [self.titleLabel.text wya_heightWithFontSize:15
+                                                       width:ScreenWidth - 2 * self.labelPadding];
             make.height.mas_equalTo(height);
             make.top.mas_equalTo(self.titleView.mas_top).with.offset(5 * SizeAdapter);
         } else {
@@ -125,7 +134,9 @@
 
         make.bottom.mas_equalTo(self.titleView.mas_bottom);
         if (self.messageLabel.text && self.messageLabel.text.length > 0) {
-            CGFloat height = [self.messageLabel.text wya_heightWithFontSize:15 width:ScreenWidth - 2 * self.labelPadding];
+            CGFloat height =
+                [self.messageLabel.text wya_heightWithFontSize:15
+                                                         width:ScreenWidth - 2 * self.labelPadding];
             make.height.mas_equalTo(height);
             make.top.mas_equalTo(self.titleLabel.mas_bottom);
         } else {
@@ -135,11 +146,8 @@
     }];
 }
 
-- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
-{
-    for (UIView * view in self.buttonView.subviews) {
-        [view removeFromSuperview];
-    }
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
+    for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
 
     // 添加到 action 数组
     [self.actions addObject:action];
@@ -148,7 +156,8 @@
     UIButton * actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [actionButton setTag:[self.actions indexOfObject:action]];
     [actionButton setTitle:action.title forState:UIControlStateNormal];
-    [actionButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1] forState:UIControlStateNormal];
+    [actionButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1]
+                       forState:UIControlStateNormal];
     [actionButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
     [actionButton setBackgroundColor:[UIColor whiteColor]];
     //    [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
@@ -158,7 +167,9 @@
     } else if (action.style == WYAAlertActionStyleCancel) {
         actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     }
-    [actionButton addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [actionButton addTarget:self
+                     action:@selector(actionButtonDidClicked:)
+           forControlEvents:UIControlEventTouchUpInside];
 
     // 添加到 button数组
     [self.buttons addObject:actionButton];
@@ -173,47 +184,32 @@
 }
 
 /** 点击按钮事件 */
-- (void)actionButtonDidClicked:(UIButton *)sender
-{
+- (void)actionButtonDidClicked:(UIButton *)sender {
     // 点击button后自动dismiss
-    if (_controller) {
-        [_controller dismissViewControllerAnimated:YES completion:nil];
-    }
+    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
 
     // 根据 tag 取到 handler
     void (^handler)(void) = self.actions[sender.tag].handler;
-    if (handler) {
-        handler();
-    }
+    if (handler) { handler(); }
 }
 
-- (void)cancelClick
-{
+- (void)cancelClick {
     // 点击button后自动dismiss
-    if (_controller) {
-        [_controller dismissViewControllerAnimated:YES completion:nil];
-    }
+    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
 }
 
 #pragma mark--- Getter
-- (NSMutableArray *)buttons
-{
-    if (!_buttons) {
-        _buttons = [NSMutableArray arrayWithCapacity:0];
-    }
+- (NSMutableArray *)buttons {
+    if (!_buttons) { _buttons = [NSMutableArray arrayWithCapacity:0]; }
     return _buttons;
 }
 
-- (NSMutableArray<WYAAlertAction *> *)actions
-{
-    if (!_actions) {
-        _actions = [NSMutableArray arrayWithCapacity:0];
-    }
+- (NSMutableArray<WYAAlertAction *> *)actions {
+    if (!_actions) { _actions = [NSMutableArray arrayWithCapacity:0]; }
     return _actions;
 }
 
-- (CGFloat)height
-{
+- (CGFloat)height {
     [self layoutIfNeeded];
     return self.containerView.cmam_height;
 }

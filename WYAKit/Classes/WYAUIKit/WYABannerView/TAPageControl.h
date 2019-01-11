@@ -68,7 +68,8 @@
 @property (nonatomic) BOOL hidesForSinglePage;
 
 /**
- *  Let the control know if should grow bigger by keeping center, or just get longer (right side expanding). By default YES.
+ *  Let the control know if should grow bigger by keeping center, or just get longer (right side
+ * expanding). By default YES.
  */
 @property (nonatomic) BOOL shouldResizeFromCenter;
 

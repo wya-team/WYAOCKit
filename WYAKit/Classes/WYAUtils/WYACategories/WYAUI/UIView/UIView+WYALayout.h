@@ -32,7 +32,7 @@ typedef enum : NSUInteger {
 
 /**
  Shortcut to set the view.layer's shadow
- 
+
  @param color  Shadow Color
  @param offset Shadow offset
  @param radius Shadow radius
@@ -41,7 +41,7 @@ typedef enum : NSUInteger {
 
 /**
  Remove all subviews.
- 
+
  @warning Never call this method inside your view's drawRect: method.
  */
 - (void)cmam_removeAllSubviews;
@@ -58,7 +58,7 @@ typedef enum : NSUInteger {
 
 /**
  Converts a point from the receiver's coordinate system to that of the specified view or window.
- 
+
  @param point A point specified in the local coordinate system (bounds) of the receiver.
  @param view  The view or window into whose coordinate system point is to be converted.
  If view is nil, this method instead converts to window base coordinates.
@@ -68,7 +68,7 @@ typedef enum : NSUInteger {
 
 /**
  Converts a point from the coordinate system of a given view or window to that of the receiver.
- 
+
  @param point A point specified in the local coordinate system (bounds) of view.
  @param view  The view or window with point in its coordinate system.
  If view is nil, this method instead converts from window base coordinates.
@@ -78,16 +78,17 @@ typedef enum : NSUInteger {
 
 /**
  Converts a rectangle from the receiver's coordinate system to that of another view or window.
- 
+
  @param rect A rectangle specified in the local coordinate system (bounds) of the receiver.
- @param view The view or window that is the target of the conversion operation. If view is nil, this method instead converts to window base coordinates.
+ @param view The view or window that is the target of the conversion operation. If view is nil, this
+ method instead converts to window base coordinates.
  @return The converted rectangle.
  */
 - (CGRect)cmam_convertRect:(CGRect)rect toViewOrWindow:(nullable UIView *)view;
 
 /**
  Converts a rectangle from the coordinate system of another view or window to that of the receiver.
- 
+
  @param rect A rectangle specified in the local coordinate system (bounds) of view.
  @param view The view or window with rect in its coordinate system.
  If view is nil, this method instead converts from window base coordinates.
@@ -106,26 +107,26 @@ typedef enum : NSUInteger {
 @property (nonatomic) CGPoint cmam_origin;  ///< Shortcut for frame.origin.
 @property (nonatomic) CGSize cmam_size;     ///< Shortcut for frame.size.
 
-+ (void)cmam_showOscillatoryAnimationWithLayer:(CALayer * _Nullable)layer type:(CMAMOscillatoryAnimationType)type;
++ (void)cmam_showOscillatoryAnimationWithLayer:(CALayer * _Nullable)layer
+                                          type:(CMAMOscillatoryAnimationType)type;
 
 #pragma mark - 设置部分圆角
 /**
  *  设置部分圆角(绝对布局)
  *
- *  @param corners 需要设置为圆角的角 UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight | UIRectCornerAllCorners
+ *  @param corners 需要设置为圆角的角 UIRectCornerTopLeft | UIRectCornerTopRight |
+ * UIRectCornerBottomLeft | UIRectCornerBottomRight | UIRectCornerAllCorners
  *  @param radii   需要设置的圆角大小 例如 CGSizeMake(20.0f, 20.0f)
  */
-- (void)addRoundedCorners:(UIRectCorner)corners
-                withRadii:(CGSize)radii;
+- (void)addRoundedCorners:(UIRectCorner)corners withRadii:(CGSize)radii;
 /**
  *  设置部分圆角(相对布局)
  *
- *  @param corners 需要设置为圆角的角 UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight | UIRectCornerAllCorners
+ *  @param corners 需要设置为圆角的角 UIRectCornerTopLeft | UIRectCornerTopRight |
+ * UIRectCornerBottomLeft | UIRectCornerBottomRight | UIRectCornerAllCorners
  *  @param radii   需要设置的圆角大小 例如 CGSizeMake(20.0f, 20.0f)
  *  @param rect    需要设置的圆角view的rect
  */
-- (void)addRoundedCorners:(UIRectCorner)corners
-                withRadii:(CGSize)radii
-                 viewRect:(CGRect)rect;
+- (void)addRoundedCorners:(UIRectCorner)corners withRadii:(CGSize)radii viewRect:(CGRect)rect;
 
 @end

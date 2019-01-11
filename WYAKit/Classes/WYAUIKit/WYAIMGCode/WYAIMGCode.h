@@ -25,7 +25,8 @@
 
  @param data 传入数据
  @param logoImageName 图片名
- @param logoScaleToSuperView 相对于父视图的缩放比取值范围0-1；0，不显示，1，代表与父视图大小相同(适当调整相应的比例，否则扫描不出结果)
+ @param logoScaleToSuperView
+ 相对于父视图的缩放比取值范围0-1；0，不显示，1，代表与父视图大小相同(适当调整相应的比例，否则扫描不出结果)
  @return 返回一张二维码图片
  */
 + (UIImage *)wya_GenerateWithLogoQRCodeData:(NSString *)data

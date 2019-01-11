@@ -18,67 +18,67 @@
 @end
 
 @implementation WYAPageViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPageViewController/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
+                   @"WYAPageViewController/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = @"PageControllerStyle";
     [self.view addSubview:self.tableView];
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 }
-- (void)wya_goBackPressed:(UIButton *)sender
-{
+- (void)wya_goBackPressed:(UIButton *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (NSArray *)titles
-{
+- (NSArray *)titles {
     if (_titles == nil) {
-        _titles = @[ @"WYAMenuViewStyleDefault",
-                     @"WYAMenuViewStyleLine",
-                     @"WYAMenuViewStyleFlood",
-                     @"WYAMenuViewStyleFloodHollow",
-                     @"WYAMenuViewShowOnNav",
-                     @"WYAMenuViewStyleSegmented",
-                     @"WYAMenuViewStyleTriangle",
-                     @"WYAMenuViewStyleNaughty",
-                     @"WYAMenuViewCornerRadius",
-                     @"WYAMenuViewPositionBottom",
-                     @"WYATablePageController" ];
+        _titles = @[
+            @"WYAMenuViewStyleDefault",
+            @"WYAMenuViewStyleLine",
+            @"WYAMenuViewStyleFlood",
+            @"WYAMenuViewStyleFloodHollow",
+            @"WYAMenuViewShowOnNav",
+            @"WYAMenuViewStyleSegmented",
+            @"WYAMenuViewStyleTriangle",
+            @"WYAMenuViewStyleNaughty",
+            @"WYAMenuViewCornerRadius",
+            @"WYAMenuViewPositionBottom",
+            @"WYATablePageController"
+        ];
     }
     return _titles;
 }
 
-- (NSDictionary *)stylesMap
-{
+- (NSDictionary *)stylesMap {
     if (!_stylesMap) {
-        _stylesMap = @{ @"WYAMenuViewStyleDefault" : @(WYAMenuViewStyleDefault),
-                        @"WYAMenuViewStyleLine" : @(WYAMenuViewStyleLine),
-                        @"WYAMenuViewStyleFlood" : @(WYAMenuViewStyleFlood),
-                        @"WYAMenuViewStyleFloodHollow" : @(WYAMenuViewStyleFloodHollow),
-                        @"WYAMenuViewShowOnNav" : @(WYAMenuViewStyleFlood),
-                        @"WYAMenuViewStyleSegmented" : @(WYAMenuViewStyleSegmented),
-                        @"WYAMenuViewStyleTriangle" : @(WYAMenuViewStyleTriangle),
-                        @"WYAMenuViewStyleNaughty" : @(WYAMenuViewStyleLine),
-                        @"WYAMenuViewCornerRadius" : @(WYAMenuViewStyleFlood),
-                        @"WYAMenuViewPositionBottom" : @(WYAMenuViewStyleDefault) };
+        _stylesMap = @{
+            @"WYAMenuViewStyleDefault" : @(WYAMenuViewStyleDefault),
+            @"WYAMenuViewStyleLine" : @(WYAMenuViewStyleLine),
+            @"WYAMenuViewStyleFlood" : @(WYAMenuViewStyleFlood),
+            @"WYAMenuViewStyleFloodHollow" : @(WYAMenuViewStyleFloodHollow),
+            @"WYAMenuViewShowOnNav" : @(WYAMenuViewStyleFlood),
+            @"WYAMenuViewStyleSegmented" : @(WYAMenuViewStyleSegmented),
+            @"WYAMenuViewStyleTriangle" : @(WYAMenuViewStyleTriangle),
+            @"WYAMenuViewStyleNaughty" : @(WYAMenuViewStyleLine),
+            @"WYAMenuViewCornerRadius" : @(WYAMenuViewStyleFlood),
+            @"WYAMenuViewPositionBottom" : @(WYAMenuViewStyleDefault)
+        };
     }
     return _stylesMap;
 }
-- (UITableView *)tableView
-{
+- (UITableView *)tableView {
     if (!_tableView) {
-        _tableView                 = [[UITableView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc]
+            initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight)
+                    style:UITableViewStylePlain];
         _tableView.delegate        = self;
         _tableView.dataSource      = self;
         _tableView.tableFooterView = [[UIView alloc] init];
@@ -87,17 +87,15 @@
 }
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.titles.count;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString * const cellIdentifier = @"WYAPageViewControllerCell";
     UITableViewCell * cell                 = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -110,8 +108,7 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     NSString * key         = [self.titles wya_safeObjectAtIndex:indexPath.row];
@@ -171,8 +168,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
-- (void)customPageController:(WYAPageController *)vc
-{
+- (void)customPageController:(WYAPageController *)vc {
     switch (vc.menuViewStyle) {
         case WYAMenuViewStyleTriangle: {
             vc.progressWidth     = 6;

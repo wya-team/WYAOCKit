@@ -13,16 +13,15 @@
 @end
 
 @implementation WYABannerViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYABannerView/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
+                   @"WYABannerView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -33,8 +32,7 @@
     [self configUI];
 }
 
-- (void)configUI
-{
+- (void)configUI {
     UILabel * label = [[UILabel alloc] init];
     label.text      = @"加载本地图片，时间2s";
     label.textColor = random(51, 51, 51, 1);
@@ -46,12 +44,15 @@
     CGFloat label_Height = 20 * SizeAdapter;
     label.frame          = CGRectMake(label_X, label_Y, label_Width, label_Height);
 
-    CGFloat bannerView_X                = 0;
-    CGFloat bannerView_Y                = CGRectGetMaxY(label.frame);
-    CGFloat bannerView_Width            = ScreenWidth;
-    CGFloat bannerView_Height           = 200 * SizeAdapter;
-    CGRect rectB                        = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
-    WYABannerView * banner1             = [WYABannerView wya_bannerViewWithFrame:rectB bannerCellStyle:WYABannerViewCellStyleCoverFlow delegate:nil placeholderImage:nil];
+    CGFloat bannerView_X      = 0;
+    CGFloat bannerView_Y      = CGRectGetMaxY(label.frame);
+    CGFloat bannerView_Width  = ScreenWidth;
+    CGFloat bannerView_Height = 200 * SizeAdapter;
+    CGRect rectB              = CGRectMake(bannerView_X, bannerView_Y, bannerView_Width, bannerView_Height);
+    WYABannerView * banner1   = [WYABannerView wya_bannerViewWithFrame:rectB
+                                                     bannerCellStyle:WYABannerViewCellStyleCoverFlow
+                                                            delegate:nil
+                                                    placeholderImage:nil];
     banner1.localizationImageNamesGroup = @[ @"0", @"1", @"2" ];
     //    banner1.autoScroll = NO;
     //    banner1.infiniteLoop = NO;
@@ -78,21 +79,25 @@
     CGFloat netBannerView_Y      = CGRectGetMaxY(label1.frame);
     CGFloat netBannerView_Width  = ScreenWidth;
     CGFloat netBannerView_Height = 200 * SizeAdapter;
-    CGRect rect2                 = CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
+    CGRect rect2 =
+        CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
 
     NSArray * imagesURLStrings = @[
-        @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
-        @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-        @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
+        @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/"
+        @"sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
+        @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/"
+        @"sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
+        @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/"
+        @"b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"
     ];
 
     // 图片配文字
-    NSArray * titles = @[ @"a",
-                          @"b",
-                          @"c",
-                          @"d" ];
+    NSArray * titles = @[ @"a", @"b", @"c", @"d" ];
 
-    WYABannerView * banner2      = [WYABannerView wya_bannerViewWithFrame:rect2 bannerCellStyle:WYABannerViewCellStyleDefault delegate:nil placeholderImage:nil];
+    WYABannerView * banner2 = [WYABannerView wya_bannerViewWithFrame:rect2
+                                                     bannerCellStyle:WYABannerViewCellStyleDefault
+                                                            delegate:nil
+                                                    placeholderImage:nil];
     banner2.pageControlAliment   = WYABannerViewPageContolAlimentRight;
     banner2.imageURLStringsGroup = imagesURLStrings;
     banner2.titlesGroup          = titles;

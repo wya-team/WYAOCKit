@@ -11,7 +11,7 @@
 @interface NSString (DisplayTime)
 /**
  通过时间戳计算时间差（几小时前、几天前
- 
+
  @param compareDate compareDate
  @return String
  */
@@ -19,7 +19,7 @@
 
 /**
  通过时间戳得出对应的时间
- 
+
  @param timestamp 时间戳
  @return String
  */

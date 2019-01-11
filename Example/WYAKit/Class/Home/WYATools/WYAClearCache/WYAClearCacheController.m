@@ -17,16 +17,15 @@
 @end
 
 @implementation WYAClearCacheController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUtils/WYAClearCache/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUtils/"
+                   @"WYAClearCache/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 获取缓存
     [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {
@@ -34,8 +33,7 @@
         self.contentLabel.text = folderSize;
     }];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -44,11 +42,12 @@
 }
 
 #pragma mark ======= getter
-- (UIView *)bgView
-{
+- (UIView *)bgView {
     if (!_bgView) {
         _bgView = ({
-            UIView * object            = [[UIView alloc] initWithFrame:CGRectMake(10 * SizeAdapter, WYATopHeight + 10 * SizeAdapter, ScreenWidth - 20 * SizeAdapter, 150 * SizeAdapter)];
+            UIView * object = [[UIView alloc]
+                initWithFrame:CGRectMake(10 * SizeAdapter, WYATopHeight + 10 * SizeAdapter,
+                                         ScreenWidth - 20 * SizeAdapter, 150 * SizeAdapter)];
             object.layer.cornerRadius  = 7 * SizeAdapter;
             object.layer.masksToBounds = YES;
             object.backgroundColor     = WHITECOLOR;
@@ -78,7 +77,8 @@
             [self.cleaButton mas_makeConstraints:^(MASConstraintMaker * make) {
                 make.centerX.mas_equalTo(object);
                 make.top.equalTo(self.contentLabel.mas_bottom).offset(20 * SizeAdapter);
-                make.size.mas_equalTo(CGSizeMake(ScreenWidth - 20 * SizeAdapter - 150 * SizeAdapter, 36 * SizeAdapter));
+                make.size.mas_equalTo(CGSizeMake(ScreenWidth - 20 * SizeAdapter - 150 * SizeAdapter,
+                                                 36 * SizeAdapter));
             }];
 
             object;
@@ -87,8 +87,7 @@
     return _bgView;
 }
 
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -102,8 +101,7 @@
     return _titleLabel;
 }
 
-- (UIButton *)cleaButton
-{
+- (UIButton *)cleaButton {
     if (!_cleaButton) {
         _cleaButton = ({
             UIButton * object      = [[UIButton alloc] init];
@@ -115,15 +113,16 @@
             [object setTitleColor:BLACKTEXTCOLOR forState:UIControlStateHighlighted];
             object.layer.cornerRadius  = 5 * SizeAdapter;
             object.layer.masksToBounds = YES;
-            [object addTarget:self action:@selector(btnclicked:) forControlEvents:UIControlEventTouchUpInside];
+            [object addTarget:self
+                          action:@selector(btnclicked:)
+                forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _cleaButton;
 }
 
-- (UILabel *)contentLabel
-{
+- (UILabel *)contentLabel {
     if (!_contentLabel) {
         _contentLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -136,8 +135,7 @@
     return _contentLabel;
 }
 
-- (UIView *)lineView
-{
+- (UIView *)lineView {
     if (!_lineView) {
         _lineView = ({
             UIView * object        = [[UIView alloc] init];
@@ -148,29 +146,37 @@
     return _lineView;
 }
 #pragma mark ======= Action
-- (void)btnclicked:(UIButton *)sender
-{
+- (void)btnclicked:(UIButton *)sender {
     [self showAlertWith:self.contentLabel.text];
 }
 // 缓存弹框提示
-- (void)showAlertWith:(NSString *)size
-{
-    WYAAlertController * alert = [WYAAlertController wya_alertWithTitle:@"清理缓存"
-                                                                Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
-                                                       AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+- (void)showAlertWith:(NSString *)size {
+    WYAAlertController * alert = [WYAAlertController
+        wya_alertWithTitle:@"清理缓存"
+                   Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
+          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"清理" style:WYAAlertActionStyleCancel handler:^{
-        NSLog(@"Default");
-        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
-            NSLog(@"清理成功");
-            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {
-                [UIView wya_showBottomToastWithMessage:[NSString stringWithFormat:@"清理成功，当前缓存%@", folderSize]];
-                self.contentLabel.text = folderSize;
-            }];
-        }];
-    }];
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" style:WYAAlertActionStyleDefault handler:^{ NSLog(@"Cancel"); }];
+    WYAAlertAction * defaultAction = [WYAAlertAction
+        wya_actionWithTitle:@"清理"
+                      style:WYAAlertActionStyleCancel
+                    handler:^{
+                        NSLog(@"Default");
+                        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
+                            NSLog(@"清理成功");
+                            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(
+                                               NSString * folderSize) {
+                                [UIView
+                                    wya_showBottomToastWithMessage:
+                                        [NSString stringWithFormat:@"清理成功，当前缓存%@",
+                                                                   folderSize]];
+                                self.contentLabel.text = folderSize;
+                            }];
+                        }];
+                    }];
+    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消"
+                                                                  style:WYAAlertActionStyleDefault
+                                                                handler:^{ NSLog(@"Cancel"); }];
     [alert wya_addAction:cancelAction];
     [alert wya_addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];

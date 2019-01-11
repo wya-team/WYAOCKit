@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSNotificationCenter (WYANotificationCenter)
 
-- (void)wya_addObserverWithName:(NSString *)name object:(_Nullable id)object selector:(void (^)(NSNotification *))sel;
+- (void)wya_addObserverWithName:(NSString *)name
+                         object:(_Nullable id)object
+                       selector:(void (^)(NSNotification *))sel;
 @end
 
 NS_ASSUME_NONNULL_END

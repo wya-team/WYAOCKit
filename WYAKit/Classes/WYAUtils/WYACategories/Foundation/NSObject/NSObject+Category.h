@@ -23,7 +23,9 @@ typedef void (^TYNFinishBlock)(void);
  @param value 分类值
  @param policy 分类内存管理类型
  */
-- (void)objc_setAssociatedObject:(NSString *)propertyName value:(id)value policy:(objc_AssociationPolicy)policy;
+- (void)objc_setAssociatedObject:(NSString *)propertyName
+                           value:(id)value
+                          policy:(objc_AssociationPolicy)policy;
 
 /**
  *  获取当前object某个动态增加的分类
@@ -47,46 +49,48 @@ typedef void (^TYNFinishBlock)(void);
 
 /**
  获取版本号
- 
+
  @return 版本号
  */
 + (NSString *)wya_version;
 
 /**
  获取build版本号
- 
+
  @return build版本号
  */
 + (NSInteger)wya_build;
 
 /**
  获取BundleID
- 
+
  @return BundleID
  */
 + (NSString *)wya_identifier;
 
 /**
  当前语言
- 
+
  @return 语言
  */
 + (NSString *)wya_currentLanguage;
 
 /**
  获取手机具体型号
- 
+
  @return 型号
  */
 + (NSString *)wya_deviceModel;
 
 /**
  按钮倒计时
- 
+
  @param time 倒计时总时间
  @param countDownBlock 每秒倒计时会执行的block
  @param finishBlock 倒计时完成会执行的block
  */
-- (void)wya_countDownTime:(NSUInteger)time countDownBlock:(TYNCountDownBlock)countDownBlock outTimeBlock:(TYNFinishBlock)finishBlock;
+- (void)wya_countDownTime:(NSUInteger)time
+           countDownBlock:(TYNCountDownBlock)countDownBlock
+             outTimeBlock:(TYNFinishBlock)finishBlock;
 
 @end

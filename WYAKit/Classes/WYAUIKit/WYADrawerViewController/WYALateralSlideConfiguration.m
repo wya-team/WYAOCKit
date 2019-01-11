@@ -9,13 +9,19 @@
 
 @implementation WYALateralSlideConfiguration
 
-+ (instancetype)defaultConfiguration
-{
-    return [WYALateralSlideConfiguration configurationWithDistance:ScreenWidth * 0.75 maskAlpha:0.4 scaleY:1.0 direction:WYADrawerTransitionFromLeft backImage:nil];
++ (instancetype)defaultConfiguration {
+    return [WYALateralSlideConfiguration configurationWithDistance:ScreenWidth * 0.75
+                                                         maskAlpha:0.4
+                                                            scaleY:1.0
+                                                         direction:WYADrawerTransitionFromLeft
+                                                         backImage:nil];
 }
 
-- (instancetype)initWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage
-{
+- (instancetype)initWithDistance:(float)distance
+                       maskAlpha:(float)alpha
+                          scaleY:(float)scaleY
+                       direction:(WYADrawerTransitionDirection)direction
+                       backImage:(UIImage *)backImage {
     if (self = [super init]) {
         _distance           = distance;
         _maskAlpha          = alpha;
@@ -29,57 +35,51 @@
     return self;
 }
 
-+ (instancetype)configurationWithDistance:(float)distance maskAlpha:(float)alpha scaleY:(float)scaleY direction:(WYADrawerTransitionDirection)direction backImage:(UIImage *)backImage
-{
-    return [[self alloc] initWithDistance:distance maskAlpha:alpha scaleY:scaleY direction:direction backImage:backImage];
++ (instancetype)configurationWithDistance:(float)distance
+                                maskAlpha:(float)alpha
+                                   scaleY:(float)scaleY
+                                direction:(WYADrawerTransitionDirection)direction
+                                backImage:(UIImage *)backImage {
+    return [[self alloc] initWithDistance:distance
+                                maskAlpha:alpha
+                                   scaleY:scaleY
+                                direction:direction
+                                backImage:backImage];
 }
 
-- (float)distance
-{
-    if (_distance <= 0)
-        return ScreenWidth * 0.75;
+- (float)distance {
+    if (_distance <= 0) return ScreenWidth * 0.75;
     return _distance;
 }
 
-- (float)maskAlpha
-{
-    if (_maskAlpha <= 0)
-        return 0.4;
+- (float)maskAlpha {
+    if (_maskAlpha <= 0) return 0.4;
     return _maskAlpha;
 }
 
-- (float)scaleY
-{
-    if (_scaleY <= 0)
-        return 1.0;
+- (float)scaleY {
+    if (_scaleY <= 0) return 1.0;
     return _scaleY;
 }
 
-- (float)finishPercent
-{
-    if (_finishPercent <= 0)
-        return 0.4;
+- (float)finishPercent {
+    if (_finishPercent <= 0) return 0.4;
     return _finishPercent;
 }
 
-- (NSTimeInterval)showAnimDuration
-{
-    if (_showAnimDuration <= 0)
-        return 0.25;
+- (NSTimeInterval)showAnimDuration {
+    if (_showAnimDuration <= 0) return 0.25;
 
     return _showAnimDuration;
 }
 
-- (NSTimeInterval)HiddenAnimDuration
-{
-    if (_HiddenAnimDuration <= 0)
-        return 0.25;
+- (NSTimeInterval)HiddenAnimDuration {
+    if (_HiddenAnimDuration <= 0) return 0.25;
 
     return _HiddenAnimDuration;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     //    NSLog(@"%s",__func__);
 }
 

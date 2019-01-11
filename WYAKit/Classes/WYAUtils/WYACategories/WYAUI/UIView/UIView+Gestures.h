@@ -22,7 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param tapStyle 点击类型
  @param handle 回调
  */
-- (void)wya_AddTapGesturesWithTapStyle:(WYATapGesturesStyle)tapStyle TapHandle:(void (^)(UITapGestureRecognizer * gesture))handle;
+- (void)wya_AddTapGesturesWithTapStyle:(WYATapGesturesStyle)tapStyle
+                             TapHandle:(void (^)(UITapGestureRecognizer * gesture))handle;
 
 /**
  添加长按手势
@@ -30,7 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param duration 长按时间
  @param handle 回调
  */
-- (void)wya_AddLongPressGestureWithDuration:(NSTimeInterval)duration Handle:(void (^)(UILongPressGestureRecognizer * gesture))handle;
+- (void)wya_AddLongPressGestureWithDuration:(NSTimeInterval)duration
+                                     Handle:
+                                         (void (^)(UILongPressGestureRecognizer * gesture))handle;
 
 /**
  添加平移手势
@@ -45,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param direction 方向
  @param handle 回调
  */
-- (void)wya_AddSwipeGestureWithSwipeDirection:(UISwipeGestureRecognizerDirection)direction SwipeHandle:(void (^)(UISwipeGestureRecognizer * gesture))handle;
+- (void)wya_AddSwipeGestureWithSwipeDirection:(UISwipeGestureRecognizerDirection)direction
+                                  SwipeHandle:(void (^)(UISwipeGestureRecognizer * gesture))handle;
 
 /**
  添加旋转手势

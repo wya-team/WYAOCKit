@@ -10,12 +10,12 @@
 #import <CoreText/CoreText.h>
 
 @implementation NSAttributedString (Category)
-- (CGFloat)wya_heightWithContainWidth:(CGFloat)width
-{
-    int total_height             = 0;
-    CTFramesetterRef framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self);
-    CGRect drawingRect           = CGRectMake(0, 0, width, 100000);
-    CGMutablePathRef path        = CGPathCreateMutable();
+- (CGFloat)wya_heightWithContainWidth:(CGFloat)width {
+    int total_height = 0;
+    CTFramesetterRef framesetter =
+        CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self);
+    CGRect drawingRect    = CGRectMake(0, 0, width, 100000);
+    CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, drawingRect);
     CTFrameRef textFrame = CTFramesetterCreateFrame(framesetter, CFRangeMake(0, 0), path, NULL);
     CGPathRelease(path);

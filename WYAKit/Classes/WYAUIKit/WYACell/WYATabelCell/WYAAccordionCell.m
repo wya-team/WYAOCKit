@@ -15,8 +15,8 @@
 
 @implementation WYAAccordionCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.titleContainerView];
@@ -29,8 +29,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.titleContainerView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -61,50 +60,43 @@
         make.top.mas_equalTo(self.titleContainerView.mas_bottom).with.offset(0);
     }];
 
-    [self.textContainerView.subviews wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:nil
-                                                                            fixedItemHeights:self.viewHeights
-                                                                            fixedLineSpacing:0
-                                                                       fixedInteritemSpacing:0
-                                                                                   warpCount:1
-                                                                                  topSpacing:0
-                                                                               bottomSpacing:0
-                                                                                 leadSpacing:16 * SizeAdapter
-                                                                                 tailSpacing:16 * SizeAdapter];
+    [self.textContainerView.subviews
+        wya_mas_distributeSpecialSudokuViewsWithFixedItemWidths:nil
+                                               fixedItemHeights:self.viewHeights
+                                               fixedLineSpacing:0
+                                          fixedInteritemSpacing:0
+                                                      warpCount:1
+                                                     topSpacing:0
+                                                  bottomSpacing:0
+                                                    leadSpacing:16 * SizeAdapter
+                                                    tailSpacing:16 * SizeAdapter];
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
 #pragma mark--- Setter
-- (void)setViews:(NSMutableArray<UIView *> *)views
-{
+- (void)setViews:(NSMutableArray<UIView *> *)views {
     _views = views;
     if (views) {
-        for (UIView * view in views) {
-            [self.textContainerView addSubview:view];
-        }
+        for (UIView * view in views) { [self.textContainerView addSubview:view]; }
     } else {
-        for (UIView * view in self.textContainerView.subviews) {
-            [view removeFromSuperview];
-        }
+        for (UIView * view in self.textContainerView.subviews) { [view removeFromSuperview]; }
     }
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
-- (void)setViewHeights:(NSMutableArray *)viewHeights
-{
+- (void)setViewHeights:(NSMutableArray *)viewHeights {
     _viewHeights = viewHeights;
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
 #pragma mark--- Getter
-- (UIView *)titleContainerView
-{
+- (UIView *)titleContainerView {
     if (!_titleContainerView) {
         _titleContainerView = ({
             UIView * object        = [[UIView alloc] init];
@@ -114,8 +106,7 @@
     }
     return _titleContainerView;
 }
-- (UIView *)textContainerView
-{
+- (UIView *)textContainerView {
     if (!_textContainerView) {
         _textContainerView = ({
             UIView * object        = [[UIView alloc] init];
@@ -126,8 +117,7 @@
     return _textContainerView;
 }
 
-- (UITextField *)titleTextField
-{
+- (UITextField *)titleTextField {
     if (!_titleTextField) {
         _titleTextField = ({
             UITextField * object = [[UITextField alloc] init];
@@ -139,24 +129,20 @@
     return _titleTextField;
 }
 
-- (UIButton *)downButton
-{
+- (UIButton *)downButton {
     if (!_downButton) {
         _downButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_downButton setBackgroundColor:[UIColor redColor]];
         WeakSelf(weakSelf);
         [_downButton addCallBackAction:^(UIButton * button) {
             StrongSelf(strongSelf);
-            if (strongSelf.buttonClick) {
-                strongSelf.buttonClick(button);
-            }
+            if (strongSelf.buttonClick) { strongSelf.buttonClick(button); }
         }];
     }
     return _downButton;
 }
 
-- (UIView *)line
-{
+- (UIView *)line {
     if (!_line) {
         _line                 = [[UIView alloc] init];
         _line.backgroundColor = random(153, 153, 153, 1);
@@ -167,8 +153,7 @@
 #pragma mark--- Private Method
 
 #pragma mark--- Public Method
-+ (CGFloat)wya_cellHeight:(NSMutableArray *)viewHeightArray
-{
++ (CGFloat)wya_cellHeight:(NSMutableArray *)viewHeightArray {
     WYAAccordionCell * cell = [[WYAAccordionCell alloc] init];
     [cell setNeedsLayout];
     [cell layoutIfNeeded];
@@ -180,8 +165,7 @@
     return cell.titleContainerView.cmam_height + hei;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

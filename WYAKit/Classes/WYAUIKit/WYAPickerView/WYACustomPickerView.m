@@ -11,31 +11,23 @@
 @property (nonatomic, strong) UIView * containView;
 @end
 
-@implementation WYACustomPickerView
-{
+@implementation WYACustomPickerView {
     NSInteger tableCount; // 记录table个数
 }
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        [self createUI];
-    }
+    if (self) { [self createUI]; }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
-        [self createUI];
-    }
+    if (self) { [self createUI]; }
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.containView mas_makeConstraints:^(MASConstraintMaker * make) {
@@ -51,15 +43,17 @@
                                                                      tailSpacing:0];
 }
 
-- (void)willMoveToSuperview:(nullable UIView *)newSuperview
-{
+- (void)willMoveToSuperview:(nullable UIView *)newSuperview {
     [super willMoveToSuperview:newSuperview];
-    if (self.wya_dataSource && [self.wya_dataSource respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)]) {
+    if (self.wya_dataSource &&
+        [self.wya_dataSource respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)]) {
         NSInteger count = [self.wya_dataSource numberOfComponentsInCustomPickerView:self];
         if (count > 0) {
             tableCount = count;
             for (NSInteger index = 0; index < count; index++) {
-                UITableView * table   = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+                UITableView * table =
+                    [[UITableView alloc] initWithFrame:CGRectZero
+                                                 style:UITableViewStylePlain];
                 table.delegate        = self;
                 table.dataSource      = self;
                 table.separatorStyle  = UITableViewCellSeparatorStyleNone;
@@ -72,33 +66,39 @@
             [self layoutIfNeeded];
         }
     } else {
-        if (!self.wya_dataSource) {
-            NSAssert(self.wya_dataSource, @"指定协议遵守者");
-        }
-        if (![self.wya_dataSource respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)]) {
-            NSAssert([self.wya_dataSource respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)], @"必须实现方法- (NSInteger)numberOfComponentsInCustomPickerView:(UIView *)pickerView");
+        if (!self.wya_dataSource) { NSAssert(self.wya_dataSource, @"指定协议遵守者"); }
+        if (![self.wya_dataSource
+                respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)]) {
+            NSAssert([self.wya_dataSource
+                         respondsToSelector:@selector(numberOfComponentsInCustomPickerView:)],
+                     @"必须实现方法- (NSInteger)numberOfComponentsInCustomPickerView:(UIView "
+                     @"*)pickerView");
         }
     }
 }
 
 #pragma mark--- Private Method
-- (void)createUI
-{
+- (void)createUI {
     tableCount = 0;
 
     [self addSubview:self.containView];
 }
 
 #pragma mark--- UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableCount > 0) {
         for (NSInteger index = 1; index <= tableCount; index++) {
             if (tableView.tag == index) {
-                if (self.wya_dataSource && [self.wya_dataSource respondsToSelector:@selector(customPickerView:numberOfRowsInComponent:)]) {
-                    return [self.wya_dataSource customPickerView:self numberOfRowsInComponent:index - 1];
+                if (self.wya_dataSource &&
+                    [self.wya_dataSource
+                        respondsToSelector:@selector(customPickerView:numberOfRowsInComponent:)]) {
+                    return [self.wya_dataSource customPickerView:self
+                                         numberOfRowsInComponent:index - 1];
                 } else {
-                    NSAssert([self.wya_dataSource respondsToSelector:@selector(customPickerView:numberOfRowsInComponent:)], @"必须实现- (NSInteger)customPickerView:(UIView *)pickerView numberOfRowsInComponent:(NSInteger)component");
+                    NSAssert([self.wya_dataSource respondsToSelector:@selector(customPickerView:
+                                                                         numberOfRowsInComponent:)],
+                             @"必须实现- (NSInteger)customPickerView:(UIView *)pickerView "
+                             @"numberOfRowsInComponent:(NSInteger)component");
                 }
             }
         }
@@ -106,16 +106,23 @@
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    for (UIView * view in cell.contentView.subviews) {
-        [view removeFromSuperview];
-    }
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell =
+        [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                        forIndexPath:indexPath];
+    for (UIView * view in cell.contentView.subviews) { [view removeFromSuperview]; }
     for (NSInteger index = 1; index <= tableCount; index++) {
         if (tableView.tag == index) {
-            if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(customPickerView:viewForRow:forComponent:reusingView:)]) {
-                UIView * view = [self.wya_delegate customPickerView:self viewForRow:indexPath.row forComponent:index - 1 reusingView:cell.contentView];
+            if (self.wya_delegate &&
+                [self.wya_delegate respondsToSelector:@selector(customPickerView:
+                                                                      viewForRow:
+                                                                    forComponent:
+                                                                     reusingView:)]) {
+                UIView * view = [self.wya_delegate customPickerView:self
+                                                         viewForRow:indexPath.row
+                                                       forComponent:index - 1
+                                                        reusingView:cell.contentView];
                 [cell.contentView addSubview:view];
             }
         }
@@ -129,8 +136,7 @@
 #pragma mark--- Setter
 
 #pragma mark--- Getter
-- (UIView *)containView
-{
+- (UIView *)containView {
     if (!_containView) {
         _containView                 = [[UIView alloc] init];
         _containView.backgroundColor = [UIColor whiteColor];

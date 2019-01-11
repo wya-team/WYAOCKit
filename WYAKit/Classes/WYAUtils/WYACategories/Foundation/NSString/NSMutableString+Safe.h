@@ -15,5 +15,8 @@
 
 - (void)wya_safeSetString:(NSString *)aString;
 
-- (NSUInteger)wya_safeReplaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options range:(NSRange)searchRange;
+- (NSUInteger)wya_safeReplaceOccurrencesOfString:(NSString *)target
+                                      withString:(NSString *)replacement
+                                         options:(NSStringCompareOptions)options
+                                           range:(NSRange)searchRange;
 @end

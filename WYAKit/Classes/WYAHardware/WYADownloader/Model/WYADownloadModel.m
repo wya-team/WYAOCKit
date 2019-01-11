@@ -9,29 +9,20 @@
 #define floderPath [[NSString wya_docPath] stringByAppendingPathComponent:@"WYADownload"]
 
 @interface WYADownloadModel ()
-
+@property (nonatomic, strong) UIImage * videoImg;
+@property (nonatomic, copy) NSString * localPath;
 @end
 
-@implementation WYADownloadModel
-{
+@implementation WYADownloadModel {
     NSNumber * startTime;
 }
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        _downloadState = WYADownloadStateDownloading;
-    }
+    if (self) { _downloadState = WYADownloadStateDownloading; }
     return self;
 }
 
-- (void)startDownloadWithSession:(NSURLSession *)session
-{
-    if ([NSThread isMainThread]) {
-        NSLog(@"是主线程");
-    } else {
-        NSLog(@"否主线程");
-    }
+- (void)startDownloadWithSession:(NSURLSession *)session {
     NSAssert(self.urlString, @"下载地址不能为空");
     // 字符串解码
     NSString * urlS = [self.urlString stringByRemovingPercentEncoding];
@@ -46,74 +37,107 @@
     self.downloadTask             = [session downloadTaskWithRequest:request];
 
     [self.downloadTask resume];
+
+    if (!self.videoImg) {
+        if (!self.imageData) {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                UIImage * image =
+                    [UIImage wya_getVideoPreViewImage:[NSURL URLWithString:self.urlString]];
+                self.imageData = UIImagePNGRepresentation(image);
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    self.videoImg = image;
+                    if (self.imageCallback) { self.imageCallback(image); }
+                });
+            });
+        } else {
+            dispatch_sync(dispatch_get_main_queue(),
+                          ^{ self.videoImg = [UIImage imageWithData:self.imageData]; });
+        }
+    }
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.downloadState = WYADownloadStateDownloading;
+        self.downloadState          = WYADownloadStateDownloading;
+        NSFileManager * fileManager = [NSFileManager defaultManager];
+
+        if (!self.localPath) {
+            NSString * path =
+                [floderPath stringByAppendingPathComponent:self.urlString.lastPathComponent];
+            if (path.pathExtension.length < 1) {
+                path = [path stringByAppendingPathExtension:@"mp4"];
+            }
+            self.localPath = path;
+            if (![fileManager fileExistsAtPath:self.localPath]) {
+                [fileManager createFileAtPath:self.localPath contents:nil attributes:nil];
+            }
+        }
     });
 }
 
-- (void)suspendDownload
-{
+- (void)suspendDownload {
     self.downloadState = WYADownloadStateSuspend;
+
     [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
         self.downloadData = resumeData;
     }];
 }
 
-- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data
-{
+- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data {
     self.downloadState = WYADownloadStateDownloading;
 
     self.downloadTask = [session downloadTaskWithResumeData:self.downloadData];
     [self.downloadTask resume];
 }
 
-- (void)giveupDownload
-{
+- (void)giveupDownload {
     self.downloadState = WYADownloadStateFail;
 
     [self.downloadTask cancel];
 }
 
-- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl handle:(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle
-{
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        self.downloadState = WYADownloadStateComplete;
-    });
+- (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
+                            handle:
+                                (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle {
+    //    BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:[NSURL
+    //    fileURLWithPath:self.localPath] error:&fileError];
+    //    if (!isfile) {
+    //        handle(self, [fileError localizedDescription]);
+    //    }
 
-    NSFileManager * fileManager = [NSFileManager defaultManager];
-    NSURL * url;
-    if (self.destinationPath) {
-        url = [NSURL fileURLWithPath:self.destinationPath];
-    } else {
-        NSString * path = [floderPath stringByAppendingPathComponent:self.urlString.lastPathComponent];
-        if (path.pathExtension.length < 1) {
-            path = [path stringByAppendingPathExtension:@"mp4"];
-        }
-        url                  = [NSURL fileURLWithPath:path];
-        self.destinationPath = path;
-    }
-    NSError * fileError;
-    BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:url error:&fileError];
-    if (!isfile) {
-        handle(self, [fileError localizedDescription]);
-    }
+    NSData * data = [NSData dataWithContentsOfURL:oldUrl];
+    BOOL isfile   = [data writeToFile:self.localPath atomically:YES];
+    if (!isfile) { handle(self, @"数据有误，请重新下载"); }
     NSLog(@"file==%d", isfile);
-    NSLog(@"fileError==%@", [fileError localizedDescription]);
+
+    dispatch_sync(dispatch_get_main_queue(), ^{ self.downloadState = WYADownloadStateComplete; });
 }
 
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
-                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
-{
+                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
+        if (totalBytesExpectedToWrite > 1024 * 1024 * 1024) {
+            self.fileSize =
+                [NSString stringWithFormat:@"%2.fGB", (double)totalBytesExpectedToWrite /
+                                                          (1024 * 1024 * 1024)];
+        } else if (totalBytesExpectedToWrite > 1024 * 1024) {
+            self.fileSize = [NSString
+                stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / (1024 * 1024)];
+        } else if (totalBytesExpectedToWrite > 1024) {
+            self.fileSize =
+                [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / 1024];
+        } else {
+            self.fileSize =
+                [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite];
+        }
         if (self->startTime) {
             CFAbsoluteTime startTimeValue = [self->startTime doubleValue];
 
-            CGFloat downloadSpeed = (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
+            CGFloat downloadSpeed =
+                (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
 
             if (downloadSpeed > 1024 * 1024 * 1024) {
-                self.speed = [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
+                self.speed =
+                    [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
             } else if (downloadSpeed > 1024 * 1024) {
                 self.speed = [NSString stringWithFormat:@"%.2fMB/s", downloadSpeed / (1024 * 1024)];
             } else if (downloadSpeed > 1024) {
@@ -124,16 +148,22 @@
         } else {
             self->startTime = @(CFAbsoluteTimeGetCurrent());
         }
+        if (self.downloadState == WYADownloadStateSuspend) { self.speed = @"0KB/s"; }
     });
 }
 
 #pragma mark - Setter -
-- (void)setDestinationPath:(NSString *)destinationPath
-{
-    if (destinationPath) {
-        NSAssert(![NSString wya_IsDirectory:destinationPath], @"该路径不能是文件夹");
-        _destinationPath = destinationPath;
-    }
+- (void)setLocalPath:(NSString *)localPath {
+    _localPath = localPath;
+}
+
+#pragma mark - Getter -
+- (UIImage *)videoImage {
+    return [UIImage imageWithData:self.imageData];
+}
+
+- (NSString *)destinationPath {
+    return self.localPath;
 }
 
 @end

@@ -21,8 +21,7 @@
 
 @implementation WYAPhotoBrowserCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor redColor];
@@ -38,8 +37,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     CGFloat imageV_X      = CGRectGetMinX(self.contentView.frame);
@@ -58,44 +56,40 @@
     CGFloat videoPreview_Y      = self.contentView.cmam_height * 0.7;
     CGFloat videoPreview_Width  = self.contentView.cmam_width;
     CGFloat videoPreview_Height = self.contentView.cmam_height * 0.3;
-    self.videoPreview.frame     = CGRectMake(videoPreview_X, videoPreview_Y, videoPreview_Width, videoPreview_Height);
+    self.videoPreview.frame =
+        CGRectMake(videoPreview_X, videoPreview_Y, videoPreview_Width, videoPreview_Height);
 
     CGFloat videoImageView_X      = self.videoPreview.cmam_width / 4;
     CGFloat videoImageView_Y      = self.videoPreview.cmam_height / 4;
     CGFloat videoImageView_Width  = self.videoPreview.cmam_height / 2;
     CGFloat videoImageView_Height = self.videoPreview.cmam_height / 2;
-    self.videoImageView.frame     = CGRectMake(videoImageView_X, videoImageView_Y, videoImageView_Width, videoImageView_Height);
+    self.videoImageView.frame =
+        CGRectMake(videoImageView_X, videoImageView_Y, videoImageView_Width, videoImageView_Height);
 
-    CGFloat videoLabel_X      = CGRectGetMaxX(self.videoImageView.frame);
-    CGFloat videoLabel_Y      = 0;
-    CGFloat videoLabel_Width  = self.videoPreview.cmam_width - CGRectGetMaxX(self.videoImageView.frame);
+    CGFloat videoLabel_X = CGRectGetMaxX(self.videoImageView.frame);
+    CGFloat videoLabel_Y = 0;
+    CGFloat videoLabel_Width =
+        self.videoPreview.cmam_width - CGRectGetMaxX(self.videoImageView.frame);
     CGFloat videoLabel_Height = self.videoPreview.cmam_height;
-    self.videoLabel.frame     = CGRectMake(videoLabel_X, videoLabel_Y, videoLabel_Width, videoLabel_Height);
+    self.videoLabel.frame =
+        CGRectMake(videoLabel_X, videoLabel_Y, videoLabel_Width, videoLabel_Height);
 
     self.cellPreview.frame = self.contentView.frame;
 }
 
 #pragma mark - Private Method -
-- (void)buttonClick:(UIButton *)sender
-{
-    if (self.selectImage) {
-        self.selectImage(sender);
-    }
+- (void)buttonClick:(UIButton *)sender {
+    if (self.selectImage) { self.selectImage(sender); }
 }
 
-- (void)loadImage
-{
+- (void)loadImage {
     PHAsset * asset = (PHAsset *)self.model.asset;
     CGFloat ratio   = asset.pixelWidth / (CGFloat)asset.pixelHeight;
     CGFloat width   = self.cmam_width * [UIScreen mainScreen].scale * 3;
     // 超宽图片
-    if (ratio > 1.8) {
-        width = width * ratio;
-    }
+    if (ratio > 1.8) { width = width * ratio; }
     // 超高图片
-    if (ratio < 0.2) {
-        width = width * 0.5;
-    }
+    if (ratio < 0.2) { width = width * 0.5; }
     CGFloat height = width / ratio;
 
     PHImageManager * manager    = [PHImageManager defaultManager];
@@ -104,17 +98,20 @@
     opi.resizeMode = PHImageRequestOptionsResizeModeFast;
     //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
 
-    [manager requestImageForAsset:self.model.asset targetSize:CGSizeMake(width, height) contentMode:PHImageContentModeAspectFill options:opi resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-        self.imageV.image     = result;
-        self.model.cacheImage = result;
-    }];
+    [manager requestImageForAsset:self.model.asset
+                       targetSize:CGSizeMake(width, height)
+                      contentMode:PHImageContentModeAspectFill
+                          options:opi
+                    resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                        self.imageV.image     = result;
+                        self.model.cacheImage = result;
+                    }];
 }
 
 #pragma mark - Public Method -
 
 #pragma mark - Setter -
-- (void)setModel:(WYAPhotoBrowserModel *)model
-{
+- (void)setModel:(WYAPhotoBrowserModel *)model {
     _model = model;
     if (model) {
         self.videoPreview.hidden = YES;
@@ -157,8 +154,7 @@
 }
 
 #pragma mark - Getter -
-- (UIImageView *)imageV
-{
+- (UIImageView *)imageV {
     if (!_imageV) {
         _imageV = ({
             UIImageView * object       = [[UIImageView alloc] init];
@@ -170,14 +166,19 @@
     return _imageV;
 }
 
-- (UIButton *)button
-{
+- (UIButton *)button {
     if (!_button) {
         _button = ({
             UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_radio_normal" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
-            [object setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass([self class])] forState:UIControlStateSelected];
-            [object addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
+            [object setImage:[UIImage loadBundleImage:@"icon_radio_normal"
+                                            ClassName:NSStringFromClass([self class])]
+                    forState:UIControlStateNormal];
+            [object setImage:[UIImage loadBundleImage:@"icon_radio_selected"
+                                            ClassName:NSStringFromClass([self class])]
+                    forState:UIControlStateSelected];
+            [object addTarget:self
+                          action:@selector(buttonClick:)
+                forControlEvents:UIControlEventTouchUpInside];
             object.imageView.contentMode = UIViewContentModeScaleAspectFill;
             object;
         });
@@ -185,8 +186,7 @@
     return _button;
 }
 
-- (UIView *)videoPreview
-{
+- (UIView *)videoPreview {
     if (!_videoPreview) {
         _videoPreview = ({
             UIView * object        = [[UIView alloc] init];
@@ -198,20 +198,20 @@
     return _videoPreview;
 }
 
-- (UIImageView *)videoImageView
-{
+- (UIImageView *)videoImageView {
     if (!_videoImageView) {
         _videoImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage loadBundleImage:@"icon_video" ClassName:NSStringFromClass(self.class)];
+            object.image =
+                [UIImage loadBundleImage:@"icon_video"
+                               ClassName:NSStringFromClass(self.class)];
             object;
         });
     }
     return _videoImageView;
 }
 
-- (UILabel *)videoLabel
-{
+- (UILabel *)videoLabel {
     if (!_videoLabel) {
         _videoLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -224,8 +224,7 @@
     return _videoLabel;
 }
 
-- (UIView *)cellPreview
-{
+- (UIView *)cellPreview {
     if (!_cellPreview) {
         _cellPreview = ({
             UIView * object               = [[UIView alloc] init];

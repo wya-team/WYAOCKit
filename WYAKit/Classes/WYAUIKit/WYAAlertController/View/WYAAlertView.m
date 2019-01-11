@@ -2,11 +2,10 @@
 #import "WYAAlertView.h"
 #import "WYAAlertAction.h"
 
-@interface WYAAlertView () <UITextFieldDelegate>
-{
-    CGFloat containerPadding; //containerView与屏幕之间的差值
-    CGFloat labelPadding;     //label与containerView之间的差值
-    CGFloat textFieldPadding; //textField与containerView之间的差值
+@interface WYAAlertView () <UITextFieldDelegate> {
+    CGFloat containerPadding; // containerView与屏幕之间的差值
+    CGFloat labelPadding;     // label与containerView之间的差值
+    CGFloat textFieldPadding; // textField与containerView之间的差值
 }
 /** 保存事件的数组 */
 @property (nonatomic, strong) NSMutableArray<WYAAlertAction *> * actions;
@@ -39,12 +38,10 @@
 @implementation WYAAlertView
 
 /** 初始化方法 */
-- (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title message:(NSString * _Nullable)message
-{
+- (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title
+                               message:(NSString * _Nullable)message {
     self = [super init];
-    if (!self) {
-        return nil;
-    };
+    if (!self) { return nil; };
 
     containerPadding = 100 * SizeAdapter;
     labelPadding     = 60 * SizeAdapter;
@@ -90,8 +87,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -106,7 +102,11 @@
         make.right.mas_equalTo(self.containerView.mas_right).with.offset(-(self->labelPadding / 2));
         if (self.titleLabel.text && self.titleLabel.text.length > 0) {
             make.top.mas_equalTo(self.containerView.mas_top).with.offset(15 * SizeAdapter);
-            CGFloat titleHeight = [self.titleLabel.text wya_heightWithFontSize:17 width:ScreenWidth - self->containerPadding - self->labelPadding] - 8.5 * SizeAdapter;
+            CGFloat titleHeight =
+                [self.titleLabel.text wya_heightWithFontSize:17
+                                                       width:ScreenWidth - self->containerPadding -
+                                                             self->labelPadding] -
+                8.5 * SizeAdapter;
             make.height.mas_equalTo(titleHeight);
         } else {
             make.top.mas_equalTo(self.containerView.mas_top).with.offset(0 * SizeAdapter);
@@ -123,7 +123,11 @@
             } else {
                 make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(15 * SizeAdapter);
             }
-            CGFloat titleHeight = [self.messageLabel.text wya_heightWithFontSize:13 width:ScreenWidth - self->containerPadding - self->labelPadding] - 6.5 * SizeAdapter;
+            CGFloat titleHeight = [self.messageLabel.text
+                                      wya_heightWithFontSize:13
+                                                       width:ScreenWidth - self->containerPadding -
+                                                             self->labelPadding] -
+                                  6.5 * SizeAdapter;
             make.height.mas_equalTo(titleHeight);
         } else {
             make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(6.5 * SizeAdapter);
@@ -177,32 +181,24 @@
 }
 
 #pragma mark--- Lazy
-- (NSMutableArray<UIButton *> *)buttons
-{
-    if (!_buttons) {
-        _buttons = [NSMutableArray array];
-    }
+- (NSMutableArray<UIButton *> *)buttons {
+    if (!_buttons) { _buttons = [NSMutableArray array]; }
     return _buttons;
 }
 
-- (NSMutableArray<WYAAlertAction *> *)actions
-{
-    if (!_actions) {
-        _actions = [NSMutableArray array];
-    }
+- (NSMutableArray<WYAAlertAction *> *)actions {
+    if (!_actions) { _actions = [NSMutableArray array]; }
     return _actions;
 }
 
-- (UIImage *)whiteImage
-{
+- (UIImage *)whiteImage {
     if (!_whiteImage) {
         _whiteImage = [UIImage loadBundleImage:@"white" ClassName:NSStringFromClass([self class])];
     }
     return _whiteImage;
 }
 
-- (UIImage *)grayImage
-{
+- (UIImage *)grayImage {
     if (!_grayImage) {
         _grayImage = [UIImage loadBundleImage:@"gray" ClassName:NSStringFromClass([self class])];
     }
@@ -210,30 +206,24 @@
 }
 
 #pragma mark--- Setter
-- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
-{
+- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle {
     _layoutStyle = layoutStyle;
     [self layoutIfNeeded];
 }
 
-- (CGFloat)width
-{
+- (CGFloat)width {
     return ScreenWidth - self->containerPadding;
 }
 
-- (CGFloat)height
-{
+- (CGFloat)height {
     [self layoutIfNeeded];
     return self.containerView.cmam_height;
 }
 
 #pragma mark--- Method
 /** 添加 action */
-- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
-{
-    for (UIView * view in self.buttonView.subviews) {
-        [view removeFromSuperview];
-    }
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
+    for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
 
     // 添加到 action 数组
     [self.actions addObject:action];
@@ -251,9 +241,13 @@
     } else if (action.style == WYAAlertActionStyleCancel) {
         [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     } else {
-        [actionButton setTitleColor:[UIColor colorWithRed:0.0 / 255.0 green:122.0 / 255.0 blue:1 alpha:1] forState:UIControlStateNormal];
+        [actionButton
+            setTitleColor:[UIColor colorWithRed:0.0 / 255.0 green:122.0 / 255.0 blue:1 alpha:1]
+                 forState:UIControlStateNormal];
     }
-    [actionButton addTarget:self action:@selector(actionButtonDidClicked:) forControlEvents:UIControlEventTouchUpInside];
+    [actionButton addTarget:self
+                     action:@selector(actionButtonDidClicked:)
+           forControlEvents:UIControlEventTouchUpInside];
 
     // 添加到 button数组
     [self.buttons addObject:actionButton];
@@ -268,22 +262,16 @@
 }
 
 /** 点击按钮事件 */
-- (void)actionButtonDidClicked:(UIButton *)sender
-{
+- (void)actionButtonDidClicked:(UIButton *)sender {
     // 点击button后自动dismiss
-    if (_controller) {
-        [_controller dismissViewControllerAnimated:YES completion:nil];
-    }
+    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
 
     // 根据 tag 取到 handler
     void (^handler)(void) = self.actions[sender.tag].handler;
-    if (handler) {
-        handler();
-    }
+    if (handler) { handler(); }
 }
 
-- (void)wya_addTextField:(UITextField *)textField
-{
+- (void)wya_addTextField:(UITextField *)textField {
     [self.textFieldView addSubview:textField];
     [textField mas_makeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));

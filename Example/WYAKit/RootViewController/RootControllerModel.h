@@ -41,7 +41,10 @@
  @param tabBarTitleFont title
  @return RootControllerModel instance
  */
-+ (instancetype)modelWithTitle:(nonnull NSString *)tabBarTitle className:(nonnull NSString *)className normalImageName:(nonnull NSString *)normalImageName selectedImageName:(nonnull NSString *)selectedImageName;
++ (instancetype)modelWithTitle:(nonnull NSString *)tabBarTitle
+                     className:(nonnull NSString *)className
+               normalImageName:(nonnull NSString *)normalImageName
+             selectedImageName:(nonnull NSString *)selectedImageName;
 
 - (UIImage *)normalImage;
 - (UIImage *)selectedImage;

@@ -53,7 +53,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param index 被选中的index
  @param currentIndex 当前的index
  */
-- (void)wya_menuView:(WYAMenuView *)menu didSelectedIndex:(NSInteger)index currentINdex:(NSInteger)currentIndex;
+- (void)wya_menuView:(WYAMenuView *)menu
+    didSelectedIndex:(NSInteger)index
+        currentINdex:(NSInteger)currentIndex;
 
 /**
  设置menuView宽度
@@ -81,7 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param index index
  @return 字体大小
  */
-- (CGFloat)wya_menuView:(WYAMenuView *)menu titleSizeForState:(WYAMenuItemState)state atIndex:(NSInteger)index;
+- (CGFloat)wya_menuView:(WYAMenuView *)menu
+      titleSizeForState:(WYAMenuItemState)state
+                atIndex:(NSInteger)index;
 
 /**
  返回颜色
@@ -91,7 +95,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param index index
  @return 返回颜色
  */
-- (UIColor *)wya_menuView:(WYAMenuView *)menu titleColorForState:(WYAMenuItemState)state atIndex:(NSInteger)index;
+- (UIColor *)wya_menuView:(WYAMenuView *)menu
+       titleColorForState:(WYAMenuItemState)state
+                  atIndex:(NSInteger)index;
 
 /**
  获取当前的index下的item
@@ -100,7 +106,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param menItem item
  @param index index
  */
-- (void)wya_menuView:(WYAMenuView *)menu didLayoutItemFrame:(WYAMenuItem *)menItem atIndex:(NSInteger)index;
+- (void)wya_menuView:(WYAMenuView *)menu
+  didLayoutItemFrame:(WYAMenuItem *)menItem
+             atIndex:(NSInteger)index;
 @end
 
 @protocol WYAMenuViewDataSource <NSObject>
@@ -125,7 +133,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)wya_menuView:(WYAMenuView *)menu titleAtIndex:(NSInteger)index;
 @optional
 /**
- *  角标 (例如消息提醒的小红点) 的数据源方法，在 WMPageController 中实现这个方法来为 menuView 提供一个 badgeView
+ *  角标 (例如消息提醒的小红点) 的数据源方法，在 WMPageController 中实现这个方法来为 menuView
+ 提供一个 badgeView
  需要在返回的时候同时设置角标的 frame 属性，该 frame 为相对于 menuItem 的位置
  *
  *  @param index 角标的序号
@@ -135,13 +144,16 @@ NS_ASSUME_NONNULL_BEGIN
 - (UIView *)wya_menuView:(WYAMenuView *)menu badgeViewAtIndex:(NSInteger)index;
 
 /**
- 用于定制WYAMenuItem,可以传出initialMenuItem 进行修改定制，也可以返回自己创建的子类，需要注意的士m，此时的item的frame是不确定的，所以请不要根据此时的frame做计算。如果需要根据frame修改，请使用代理
+ 用于定制WYAMenuItem,可以传出initialMenuItem
+ 进行修改定制，也可以返回自己创建的子类，需要注意的士m，此时的item的frame是不确定的，所以请不要根据此时的frame做计算。如果需要根据frame修改，请使用代理
 
  @param meun 当前的menuView，frame不确定哦
  @param initialMenuItem 初始化完成的menuItem
  @param index item所属的位置
  */
-- (WYAMenuItem *)wya_menuView:(WYAMenuView *)meun initialMenuItem:(WYAMenuItem *)initialMenuItem atIndex:(NSInteger)index;
+- (WYAMenuItem *)wya_menuView:(WYAMenuView *)meun
+              initialMenuItem:(WYAMenuItem *)initialMenuItem
+                      atIndex:(NSInteger)index;
 @end
 
 @interface WYAMenuView : UIView <WYAMenuItemDelegate>
@@ -175,7 +187,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_resetFrames;
 - (void)wya_reload;
 - (void)wya_updateTitle:(NSString *)title atIndex:(NSInteger)index anWidth:(BOOL)update;
-- (void)wya_updateAttributeTitle:(NSAttributedString *)title atIndex:(NSInteger)index andWidth:(BOOL)update;
+- (void)wya_updateAttributeTitle:(NSAttributedString *)title
+                         atIndex:(NSInteger)index
+                        andWidth:(BOOL)update;
 - (WYAMenuItem *)wya_itemAtIndex:(NSInteger)index;
 
 /**

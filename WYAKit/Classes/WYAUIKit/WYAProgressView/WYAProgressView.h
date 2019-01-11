@@ -45,7 +45,7 @@ typedef NS_ENUM(NSUInteger, WYAProgressViewStyle) {
 
 /**
  设置进度
- 
+
  @param progress 进度
  @param animation 是否动画
  */

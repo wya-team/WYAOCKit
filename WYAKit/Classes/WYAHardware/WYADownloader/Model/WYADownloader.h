@@ -31,7 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param model 数据模型
  @param handle 回调，用来提示下载是否成功加入下载列表
  */
-- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model ResultHandle:(void (^)(WYADownloadModel * resultModel, NSString * result))handle;
+- (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model
+                     ResultHandle:
+                         (void (^)(WYADownloadModel * resultModel, NSString * result))handle;
 
 /**
  暂停下载
@@ -48,6 +50,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_giveupDownloadWithModel:(WYADownloadModel *)model;
 
 /**
+ 放弃下载任务
+
+ @param models 数组
+ */
+- (void)wya_giveupDownloadWithSomeModel:(NSMutableArray<WYADownloadModel *> *)models;
+
+/**
  继续下载
 
  @param model 数据模型
@@ -62,8 +71,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wya_removeDownloadWithModel:(WYADownloadModel *)model;
 
 /**
+ 移除下载完成的任务
+
+ @param models 数组
+ */
+- (void)wya_removeDownloadWithSomeModel:(NSMutableArray<WYADownloader *> *)models;
+
+/**
  设置请求头
- 
+
  @param value value
  @param field key
  */
@@ -73,6 +89,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 FOUNDATION_EXPORT NSString * const WYADownloaderDownloadArrayObserveKeyPath; //监测下载队列的变化
 
-FOUNDATION_EXPORT NSString * const WYADownloaderCompleteArrayObserveKeyPath; //监测下载完成队列的变化
+FOUNDATION_EXPORT NSString * const
+    WYADownloaderCompleteArrayObserveKeyPath; //监测下载完成队列的变化
 
 NS_ASSUME_NONNULL_END

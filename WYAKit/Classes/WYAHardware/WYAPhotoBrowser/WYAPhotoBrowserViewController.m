@@ -14,7 +14,8 @@
 #import "WYAPhotoEditViewController.h"
 #import "controlView.h"
 
-@interface WYAPhotoBrowserViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface WYAPhotoBrowserViewController () <UICollectionViewDelegate, UICollectionViewDataSource,
+                                             UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -26,17 +27,17 @@
 
 @implementation WYAPhotoBrowserViewController
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar
+        setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]]
+             forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTranslucent:YES];
     //去掉导航栏底部的黑线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"相册胶卷";
@@ -46,7 +47,8 @@
     CGFloat collectionView_Y      = self.view.cmam_top;
     CGFloat collectionView_Width  = self.view.cmam_width;
     CGFloat collectionView_Height = self.view.cmam_height - WYABottomHeight - 49;
-    self.collectionView.frame     = CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
+    self.collectionView.frame =
+        CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
 
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
@@ -79,35 +81,46 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark--- Private Method
-- (void)showAlert
-{
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:nil message:@"您已选择最大个数，请删除后继续添加" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction * okAction            = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleDefault handler:nil];
+- (void)showAlert {
+    UIAlertController * alertController = [UIAlertController
+        alertControllerWithTitle:nil
+                         message:@"您已选择最大个数，请删除后继续添加"
+                  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction * okAction =
+        [UIAlertAction actionWithTitle:@"知道了"
+                                 style:UIAlertActionStyleDefault
+                               handler:nil];
     [alertController addAction:okAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)performBlock
-{
+- (void)performBlock {
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (self.collection) {
             self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
         } else {
-            self.dataSource = [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum AssetCollectionSubType:AssetCollectionSubTypeUserLibrary CollectionSort:AssetCollectionStartDate assetSort:AssetCreationDate];
+            self.dataSource =
+                [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
+                                       AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
+                                               CollectionSort:AssetCollectionStartDate
+                                                    assetSort:AssetCreationDate];
         }
 
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
-            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0] atScrollPosition:UICollectionViewScrollPositionBottom animated:NO];
+            [self.collectionView
+                scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
+                                                            inSection:0]
+                       atScrollPosition:UICollectionViewScrollPositionBottom
+                               animated:NO];
         });
     });
 
@@ -115,9 +128,7 @@
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     self.controlV.previewBlock     = ^{
         StrongSelf(strongSelf);
-        if (strongSelf.models.count < 1) {
-            return;
-        }
+        if (strongSelf.models.count < 1) { return; }
         WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
         vc.models                       = strongSelf.models;
         vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
@@ -125,7 +136,10 @@
             for (WYAPhotoBrowserModel * photoModel in models) {
                 for (WYAPhotoBrowserModel * model in array) {
                     if ([photoModel.asset isEqual:model.asset]) {
-                        [strongSelf.dataSource wya_safeReplaceObjectAtIndex:[strongSelf.dataSource indexOfObject:photoModel] withObject:model];
+                        [strongSelf.dataSource
+                            wya_safeReplaceObjectAtIndex:[strongSelf.dataSource
+                                                             indexOfObject:photoModel]
+                                              withObject:model];
                     }
                 }
             }
@@ -137,25 +151,22 @@
 
     self.controlV.doneBlock = ^{
         StrongSelf(strongSelf);
-        [strongSelf dismissViewControllerAnimated:YES completion:^{
-            if (photoBrowser.callBackBlock) {
-                photoBrowser.callBackBlock(strongSelf.images);
-            }
-        }];
+        [strongSelf dismissViewControllerAnimated:YES
+                                       completion:^{
+                                           if (photoBrowser.callBackBlock) {
+                                               photoBrowser.callBackBlock(strongSelf.images);
+                                           }
+                                       }];
     };
 }
 
 #pragma mark--- Getter
-- (NSMutableArray<UIImage *> *)images
-{
-    if (!_images) {
-        _images = [NSMutableArray array];
-    }
+- (NSMutableArray<UIImage *> *)images {
+    if (!_images) { _images = [NSMutableArray array]; }
     return _images;
 }
 
-- (NSMutableArray *)models
-{
+- (NSMutableArray *)models {
     if (!_models) {
         _models = ({
             NSMutableArray * object = [[NSMutableArray alloc] init];
@@ -165,49 +176,54 @@
     return _models;
 }
 
-- (controlView *)controlV
-{
+- (controlView *)controlV {
     if (!_controlV) {
-        _controlV = [[controlView alloc] initWithFrame:CGRectMake(0, ScreenHeight - WYABottomHeight - 49, ScreenWidth, 49)];
+        _controlV = [[controlView alloc]
+            initWithFrame:CGRectMake(0, ScreenHeight - WYABottomHeight - 49, ScreenWidth, 49)];
     }
     return _controlV;
 }
 
-- (UICollectionView *)collectionView
-{
+- (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView                     = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-        _collectionView.backgroundColor     = [UIColor whiteColor];
-        _collectionView.dataSource          = self;
-        _collectionView.delegate            = self;
+        _collectionView =
+            [[UICollectionView alloc] initWithFrame:CGRectZero
+                               collectionViewLayout:layout];
+        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.dataSource      = self;
+        _collectionView.delegate        = self;
         if (@available(iOS 11, *)) {
             _collectionView.contentInset = UIEdgeInsetsZero;
         } else {
             _collectionView.contentInset = UIEdgeInsetsMake(WYATopHeight, 0, 0, 0);
         }
 
-        [_collectionView registerClass:[WYAPhotoBrowserCell class] forCellWithReuseIdentifier:@"image"];
+        [_collectionView registerClass:[WYAPhotoBrowserCell class]
+            forCellWithReuseIdentifier:@"image"];
     }
     return _collectionView;
 }
 
 #pragma mark--- UICollectionViewDataSource
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    WYAPhotoBrowserCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"image" forIndexPath:indexPath];
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    WYAPhotoBrowserCell * cell =
+        [collectionView dequeueReusableCellWithReuseIdentifier:@"image"
+                                                  forIndexPath:indexPath];
 
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView
+       willDisplayCell:(UICollectionViewCell *)cell
+    forItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoBrowserCell * imageCell        = (WYAPhotoBrowserCell *)cell;
     imageCell.model                        = self.dataSource[indexPath.row];
     __block WYAPhotoBrowserCell * pickCell = imageCell;
@@ -235,32 +251,36 @@
     };
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = (ScreenWidth - 25) / 4;
     return CGSizeMake(width, width);
 }
 
 //设置每个item的UIEdgeInsets
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
-{
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section {
     return UIEdgeInsetsMake(0 * SizeAdapter, 5, 0 * SizeAdapter, 5);
 }
 
 //设置每个item水平间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                                      layout:(UICollectionViewLayout *)collectionViewLayout
+    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0 * SizeAdapter;
 }
 
 //设置每个item垂直间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                                 layout:(UICollectionViewLayout *)collectionViewLayout
+    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 5;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)collectionView:(UICollectionView *)collectionView
+    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
     vc.models                       = [@[ self.dataSource[indexPath.item] ] mutableCopy];
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
@@ -268,7 +288,9 @@
         for (WYAPhotoBrowserModel * photoModel in models) {
             for (WYAPhotoBrowserModel * model in array) {
                 if ([photoModel.asset isEqual:model.asset]) {
-                    [self.dataSource wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel] withObject:model];
+                    [self.dataSource
+                        wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel]
+                                          withObject:model];
                 }
             }
         }
@@ -280,7 +302,8 @@
 /*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// In a storyboard-based application, you will often want to do a little preparation before
+navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

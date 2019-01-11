@@ -11,7 +11,7 @@
 @interface NSString (WYAVersionCompare)
 /**
  对比版本号
- 
+
  @param v1 线上版本
  @param v2 当前系统版本
  @return 返回0（版本号相等）、1（提示用户更新）、-1（线上版本大于当前版本）

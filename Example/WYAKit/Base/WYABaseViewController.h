@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  导航栏标题
- 
+
  */
 @property (nonatomic, copy) NSString * navTitle;
 
@@ -37,25 +37,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  右侧标题字体大小
- 
+
  */
 @property (nonatomic, assign) CGFloat rightBarButtonItemTitleFont;
 
 /**
  导航栏是否展示横线 默认显示YES
- 
+
  */
 @property (nonatomic, assign) BOOL isShowNavLine;
 
 /**
  导航栏背景色 默认白色
- 
+
  */
 @property (nonatomic, strong) UIColor * navBackGroundColor;
 
 /**
  导航栏背景图片名字
- 
+
  */
 @property (nonatomic, copy) NSString * navBackGroundImageNamed;
 
@@ -72,14 +72,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark ======= Create RightBarButton
 /**
  创建多个导航右侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
- 
+
  @param normalTitles 需要显示的标题
  */
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> * _Nonnull)normalTitles;
 
 /**
  创建多个导航右侧文字按钮，标题颜色自定义两种状态
- 
+
  @param normalTitles titles
  @param normalColors normalColor
  @param highlightedColors highlightedColors
@@ -90,7 +90,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  创建多个图片类型的右侧导航栏按钮
- 
+
  @param normalImages normalImages 必传项
  @param highlightedImgs highlightedImgs 可以为nil
  */
@@ -100,14 +100,14 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark ======= createLeftButton
 /**
  创建多个导航左侧文字按钮默认黑色标题颜色字号默认16，如需设置字体大小可以设置rightBarButtonItemTitleFont
- 
+
  @param normalTitles 需要显示的标题
  */
 - (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> * _Nonnull)normalTitles;
 
 /**
  创建多个导航左侧文字按钮，标题颜色自定义两种状态
- 
+
  @param normalTitles titles
  @param normalColors normalColor
  @param highlightedColors highlightedColors
@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  创建多个图片类型的左侧导航栏按钮
- 
+
  @param normalImages normalImages 必传项
  @param highlightedImgs highlightedImgs 可以为nil
  */

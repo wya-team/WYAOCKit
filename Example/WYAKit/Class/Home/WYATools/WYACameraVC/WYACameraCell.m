@@ -10,8 +10,7 @@
 
 @implementation WYACameraCell
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }

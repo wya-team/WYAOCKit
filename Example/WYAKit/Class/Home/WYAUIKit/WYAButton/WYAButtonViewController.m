@@ -14,8 +14,7 @@
 
 @implementation WYAButtonViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -27,9 +26,12 @@
     [button setTitle:@"主按钮 Select" forState:UIControlStateSelected];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.titleLabel.font = FONT(15);
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:random(60, 141, 212, 1)] forState:UIControlStateHighlighted];
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:random(195, 240, 255, 1)] forState:UIControlStateSelected];
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]]
+                      forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:random(60, 141, 212, 1)]
+                      forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage wya_createImageWithColor:random(195, 240, 255, 1)]
+                      forState:UIControlStateSelected];
     [self.view addSubview:button];
     button.layer.cornerRadius  = 4.f;
     button.layer.masksToBounds = YES;
@@ -46,9 +48,12 @@
     [animationButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     animationButton.titleLabel.font = FONT(15);
     [animationButton setImage:animation forState:UIControlStateNormal];
-    [animationButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]] forState:UIControlStateNormal];
+    [animationButton
+        setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]]
+                  forState:UIControlStateNormal];
     [animationButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [animationButton setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width + 5 * SizeAdapter, 0, 0)];
+    [animationButton
+        setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width + 5 * SizeAdapter, 0, 0)];
     [animationButton addCallBackAction:^(UIButton * button){
 
     }];
@@ -61,13 +66,15 @@
     CGFloat animationButton_Y      = CGRectGetMaxY(button.frame) + 5 * SizeAdapter;
     CGFloat animationButton_Width  = ScreenWidth - 20 * SizeAdapter;
     CGFloat animationButton_Height = 44 * SizeAdapter;
-    animationButton.frame          = CGRectMake(animationButton_X, animationButton_Y, animationButton_Width, animationButton_Height);
+    animationButton.frame          = CGRectMake(animationButton_X, animationButton_Y, animationButton_Width,
+                                       animationButton_Height);
 
     UIButton * button1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button1 setTitle:@"主按钮 Disable" forState:UIControlStateNormal];
     [button1 setTitleColor:random(196, 196, 196, 1) forState:UIControlStateNormal];
     button1.titleLabel.font = FONT(15);
-    [button1 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)] forState:UIControlStateNormal];
+    [button1 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)]
+                       forState:UIControlStateNormal];
     button1.enabled = NO;
     [self.view addSubview:button1];
     button1.layer.cornerRadius  = 4.f;
@@ -84,8 +91,10 @@
     [button2 setTitle:@"次按钮 Highlight" forState:UIControlStateHighlighted];
     [button2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     button2.titleLabel.font = FONT(15);
-    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)] forState:UIControlStateHighlighted];
+    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]]
+                       forState:UIControlStateNormal];
+    [button2 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)]
+                       forState:UIControlStateHighlighted];
     [self.view addSubview:button2];
 
     CGFloat button2_X      = 10 * SizeAdapter;
@@ -98,7 +107,8 @@
     [button3 setTitle:@"次按钮 Disable" forState:UIControlStateNormal];
     [button3 setTitleColor:random(196, 196, 196, 1) forState:UIControlStateNormal];
     button3.titleLabel.font = FONT(15);
-    [button3 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)] forState:UIControlStateNormal];
+    [button3 setBackgroundImage:[UIImage wya_createImageWithColor:random(225, 225, 225, 1)]
+                       forState:UIControlStateNormal];
     button3.enabled = NO;
     [self.view addSubview:button3];
     button3.layer.cornerRadius  = 4.f;
@@ -116,9 +126,11 @@
     [loadingButton setTitleColor:random(196, 196, 196, 1) forState:UIControlStateNormal];
     loadingButton.titleLabel.font = FONT(15);
     [loadingButton setImage:loading forState:UIControlStateNormal];
-    [loadingButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [loadingButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]]
+                             forState:UIControlStateNormal];
     [loadingButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
-    [loadingButton setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width + 5 * SizeAdapter, 0, 0)];
+    [loadingButton
+        setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width + 5 * SizeAdapter, 0, 0)];
     [loadingButton addCallBackAction:^(UIButton * button){
 
     }];
@@ -131,13 +143,15 @@
     CGFloat loadingButton_Y      = CGRectGetMaxY(button3.frame) + 5 * SizeAdapter;
     CGFloat loadingButton_Width  = ScreenWidth - 20 * SizeAdapter;
     CGFloat loadingButton_Height = 44 * SizeAdapter;
-    loadingButton.frame          = CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
+    loadingButton.frame =
+        CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
 
     UIButton * button4 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button4 setTitle:@"点击" forState:UIControlStateNormal];
     [button4 setTitleColor:random(132, 185, 228, 1) forState:UIControlStateNormal];
     button4.titleLabel.font = FONT(13);
-    [button4 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [button4 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]]
+                       forState:UIControlStateNormal];
     [self.view addSubview:button4];
     button4.layer.cornerRadius  = 2.f;
     button4.layer.masksToBounds = YES;
@@ -151,8 +165,11 @@
     button4.frame          = CGRectMake(button4_X, button4_Y, button4_Width, button4_Height);
 
     UIButton * imageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [imageButton setImage:[UIImage wya_svgImageName:@"spin" size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)] forState:UIControlStateNormal];
-    [imageButton setBackgroundImage:[UIImage wya_createImageWithColor:WHITECOLOR] forState:UIControlStateNormal];
+    [imageButton setImage:[UIImage wya_svgImageName:@"spin"
+                                               size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)]
+                 forState:UIControlStateNormal];
+    [imageButton setBackgroundImage:[UIImage wya_createImageWithColor:WHITECOLOR]
+                           forState:UIControlStateNormal];
     [self.view addSubview:imageButton];
     imageButton.layer.cornerRadius  = 2.f;
     imageButton.layer.masksToBounds = YES;
@@ -169,7 +186,8 @@
 /*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
+// In a storyboard-based application, you will often want to do a little preparation before
+navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

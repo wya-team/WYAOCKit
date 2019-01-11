@@ -9,7 +9,9 @@
 #import "WYAPickerViewController.h"
 #import "WYAPopVerReadMeViewController.h"
 
-@interface WYAPickerViewController () <WYAPickerViewDelegate, UITableViewDelegate, UITableViewDataSource, UIPopoverPresentationControllerDelegate>
+@interface WYAPickerViewController () <WYAPickerViewDelegate, UITableViewDelegate,
+                                       UITableViewDataSource,
+                                       UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) WYAPickerView * pickerView;
 @property (nonatomic, strong) WYADatePicker * datePicker;
@@ -17,20 +19,17 @@
 @property (nonatomic, strong) WYAAlertController * dateAlert;
 @end
 
-@implementation WYAPickerViewController
-{
+@implementation WYAPickerViewController {
     NSArray * dateStyles;
 }
 
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
     [self showPopverPresentVC:sender];
 }
 #pragma mark ======= popverPresentVC
-- (void)showPopverPresentVC:(UIButton *)sender
-{
+- (void)showPopverPresentVC:(UIButton *)sender {
     WYAPopVerReadMeViewController * test       = [[WYAPopVerReadMeViewController alloc] init];
     test.preferredContentSize                  = CGSizeMake(150 * SizeAdapter, 87 * SizeAdapter);
     test.dataSource                            = @[ @"DatePickerView", @"CustomPickerView", @"dsf" ];
@@ -41,12 +40,14 @@
         if (indexPath.row == 0) {
             // 跳转链接
             WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-            vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPickerView/README.md";
+            vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/"
+                           @"WYAUIKit/WYAPickerView/README.md";
             [self.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 1) {
             // 跳转链接
             WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-            vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/README.md";
+            vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/"
+                           @"WYAUIKit/WYAPickerView/WYAPickerView/README.md";
             [self.navigationController pushViewController:vc animated:YES];
         }
 
@@ -61,25 +62,45 @@
     [self presentViewController:test animated:YES completion:nil];
 }
 
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
-{
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:
+    (UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
 #pragma mark ======= end
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // Uncomment the following line to display an Edit button in the navigation bar for this view
+    // controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.navTitle = NSStringFromClass([self class]);
-    dateStyles    = @[ @"年月日时分秒", @"年", @"月", @"时", @"分", @"秒", @"年月", @"年月日", @"年月日时", @"年月日时分", @"月日", @"月日时", @"月日时分", @"月日时分秒", @"时分", @"时分秒", @"分秒" ];
+    dateStyles    = @[
+        @"年月日时分秒",
+        @"年",
+        @"月",
+        @"时",
+        @"分",
+        @"秒",
+        @"年月",
+        @"年月日",
+        @"年月日时",
+        @"年月日时分",
+        @"月日",
+        @"月日时",
+        @"月日时分",
+        @"月日时分秒",
+        @"时分",
+        @"时分秒",
+        @"分秒"
+    ];
 
-    self.tableView            = [[UITableView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc]
+        initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+                style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate   = self;
     [self.view addSubview:self.tableView];
@@ -87,13 +108,11 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 0 || section == 2) {
         return 3;
     } else {
@@ -101,9 +120,11 @@
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell * cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell =
+        [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                               reuseIdentifier:nil];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.textLabel.text = @"单列";
@@ -128,8 +149,8 @@
     return cell;
 }
 
-- (nullable NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+- (nullable NSString *)tableView:(UITableView *)tableView
+         titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
         return @"WYAPickerSystem";
     } else if (section == 1) {
@@ -141,17 +162,14 @@
     }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 44;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 20;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.section == 0) {
         self.pickerView                  = [[WYAPickerView alloc] init];
@@ -207,30 +225,15 @@
                     @"array" : @[
                         @{
                            @"title" : @"aa",
-                           @"array" : @[
-                               @{
-                                  @"title" : @"aaa",
-                                  @"array" : @[]
-                               }
-                           ],
+                           @"array" : @[ @{@"title" : @"aaa", @"array" : @[]} ],
                         },
                         @{
                            @"title" : @"ab",
-                           @"array" : @[
-                               @{
-                                  @"title" : @"abb",
-                                  @"array" : @[]
-                               }
-                           ],
+                           @"array" : @[ @{@"title" : @"abb", @"array" : @[]} ],
                         },
                         @{
                            @"title" : @"ac",
-                           @"array" : @[
-                               @{
-                                  @"title" : @"acc",
-                                  @"array" : @[]
-                               }
-                           ],
+                           @"array" : @[ @{@"title" : @"acc", @"array" : @[]} ],
                         }
                     ]
                 },
@@ -239,29 +242,21 @@
                     @"array" : @[
                         @{
                            @"title" : @"bb",
-                           @"array" : @[
-                               @{
-                                  @"title" : @"bbb",
-                                  @"array" : @[]
-                               }
-                           ],
+                           @"array" : @[ @{@"title" : @"bbb", @"array" : @[]} ],
                         },
                         @{
                            @"title" : @"bc",
-                           @"array" : @[
-                               @{
-                                  @"title" : @"bbc",
-                                  @"array" : @[]
-                               }
-                           ],
+                           @"array" : @[ @{@"title" : @"bbc", @"array" : @[]} ],
                         }
                     ]
                 }
             ] mutableCopy];
         }
 
-        self.pickerView.bounds = CGRectMake(0, 0, self.view.frame.size.width, [self.pickerView wya_GetPickerViewHeight]);
-        self.alert             = [WYAAlertController wya_alertWithCustomView:self.pickerView AlertStyle:WYAAlertStyleCustomSheet];
+        self.pickerView.bounds =
+            CGRectMake(0, 0, self.view.frame.size.width, [self.pickerView wya_GetPickerViewHeight]);
+        self.alert = [WYAAlertController wya_alertWithCustomView:self.pickerView
+                                                      AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:self.alert animated:YES completion:nil];
         self.pickerView.viewController = self.alert;
     } else if (indexPath.section == 1) {
@@ -303,8 +298,10 @@
             self.datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
         }
 
-        self.datePicker.bounds = CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
-        self.dateAlert         = [WYAAlertController wya_alertWithCustomView:self.datePicker AlertStyle:WYAAlertStyleCustomSheet];
+        self.datePicker.bounds =
+            CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
+        self.dateAlert = [WYAAlertController wya_alertWithCustomView:self.datePicker
+                                                          AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:self.dateAlert animated:YES completion:nil];
         self.datePicker.viewController = self.dateAlert;
     } else if (indexPath.section == 2) {
@@ -316,21 +313,21 @@
         //        }
         //        pickerView.pickerHeight = 300;
         //        pickerView.pickerItemHeight = 44;
-        //        pickerView.frame = CGRectMake(0, 0, self.view.frame.size.width, [pickerView wya_GetPickerViewHeight]);
-        //        WYAAlertController * alert = [WYAAlertController wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
+        //        pickerView.frame = CGRectMake(0, 0, self.view.frame.size.width, [pickerView
+        //        wya_GetPickerViewHeight]);
+        //        WYAAlertController * alert = [WYAAlertController
+        //        wya_AlertWithCustomView:pickerView AlertStyle:WYAAlertStyleCustomSheet];
         //        [self presentViewController:alert animated:YES completion:nil];
         //        pickerView.viewController = alert;
     }
 }
 
-- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result
-{
+- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result {
     NSLog(@"result==%@", result);
     [self.alert dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result
-{
+- (void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result {
     [self.dateAlert dismissViewControllerAnimated:YES completion:nil];
 }
 

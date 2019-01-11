@@ -16,8 +16,8 @@
 
 @implementation WYACardCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.iconImageView = [[UIImageView alloc] init];
@@ -60,8 +60,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.iconImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -105,36 +104,33 @@
 }
 
 #pragma mark--- Setter
-- (void)setContentString:(NSString *)contentString
-{
+- (void)setContentString:(NSString *)contentString {
     _contentString        = contentString;
     self.detailLabel.text = contentString;
     [self layoutIfNeeded];
 }
 
-- (void)setSubContentString:(NSString *)subContentString
-{
+- (void)setSubContentString:(NSString *)subContentString {
     _subContentString        = subContentString;
     self.subDetailLabel.text = subContentString;
     [self layoutIfNeeded];
 }
 
 #pragma mark--- Public Method
-+ (CGFloat)wya_cellHeight:(NSString *)text
-{
++ (CGFloat)wya_cellHeight:(NSString *)text {
     WYACardCell * card = [[WYACardCell alloc] init];
 
-    return 64 * SizeAdapter + [text wya_heightWithFontSize:14 width:card.contentView.cmam_width - 26 * SizeAdapter];
+    return 64 * SizeAdapter +
+           [text wya_heightWithFontSize:14
+                                  width:card.contentView.cmam_width - 26 * SizeAdapter];
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

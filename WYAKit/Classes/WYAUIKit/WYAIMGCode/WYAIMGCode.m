@@ -17,8 +17,7 @@
  *  @param imageViewWidth    图片的宽度
  */
 + (UIImage *)wya_GenerateWithDefaultQRCodeData:(NSString *)data
-                                imageViewWidth:(CGFloat)imageViewWidth
-{
+                                imageViewWidth:(CGFloat)imageViewWidth {
     // 1、创建滤镜对象
     CIFilter * filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
 
@@ -40,17 +39,16 @@
 }
 
 /** 根据CIImage生成指定大小的UIImage */
-+ (UIImage *)wya_CreateNonInterpolatedUIImageFormCIImage:(CIImage *)image
-                                                withSize:(CGFloat)size
-{
++ (UIImage *)wya_CreateNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat)size {
     CGRect extent = CGRectIntegral(image.extent);
     CGFloat scale = MIN(size / CGRectGetWidth(extent), size / CGRectGetHeight(extent));
 
     // 1.创建bitmap;
-    size_t width           = CGRectGetWidth(extent) * scale;
-    size_t height          = CGRectGetHeight(extent) * scale;
-    CGColorSpaceRef cs     = CGColorSpaceCreateDeviceGray();
-    CGContextRef bitmapRef = CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    size_t width       = CGRectGetWidth(extent) * scale;
+    size_t height      = CGRectGetHeight(extent) * scale;
+    CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
+    CGContextRef bitmapRef =
+        CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
     CIContext * context    = [CIContext contextWithOptions:nil];
     CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
     CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
@@ -69,12 +67,12 @@
  *
  *  @param data    传入你要生成二维码的数据
  *  @param logoImageName    logo的image名
- *  @param logoScaleToSuperView    logo相对于父视图的缩放比（取值范围：0-1，0，代表不显示，1，代表与父视图大小相同）
+ *  @param logoScaleToSuperView
+ * logo相对于父视图的缩放比（取值范围：0-1，0，代表不显示，1，代表与父视图大小相同）
  */
 + (UIImage *)wya_GenerateWithLogoQRCodeData:(NSString *)data
                               logoImageName:(NSString *)logoImageName
-                       logoScaleToSuperView:(CGFloat)logoScaleToSuperView
-{
+                       logoScaleToSuperView:(CGFloat)logoScaleToSuperView {
     // 1、创建滤镜对象
     CIFilter * filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
 
@@ -133,8 +131,7 @@
  */
 + (UIImage *)wya_GenerateWithColorQRCodeData:(NSString *)data
                              backgroundColor:(CIColor *)backgroundColor
-                                   mainColor:(CIColor *)mainColor
-{
+                                   mainColor:(CIColor *)mainColor {
     // 1、创建滤镜对象
     CIFilter * filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
 
@@ -179,15 +176,16 @@
                            codeImageSize:(CGSize)size
                                      red:(CGFloat)red
                                    green:(CGFloat)green
-                                    blue:(CGFloat)blue
-{
+                                    blue:(CGFloat)blue {
     UIImage * image               = [self wya_BarcodeImageWithContent:content codeImageSize:size];
     int imageWidth                = image.size.width;
     int imageHeight               = image.size.height;
     size_t bytesPerRow            = imageWidth * 4;
     uint32_t * rgbImageBuf        = (uint32_t *)malloc(bytesPerRow * imageHeight);
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context          = CGBitmapContextCreate(rgbImageBuf, imageWidth, imageHeight, 8, bytesPerRow, colorSpaceRef, kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
+    CGContextRef context =
+        CGBitmapContextCreate(rgbImageBuf, imageWidth, imageHeight, 8, bytesPerRow, colorSpaceRef,
+                              kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
     CGContextDrawImage(context, CGRectMake(0, 0, imageWidth, imageHeight), image.CGImage);
     //遍历像素, 改变像素点颜色
     int pixelNum       = imageWidth * imageHeight;
@@ -204,8 +202,11 @@
         }
     }
     //取出图片
-    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
-    CGImageRef imageRef            = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpaceRef, kCGImageAlphaLast | kCGBitmapByteOrder32Little, dataProvider, NULL, true, kCGRenderingIntentDefault);
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(
+        NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
+    CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpaceRef,
+                                        kCGImageAlphaLast | kCGBitmapByteOrder32Little,
+                                        dataProvider, NULL, true, kCGRenderingIntentDefault);
     CGDataProviderRelease(dataProvider);
     UIImage * resultImage = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
@@ -216,18 +217,19 @@
 }
 
 //改变条形码尺寸大小
-+ (UIImage *)wya_BarcodeImageWithContent:(NSString *)content codeImageSize:(CGSize)size
-{
++ (UIImage *)wya_BarcodeImageWithContent:(NSString *)content codeImageSize:(CGSize)size {
     CIImage * image     = [self wya_BarcodeImageWithContent:content];
     CGRect integralRect = CGRectIntegral(image.extent);
-    CGFloat scale       = MIN(size.width / CGRectGetWidth(integralRect), size.height / CGRectGetHeight(integralRect));
+    CGFloat scale =
+        MIN(size.width / CGRectGetWidth(integralRect), size.height / CGRectGetHeight(integralRect));
 
     size_t width                  = CGRectGetWidth(integralRect) * scale;
     size_t height                 = CGRectGetHeight(integralRect) * scale;
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceGray();
-    CGContextRef bitmapRef        = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpaceRef, (CGBitmapInfo)kCGImageAlphaNone);
-    CIContext * context           = [CIContext contextWithOptions:nil];
-    CGImageRef bitmapImage        = [context createCGImage:image fromRect:integralRect];
+    CGContextRef bitmapRef        = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpaceRef,
+                                                   (CGBitmapInfo)kCGImageAlphaNone);
+    CIContext * context    = [CIContext contextWithOptions:nil];
+    CGImageRef bitmapImage = [context createCGImage:image fromRect:integralRect];
     CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
     CGContextScaleCTM(bitmapRef, scale, scale);
     CGContextDrawImage(bitmapRef, integralRect, bitmapImage);
@@ -239,8 +241,7 @@
 }
 
 //生成最原始的条形码
-+ (CIImage *)wya_BarcodeImageWithContent:(NSString *)content
-{
++ (CIImage *)wya_BarcodeImageWithContent:(NSString *)content {
     CIFilter * qrFilter  = [CIFilter filterWithName:@"CICode128BarcodeGenerator"];
     NSData * contentData = [content dataUsingEncoding:NSUTF8StringEncoding];
     [qrFilter setValue:contentData forKey:@"inputMessage"];
@@ -249,8 +250,7 @@
     return image;
 }
 
-void ProviderReleaseData(void * info, const void * data, size_t size)
-{
+void ProviderReleaseData(void * info, const void * data, size_t size) {
     free((void *)data);
 }
 @end

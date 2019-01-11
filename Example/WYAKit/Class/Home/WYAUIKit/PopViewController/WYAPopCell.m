@@ -16,8 +16,8 @@
 
 @implementation WYAPopCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.leftImageView];
@@ -27,8 +27,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.leftImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
@@ -51,33 +50,28 @@
     }];
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
 #pragma mark - Setter -
-- (void)setTitle:(NSString *)title
-{
+- (void)setTitle:(NSString *)title {
     self.titleLabel.text = title;
 }
 
-- (void)setImageName:(NSString *)imageName
-{
+- (void)setImageName:(NSString *)imageName {
     self.leftImageView.image = [UIImage imageNamed:imageName];
 }
 
 #pragma mark - Getter -
-- (UIImageView *)leftImageView
-{
+- (UIImageView *)leftImageView {
     if (!_leftImageView) {
         _leftImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -87,8 +81,7 @@
     return _leftImageView;
 }
 
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -100,8 +93,7 @@
     return _titleLabel;
 }
 
-- (UIView *)line
-{
+- (UIView *)line {
     if (!_line) {
         _line = ({
             UIView * object        = [[UIView alloc] init];

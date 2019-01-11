@@ -20,9 +20,13 @@ typedef NS_ENUM(NSUInteger, WYADrawerAnimationType) {
 
 @interface WYADrawerTransition : NSObject <UIViewControllerAnimatedTransitioning>
 
-- (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration;
+- (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType
+                         animationType:(WYADrawerAnimationType)animationType
+                         configuration:(WYALateralSlideConfiguration *)configuration;
 
-+ (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType animationType:(WYADrawerAnimationType)animationType configuration:(WYALateralSlideConfiguration *)configuration;
++ (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType
+                     animationType:(WYADrawerAnimationType)animationType
+                     configuration:(WYALateralSlideConfiguration *)configuration;
 
 @end
 

@@ -17,22 +17,20 @@
 @end
 
 @implementation WYADemoCameraViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
-{
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
-    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/WYACamera/README.md";
+    vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/"
+                   @"WYACamera/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = @"WYACamera";
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
     [self configUI];
 }
 
-- (void)configUI
-{
+- (void)configUI {
     WeakSelf(weakSelf);
     UIImageView * imageV          = [[UIImageView alloc] init];
     imageV.contentMode            = UIViewContentModeScaleAspectFit;
@@ -45,13 +43,9 @@
     [playButton addCallBackAction:^(UIButton * button) {
         button.selected = !button.selected;
         if (button.selected) {
-            if (weakSelf.player) {
-                [weakSelf.player play];
-            }
+            if (weakSelf.player) { [weakSelf.player play]; }
         } else {
-            if (weakSelf.player) {
-                [weakSelf.player pause];
-            }
+            if (weakSelf.player) { [weakSelf.player pause]; }
         }
 
     }];
@@ -201,22 +195,23 @@
     [startButton setTitle:@"拍照" forState:UIControlStateNormal];
     [startButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     startButton.titleLabel.font = FONT(15);
-    [startButton setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR] forState:UIControlStateNormal];
+    [startButton setBackgroundImage:[UIImage wya_createImageWithColor:BLUECOLOR]
+                           forState:UIControlStateNormal];
 
     [startButton addCallBackAction:^(UIButton * button) {
         [weakSelf.view endEditing:YES];
-        playButton.hidden                  = YES;
-        WYACameraViewController * cameraVC = [[WYACameraViewController alloc] initWithType:self.type];
-        cameraVC.time                      = [self.time floatValue];
-        cameraVC.takePhoto                 = ^(UIImage * photo) {
-            imageV.image = photo;
-        };
+        playButton.hidden = YES;
+        WYACameraViewController * cameraVC =
+            [[WYACameraViewController alloc] initWithType:self.type];
+        cameraVC.time      = [self.time floatValue];
+        cameraVC.takePhoto = ^(UIImage * photo) { imageV.image = photo; };
         StrongSelf(strongSelf);
         cameraVC.takeVideo = ^(NSString * videoPath) {
-            videoPathLabel.text   = [NSString stringWithFormat:@"视频地址：%@", videoPath];
-            playButton.hidden     = NO;
-            imageV.image          = nil;
-            AVPlayerItem * item   = [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoPath]];
+            videoPathLabel.text = [NSString stringWithFormat:@"视频地址：%@", videoPath];
+            playButton.hidden   = NO;
+            imageV.image        = nil;
+            AVPlayerItem * item =
+                [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoPath]];
             strongSelf.player     = [AVPlayer playerWithPlayerItem:item];
             AVPlayerLayer * layer = [AVPlayerLayer playerLayerWithPlayer:strongSelf.player];
             layer.frame           = imageV.bounds;
@@ -232,7 +227,8 @@
     CGFloat startButton_Y      = CGRectGetMaxY(button2.frame) + 20 * SizeAdapter;
     CGFloat startButton_Width  = ScreenWidth - 20;
     CGFloat startButton_Height = 44 * SizeAdapter;
-    startButton.frame          = CGRectMake(startButton_X, startButton_Y, startButton_Width, startButton_Height);
+    startButton.frame =
+        CGRectMake(startButton_X, startButton_Y, startButton_Width, startButton_Height);
 
     self.array = @[ button, button1, button2 ];
 
@@ -249,17 +245,16 @@
     CGFloat videoPathLabel_Y      = CGRectGetMaxY(imageV.frame) + 10 * SizeAdapter;
     CGFloat videoPathLabel_Width  = ScreenWidth - 20;
     CGFloat videoPathLabel_Height = 60 * SizeAdapter;
-    videoPathLabel.frame          = CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
+    videoPathLabel.frame =
+        CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
 }
 
 #pragma mark - UITextFieldDelegate -
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     self.time = textField.text;
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
 

@@ -11,10 +11,12 @@
 #import <UIKit/UIKit.h>
 @class WYAPageController;
 /*
- *  WYAPageController 的缓存设置，默认缓存为无限制，当收到 memoryWarning 时，会自动切换到低缓存模式 (WYAPageControllerCachePolicyLowMemory)，并在一段时间后切换到 High .
+ *  WYAPageController 的缓存设置，默认缓存为无限制，当收到 memoryWarning 时，会自动切换到低缓存模式
+ (WYAPageControllerCachePolicyLowMemory)，并在一段时间后切换到 High .
  收到多次警告后，会停留在到 WYAPageControllerCachePolicyLowMemory 不再增长
  *
- *  The Default cache policy is No Limit, when recieved memory warning, page controller will switch mode to 'LowMemory'
+ *  The Default cache policy is No Limit, when recieved memory warning, page controller will switch
+ mode to 'LowMemory'
  and continue to grow back after a while.
  If recieved too much times, the cache policy will stay at 'LowMemory' and don't grow back any more.
  */
@@ -40,7 +42,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  得到一个在PageController里子控制器的个数
- 
+
  @param pageController parentController
  @return child controllers's count
  */
@@ -48,16 +50,17 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  返回要在索引处显示的控制器。如果实现了这些方法，就可以轻松地设置属性。
- 
+
  @param pageController parentController
  @param index index of child Controller
  @return UIViewController instance
  */
-- (__kindof UIViewController *)wya_pageController:(WYAPageController *)pageController viewControllerAtIndex:(NSInteger)index;
+- (__kindof UIViewController *)wya_pageController:(WYAPageController *)pageController
+                            viewControllerAtIndex:(NSInteger)index;
 
 /**
  WYAMenuView中显示的每个标题
- 
+
  @param pageController parentController
  @param index index of title
  @return WYAPageController 顶部显示的 NSString的值
@@ -68,21 +71,23 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  实现此数据源方法，以便自定义您自己的contentView的frame
- 
+
  @param pageController parentController
  @param contentView contentView 每个都是子控制器的父视图
  @return contentView 的frame
  */
-- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameContentView:(WYAPageScrollView *)contentView;
+- (CGRect)wya_pageController:(WYAPageController *)pageController
+   preferredFrameContentView:(WYAPageScrollView *)contentView;
 
 /**
  实现此数据源方法，以便自定义您自己的MenuView的frame
- 
+
  @param pageController parentController
  @param menuView 菜单视图
  @return menuView的frane
  */
-- (CGRect)wya_pageController:(WYAPageController *)pageController preferredFrameForMenuView:(WYAMenuView *)menuView;
+- (CGRect)wya_pageController:(WYAPageController *)pageController
+   preferredFrameForMenuView:(WYAMenuView *)menuView;
 @end
 
 @protocol WYAPageControllerDelegate <NSObject>
@@ -91,21 +96,25 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  如果子控制器比较重，则在此方法中进行一些工作。此方法仅在控制器初始化并停止滚动时调用。(这意味着，如果控制器被缓存，并且没有释放，则永远不会调用此方法。)
- 
+
  @param pageController  parent controller
  @param viewController 视图控制器在滚动停止时首先出现。
  @param info A dictionary that includes some infos, such as: `index` / `title`
  */
-- (void)wya_pageController:(WYAPageController *)pageController lazyLoadViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+- (void)wya_pageController:(WYAPageController *)pageController
+    lazyLoadViewController:(__kindof UIViewController *)viewController
+                  withInfo:(NSDictionary *)info;
 
 /**
  当一个视图控制器被缓存时调用。如果某些数据不可重用，您可以清除它。
- 
+
  @param pageController  parent controller
  @param viewController viewController 会被缓存
  @param info  A dictionary that includes some infos, such as: `index` / `title`
  */
-- (void)wya_pageController:(WYAPageController *)pageController willCachedViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+- (void)wya_pageController:(WYAPageController *)pageController
+  willCachedViewController:(__kindof UIViewController *)viewController
+                  withInfo:(NSDictionary *)info;
 
 /**
  *  di
@@ -114,27 +123,34 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  *  @param viewController The viewController will appear.
  *  @param info           A dictionary that includes some infos, such as: `index` / `title`
  */
-- (void)wya_pageController:(WYAPageController *)pageController willEnterViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+- (void)wya_pageController:(WYAPageController *)pageController
+   willEnterViewController:(__kindof UIViewController *)viewController
+                  withInfo:(NSDictionary *)info;
 
 /**
  当一个视图控制器出现在用户的视线中时调用。如果需要的话，做一些准备工作。
- 
+
  @param pageController parent controller
  @param viewController The viewController entirely displayed
  @param info A dictionary that includes some infos, such as: `index` / `title`
  */
-- (void)wya_pageController:(WYAPageController *)pageController didEnterViewController:(__kindof UIViewController *)viewController withInfo:(NSDictionary *)info;
+- (void)wya_pageController:(WYAPageController *)pageController
+    didEnterViewController:(__kindof UIViewController *)viewController
+                  withInfo:(NSDictionary *)info;
 
 @end
 
-@interface WYAPageController : UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate, WYAPageControllerDelegate, WYAPageControllerDataSource>
+@interface WYAPageController
+    : UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate,
+                        WYAPageControllerDelegate, WYAPageControllerDataSource>
 
 @property (nonatomic, weak) id<WYAPageControllerDelegate> delegate;
 @property (nonatomic, weak) id<WYAPageControllerDataSource> dataSource;
 
 /**
  *  values keys 属性可以用于初始化控制器的时候为控制器传值(利用 KVC 来设置)
- 使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys 所放的就是字符串 @"type")
+ 使用时请确保 key 与控制器的属性名字一致！！(例如：控制器有需要设置的属性 type，那么 keys
+ 所放的就是字符串 @"type")
  */
 @property (nonatomic, strong) NSMutableArray<id> * values;
 @property (nonatomic, strong) NSMutableArray<NSString *> * keys;
@@ -241,10 +257,13 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @property (nonatomic, assign) BOOL postNotification;
 /**
  *  是否记录 Controller 的位置，并在下次回来的时候回到相应位置，默认为 NO (若当前缓存中存在不会触发)
- *  Whether to remember controller's positon if it's a kind of scrollView controller,like UITableViewController,The default value is NO.
- *  比如 `UITabelViewController`, 当然你也可以在自己的控制器中自行设置, 如果将 Controller.view 替换为 scrollView 或者在Controller.view 上添加了一个和自身 bounds 一样的 scrollView 也是OK的
+ *  Whether to remember controller's positon if it's a kind of scrollView controller,like
+ * UITableViewController,The default value is NO.
+ *  比如 `UITabelViewController`, 当然你也可以在自己的控制器中自行设置, 如果将 Controller.view
+ * 替换为 scrollView 或者在Controller.view 上添加了一个和自身 bounds 一样的 scrollView 也是OK的
  */
-@property (nonatomic, assign) BOOL rememberLocation __deprecated_msg("Because of the cache policy,this property can abondon now.");
+@property (nonatomic, assign) BOOL rememberLocation __deprecated_msg(
+    "Because of the cache policy,this property can abondon now.");
 
 /**
  缓存机制，默认无限制（如果收到内存警告，会自动切换）
@@ -319,21 +338,25 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 
 /**
  构造方法，使用该方法创建控制器，或者实现数据源方法
- 
+
  @param classes 子控制器的class确保数量与titles的数量相等
  @param titles 各个子控制器的标题，string类型
  @return instancetype
  */
-- (instancetype)initWithViewControllerClasses:(NSArray<Class> *)classes anTheirTitles:(NSArray<NSString *> *)titles;
+- (instancetype)initWithViewControllerClasses:(NSArray<Class> *)classes
+                                anTheirTitles:(NSArray<NSString *> *)titles;
 
 /**
- 该方法用于重置刷新父控制器，该刷新包括顶部 MenuView 和 childViewControllers.如果之前设置过 `itemsMargins` 和 `itemsWidths` `values` 以及 `keys` 属性，请确保在调用 reload 之前也同时更新了这些属性。并且，最最最重要的，注意数组的个数以防止溢出。
+ 该方法用于重置刷新父控制器，该刷新包括顶部 MenuView 和 childViewControllers.如果之前设置过
+ `itemsMargins` 和 `itemsWidths` `values` 以及 `keys` 属性，请确保在调用 reload
+ 之前也同时更新了这些属性。并且，最最最重要的，注意数组的个数以防止溢出。
  */
 - (void)wya_reloadData;
 
 /**
  Layout all views in WMPageController
- @discussion This method will recall `-wya_pageController:preferredFrameForContentView:` and `-wya_pageContoller:preferredFrameForMenuView:`
+ @discussion This method will recall `-wya_pageController:preferredFrameForContentView:` and
+ `-wya_pageContoller:preferredFrameForMenuView:`
  */
 - (void)wya_forceLayoutSubviews;
 

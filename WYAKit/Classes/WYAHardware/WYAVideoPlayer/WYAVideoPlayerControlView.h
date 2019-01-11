@@ -103,7 +103,9 @@
  @param totalTime 总时长
  @param slideValue 进度值
  */
-- (void)getCurrentTime:(NSInteger)currentTime TotalTime:(NSInteger)totalTime SlideValue:(CGFloat)slideValue;
+- (void)getCurrentTime:(NSInteger)currentTime
+             TotalTime:(NSInteger)totalTime
+            SlideValue:(CGFloat)slideValue;
 
 /**
  快进、快退
@@ -113,7 +115,10 @@
  @param fastForward YES为快进，NO为快退
  @param hiddenFastView 是否隐藏快进快退图
  */
-- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView;
+- (void)getDragTime:(NSInteger)dragTime
+           AutoPlay:(BOOL)autoPlay
+        FastForward:(BOOL)fastForward
+     HiddenFastView:(BOOL)hiddenFastView;
 
 /**
  设置按钮为结束状态

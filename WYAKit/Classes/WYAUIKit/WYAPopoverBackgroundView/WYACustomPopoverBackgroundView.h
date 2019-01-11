@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  十六进制字符串方式修改颜色
- 
+
  @param colorString 颜色默认为白色
  */
 + (void)wya_arrowBackgroundColorString:(NSString *)colorString;

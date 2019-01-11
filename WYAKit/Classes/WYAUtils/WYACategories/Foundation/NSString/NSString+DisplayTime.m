@@ -9,8 +9,7 @@
 #import "NSString+DisplayTime.h"
 
 @implementation NSString (DisplayTime)
-+ (NSString *)wya_compareCurrentTime:(NSTimeInterval)compareDate
-{
++ (NSString *)wya_compareCurrentTime:(NSTimeInterval)compareDate {
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:compareDate / 1000];
 
     NSTimeInterval timeInterval = [confromTimesp timeIntervalSinceNow];
@@ -18,9 +17,11 @@
     long temp                   = 0;
     NSString * result;
 
-    NSCalendar * calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSInteger unitFlags   = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
-                        NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSCalendar * calendar =
+        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |
+                          NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute |
+                          NSCalendarUnitSecond;
     NSDateComponents * referenceComponents = [calendar components:unitFlags fromDate:confromTimesp];
     //    NSInteger referenceYear  =referenceComponents.year;
     //    NSInteger referenceMonth =referenceComponents.month;
@@ -55,25 +56,24 @@
 
     return result;
 }
-+ (NSString *)wya_getDateStringWithTimestamp:(NSTimeInterval)timestamp
-{
++ (NSString *)wya_getDateStringWithTimestamp:(NSTimeInterval)timestamp {
     NSDate * confromTimesp = [NSDate dateWithTimeIntervalSince1970:timestamp / 1000];
-    NSCalendar * calendar  = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSInteger unitFlags    = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitWeekday |
-                        NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond;
+    NSCalendar * calendar =
+        [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSInteger unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |
+                          NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute |
+                          NSCalendarUnitSecond;
     NSDateComponents * referenceComponents = [calendar components:unitFlags fromDate:confromTimesp];
     NSInteger referenceYear                = referenceComponents.year;
     NSInteger referenceMonth               = referenceComponents.month;
     NSInteger referenceDay                 = referenceComponents.day;
 
-    return [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)referenceYear, (long)referenceMonth, (long)referenceDay];
+    return [NSString stringWithFormat:@"%ld年%ld月%ld日", (long)referenceYear, (long)referenceMonth,
+                                      (long)referenceDay];
 }
 
-+ (NSString *)wya_getStringWithTimestamp:(NSTimeInterval)timestamp formatter:(NSString *)formatter
-{
-    if ([NSString stringWithFormat:@"%@", @(timestamp)].length == 13) {
-        timestamp /= 1000.0f;
-    }
++ (NSString *)wya_getStringWithTimestamp:(NSTimeInterval)timestamp formatter:(NSString *)formatter {
+    if ([NSString stringWithFormat:@"%@", @(timestamp)].length == 13) { timestamp /= 1000.0f; }
     NSDate * timestampDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
 
     NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];

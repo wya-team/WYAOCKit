@@ -9,8 +9,11 @@
 #import "WYAListModel.h"
 
 @implementation WYAListModel
-+ (instancetype)modelWith:(NSInteger)type iconNamed:(NSString *)iconNamed titleString:(NSString *)titleString rightString:(NSString *)rightString arrowImageNamed:(NSString *)arrowImageNamed
-{
++ (instancetype)modelWith:(NSInteger)type
+                iconNamed:(NSString *)iconNamed
+              titleString:(NSString *)titleString
+              rightString:(NSString *)rightString
+          arrowImageNamed:(NSString *)arrowImageNamed {
     WYAListModel * model  = [[WYAListModel alloc] init];
     model.type            = type;
     model.iconNamed       = iconNamed;
@@ -23,8 +26,12 @@
 @end
 
 @implementation WYATwoRowListModel
-+ (instancetype)modelWith:(NSInteger)type iconNamed:(NSString *)iconNamed titleString:(NSString *)titleString subTitleString:(NSString *)subTitleString rightString:(NSString *)rightString arrowImageNamed:(NSString *)arrowImageNamed
-{
++ (instancetype)modelWith:(NSInteger)type
+                iconNamed:(NSString *)iconNamed
+              titleString:(NSString *)titleString
+           subTitleString:(NSString *)subTitleString
+              rightString:(NSString *)rightString
+          arrowImageNamed:(NSString *)arrowImageNamed {
     WYATwoRowListModel * model = [[WYATwoRowListModel alloc] init];
     model.type                 = type;
     model.iconNamed            = iconNamed;
@@ -38,8 +45,11 @@
 @end
 
 @implementation WYATextListModel
-+ (instancetype)modelWith:(NSInteger)type titleString:(nonnull NSString *)titleString rightImage:(NSString * _Nullable)rightImage rightString:(NSString * _Nullable)rightString arrowImageNamed:(nonnull NSString *)arrowImageNamed
-{
++ (instancetype)modelWith:(NSInteger)type
+              titleString:(nonnull NSString *)titleString
+               rightImage:(NSString * _Nullable)rightImage
+              rightString:(NSString * _Nullable)rightString
+          arrowImageNamed:(nonnull NSString *)arrowImageNamed {
     WYATextListModel * model = [[WYATextListModel alloc] init];
     model.type               = type;
     model.titleString        = titleString;
@@ -52,8 +62,10 @@
 @end
 
 @implementation WYAListCellModel
-+ (instancetype)modelWith:(NSInteger)type iconNamed:(NSString *)iconNamed titleString:(NSString *)titleString arrowImageNamed:(NSString *)arrowImageNamed
-{
++ (instancetype)modelWith:(NSInteger)type
+                iconNamed:(NSString *)iconNamed
+              titleString:(NSString *)titleString
+          arrowImageNamed:(NSString *)arrowImageNamed {
     WYAListCellModel * model = [[WYAListCellModel alloc] init];
     model.type               = type;
     model.iconImageNamed     = iconNamed;

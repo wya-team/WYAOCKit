@@ -12,8 +12,7 @@
 
 @implementation WYAKitInstance
 
-+ (id)allocWithZone:(struct _NSZone *)zone
-{
++ (id)allocWithZone:(struct _NSZone *)zone {
     static WYAKitInstance * instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -23,16 +22,14 @@
     return instance;
 }
 
-+ (instancetype)sharedInstance
-{
++ (instancetype)sharedInstance {
     return [[self alloc] init];
 }
 @end
 
 @implementation WYABannerConfig
 
-- (void)setAutoScroll:(BOOL)autoScroll
-{
+- (void)setAutoScroll:(BOOL)autoScroll {
     _autoScroll    = autoScroll;
     NSString * str = [NSString stringWithFormat:@"%d", autoScroll];
     [[NSUserDefaults standardUserDefaults] setObject:str forKey:BANNERAUTOSCROLL];

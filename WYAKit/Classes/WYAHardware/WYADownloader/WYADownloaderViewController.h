@@ -5,11 +5,11 @@
 //  Created by 李世航 on 2019/1/7.
 //
 
-#import "WYAPageController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYADownloaderViewController : WYAPageController
+@interface WYADownloaderViewController : UIViewController
 
 @end
 

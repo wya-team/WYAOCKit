@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 // 使用自动计算单位方法，废弃type类型方式
-//typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
+// typedef NS_ENUM(NSInteger, WYAFileSizeUnit) {
 //    WYAFileSizeUnitMB = 0,
 //    WYAFileSizeUnitKB = 1,
 //    WYAFileSizeUnitGB = 2
@@ -32,10 +32,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  获取缓存文件大小
- 
+
  @param folderSize block形式传出大小
  */
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
++ (void)wya_fileSizeAtPath:(NSString *)filePath
+           FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  清理自定义缓存内容
@@ -43,7 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param filePath 路径
  @param clearStatus YES or NO
  */
-+ (void)wya_clearFileAtPath:(NSString *)filePath ClearStatusBlock:(void (^)(BOOL status))clearStatus;
++ (void)wya_clearFileAtPath:(NSString *)filePath
+           ClearStatusBlock:(void (^)(BOOL status))clearStatus;
 
 /**
  获取可用空间/系统总空间

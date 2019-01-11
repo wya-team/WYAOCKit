@@ -9,8 +9,7 @@
 #import "NSMutableString+Safe.h"
 
 @implementation NSMutableString (Safe)
-- (void)wya_safeInsertString:(NSString *)aString atIndex:(NSUInteger)loc
-{
+- (void)wya_safeInsertString:(NSString *)aString atIndex:(NSUInteger)loc {
     if (aString == nil) {
         return;
     } else if (loc > self.length) {
@@ -20,8 +19,7 @@
     }
 }
 
-- (void)wya_safeAppendString:(NSString *)aString
-{
+- (void)wya_safeAppendString:(NSString *)aString {
     if (aString == nil) {
         return;
     } else {
@@ -29,8 +27,7 @@
     }
 }
 
-- (void)wya_safeSetString:(NSString *)aString
-{
+- (void)wya_safeSetString:(NSString *)aString {
     if (aString == nil) {
         return;
     } else {
@@ -38,8 +35,10 @@
     }
 }
 
-- (NSUInteger)wya_safeReplaceOccurrencesOfString:(NSString *)target withString:(NSString *)replacement options:(NSStringCompareOptions)options range:(NSRange)searchRange
-{
+- (NSUInteger)wya_safeReplaceOccurrencesOfString:(NSString *)target
+                                      withString:(NSString *)replacement
+                                         options:(NSStringCompareOptions)options
+                                           range:(NSRange)searchRange {
     NSUInteger location = searchRange.location;
     NSUInteger length   = searchRange.length;
 
@@ -48,7 +47,10 @@
     } else if (location + length > self.length) {
         return 0;
     } else {
-        return [self replaceOccurrencesOfString:target withString:replacement options:options range:searchRange];
+        return [self replaceOccurrencesOfString:target
+                                     withString:replacement
+                                        options:options
+                                          range:searchRange];
     }
 }
 @end

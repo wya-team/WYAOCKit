@@ -20,8 +20,8 @@
 
 @implementation WYAListTwoCell
 #pragma mark ======= Life Cycle
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.iconImageView];
         [self.contentView addSubview:self.titLabel];
@@ -31,8 +31,7 @@
     }
     return self;
 }
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     if (self.model.type == 0) {
         [self.iconImageView mas_makeConstraints:^(MASConstraintMaker * make) {
@@ -77,8 +76,7 @@
         make.size.mas_equalTo(CGSizeMake(80 * SizeAdapter, 20 * SizeAdapter));
     }];
 }
-- (void)setModel:(WYATwoRowListModel *)model
-{
+- (void)setModel:(WYATwoRowListModel *)model {
     _model                    = model;
     NSInteger type            = model.type;
     self.titLabel.text        = model.titleString;
@@ -100,8 +98,7 @@
     [self layoutIfNeeded];
 }
 #pragma mark ======= getter
-- (UIImageView *)iconImageView
-{
+- (UIImageView *)iconImageView {
     if (!_iconImageView) {
         _iconImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -111,8 +108,7 @@
     return _iconImageView;
 }
 
-- (UILabel *)titLabel
-{
+- (UILabel *)titLabel {
     if (!_titLabel) {
         _titLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -124,8 +120,7 @@
     return _titLabel;
 }
 
-- (UIImageView *)arrowImageView
-{
+- (UIImageView *)arrowImageView {
     if (!_arrowImageView) {
         _arrowImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -135,8 +130,7 @@
     return _arrowImageView;
 }
 
-- (UILabel *)rightLabel
-{
+- (UILabel *)rightLabel {
     if (!_rightLabel) {
         _rightLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -148,8 +142,7 @@
     return _rightLabel;
 }
 
-- (UILabel *)subLabel
-{
+- (UILabel *)subLabel {
     if (!_subLabel) {
         _subLabel = ({
             UILabel * object = [[UILabel alloc] init];

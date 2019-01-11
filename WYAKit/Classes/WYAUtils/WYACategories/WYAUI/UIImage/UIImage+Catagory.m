@@ -12,14 +12,11 @@
 
 @implementation UIImage (Catagory)
 
-+ (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image
-{
++ (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image {
     CGFloat imageWidth  = image.size.width;
     CGFloat imageHeight = image.size.height;
 
-    if (imageWidth <= ScreenWidth && imageHeight <= ScreenHeight) {
-        return image;
-    }
+    if (imageWidth <= ScreenWidth && imageHeight <= ScreenHeight) { return image; }
 
     CGFloat max   = MAX(imageWidth, imageHeight);
     CGFloat scale = max / (ScreenHeight * 2.0);
@@ -33,15 +30,16 @@
     return newImage;
 }
 
-- (BOOL)hasAlpha
-{
+- (BOOL)hasAlpha {
     CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(self.CGImage);
     return (alphaInfo == kCGImageAlphaFirst || alphaInfo == kCGImageAlphaLast ||
-            alphaInfo == kCGImageAlphaPremultipliedFirst || alphaInfo == kCGImageAlphaPremultipliedLast);
+            alphaInfo == kCGImageAlphaPremultipliedFirst ||
+            alphaInfo == kCGImageAlphaPremultipliedLast);
 }
 
-- (UIImage *)wya_croppedImageWithFrame:(CGRect)frame angle:(NSInteger)angle circularClip:(BOOL)circular
-{
+- (UIImage *)wya_croppedImageWithFrame:(CGRect)frame
+                                 angle:(NSInteger)angle
+                          circularClip:(BOOL)circular {
     UIImage * croppedImage = nil;
     UIGraphicsBeginImageContextWithOptions(frame.size, ![self hasAlpha] && !circular, self.scale);
     {
@@ -52,15 +50,17 @@
             CGContextClip(context);
         }
 
-        //To conserve memory in not needing to completely re-render the image re-rotated,
-        //map the image to a view and then use Core Animation to manipulate its rotation
+        // To conserve memory in not needing to completely re-render the image re-rotated,
+        // map the image to a view and then use Core Animation to manipulate its rotation
         if (angle != 0) {
             UIImageView * imageView             = [[UIImageView alloc] initWithImage:self];
             imageView.layer.minificationFilter  = kCAFilterNearest;
             imageView.layer.magnificationFilter = kCAFilterNearest;
-            imageView.transform                 = CGAffineTransformRotate(CGAffineTransformIdentity, angle * (M_PI / 180.0f));
-            CGRect rotatedRect                  = CGRectApplyAffineTransform(imageView.bounds, imageView.transform);
-            UIView * containerView              = [[UIView alloc] initWithFrame:(CGRect){CGPointZero, rotatedRect.size}];
+            imageView.transform =
+                CGAffineTransformRotate(CGAffineTransformIdentity, angle * (M_PI / 180.0f));
+            CGRect rotatedRect = CGRectApplyAffineTransform(imageView.bounds, imageView.transform);
+            UIView * containerView =
+                [[UIView alloc] initWithFrame:(CGRect){CGPointZero, rotatedRect.size}];
             [containerView addSubview:imageView];
             imageView.center = containerView.center;
             CGContextTranslateCTM(context, -frame.origin.x, -frame.origin.y);
@@ -74,11 +74,12 @@
     }
     UIGraphicsEndImageContext();
 
-    return [UIImage imageWithCGImage:croppedImage.CGImage scale:self.scale orientation:UIImageOrientationUp];
+    return [UIImage imageWithCGImage:croppedImage.CGImage
+                               scale:self.scale
+                         orientation:UIImageOrientationUp];
 }
 
-+ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size
-{
++ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size {
     UIImage * newImage     = nil;
     CGSize imageSize       = sourceImage.size;
     CGFloat width          = imageSize.width;
@@ -120,9 +121,7 @@
     [sourceImage drawInRect:thumbnailRect];
 
     newImage = UIGraphicsGetImageFromCurrentImageContext();
-    if (newImage == nil) {
-        NSLog(@"scale image fail");
-    }
+    if (newImage == nil) { NSLog(@"scale image fail"); }
 
     UIGraphicsEndImageContext();
     return newImage;
@@ -132,19 +131,18 @@
 
 @implementation UIImage (Source)
 
-+ (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className
-{
-    NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)].resourcePath
-                        stringByAppendingPathComponent:@"/WYAKit.bundle"];
++ (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className {
+    NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)]
+                                 .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
     NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
-    UIImage * image            = [UIImage imageNamed:imageName
-                                             inBundle:resource_bundle
-                        compatibleWithTraitCollection:nil];
+    UIImage * image =
+        [UIImage imageNamed:imageName
+                                 inBundle:resource_bundle
+            compatibleWithTraitCollection:nil];
     return image;
 }
 
-+ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color
-{
++ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color {
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
 
@@ -158,26 +156,24 @@
     return tempImage;
 }
 
-+ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString
-{
-    NSURL * url                = [NSURL URLWithString:urlString];
-    CGImageSourceRef source    = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
-    NSDictionary * imageHeader = (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
++ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString {
+    NSURL * url             = [NSURL URLWithString:urlString];
+    CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
+    NSDictionary * imageHeader =
+        (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
     NSLog(@"Image header %@", imageHeader);
     return imageHeader;
 }
 
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size
-{
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size {
     SVGKImage * image = [SVGKImage imageNamed:name];
     image.size        = size;
     return image.UIImage;
 }
 
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className
-{
-    NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)].resourcePath
-                        stringByAppendingPathComponent:@"/WYAKit.bundle"];
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className {
+    NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)]
+                                 .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
     NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
     SVGKImage * image          = [SVGKImage imageNamed:name inBundle:resource_bundle];
     image.size                 = size;
@@ -185,8 +181,7 @@
 }
 
 // 获取视频第一帧
-+ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path
-{
++ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path {
     AVURLAsset * asset                      = [[AVURLAsset alloc] initWithURL:path options:nil];
     AVAssetImageGenerator * assetGen        = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     assetGen.appliesPreferredTrackTransform = YES;
@@ -199,16 +194,17 @@
     return videoImage;
 }
 
-+ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate
-{
++ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate {
     CGFloat imageW = size.width;
     CGFloat imageH = size.height;
     // 1.开启基于位图的图形上下文
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageW, imageH), NO, 0.0);
 
     if (rate != 0) {
-        UIBezierPath * path = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageW, imageH) cornerRadius:rate];
-        CGContextRef ctx    = UIGraphicsGetCurrentContext();
+        UIBezierPath * path =
+            [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageW, imageH)
+                                       cornerRadius:rate];
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGContextAddPath(ctx, path.CGPath);
         CGContextClip(ctx);
     }
@@ -227,12 +223,12 @@
 }
 
 /// 返回一张可以拉伸的图片
-+ (UIImage *)wya_resizeImageNamed:(NSString *)name
-{
++ (UIImage *)wya_resizeImageNamed:(NSString *)name {
     UIImage * normal = [UIImage imageNamed:name];
     CGFloat width    = normal.size.width * 0.5;
     CGFloat height   = normal.size.height * 0.5;
-    normal           = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(height, width, height, width) resizingMode:UIImageResizingModeTile];
+    normal           = [normal resizableImageWithCapInsets:UIEdgeInsetsMake(height, width, height, width)
+                                    resizingMode:UIImageResizingModeTile];
     return normal;
 }
 

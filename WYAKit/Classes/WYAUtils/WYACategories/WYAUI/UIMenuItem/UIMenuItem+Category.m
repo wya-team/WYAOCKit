@@ -12,18 +12,14 @@ static int UIMenuItem_key;
 
 @implementation UIMenuItem (Category)
 
-- (instancetype)initWithTitle:(NSString *)title actionBlock:(void (^)(id sender))block
-{
+- (instancetype)initWithTitle:(NSString *)title actionBlock:(void (^)(id sender))block {
     self = [self initWithTitle:title action:@selector(invoke:)];
     objc_setAssociatedObject(self, &UIMenuItem_key, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     return self;
 }
 
-- (void)invoke:(id)sender
-{
+- (void)invoke:(id)sender {
     void (^block)(void) = objc_getAssociatedObject(self, &UIMenuItem_key);
-    if (block) {
-        block();
-    }
+    if (block) { block(); }
 }
 @end

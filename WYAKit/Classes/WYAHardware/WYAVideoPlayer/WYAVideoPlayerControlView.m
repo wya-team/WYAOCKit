@@ -29,8 +29,7 @@
 
 @implementation WYAVideoPlayerControlView
 
-- (instancetype)initWithPlayItem:(WYAVideoItem *)item
-{
+- (instancetype)initWithPlayItem:(WYAVideoItem *)item {
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
@@ -73,8 +72,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.backButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(10);
@@ -142,12 +140,13 @@
 }
 
 #pragma mark - Getter -
-- (UIButton *)backButton
-{
+- (UIButton *)backButton {
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
-        [_backButton addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_backButton addTarget:self
+                        action:@selector(backClick:)
+              forControlEvents:UIControlEventTouchUpInside];
         _backButton.hidden = YES;
     }
     return _backButton;
@@ -158,7 +157,8 @@
 //        _likeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        [_likeButton setImage:[UIImage imageNamed:@"likeNormal"] forState:UIControlStateNormal];
 //        [_likeButton setImage:[UIImage imageNamed:@"likeSelect"] forState:UIControlStateSelected];
-//        [_likeButton addTarget:self action:@selector(likeClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [_likeButton addTarget:self action:@selector(likeClick:)
+//        forControlEvents:UIControlEventTouchUpInside];
 //    }
 //    return _likeButton;
 //}
@@ -167,13 +167,13 @@
 //    if (!_downloadButton) {
 //        _downloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
 //        [_downloadButton setImage:[UIImage imageNamed:@"download"] forState:UIControlStateNormal];
-//        [_downloadButton addTarget:self action:@selector(downloadClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [_downloadButton addTarget:self action:@selector(downloadClick:)
+//        forControlEvents:UIControlEventTouchUpInside];
 //    }
 //    return _downloadButton;
 //}
 
-- (UIImageView *)bottomImageView
-{
+- (UIImageView *)bottomImageView {
     if (!_bottomImageView) {
         _bottomImageView                        = [[UIImageView alloc] init];
         _bottomImageView.userInteractionEnabled = YES;
@@ -182,20 +182,24 @@
     return _bottomImageView;
 }
 
-- (UIButton *)playButton
-{
+- (UIButton *)playButton {
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_playButton setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [_playButton setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
+        [_playButton
+            setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)]
+            forState:UIControlStateNormal];
+        [_playButton
+            setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)]
+            forState:UIControlStateSelected];
         _playButton.selected = NO;
-        [_playButton addTarget:self action:@selector(playButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_playButton addTarget:self
+                        action:@selector(playButtonClick:)
+              forControlEvents:UIControlEventTouchUpInside];
     }
     return _playButton;
 }
 
-- (UILabel *)currentProgressLabel
-{
+- (UILabel *)currentProgressLabel {
     if (!_currentProgressLabel) {
         _currentProgressLabel               = [[UILabel alloc] init];
         _currentProgressLabel.textColor     = [UIColor whiteColor];
@@ -206,8 +210,7 @@
     return _currentProgressLabel;
 }
 
-- (UILabel *)allProgressLabel
-{
+- (UILabel *)allProgressLabel {
     if (!_allProgressLabel) {
         _allProgressLabel               = [[UILabel alloc] init];
         _allProgressLabel.textColor     = [UIColor whiteColor];
@@ -218,8 +221,7 @@
     return _allProgressLabel;
 }
 
-- (WYAVideoSlider *)slider
-{
+- (WYAVideoSlider *)slider {
     if (!_slider) {
         _slider          = [[WYAVideoSlider alloc] init];
         _slider.delegate = self;
@@ -227,19 +229,23 @@
     return _slider;
 }
 
-- (UIButton *)zoomButton
-{
+- (UIButton *)zoomButton {
     if (!_zoomButton) {
         _zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_enlarge" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
-        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_Shrinkscreen" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
-        [_zoomButton addTarget:self action:@selector(zoomClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_enlarge"
+                                             ClassName:NSStringFromClass(self.class)]
+                     forState:UIControlStateNormal];
+        [_zoomButton setImage:[UIImage loadBundleImage:@"icon_Shrinkscreen"
+                                             ClassName:NSStringFromClass(self.class)]
+                     forState:UIControlStateSelected];
+        [_zoomButton addTarget:self
+                        action:@selector(zoomClick:)
+              forControlEvents:UIControlEventTouchUpInside];
     }
     return _zoomButton;
 }
 
-- (WYAVideoFastView *)fastView
-{
+- (WYAVideoFastView *)fastView {
     if (!_fastView) {
         _fastView                     = [[WYAVideoFastView alloc] init];
         _fastView.hidden              = YES;
@@ -249,21 +255,24 @@
     return _fastView;
 }
 
-- (WYAVideoNetWorkView *)networkView
-{
+- (WYAVideoNetWorkView *)networkView {
     if (!_networkView) {
         _networkView = ({
             WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc] init];
             WeakSelf(weakSelf);
             object.retryHandle = ^{
                 weakSelf.bottomImageView.hidden = NO;
-                if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlRetry:)]) {
+                if (weakSelf.videoControlDelegate &&
+                    [weakSelf.videoControlDelegate
+                        respondsToSelector:@selector(videoControlRetry:)]) {
                     [weakSelf.videoControlDelegate videoControlRetry:weakSelf];
                 }
             };
             object.goOnHandle = ^{
                 weakSelf.bottomImageView.hidden = NO;
-                if (weakSelf.videoControlDelegate && [weakSelf.videoControlDelegate respondsToSelector:@selector(videoControlGoOn:)]) {
+                if (weakSelf.videoControlDelegate &&
+                    [weakSelf.videoControlDelegate
+                        respondsToSelector:@selector(videoControlGoOn:)]) {
                     [weakSelf.videoControlDelegate videoControlGoOn:weakSelf];
                 }
             };
@@ -274,119 +283,117 @@
 }
 
 #pragma mark - Setter -
-- (void)setOneFingerClick:(BOOL)oneFingerClick
-{
+- (void)setOneFingerClick:(BOOL)oneFingerClick {
     _oneFingerClick = oneFingerClick;
     if (oneFingerClick) {
-        self.oneFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showBottomControl)];
+        self.oneFingerTap =
+            [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(showBottomControl)];
 
         [self addGestureRecognizer:self.oneFingerTap];
     } else {
-        if (self.oneFingerTap) {
-            [self removeGestureRecognizer:self.oneFingerTap];
-        }
+        if (self.oneFingerTap) { [self removeGestureRecognizer:self.oneFingerTap]; }
     }
 }
 
 #pragma mark - Private Method -
 
-- (void)backClick:(UIButton *)sender
-{
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:backButton:)]) {
+- (void)backClick:(UIButton *)sender {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:backButton:)]) {
         [self.videoControlDelegate videoControl:self backButton:sender];
     }
 }
 
-- (void)likeClick:(UIButton *)sender
-{
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:likeButton:)]) {
+- (void)likeClick:(UIButton *)sender {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:likeButton:)]) {
         [self.videoControlDelegate videoControl:self likeButton:sender];
     }
 }
 
-- (void)downloadClick:(UIButton *)sender
-{
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:downloadButton:)]) {
+- (void)downloadClick:(UIButton *)sender {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:downloadButton:)]) {
         [self.videoControlDelegate videoControl:self downloadButton:sender];
     }
 }
 
-- (void)playButtonClick:(UIButton *)sender
-{
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:PlayButton:)]) {
+- (void)playButtonClick:(UIButton *)sender {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:PlayButton:)]) {
         [self.videoControlDelegate videoControl:self PlayButton:sender];
     }
     sender.selected = !sender.selected;
 }
 
-- (void)wya_SliderStartRun
-{
+- (void)wya_SliderStartRun {
     self.playButton.selected = NO;
     [self cancelAutoFadeOutControlView];
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideBegin:)]) {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideBegin:)]) {
         [self.videoControlDelegate videoControl:self SlideBegin:self.slider];
     }
 }
 
-- (void)wya_SliderRunningWithValue:(CGFloat)value
-{
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideChange:)]) {
+- (void)wya_SliderRunningWithValue:(CGFloat)value {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideChange:)]) {
         [self.videoControlDelegate videoControl:self SlideChange:self.slider];
     }
 }
 
-- (void)wya_SliderEndRun
-{
+- (void)wya_SliderEndRun {
     self.playButton.selected = YES;
     [self hiddenBottomControl];
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideEnd:)]) {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideEnd:)]) {
         [self.videoControlDelegate videoControl:self SlideEnd:self.slider];
     }
 }
 
-- (void)zoomClick:(UIButton *)sender
-{
+- (void)zoomClick:(UIButton *)sender {
     sender.selected = !sender.selected;
-    if (self.videoControlDelegate && [self.videoControlDelegate respondsToSelector:@selector(videoControl:zoomButton:)]) {
+    if (self.videoControlDelegate &&
+        [self.videoControlDelegate respondsToSelector:@selector(videoControl:zoomButton:)]) {
         [self.videoControlDelegate videoControl:self zoomButton:sender];
     }
 }
 
-- (void)showBottomControl
-{
+- (void)showBottomControl {
     [self cancelAutoFadeOutControlView];
-    [UIView animateWithDuration:0.5 animations:^{
-        self.bottomImageView.alpha = 1;
-        //        self.bottomImageView.hidden = NO;
-    } completion:^(BOOL finished) {
-        [self autoFadeOutControlView];
-    }];
+    [UIView animateWithDuration:0.5
+        animations:^{
+            self.bottomImageView.alpha = 1;
+            //        self.bottomImageView.hidden = NO;
+        }
+        completion:^(BOOL finished) { [self autoFadeOutControlView]; }];
 }
 
-- (void)hiddenBottomControl
-{
+- (void)hiddenBottomControl {
     [self cancelAutoFadeOutControlView];
-    [UIView animateWithDuration:2 animations:^{
-        self.bottomImageView.alpha = 0;
-    } completion:^(BOOL finished){
+    [UIView animateWithDuration:2
+        animations:^{ self.bottomImageView.alpha = 0; }
+        completion:^(BOOL finished){
 
-    }];
+        }];
 }
 
-- (void)autoFadeOutControlView
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hiddenBottomControl) object:nil];
+- (void)autoFadeOutControlView {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self
+                                             selector:@selector(hiddenBottomControl)
+                                               object:nil];
     [self performSelector:@selector(hiddenBottomControl) withObject:nil afterDelay:2];
 }
 
-- (void)cancelAutoFadeOutControlView
-{
+- (void)cancelAutoFadeOutControlView {
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 #pragma mark - Public Method -
-- (void)getCurrentTime:(NSInteger)currentTime TotalTime:(NSInteger)totalTime SlideValue:(CGFloat)slideValue
-{
+- (void)getCurrentTime:(NSInteger)currentTime
+             TotalTime:(NSInteger)totalTime
+            SlideValue:(CGFloat)slideValue {
     // 当前时长进度progress
     NSInteger proMin = currentTime / 60; //当前秒
     NSInteger proSec = currentTime % 60; //当前分钟
@@ -403,8 +410,10 @@
     self.allProgressLabel.text = [NSString stringWithFormat:@"%02zd:%02zd", durMin, durSec];
 }
 
-- (void)getDragTime:(NSInteger)dragTime AutoPlay:(BOOL)autoPlay FastForward:(BOOL)fastForward HiddenFastView:(BOOL)hiddenFastView
-{
+- (void)getDragTime:(NSInteger)dragTime
+           AutoPlay:(BOOL)autoPlay
+        FastForward:(BOOL)fastForward
+     HiddenFastView:(BOOL)hiddenFastView {
     if (autoPlay == YES) {
         self.playButton.selected = YES;
     } else {
@@ -419,31 +428,28 @@
     self.currentProgressLabel.text = currentTime;
     self.fastView.hidden           = hiddenFastView;
     self.fastView.isSpeed          = fastForward;
-    NSString * string              = [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
-    self.fastView.text             = string;
-    CGFloat draggedValue           = (CGFloat)dragTime / self.allTime;
-    self.fastView.number           = draggedValue;
+    NSString * string =
+        [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
+    self.fastView.text   = string;
+    CGFloat draggedValue = (CGFloat)dragTime / self.allTime;
+    self.fastView.number = draggedValue;
 }
 
-- (void)playerEnd
-{
+- (void)playerEnd {
     self.playButton.selected = NO;
 }
 
-- (void)resetVideoPlayControl
-{
+- (void)resetVideoPlayControl {
     self.playButton.selected       = NO;
     self.currentProgressLabel.text = @"00:00";
     self.allProgressLabel.text     = @"00:00";
 }
 
-- (void)wya_playerSetProgress:(CGFloat)progress
-{
+- (void)wya_playerSetProgress:(CGFloat)progress {
     self.slider.bufferValue = progress;
 }
 
-- (void)playFail
-{
+- (void)playFail {
     self.networkView.hidden = NO;
 }
 /*

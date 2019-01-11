@@ -23,7 +23,9 @@
  @param cropRect 矩形大小
  @param angle 角度
  */
-- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropImageToRect:(CGRect)cropRect angle:(NSInteger)angle;
+- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController
+        didCropImageToRect:(CGRect)cropRect
+                     angle:(NSInteger)angle;
 
 /**
  获取裁剪后的图片
@@ -33,7 +35,10 @@
  @param cropRect 裁剪的image坐标
  @param angle 角度
  */
-- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropToImage:(nonnull UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle;
+- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController
+            didCropToImage:(nonnull UIImage *)image
+                  withRect:(CGRect)cropRect
+                     angle:(NSInteger)angle;
 
 /**
  获取圆形模板裁剪的图片
@@ -43,7 +48,10 @@
  @param cropRect 裁剪的image坐标
  @param angle 角度
  */
-- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didCropToCircularImage:(nonnull UIImage *)image withRect:(CGRect)cropRect angle:(NSInteger)angle;
+- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController
+    didCropToCircularImage:(nonnull UIImage *)image
+                  withRect:(CGRect)cropRect
+                     angle:(NSInteger)angle;
 
 /**
  完成时调用
@@ -51,7 +59,8 @@
  @param cropViewController self
  @param cancelled YES
  */
-- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController didFinishCancelled:(BOOL)cancelled;
+- (void)cropViewController:(nonnull WYAImageCropViewController *)cropViewController
+        didFinishCancelled:(BOOL)cancelled;
 
 @end
 
@@ -69,13 +78,16 @@
 @property (nonatomic, readonly) WYACropViewCroppingStyle croppingStyle;
 
 @property (nullable, nonatomic, strong) void (^onDidFinishCancelled)(BOOL isFinished);
-@property (nullable, nonatomic, strong) void (^onDidCropImageToRect)(CGRect cropRect, NSInteger angle);
-@property (nullable, nonatomic, strong) void (^onDidCropToRect)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropImageToRect)
+    (CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropToRect)
+    (UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
 
 /**
  圆形裁剪器时提供的图片
  */
-@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)
+    (UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
 
 /**
  初始化
@@ -92,7 +104,8 @@
  @param image 要裁剪的图片
  @return self
  */
-- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(nonnull UIImage *)image;
+- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style
+                                        image:(nonnull UIImage *)image;
 
 @end
 
@@ -106,10 +119,10 @@
 // @param completion 完成之后状态
 // */
 //- (void)presentAnimatedFromParentViewController:(nonnull UIViewController *)viewController
-//fromView:(nullable UIView *)fromView
-//fromFrame:(CGRect)fromFrame
-//setup:(nullable void (^)(void))setup
-//completion:(nullable void (^)(void))completion;
+// fromView:(nullable UIView *)fromView
+// fromFrame:(CGRect)fromFrame
+// setup:(nullable void (^)(void))setup
+// completion:(nullable void (^)(void))completion;
 //
 //
 ///**
@@ -125,13 +138,13 @@
 // @param completion 完成之后状态
 // */
 //- (void)presentAnimatedFromParentViewController:(nonnull UIViewController *)viewController
-//fromImage:(nullable UIImage *)image
-//fromView:(nullable UIView *)fromView
-//fromFrame:(CGRect)fromFrame
-//angle:(NSInteger)angle
-//toImageFrame:(CGRect)toFrame
-//setup:(nullable void (^)(void))setup
-//completion:(nullable void (^)(void))completion;
+// fromImage:(nullable UIImage *)image
+// fromView:(nullable UIView *)fromView
+// fromFrame:(CGRect)fromFrame
+// angle:(NSInteger)angle
+// toImageFrame:(CGRect)toFrame
+// setup:(nullable void (^)(void))setup
+// completion:(nullable void (^)(void))completion;
 //
 //
 ///**
@@ -144,10 +157,10 @@
 // @param completion 完成之后状态
 // */
 //- (void)dismissAnimatedFromParentViewController:(nonnull UIViewController *)viewController
-//toView:(nullable UIView *)toView
-//toFrame:(CGRect)frame
-//setup:(nullable void (^)(void))setup
-//completion:(nullable void (^)(void))completion;
+// toView:(nullable UIView *)toView
+// toFrame:(CGRect)frame
+// setup:(nullable void (^)(void))setup
+// completion:(nullable void (^)(void))completion;
 //
 //
 ///**
@@ -161,8 +174,8 @@
 // @param completion 完成之后状态
 // */
 //- (void)dismissAnimatedFromParentViewController:(nonnull UIViewController *)viewController
-//withCroppedImage:(nullable UIImage *)image
-//toView:(nullable UIView *)toView
-//toFrame:(CGRect)frame
-//setup:(nullable void (^)(void))setup
-//completion:(nullable void (^)(void))completion;
+// withCroppedImage:(nullable UIImage *)image
+// toView:(nullable UIView *)toView
+// toFrame:(CGRect)frame
+// setup:(nullable void (^)(void))setup
+// completion:(nullable void (^)(void))completion;

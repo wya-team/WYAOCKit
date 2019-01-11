@@ -15,16 +15,14 @@
 
 @implementation WYALeftIconCell
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self.contentView addSubview:self.iconImgView];
         [self.contentView addSubview:self.titleLabel];
     }
     return self;
 }
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.iconImgView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.contentView.mas_left).offset(10 * SizeAdapter);
@@ -40,8 +38,7 @@
     }];
 }
 
-- (UIImageView *)iconImgView
-{
+- (UIImageView *)iconImgView {
     if (!_iconImgView) {
         _iconImgView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -52,8 +49,7 @@
     return _iconImgView;
 }
 
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object                 = [[UILabel alloc] init];
@@ -66,8 +62,7 @@
     }
     return _titleLabel;
 }
-- (void)setTitleString:(NSString *)titleString
-{
+- (void)setTitleString:(NSString *)titleString {
     _titleString         = titleString;
     self.titleLabel.text = _titleString;
     [self layoutIfNeeded];

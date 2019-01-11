@@ -11,13 +11,10 @@
 
 @implementation UIView (WYAToast)
 
-+ (void)wya_showBottomToastWithMessage:(NSString *)message
-{
++ (void)wya_showBottomToastWithMessage:(NSString *)message {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame      = Window.bounds;
-    [button addCallBackAction:^(UIButton * button) {
-        [button removeFromSuperview];
-    }];
+    [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
     UILabel * label           = [[UILabel alloc] init];
@@ -32,10 +29,11 @@
     [button addSubview:label];
 
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width > ScreenWidth / 2) {
-        width = ScreenWidth / 2;
-    }
-    CGFloat height = [UILabel getHeightByWidth:width + 30 * SizeAdapter title:message font:label.font];
+    if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
+    CGFloat height =
+        [UILabel getHeightByWidth:width + 30 * SizeAdapter
+                            title:message
+                             font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50 * SizeAdapter);
@@ -48,20 +46,17 @@
 
     }];
 
-    [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        label.alpha = 0;
-    } completion:^(BOOL finished) {
-        [label removeFromSuperview];
-    }];
+    [UIView animateWithDuration:0.3
+        delay:2
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{ label.alpha = 0; }
+        completion:^(BOOL finished) { [label removeFromSuperview]; }];
 }
 
-+ (void)wya_showCenterToastWithMessage:(NSString *)message
-{
++ (void)wya_showCenterToastWithMessage:(NSString *)message {
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame      = Window.bounds;
-    [button addCallBackAction:^(UIButton * button) {
-        [button removeFromSuperview];
-    }];
+    [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
     UILabel * label           = [[UILabel alloc] init];
@@ -75,10 +70,11 @@
     label.numberOfLines       = 0;
     [button addSubview:label];
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width > ScreenWidth / 2) {
-        width = ScreenWidth / 2;
-    }
-    CGFloat height = [UILabel getHeightByWidth:width + 30 * SizeAdapter title:message font:label.font];
+    if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
+    CGFloat height =
+        [UILabel getHeightByWidth:width + 30 * SizeAdapter
+                            title:message
+                             font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
@@ -90,35 +86,51 @@
         }
     }];
 
-    [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-        label.alpha = 0;
-    } completion:^(BOOL finished) {
-        [label removeFromSuperview];
-    }];
+    [UIView animateWithDuration:0.3
+        delay:2
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{ label.alpha = 0; }
+        completion:^(BOOL finished) { [label removeFromSuperview]; }];
 }
 
 + (void)wya_showToastImage:(NSString *)imageString
               autoRotation:(BOOL)autoRotation
                  ImageType:(WYAToastImageType)imageType
       sourceInWYAKitBundle:(BOOL)isSource
-               autoDismiss:(BOOL)autoDismiss
-{
-    [UIView wya_toastWithMessage:@"" imageString:imageString autoRotation:autoRotation imageType:imageType sourceInWYAKitBundle:isSource autoDismiss:autoDismiss];
+               autoDismiss:(BOOL)autoDismiss {
+    [UIView wya_toastWithMessage:@""
+                     imageString:imageString
+                    autoRotation:autoRotation
+                       imageType:imageType
+            sourceInWYAKitBundle:isSource
+                     autoDismiss:autoDismiss];
 }
 
-+ (void)wya_successToastWithMessage:(NSString *)message
-{
-    [UIView wya_toastWithMessage:message imageString:@"icon_succesful" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
++ (void)wya_successToastWithMessage:(NSString *)message {
+    [UIView wya_toastWithMessage:message
+                     imageString:@"icon_succesful"
+                    autoRotation:NO
+                       imageType:WYAToastImageTypePNG
+            sourceInWYAKitBundle:YES
+                     autoDismiss:YES];
 }
 
-+ (void)wya_failToastWithMessage:(NSString *)message
-{
-    [UIView wya_toastWithMessage:message imageString:@"icon_fail" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
++ (void)wya_failToastWithMessage:(NSString *)message {
+    [UIView wya_toastWithMessage:message
+                     imageString:@"icon_fail"
+                    autoRotation:NO
+                       imageType:WYAToastImageTypePNG
+            sourceInWYAKitBundle:YES
+                     autoDismiss:YES];
 }
 
-+ (void)wya_warningToastWithMessage:(NSString *)message
-{
-    [UIView wya_toastWithMessage:message imageString:@"icon_waring" autoRotation:NO imageType:WYAToastImageTypePNG sourceInWYAKitBundle:YES autoDismiss:YES];
++ (void)wya_warningToastWithMessage:(NSString *)message {
+    [UIView wya_toastWithMessage:message
+                     imageString:@"icon_waring"
+                    autoRotation:NO
+                       imageType:WYAToastImageTypePNG
+            sourceInWYAKitBundle:YES
+                     autoDismiss:YES];
 }
 
 + (void)wya_toastWithMessage:(NSString *)message
@@ -126,16 +138,13 @@
                 autoRotation:(BOOL)autoRotation
                    imageType:(WYAToastImageType)imageType
         sourceInWYAKitBundle:(BOOL)isSource
-                 autoDismiss:(BOOL)autoDismiss
-{
+                 autoDismiss:(BOOL)autoDismiss {
     UIButton * button;
     if (autoDismiss) {
         button       = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = Window.bounds;
         [Window addSubview:button];
-        [button addCallBackAction:^(UIButton * button) {
-            [button removeFromSuperview];
-        }];
+        [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     }
     UIView * view            = [[UIView alloc] init];
     view.backgroundColor     = random(77, 77, 77, 1);
@@ -159,9 +168,7 @@
                 image = [UIImage imageNamed:imageString];
             }
             iview = [[UIImageView alloc] initWithImage:image];
-            if (autoRotation) {
-                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
-            }
+            if (autoRotation) { [iview wya_setRotationAnimation:360 time:1 repeatCount:0]; }
         } break;
         case WYAToastImageTypeJPEG: {
             UIImage * image;
@@ -177,20 +184,20 @@
         case WYAToastImageTypeSVG: {
             UIImage * image;
             if (isSource) {
-                NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")].resourcePath
-                                    stringByAppendingPathComponent:@"/WYAKit.bundle"];
+                NSString * bundlePath =
+                    [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")]
+                            .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
                 NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
                 SVGKImage * svgImage       = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
                 image                      = svgImage.UIImage;
             } else {
                 //                image = [SVGKImage imageNamed:imageString];
-                image = [UIImage wya_svgImageName:imageString size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)];
+                image = [UIImage wya_svgImageName:imageString
+                                             size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)];
             }
             //            iview = [[SVGKFastImageView alloc] initWithSVGKImage:image];
             iview = [[UIImageView alloc] initWithImage:image];
-            if (autoRotation) {
-                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
-            }
+            if (autoRotation) { [iview wya_setRotationAnimation:360 time:1 repeatCount:0]; }
         } break;
         case WYAToastImageTypeGIF: {
             NSLog(@"%d", isSource);
@@ -219,9 +226,7 @@
         label.numberOfLines = 1;
     }
     CGFloat height = [message wya_heightWithFontSize:13 width:90 * SizeAdapter];
-    if (message.length < 1) {
-        height = 0;
-    }
+    if (message.length < 1) { height = 0; }
     CGFloat hei = 50 * SizeAdapter + height;
 
     CGFloat view_X      = (ScreenWidth - 100 * SizeAdapter) / 2;
@@ -243,18 +248,17 @@
     label.frame          = CGRectMake(label_X, label_Y, label_Width, label_Height);
 
     if (autoDismiss) {
-        [UIView animateWithDuration:0.3 delay:2 options:UIViewAnimationOptionAllowUserInteraction animations:^{
-            view.alpha = 0;
-        } completion:^(BOOL finished) {
-            [button removeFromSuperview];
-        }];
+        [UIView animateWithDuration:0.3
+            delay:2
+            options:UIViewAnimationOptionAllowUserInteraction
+            animations:^{ view.alpha = 0; }
+            completion:^(BOOL finished) { [button removeFromSuperview]; }];
     } else {
         Window.userInteractionEnabled = NO;
     }
 }
 
-+ (void)wya_dismissToast
-{
++ (void)wya_dismissToast {
     UIView * view = (UIView *)[Window viewWithTag:1080];
     [view removeFromSuperview];
     Window.userInteractionEnabled = YES;

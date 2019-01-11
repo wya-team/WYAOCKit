@@ -11,21 +11,23 @@
 
 @implementation WYAPhotoBrowserManager
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithFilter:(AssetCollectionType)collectionType
-                                           AssetCollectionSubType:(AssetCollectionSubType)subType
-                                                   CollectionSort:(AssetCollectionSort)collectionSort
-                                                        assetSort:(AssetSort)assetSort
-{
++ (NSMutableArray<WYAPhotoBrowserModel *> *)
+ screenAssetWithFilter:(AssetCollectionType)collectionType
+AssetCollectionSubType:(AssetCollectionSubType)subType
+        CollectionSort:(AssetCollectionSort)collectionSort
+             assetSort:(AssetSort)assetSort {
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
     PHFetchOptions * options         = [[PHFetchOptions alloc] init];
     switch (collectionSort) {
         case AssetCollectionEndDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -72,7 +74,9 @@
             break;
     }
 
-    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType subtype:collSubType options:options];
+    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
+                                                                          subtype:collSubType
+                                                                          options:options];
 
     if (userAlbums.count > 0) {
         //获取相机胶卷中的照片
@@ -89,10 +93,14 @@
                 NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
                 switch (assetSort) {
                     case AssetCreationDate:
-                        [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+                        [subSortDescriptors
+                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
+                                                                    ascending:YES]];
                         break;
                     case AssetModificationDate:
-                        [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
+                        [subSortDescriptors
+                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
+                                                                    ascending:YES]];
                         break;
                     default:
                         break;
@@ -100,7 +108,9 @@
 
                 fetchO.sortDescriptors = subSortDescriptors;
 
-                PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
+                PHFetchResult * smartSubResult =
+                    [PHAsset fetchAssetsInAssetCollection:collection
+                                                  options:fetchO];
                 NSLog(@"smartCount==%d", smartSubResult.count);
                 if (smartSubResult.count > 0) {
                     for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
@@ -118,20 +128,22 @@
     return datas;
 }
 
-+ (NSMutableArray<PHAssetCollection *> *)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
-                                                  AssetCollectionSubType:(AssetCollectionSubType)subType
-                                                          CollectionSort:(AssetCollectionSort)collectionSort
-{
++ (NSMutableArray<PHAssetCollection *> *)
+screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
+         AssetCollectionSubType:(AssetCollectionSubType)subType
+                 CollectionSort:(AssetCollectionSort)collectionSort {
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
     PHFetchOptions * options         = [[PHFetchOptions alloc] init];
     switch (collectionSort) {
         case AssetCollectionEndDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -179,7 +191,9 @@
             break;
     }
 
-    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType subtype:collSubType options:options];
+    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
+                                                                          subtype:collSubType
+                                                                          options:options];
 
     if (userAlbums.count > 0) {
         //获取相机胶卷中的照片
@@ -197,21 +211,23 @@
     return datas;
 }
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
-                                                              AssetCollectionSubType:(PHAssetCollectionSubtype)subType
-                                                                      CollectionSort:(AssetCollectionSort)collectionSort
-                                                                           assetSort:(AssetSort)assetSort
-{
++ (NSMutableArray<WYAPhotoBrowserModel *> *)
+screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
+                  AssetCollectionSubType:(PHAssetCollectionSubtype)subType
+                          CollectionSort:(AssetCollectionSort)collectionSort
+                               assetSort:(AssetSort)assetSort {
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
     PHFetchOptions * options         = [[PHFetchOptions alloc] init];
     switch (collectionSort) {
         case AssetCollectionEndDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
-            [sortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+            [sortDescriptors
+                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -219,7 +235,9 @@
     //按照最新创建时间排序
     options.sortDescriptors = sortDescriptors;
 
-    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collectionType subtype:subType options:options];
+    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collectionType
+                                                                          subtype:subType
+                                                                          options:options];
 
     if (userAlbums.count > 0) {
         //获取相机胶卷中的照片
@@ -234,10 +252,14 @@
                 NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
                 switch (assetSort) {
                     case AssetCreationDate:
-                        [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+                        [subSortDescriptors
+                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
+                                                                    ascending:YES]];
                         break;
                     case AssetModificationDate:
-                        [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate" ascending:YES]];
+                        [subSortDescriptors
+                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
+                                                                    ascending:YES]];
                         break;
                     default:
                         break;
@@ -245,7 +267,9 @@
 
                 fetchO.sortDescriptors = subSortDescriptors;
 
-                PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
+                PHFetchResult * smartSubResult =
+                    [PHAsset fetchAssetsInAssetCollection:collection
+                                                  options:fetchO];
                 //                NSLog(@"smartCount==%d",smartSubResult.count);
                 if (smartSubResult.count > 0) {
                     for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
@@ -263,16 +287,19 @@
     return datas;
 }
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:(PHAssetCollection *)collection
-{
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:
+    (PHAssetCollection *)collection {
     NSMutableArray * datas              = [NSMutableArray array];
     PHFetchOptions * fetchO             = [[PHFetchOptions alloc] init];
     NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
-    [subSortDescriptors addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
+    [subSortDescriptors
+        addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
 
     fetchO.sortDescriptors = subSortDescriptors;
 
-    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
+    PHFetchResult * smartSubResult =
+        [PHAsset fetchAssetsInAssetCollection:collection
+                                      options:fetchO];
     //                NSLog(@"smartCount==%d",smartSubResult.count);
     if (smartSubResult.count > 0) {
         for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {

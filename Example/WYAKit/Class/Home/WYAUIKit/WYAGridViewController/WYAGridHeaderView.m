@@ -13,28 +13,24 @@
 @end
 
 @implementation WYAGridHeaderView
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.titleLabel];
         self.backgroundColor = GRAYBGCOLOR;
     }
     return self;
 }
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.titleLabel mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.bottom.mas_equalTo(self);
     }];
 }
-- (void)setTitle:(NSString *)title
-{
+- (void)setTitle:(NSString *)title {
     _title               = title;
     self.titleLabel.text = title;
 }
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object = [[UILabel alloc] init];

@@ -9,8 +9,7 @@
 #import "NSString+Safe.h"
 
 @implementation NSString (Safe)
-- (NSString *)wya_safeSubstringFromIndex:(NSUInteger)from
-{
+- (NSString *)wya_safeSubstringFromIndex:(NSUInteger)from {
     if (from > self.length) {
         return nil;
     } else {
@@ -18,8 +17,7 @@
     }
 }
 
-- (NSString *)wya_safeSubstringToIndex:(NSUInteger)to
-{
+- (NSString *)wya_safeSubstringToIndex:(NSUInteger)to {
     if (to > self.length) {
         return nil;
     } else {
@@ -27,8 +25,7 @@
     }
 }
 
-- (NSString *)wya_safeSubstringWithRange:(NSRange)range
-{
+- (NSString *)wya_safeSubstringWithRange:(NSRange)range {
     NSUInteger location = range.location;
     NSUInteger length   = range.length;
     if (location + length > self.length) {
@@ -38,8 +35,7 @@
     }
 }
 
-- (NSRange)wya_safeRangeOfString:(NSString *)aString
-{
+- (NSRange)wya_safeRangeOfString:(NSString *)aString {
     if (aString == nil) {
         return NSMakeRange(NSNotFound, 0);
     } else {
@@ -47,8 +43,7 @@
     }
 }
 
-- (NSRange)wya_safeRangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask
-{
+- (NSRange)wya_safeRangeOfString:(NSString *)aString options:(NSStringCompareOptions)mask {
     if (aString == nil) {
         return NSMakeRange(NSNotFound, 0);
     } else {
@@ -56,8 +51,7 @@
     }
 }
 
-- (NSString *)wya_safeStringByAppendingString:(NSString *)aString
-{
+- (NSString *)wya_safeStringByAppendingString:(NSString *)aString {
     if (aString == nil) {
         return [self stringByAppendingString:@""];
     } else {

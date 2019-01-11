@@ -22,7 +22,7 @@
 
 /**
  改变行间距
- 
+
  @param space 间距
  @param labelText 文字
  */
@@ -30,7 +30,7 @@
 
 /**
  改变字间距
- 
+
  @param space 间距
  */
 - (void)changeWordSpaceForLabelWithSpace:(float)space;
@@ -42,7 +42,7 @@
 
 /**
  获得UILabel高度
- 
+
  @param width 宽度
  @param title title
  @param font font
@@ -52,7 +52,7 @@
 
 /**
  获得UILabel宽度
- 
+
  @param title title
  @param font fon
  @return 返回宽度

@@ -12,8 +12,7 @@ static CGFloat sliderSpace  = 10;
 
 @implementation WYAVideoSliderButton
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
-{
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     CGRect bounds = self.bounds;
     // 扩大点击区域
     bounds = CGRectInset(bounds, -20, -20);
@@ -30,30 +29,22 @@ static CGFloat sliderSpace  = 10;
 @property (nonatomic, strong) WYAVideoSliderButton * sliderButton;
 @end
 
-@implementation WYAVideoSlider
-{
+@implementation WYAVideoSlider {
     CGFloat buttonOffset; //记录按钮的偏移量
 }
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        [self setupUI];
-    }
+    if (self) { [self setupUI]; }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
-        [self setupUI];
-    }
+    if (self) { [self setupUI]; }
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     [self.bgProgressView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -79,60 +70,59 @@ static CGFloat sliderSpace  = 10;
 
     [self.sliderButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.centerX.mas_equalTo(self.bgProgressView.mas_left).with.offset(self.value * self.bgProgressView.cmam_width);
+        make.centerX.mas_equalTo(self.bgProgressView.mas_left)
+            .with.offset(self.value * self.bgProgressView.cmam_width);
         make.size.mas_equalTo(CGSizeMake(20 * SizeAdapter, 20 * SizeAdapter));
     }];
 }
 
 #pragma mark - Private Method -
-- (void)setupUI
-{
+- (void)setupUI {
     [self addSubview:self.bgProgressView];
     [self addSubview:self.bufferProgressView];
     [self addSubview:self.sliderProgressView];
     [self addSubview:self.sliderButton];
 
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
+    UIPanGestureRecognizer * pan =
+        [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(panClick:)];
     [self.sliderButton addGestureRecognizer:pan];
     _isFastForward = NO;
 }
 
-- (void)panClick:(UIGestureRecognizer *)gestureRecognizer
-{
+- (void)panClick:(UIGestureRecognizer *)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [self sliderButtonStartRun];
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         [self sliderButtonEndRun];
     } else if (gestureRecognizer.state == UIGestureRecognizerStateChanged) {
         [self sliderButtonRunningWithPoint:[gestureRecognizer locationInView:self]];
-    } else if (gestureRecognizer.state == UIGestureRecognizerStateCancelled || gestureRecognizer.state == UIGestureRecognizerStateFailed) {
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateCancelled ||
+               gestureRecognizer.state == UIGestureRecognizerStateFailed) {
     }
 }
 
-- (void)sliderButtonStartRun
-{
+- (void)sliderButtonStartRun {
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_SliderStartRun)]) {
         [self.delegate wya_SliderStartRun];
     }
 
-    [UIView animateWithDuration:0.2 animations:^{
-        self.sliderButton.transform = CGAffineTransformMakeScale(1.2, 1.2);
-    }];
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         self.sliderButton.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                     }];
 }
 
-- (void)sliderButtonEndRun
-{
+- (void)sliderButtonEndRun {
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_SliderEndRun)]) {
         [self.delegate wya_SliderEndRun];
     }
 
-    [UIView animateWithDuration:0.2 animations:^{
-        self.sliderButton.transform = CGAffineTransformIdentity;
-    }];
+    [UIView animateWithDuration:0.2
+                     animations:^{ self.sliderButton.transform = CGAffineTransformIdentity; }];
 }
 
-- (void)sliderButtonRunningWithPoint:(CGPoint)point
-{
+- (void)sliderButtonRunningWithPoint:(CGPoint)point {
     CGFloat value = (point.x - sliderSpace) / self.bgProgressView.cmam_width;
     value         = value >= 1.0 ? 1.0 : value <= 0.0 ? 0.0 : value;
     if (self.value == value) return;
@@ -143,29 +133,27 @@ static CGFloat sliderSpace  = 10;
         _isFastForward = NO;
     }
     buttonOffset = value;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_SliderRunningWithValue:)]) {
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(wya_SliderRunningWithValue:)]) {
         [self.delegate wya_SliderRunningWithValue:value];
     }
 }
 
 #pragma mark - Setter -
-- (void)setValue:(CGFloat)value
-{
+- (void)setValue:(CGFloat)value {
     _value = value;
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
-- (void)setBufferValue:(CGFloat)bufferValue
-{
+- (void)setBufferValue:(CGFloat)bufferValue {
     _bufferValue = bufferValue;
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
 #pragma mark - Getter -
-- (UIView *)bgProgressView
-{
+- (UIView *)bgProgressView {
     if (!_bgProgressView) {
         _bgProgressView                 = [[UIView alloc] init];
         _bgProgressView.backgroundColor = [UIColor grayColor];
@@ -173,8 +161,7 @@ static CGFloat sliderSpace  = 10;
     return _bgProgressView;
 }
 
-- (UIView *)bufferProgressView
-{
+- (UIView *)bufferProgressView {
     if (!_bufferProgressView) {
         _bufferProgressView                 = [[UIView alloc] init];
         _bufferProgressView.backgroundColor = [UIColor whiteColor];
@@ -182,8 +169,7 @@ static CGFloat sliderSpace  = 10;
     return _bufferProgressView;
 }
 
-- (UIView *)sliderProgressView
-{
+- (UIView *)sliderProgressView {
     if (!_sliderProgressView) {
         _sliderProgressView                 = [[UIView alloc] init];
         _sliderProgressView.backgroundColor = [UIColor redColor];
@@ -191,11 +177,12 @@ static CGFloat sliderSpace  = 10;
     return _sliderProgressView;
 }
 
-- (WYAVideoSliderButton *)sliderButton
-{
+- (WYAVideoSliderButton *)sliderButton {
     if (!_sliderButton) {
         _sliderButton = [WYAVideoSliderButton buttonWithType:UIButtonTypeCustom];
-        [_sliderButton setImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+        [_sliderButton
+            setImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)]
+            forState:UIControlStateNormal];
     }
     return _sliderButton;
 }

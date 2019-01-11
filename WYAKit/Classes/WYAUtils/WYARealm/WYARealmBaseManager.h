@@ -59,7 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param objectName 需要操作的class
  @param format 筛选条件
  */
-- (void)wya_deleteRealmWithObjectName:(NSString * _Nonnull)objectName whereFormat:(NSString *)format;
+- (void)wya_deleteRealmWithObjectName:(NSString * _Nonnull)objectName
+                          whereFormat:(NSString *)format;
 
 /**
  删除1张模型表数据
@@ -79,7 +80,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param valueInfo 需要更新的字典
  @return YES or NO
  */
-- (BOOL)wya_updateRealmWithClassName:(NSString * _Nonnull)objectName withValue:(NSDictionary *)valueInfo;
+- (BOOL)wya_updateRealmWithClassName:(NSString * _Nonnull)objectName
+                           withValue:(NSDictionary *)valueInfo;
 
 /**
  更新model
@@ -104,7 +106,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param format 查询条件
  @return 集合
  */
-- (RLMResults *)wya_lookupRealmWithAllClassName:(NSString * _Nonnull)objectName whereFormat:(NSString *)format;
+- (RLMResults *)wya_lookupRealmWithAllClassName:(NSString * _Nonnull)objectName
+                                    whereFormat:(NSString *)format;
 
 /**
  根据keyPath对集合进行排序
@@ -113,7 +116,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param ascending 升序降序
  @return 返回一个新的数组
  */
-- (RLMResults *)wya_sortedResults:(RLMResults *)rlmResults KeyPath:(NSString *)keyPath ascending:(BOOL)ascending;
+- (RLMResults *)wya_sortedResults:(RLMResults *)rlmResults
+                          KeyPath:(NSString *)keyPath
+                        ascending:(BOOL)ascending;
 
 @end
 

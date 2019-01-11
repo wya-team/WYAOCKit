@@ -15,8 +15,8 @@
 
 @implementation WYAOptionMenuCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.titleLabel           = [[UILabel alloc] init];
@@ -30,8 +30,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.rightImageView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
@@ -47,8 +46,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setModel:(WYAOptionMenuModel *)model
-{
+- (void)setModel:(WYAOptionMenuModel *)model {
     _model = model;
     if (model) {
         if (model.select) {
@@ -60,14 +58,12 @@
     }
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

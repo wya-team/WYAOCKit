@@ -12,32 +12,27 @@
 @implementation UIButton (Category)
 
 - (void)addCallBackAction:(ButtonActionCallBack)action
-         forControlEvents:(UIControlEvents)controlEvents
-{
-    objc_setAssociatedObject(self, @selector(addCallBackAction:forControlEvents:), action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+         forControlEvents:(UIControlEvents)controlEvents {
+    objc_setAssociatedObject(self, @selector(addCallBackAction:forControlEvents:), action,
+                             OBJC_ASSOCIATION_COPY_NONATOMIC);
     [self addTarget:self action:@selector(blockActionTouched:) forControlEvents:controlEvents];
 }
 
-- (void)addCallBackAction:(ButtonActionCallBack)action
-{
+- (void)addCallBackAction:(ButtonActionCallBack)action {
     [self addCallBackAction:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)blockActionTouched:(UIButton *)btn
-{
-    ButtonActionCallBack block = objc_getAssociatedObject(self, @selector(addCallBackAction:forControlEvents:));
-    if (block) {
-        block(btn);
-    }
+- (void)blockActionTouched:(UIButton *)btn {
+    ButtonActionCallBack block =
+        objc_getAssociatedObject(self, @selector(addCallBackAction:forControlEvents:));
+    if (block) { block(btn); }
 }
 
-- (void)wya_setBackgroundColor:(UIColor *)color forState:(UIControlState)state
-{
+- (void)wya_setBackgroundColor:(UIColor *)color forState:(UIControlState)state {
     [self setBackgroundImage:[UIImage wya_createImageWithColor:color] forState:state];
 }
 
-- (void)wya_gifImageWithSource:(NSArray<NSString *> *)source
-{
+- (void)wya_gifImageWithSource:(NSArray<NSString *> *)source {
     NSMutableArray * array = [NSMutableArray array];
     for (NSString * imageName in source) {
         UIImage * image = [UIImage imageNamed:imageName];
@@ -58,16 +53,21 @@ static char rightNameKey;
 static char bottomNameKey;
 static char leftNameKey;
 
-- (void)setEnlargeEdgeWithTop:(CGFloat)top right:(CGFloat)right bottom:(CGFloat)bottom left:(CGFloat)left
-{
-    objc_setAssociatedObject(self, &topNameKey, [NSNumber numberWithFloat:top], OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(self, &rightNameKey, [NSNumber numberWithFloat:right], OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(self, &bottomNameKey, [NSNumber numberWithFloat:bottom], OBJC_ASSOCIATION_COPY_NONATOMIC);
-    objc_setAssociatedObject(self, &leftNameKey, [NSNumber numberWithFloat:left], OBJC_ASSOCIATION_COPY_NONATOMIC);
+- (void)setEnlargeEdgeWithTop:(CGFloat)top
+                        right:(CGFloat)right
+                       bottom:(CGFloat)bottom
+                         left:(CGFloat)left {
+    objc_setAssociatedObject(self, &topNameKey, [NSNumber numberWithFloat:top],
+                             OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &rightNameKey, [NSNumber numberWithFloat:right],
+                             OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &bottomNameKey, [NSNumber numberWithFloat:bottom],
+                             OBJC_ASSOCIATION_COPY_NONATOMIC);
+    objc_setAssociatedObject(self, &leftNameKey, [NSNumber numberWithFloat:left],
+                             OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (CGRect)enlargedRect
-{
+- (CGRect)enlargedRect {
     NSNumber * topEdge    = objc_getAssociatedObject(self, &topNameKey);
     NSNumber * rightEdge  = objc_getAssociatedObject(self, &rightNameKey);
     NSNumber * bottomEdge = objc_getAssociatedObject(self, &bottomNameKey);
@@ -82,17 +82,13 @@ static char leftNameKey;
     }
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
-{
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     CGRect rect = [self enlargedRect];
-    if (CGRectEqualToRect(rect, self.bounds)) {
-        return [super hitTest:point withEvent:event];
-    }
+    if (CGRectEqualToRect(rect, self.bounds)) { return [super hitTest:point withEvent:event]; }
     return CGRectContainsPoint(rect, point) ? self : nil;
 }
 
-- (void)wya_setButtonImageLoctionRightWithSpace:(CGFloat)space
-{
+- (void)wya_setButtonImageLoctionRightWithSpace:(CGFloat)space {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高
     CGFloat imageWith = self.imageView.frame.size.width;
@@ -117,8 +113,7 @@ static char leftNameKey;
     [self setImageEdgeInsets:imageEdgeInsets];
 }
 
-- (void)wya_setButtonImageLocationTopWithSpace:(CGFloat)space
-{
+- (void)wya_setButtonImageLocationTopWithSpace:(CGFloat)space {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高
     CGFloat imageWith   = self.imageView.frame.size.width;
@@ -146,8 +141,7 @@ static char leftNameKey;
     [self setImageEdgeInsets:imageEdgeInsets];
 }
 
-- (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space
-{
+- (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space {
     [self.superview layoutIfNeeded];
     // 1. 得到imageView和titleLabel的宽、高
     CGFloat imageWith   = self.imageView.frame.size.width;

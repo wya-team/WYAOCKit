@@ -9,8 +9,7 @@
 
 @implementation UIViewController (Catagory)
 
-+ (void)load
-{
++ (void)load {
     static dispatch_once_t onceToken;
 
     dispatch_once(&onceToken, ^{
@@ -26,12 +25,12 @@
     });
 }
 
-- (void)wya_viewWillAppear:(BOOL)animated
-{
+- (void)wya_viewWillAppear:(BOOL)animated {
     [self wya_viewWillAppear:animated];
     UIScrollView * scrollView = nil;
     for (UIView * view in self.view.subviews) {
-        if ([view isKindOfClass:[UITableView class]] || [view isKindOfClass:[UICollectionView class]]) {
+        if ([view isKindOfClass:[UITableView class]] ||
+            [view isKindOfClass:[UICollectionView class]]) {
             scrollView = (UIScrollView *)view;
             break;
         }
@@ -47,30 +46,25 @@
     }
 }
 
-- (void)wya_setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets
-{
+- (void)wya_setAutomaticallyAdjustsScrollViewInsets:(BOOL)automaticallyAdjustsScrollViewInsets {
     [self wya_setAutomaticallyAdjustsScrollViewInsets:automaticallyAdjustsScrollViewInsets];
 }
 
 //页面如果要修改statusBar请重写以下两个方法
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return NO;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle
-{
+- (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
 }
 
 //设置页面支持手机方向，如果想要修改请重写以下两个方法
-- (BOOL)shouldAutorotate
-{
+- (BOOL)shouldAutorotate {
     return NO;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
 }
 

@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
  *    @param title   标题
  *    @param message 消息
  */
-- (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title message:(NSString * _Nullable)message;
+- (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title
+                               message:(NSString * _Nullable)message;
 
 /**
  *    添加一个 action

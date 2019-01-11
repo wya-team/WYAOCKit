@@ -10,8 +10,7 @@
 
 @implementation WYAVideoItem
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         _seekTime           = 0;

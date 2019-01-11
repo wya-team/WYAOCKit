@@ -20,8 +20,8 @@ static const CGFloat as_backgroundAlpha = 0.4;
  */
 @property (nonatomic, strong) UIButton * backgroundButton;
 
-@property (nonatomic, assign) WYAPopupPresentStyle presentStyle; //present 转场风格
-@property (nonatomic, assign) WYAPopupDismissStyle dismissStyle; //dismiss 转场风格
+@property (nonatomic, assign) WYAPopupPresentStyle presentStyle; // present 转场风格
+@property (nonatomic, assign) WYAPopupDismissStyle dismissStyle; // dismiss 转场风格
 
 @property (nonatomic, assign) WYAAlertStyle alertStyle; //弹出视图类型
 
@@ -57,7 +57,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
 
 /**
  添加 action
- 
+
  @param action action
  */
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action;

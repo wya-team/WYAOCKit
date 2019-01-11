@@ -14,8 +14,8 @@
 
 @implementation WYAOptionMenuSecondLevelCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style
+              reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.titleLabel           = [[UILabel alloc] init];
@@ -26,8 +26,7 @@
     return self;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 16 * SizeAdapter, 0, 5 * SizeAdapter));
@@ -35,8 +34,7 @@
 }
 
 #pragma mark--- Setter
-- (void)setModel:(WYAOptionMenuSecondLevelModel *)model
-{
+- (void)setModel:(WYAOptionMenuSecondLevelModel *)model {
     _model = model;
     if (model) {
         if (model.enableCell) {
@@ -46,7 +44,9 @@
             self.selectionStyle = UITableViewCellSelectionStyleDefault;
             if (model.select) {
                 self.titleLabel.textColor = random(65, 153, 247, 1);
-                self.accessoryView        = [[UIImageView alloc] initWithImage:[UIImage loadBundleImage:@"icon_radio2_selected" ClassName:NSStringFromClass([self class])]];
+                self.accessoryView        = [[UIImageView alloc]
+                    initWithImage:[UIImage loadBundleImage:@"icon_radio2_selected"
+                                                 ClassName:NSStringFromClass([self class])]];
             } else {
                 self.titleLabel.textColor = random(51, 51, 51, 1);
                 self.accessoryView        = nil;
@@ -57,14 +57,12 @@
     }
 }
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

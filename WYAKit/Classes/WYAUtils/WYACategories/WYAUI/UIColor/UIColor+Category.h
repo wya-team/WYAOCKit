@@ -62,7 +62,7 @@ UIColor * wya_rgbA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
 
 /**
  调节颜色的明亮度
- 
+
  @param color 颜色
  @param delta 明亮度
  @return color
@@ -71,7 +71,7 @@ UIColor * wya_rgbA(CGFloat red, CGFloat green, CGFloat blue, CGFloat alpha);
 
 /**
  调整颜色的透明度
- 
+
  @param color 颜色
  @param delta 透明度
  @return color

@@ -39,7 +39,8 @@ typedef NS_ENUM(NSUInteger, WYAOptionMenuStyle) {
 
 @property (nonatomic, weak) id<WYAOptionMenuDelegate> wya_delegate;
 @property (nonatomic, strong) NSMutableArray<WYAOptionMenuModel *> * titleArray;
-@property (nonatomic, assign) CGFloat leftTableProportion; //取值范围0~1，适用于左侧table，右侧table自适应
+@property (nonatomic, assign)
+    CGFloat leftTableProportion; //取值范围0~1，适用于左侧table，右侧table自适应
 @property (nonatomic, assign) WYAOptionMenuStyle menuStyle;
 
 - (instancetype)initWithFrame:(CGRect)frame optionMenuStyle:(WYAOptionMenuStyle)optionMenuStyle;

@@ -20,26 +20,19 @@
 
 @implementation WYATextView
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
-    if (self) {
-        [self createUI];
-    }
+    if (self) { [self createUI]; }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
-    if (self) {
-        [self createUI];
-    }
+    if (self) { [self createUI]; }
     return self;
 }
 
-- (void)createUI
-{
+- (void)createUI {
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.titleLabel];
     [self addSubview:self.noteLabel];
@@ -51,8 +44,7 @@
 }
 
 #pragma mark--- Private Method
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(5 * SizeAdapter);
@@ -84,8 +76,9 @@
 }
 
 #pragma mark--- Public Method
-- (void)wya_PlaceHoldString:(NSString *)placeHoldString PlaceHoldColor:(UIColor *)placeHoldColor PlaceHoldFont:(CGFloat)placeHoldFont
-{
+- (void)wya_PlaceHoldString:(NSString *)placeHoldString
+             PlaceHoldColor:(UIColor *)placeHoldColor
+              PlaceHoldFont:(CGFloat)placeHoldFont {
     self.textView.text      = placeHoldString;
     self.lastPlaceHold      = placeHoldString;
     self.textView.textColor = placeHoldColor;
@@ -95,27 +88,21 @@
 }
 
 #pragma mark--- Setter
-- (void)setTextViewMaxHeight:(float)textViewMaxHeight
-{
+- (void)setTextViewMaxHeight:(float)textViewMaxHeight {
     _textViewMaxHeight = textViewMaxHeight;
 }
 
-- (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount
-{
+- (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount {
     _textViewWordsCount = textViewWordsCount;
     self.noteLabel.text = [NSString stringWithFormat:@"0/%lu", (unsigned long)textViewWordsCount];
 }
 
-- (void)setTitle:(NSString *)title
-{
+- (void)setTitle:(NSString *)title {
     _title = title;
-    if (title) {
-        self.titleLabel.text = title;
-    }
+    if (title) { self.titleLabel.text = title; }
 }
 
-- (void)setShowTitle:(BOOL)showTitle
-{
+- (void)setShowTitle:(BOOL)showTitle {
     _showTitle = showTitle;
     if (showTitle == NO) {
         self.titleLabel.hidden = YES;
@@ -126,8 +113,7 @@
     [self layoutIfNeeded];
 }
 
-- (void)setShowWordsCount:(BOOL)showWordsCount
-{
+- (void)setShowWordsCount:(BOOL)showWordsCount {
     _showWordsCount = showWordsCount;
     if (showWordsCount == NO) {
         self.noteLabel.hidden = YES;
@@ -139,8 +125,7 @@
 }
 
 #pragma mark--- Getter
-- (UILabel *)titleLabel
-{
+- (UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel               = [[UILabel alloc] init];
         _titleLabel.font          = FONT(15);
@@ -149,8 +134,7 @@
     return _titleLabel;
 }
 
-- (UITextView *)textView
-{
+- (UITextView *)textView {
     if (!_textView) {
         _textView          = [[UITextView alloc] init];
         _textView.delegate = self;
@@ -158,8 +142,7 @@
     return _textView;
 }
 
-- (UILabel *)noteLabel
-{
+- (UILabel *)noteLabel {
     if (!_noteLabel) {
         _noteLabel               = [[UILabel alloc] init];
         _noteLabel.textColor     = random(153, 153, 153, 1);
@@ -170,21 +153,20 @@
 }
 
 #pragma mark--- UITextViewDelegate
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
-{
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:self.lastPlaceHold]) {
         textView.text      = @"";
         textView.textColor = [UIColor blackColor];
         textView.font      = FONT(17);
     }
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldBeginEditing:textView];
     }
     return YES;
 }
 
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView
-{
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
     if (textView.text.length < 1) {
         textView.text      = self.lastPlaceHold;
         textView.textColor = _placeHoldColor;
@@ -196,35 +178,40 @@
             textView.font      = FONT(_placeHoldFont);
         }
     }
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
         return [self.wya_delegate wya_TextViewShouldEndEditing:textView];
     }
     return YES;
 }
 
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidBeginEditing:)]) {
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidBeginEditing:)]) {
         [self.wya_delegate wya_TextViewDidBeginEditing:textView];
     }
 }
-- (void)textViewDidEndEditing:(UITextView *)textView
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
         [self.wya_delegate wya_TextViewDidEndEditing:textView];
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldChangeTextInRange:replacementText:)]) {
-        return [self.wya_delegate wya_TextView:textView shouldChangeTextInRange:range replacementText:text];
+- (BOOL)textView:(UITextView *)textView
+    shouldChangeTextInRange:(NSRange)range
+            replacementText:(NSString *)text {
+    if (self.wya_delegate &&
+        [self.wya_delegate
+            respondsToSelector:@selector(wya_TextView:shouldChangeTextInRange:replacementText:)]) {
+        return [self.wya_delegate wya_TextView:textView
+                       shouldChangeTextInRange:range
+                               replacementText:text];
     }
     return YES;
 }
 
-- (void)textViewDidChange:(UITextView *)textView
-{
+- (void)textViewDidChange:(UITextView *)textView {
     NSInteger length = self.textView.text.length;
 
     NSString * toBeString = textView.text;
@@ -233,7 +220,8 @@
 
     NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
 
-    if ([lang isEqualToString:@"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
+    if ([lang isEqualToString:
+                  @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
 
         UITextRange * selectedRange = [textView markedTextRange];
 
@@ -245,12 +233,15 @@
 
         if (!position) {
             if (toBeString.length > self.textViewWordsCount) {
-                textView.text = [toBeString substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
+                textView.text = [toBeString
+                    substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
 
-                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                self.noteLabel.text = [NSString
+                    stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
 
             } else {
-                self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                self.noteLabel.text = [NSString
+                    stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
             }
         }
 
@@ -259,10 +250,12 @@
         if (toBeString.length > self.textViewWordsCount) {
             textView.text = [toBeString substringToIndex:self.textViewWordsCount];
 
-            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+            self.noteLabel.text = [NSString
+                stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
 
         } else {
-            self.noteLabel.text = [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+            self.noteLabel.text =
+                [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
         }
     }
     /*
@@ -289,33 +282,52 @@
         }
     }
     textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, size.height+20*SizeAdapter);
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,
+    size.height+20*SizeAdapter);
     [self setNeedsLayout];
     [self layoutIfNeeded];*/
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
         [self.wya_delegate wya_TextViewDidChange:textView];
     }
 }
 
-- (void)textViewDidChangeSelection:(UITextView *)textView
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChangeSelection:)]) {
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChangeSelection:)]) {
         [self.wya_delegate wya_TextViewDidChangeSelection:textView];
     }
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0)
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldInteractWithURL:inRange:interaction:)]) {
-        return [self.wya_delegate wya_TextView:textView shouldInteractWithURL:URL inRange:characterRange interaction:interaction];
+- (BOOL)textView:(UITextView *)textView
+    shouldInteractWithURL:(NSURL *)URL
+                  inRange:(NSRange)characterRange
+              interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0) {
+    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:
+                                                                       shouldInteractWithURL:
+                                                                                     inRange:
+                                                                                 interaction:)]) {
+        return [self.wya_delegate wya_TextView:textView
+                         shouldInteractWithURL:URL
+                                       inRange:characterRange
+                                   interaction:interaction];
     }
     return YES;
 }
 
-- (BOOL)textView:(UITextView *)textView shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment inRange:(NSRange)characterRange interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0)
-{
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:shouldInteractWithTextAttachment:inRange:interaction:)]) {
-        return [self.wya_delegate wya_TextView:textView shouldInteractWithTextAttachment:textAttachment inRange:characterRange interaction:interaction];
+- (BOOL)textView:(UITextView *)textView
+    shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment
+                             inRange:(NSRange)characterRange
+                         interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0) {
+    if (self.wya_delegate &&
+        [self.wya_delegate respondsToSelector:@selector(wya_TextView:
+                                                  shouldInteractWithTextAttachment:
+                                                                           inRange:
+                                                                       interaction:)]) {
+        return [self.wya_delegate wya_TextView:textView
+              shouldInteractWithTextAttachment:textAttachment
+                                       inRange:characterRange
+                                   interaction:interaction];
     }
     return YES;
 }

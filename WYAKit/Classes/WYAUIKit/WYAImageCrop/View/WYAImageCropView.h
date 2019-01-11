@@ -23,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAImageCropView : UIView
 
 /**
- The image that the crop view is displaying. This cannot be changed once the crop view is instantiated.
+ The image that the crop view is displaying. This cannot be changed once the crop view is
+ instantiated.
  */
 @property (nonnull, nonatomic, strong, readonly) UIImage * image;
 
@@ -58,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly) BOOL canBeReset;
 
-/** 
+/**
  The frame of the cropping box in the coordinate space of the crop view
  */
 @property (nonatomic, readonly) CGRect cropBoxFrame;
@@ -98,7 +99,7 @@ NS_ASSUME_NONNULL_BEGIN
  If true, a custom aspect ratio is set, and the aspectRatioLockEnabled is set to YES,
  the crop box will swap it's dimensions depending on portrait or landscape sized images.
  This value also controls whether the dimensions can swap when the image is rotated.
- 
+
  Default is NO.
  */
 @property (nonatomic, assign) BOOL aspectRatioLockDimensionSwapEnabled;
@@ -115,12 +116,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) BOOL cropBoxAspectRatioIsPortrait;
 
 /**
- The rotation angle of the crop view (Will always be negative as it rotates in a counter-clockwise direction)
+ The rotation angle of the crop view (Will always be negative as it rotates in a counter-clockwise
+ direction)
  */
 @property (nonatomic, assign) NSInteger angle;
 
 /**
- Hide all of the crop elements for transition animations 
+ Hide all of the crop elements for transition animations
  */
 @property (nonatomic, assign) BOOL croppingViewsHidden;
 
@@ -145,12 +147,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSTimeInterval cropAdjustingDelay;
 
 /**
-The minimum croping aspect ratio. If set, user is prevented from setting cropping rectangle to lower aspect ratio than defined by the parameter.
+The minimum croping aspect ratio. If set, user is prevented from setting cropping rectangle to lower
+aspect ratio than defined by the parameter.
 */
 @property (nonatomic, assign) CGFloat minimumAspectRatio;
 
 /**
- The maximum scale that user can apply to image by pinching to zoom. Small values are only recomended with aspectRatioLockEnabled set to true. Default to 15.0
+ The maximum scale that user can apply to image by pinching to zoom. Small values are only
+ recomended with aspectRatioLockEnabled set to true. Default to 15.0
  */
 @property (nonatomic, assign) CGFloat maximumZoomScale;
 
@@ -162,25 +166,27 @@ The minimum croping aspect ratio. If set, user is prevented from setting croppin
 /**
  Create a new instance of the crop view with the specified image and cropping
  */
-- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(nonnull UIImage *)image;
+- (nonnull instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style
+                                        image:(nonnull UIImage *)image;
 
 /**
  Performs the initial set up, including laying out the image and applying any restore properties.
- This should be called once the crop view has been added to a parent that is in its final layout frame.
+ This should be called once the crop view has been added to a parent that is in its final layout
+ frame.
  */
 - (void)performInitialSetup;
 
 /**
  When performing large size transitions (eg, orientation rotation),
  set simple mode to YES to temporarily graphically heavy effects like translucency.
- 
+
  @param simpleMode Whether simple mode is enabled or not
- 
+
  */
 - (void)setSimpleRenderMode:(BOOL)simpleMode animated:(BOOL)animated;
 
 /**
- When performing a screen rotation that will change the size of the scroll view, this takes 
+ When performing a screen rotation that will change the size of the scroll view, this takes
  a snapshot of all of the scroll view data before it gets manipulated by iOS.
  Please call this in your view controller, before the rotation animation block is committed.
  */
@@ -194,29 +200,30 @@ The minimum croping aspect ratio. If set, user is prevented from setting croppin
 
 /**
  Reset the crop box and zoom scale back to the initial layout
- 
+
  @param animated The reset is animated
  */
 - (void)resetLayoutToDefaultAnimated:(BOOL)animated;
 
 /**
  Changes the aspect ratio of the crop box to match the one specified
- 
- @param aspectRatio The aspect ratio (For example 16:9 is 16.0f/9.0f). 'CGSizeZero' will reset it to the image's own ratio
+
+ @param aspectRatio The aspect ratio (For example 16:9 is 16.0f/9.0f). 'CGSizeZero' will reset it to
+ the image's own ratio
  @param animated Whether the locking effect is animated
  */
 - (void)setAspectRatio:(CGSize)aspectRatio animated:(BOOL)animated;
 
 /**
  Rotates the entire canvas to a 90-degree angle. The default rotation is counterclockwise.
- 
+
  @param animated Whether the transition is animated
  */
 - (void)rotateImageNinetyDegreesAnimated:(BOOL)animated;
 
 /**
  Rotates the entire canvas to a 90-degree angle
- 
+
  @param animated Whether the transition is animated
  @param clockwise Whether the rotation is clockwise. Passing 'NO' means counterclockwise
  */

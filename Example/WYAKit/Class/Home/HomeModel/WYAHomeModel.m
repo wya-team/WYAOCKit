@@ -14,8 +14,7 @@
 
 @implementation WYAHomeModel
 
-+ (NSArray *)allModel
-{
++ (NSArray *)allModel {
     WYAHomeItemModel * item1 = [[WYAHomeItemModel alloc] init];
     item1.rowName            = @"WYADrawerViewController 抽屉 ";
     item1.className          = @"WYADemoDrawerViewController";

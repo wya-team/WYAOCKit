@@ -23,8 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (CGFloat)customPickerView:(UIView *)pickerView widthForComponent:(NSInteger)component;
 - (CGFloat)customPickerView:(UIView *)pickerView rowHeightForComponent:(NSInteger)component;
-- (UIView *)customPickerView:(UIView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view;
-- (void)customPickerView:(UIView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
+- (UIView *)customPickerView:(UIView *)pickerView
+                  viewForRow:(NSInteger)row
+                forComponent:(NSInteger)component
+                 reusingView:(nullable UIView *)view;
+- (void)customPickerView:(UIView *)pickerView
+            didSelectRow:(NSInteger)row
+             inComponent:(NSInteger)component;
 @end
 
 @interface WYACustomPickerView : UIView

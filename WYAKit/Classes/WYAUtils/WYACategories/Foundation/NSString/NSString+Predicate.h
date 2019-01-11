@@ -66,21 +66,21 @@
 
 /**
  车牌号的有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isCarNumber;
 
 /**
  简单的身份证有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_simpleVerifyIdentityCardNum;
 
 /**
  精确的身份证号码有效性检测
- 
+
  @param value 精确的身份证号码有效性检测
  @return yes 有效  no 无效
  */
@@ -88,42 +88,42 @@
 
 /**
  银行卡的有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_bankCardluhmCheck;
 
 /**
  IP地址有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isIPAddress;
 
 /**
  Mac地址有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isMacAddress;
 
 /**
  网址有效性
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isValidUrl;
 
 /**
  邮政编码
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isValidPostalcode;
 
 /**
  工商税号
- 
+
  @return yes 有效  no 无效
  */
 - (BOOL)wya_isValidTaxNo;
@@ -182,11 +182,11 @@
  (?<x>-<y>exp)     平衡组
  (?im-nsx:exp)     在子表达式exp中改变处理选项
  (?im-nsx)       为表达式后面的部分改变处理选项
- (?(exp)yes|no)     把exp当作零宽正向先行断言，如果在这个位置能匹配，使用yes作为此组的表达式；否则使用no
+ (?(exp)yes|no) 把exp当作零宽正向先行断言，如果在这个位置能匹配，使用yes作为此组的表达式；否则使用no
  (?(exp)yes)     同上，只是使用空表达式作为no
  (?(name)yes|no) 如果命名为name的组捕获到了内容，使用yes作为表达式；否则使用no
  (?(name)yes)     同上，只是使用空表达式作为no
- 
+
  捕获
  (exp)               匹配exp,并捕获文本到自动命名的组里
  (?<name>exp)        匹配exp,并捕获文本到名称为name的组里，也可以写成(?'name'exp)
@@ -198,10 +198,11 @@
  (?<!exp)            匹配前面不是exp的位置
  注释
  (?#comment)         这种类型的分组不对正则表达式的处理产生任何影响，用于提供注释让人阅读
- 
+
  *  表达式：\(?0\d{2}[) -]?\d{8}
  *  这个表达式可以匹配几种格式的电话号码，像(010)88886666，或022-22334455，或02912345678等。
  *  我们对它进行一些分析吧：
- *  首先是一个转义字符\(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，
+ *
+ 首先是一个转义字符\(,它能出现0次或1次(?),然后是一个0，后面跟着2个数字(\d{2})，然后是)或-或空格中的一个，它出现1次或不出现(?)，
  *  最后是8个数字(\d{8})
  */
