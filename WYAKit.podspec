@@ -38,20 +38,6 @@ TODO: Add long description of the pod here.
      'WYAKit' => ['WYAKit/Assets/*.xcassets']
   }
   
-  s.subspec 'WYACategories' do |ss|
-      ss.subspec 'Foundation' do |sss|
-          sss.source_files = 'WYAKit/Classes/WYACategories/Foundation/*'
-      end
-  end
-  
-  s.subspec 'WYAClearCache' do |ss|
-      
-  end
-  
-  s.subspec 'WYACompareVersion' do |ss|
-      
-  end
-  
   s.subspec 'WYAHardware' do |ss|
       ss.source_files = 'WYAKit/Classes/WYAHardware/*.{h,m}'
       ss.subspec 'WYACamera' do |sss|
