@@ -22,7 +22,7 @@ pod 'WYAKit'
 
 ## Author
 
-WYATeam, Lsh
+WYATeam, Lsh/Ljh
 
 ## License
 
