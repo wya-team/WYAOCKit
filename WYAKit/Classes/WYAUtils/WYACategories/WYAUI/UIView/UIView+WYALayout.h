@@ -129,4 +129,20 @@ typedef enum : NSUInteger {
  */
 - (void)addRoundedCorners:(UIRectCorner)corners withRadii:(CGSize)radii viewRect:(CGRect)rect;
 
+
+/**
+ 获取view所在的控制器
+
+ @return 返回view所在的控制器
+ */
+- (UIViewController *)cmam_parentController;
+
+
+/**
+ 获取view所在的控制器
+
+ @return 返回view所在的控制器
+ */
++ (UIViewController *)cmam_currentViewConrtoller;
+
 @end
