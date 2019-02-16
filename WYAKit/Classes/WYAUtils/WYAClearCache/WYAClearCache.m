@@ -111,6 +111,19 @@
     return sizeStr;
 }
 
++ (NSString *)wya_getDivceTotalSize{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSDictionary * attributes =
+    [fileManager attributesOfFileSystemForPath:NSHomeDirectory()
+                                         error:nil];
+
+    NSLog(@"总容量%.2fG", [attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3)));
+
+    NSString * sizeStr =
+    [NSString stringWithFormat:@"%0.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
+    return sizeStr;
+}
+
 // 获取缓存精确到MB
 + (NSString *)automaticCacheUnitWith:(double)folder {
     if (folder / (1000.0 * 1000.0 * 1000.0) < 1) {
