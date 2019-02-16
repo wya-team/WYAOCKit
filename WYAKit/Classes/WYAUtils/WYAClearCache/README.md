@@ -54,6 +54,10 @@
 @param folderSize 返回可用的size
 */
 + (void)wya_getDivceAvailableSizeBlock:(void (^)(NSString * folderSize))folderSize;
+/**
+ 获取Divce总存储空间
+ */
++ (NSString *)wya_getDivceTotalSize;
 ```
 
 ## 基本用法
