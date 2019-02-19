@@ -40,6 +40,18 @@
 
     folderSize([self automaticUnitWith:folder]);
 }
+
++ (void)wya_getDivceAvailableSizeValueBlock:(void (^)(NSString * folderSize))folderSize{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSDictionary * attributes =
+    [fileManager attributesOfFileSystemForPath:NSHomeDirectory()
+                                         error:nil];
+    double folder = [attributes[NSFileSystemFreeSize] doubleValue];
+    NSString * folderValue = [NSString stringWithFormat:@"%f",folder];
+    folderSize(folderValue);
+}
+
+
 #pragma mark ======= private methods
 + (void)clearFileAtPath:(NSString *)folderPath ClearStatusBlock:(void (^)(BOOL status))clearStatus {
     NSFileManager * manage = [NSFileManager defaultManager];
@@ -122,6 +134,19 @@
     NSString * sizeStr =
     [NSString stringWithFormat:@"%0.2fG",[attributes[NSFileSystemSize] doubleValue] / (powf(1024, 3))];
     return sizeStr;
+}
+
++ (NSString *)wya_getDivceTotalSizeValue{
+    NSFileManager * fileManager = [NSFileManager defaultManager];
+    NSDictionary * attributes =
+    [fileManager attributesOfFileSystemForPath:NSHomeDirectory()
+                                         error:nil];
+
+    NSLog(@"总容量%f", [attributes[NSFileSystemSize] doubleValue]);
+
+    NSString * sizeValueStr =
+    [NSString stringWithFormat:@"%f",[attributes[NSFileSystemSize] doubleValue]];
+    return sizeValueStr;
 }
 
 // 获取缓存精确到MB
