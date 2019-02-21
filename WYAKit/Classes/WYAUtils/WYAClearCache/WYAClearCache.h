@@ -24,6 +24,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)wya_defaultCachesFolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
+ 获取系统缓存caches文件大小单位B
+
+ @param folderSize folderSize block形式传出大小 单位为B
+ */
++ (void)wya_defaultCachesFolderSizeValueBlock:(void (^)(NSString * folderSize))folderSize;
+
+/**
  清理caches路径缓存
 
  @param clearStatus YES or NO
@@ -37,6 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)wya_fileSizeAtPath:(NSString *)filePath
            FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
+
+/**
+ 获取缓存文件大小单位B
+
+ @param folderSize block形式传出大小 单位为B
+ */
++ (void)wya_fileSizeAtPath:(NSString *)filePath
+      FolderSizeValueBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  清理自定义缓存内容
