@@ -16,6 +16,16 @@
     [self folderSizeAtPath:cachPath FolderSizeBlock:folderSize];
 }
 
++ (void)wya_defaultCachesFolderSizeValueBlock:(void (^)(NSString * _Nonnull))folderSize{
+    NSString * cachPath = [NSString wya_libCachePath];
+    [self folderSizeAtPath:cachPath FolderSizeValueBlock:folderSize];
+}
+
+
++ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeValueBlock:(void (^)(NSString * _Nonnull))folderSize{
+    [self folderSizeAtPath:filePath FolderSizeValueBlock:folderSize];
+}
+
 + (void)wya_fileSizeAtPath:(NSString *)filePath
            FolderSizeBlock:(void (^)(NSString * folderSize))folderSize {
     [self folderSizeAtPath:filePath FolderSizeBlock:folderSize];
@@ -99,6 +109,30 @@
         });
     });
 }
+
++ (void)folderSizeAtPath:(NSString *)folderPath
+         FolderSizeValueBlock:(void (^)(NSString * fileSize))fileSize {
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:folderPath]) {
+        fileSize(0);
+        return;
+    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ //地址
+        NSEnumerator * childFilesEnumerator =
+        [[manager subpathsAtPath:folderPath] objectEnumerator];
+        NSString * fileName;
+        long long folderSize = 0;
+        while ((fileName = [childFilesEnumerator nextObject]) != nil) {
+            NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent:fileName];
+            folderSize += [self fileSizeAtPath:fileAbsolutePath];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //回调或者说是通知主线程刷新，
+            fileSize([NSString stringWithFormat:@"%f",folderSize]);
+        });
+    });
+}
+
 
 + (long long)fileSizeAtPath:(NSString *)filePath {
     NSFileManager * manager = [NSFileManager defaultManager];
