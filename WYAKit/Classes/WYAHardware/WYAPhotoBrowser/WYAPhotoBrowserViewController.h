@@ -6,10 +6,12 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
+#import "WYAPhotoBrowserSource.h"
 #import <Photos/Photos.h>
 #import <UIKit/UIKit.h>
 
 @interface WYAPhotoBrowserViewController : UIViewController
 @property (nonatomic, strong) PHAssetCollection * collection;
 @property (nonatomic, assign) NSInteger maxCount;
+@property (nonatomic, assign) WYAPhotoBrowserType photoBrowserType;
 @end

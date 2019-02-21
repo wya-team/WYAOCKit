@@ -67,14 +67,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)wya_getDivceTotalSize;
 
-
 /**
  获取Divce总空间单位KB以字符串形式返回
 
  @return 返回总空间单位KB未处理的原始数据
  */
 + (NSString *)wya_getDivceTotalSizeValue;
-
 
 /**
  获取可用空间单位KB

@@ -1,9 +1,9 @@
 
-
-#import "WYACameraViewController.h"
-#import "WYACameraPreviewImageView.h"
-#import "WYACameraTool.h"
 #import "WYAImageCropViewController.h"
+
+#import "WYACameraPreviewImageView.h"
+#import "WYACameraViewController.h"
+
 #import "WYAProgressView.h"
 
 @interface WYACameraViewController ()
@@ -29,19 +29,22 @@
 @property (nonatomic, strong) WYACameraPreviewImageView * placeholdImageView;
 @property (nonatomic, strong) AVPlayer * player;
 @property (nonatomic, assign) WYACameraType cameraType;
+@property (nonatomic, assign) WYACameraOrientation cameraOrientation;
 @end
 
 @implementation WYACameraViewController
 
 - (instancetype)init {
-    return [self initWithType:WYACameraTypeAll];
+    return [self initWithType:WYACameraTypeAll cameraOrientation:WYACameraOrientationBack];
 }
 
-- (instancetype)initWithType:(WYACameraType)type {
+- (instancetype)initWithType:(WYACameraType)type cameraOrientation:(WYACameraOrientation)cameraOrientation {
     self = [super init];
     if (self) {
-        self.time       = 15.0;
-        self.cameraType = type;
+        self.time              = 15.0;
+        self.cameraType        = type;
+        self.cameraOrientation = cameraOrientation;
+        self.saveAblum         = NO;
     }
     return self;
 }
@@ -224,7 +227,9 @@
                     NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
                     self.player                    = [AVPlayer playerWithURL:url];
                     AVPlayerLayer * layer          = [AVPlayerLayer playerLayerWithPlayer:self.player];
+                    layer.videoGravity             = AVLayerVideoGravityResizeAspectFill;
                     layer.frame                    = self.placeholdImageView.frame;
+                    layer.backgroundColor          = [UIColor blackColor].CGColor;
                     [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
                     [self.player play];
                     //注册通知
@@ -341,6 +346,18 @@
     _time = time;
 }
 
+- (void)setPreset:(WYAVideoPreset)preset {
+    self.videoTool.videoPreset = preset;
+}
+
+- (void)setSaveAblum:(BOOL)saveAblum {
+    self.videoTool.saveAblum = saveAblum;
+}
+
+- (void)setAlbumName:(NSString *)albumName {
+    self.videoTool.albumName = albumName;
+}
+
 #pragma mark - Getter -
 - (UILabel *)messageLabel {
     if (!_messageLabel) {
@@ -430,6 +447,9 @@
         [_cameraButton addTarget:self
                           action:@selector(cameraButtonClick:)
                 forControlEvents:UIControlEventTouchUpInside];
+        if (self.cameraOrientation == WYACameraOrientationFront) {
+            _cameraButton.selected = YES;
+        }
     }
     return _cameraButton;
 }
@@ -437,12 +457,14 @@
 - (WYAProgressView *)progressView {
     if (!_progressView) {
         _progressView = [[WYAProgressView alloc]
-            initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
-                                     ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
-                                     80 * SizeAdapter, 80 * SizeAdapter)];
+                initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
+                                         ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
+                                         80 * SizeAdapter, 80 * SizeAdapter)
+            progressViewStyle:WYAProgressViewStyleCircle];
         _progressView.borderWidth         = 10 * SizeAdapter;
         _progressView.layer.cornerRadius  = 40 * SizeAdapter;
         _progressView.layer.masksToBounds = YES;
+        _progressView.backgroundImage     = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)];
         if (self.cameraType == WYACameraTypeAll) {
             UITapGestureRecognizer * tap =
                 [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -470,7 +492,9 @@
 }
 
 - (WYACameraTool *)videoTool {
-    if (!_videoTool) { _videoTool = [[WYACameraTool alloc] init]; }
+    if (!_videoTool) {
+        _videoTool = [[WYACameraTool alloc] initWithCameraOrientation:self.cameraOrientation];
+    }
     return _videoTool;
 }
 

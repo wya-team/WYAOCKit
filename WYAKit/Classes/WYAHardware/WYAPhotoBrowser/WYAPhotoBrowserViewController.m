@@ -7,11 +7,17 @@
 //
 
 #import "WYAPhotoBrowserViewController.h"
+
 #import "WYAPhotoBrowser.h"
+
 #import "WYAPhotoBrowserCell.h"
+
 #import "WYAPhotoBrowserManager.h"
+
 #import "WYAPhotoBrowserModel.h"
+
 #import "WYAPhotoEditViewController.h"
+
 #import "controlView.h"
 
 @interface WYAPhotoBrowserViewController () <UICollectionViewDelegate, UICollectionViewDataSource,
@@ -105,13 +111,16 @@
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (self.collection) {
-            self.dataSource = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
+            NSMutableArray * array = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
+            self.dataSource        = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
+
         } else {
-            self.dataSource =
+            NSMutableArray * array =
                 [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
                                        AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
                                                CollectionSort:AssetCollectionStartDate
                                                     assetSort:AssetCreationDate];
+            self.dataSource = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
         }
 
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -158,6 +167,35 @@
                                            }
                                        }];
     };
+}
+
+- (NSMutableArray *)deleteSomePHAssetWithArray:(NSMutableArray *)array photoType:(WYAPhotoBrowserType)type {
+    NSMutableArray * arr = [NSMutableArray array];
+    switch (self.photoBrowserType) {
+        case WYAPhotoBrowserTypeAll:
+            return array;
+
+        case WYAPhotoBrowserTypePhoto: {
+            for (WYAPhotoBrowserModel * model in array) {
+
+                if (model.asset.mediaType == PHAssetMediaTypeImage) {
+                    [arr addObject:model];
+                }
+            }
+            return arr;
+        }
+
+        case WYAPhotoBrowserTypeVideo: {
+            for (WYAPhotoBrowserModel * model in array) {
+                if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+                    [arr addObject:model];
+                }
+            }
+            return arr;
+        }
+        default:
+            return nil;
+    }
 }
 
 #pragma mark--- Getter

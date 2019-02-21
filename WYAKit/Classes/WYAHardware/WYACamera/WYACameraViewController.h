@@ -1,5 +1,6 @@
 
 
+#import "WYACameraTool.h"
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSUInteger, WYACameraType) {
@@ -26,12 +27,26 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 @property (nonatomic, assign) CGFloat time;
 
 /**
+ 录制视频质量
+ */
+@property (nonatomic, assign) WYAVideoPreset preset;
+
+/**
+ 是否保存图片或视频至相册
+ */
+@property (nonatomic, assign) BOOL saveAblum;
+
+/**
+ 相册名
+ */
+@property (nonatomic, copy) NSString * albumName;
+/**
  初始化
 
  @param type 相机类型
  @return self
  */
-- (instancetype)initWithType:(WYACameraType)type;
+- (instancetype)initWithType:(WYACameraType)type cameraOrientation:(WYACameraOrientation)cameraOrientation;
 
 /**
  清除缓存

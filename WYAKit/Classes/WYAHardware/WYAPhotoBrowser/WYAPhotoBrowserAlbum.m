@@ -66,6 +66,7 @@
 
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
     vc.maxCount                        = self.maxCount;
+    vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:NO];
     [self photoAlbum];
 }
@@ -136,6 +137,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
     vc.collection                      = collection;
     vc.maxCount                        = self.maxCount;
+    vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

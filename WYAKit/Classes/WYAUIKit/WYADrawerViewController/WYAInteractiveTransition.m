@@ -218,7 +218,8 @@
         @selector(wya_gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:);
     if ([self.weakVC respondsToSelector:selector]) {
         IMP imp = [self.weakVC methodForSelector:selector];
-        BOOL(*func)(id, SEL, UIGestureRecognizer *, UIGestureRecognizer *) = (void *)imp;
+        BOOL(*func);
+        (id, SEL, UIGestureRecognizer *, UIGestureRecognizer *) = (void *)imp;
         BOOL result = func(self.weakVC, selector, gestureRecognizer, otherGestureRecognizer);
         return result;
     }

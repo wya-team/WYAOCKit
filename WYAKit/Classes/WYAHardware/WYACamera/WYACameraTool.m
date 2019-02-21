@@ -16,10 +16,22 @@
 @property (strong, nonatomic) AVCaptureMovieFileOutput * captureMovieFileOutput; //视频输出流
 @property (strong, nonatomic) AVCaptureStillImageOutput * imageOutPut;           //照片输出流
 @property (nonatomic, strong) AVCaptureDevice * device;
-
+@property (nonatomic, assign) WYACameraOrientation cameraOrientation;
 @end
 
 @implementation WYACameraTool
+
+- (instancetype)init {
+    return [self initWithCameraOrientation:WYACameraOrientationBack];
+}
+
+- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation {
+    self = [super init];
+    if (self) {
+        self.cameraOrientation = cameraOrientation;
+    }
+    return self;
+}
 
 #pragma mark - Public Method -
 //启动录制功能
@@ -75,7 +87,9 @@
                 jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
             UIImage * imagee = [UIImage imageWithData:imageData];
             image(imagee);
-            //        [self saveImageWithImage:imagee];
+            if (self.saveAblum) {
+                [self savePhtotsWithImage:imagee videoUrl:nil];
+            }
 
         }];
 }
@@ -184,36 +198,125 @@
     //        }
     //        NSLog(@"成功保存视频到相簿.");
     //    }];
+    if (self.saveAblum) {
+        [self savePhtotsWithImage:nil videoUrl:outputFileURL];
+    }
 }
 
 /**
  * 保存图片到相册
  */
-- (void)saveImageWithImage:(UIImage *)image {
-    // 判断授权状态
+- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
+    // 获取当前的授权状态
+    PHAuthorizationStatus lastStatus = [PHPhotoLibrary authorizationStatus];
+
+    // 请求授权
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-        if (status != PHAuthorizationStatusAuthorized) return;
-
+        //回到主线程
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSError * error = nil;
 
-            // 保存相片到相机胶卷
-            __block PHObjectPlaceholder * createdAsset = nil;
-            [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
-                if (@available(iOS 9.0, *)) {
-                    createdAsset = [PHAssetCreationRequest creationRequestForAssetFromImage:image]
-                                       .placeholderForCreatedAsset;
-                } else {
-                    // Fallback on earlier versions
+            if (status == PHAuthorizationStatusDenied) {
+                if (lastStatus == PHAuthorizationStatusNotDetermined) {
+                    //说明，用户之前没有做决定，在弹出授权框中，选择了拒绝
+                    [UIView wya_showBottomToastWithMessage:@"保存失败"];
+                    return;
                 }
-            } error:&error];
+                // 说明，之前用户选择拒绝过，现在又点击保存按钮，说明想要使用该功能，需要提示用户打开授权
+                [UIView wya_showBottomToastWithMessage:@"请前往设置界面开启权限"];
 
-            if (error) {
-                NSLog(@"保存失败：%@", error);
-                return;
+            } else if (status == PHAuthorizationStatusAuthorized) {
+                //保存图片---调用上面封装的方法
+                [self saveImageToCustomAblumWithImage:image videoUrl:videoUrl];
+            } else if (status == PHAuthorizationStatusRestricted) {
+                [UIView wya_showBottomToastWithMessage:@"保存失败"];
             }
         });
     }];
+}
+
+- (void)saveImageToCustomAblumWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
+
+    PHFetchResult<PHAsset *> * assets = [self synchronousSaveImageWithPhotosWithImage:image videoUrl:videoUrl];
+    if (assets == nil) {
+        //失败
+        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        return;
+    }
+
+    // 保存在自定义相册（如果没有则创建）--调用刚才的方法
+    PHAssetCollection * assetCollection = [self getAssetCollectionWithAppNameAndCreateCollection];
+    if (assetCollection == nil) {
+        //失败
+        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        return;
+    }
+
+    // 将刚才保存到相机胶卷的图片添加到自定义相册中 --- 保存带自定义相册--属于增的操作，需要在PHPhotoLibrary的block中进行
+    NSError * error = nil;
+    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+        //--告诉系统，要操作哪个相册
+        PHAssetCollectionChangeRequest * collectionChangeRequest = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection];
+        //--添加图片到自定义相册--追加--就不能成为封面了
+        //        [collectionChangeRequest addAssets:assets];
+        //--插入图片到自定义相册--插入--可以成为封面
+        [collectionChangeRequest insertAssets:assets atIndexes:[NSIndexSet indexSetWithIndex:0]];
+    } error:&error];
+
+    if (error) {
+        //失败
+        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        return;
+    }
+}
+
+- (PHFetchResult<PHAsset *> *)synchronousSaveImageWithPhotosWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
+    __block NSString * createdAssetId = nil;
+
+    // 添加图片到【相机胶卷】
+    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+        if (image) {
+            createdAssetId = [PHAssetChangeRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
+            return;
+        }
+        if (videoUrl) {
+            createdAssetId = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:videoUrl].placeholderForCreatedAsset.localIdentifier;
+            return;
+        }
+
+    } error:nil];
+
+    if (createdAssetId == nil) return nil;
+    // 在保存完毕后取出图片
+    return [PHAsset fetchAssetsWithLocalIdentifiers:@[ createdAssetId ] options:nil];
+}
+
+- (PHAssetCollection *)getAssetCollectionWithAppNameAndCreateCollection {
+
+    // 获得所有的自定义相册
+    PHFetchResult<PHAssetCollection *> * collections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    for (PHAssetCollection * collection in collections) {
+        if ([collection.localizedTitle isEqualToString:self.albumName]) {
+            return collection;
+        }
+    }
+
+    NSError * error = nil;
+    // 代码执行到这里，说明还没有自定义相册
+    __block NSString * createdCollectionId = nil;
+
+    // 创建一个新的相册
+    [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
+        createdCollectionId = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:self.albumName].placeholderForCreatedAssetCollection.localIdentifier;
+    } error:&error];
+
+    if (error) {
+
+        return nil;
+    } else {
+
+        // 创建完毕后再取出相册
+        return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[ createdCollectionId ] options:nil].firstObject;
+    }
 }
 
 #pragma mark - 视频地址
@@ -242,6 +345,27 @@
     return fileName;
 }
 
+#pragma mark ======= Setter
+- (void)setVideoPreset:(WYAVideoPreset)videoPreset {
+    AVCaptureSessionPreset preset;
+    switch (videoPreset) {
+        case WYAVideoPresetLow:
+            preset = AVCaptureSessionPresetLow;
+            break;
+        case WYAVideoPresetMedium:
+            preset = AVCaptureSessionPresetMedium;
+            break;
+        case WYAVideoPresetHigh:
+            preset = AVCaptureSessionPresetHigh;
+            break;
+        default:
+            break;
+    }
+    if ([self.captureSession canSetSessionPreset:preset]) {
+        [self.captureSession setSessionPreset:preset];
+    }
+}
+
 #pragma mark - Getter -
 //捕获到的视频呈现的layer
 - (AVCaptureVideoPreviewLayer *)previewLayer {
@@ -266,9 +390,14 @@
             _captureSession.sessionPreset = AVCaptureSessionPreset1280x720;
         }
 
-        //添加后置摄像头的输入
-        if ([_captureSession canAddInput:self.backCameraInput]) {
-            [_captureSession addInput:self.backCameraInput];
+        if (self.cameraOrientation == WYACameraOrientationBack) {
+            if ([_captureSession canAddInput:self.backCameraInput]) {
+                [_captureSession addInput:self.backCameraInput];
+            }
+        } else if (self.cameraOrientation == WYACameraOrientationFront) {
+            if ([_captureSession canAddInput:self.frontCameraInput]) {
+                [_captureSession addInput:self.frontCameraInput];
+            }
         }
 
         //添加后置麦克风的输入

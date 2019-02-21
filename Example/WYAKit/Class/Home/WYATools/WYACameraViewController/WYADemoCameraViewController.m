@@ -202,7 +202,8 @@
         [weakSelf.view endEditing:YES];
         playButton.hidden = YES;
         WYACameraViewController * cameraVC =
-            [[WYACameraViewController alloc] initWithType:self.type];
+            [[WYACameraViewController alloc] initWithType:self.type
+                                        cameraOrientation:WYACameraOrientationBack];
         cameraVC.time      = [self.time floatValue];
         cameraVC.takePhoto = ^(UIImage * photo) { imageV.image = photo; };
         StrongSelf(strongSelf);

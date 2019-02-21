@@ -6,10 +6,10 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYAImagePicker.h"
 #import "WYACameraCell.h"
 #import "WYACameraModel.h"
 #import "WYAImageBrowserViewController.h"
+#import "WYAImagePicker.h"
 #import "WYAPopVerReadMeViewController.h"
 
 #define CameraCell @"WYACameraCell"
@@ -233,7 +233,11 @@
                           style:WYAAlertActionStyleDefault
                         handler:^{
                             WYACameraViewController * camera =
-                                [[WYACameraViewController alloc] initWithType:WYACameraTypeAll];
+                                [[WYACameraViewController alloc] initWithType:WYACameraTypeImage
+                                                            cameraOrientation:WYACameraOrientationFront];
+                            camera.preset    = WYAVideoPresetLow;
+                            camera.saveAblum = YES;
+                            camera.albumName = @"测试";
                             camera.takePhoto = ^(UIImage * photo) {
                                 WYACameraModel * model = [[WYACameraModel alloc] init];
                                 model.image            = photo;
@@ -267,7 +271,8 @@
                                 [self.textField.text integerValue] - self.dataSource.count;
                             if (inter == 0) { return; }
                             WYAPhotoBrowser * photo =
-                                [[WYAPhotoBrowser alloc] initWithMaxCount:inter];
+                                [[WYAPhotoBrowser alloc] initWithMaxCount:inter
+                                                         photoBrowserType:WYAPhotoBrowserTypePhoto];
                             photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
                                 NSLog(@"images==%@", images);
                                 NSMutableArray * array = [NSMutableArray array];

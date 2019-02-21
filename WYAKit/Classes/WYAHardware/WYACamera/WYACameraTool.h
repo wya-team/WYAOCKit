@@ -3,12 +3,29 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSUInteger, WYAVideoPreset) {
+    WYAVideoPresetLow,
+    WYAVideoPresetMedium,
+    WYAVideoPresetHigh,
+};
+
+typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
+    WYACameraOrientationBack,  //后置摄像头
+    WYACameraOrientationFront, //前置摄像头
+};
+
 @interface WYACameraTool : NSObject
+@property (nonatomic, assign) BOOL saveAblum;
+@property (nonatomic, copy) NSString * albumName;
+
+@property (nonatomic, assign) WYAVideoPreset videoPreset;
 
 /**
  只有在录制完成后才能获取到视频地址
  */
 @property (readonly, nonatomic) NSString * videoPath; //视频路径
+
+- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation;
 
 //捕获到的视频呈现的layer
 - (AVCaptureVideoPreviewLayer *)previewLayer;
