@@ -63,6 +63,15 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
 - (void)startTakingPhoto:(void (^)(UIImage * image))image;
 
 - (NSString *)getVideoPathCache;
+
+/**
+ 保存图片或本地视频到相册，如果saveAblum为YES，albumName没有值则保存到系统相册
+
+ @param image 图片
+ @param videoUrl 本地视频url
+ */
+- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl;
+
 @end
 
 @interface WYACameraTool (Authorization)
