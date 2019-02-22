@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  返回选中的照片
  */
-@property (nonatomic, copy) void (^callBackBlock)(NSMutableArray<UIImage *> * images);
+@property (nonatomic, copy) void (^callBackBlock)(NSMutableArray * medias);
 
 /**
  初始化

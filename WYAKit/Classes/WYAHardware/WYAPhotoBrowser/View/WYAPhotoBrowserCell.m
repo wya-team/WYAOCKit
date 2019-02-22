@@ -108,6 +108,22 @@
                     }];
 }
 
+- (void)getVideoInfo {
+    PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
+    options.version                 = PHImageRequestOptionsVersionCurrent;
+    options.deliveryMode            = PHVideoRequestOptionsDeliveryModeAutomatic;
+
+    PHImageManager * manager = [PHImageManager defaultManager];
+    [manager requestAVAssetForVideo:self.model.asset
+                            options:options
+                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                          AVURLAsset * urlAsset = (AVURLAsset *)asset;
+
+                          NSURL * url         = urlAsset.URL;
+                          self.model.videoUrl = url;
+                      }];
+}
+
 #pragma mark - Public Method -
 
 #pragma mark - Setter -

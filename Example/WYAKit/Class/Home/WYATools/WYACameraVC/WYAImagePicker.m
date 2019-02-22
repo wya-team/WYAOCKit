@@ -273,10 +273,10 @@
                             WYAPhotoBrowser * photo =
                                 [[WYAPhotoBrowser alloc] initWithMaxCount:inter
                                                          photoBrowserType:WYAPhotoBrowserTypePhoto];
-                            photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull images) {
-                                NSLog(@"images==%@", images);
+                            photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
+                                NSLog(@"images==%@", media);
                                 NSMutableArray * array = [NSMutableArray array];
-                                for (UIImage * image in images) {
+                                for (UIImage * image in media) {
                                     WYACameraModel * model = [[WYACameraModel alloc] init];
                                     model.image            = image;
                                     model.sourceType       = WYACameraSourceTypeImage;
@@ -287,7 +287,7 @@
                                         atIndexes:[NSIndexSet
                                                       indexSetWithIndexesInRange:NSMakeRange(
                                                                                      0,
-                                                                                     images
+                                                                                     media
                                                                                          .count)]];
                                 if ([self.textField.text integerValue] == self.dataSource.count) {
                                     self.allImage = YES;

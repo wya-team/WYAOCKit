@@ -77,29 +77,33 @@
 
 - (void)loadImages {
     for (WYAPhotoBrowserModel * model in self.models) {
-        if (model.cropImage) {
-            //是否有之前裁剪的图片
-            [self.images addObject:model.cropImage];
-        } else {
-            PHImageManager * manager    = [PHImageManager defaultManager];
-            PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
+        if (model.asset.mediaType == PHAssetMediaTypeImage) {
+            if (model.cropImage) {
+                //是否有之前裁剪的图片
+                [self.images addObject:model.cropImage];
+            } else {
+                PHImageManager * manager    = [PHImageManager defaultManager];
+                PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
 
-            [manager
-                requestImageForAsset:model.asset
-                          targetSize:CGSizeMake(self.view.cmam_width, self.view.cmam_height)
-                         contentMode:PHImageContentModeAspectFill
-                             options:opi
-                       resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                           BOOL downloadFinined =
-                               ![[info objectForKey:PHImageCancelledKey] boolValue] &&
-                               ![info objectForKey:PHImageErrorKey] &&
-                               ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-                           if (downloadFinined) {
-                               //获取的高清图
-                               [self.images addObject:result];
-                           }
+                [manager
+                    requestImageForAsset:model.asset
+                              targetSize:CGSizeMake(self.view.cmam_width, self.view.cmam_height)
+                             contentMode:PHImageContentModeAspectFill
+                                 options:opi
+                           resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                               BOOL downloadFinined =
+                                   ![[info objectForKey:PHImageCancelledKey] boolValue] &&
+                                   ![info objectForKey:PHImageErrorKey] &&
+                                   ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+                               if (downloadFinined) {
+                                   //获取的高清图
+                                   [self.images addObject:result];
+                               }
 
-                       }];
+                           }];
+            }
+        } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+            [self.images addObject:model.videoUrl];
         }
     }
 }

@@ -26,7 +26,7 @@
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
 @property (nonatomic, strong) controlView * controlV;
-@property (nonatomic, strong) NSMutableArray<UIImage *> * images;
+@property (nonatomic, strong) NSMutableArray * images;
 @property (nonatomic, strong) NSMutableArray * models;
 
 @end
@@ -199,7 +199,7 @@
 }
 
 #pragma mark--- Getter
-- (NSMutableArray<UIImage *> *)images {
+- (NSMutableArray *)images {
     if (!_images) { _images = [NSMutableArray array]; }
     return _images;
 }
@@ -272,11 +272,19 @@
             for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
                 photoModel.isMaxCount = NO;
             }
-
-            [self.images removeObject:pickCell.imageV.image];
+            if (model.asset.mediaType == PHAssetMediaTypeImage) {
+                [self.images removeObject:pickCell.imageV.image];
+            } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+                [self.images removeObject:model.videoUrl];
+            }
             [self.models removeObject:model];
         } else {
-            [self.images addObject:pickCell.imageV.image];
+            if (model.asset.mediaType == PHAssetMediaTypeImage) {
+                [self.images addObject:pickCell.imageV.image];
+            } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
+                [self.images addObject:model.videoUrl];
+            }
+
             [self.models addObject:model];
             model.selected = YES;
             if (self.images.count == self.maxCount) {

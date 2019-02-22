@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIImage * cropImage;  //裁剪过的图片
 @property (nonatomic, assign) BOOL selected;        //是否被选中
 @property (nonatomic, assign) BOOL isMaxCount;      //是否到最大个数
+@property (nonatomic, strong) NSURL * videoUrl;     //视频url
 
 @end
 
