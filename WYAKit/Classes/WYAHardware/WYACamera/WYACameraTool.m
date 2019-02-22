@@ -267,6 +267,7 @@
         [UIView wya_showBottomToastWithMessage:@"保存失败"];
         return;
     }
+    [UIView wya_showBottomToastWithMessage:@"保存成功"];
 }
 
 - (PHFetchResult<PHAsset *> *)synchronousSaveImageWithPhotosWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
