@@ -272,15 +272,18 @@
                             if (inter == 0) { return; }
                             WYAPhotoBrowser * photo =
                                 [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-                                                         photoBrowserType:WYAPhotoBrowserTypePhoto];
+                                                         photoBrowserType:WYAPhotoBrowserTypeVideo];
                             photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
                                 NSLog(@"images==%@", media);
                                 NSMutableArray * array = [NSMutableArray array];
-                                for (UIImage * image in media) {
-                                    WYACameraModel * model = [[WYACameraModel alloc] init];
-                                    model.image            = image;
-                                    model.sourceType       = WYACameraSourceTypeImage;
-                                    [array addObject:model];
+                                for (NSObject * image in media) {
+                                    if ([image isKindOfClass:[UIImage class]]) {
+                                        WYACameraModel * model = [[WYACameraModel alloc] init];
+                                        model.image            = (UIImage *)image;
+                                        model.sourceType       = WYACameraSourceTypeImage;
+                                        [array addObject:model];
+                                    }
+
                                 }
                                 [self.dataSource
                                     insertObjects:array

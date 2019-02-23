@@ -265,8 +265,7 @@
     WYAPhotoBrowserCell * imageCell        = (WYAPhotoBrowserCell *)cell;
     imageCell.model                        = self.dataSource[indexPath.row];
     __block WYAPhotoBrowserCell * pickCell = imageCell;
-    imageCell.selectImage                  = ^(UIButton * btn) {
-        WYAPhotoBrowserModel * model = self.dataSource[indexPath.item];
+    imageCell.selectImage                  = ^(UIButton * btn, WYAPhotoBrowserModel * model) {
         if (model.selected) {
             model.selected = NO;
             for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
@@ -275,14 +274,24 @@
             if (model.asset.mediaType == PHAssetMediaTypeImage) {
                 [self.images removeObject:pickCell.imageV.image];
             } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-                [self.images removeObject:model.videoUrl];
+                if (model.videoUrl == nil) {
+                    [self.images removeObject:pickCell.imageV.image];
+                }else{
+                    [self.images removeObject:model.videoUrl];
+                }
+
             }
             [self.models removeObject:model];
         } else {
             if (model.asset.mediaType == PHAssetMediaTypeImage) {
                 [self.images addObject:pickCell.imageV.image];
             } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-                [self.images addObject:model.videoUrl];
+                if (model.videoUrl == nil) {
+                    [self.images addObject:pickCell.imageV.image];
+                } else {
+                    [self.images addObject:model.videoUrl];
+                }
+
             }
 
             [self.models addObject:model];

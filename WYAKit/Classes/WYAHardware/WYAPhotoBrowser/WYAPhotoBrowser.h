@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAPhotoBrowser : UINavigationController
 
 /**
- 返回选中的照片
+ 如果选中的是图片数组中存放的就是图片，如果选中的是视频，存放的就是视频url
  */
 @property (nonatomic, copy) void (^callBackBlock)(NSMutableArray * medias);
 

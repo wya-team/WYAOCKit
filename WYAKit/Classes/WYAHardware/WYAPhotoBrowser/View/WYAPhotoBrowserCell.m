@@ -79,7 +79,7 @@
 
 #pragma mark - Private Method -
 - (void)buttonClick:(UIButton *)sender {
-    if (self.selectImage) { self.selectImage(sender); }
+    if (self.selectImage) { self.selectImage(sender, self.model); }
 }
 
 - (void)loadImage {
@@ -140,6 +140,7 @@
             NSInteger due            = time / 60;
             NSString * string        = [NSString stringWithFormat:@"%ld:%ld", (long)due, (long)dur];
             self.videoLabel.text     = string;
+            [self getVideoInfo];
         }
 
         if (model.cropImage) {
