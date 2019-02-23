@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param folderSize block形式传出大小 单位为B
  */
-+ (void)wya_cacheFileSizeAtPath:(NSString *)filePath
++ (void)wya_cacheFileSizeValueAtPath:(NSString *)filePath
       FolderSizeValueBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
