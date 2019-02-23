@@ -21,11 +21,11 @@
     [self folderSizeAtPath:cachPath FolderSizeValueBlock:folderSize];
 }
 
-+ (void)wya_fileSizeAtPath:(NSString *)filePath FolderSizeValueBlock:(void (^)(NSString * _Nonnull))folderSize {
++ (void)wya_cacheFileSizeAtPath:(NSString *)filePath FolderSizeValueBlock:(void (^)(NSString * _Nonnull))folderSize {
     [self folderSizeAtPath:filePath FolderSizeValueBlock:folderSize];
 }
 
-+ (void)wya_fileSizeAtPath:(NSString *)filePath
++ (void)wya_cacheFileSizeAtPath:(NSString *)filePath
            FolderSizeBlock:(void (^)(NSString * folderSize))folderSize {
     [self folderSizeAtPath:filePath FolderSizeBlock:folderSize];
 }
