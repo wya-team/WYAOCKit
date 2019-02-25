@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param folderSize block形式传出大小
  */
 + (void)wya_cacheFileSizeAtPath:(NSString *)filePath
-           FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
+                FolderSizeBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  获取缓存文件大小单位B
@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param folderSize block形式传出大小 单位为B
  */
 + (void)wya_cacheFileSizeValueAtPath:(NSString *)filePath
-      FolderSizeValueBlock:(void (^)(NSString * folderSize))folderSize;
+                FolderSizeValueBlock:(void (^)(NSString * folderSize))folderSize;
 
 /**
  清理自定义缓存内容

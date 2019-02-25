@@ -205,7 +205,7 @@
             [[WYACameraViewController alloc] initWithType:self.type
                                         cameraOrientation:WYACameraOrientationBack];
         cameraVC.time      = [self.time floatValue];
-        cameraVC.takePhoto = ^(UIImage * photo) { imageV.image = photo; };
+        cameraVC.takePhoto = ^(UIImage * photo, NSString * imagePath) { imageV.image = photo; };
         StrongSelf(strongSelf);
         cameraVC.takeVideo = ^(NSString * videoPath) {
             videoPathLabel.text = [NSString stringWithFormat:@"视频地址：%@", videoPath];

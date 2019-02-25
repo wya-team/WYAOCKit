@@ -276,10 +276,9 @@
             } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
                 if (model.videoUrl == nil) {
                     [self.images removeObject:pickCell.imageV.image];
-                }else{
+                } else {
                     [self.images removeObject:model.videoUrl];
                 }
-
             }
             [self.models removeObject:model];
         } else {
@@ -291,7 +290,6 @@
                 } else {
                     [self.images addObject:model.videoUrl];
                 }
-
             }
 
             [self.models addObject:model];

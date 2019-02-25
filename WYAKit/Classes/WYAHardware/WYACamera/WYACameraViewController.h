@@ -14,7 +14,7 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 /**
  获取拍摄照片
  */
-@property (nonatomic, copy) void (^takePhoto)(UIImage * photo);
+@property (nonatomic, copy) void (^takePhoto)(UIImage * photo, NSString * imagePath);
 
 /**
  获取拍摄视频

@@ -26,7 +26,7 @@
 }
 
 + (void)wya_cacheFileSizeAtPath:(NSString *)filePath
-           FolderSizeBlock:(void (^)(NSString * folderSize))folderSize {
+                FolderSizeBlock:(void (^)(NSString * folderSize))folderSize {
     [self folderSizeAtPath:filePath FolderSizeBlock:folderSize];
 }
 

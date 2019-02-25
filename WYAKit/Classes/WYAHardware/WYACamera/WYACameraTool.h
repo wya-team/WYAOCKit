@@ -15,15 +15,31 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
 };
 
 @interface WYACameraTool : NSObject
-@property (nonatomic, assign) BOOL saveAblum;
-@property (nonatomic, copy) NSString * albumName;
-
-@property (nonatomic, assign) WYAVideoPreset videoPreset;
 
 /**
- 只有在录制完成后才能获取到视频地址
+ 是否保存至相册
+ */
+@property (nonatomic, assign) BOOL saveAblum;
+
+/**
+ 自定义相册名
+ */
+@property (nonatomic, copy) NSString * albumName;
+
+/**
+ 只有在拍摄完成并保存在相册中才会有路径
+ */
+@property (readonly, nonatomic) NSString * imagePath;
+
+/**
+ 只有在录制完成后才能获取到视频地址（如果需要保存本地相册，就对应返回系统相册路径）
  */
 @property (readonly, nonatomic) NSString * videoPath; //视频路径
+
+/**
+ 拍摄模式
+ */
+@property (nonatomic, assign) WYAVideoPreset videoPreset;
 
 - (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation;
 

@@ -283,7 +283,7 @@
                              completion:^{
                                  if (self.placeholdImageView.image) {
                                      if (self.takePhoto) {
-                                         self.takePhoto(self.placeholdImageView.image);
+                                         self.takePhoto(self.placeholdImageView.image, self.videoTool.imagePath);
                                      }
                                  } else {
                                      [self.player pause];
@@ -537,7 +537,7 @@
                                                                           if (strongSelf
                                                                                   .takePhoto) {
                                                                               strongSelf.takePhoto(
-                                                                                  image);
+                                                                                  image, self.videoTool.imagePath);
                                                                           }
                                                                       }];
                                            }];

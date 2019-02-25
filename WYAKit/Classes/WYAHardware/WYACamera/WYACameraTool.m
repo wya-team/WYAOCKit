@@ -268,6 +268,32 @@
         return;
     }
     [UIView wya_showBottomToastWithMessage:@"保存成功"];
+
+    PHAsset * asset = [assets firstObject];
+    if (asset.mediaType == PHAssetMediaTypeImage) {
+        PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
+        opi.synchronous             = YES; //默认no，异步加载
+        opi.resizeMode              = PHImageRequestOptionsResizeModeFast;
+        [[PHImageManager defaultManager] requestImageDataForAsset:asset
+                                                          options:opi
+                                                    resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                                                        self->_imagePath = [info objectForKey:@"PHImageFileURLKey"];
+                                                    }];
+    } else if (asset.mediaType == PHAssetMediaTypeVideo) {
+        PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
+        options.version                 = PHImageRequestOptionsVersionCurrent;
+        options.deliveryMode            = PHVideoRequestOptionsDeliveryModeAutomatic;
+
+        PHImageManager * manager = [PHImageManager defaultManager];
+        [manager requestAVAssetForVideo:asset
+                                options:options
+                          resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                              AVURLAsset * urlAsset = (AVURLAsset *)asset;
+
+                              NSURL * url      = urlAsset.URL;
+                              self->_videoPath = [url absoluteString];
+                          }];
+    }
 }
 
 - (PHFetchResult<PHAsset *> *)synchronousSaveImageWithPhotosWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {

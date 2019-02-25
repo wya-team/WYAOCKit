@@ -233,12 +233,12 @@
                           style:WYAAlertActionStyleDefault
                         handler:^{
                             WYACameraViewController * camera =
-                                [[WYACameraViewController alloc] initWithType:WYACameraTypeImage
+                                [[WYACameraViewController alloc] initWithType:WYACameraTypeVideo
                                                             cameraOrientation:WYACameraOrientationFront];
-                            camera.preset    = WYAVideoPresetLow;
+                            camera.preset    = WYAVideoPresetHigh;
                             camera.saveAblum = YES;
                             camera.albumName = @"测试";
-                            camera.takePhoto = ^(UIImage * photo) {
+                            camera.takePhoto = ^(UIImage * photo, NSString * imagePath) {
                                 WYACameraModel * model = [[WYACameraModel alloc] init];
                                 model.image            = photo;
                                 model.sourceType       = WYACameraSourceTypeImage;
@@ -283,7 +283,6 @@
                                         model.sourceType       = WYACameraSourceTypeImage;
                                         [array addObject:model];
                                     }
-
                                 }
                                 [self.dataSource
                                     insertObjects:array
