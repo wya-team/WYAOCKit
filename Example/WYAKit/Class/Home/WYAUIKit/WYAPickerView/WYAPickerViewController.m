@@ -178,6 +178,9 @@
         self.pickerView.arrayKeyWords    = @"array";
         self.pickerView.pickerHeight     = 220;
         self.pickerView.pickerItemHeight = 44;
+        //        self.pickerView.titleLabel.text = @"测试";
+        //        self.pickerView.autoTitleChange = NO;
+        //        self.pickerView.backButton.titleLabel.font = FONT(10);
         //        pickerView.pickerViewStyle = WYAPickerViewStyleSystem;
         if (indexPath.row == 0) {
             self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;

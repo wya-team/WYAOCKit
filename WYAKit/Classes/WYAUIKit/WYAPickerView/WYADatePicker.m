@@ -550,10 +550,11 @@ static CGFloat titleHeight      = 44.0;
         default:
             break;
     }
-
-    [self.titleView wya_SetTitleLabelWithText:self.resultString
-                                    TextColor:[UIColor blackColor]
-                                     TextFont:15];
+    if (self.autoTitleChange) {
+        [self.titleView wya_SetTitleLabelWithText:self.resultString
+                                        TextColor:[UIColor blackColor]
+                                         TextFont:15];
+    }
 }
 
 #pragma mark--- WYAPaginationViewDelegate
@@ -580,7 +581,7 @@ static CGFloat titleHeight      = 44.0;
 #pragma mark--- Private Action
 - (void)createUI {
     self.backgroundColor = [UIColor whiteColor];
-
+    self.autoTitleChange = YES;
     [self addSubview:self.titleView];
     [self addSubview:self.line];
     [self addSubview:self.pickView];
@@ -842,11 +843,27 @@ static CGFloat titleHeight      = 44.0;
     return _pickView;
 }
 
+- (UIButton *)backButton {
+    return self.titleView.leftButton;
+}
+
+- (UIButton *)sureButton {
+    return self.titleView.rightButton;
+}
+
+- (UILabel *)titleLabel {
+    return self.titleView.titleLabel;
+}
+
 #pragma mark--- Setter
 - (void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle {
     _datePickerStyle       = datePickerStyle;
     self.datePickerManager = [[WYAPickerManager alloc] init];
     [self.pickView reloadAllComponents];
+}
+
+- (void)setAutoTitleChange:(BOOL)autoTitleChange {
+    _autoTitleChange = autoTitleChange;
 }
 
 - (void)setDatePickerManager:(WYAPickerManager *)datePickerManager {
@@ -1108,10 +1125,12 @@ static CGFloat titleHeight      = 44.0;
         default:
             break;
     }
+    if (self.autoTitleChange) {
+        [self.titleView wya_SetTitleLabelWithText:self.resultString
+                                        TextColor:[UIColor blackColor]
+                                         TextFont:15];
+    }
 
-    [self.titleView wya_SetTitleLabelWithText:self.resultString
-                                    TextColor:[UIColor blackColor]
-                                     TextFont:15];
     [self.pickView reloadAllComponents];
 }
 

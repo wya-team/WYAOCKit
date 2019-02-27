@@ -39,6 +39,15 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 @property (nonatomic, weak) id<WYAPickerViewDelegate> delegate;
 @property (nonatomic, weak) UIViewController * viewController;
 
+@property (nonatomic, strong) UIButton * backButton;
+@property (nonatomic, strong) UIButton * sureButton;
+@property (nonatomic, strong) UILabel * titleLabel;
+
+/**
+ 是否自动改变title文字
+ */
+@property (nonatomic, assign) BOOL autoTitleChange;
+
 /**
  pickerView样式（暂不提供使用）
  */

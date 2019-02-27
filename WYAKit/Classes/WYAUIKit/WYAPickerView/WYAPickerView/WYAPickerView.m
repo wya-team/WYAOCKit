@@ -6,7 +6,9 @@
 //
 
 #import "WYAPickerView.h"
+
 #import "WYACustomPickerView.h"
+
 #import "WYAPaginationView.h"
 
 static CGFloat titleHeight = 44.0;
@@ -258,9 +260,11 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
         self.resultString = a;
     }
     NSLog(@"string==%@", self.resultString);
-    [self.titleView wya_SetTitleLabelWithText:self.resultString
-                                    TextColor:[UIColor blackColor]
-                                     TextFont:15];
+    if (self.autoTitleChange) {
+        [self.titleView wya_SetTitleLabelWithText:self.resultString
+                                        TextColor:[UIColor blackColor]
+                                         TextFont:15];
+    }
 }
 
 #pragma mark--- WYACustomPickerViewDataSource
@@ -298,6 +302,7 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
     self.pickerViewStyle = WYAPickerViewStyleSystem;
     self.pickerHeight    = 220;
+    self.autoTitleChange = YES;
 }
 #pragma mark--- Public Action
 
@@ -358,6 +363,18 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
     return _customPicker;
 }
 
+- (UIButton *)backButton {
+    return self.titleView.leftButton;
+}
+
+- (UIButton *)sureButton {
+    return self.titleView.rightButton;
+}
+
+- (UILabel *)titleLabel {
+    return self.titleView.titleLabel;
+}
+
 #pragma mark--- Setter
 - (void)setPickerViewStyle:(WYAPickerViewStyle)pickerViewStyle {
     _pickerViewStyle = pickerViewStyle;
@@ -375,6 +392,10 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 - (void)setPickerViewColumnStyle:(WYAPickerViewColumnStyle)pickerViewColumnStyle {
     _pickerViewColumnStyle = pickerViewColumnStyle;
     [self.pickView reloadAllComponents];
+}
+
+- (void)setAutoTitleChange:(BOOL)autoTitleChange {
+    _autoTitleChange = autoTitleChange;
 }
 
 - (void)setDataArray:(NSMutableArray *)dataArray {
@@ -408,9 +429,11 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
             c                      = str2;
             self.resultString      = [NSString stringWithFormat:@"%@-%@-%@", a, b, c];
         }
-        [self.titleView wya_SetTitleLabelWithText:self.resultString
-                                        TextColor:[UIColor blackColor]
-                                         TextFont:15];
+        if (self.autoTitleChange) {
+            [self.titleView wya_SetTitleLabelWithText:self.resultString
+                                            TextColor:[UIColor blackColor]
+                                             TextFont:15];
+        }
     }
 }
 

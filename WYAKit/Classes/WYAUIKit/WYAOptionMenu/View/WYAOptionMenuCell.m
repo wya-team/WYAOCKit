@@ -11,6 +11,7 @@
 @interface WYAOptionMenuCell ()
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UIImageView * rightImageView;
+@property (nonatomic, strong) UIView * line;
 @end
 
 @implementation WYAOptionMenuCell
@@ -26,6 +27,9 @@
 
         self.rightImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:self.rightImageView];
+
+        self.line = [[UIView alloc] init];
+        [self.contentView addSubview:self.line];
     }
     return self;
 }
@@ -40,8 +44,18 @@
 
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self.contentView);
-        make.left.mas_equalTo(self.contentView.mas_left).with.offset(12 * SizeAdapter);
+        if (self.model.xOffset != 0) {
+            make.left.mas_equalTo(self.contentView.mas_left).with.offset(self.model.xOffset * SizeAdapter);
+        } else {
+            make.left.mas_equalTo(self.contentView.mas_left).with.offset(12 * SizeAdapter);
+        }
+
         make.right.mas_equalTo(self.rightImageView.mas_left);
+    }];
+
+    [self.line mas_remakeConstraints:^(MASConstraintMaker * make) {
+        make.left.bottom.right.mas_equalTo(self.contentView);
+        make.height.mas_equalTo(0.5);
     }];
 }
 
@@ -50,11 +64,23 @@
     _model = model;
     if (model) {
         if (model.select) {
-            self.contentView.backgroundColor = [UIColor whiteColor];
+            if (model.selectColor) {
+                self.contentView.backgroundColor = model.selectColor;
+            } else {
+                self.contentView.backgroundColor = [UIColor whiteColor];
+            }
         } else {
-            self.contentView.backgroundColor = random(248, 248, 248, 1);
+            if (model.normalColor) {
+                self.contentView.backgroundColor = model.normalColor;
+            } else {
+                self.contentView.backgroundColor = random(248, 248, 248, 1);
+            }
         }
-        self.titleLabel.text = model.title;
+        self.titleLabel.text      = model.title;
+        self.titleLabel.textColor = model.titleColor;
+        self.titleLabel.font      = model.titleFont;
+        self.line.backgroundColor = model.lineColor;
+        [self layoutIfNeeded];
     }
 }
 

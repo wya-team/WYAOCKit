@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYAOptionMenu;
 @class WYAOptionMenuModel;
 @class WYAOptionMenuSecondLevelModel;
 
@@ -24,14 +24,14 @@ typedef NS_ENUM(NSUInteger, WYAOptionMenuStyle) {
 
  @param indexPath indexPath
  */
-- (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath;
+- (void)wya_optionMenu:(WYAOptionMenu *)menu leftTableDidSelectedRow:(NSIndexPath *)indexPath;
 
 /**
  右侧视图点击事件
 
  @param indexPath indexPath
  */
-- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath;
+- (void)wya_optionMenu:(WYAOptionMenu *)menu rightViewDidSelectedItem:(NSIndexPath *)indexPath;
 
 @end
 

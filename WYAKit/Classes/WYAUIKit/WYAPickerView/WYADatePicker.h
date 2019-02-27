@@ -41,6 +41,15 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @property (nonatomic, assign) WYADatePickerStyle datePickerStyle;
 @property (nonatomic, weak) UIViewController * viewController;
 
+@property (nonatomic, strong) UIButton * backButton;
+@property (nonatomic, strong) UIButton * sureButton;
+@property (nonatomic, strong) UILabel * titleLabel;
+
+/**
+ 是否自动改变title文字
+ */
+@property (nonatomic, assign) BOOL autoTitleChange;
+
 /**
  设置pickerView高度
  */

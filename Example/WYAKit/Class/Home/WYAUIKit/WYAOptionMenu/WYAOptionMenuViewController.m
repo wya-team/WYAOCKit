@@ -149,10 +149,23 @@
 }
 
 #pragma mark--- WYAOptionMenuDelegate
-- (void)wya_leftTableDidSelectedRow:(NSIndexPath *)indexPath {
+- (void)wya_optionMenu:(WYAOptionMenu *)menu leftTableDidSelectedRow:(NSIndexPath *)indexPath {
+    if (menu == self.singleMenu) {
+        NSMutableArray * arr       = self.singleMenu.titleArray;
+        WYAOptionMenuModel * model = arr[indexPath.row];
+        if (model.select == YES) {
+            model.select     = NO;
+            model.titleColor = [UIColor blackColor];
+        } else {
+            model.select     = YES;
+            model.titleColor = [UIColor redColor];
+        }
+        [arr replaceObjectAtIndex:indexPath.row withObject:model];
+        self.singleMenu.titleArray = arr;
+    }
 }
 
-- (void)wya_rightViewDidSelectedItem:(NSIndexPath *)indexPath {
+- (void)wya_optionMenu:(WYAOptionMenu *)menu rightViewDidSelectedItem:(NSIndexPath *)indexPath {
     NSLog(@"section==%ld,item==%ld", (long)indexPath.section, (long)indexPath.row);
 }
 
@@ -246,9 +259,15 @@
         item5.select                          = NO;
 
         WYAOptionMenuModel * model1 = [[WYAOptionMenuModel alloc] init];
-        model1.select               = YES;
+        model1.select               = NO;
         model1.title                = @"Food";
         model1.secondLevelModels    = @[ item1, item2, item3, item4, item5 ];
+        model1.xOffset              = 80;
+        model1.titleFont            = FONT(18);
+        model1.titleColor           = [UIColor blackColor];
+        model1.normalColor          = [UIColor whiteColor];
+        model1.selectColor          = [UIColor wya_hex:@"#ff2f53"];
+        model1.lineColor            = [UIColor blackColor];
 
         WYAOptionMenuSecondLevelModel * item6 = [[WYAOptionMenuSecondLevelModel alloc] init];
         item6.title                           = @"All SuperMarket";

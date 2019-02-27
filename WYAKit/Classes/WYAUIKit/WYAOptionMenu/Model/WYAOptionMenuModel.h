@@ -21,6 +21,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL select; //是否被选中
 @property (nonatomic, copy) NSString * title;
 @property (nonatomic, strong) NSArray<WYAOptionMenuSecondLevelModel *> * secondLevelModels;
+@property (nonatomic, assign) CGFloat xOffset; // x轴偏移量
+@property (nonatomic, strong) UIFont * titleFont;
+@property (nonatomic, strong) UIColor * titleColor;
+@property (nonatomic, strong) UIColor * normalColor;
+@property (nonatomic, strong) UIColor * selectColor;
+@property (nonatomic, strong) UIColor * lineColor;
 @end
 
 NS_ASSUME_NONNULL_END
