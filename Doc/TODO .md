@@ -9,6 +9,8 @@
 - ~~WYAVideoPlayer~~
 
 - WYADownloader
+
+- WYAAudioRecoder
     
 ## WYAUIKit 
 

@@ -53,6 +53,7 @@ TODO: Add long description of the pod here.
   s.dependency 'SDWebImage'
   s.dependency 'Realm', '~> 3.11.1'
   s.dependency 'AFNetworking', '~> 3.0'
+  s.dependency 'NTYAmrConverter'
   #暂时未使用到的
   s.dependency 'YYText'
   

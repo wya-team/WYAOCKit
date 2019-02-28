@@ -7,6 +7,7 @@
 //
 
 #import "WYAVideoPlayerViewController.h"
+
 #import "WYADownloaderViewController.h"
 
 @interface WYAVideoPlayerViewController () <WYAVideoPlayerDelegate>
@@ -50,9 +51,8 @@
                       forState:UIControlStateNormal];
     [button addCallBackAction:^(UIButton * button) {
 
-        WYADownloadModel * model1 = [[WYADownloadModel alloc] init];
-        model1.urlString          = @"http://221.228.226.5/14/z/w/y/y/zwyyobhyqvmwslabxyoaixvyubmekc/"
-                           @"sh.yinyuetai.com/4599015ED06F94848EBF877EAAE13886.mp4";
+        WYADownloadModel * model1  = [[WYADownloadModel alloc] init];
+        model1.urlString           = @"https://video.pc6.com/v/1810/pyqxxjc3.mp4";
         model1.title               = @"下载测试内容";
         WYADownloader * downloader = [WYADownloader sharedDownloader];
         [downloader wya_DownloadTaskWithModel:model1

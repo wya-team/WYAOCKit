@@ -36,6 +36,7 @@
 		2186912A21CCC94F00DA6849 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2186912921CCC94F00DA6849 /* SystemConfiguration.framework */; };
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
+		21A72F572227D60700CD84C3 /* WYAAudioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A72F562227D60700CD84C3 /* WYAAudioViewController.m */; };
 		21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8731821A3956B007F2921 /* WYAPaginationViewController.m */; };
 		21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAOptionMenuViewController.m */; };
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
@@ -178,6 +179,8 @@
 		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
 		21A6C47F21C0AA6C006DA6D1 /* WYADownloadCompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCompleteCell.h; sourceTree = "<group>"; };
 		21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCompleteCell.m; sourceTree = "<group>"; };
+		21A72F552227D60700CD84C3 /* WYAAudioViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAAudioViewController.h; sourceTree = "<group>"; };
+		21A72F562227D60700CD84C3 /* WYAAudioViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAAudioViewController.m; sourceTree = "<group>"; };
 		21A8731721A3956B007F2921 /* WYAPaginationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAPaginationViewController.h; sourceTree = "<group>"; };
 		21A8731821A3956B007F2921 /* WYAPaginationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPaginationViewController.m; sourceTree = "<group>"; };
 		21A8732021A3A67C007F2921 /* WYAOptionMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAOptionMenuViewController.h; sourceTree = "<group>"; };
@@ -409,6 +412,7 @@
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
+				21A72F542227D5E300CD84C3 /* WYAAudio */,
 				953CD92A21E0515100C50453 /* WYAClearCache */,
 				21185D5C21CE2F1000946CBD /* WYACameraViewController */,
 				956BCC8321B532870044095E /* Realm */,
@@ -607,6 +611,15 @@
 				2186911F21CC980500DA6849 /* WYALoadingViewController.m */,
 			);
 			path = WYALoading;
+			sourceTree = "<group>";
+		};
+		21A72F542227D5E300CD84C3 /* WYAAudio */ = {
+			isa = PBXGroup;
+			children = (
+				21A72F552227D60700CD84C3 /* WYAAudioViewController.h */,
+				21A72F562227D60700CD84C3 /* WYAAudioViewController.m */,
+			);
+			path = WYAAudio;
 			sourceTree = "<group>";
 		};
 		21A8731621A39550007F2921 /* WYAPaginationView */ = {
@@ -1125,6 +1138,7 @@
 				"${BUILT_PRODUCTS_DIR}/JQFMDB/JQFMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
+				"${BUILT_PRODUCTS_DIR}/NTYAmrConverter/NTYAmrConverter.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
@@ -1141,6 +1155,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JQFMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTYAmrConverter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
@@ -1242,6 +1257,7 @@
 				9531B84221D31F420037E190 /* WYACustomSearchController.m in Sources */,
 				95369EAE21CE1F2400D0DDA5 /* WYANoBorderCell.m in Sources */,
 				95369EAB21CE1F0200D0DDA5 /* WYAAdjustCell.m in Sources */,
+				21A72F572227D60700CD84C3 /* WYAAudioViewController.m in Sources */,
 				210C72F221C7C5F100196F07 /* WYAHomeHeaderView.m in Sources */,
 				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
 				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
