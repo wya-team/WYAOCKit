@@ -96,8 +96,12 @@
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
                             handle:
                                 (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle {
+    //    NSFileManager * fileManager = [NSFileManager defaultManager];
+    //    NSError * fileError;
     //    BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:[NSURL
     //    fileURLWithPath:self.localPath] error:&fileError];
+    //    NSLog(@"file=dsd=%d", isfile);
+    //    NSLog(@"fileError==%@",fileError.localizedDescription);
     //    if (!isfile) {
     //        handle(self, [fileError localizedDescription]);
     //    }
@@ -105,9 +109,15 @@
     NSData * data = [NSData dataWithContentsOfURL:oldUrl];
     BOOL isfile   = [data writeToFile:self.localPath atomically:YES];
     if (!isfile) { handle(self, @"数据有误，请重新下载"); }
-    NSLog(@"file==%d", isfile);
+    NSLog(@"file=dsd=%d", isfile);
 
-    dispatch_sync(dispatch_get_main_queue(), ^{ self.downloadState = WYADownloadStateComplete; });
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        if (isfile) {
+            self.downloadState = WYADownloadStateComplete;
+        } else {
+            self.downloadState = WYADownloadStateFail;
+        }
+    });
 }
 
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten

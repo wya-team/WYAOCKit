@@ -152,9 +152,13 @@
     item32.rowName            = @"WYARealm 数据库基本使用";
     item32.className          = @"WYAReamlViewController";
 
+    WYAHomeItemModel * item33 = [[WYAHomeItemModel alloc] init];
+    item33.rowName            = @"音频录制和播放";
+    item33.className          = @"WYAAudioViewController";
+
     WYAHomeModel * model5 = [[WYAHomeModel alloc] init];
     model5.sectionName    = @"其他 Other";
-    model5.rows           = @[ item29, item30, item31, item32 ];
+    model5.rows           = @[ item29, item30, item31, item32, item33 ];
 
     return @[ model1, model2, model3, model4, model5 ];
 }
