@@ -17,6 +17,7 @@
 @property (strong, nonatomic) AVCaptureStillImageOutput * imageOutPut;           //照片输出流
 @property (nonatomic, strong) AVCaptureDevice * device;
 @property (nonatomic, assign) WYACameraOrientation cameraOrientation;
+
 @end
 
 @implementation WYACameraTool
@@ -88,7 +89,7 @@
             UIImage * imagee = [UIImage imageWithData:imageData];
             image(imagee);
             if (self.saveAblum) {
-                [self savePhtotsWithImage:imagee videoUrl:nil];
+                [self savePhtotsWithImage:imagee videoUrl:nil callBack:self.saveMediaCallback];
             }
 
         }];
@@ -199,14 +200,15 @@
     //        NSLog(@"成功保存视频到相簿.");
     //    }];
     if (self.saveAblum) {
-        [self savePhtotsWithImage:nil videoUrl:outputFileURL];
+        [self savePhtotsWithImage:nil videoUrl:outputFileURL callBack:self.saveMediaCallback];
     }
 }
 
 /**
  * 保存图片到相册
  */
-- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
+- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void(^)(BOOL isSuccess, NSString * result))callback{
+    self.saveMediaCallback = callback;
     // 获取当前的授权状态
     PHAuthorizationStatus lastStatus = [PHPhotoLibrary authorizationStatus];
 
@@ -218,17 +220,17 @@
             if (status == PHAuthorizationStatusDenied) {
                 if (lastStatus == PHAuthorizationStatusNotDetermined) {
                     //说明，用户之前没有做决定，在弹出授权框中，选择了拒绝
-                    [UIView wya_showBottomToastWithMessage:@"保存失败"];
+                    callback(NO, nil);
                     return;
                 }
                 // 说明，之前用户选择拒绝过，现在又点击保存按钮，说明想要使用该功能，需要提示用户打开授权
-                [UIView wya_showBottomToastWithMessage:@"请前往设置界面开启权限"];
+                callback(NO, @"未开启权限");
 
             } else if (status == PHAuthorizationStatusAuthorized) {
                 //保存图片---调用上面封装的方法
                 [self saveImageToCustomAblumWithImage:image videoUrl:videoUrl];
             } else if (status == PHAuthorizationStatusRestricted) {
-                [UIView wya_showBottomToastWithMessage:@"保存失败"];
+                callback(NO, nil);
             }
         });
     }];
@@ -239,7 +241,8 @@
     PHFetchResult<PHAsset *> * assets = [self synchronousSaveImageWithPhotosWithImage:image videoUrl:videoUrl];
     if (assets == nil) {
         //失败
-        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        self.saveMediaCallback(NO, nil);
+//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
         return;
     }
 
@@ -247,7 +250,8 @@
     PHAssetCollection * assetCollection = [self getAssetCollectionWithAppNameAndCreateCollection];
     if (assetCollection == nil) {
         //失败
-        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        self.saveMediaCallback(NO, nil);
         return;
     }
 
@@ -264,10 +268,12 @@
 
     if (error) {
         //失败
-        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        self.saveMediaCallback(NO, nil);
+//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
         return;
     }
-    [UIView wya_showBottomToastWithMessage:@"保存成功"];
+    self.saveMediaCallback(YES, nil);
+//    [UIView wya_showBottomToastWithMessage:@"保存成功"];
 
     PHAsset * asset = [assets firstObject];
     if (asset.mediaType == PHAssetMediaTypeImage) {

@@ -41,6 +41,10 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
  */
 @property (nonatomic, assign) WYAVideoPreset videoPreset;
 
+/**
+ 保存图片或视频时的回调
+ */
+@property(nonatomic, copy) void(^saveMediaCallback)(BOOL isSuccess, NSString * result);
 - (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation;
 
 //捕获到的视频呈现的layer
@@ -86,7 +90,7 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
  @param image 图片
  @param videoUrl 本地视频url
  */
-- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl;
+- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void(^)(BOOL isSuccess, NSString * result))callback;
 
 @end
 
