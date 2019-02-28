@@ -22,6 +22,7 @@
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
                    @"WYANumberKeyboard/README.md";
+    vc.hk_iconImage = [UIImage imageNamed:@"1"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

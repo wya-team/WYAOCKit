@@ -21,6 +21,7 @@
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/"
                    @"WYACamera/README.md";
+    vc.hk_iconImage = [UIImage imageNamed:@"0"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)viewDidLoad {

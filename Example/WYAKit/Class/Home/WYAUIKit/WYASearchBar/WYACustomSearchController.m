@@ -26,6 +26,7 @@
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUIKit/"
                    @"WYASearchBar/README.md";
+    vc.hk_iconImage = [UIImage imageNamed:@"2"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

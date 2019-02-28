@@ -7,7 +7,7 @@
 //
 
 #import "WYABaseViewController.h"
-
+#import <WYAKit/WYAFloatBallManager.h>
 @interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate>
 
 @end
@@ -29,7 +29,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGCOLOR;
     [self addCustomNavBar];
-    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+//    self.navigationController.interactivePopGestureRecognizer.delegate = self;
 }
 
 #pragma mark ======= private
