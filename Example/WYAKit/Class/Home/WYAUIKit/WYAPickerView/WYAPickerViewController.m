@@ -16,7 +16,7 @@
 @property (nonatomic, strong) WYAPickerView * pickerView;
 @property (nonatomic, strong) WYADatePicker * datePicker;
 @property (nonatomic, strong) WYAAlertController * alert;
-@property (nonatomic, strong) WYAAlertController * dateAlert;
+//@property (nonatomic, strong) WYAAlertController * dateAlert;
 @end
 
 @implementation WYAPickerViewController {
@@ -178,6 +178,8 @@
         self.pickerView.arrayKeyWords    = @"array";
         self.pickerView.pickerHeight     = 220;
         self.pickerView.pickerItemHeight = 44;
+        self.pickerView.titleLabel.text = @"sd";
+        self.pickerView.autoTitleChange = NO;
         //        self.pickerView.titleLabel.text = @"测试";
         //        self.pickerView.autoTitleChange = NO;
         //        self.pickerView.backButton.titleLabel.font = FONT(10);
@@ -258,10 +260,10 @@
 
         self.pickerView.bounds =
             CGRectMake(0, 0, self.view.frame.size.width, [self.pickerView wya_GetPickerViewHeight]);
+        
         self.alert = [WYAAlertController wya_alertWithCustomView:self.pickerView
                                                       AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:self.alert animated:YES completion:nil];
-        self.pickerView.viewController = self.alert;
     } else if (indexPath.section == 1) {
         self.datePicker              = [[WYADatePicker alloc] init];
         self.datePicker.pickerHeight = 260;
@@ -303,10 +305,10 @@
 
         self.datePicker.bounds =
             CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
-        self.dateAlert = [WYAAlertController wya_alertWithCustomView:self.datePicker
+        WYAAlertController * dateAlert = [WYAAlertController wya_alertWithCustomView:self.datePicker
                                                           AlertStyle:WYAAlertStyleCustomSheet];
-        [self presentViewController:self.dateAlert animated:YES completion:nil];
-        self.datePicker.viewController = self.dateAlert;
+        [self presentViewController:dateAlert animated:YES completion:nil];
+
     } else if (indexPath.section == 2) {
         //        WYAPickerView * pickerView = [[WYAPickerView alloc]init];
         //        pickerView.pickerViewStyle = WYAPickerViewStyleCustom;
@@ -325,13 +327,13 @@
     }
 }
 
-- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result {
+- (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result {
     NSLog(@"result==%@", result);
-    [self.alert dismissViewControllerAnimated:YES completion:nil];
+
 }
 
-- (void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result {
-    [self.dateAlert dismissViewControllerAnimated:YES completion:nil];
+- (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result {
+    
 }
 
 @end

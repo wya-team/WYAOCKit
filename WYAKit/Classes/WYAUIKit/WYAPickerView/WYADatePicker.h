@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYADatePicker;
 typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
     WYADatePickerStyleDateHourMinuteSecond,     //年月日时分秒
     WYADatePickerStyleYear,                     //年
@@ -31,7 +31,7 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 
 @protocol WYADatePickerDelegate <NSObject>
 
-- (void)wya_ChooseWithDatePicker:(UIView *)datePicker ResultString:(NSString *)result;
+- (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result;
 
 @end
 
@@ -39,7 +39,6 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
 @property (nonatomic, assign) WYADatePickerStyle datePickerStyle;
-@property (nonatomic, weak) UIViewController * viewController;
 
 @property (nonatomic, strong) UIButton * backButton;
 @property (nonatomic, strong) UIButton * sureButton;
@@ -49,6 +48,18 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  是否自动改变title文字
  */
 @property (nonatomic, assign) BOOL autoTitleChange;
+
+/**
+ 设置pickerView整体字体颜色
+ */
+@property (nonatomic, strong) UIColor * pickerItemColor;
+
+/**
+ 设置pickerView整体字体大小
+ */
+@property (nonatomic, strong) UIFont * pickerItemFont;
+
+@property(nonatomic, assign) NSTextAlignment pickerItemAlignment;
 
 /**
  设置pickerView高度

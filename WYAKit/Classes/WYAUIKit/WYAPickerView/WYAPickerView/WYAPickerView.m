@@ -170,9 +170,9 @@ static CGFloat titleHeight = 44.0;
         default:
             break;
     }
-    label.textColor     = self.pickerItemColor ? self.pickerItemColor : [UIColor blackColor];
-    label.font          = self.pickerItemFont ? self.pickerItemFont : [UIFont systemFontOfSize:17];
-    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor     = self.pickerItemColor;
+    label.font          = self.pickerItemFont;
+    label.textAlignment = self.pickerItemAlignment;
     return label;
 }
 
@@ -272,22 +272,23 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
 #pragma mark--- WYAPaginationViewDelegate
 - (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button {
-    if (self.viewController) {
-        [self.viewController dismissViewControllerAnimated:YES completion:nil];
+    if (self.cmam_parentController) {
+        [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
     } else {
         [self removeFromSuperview];
     }
 }
 
 - (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button {
-    if (self.viewController) {
-        [self.viewController dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self removeFromSuperview];
-    }
+
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
         [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
+    }
+    if (self.cmam_parentController) {
+        [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self removeFromSuperview];
     }
 }
 
@@ -303,6 +304,9 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
     self.pickerViewStyle = WYAPickerViewStyleSystem;
     self.pickerHeight    = 220;
     self.autoTitleChange = YES;
+    self.pickerItemAlignment = NSTextAlignmentCenter;
+    self.pickerItemColor = [UIColor blackColor];
+    self.pickerItemFont = FONT(17);
 }
 #pragma mark--- Public Action
 
@@ -396,6 +400,7 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
 - (void)setAutoTitleChange:(BOOL)autoTitleChange {
     _autoTitleChange = autoTitleChange;
+    [self.pickView reloadAllComponents];
 }
 
 - (void)setDataArray:(NSMutableArray *)dataArray {
@@ -455,6 +460,11 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
 - (void)setPickerItemFont:(UIFont *)pickerItemFont {
     _pickerItemFont = pickerItemFont;
+    [self.pickView reloadAllComponents];
+}
+
+- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment{
+    _pickerItemAlignment = pickerItemAlignment;
     [self.pickView reloadAllComponents];
 }
 

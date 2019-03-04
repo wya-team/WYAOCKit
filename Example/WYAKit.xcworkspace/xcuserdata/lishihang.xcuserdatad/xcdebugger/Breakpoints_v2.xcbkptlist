@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIImage/UIImage+Catagory.m"
-            timestampString = "573045850.522305"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAFloatBall/WYAFloatBallManager.m"
+            timestampString = "573047099.7245539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
-            landmarkName = "+loadBundleImage:ClassName:"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "-getFloatBallIconImage"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAFloatBall/WYAFloatBallManager.m"
-            timestampString = "573047099.7245539"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
+            timestampString = "573388723.519155"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "-getFloatBallIconImage"
+            startingLineNumber = "264"
+            endingLineNumber = "264"
+            landmarkName = "-pickerView:didSelectRow:inComponent:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
+            timestampString = "573388723.5192291"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "438"
+            endingLineNumber = "438"
+            landmarkName = "-setDataArray:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

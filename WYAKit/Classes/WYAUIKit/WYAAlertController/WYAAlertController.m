@@ -30,6 +30,10 @@
     return self;
 }
 
+-(void)dealloc{
+    [self.alertView removeFromSuperview];
+}
+
 #pragma mark - 类方法返回实例
 /** 默认转场初始化 */
 + (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title

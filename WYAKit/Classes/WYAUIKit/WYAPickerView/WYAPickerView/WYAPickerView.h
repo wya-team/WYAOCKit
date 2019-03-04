@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYAPickerView;
 typedef NS_ENUM(NSInteger, WYAPickerViewStyle) {
     WYAPickerViewStyleSystem,
     WYAPickerViewStyleCustom,
@@ -30,14 +30,13 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  @param pickerView self
  @param result 返回结果为字符串用@"-"隔开
  */
-- (void)wya_ChooseWithPickerView:(UIView *)pickerView ResultString:(NSString *)result;
+- (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result;
 
 @end
 
 @interface WYAPickerView : UIView
 
 @property (nonatomic, weak) id<WYAPickerViewDelegate> delegate;
-@property (nonatomic, weak) UIViewController * viewController;
 
 @property (nonatomic, strong) UIButton * backButton;
 @property (nonatomic, strong) UIButton * sureButton;
@@ -66,6 +65,8 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  设置pickerView整体字体大小
  */
 @property (nonatomic, strong) UIFont * pickerItemFont;
+
+@property(nonatomic, assign) NSTextAlignment pickerItemAlignment;
 
 /**
  设置pickerView高度
