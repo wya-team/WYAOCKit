@@ -5,14 +5,13 @@
 //  Created by 李俊恒 on 2019/2/28.
 //
 
-#import <Foundation/Foundation.h>
 #import "WYAFloatBall.h"
+#import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAFloatBallManager : NSObject
-@property(nonatomic, strong) WYAFloatBall * floatBall;
-@property(nonatomic, strong) UIViewController * floatViewController;
-
+@property (nonatomic, strong) WYAFloatBall * floatBall;
+@property (nonatomic, strong) UIViewController * floatViewController;
 
 /**
  获取单例实例
@@ -26,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  注意：在导航控制器实例化之后调用
  @param vcClass 控制器的name
  */
-+ (void)wya_addFloatVcS:(NSArray <NSString *>*)vcClass;
++ (void)wya_addFloatVcS:(NSArray<NSString *> *)vcClass;
 
 /**
  展示浮窗

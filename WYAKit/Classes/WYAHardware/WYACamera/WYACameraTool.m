@@ -207,7 +207,7 @@
 /**
  * 保存图片到相册
  */
-- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void(^)(BOOL isSuccess, NSString * result))callback{
+- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void (^)(BOOL isSuccess, NSString * result))callback {
     self.saveMediaCallback = callback;
     // 获取当前的授权状态
     PHAuthorizationStatus lastStatus = [PHPhotoLibrary authorizationStatus];
@@ -242,7 +242,7 @@
     if (assets == nil) {
         //失败
         self.saveMediaCallback(NO, nil);
-//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
         return;
     }
 
@@ -250,7 +250,7 @@
     PHAssetCollection * assetCollection = [self getAssetCollectionWithAppNameAndCreateCollection];
     if (assetCollection == nil) {
         //失败
-//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
         self.saveMediaCallback(NO, nil);
         return;
     }
@@ -269,11 +269,11 @@
     if (error) {
         //失败
         self.saveMediaCallback(NO, nil);
-//        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
         return;
     }
     self.saveMediaCallback(YES, nil);
-//    [UIView wya_showBottomToastWithMessage:@"保存成功"];
+    //    [UIView wya_showBottomToastWithMessage:@"保存成功"];
 
     PHAsset * asset = [assets firstObject];
     if (asset.mediaType == PHAssetMediaTypeImage) {

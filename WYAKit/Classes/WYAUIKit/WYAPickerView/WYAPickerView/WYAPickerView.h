@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  */
 @property (nonatomic, strong) UIFont * pickerItemFont;
 
-@property(nonatomic, assign) NSTextAlignment pickerItemAlignment;
+@property (nonatomic, assign) NSTextAlignment pickerItemAlignment;
 
 /**
  设置pickerView高度

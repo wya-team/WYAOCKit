@@ -18,6 +18,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.preview = [[WYAPreview alloc] init];
+        WeakSelf(weakSelf);
+        self.preview.singleTapCallback = ^{
+            weakSelf.singleTapCallback();
+        };
         [self addSubview:self.preview];
     }
     return self;
@@ -100,6 +104,7 @@
 
 @interface WYAPreview () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 @property (nonatomic, strong) UIView * imageContainerView;
+//@property(nonatomic, assign) CGFloat zoomScale;
 @end
 
 @implementation WYAPreview
@@ -109,7 +114,7 @@
     if (self) {
         self.scrollV                                = [[UIScrollView alloc] init];
         self.scrollV.bouncesZoom                    = YES;
-        self.scrollV.maximumZoomScale               = 3.0;
+        self.scrollV.maximumZoomScale               = 2.0;
         self.scrollV.minimumZoomScale               = 1.0;
         self.scrollV.multipleTouchEnabled           = YES;
         self.scrollV.delegate                       = self;
@@ -126,13 +131,22 @@
         }
         [self addSubview:self.scrollV];
 
+        UITapGestureRecognizer * tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleClick)];
+        tap1.numberOfTapsRequired     = 1;
+        [self.scrollV addGestureRecognizer:tap1];
+        UITapGestureRecognizer * tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleClick:)];
+        tap2.numberOfTapsRequired     = 2;
+        [self.scrollV addGestureRecognizer:tap2];
+
+        [tap1 requireGestureRecognizerToFail:tap2];
+
         self.imageContainerView               = [[UIView alloc] init];
         self.imageContainerView.clipsToBounds = YES;
-        self.imageContainerView.contentMode   = UIViewContentModeScaleAspectFill;
+        self.imageContainerView.contentMode   = UIViewContentModeScaleAspectFit;
         [self.scrollV addSubview:self.imageContainerView];
 
         self.imageView                        = [[UIImageView alloc] init];
-        self.imageView.contentMode            = UIViewContentModeScaleAspectFill;
+        self.imageView.contentMode            = UIViewContentModeScaleAspectFit;
         self.imageView.userInteractionEnabled = YES;
         [self.imageContainerView addSubview:self.imageView];
     }
@@ -193,6 +207,28 @@
                           : 0.0;
     self.imageContainerView.center = CGPointMake(self.scrollV.contentSize.width * 0.5 + offsetX,
                                                  self.scrollV.contentSize.height * 0.5 + offsetY);
+}
+
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center {
+    CGRect zoomRect;
+    zoomRect.size.height = self.frame.size.height / scale;
+    zoomRect.size.width  = self.frame.size.width / scale;
+    zoomRect.origin.x    = center.x - (zoomRect.size.width / 2.0);
+    zoomRect.origin.y    = center.y - (zoomRect.size.height / 2.0);
+    return zoomRect;
+}
+
+- (void)singleClick {
+    if (self.singleTapCallback) {
+        self.singleTapCallback();
+    }
+}
+
+- (void)doubleClick:(UITapGestureRecognizer *)gesture {
+    CGFloat zoomScale = self.scrollV.zoomScale;
+    zoomScale         = (zoomScale == 1.0) ? 2.0 : 1.0;
+    CGRect zoomRect   = [self zoomRectForScale:zoomScale withCenter:[gesture locationInView:gesture.view]];
+    [self.scrollV zoomToRect:zoomRect animated:YES];
 }
 
 #pragma mark - UIScrollViewDelegate -

@@ -8,14 +8,14 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-typedef enum :NSUInteger{
+typedef enum : NSUInteger {
     WYAFloatAreaViewStyle_default,
     WYAFloatAreaViewStyle_cancel,
-}WYAFloatAreaViewStyle;
+} WYAFloatAreaViewStyle;
 
 @interface WYAFloatAreaView : UIView
-@property(nonatomic, assign) BOOL highlight;
-@property(nonatomic, assign) WYAFloatAreaViewStyle style;
+@property (nonatomic, assign) BOOL highlight;
+@property (nonatomic, assign) WYAFloatAreaViewStyle style;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -6,13 +6,14 @@
 //  Copyright © 2018 WYATeam. All rights reserved.
 //
 
-#import "WYABaseViewController.h"
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAImageBrowserViewController : WYABaseViewController
+@interface WYAImageBrowserViewController : UIViewController
 
 @property (nonatomic, strong) NSArray * array;
+@property(nonatomic, assign) NSInteger selectIndex;
 
 @end
 

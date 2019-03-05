@@ -15,9 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)floatBallBeginMove:(WYAFloatBall *)floatBall;
 - (void)floatBallEndMove:(WYAFloatBall *)floatBall;
 @end
+
 @interface WYAFloatBall : UIView
-@property(nonatomic, weak) id <WYAFloatBallDelegate> delegate;
-@property(nonatomic, strong) UIImageView * iconImageView;
+@property (nonatomic, weak) id<WYAFloatBallDelegate> delegate;
+@property (nonatomic, strong) UIImageView * iconImageView;
 @end
 
 NS_ASSUME_NONNULL_END

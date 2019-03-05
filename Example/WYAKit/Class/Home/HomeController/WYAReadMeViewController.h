@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  悬浮窗的icon
  */
-@property(nonatomic, strong) UIImage * hk_iconImage;// 固定写法，名字也需要固定
+@property (nonatomic, strong) UIImage * hk_iconImage; // 固定写法，名字也需要固定
 @end
 
 NS_ASSUME_NONNULL_END

@@ -4,6 +4,7 @@
 
 /** present style */
 typedef NS_ENUM(NSInteger, WYAPopupPresentStyle) {
+    //alert
     WYAPopupPresentStyleSystem,           // 系统样式
     WYAPopupPresentStyleFadeIn,           // 渐入
     WYAPopupPresentStyleBounce,           // 弹出
@@ -13,10 +14,14 @@ typedef NS_ENUM(NSInteger, WYAPopupPresentStyle) {
     WYAPopupPresentStyleSlideUp,          // 从下往上划入
     WYAPopupPresentStyleSlideLeft,        // 从右往左划入
     WYAPopupPresentStyleSlideRight,       // 从左往右划入
+
+    // photoBrowser
+    WYAPopupPresentStyleFoucs, //聚焦
 };
 
 /** dismiss style */
 typedef NS_ENUM(NSInteger, WYAPopupDismissStyle) {
+    //alert
     WYAPopupDismissStyleFadeOut,            // 渐出
     WYAPopupDismissStyleShrink,             // 缩起
     WYAPopupDismissStyleContractHorizontal, // 水平收起
@@ -25,6 +30,9 @@ typedef NS_ENUM(NSInteger, WYAPopupDismissStyle) {
     WYAPopupDismissStyleSlideUp,            // 向上划出
     WYAPopupDismissStyleSlideLeft,          // 向左划出
     WYAPopupDismissStyleSlideRight,         // 向右划出
+
+    // photoBrowser
+    WYAPopupDismissStyleOutofFocus, //失焦
 };
 
 typedef NS_ENUM(NSInteger, WYAAlertStyle) {

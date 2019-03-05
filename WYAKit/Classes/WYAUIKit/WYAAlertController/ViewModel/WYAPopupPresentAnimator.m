@@ -31,6 +31,8 @@
             return 0.4;
         case WYAPopupPresentStyleSlideRight:
             return 0.4;
+        case WYAPopupPresentStyleFoucs:
+            return 0.5;
     }
 }
 
@@ -67,6 +69,9 @@
             break;
         case WYAPopupPresentStyleSlideRight:
             [self slideRightAnimationWithContext:transitionContext];
+            break;
+        case WYAPopupPresentStyleFoucs:
+            [self foucsAnimationWithContext:transitionContext];
             break;
     }
 }
@@ -263,6 +268,21 @@
         animations:^{
             toVC.backgroundButton.alpha = as_backgroundAlpha;
             toVC.alertView.center       = toVC.view.center;
+        }
+        completion:^(BOOL finished) { [transitionContext completeTransition:YES]; }];
+}
+
+- (void)foucsAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+    UIViewController * toVC =
+        [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    toVC.view.alpha = 0;
+
+    UIView * containerView = [transitionContext containerView];
+    [containerView addSubview:toVC.view];
+    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    [UIView animateWithDuration:duration
+        animations:^{
+            toVC.view.alpha = 1;
         }
         completion:^(BOOL finished) { [transitionContext completeTransition:YES]; }];
 }

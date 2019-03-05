@@ -303,9 +303,9 @@ static CGFloat titleHeight      = 44.0;
         default:
             break;
     }
-    label.textColor = self.pickerItemColor ? self.pickerItemColor : [UIColor blackColor];
+    label.textColor     = self.pickerItemColor ? self.pickerItemColor : [UIColor blackColor];
     label.font          = self.pickerItemFont ? self.pickerItemFont : FONT(12);
-    label.textAlignment = self.pickerItemAlignment == NSTextAlignmentCenter ?  NSTextAlignmentCenter : self.pickerItemAlignment;
+    label.textAlignment = self.pickerItemAlignment == NSTextAlignmentCenter ? NSTextAlignmentCenter : self.pickerItemAlignment;
     return label;
 }
 
@@ -588,8 +588,8 @@ static CGFloat titleHeight      = 44.0;
     [self addSubview:self.pickView];
 
     self.pickerItemAlignment = NSTextAlignmentCenter;
-    self.pickerItemColor = [UIColor blackColor];
-    self.pickerItemFont = FONT(17);
+    self.pickerItemColor     = [UIColor blackColor];
+    self.pickerItemFont      = FONT(17);
 }
 
 - (NSInteger)componentsNumber {
@@ -872,17 +872,17 @@ static CGFloat titleHeight      = 44.0;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemFont:(UIFont *)pickerItemFont{
+- (void)setPickerItemFont:(UIFont *)pickerItemFont {
     _pickerItemFont = pickerItemFont;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemColor:(UIColor *)pickerItemColor{
+- (void)setPickerItemColor:(UIColor *)pickerItemColor {
     _pickerItemColor = pickerItemColor;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment{
+- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment {
     _pickerItemAlignment = pickerItemAlignment;
     [self.pickView reloadAllComponents];
 }

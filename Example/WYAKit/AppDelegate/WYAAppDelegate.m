@@ -8,8 +8,9 @@
 
 #import "WYAAppDelegate.h"
 #import "RootViewController.h"
-#import <WYAKit/WYAKitInstance.h>
 #import <WYAKit/WYAFloatBallManager.h>
+#import <WYAKit/WYAKitInstance.h>
+
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application
@@ -25,7 +26,7 @@
 
     [self.window makeKeyAndVisible];
     [WYADownloader sharedDownloader];
-    [WYAFloatBallManager wya_addFloatVcS:@[@"WYAReadMeViewController",@"WYAPopVerReadMeViewController"]];
+    [WYAFloatBallManager wya_addFloatVcS:@[ @"WYAReadMeViewController", @"WYAPopVerReadMeViewController" ]];
     return YES;
 }
 

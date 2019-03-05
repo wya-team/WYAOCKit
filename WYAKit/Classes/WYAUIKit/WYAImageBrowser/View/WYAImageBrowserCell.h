@@ -14,8 +14,8 @@
 @interface WYAImageBrowserCell : UICollectionViewCell
 
 @property (nonatomic, strong) WYAPreview * preview;
-
 @property (nonatomic, strong) UIImage * image;
+@property (nonatomic, copy) void (^singleTapCallback)(void);
 
 @end
 
@@ -27,6 +27,7 @@
 @end
 
 @interface WYAPreview : UIView
+@property (nonatomic, copy) void (^singleTapCallback)(void);
 @property (nonatomic, strong) UIScrollView * scrollV;
 @property (nonatomic, strong) UIImageView * imageView;
 - (void)setScrollZoom;

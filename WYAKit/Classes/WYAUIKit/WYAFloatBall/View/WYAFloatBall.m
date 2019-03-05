@@ -10,10 +10,10 @@
 
 @implementation WYAFloatBall
 #pragma mark ======= LifeCircle
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.iconImageView];
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tap:)];
+        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
         [self addGestureRecognizer:tap];
     }
     return self;
@@ -21,13 +21,13 @@
 
 #pragma mark ======= Lazy
 // 考虑是否加入默认图片的设置？
-- (UIImageView *)iconImageView{
+- (UIImageView *)iconImageView {
     if (!_iconImageView) {
         _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
-//        _iconImageView.backgroundColor = wya_rgb(102, 103, 103);
-        _iconImageView.layer.borderWidth = 8;
-        _iconImageView.layer.borderColor = wya_rgb(102, 103, 103).CGColor;
-        _iconImageView.layer.cornerRadius = self.bounds.size.width / 2;
+        //        _iconImageView.backgroundColor = wya_rgb(102, 103, 103);
+        _iconImageView.layer.borderWidth   = 8;
+        _iconImageView.layer.borderColor   = wya_rgb(102, 103, 103).CGColor;
+        _iconImageView.layer.cornerRadius  = self.bounds.size.width / 2;
         _iconImageView.layer.masksToBounds = YES;
     };
     return _iconImageView;
@@ -53,17 +53,17 @@
         [self.delegate floatBallEndMove:self];
     }
 }
-- (void)tap:(UIGestureRecognizer *)tap{
-    if (self.delegate &&[self.delegate respondsToSelector:@selector(floatBallDidClick:)]) {
+- (void)tap:(UIGestureRecognizer *)tap {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(floatBallDidClick:)]) {
         [self.delegate floatBallDidClick:self];
     }
 }
 
-- (void)endTouch:(CGPoint)point{
+- (void)endTouch:(CGPoint)point {
     CGRect frame = self.frame;
-    if (point.x > ScreenWidth/2) {
+    if (point.x > ScreenWidth / 2) {
         frame.origin.x = ScreenWidth - frame.size.width - margin;
-    }else{
+    } else {
         frame.origin.x = margin;
     }
     if (frame.origin.y > ScreenHeight - 64) {
@@ -72,8 +72,9 @@
         frame.origin.y = 20;
     }
 
-    [UIView animateWithDuration:0.3 animations:^{
-        self.frame = frame;
-    }];
+    [UIView animateWithDuration:0.3
+                     animations:^{
+                         self.frame = frame;
+                     }];
 }
 @end

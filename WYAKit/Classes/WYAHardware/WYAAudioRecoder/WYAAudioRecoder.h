@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param error 错误
  @return 是否成功播放
  */
-- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url volume:(CGFloat)volume numberOfLoops:(NSInteger)numberOfLoops currentTime:(NSTimeInterval)currentTime  error:(NSError *)error;
+- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url volume:(CGFloat)volume numberOfLoops:(NSInteger)numberOfLoops currentTime:(NSTimeInterval)currentTime error:(NSError *)error;
 
 /**
  暂停播放

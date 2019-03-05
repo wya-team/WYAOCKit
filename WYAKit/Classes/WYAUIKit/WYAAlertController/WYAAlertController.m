@@ -30,7 +30,7 @@
     return self;
 }
 
--(void)dealloc{
+- (void)dealloc {
     [self.alertView removeFromSuperview];
 }
 

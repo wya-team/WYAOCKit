@@ -61,6 +61,13 @@
     }
 }
 
+-(void)setSelectIndex:(NSInteger)selectIndex{
+    [self layoutIfNeeded];
+    [self.collectionView setContentOffset:CGPointMake(ScreenWidth*selectIndex, 0) animated:NO];
+    self.pageControl.currentPage = selectIndex;
+
+}
+
 #pragma mark--- Getter
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
@@ -114,6 +121,9 @@
        willDisplayCell:(UICollectionViewCell *)cell
     forItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAImageBrowserCell * imageCell = (WYAImageBrowserCell *)cell;
+    imageCell.singleTapCallback = ^{
+        [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
+    };
     imageCell.image                 = self.images[indexPath.item];
 }
 

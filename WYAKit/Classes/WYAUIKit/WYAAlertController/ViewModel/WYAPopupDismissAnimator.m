@@ -29,6 +29,8 @@
             return 0.2;
         case WYAPopupDismissStyleSlideRight:
             return 0.2;
+        case WYAPopupDismissStyleOutofFocus:
+            return 0.5;
     }
 }
 
@@ -62,6 +64,9 @@
             break;
         case WYAPopupDismissStyleSlideRight:
             [self slideRightAnimationWithContext:transitionContext];
+            break;
+        case WYAPopupDismissStyleOutofFocus:
+            [self OutofFoucsAnimationWithContext:transitionContext];
             break;
     }
 }
@@ -194,6 +199,16 @@
                 CGPointMake(fromVC.view.frame.size.width + fromVC.alertView.frame.size.width / 2.0,
                             fromVC.view.center.y);
         }
+        completion:^(BOOL finished) { [transitionContext completeTransition:YES]; }];
+}
+
+- (void)OutofFoucsAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+    UIViewController * fromVC =
+        [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+
+    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    [UIView animateWithDuration:duration
+        animations:^{ fromVC.view.alpha = 0; }
         completion:^(BOOL finished) { [transitionContext completeTransition:YES]; }];
 }
 

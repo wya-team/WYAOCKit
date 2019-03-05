@@ -178,8 +178,8 @@
         self.pickerView.arrayKeyWords    = @"array";
         self.pickerView.pickerHeight     = 220;
         self.pickerView.pickerItemHeight = 44;
-        self.pickerView.titleLabel.text = @"sd";
-        self.pickerView.autoTitleChange = NO;
+        self.pickerView.titleLabel.text  = @"sd";
+        self.pickerView.autoTitleChange  = NO;
         //        self.pickerView.titleLabel.text = @"测试";
         //        self.pickerView.autoTitleChange = NO;
         //        self.pickerView.backButton.titleLabel.font = FONT(10);
@@ -260,7 +260,7 @@
 
         self.pickerView.bounds =
             CGRectMake(0, 0, self.view.frame.size.width, [self.pickerView wya_GetPickerViewHeight]);
-        
+
         self.alert = [WYAAlertController wya_alertWithCustomView:self.pickerView
                                                       AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:self.alert animated:YES completion:nil];
@@ -306,7 +306,7 @@
         self.datePicker.bounds =
             CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
         WYAAlertController * dateAlert = [WYAAlertController wya_alertWithCustomView:self.datePicker
-                                                          AlertStyle:WYAAlertStyleCustomSheet];
+                                                                          AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:dateAlert animated:YES completion:nil];
 
     } else if (indexPath.section == 2) {
@@ -329,11 +329,9 @@
 
 - (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result {
     NSLog(@"result==%@", result);
-
 }
 
 - (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result {
-    
 }
 
 @end

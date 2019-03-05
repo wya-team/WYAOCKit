@@ -15,7 +15,6 @@
 		210E9F6521A93D2300BFE994 /* WYAImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6421A93D2300BFE994 /* WYAImagePicker.m */; };
 		210E9F6821ABEB5300BFE994 /* WYAHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */; };
 		210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */; };
-		210E9F8A21AD790A00BFE994 /* WYAImageBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */; };
 		21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */; };
 		2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
@@ -139,8 +138,6 @@
 		210E9F6721ABEB5300BFE994 /* WYAHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAHomeViewController.m; sourceTree = "<group>"; };
 		210E9F7B21AD406600BFE994 /* WYACellTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACellTableViewController.h; sourceTree = "<group>"; };
 		210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACellTableViewController.m; sourceTree = "<group>"; };
-		210E9F8821AD790A00BFE994 /* WYAImageBrowserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAImageBrowserViewController.h; sourceTree = "<group>"; };
-		210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAImageBrowserViewController.m; sourceTree = "<group>"; };
 		21185D6021CE2FA400946CBD /* WYADemoCameraViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoCameraViewController.h; sourceTree = "<group>"; };
 		21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoCameraViewController.m; sourceTree = "<group>"; };
 		2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACardViewController.h; sourceTree = "<group>"; };
@@ -373,15 +370,6 @@
 			path = WYACell;
 			sourceTree = "<group>";
 		};
-		210E9F8721AD78F200BFE994 /* WYAImageBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				210E9F8821AD790A00BFE994 /* WYAImageBrowserViewController.h */,
-				210E9F8921AD790A00BFE994 /* WYAImageBrowserViewController.m */,
-			);
-			path = WYAImageBrowser;
-			sourceTree = "<group>";
-		};
 		21185D5C21CE2F1000946CBD /* WYACameraViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -472,7 +460,6 @@
 				957F648F21C88D380009C044 /* WYANavBarUI */,
 				210C72F621C7D7DE00196F07 /* WYADrawserViewControll */,
 				9559282B21AE2C0900C46D6D /* WYAStepperView */,
-				210E9F8721AD78F200BFE994 /* WYAImageBrowser */,
 				210E9F7A21AD403400BFE994 /* WYACell */,
 				21A8735C21A4F4EB007F2921 /* WYANoticeBar */,
 				21A8734F21A3E1D5007F2921 /* WYASlider */,
@@ -1134,11 +1121,9 @@
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
-				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/JQFMDB/JQFMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
-				"${BUILT_PRODUCTS_DIR}/MLeaksFinder/MLeaksFinder.framework",
 				"${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework",
 				"${BUILT_PRODUCTS_DIR}/NTYAmrConverter/NTYAmrConverter.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
@@ -1153,11 +1138,9 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JQFMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MLeaksFinder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Masonry.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NTYAmrConverter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
@@ -1242,7 +1225,6 @@
 				2177893021D4A23400B02487 /* WYADemoDrawerLeftViewController.m in Sources */,
 				950B40ED21CA521C002BC685 /* RootViewController.m in Sources */,
 				95F0EE4221AF7721006F8AD4 /* WYAStepperController.m in Sources */,
-				210E9F8A21AD790A00BFE994 /* WYAImageBrowserViewController.m in Sources */,
 				21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */,
 				21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */,
 				21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */,

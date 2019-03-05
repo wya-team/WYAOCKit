@@ -19,13 +19,12 @@
 
 #import <NTYAmrConverter/NTYAmrConverter.h>
 
-@interface WYAAudioRecoder ()<AVAudioRecorderDelegate, AVAudioPlayerDelegate>
-@property(nonatomic, strong) AVAudioSession * session;
-@property(nonatomic, strong) AVAudioRecorder * audioRecorder;
-@property(nonatomic, strong) AVAudioPlayer * audioPlayer;
-@property(nonatomic, strong) NSDictionary * setting;
+@interface WYAAudioRecoder () <AVAudioRecorderDelegate, AVAudioPlayerDelegate>
+@property (nonatomic, strong) AVAudioSession * session;
+@property (nonatomic, strong) AVAudioRecorder * audioRecorder;
+@property (nonatomic, strong) AVAudioPlayer * audioPlayer;
+@property (nonatomic, strong) NSDictionary * setting;
 @end
-
 
 @implementation WYAAudioRecoder
 
@@ -33,22 +32,21 @@
     static WYAAudioRecoder * recoder;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        recoder = [[WYAAudioRecoder alloc]init];
+        recoder = [[WYAAudioRecoder alloc] init];
     });
     return recoder;
 }
 
-
-- (AVAudioRecorder *)createAudioRecorderWithUrl:(NSURL *)url{
+- (AVAudioRecorder *)createAudioRecorderWithUrl:(NSURL *)url {
     NSError * recorderError;
-    AVAudioRecorder * audioRecorder = [[AVAudioRecorder alloc]initWithURL:url settings:[NTYAmrCoder audioRecorderSettings] error:&recorderError];
-    audioRecorder.delegate = self;
-    audioRecorder.meteringEnabled = YES;
+    AVAudioRecorder * audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[NTYAmrCoder audioRecorderSettings] error:&recorderError];
+    audioRecorder.delegate          = self;
+    audioRecorder.meteringEnabled   = YES;
     return audioRecorder;
 }
 
 #pragma mark ======= Public Method
-- (BOOL)wya_startRecorderWithUrl:(NSURL *)url error:(NSError *)error{
+- (BOOL)wya_startRecorderWithUrl:(NSURL *)url error:(NSError *)error {
     self.session = [AVAudioSession sharedInstance];
 
     [self.session setCategory:AVAudioSessionCategoryPlayAndRecord error:&error];
@@ -57,25 +55,25 @@
     if ([self.audioRecorder prepareToRecord]) {
         if ([self.audioRecorder record]) {
             return YES;
-        }else {
+        } else {
             return NO;
         }
-    }else{
+    } else {
         return NO;
     }
 }
 
-- (void)wya_pauseRecorder{
+- (void)wya_pauseRecorder {
     [self.audioRecorder pause];
 }
 
-- (void)wya_stopRecorder{
+- (void)wya_stopRecorder {
     if ([self.audioRecorder prepareToRecord]) {
         [self.audioRecorder stop];
     }
 }
 
-- (BOOL)wya_turnAmrAudioWithWavPath:(NSString *)wavPath amrPath:(NSString *)amrPath DeleteRedundantAudio:(BOOL)redundantAudio{
+- (BOOL)wya_turnAmrAudioWithWavPath:(NSString *)wavPath amrPath:(NSString *)amrPath DeleteRedundantAudio:(BOOL)redundantAudio {
 
     BOOL isSuccess = [NTYAmrCoder encodeWavFile:wavPath toAmrFile:amrPath];
     if (isSuccess) {
@@ -86,21 +84,21 @@
                 [fileManager removeItemAtPath:wavPath error:&error];
                 if (error) {
                     return NO;
-                }else{
+                } else {
                     return YES;
                 }
-            }else{
+            } else {
                 return NO;
             }
-        }else {
+        } else {
             return YES;
         }
-    }else {
+    } else {
         return NO;
     }
 }
 
-- (BOOL)wya_turnWavAudioWithAmrPath:(NSString *)amrPath wavPath:(NSString *)wavPath DeleteRedundantAudio:(BOOL)redundantAudio{
+- (BOOL)wya_turnWavAudioWithAmrPath:(NSString *)amrPath wavPath:(NSString *)wavPath DeleteRedundantAudio:(BOOL)redundantAudio {
     BOOL isSuccess = [NTYAmrCoder decodeAmrFile:amrPath toWavFile:wavPath];
     if (isSuccess) {
         if (redundantAudio) {
@@ -110,38 +108,38 @@
                 [fileManager removeItemAtPath:amrPath error:&error];
                 if (error) {
                     return NO;
-                }else{
+                } else {
                     return YES;
                 }
-            }else{
+            } else {
                 return NO;
             }
-        }else {
+        } else {
             return YES;
         }
-    }else {
+    } else {
         return NO;
     }
 }
 
-- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url volume:(CGFloat)volume numberOfLoops:(NSInteger)numberOfLoops currentTime:(NSTimeInterval)currentTime  error:(NSError *)error{
+- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url volume:(CGFloat)volume numberOfLoops:(NSInteger)numberOfLoops currentTime:(NSTimeInterval)currentTime error:(NSError *)error {
 
     if (![url.pathExtension isEqualToString:@"wav"]) {
         return NO;
     }
 
     self.session = [AVAudioSession sharedInstance];
-    NSError *sessionError;
+    NSError * sessionError;
     [self.session setCategory:AVAudioSessionCategoryPlayback error:&sessionError];
     [self.session setActive:YES error:nil];
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:)name:UIDeviceProximityStateDidChangeNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:) name:UIDeviceProximityStateDidChangeNotification object:nil];
 
-    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
-    self.audioPlayer.delegate = self;
-    self.audioPlayer.volume = volume;
+    self.audioPlayer               = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    self.audioPlayer.delegate      = self;
+    self.audioPlayer.volume        = volume;
     self.audioPlayer.numberOfLoops = numberOfLoops;
-    self.audioPlayer.currentTime = currentTime;
+    self.audioPlayer.currentTime   = currentTime;
     //准备播放 / 播放
     if ([self.audioPlayer prepareToPlay]) {
         [self.audioPlayer play];
@@ -149,17 +147,17 @@
     return YES;
 }
 
-- (void)wya_pausePlayAudio{
+- (void)wya_pausePlayAudio {
     [self.audioPlayer pause];
 }
 
-- (void)wya_stopPlayAudio{
+- (void)wya_stopPlayAudio {
     [self.audioPlayer stop];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceProximityStateDidChangeNotification object:nil];
 }
 
 #pragma mark ======= Notication
-- (void)sensorStateChange:(NSNotification *)not{
+- (void)sensorStateChange:(NSNotification *) not{
     if ([[UIDevice currentDevice] proximityState] == YES) {
         //靠近耳朵
         [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
@@ -170,36 +168,32 @@
 }
 
 #pragma mark ======= AVAudioRecorderDelegate
-- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag{
-
+- (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
 }
 
-- (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError * __nullable)error{
-
+- (void)audioRecorderEncodeErrorDidOccur:(AVAudioRecorder *)recorder error:(NSError * __nullable)error {
 }
 
 #pragma mark ======= AVAudioPlayerDelegate
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
-
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
 }
 
-- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError * __nullable)error{
-
+- (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError * __nullable)error {
 }
 
 #pragma mark ======= Getter
--(NSDictionary *)setting{
+- (NSDictionary *)setting {
     // 录音参数
-    NSDictionary *setting = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,// 编码格式
-                             [NSNumber numberWithFloat:8000], AVSampleRateKey, //采样率
-                             [NSNumber numberWithInt:2], AVNumberOfChannelsKey, //通道数
-                             [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,  //采样位数(PCM专属)
-                             [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,  //是否允许音频交叉(PCM专属)
-                             [NSNumber numberWithBool:NO],AVLinearPCMIsFloatKey,  //采样信号是否是浮点数(PCM专属)
-                             [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,  //是否是大端存储模式(PCM专属)
-                             [NSNumber numberWithInt:AVAudioQualityMax], AVEncoderAudioQualityKey,  //音质
-                             nil];
+    NSDictionary * setting = [NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,        // 编码格式
+                                               [NSNumber numberWithFloat:8000], AVSampleRateKey,                     //采样率
+                                               [NSNumber numberWithInt:2], AVNumberOfChannelsKey,                    //通道数
+                                               [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,                  //采样位数(PCM专属)
+                                               [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,            //是否允许音频交叉(PCM专属)
+                                               [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,                  //采样信号是否是浮点数(PCM专属)
+                                               [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,              //是否是大端存储模式(PCM专属)
+                                               [NSNumber numberWithInt:AVAudioQualityMax], AVEncoderAudioQualityKey, //音质
+                                               nil];
     return setting;
 }
 

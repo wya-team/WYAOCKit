@@ -8,7 +8,7 @@
 
 #import "WYACameraCell.h"
 #import "WYACameraModel.h"
-#import "WYAImageBrowserViewController.h"
+
 #import "WYAImagePicker.h"
 #import "WYAPopVerReadMeViewController.h"
 
@@ -272,7 +272,7 @@
                             if (inter == 0) { return; }
                             WYAPhotoBrowser * photo =
                                 [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-                                                         photoBrowserType:WYAPhotoBrowserTypeVideo];
+                                                         photoBrowserType:WYAPhotoBrowserTypeAll];
                             photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
                                 NSLog(@"images==%@", media);
                                 NSMutableArray * array = [NSMutableArray array];
@@ -313,7 +313,8 @@
 
         WYAImageBrowserViewController * vc = [[WYAImageBrowserViewController alloc] init];
         vc.array                           = [arr copy];
-        [self.navigationController pushViewController:vc animated:YES];
+        vc.selectIndex                     = indexPath.item;
+        [self presentViewController:vc animated:YES completion:nil];
     }
 }
 

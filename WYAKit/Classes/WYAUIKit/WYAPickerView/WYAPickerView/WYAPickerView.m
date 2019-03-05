@@ -301,12 +301,12 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
     [self addSubview:self.pickView];
     //    [self addSubview:self.customPicker];
 
-    self.pickerViewStyle = WYAPickerViewStyleSystem;
-    self.pickerHeight    = 220;
-    self.autoTitleChange = YES;
+    self.pickerViewStyle     = WYAPickerViewStyleSystem;
+    self.pickerHeight        = 220;
+    self.autoTitleChange     = YES;
     self.pickerItemAlignment = NSTextAlignmentCenter;
-    self.pickerItemColor = [UIColor blackColor];
-    self.pickerItemFont = FONT(17);
+    self.pickerItemColor     = [UIColor blackColor];
+    self.pickerItemFont      = FONT(17);
 }
 #pragma mark--- Public Action
 
@@ -463,7 +463,7 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment{
+- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment {
     _pickerItemAlignment = pickerItemAlignment;
     [self.pickView reloadAllComponents];
 }

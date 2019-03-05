@@ -15,6 +15,7 @@
 #import "UIMenuItem+Category.h"
 #import "UITableView+CellAnimation.h"
 #import "UITextField+Category.h"
+#import "UIView+Gestures.h"
 #import "UIView+WYAAnimation.h"
 #import "UIView+WYALayout.h"
 #import "UIView+WYAToast.h"
