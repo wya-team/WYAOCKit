@@ -140,6 +140,10 @@
     item29.rowName            = @"WYADownloader 下载";
     item29.className          = @"WYADownloaderViewController";
 
+    WYAHomeItemModel * item34 = [[WYAHomeItemModel alloc] init];
+    item34.rowName            = @"WYAUploader 上传";
+    item34.className          = @"WYAUploadViewController";
+
     WYAHomeItemModel * item30 = [[WYAHomeItemModel alloc] init];
     item30.rowName            = @"WYAVideoPlayer 视频播放";
     item30.className          = @"WYAVideoPlayerViewController";
@@ -153,12 +157,12 @@
     item32.className          = @"WYAReamlViewController";
 
     WYAHomeItemModel * item33 = [[WYAHomeItemModel alloc] init];
-    item33.rowName            = @"音频录制和播放";
+    item33.rowName            = @"WYAAudioRecoder 音频录制和播放";
     item33.className          = @"WYAAudioViewController";
 
     WYAHomeModel * model5 = [[WYAHomeModel alloc] init];
     model5.sectionName    = @"其他 Other";
-    model5.rows           = @[ item29, item30, item31, item32, item33 ];
+    model5.rows           = @[ item29, item34, item30, item31, item32, item33 ];
 
     return @[ model1, model2, model3, model4, model5 ];
 }

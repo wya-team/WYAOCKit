@@ -17,6 +17,8 @@
 		210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210E9F7C21AD406600BFE994 /* WYACellTableViewController.m */; };
 		21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */; };
 		2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */; };
+		21438438222E6710004D742E /* WYAUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21438437222E6710004D742E /* WYAUploadViewController.m */; };
+		2143843B222E7294004D742E /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 2143843A222E7294004D742E /* aaa.png */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
 		21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFF219ABF090099CB6F /* WYAProgressViewController.m */; };
 		21470C03219ABF180099CB6F /* WYAToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C02219ABF180099CB6F /* WYAToastViewController.m */; };
@@ -142,6 +144,9 @@
 		21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoCameraViewController.m; sourceTree = "<group>"; };
 		2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACardViewController.h; sourceTree = "<group>"; };
 		2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACardViewController.m; sourceTree = "<group>"; };
+		21438436222E6710004D742E /* WYAUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAUploadViewController.h; sourceTree = "<group>"; };
+		21438437222E6710004D742E /* WYAUploadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAUploadViewController.m; sourceTree = "<group>"; };
+		2143843A222E7294004D742E /* aaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaa.png; sourceTree = "<group>"; };
 		21470BFB219ABE9E0099CB6F /* WYATextViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYATextViewController.h; sourceTree = "<group>"; };
 		21470BFC219ABE9F0099CB6F /* WYATextViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYATextViewController.m; sourceTree = "<group>"; };
 		21470BFE219ABF090099CB6F /* WYAProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAProgressViewController.h; sourceTree = "<group>"; };
@@ -397,9 +402,20 @@
 			path = WYASearchBar;
 			sourceTree = "<group>";
 		};
+		21438439222E6717004D742E /* WYAUpload */ = {
+			isa = PBXGroup;
+			children = (
+				21438436222E6710004D742E /* WYAUploadViewController.h */,
+				21438437222E6710004D742E /* WYAUploadViewController.m */,
+				2143843A222E7294004D742E /* aaa.png */,
+			);
+			path = WYAUpload;
+			sourceTree = "<group>";
+		};
 		21470BEC219ABE880099CB6F /* WYATools */ = {
 			isa = PBXGroup;
 			children = (
+				21438439222E6717004D742E /* WYAUpload */,
 				21A72F542227D5E300CD84C3 /* WYAAudio */,
 				953CD92A21E0515100C50453 /* WYAClearCache */,
 				21185D5C21CE2F1000946CBD /* WYACameraViewController */,
@@ -1070,6 +1086,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2143843B222E7294004D742E /* aaa.png in Resources */,
 				21DAB53421D46BA600E43594 /* spin.svg in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				95F0946321CBD0CA00FFC0CF /* Images.xcassets in Resources */,
@@ -1120,6 +1137,7 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/AliyunOSSiOS/AliyunOSSiOS.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/JQFMDB/JQFMDB.framework",
@@ -1137,6 +1155,7 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunOSSiOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JQFMDB.framework",
@@ -1232,6 +1251,7 @@
 				95F0944821CA7F7F00FFC0CF /* WYAButtonViewController.m in Sources */,
 				9578498E21B1194E001E19DC /* WYAListTwoCell.m in Sources */,
 				21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */,
+				21438438222E6710004D742E /* WYAUploadViewController.m in Sources */,
 				956BCC8621B5329C0044095E /* WYAReamlViewController.m in Sources */,
 				21470C00219ABF090099CB6F /* WYAProgressViewController.m in Sources */,
 				21470C1B219ABF960099CB6F /* WYADemoDownloaderViewController.m in Sources */,
