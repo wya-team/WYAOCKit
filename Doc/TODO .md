@@ -8,9 +8,11 @@
 
 - ~~WYAVideoPlayer~~
 
-- WYADownloader
+- ~~WYADownloader~~
 
-- WYAAudioRecoder
+- ~~WYAAudioRecoder~~
+
+- WYAUploader（上传视频和断点续传未完善）
     
 ## WYAUIKit 
 
@@ -50,9 +52,11 @@
     
 - ~~UIViewController+WYADrawerView (Drawer)~~
     
-- WYAKeyboard
+- ~~WYAKeyboard~~
 
 - ~~WYACard~~
+
+- WYAImageCompose
 
 ## Help(助手)
 - ~~WYAKitInstance~~

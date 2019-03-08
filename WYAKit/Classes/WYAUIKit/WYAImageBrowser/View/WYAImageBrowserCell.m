@@ -155,7 +155,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.scrollV.frame = CGRectMake(10, 0, self.cmam_width - 20, self.cmam_height);
+    self.scrollV.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
 
     //    self.imageView.frame = CGRectMake(0, 0, self.scrollV.frame.size.width,
     //    self.scrollV.frame.size.height);

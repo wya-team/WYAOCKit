@@ -111,7 +111,7 @@
         if (indexPath.row == 0) {
             WYAAlertController * alert =
                 [WYAAlertController wya_alertWithTitle:@"Welcome"
-                                               Message:@"欢迎使用 WYAKit ！！"
+                                               Message:nil
                                       AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             // 创建 action

@@ -25,6 +25,20 @@
 + (instancetype)sharedInstance {
     return [[self alloc] init];
 }
+
+-(WYAUploadModel *)uploadModel{
+    if (!_uploadModel) {
+        _uploadModel = [[WYAUploadModel alloc]init];
+        _uploadModel.uploadUrl = @"https://oa2.ruishan666.com/_cms/api/image/get-oss-info.json";
+        _uploadModel.uploadBefore = ^NSDictionary *{
+            return nil;
+        };
+        _uploadModel.uploadAfter = nil;
+    }
+
+    return _uploadModel;
+}
+
 @end
 
 @implementation WYABannerConfig

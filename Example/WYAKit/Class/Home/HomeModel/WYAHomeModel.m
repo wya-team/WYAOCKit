@@ -112,9 +112,17 @@
     item23.rowName            = @"WYANoticeBar 通告栏";
     item23.className          = @"WYANoticeViewController";
 
+    WYAHomeItemModel * item35 = [[WYAHomeItemModel alloc] init];
+    item35.rowName            = @"WYAImageBrowser 图片预览";
+    item35.className          = @"WYAImageBrowserCopyViewController";
+
+    WYAHomeItemModel * item24 = [[WYAHomeItemModel alloc] init];
+    item24.rowName            = @"图片合成";
+    item24.className          = @"WYAImageComposeViewController";
+
     WYAHomeModel * model3 = [[WYAHomeModel alloc] init];
     model3.sectionName    = @"数据展示 Data Display";
-    model3.rows           = @[ item19, item20, item21, item22, item23 ];
+    model3.rows           = @[ item19, item20, item21, item22, item23, item35, item24];
 
     WYAHomeItemModel * item25 = [[WYAHomeItemModel alloc] init];
     item25.rowName            = @"WYAAlert 弹框";
@@ -159,6 +167,8 @@
     WYAHomeItemModel * item33 = [[WYAHomeItemModel alloc] init];
     item33.rowName            = @"WYAAudioRecoder 音频录制和播放";
     item33.className          = @"WYAAudioViewController";
+
+
 
     WYAHomeModel * model5 = [[WYAHomeModel alloc] init];
     model5.sectionName    = @"其他 Other";

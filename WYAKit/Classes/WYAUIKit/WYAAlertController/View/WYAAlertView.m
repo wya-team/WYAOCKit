@@ -115,8 +115,8 @@
     }];
 
     [self.messageLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
-        make.left.mas_equalTo(self.containerView.mas_left).with.offset(self->labelPadding / 2);
-        make.right.mas_equalTo(self.containerView.mas_right).with.offset(-(self->labelPadding / 2));
+        make.left.mas_equalTo(self.containerView.mas_left).with.offset(self->labelPadding / 2.0);
+        make.right.mas_equalTo(self.containerView.mas_right).with.offset(-(self->labelPadding / 2.0));
         if (self.messageLabel.text && self.messageLabel.text.length > 0) {
             if (self.titleLabel.text && self.titleLabel.text.length > 0) {
                 make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(6.5 * SizeAdapter);
@@ -130,7 +130,7 @@
                                   6.5 * SizeAdapter;
             make.height.mas_equalTo(titleHeight);
         } else {
-            make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(6.5 * SizeAdapter);
+            make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(0 * SizeAdapter);
             make.height.mas_equalTo(0);
         }
     }];
@@ -235,7 +235,7 @@
 
     actionButton.titleLabel.font = FONT(15);
     [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
-    [actionButton setBackgroundImage:self.grayImage forState:UIControlStateHighlighted];
+    [actionButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1]] forState:UIControlStateHighlighted];
     if (action.style == WYAAlertActionStyleDestructive) {
         [actionButton setTitleColor:random(244, 51, 60, 1) forState:UIControlStateNormal];
     } else if (action.style == WYAAlertActionStyleCancel) {

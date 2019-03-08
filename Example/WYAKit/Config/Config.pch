@@ -58,6 +58,7 @@
 #import <WYAKit/WYACustomSearchBar.h>
 #import <WYAKit/WYADownloaderViewController.h>
 #import <WYAKit/WYAAudioRecoder.h>
+#import <WYAKit/WYAImageComposeViewController.h>
 /******************************常用宏*******************/
 #import "CustomColor.h"
 //#import <Realm/Realm.h>

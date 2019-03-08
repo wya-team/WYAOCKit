@@ -47,7 +47,7 @@
     [self.pageControl mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(self.mas_centerX);
         make.bottom.mas_equalTo(self.mas_bottom).with.offset(-30);
-        make.size.mas_equalTo(CGSizeMake(100, 30));
+        make.size.mas_equalTo(CGSizeMake(300, 30));
     }];
 }
 
@@ -62,10 +62,24 @@
 }
 
 -(void)setSelectIndex:(NSInteger)selectIndex{
-    [self layoutIfNeeded];
-    [self.collectionView setContentOffset:CGPointMake(ScreenWidth*selectIndex, 0) animated:NO];
-    self.pageControl.currentPage = selectIndex;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+        self.pageControl.currentPage = selectIndex;
+    });
+}
 
+- (void)setPageControlNormalColor:(UIColor *)pageControlNormalColor{
+    _pageControlNormalColor = pageControlNormalColor;
+    if (pageControlNormalColor) {
+        self.pageControl.pageIndicatorTintColor        = pageControlNormalColor;
+    }
+}
+
+- (void)setPageControlSelectColor:(UIColor *)pageControlSelectColor{
+    _pageControlSelectColor = pageControlSelectColor;
+    if (pageControlSelectColor) {
+        self.pageControl.currentPageIndicatorTintColor = pageControlSelectColor;
+    }
 }
 
 #pragma mark--- Getter
@@ -122,7 +136,9 @@
     forItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAImageBrowserCell * imageCell = (WYAImageBrowserCell *)cell;
     imageCell.singleTapCallback = ^{
-        [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
+        if (self.imageSelectBlock) {
+            self.imageSelectBlock(indexPath.item);
+        }
     };
     imageCell.image                 = self.images[indexPath.item];
 }
@@ -179,8 +195,12 @@
 #pragma mark--- Method
 - (void)valueChanged:(UIPageControl *)control {
     NSLog(@"%ld", control.currentPage);
-    [self.collectionView setContentOffset:CGPointMake(control.currentPage * ScreenWidth, 0)
-                                 animated:YES];
+//    [self.collectionView setContentOffset:CGPointMake(control.currentPage * ScreenWidth, 0)
+//                                 animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:control.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+        self.pageControl.currentPage = control.currentPage;
+    });
 }
 /*
  // Only override drawRect: if you perform custom drawing.

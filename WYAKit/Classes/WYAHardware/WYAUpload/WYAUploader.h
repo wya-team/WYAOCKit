@@ -4,30 +4,22 @@
 //
 //  Created by 李世航 on 2019/3/5.
 //
+//  上传视频功能和断点续传功能没有完善
 
 #import <Foundation/Foundation.h>
-
+#import "WYAUploadModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAUploader : NSObject
+
 + (instancetype)sharedUpload;
+
+@property(nonatomic, strong) WYAUploadModel * uploadModel;
 
 /**
  上传文件
- before中返回字典数据应该为
- @{
- @"uploadType"://@"video",@"image",@"file"
- @"image":<UIImage *>,
- @"imageName":@"",
- @"data":<NSData *>,
- @"videoPath":@"",
- }
- @param before 上传之前操作
- @param after 上传之后返回结果
  */
-- (void)wya_uploadFileWithUrl:(NSString *)url
-         beforeParamsCallback:(NSDictionary *(^)(void))before
-                afterCallback:(void(^)(CGFloat progress, NSDictionary *  resultDic, NSError * error))after;
+- (void)wya_uploadFile;
 
 @end
 
