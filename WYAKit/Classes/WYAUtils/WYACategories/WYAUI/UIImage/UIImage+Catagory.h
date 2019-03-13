@@ -125,4 +125,11 @@
  */
 + (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate;
 
+/**
+ 使用view生成一张图片
+
+ @param view view
+ @return image
+ */
++ (UIImage *)wya_createViewImage:(UIView *)view;
 @end

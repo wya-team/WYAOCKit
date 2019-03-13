@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
  @"image":<UIImage *>,
  @"imageName":@"",
  @"imageType":@"",//@"png",@"jpeg",
- @"imageCompressionRatio":0.5,
+ @"imageCompressionRatio":0.5, // 0-1
 
  // video
  @"videoName":@"",

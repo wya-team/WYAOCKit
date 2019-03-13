@@ -33,9 +33,15 @@
     UIImage * image = [[UIImage alloc]initWithContentsOfFile:path];
     WYAUploader * uploader = [WYAUploader sharedUpload];
     WYAUploadModel * model = [[WYAUploadModel alloc]init];
-    model.uploadUrl = @"ddd";
+    model.uploadUrl = @"https://oa2.ruishan666.com/_cms/api/image/get-oss-info.json";
     model.uploadBefore = ^NSDictionary *{
-        return @{};
+        return @{
+                 @"uploadType":@"image",
+                 @"sync": @NO,
+                 @"image":image,
+                 @"imageName":@"xxx.png",
+                 @"imageType":@"png",//@"png",@"jpeg",
+                 };
     };
     model.uploadAfter = ^(CGFloat progress, NSDictionary * _Nonnull resultDic, NSError * _Nonnull error) {
 

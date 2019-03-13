@@ -11,6 +11,7 @@
 
 @interface WYAUploader ()
 @property(nonatomic, strong) WYAUploadModel * model;
+@property(nonatomic, strong) OSSClient * client;
 @end
 
 @implementation WYAUploader
@@ -52,10 +53,17 @@
         if (dataDic) {
             [resultDic addEntriesFromDictionary:dataDic];
         }
+        
         [self uploadALiYunWithDataDic:resultDic AfterCallback:self.uploadModel.uploadAfter];
 
     } Fail:^(NSString * _Nonnull err) {
-        self.uploadModel.uploadAfter(0, @{@"status": @"0", @"msg":@"上传失败,参数获取错误", @"data":[NSNull null]}, nil);
+        self.uploadModel.uploadAfter(0,
+                                     @{
+                                       @"status": @"0",
+                                       @"msg": @"上传失败,参数获取错误",
+                                       @"data": [NSNull null]
+                                       },
+                                     err);
     }];
 
 }
@@ -64,7 +72,7 @@
                   AfterCallback:(void(^)(CGFloat progress, NSDictionary *  resultDic, NSError * error))after
 {
     id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:dataDic[@"OSSAccessKeyId"]                                                                                                            secretKey:dataDic[@"accessKeySecret"]];
-    OSSClient *client = [[OSSClient alloc] initWithEndpoint:dataDic[@"host"] credentialProvider:credential];
+    self.client = [[OSSClient alloc] initWithEndpoint:dataDic[@"host"] credentialProvider:credential];
     OSSPutObjectRequest * put = [OSSPutObjectRequest new];
     put.bucketName = dataDic[@"bucket"];
     put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
@@ -88,10 +96,10 @@
             put.uploadingData = data;
         } else if ([dataDic[@"imageType"] isEqualToString:@"jpeg"]) {
             put.contentType = @"image/jpeg";
-            NSData *data = UIImageJPEGRepresentation(dataDic[@"image"], 0.5);
+            NSData *data = UIImageJPEGRepresentation(dataDic[@"image"], [dataDic[@"imageCompressionRatio"] floatValue]);
             put.uploadingData = data;
         }
-        
+
 
     }else if ([dataDic[@"uploadType"] isEqualToString:@"video"]) {
         fileName = [[firstPath stringByAppendingPathComponent:dataDic[@"videoName"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -114,21 +122,54 @@
     }
 
     // 阻塞直到上传完成
-    OSSTask * putTask = [client putObject:put];
-    [putTask waitUntilFinished];
-    if (putTask.error) {
-        NSLog(@"错误==%@",[putTask.error localizedDescription]);
-        after(0, @{@"status": @"0", @"msg":@"上传失败", @"data":[NSNull null]}, nil);
-    }else{
-        NSLog(@"成功=%@",putTask.result);
-        NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
-        after(1,
-              @{@"status": @"1",
-                @"msg":@"上传成功",
-                @"data":@{
-                        @"url":url,
-                        }},
-              nil);
+    OSSTask * putTask = [self.client putObject:put];
+    if ([dataDic[@"sync"] integerValue] == 1) {
+        [putTask waitUntilFinished];
+        if (putTask.error) {
+            NSLog(@"错误==%@",[putTask.error localizedDescription]);
+            after(0,
+                  @{
+                    @"status": @"0",
+                    @"msg": @"上传失败",
+                    @"data": [NSNull null],
+                    },
+                  nil);
+        }else{
+            NSLog(@"成功=%@",putTask.result);
+            NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
+            after(1,
+                  @{@"status": @"1",
+                    @"msg": @"上传成功",
+                    @"data": @{
+                                @"url":url,
+                            }
+                    },
+                  nil);
+        }
+    }else {
+        [putTask continueWithBlock:^id _Nullable(OSSTask * _Nonnull task) {
+            if (putTask.error) {
+                NSLog(@"错误==%@",[putTask.error localizedDescription]);
+                after(0,
+                      @{
+                        @"status": @"0",
+                        @"msg": @"上传失败",
+                        @"data": [NSNull null]
+                        },
+                      nil);
+            }else{
+                NSLog(@"成功=%@",putTask.result);
+                NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
+                after(1,
+                      @{@"status": @"1",
+                        @"msg": @"上传成功",
+                        @"data": @{
+                                    @"url":url,
+                                 }},
+                      nil);
+            }
+            return nil;
+        }];
     }
 }
 

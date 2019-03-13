@@ -9,7 +9,7 @@
 #import "WYAImageBrowserCell.h"
 
 @interface WYAImageBrowser () <UICollectionViewDelegate, UICollectionViewDataSource,
-                               UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
+UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UIPageControl * pageControl;
@@ -42,13 +42,16 @@
     [super layoutSubviews];
 
     [self.collectionView
-        mas_remakeConstraints:^(MASConstraintMaker * make) { make.edges.mas_equalTo(self); }];
+     mas_remakeConstraints:^(MASConstraintMaker * make) { make.edges.mas_equalTo(self); }];
 
     [self.pageControl mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(self.mas_centerX);
         make.bottom.mas_equalTo(self.mas_bottom).with.offset(-30);
         make.size.mas_equalTo(CGSizeMake(300, 30));
     }];
+
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:_selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+    self.pageControl.currentPage = _selectIndex;
 }
 
 #pragma mark--- Setter
@@ -62,10 +65,8 @@
 }
 
 -(void)setSelectIndex:(NSInteger)selectIndex{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:selectIndex inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
-        self.pageControl.currentPage = selectIndex;
-    });
+    _selectIndex = selectIndex;
+    [self layoutIfNeeded];
 }
 
 - (void)setPageControlNormalColor:(UIColor *)pageControlNormalColor{
@@ -90,13 +91,12 @@
         layout.minimumInteritemSpacing      = 0;
         layout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
         _collectionView =
-            [[UICollectionView alloc] initWithFrame:CGRectZero
-                               collectionViewLayout:layout];
+        [[UICollectionView alloc] initWithFrame:CGRectZero
+                           collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor blackColor];
         _collectionView.dataSource      = self;
         _collectionView.delegate        = self;
         _collectionView.pagingEnabled   = YES;
-        _collectionView.contentOffset   = CGPointMake(0, 0);
         _collectionView.scrollsToTop    = NO;
         [_collectionView registerClass:[WYAImageBrowserCell class]
             forCellWithReuseIdentifier:@"image"];
@@ -127,20 +127,21 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAImageBrowserCell * cell =
-        [collectionView dequeueReusableCellWithReuseIdentifier:@"image"
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableCellWithReuseIdentifier:@"image"
+                                              forIndexPath:indexPath];
+    cell.singleTapCallback = ^{
+        if (self.imageSelectBlock) {
+            self.imageSelectBlock(indexPath.item);
+        }
+    };
+    cell.image                 = self.images[indexPath.item];
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView
        willDisplayCell:(UICollectionViewCell *)cell
     forItemAtIndexPath:(NSIndexPath *)indexPath {
-    WYAImageBrowserCell * imageCell = (WYAImageBrowserCell *)cell;
-    imageCell.singleTapCallback = ^{
-        if (self.imageSelectBlock) {
-            self.imageSelectBlock(indexPath.item);
-        }
-    };
-    imageCell.image                 = self.images[indexPath.item];
+
+
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -171,20 +172,20 @@
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                      layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0 * SizeAdapter;
 }
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                 layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 0 * SizeAdapter;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -195,12 +196,8 @@
 #pragma mark--- Method
 - (void)valueChanged:(UIPageControl *)control {
     NSLog(@"%ld", control.currentPage);
-//    [self.collectionView setContentOffset:CGPointMake(control.currentPage * ScreenWidth, 0)
-//                                 animated:YES];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:control.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-        self.pageControl.currentPage = control.currentPage;
-    });
+    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:control.currentPage inSection:0] atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    self.pageControl.currentPage = control.currentPage;
 }
 /*
  // Only override drawRect: if you perform custom drawing.
