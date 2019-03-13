@@ -7,9 +7,8 @@
 //
 
 #import "WYABaseViewController.h"
-#import <WYAKit/WYAFloatBallManager.h>
 
-@interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate>
+@interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate,UINavigationControllerDelegate>
 
 @end
 
@@ -30,7 +29,54 @@
     [super viewDidLoad];
     self.view.backgroundColor = BGCOLOR;
     [self addCustomNavBar];
-    //    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    self.navigationController.delegate = self;
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+    if (self.navigationController.viewControllers.count > 1) {
+        [[WYAFloatBallManager shared] beginScreenEdgePanBack:gestureRecognizer];
+        return YES;
+    }
+    return NO;
+}
+
+- (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                           animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                        fromViewController:(UIViewController *)fromVC
+                                                          toViewController:(UIViewController *)toVC {
+
+    WYAFloatBallManager * manger =  [WYAFloatBallManager shared];
+    UIViewController * vc = manger.floatViewController;
+    UIViewController * mainVC = fromVC.navigationController.viewControllers.firstObject;
+
+    if (vc) {
+        if (operation == UINavigationControllerOperationPush) {
+            if (![NSStringFromClass([toVC class]) isEqualToString:NSStringFromClass([vc class])]) {
+                return nil;
+            }
+            if (fromVC == mainVC) {
+                toVC.tabBarController.tabBar.hidden = YES;
+            }
+            WYATransitionPush * transition = [[WYATransitionPush alloc] init];
+            return transition;
+        } else if (operation == UINavigationControllerOperationPop) {
+            if (fromVC != vc) {
+                [manger wya_showBallBtnWith:fromVC];
+                return nil;
+            }
+            if (toVC == mainVC) {
+                toVC.tabBarController.tabBar.hidden = NO;
+                return nil;
+            }
+            WYATransitionPop * transition = [[WYATransitionPop alloc] init];
+            return transition;
+        } else {
+            return nil;
+        }
+    } else {
+        return nil;
+    }
 }
 
 #pragma mark ======= private
@@ -249,6 +295,10 @@
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
     return UIInterfaceOrientationMaskPortrait;
+}
+
+- (void)wya_pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    [self.navigationController pushViewController:viewController animated:animated];
 }
 
 @end
