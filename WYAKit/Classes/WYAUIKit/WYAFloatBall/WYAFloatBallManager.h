@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_END
 
  }
 
- 3、 实现UINavigationControllerDelegate代理
+ // 实现UINavigationControllerDelegate代理
 
  - (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
  animationControllerForOperation:(UINavigationControllerOperation)operation
