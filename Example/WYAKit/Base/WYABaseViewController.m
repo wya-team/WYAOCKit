@@ -21,24 +21,19 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSLog(@"hidden==%d", self.navigationController.navigationBarHidden);
-    NSLog(@"h==%d", self.navigationController.navigationBar.hidden);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BGCOLOR;
-    [self addCustomNavBar];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
     self.navigationController.delegate = self;
+    self.view.backgroundColor = BGCOLOR;
+    [self addCustomNavBar];
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if (self.navigationController.viewControllers.count > 1) {
-        [[WYAFloatBallManager shared] beginScreenEdgePanBack:gestureRecognizer];
-        return YES;
-    }
-    return NO;
+
+    return [[WYAFloatBallManager shared] beginScreenEdgePanBack:gestureRecognizer];
 }
 
 - (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController

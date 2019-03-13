@@ -16,8 +16,8 @@
 #define KFloatMargin 30
 #define KCoef 1.2
 #define KBallSizeR 70
-
-@interface WYAFloatBallManager () <WYAFloatBallDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
+//, UINavigationControllerDelegate, UIGestureRecognizerDelegate
+@interface WYAFloatBallManager () <WYAFloatBallDelegate>
 @property (nonatomic, strong) WYAFloatAreaView * floatArea;
 @property (nonatomic, strong) WYAFloatAreaView * cancelFloatArea;
 @property (nonatomic, strong) UIViewController * tempFloatViewController;
@@ -76,21 +76,26 @@
 }
 
 #pragma mark ======= UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    if ([self wya_floatBallCurrentNavigationController].viewControllers.count > 1) {
-        [[WYAFloatBallManager shared] beginScreenEdgePanBack:gestureRecognizer];
-        return YES;
-    }
-    return NO;
-}
+//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+//    if ([self wya_floatBallCurrentNavigationController].viewControllers.count > 1) {
+//        [[WYAFloatBallManager shared] beginScreenEdgePanBack:gestureRecognizer];
+//        return YES;
+//    }
+//    return NO;
+//}
 #pragma mark ======= Action
-- (void)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer {
+- (BOOL)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer {
+    NSArray * vcArray = [self wya_floatBallCurrentViewController].navigationController.viewControllers;
+    if (vcArray.count < 2){
+        return NO;
+    }
     if ([self.floatVcClass containsObject:NSStringFromClass([[self wya_floatBallCurrentViewController] class])]) {
         self.edgePan = (UIScreenEdgePanGestureRecognizer *)gestureRecognizer;
         [self.link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
         [Window addSubview:self.floatArea];
         self.tempFloatViewController = [self wya_floatBallCurrentViewController];
     }
+    return YES;
 }
 
 - (void)panBack:(CADisplayLink *)link {
@@ -215,42 +220,42 @@
 
 #pragma UINavigationControllerDelegate
 
-- (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                           animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                        fromViewController:(UIViewController *)fromVC
-                                                          toViewController:(UIViewController *)toVC {
-
-    UIViewController * vc = self.floatViewController;
-    UIViewController * mainVC = fromVC.navigationController.viewControllers.firstObject;
-
-    if (vc) {
-        if (operation == UINavigationControllerOperationPush) {
-            if (toVC != vc) {
-                return nil;
-            }
-            if (fromVC == mainVC) {
-                toVC.tabBarController.tabBar.hidden = YES;
-            }
-            WYATransitionPush * transition = [[WYATransitionPush alloc] init];
-            return transition;
-        } else if (operation == UINavigationControllerOperationPop) {
-            if (fromVC != vc) {
-                [self wya_showBallBtnWith:fromVC];
-                return nil;
-            }
-            if (toVC == mainVC) {
-                toVC.tabBarController.tabBar.hidden = NO;
-                return nil;
-            }
-            WYATransitionPop * transition = [[WYATransitionPop alloc] init];
-            return transition;
-        } else {
-            return nil;
-        }
-    } else {
-        return nil;
-    }
-}
+//- (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+//                                           animationControllerForOperation:(UINavigationControllerOperation)operation
+//                                                        fromViewController:(UIViewController *)fromVC
+//                                                          toViewController:(UIViewController *)toVC {
+//
+//    UIViewController * vc = self.floatViewController;
+//    UIViewController * mainVC = fromVC.navigationController.viewControllers.firstObject;
+//
+//    if (vc) {
+//        if (operation == UINavigationControllerOperationPush) {
+//            if (toVC != vc) {
+//                return nil;
+//            }
+//            if (fromVC == mainVC) {
+//                toVC.tabBarController.tabBar.hidden = YES;
+//            }
+//            WYATransitionPush * transition = [[WYATransitionPush alloc] init];
+//            return transition;
+//        } else if (operation == UINavigationControllerOperationPop) {
+//            if (fromVC != vc) {
+//                [self wya_showBallBtnWith:fromVC];
+//                return nil;
+//            }
+//            if (toVC == mainVC) {
+//                toVC.tabBarController.tabBar.hidden = NO;
+//                return nil;
+//            }
+//            WYATransitionPop * transition = [[WYATransitionPop alloc] init];
+//            return transition;
+//        } else {
+//            return nil;
+//        }
+//    } else {
+//        return nil;
+//    }
+//}
 #pragma mark ======= Private Method
 - (BOOL)haveIconImage {
     BOOL have             = NO;

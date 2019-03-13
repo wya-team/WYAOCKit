@@ -23,7 +23,7 @@
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAUtils/"
                    @"WYAClearCache/README.md";
-    [self.navigationController pushViewController:vc animated:YES];
+    [self wya_pushViewController:vc animated:YES];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
