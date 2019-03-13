@@ -40,8 +40,8 @@
     dispatch_once(&onceToken, ^{
         instance                                                                                     = [super allocWithZone:zone];
         instance.floatVcClass                                                                        = [NSMutableArray array];
-        [instance wya_floatBallCurrentNavigationController].interactivePopGestureRecognizer.delegate = instance;
-        [instance wya_floatBallCurrentNavigationController].delegate                                 = instance;
+//        [instance wya_floatBallCurrentNavigationController].interactivePopGestureRecognizer.delegate = instance;
+//        [instance wya_floatBallCurrentNavigationController].delegate                                 = instance;
     });
     return instance;
 }
@@ -56,12 +56,15 @@
 
 // 展示悬浮窗
 - (void)wya_showBallBtnWith:(UIViewController *)fromVC {
-    self.floatViewController = fromVC;
-    if ([self haveIconImage]) {
-        self.floatBall.iconImageView.image = [self getFloatBallIconImage];
+    self.tempFloatViewController = fromVC;
+    if ([self.floatVcClass containsObject:NSStringFromClass([fromVC class])]) {
+        self.floatViewController = self.tempFloatViewController;
+        if ([self haveIconImage]) {
+            self.floatBall.iconImageView.image = [self getFloatBallIconImage];
+        }
+        self.floatBall.alpha = 1;
+        [Window addSubview:self.floatBall];
     }
-    self.floatBall.alpha = 1;
-    [Window addSubview:self.floatBall];
 }
 
 // 移除悬浮窗
@@ -218,16 +221,25 @@
                                                           toViewController:(UIViewController *)toVC {
 
     UIViewController * vc = self.floatViewController;
+    UIViewController * mainVC = fromVC.navigationController.viewControllers.firstObject;
+
     if (vc) {
         if (operation == UINavigationControllerOperationPush) {
             if (toVC != vc) {
                 return nil;
+            }
+            if (fromVC == mainVC) {
+                toVC.tabBarController.tabBar.hidden = YES;
             }
             WYATransitionPush * transition = [[WYATransitionPush alloc] init];
             return transition;
         } else if (operation == UINavigationControllerOperationPop) {
             if (fromVC != vc) {
                 [self wya_showBallBtnWith:fromVC];
+                return nil;
+            }
+            if (toVC == mainVC) {
+                toVC.tabBarController.tabBar.hidden = NO;
                 return nil;
             }
             WYATransitionPop * transition = [[WYATransitionPop alloc] init];

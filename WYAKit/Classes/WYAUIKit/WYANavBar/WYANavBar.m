@@ -57,12 +57,16 @@
         _navBarView          = [[UIView alloc] init];
         _lineView            = [[UIView alloc] init];
         _pageItemView        = [[UIView alloc] init];
+        _leftButtonView      = [[UIView alloc] init];
+        _rightButtonView     = [[UIView alloc] init];
 
         [_navBarView addSubview:_titleLabel];
         [_navBarView addSubview:_pageItemView];
         [_navBarView addSubview:_lineView];
         [_backgroundImageView addSubview:_navBarView];
         [self addSubview:_backgroundImageView];
+        [_navBarView addSubview:_rightButtonView];
+        [_navBarView addSubview:_leftButtonView];
 
         [self setUp];
     }

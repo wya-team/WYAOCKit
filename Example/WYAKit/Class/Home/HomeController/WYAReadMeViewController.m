@@ -16,12 +16,24 @@
 
 @implementation WYAReadMeViewController
 
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navTitle = @"README";
     [self wya_addRightNavBarButtonWithNormalTitle:@[ @"复制链接" ]];
     [self.view addSubview:self.webView];
     [self.view addSubview:self.myProgressView];
+
 }
 
 - (void)wya_goBack {
@@ -30,6 +42,8 @@
         [self.webView goBack];
 
     } else {
+        WYAFloatBallManager * manager = [WYAFloatBallManager shared];
+        [manager wya_showBallBtnWith:self];
         [super wya_goBack];
     }
 }
@@ -108,6 +122,9 @@
                         context:nil];
             object.opaque               = NO;
             object.multipleTouchEnabled = YES;
+            object.scrollView.alwaysBounceVertical = YES;
+            object.scrollView.showsHorizontalScrollIndicator = NO;
+            object.scrollView.bouncesZoom = NO;
             object;
         });
     }

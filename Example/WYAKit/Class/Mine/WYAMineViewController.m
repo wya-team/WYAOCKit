@@ -20,6 +20,7 @@
     [super viewDidLoad];
     self.navTitle = @"关于WYAKit";
     [self.view addSubview:self.tableView];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -163,7 +164,7 @@
         default:
             break;
     }
-    [self.navigationController pushViewController:vc animated:YES];
+    [self wya_pushViewController:vc animated:YES];
 }
 
 @end

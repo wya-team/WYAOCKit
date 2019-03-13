@@ -130,6 +130,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// 自定义右侧按钮点击事件
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender;
 - (void)wya_goBack;
+
+/**
+ 导航push方法：此方法是为了在使用悬浮球时更好的捕获到导航控制器
+
+ @param viewController 需要推出的控制器
+ @param animated 是否需要动画
+ */
+- (void)wya_pushViewController:(nonnull UIViewController *)viewController animated:(BOOL)animated;
+
 @end
 
 NS_ASSUME_NONNULL_END
