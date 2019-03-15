@@ -9,7 +9,7 @@
 #import "WYAReadMeViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface WYAReadMeViewController () <WKNavigationDelegate>
+@interface WYAReadMeViewController () <WKNavigationDelegate,UIScrollViewDelegate>
 @property (nonatomic, strong) WKWebView * webView;
 @property (nonatomic, strong) UIProgressView * myProgressView;
 @end
@@ -24,7 +24,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-
+//    self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -61,7 +61,10 @@
 }
 
 - (void)dealloc {
+    self.webView.navigationDelegate = nil;
     [self.webView removeObserver:self forKeyPath:@"estimatedProgress"];
+    [self.webView removeFromSuperview];
+    self.webView = nil;
 }
 
 - (WKWebView *)webView {
@@ -112,7 +115,7 @@
             configuration.userContentController = userContentController;
 
             WKWebView * object = [[WKWebView alloc]
-                initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+                initWithFrame:CGRectMake(1, WYATopHeight, ScreenWidth-2, ScreenHeight - WYATopHeight)
                 configuration:configuration];
             object.allowsBackForwardNavigationGestures = YES;
             object.navigationDelegate                  = self;
@@ -125,10 +128,15 @@
             object.scrollView.alwaysBounceVertical = YES;
             object.scrollView.showsHorizontalScrollIndicator = NO;
             object.scrollView.bouncesZoom = NO;
+            object.scrollView.delegate = self;
             object;
         });
     }
     return _webView;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    scrollView.contentOffset = CGPointMake(0, scrollView.contentOffset.y);
 }
 
 - (UIProgressView *)myProgressView {

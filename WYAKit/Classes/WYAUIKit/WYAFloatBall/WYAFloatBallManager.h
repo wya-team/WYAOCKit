@@ -20,12 +20,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)shared;
 
+
 /**
  滑动手势返回时调用用来判断是否展示
 
  @param gestureRecognizer 滑动手势
+
+ @return 是否允许返回上一级
  */
-- (void)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer;
+- (BOOL)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer;
 
 /**
  添加需要实现fliatBall的控制器
@@ -72,7 +75,7 @@ NS_ASSUME_NONNULL_END
 
  }
 
- 3、 实现UINavigationControllerDelegate代理
+ // 实现UINavigationControllerDelegate代理
 
  - (nullable id<UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
  animationControllerForOperation:(UINavigationControllerOperation)operation
