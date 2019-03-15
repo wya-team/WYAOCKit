@@ -31,9 +31,12 @@
     UIView *piece = [gesture view];
 
     if ([gesture state] == UIGestureRecognizerStateBegan || [gesture state] == UIGestureRecognizerStateChanged) {
-
+        if (self.panClick) {
+            CGPoint point = [gesture locationInView:piece];
+            self.panClick(point, piece.superview);
+        }
         CGPoint translation = [gesture translationInView:[piece superview]];
-
+        NSLog(@"translation==%@",NSStringFromCGPoint(translation));
         piece.center = CGPointMake(piece.center.x + translation.x, piece.center.y + translation.y);
 
         [gesture setTranslation:CGPointZero inView:[piece superview]];

@@ -25,17 +25,24 @@
 {
     self = [super init];
     if (self) {
+        WeakSelf(weakSelf);
         self.leftTemplate = [[WYAImageClipTemplate alloc]init];
         [self addSubview:self.leftTemplate];
 
         self.leftImageView = [[WYAImageComposeView alloc] init];
         [self.leftTemplate addSubview:self.leftImageView];
+        self.leftImageView.panClick = ^(CGPoint point, UIView * _Nonnull view) {
+            [weakSelf templateAnimationWithView:view point:point];
+        };
 
         self.rightTemplate = [[WYAImageClipTemplate alloc]init];
         [self addSubview:self.rightTemplate];
 
         self.rightImageView = [[WYAImageComposeView alloc] init];
         [self.rightTemplate addSubview:self.rightImageView];
+        self.rightImageView.panClick = ^(CGPoint point, UIView * _Nonnull view) {
+            [weakSelf templateAnimationWithView:view point:point];
+        };
     }
     return self;
 }
@@ -76,6 +83,10 @@
 #pragma mark ======= Private Method
 - (void)templateViewWithView:(WYAImageClipTemplate *)view points:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath{
     [view addCoverLayerWithPoints:points isTemplatePath:isTemplatePath];
+}
+
+- (void)templateAnimationWithView:(UIView *)view point:(CGPoint)point{
+    [self.leftTemplate wya_templateAnimationWithView:view point:point];
 }
 
 #pragma mark ======= Setter

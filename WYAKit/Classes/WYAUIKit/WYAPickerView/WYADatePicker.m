@@ -863,7 +863,9 @@ static CGFloat titleHeight      = 44.0;
 #pragma mark--- Setter
 - (void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle {
     _datePickerStyle       = datePickerStyle;
-    self.datePickerManager = [[WYAPickerManager alloc] init];
+    WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
+    datePicker.selectDate = self.selectDate;
+    self.datePickerManager = datePicker;
     [self.pickView reloadAllComponents];
 }
 

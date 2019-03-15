@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @interface WYADatePicker : UIView
 
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
+@property (nonatomic, strong) NSDate * selectDate;
 @property (nonatomic, assign) WYADatePickerStyle datePickerStyle;
 
 @property (nonatomic, strong) UIButton * backButton;
@@ -70,6 +71,8 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  设置pickerView的Item高度
  */
 @property (nonatomic, assign) CGFloat pickerItemHeight;
+
+
 
 /**
  获取datePicker高度

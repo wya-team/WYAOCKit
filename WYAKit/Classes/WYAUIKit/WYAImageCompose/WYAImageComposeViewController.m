@@ -68,7 +68,9 @@
 }
 
 - (void)wya_rightBarButtonItemPressed:(UIButton *)sender {
-
+    TestViewController * test = [[TestViewController alloc]init];
+    test.image = [UIImage wya_createViewImage:self.superImageComposeTemplateView];
+    [self.navigationController pushViewController:test animated:YES];
 }
 
 #pragma mark--- UICollectionViewDataSource
@@ -187,7 +189,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
             
             [object wya_customGobackWithImage:[UIImage loadBundleImage:@"返回"
                                                              ClassName:NSStringFromClass(self.class)]];
-//            [object wya_addRightNavBarButtonWithNormalTitle:@[ @"保存" ]];
+            [object wya_addRightNavBarButtonWithNormalTitle:@[ @"预览" ]];
             object;
         });
     }

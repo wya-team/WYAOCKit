@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger selectMonth;
 
 @property (nonatomic, strong) NSDateComponents * selectComponents;
+@property (nonatomic, strong) NSDate * selectDate;
 @end
 
 NS_ASSUME_NONNULL_END
