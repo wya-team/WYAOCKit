@@ -13,6 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSArray * templatePoints;
 
+@property (nonatomic, assign) CGMutablePathRef pathRef;
+
+@property(nonatomic, copy) void(^panClick)(CGPoint point, WYAImageClipTemplate * view, BOOL panIsChange);
+
+@property (nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) CAShapeLayer * animationShapeLayer;
 /**
  生产模板
 
@@ -21,7 +27,15 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)addCoverLayerWithPoints:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath;
 
-- (void)wya_templateAnimationWithView:(UIView *)view point:(CGPoint)point;
+/**
+ 添加虚线动画
+ */
+- (void)wya_templateAddAnimationPath;
+
+/**
+ 移除虚线动画
+ */
+- (void)wya_templateRemoveAnimationPath;
 @end
 
 NS_ASSUME_NONNULL_END

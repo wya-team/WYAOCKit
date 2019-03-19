@@ -124,6 +124,12 @@
     [self layoutIfNeeded];
 }
 
+- (void)setText:(NSString *)text{
+    if (text) {
+        self.textView.text = text;
+    }
+}
+
 #pragma mark--- Getter
 - (UILabel *)titleLabel {
     if (!_titleLabel) {
@@ -152,6 +158,9 @@
     return _noteLabel;
 }
 
+- (NSString *)text{
+    return self.textView.text;
+}
 #pragma mark--- UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
     if ([textView.text isEqualToString:self.lastPlaceHold]) {

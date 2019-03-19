@@ -38,6 +38,10 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @interface WYADatePicker : UIView
 
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
+
+/**
+ 添加默认选中时间（不传则默认选中当前时间）
+ */
 @property (nonatomic, strong) NSDate * selectDate;
 @property (nonatomic, assign) WYADatePickerStyle datePickerStyle;
 

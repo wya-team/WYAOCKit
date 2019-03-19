@@ -52,7 +52,7 @@
     CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
 
-    WYAImageComposeTemplateStyleOneForOne * view = [self wya_templateOneOfOneView];
+    WYAImageComposeTemplateStyleOneForTwo * view = [self wya_templateOneOfTwoView];
     [view wya_templateView];
     [self.view addSubview:view];
     self.superImageComposeTemplateView = view;
@@ -306,8 +306,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat view_height = ScreenWidth;
     CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
     object.frame = view_rect;
-    object.leftImage = [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)];
-    object.rightImage = [UIImage loadBundleImage:@"1.png" ClassName:NSStringFromClass(self.class)];
+    object.images = @[
+                      [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)],
+                      [UIImage loadBundleImage:@"1.png" ClassName:NSStringFromClass(self.class)]
+                      ];
     object.backgroundColor = [UIColor whiteColor];
     return object;
 }

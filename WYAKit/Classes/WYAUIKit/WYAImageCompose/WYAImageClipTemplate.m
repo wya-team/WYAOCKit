@@ -6,9 +6,11 @@
 //
 
 #import "WYAImageClipTemplate.h"
+#import "WYAImageComposeView.h"
 
 @interface WYAImageClipTemplate ()
 @property(nonatomic, strong) NSArray * points;
+@property (nonatomic, strong) WYAImageComposeView * composeView;
 @end
 
 @implementation WYAImageClipTemplate
@@ -18,8 +20,19 @@
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+
+        [self addSubview:self.composeView];
+
+        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
+        [self addGestureRecognizer:pan];
+
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.composeView.frame = self.bounds;
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
@@ -33,7 +46,7 @@
 
 #pragma mark ======= Public Method
 - (void)addCoverLayerWithPoints:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath{
-
+    self.composeView.hidden = isTemplatePath;
     self.points = points;
     
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -59,7 +72,7 @@
         shapeLayer.fillColor = [UIColor whiteColor].CGColor;  //其他颜色都可以，只要不是透明的
         self.layer.mask = shapeLayer;
     }
-
+//
     //    CGFloat width = 200;
     //    CGFloat point_x = self.cmam_width/4;
     //    UIBezierPath *path = [UIBezierPath bezierPath];
@@ -76,19 +89,91 @@
     //    shapeLayer.fillRule = kCAFillRuleEvenOdd;
     //    self.layer.mask = shapeLayer;
 
+    // 绘制判断区域
+    CGMutablePathRef pathRef = CGPathCreateMutable();
+    for (NSInteger index = 0; index < points.count; index++) {
+        NSDictionary * dic = points[index];
+        if (index == 0) {
+            CGPathMoveToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
+        }else{
+            CGPathAddLineToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
+        }
+    }
+    CGPathCloseSubpath(pathRef);
+    self.pathRef = pathRef;
 }
 
-- (void)wya_templateAnimationWithView:(UIView *)view point:(CGPoint)point{
-//    NSLog(@"移动中");
-    BOOL contains = [self checkPointInSelfWithPoint:point];
-    NSLog(@"contains==%d",contains);
-    NSLog(@"point==%@",NSStringFromCGPoint(point));
-    if (self != view && contains) {
-        NSLog(@"是这个视图");
+- (void)wya_templateAddAnimationPath{
+    UIBezierPath * path = [UIBezierPath bezierPath];
+    path.usesEvenOddFillRule = YES;
+    for (NSInteger index = 0; index < self.points.count; index++) {
+        NSDictionary * dic = self.points[index];
+        if (index == 0) {
+            [path moveToPoint:CGPointMake([dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue])];
+        }else{
+            [path addLineToPoint:CGPointMake([dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue])];
+        }
+    }
+
+    self.animationShapeLayer = [CAShapeLayer layer];
+
+    [self.animationShapeLayer setFillColor:[UIColor clearColor].CGColor];
+
+    //  设置虚线颜色为
+    [self.animationShapeLayer setStrokeColor:[UIColor redColor].CGColor];
+
+    //  设置虚线宽度
+    [self.animationShapeLayer setLineWidth:5];
+    [self.animationShapeLayer setLineJoin:kCALineJoinRound];
+
+    //  设置线宽，线间距
+    [self.animationShapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:20], [NSNumber numberWithInt:10], nil]];
+
+    self.animationShapeLayer.path = path.CGPath;
+
+    //  把绘制好的虚线添加上来
+    [self.layer addSublayer:self.animationShapeLayer];
+
+    CABasicAnimation *dashAnimation = [CABasicAnimation animationWithKeyPath:@"lineDashPhase"];
+    [dashAnimation setFromValue:[NSNumber numberWithFloat:0.0f]];
+    [dashAnimation setToValue:[NSNumber numberWithFloat:300.f]];
+    [dashAnimation setDuration:4.f];
+    dashAnimation.cumulative = YES; //关键属性，自己看文档
+    [dashAnimation setRepeatCount:MAXFLOAT];
+    dashAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [self.animationShapeLayer addAnimation:dashAnimation forKey:@"linePhase"];
+}
+
+- (void)wya_templateRemoveAnimationPath{
+    if (self.animationShapeLayer) {
+        [self.animationShapeLayer removeAnimationForKey:@"linePhase"];
+        [self.animationShapeLayer removeFromSuperlayer];
+        self.animationShapeLayer = nil;
     }
 }
 
 #pragma mark ======= Private Method
+- (void)panClick:(UIPanGestureRecognizer *)gesture{
+
+    WYAImageClipTemplate * piece = [gesture view];
+    CGPoint point = [gesture locationInView:piece];
+    if ([gesture state] == UIGestureRecognizerStateBegan
+        || [gesture state] == UIGestureRecognizerStateChanged) {
+        if (self.panClick) {
+            self.panClick(point, piece, YES);
+        }
+        CGPoint translation = [gesture translationInView:piece];
+//        NSLog(@"translation==%@",NSStringFromCGPoint(translation));
+        self.composeView.center = CGPointMake(self.composeView.center.x + translation.x, self.composeView.center.y + translation.y);
+
+        [gesture setTranslation:CGPointZero inView:piece];
+    } else {
+        if (self.panClick) {
+            self.panClick(point, piece, NO);
+        }
+    }
+}
+
 - (BOOL)checkPointInSelfWithPoint:(CGPoint)point{
     CGMutablePathRef pathRef = CGPathCreateMutable();
     for (NSInteger index = 0; index < self.points.count; index++) {
@@ -107,9 +192,26 @@
     return NO;
 }
 
+#pragma mark ======= Setter
+- (void)setImage:(UIImage *)image{
+    _image = image;
+    if (image) {
+        self.composeView.image = image;
+    }
+}
+
 #pragma mark ======= Getter
 - (NSArray *)templatePoints{
     return [self.points copy];
 }
 
+- (WYAImageComposeView *)composeView{
+    if(!_composeView){
+        _composeView = ({
+            WYAImageComposeView * object = [[WYAImageComposeView alloc]init];
+            object;
+       });
+    }
+    return _composeView;
+}
 @end

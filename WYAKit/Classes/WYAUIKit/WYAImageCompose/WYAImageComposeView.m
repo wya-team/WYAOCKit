@@ -14,8 +14,8 @@
     self = [super init];
     if (self) {
         self.userInteractionEnabled = YES;
-        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
-        [self addGestureRecognizer:pan];
+//        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
+//        [self addGestureRecognizer:pan];
 
         UIRotationGestureRecognizer * rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationAction:)];
         [self addGestureRecognizer:rotation];
@@ -33,7 +33,8 @@
     if ([gesture state] == UIGestureRecognizerStateBegan || [gesture state] == UIGestureRecognizerStateChanged) {
         if (self.panClick) {
             CGPoint point = [gesture locationInView:piece];
-            self.panClick(point, piece.superview);
+            NSLog(@"point==%@",NSStringFromCGPoint(point));
+            self.panClick(point, piece);
         }
         CGPoint translation = [gesture translationInView:[piece superview]];
         NSLog(@"translation==%@",NSStringFromCGPoint(translation));

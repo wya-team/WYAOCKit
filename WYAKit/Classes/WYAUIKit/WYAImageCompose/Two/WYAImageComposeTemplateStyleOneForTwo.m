@@ -10,13 +10,9 @@
 #import "WYAImageComposeView.h"
 
 @interface WYAImageComposeTemplateStyleOneForTwo ()
-@property(nonatomic, strong) NSArray * leftPoints;
-@property(nonatomic, strong) WYAImageClipTemplate * leftTemplate;
-@property(nonatomic, strong) WYAImageComposeView * leftImageView;
+@property (nonatomic, strong) NSArray * templates;
+@property (nonatomic, strong) NSArray * points;
 
-@property(nonatomic, strong) NSArray * rightPoints;
-@property(nonatomic, strong) WYAImageClipTemplate * rightTemplate;
-@property(nonatomic, strong) WYAImageComposeView * rightImageView;
 @end
 
 @implementation WYAImageComposeTemplateStyleOneForTwo
@@ -25,59 +21,47 @@
 {
     self = [super init];
     if (self) {
-        WeakSelf(weakSelf);
-        self.leftTemplate = [[WYAImageClipTemplate alloc]init];
-        [self addSubview:self.leftTemplate];
-
-        self.leftImageView = [[WYAImageComposeView alloc] init];
-        [self.leftTemplate addSubview:self.leftImageView];
-        self.leftImageView.panClick = ^(CGPoint point, UIView * _Nonnull view) {
-            [weakSelf templateAnimationWithView:view point:point];
-        };
-
-        self.rightTemplate = [[WYAImageClipTemplate alloc]init];
-        [self addSubview:self.rightTemplate];
-
-        self.rightImageView = [[WYAImageComposeView alloc] init];
-        [self.rightTemplate addSubview:self.rightImageView];
-        self.rightImageView.panClick = ^(CGPoint point, UIView * _Nonnull view) {
-            [weakSelf templateAnimationWithView:view point:point];
-        };
+        for (WYAImageClipTemplate * template in self.templates) {
+            [self addSubview:template];
+        }
     }
     return self;
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    CGFloat leftTemplate_x = 0;
-    CGFloat leftTemplate_y = 0;
-    CGFloat leftTemplate_width = self.cmam_width / 2;
-    CGFloat leftTemplate_height = self.cmam_height;
-    CGRect leftTemplate_rect = CGRectMake(leftTemplate_x, leftTemplate_y,  leftTemplate_width, leftTemplate_height);
-    self.leftTemplate.frame = leftTemplate_rect;
-    self.leftImageView.frame = self.leftTemplate.bounds;
+//    CGFloat leftTemplate_x = 0;
+//    CGFloat leftTemplate_y = 0;
+//    CGFloat leftTemplate_width = self.cmam_width / 2;
+//    CGFloat leftTemplate_height = self.cmam_height;
+//    CGRect leftTemplate_rect = CGRectMake(leftTemplate_x, leftTemplate_y,  leftTemplate_width, leftTemplate_height);
+//    WYAImageClipTemplate * leftTemplate = [self.templates firstObject];
+//    leftTemplate.frame = leftTemplate_rect;
+//
+//    CGFloat rightTemplate_x = self.cmam_width / 2;
+//    CGFloat rightTemplate_y = 0;
+//    CGFloat rightTemplate_width = self.cmam_width / 2;
+//    CGFloat rightTemplate_height = self.cmam_height;
+//    CGRect rightTemplate_rect = CGRectMake(rightTemplate_x, rightTemplate_y,  rightTemplate_width, rightTemplate_height);
+//    WYAImageClipTemplate * rightTemplate = [self.templates lastObject];
+//    rightTemplate.frame = rightTemplate_rect;
 
-    CGFloat rightTemplate_x = self.cmam_width / 2;
-    CGFloat rightTemplate_y = 0;
-    CGFloat rightTemplate_width = self.cmam_width / 2;
-    CGFloat rightTemplate_height = self.cmam_height;
-    CGRect rightTemplate_rect = CGRectMake(rightTemplate_x, rightTemplate_y,  rightTemplate_width, rightTemplate_height);
-    self.rightTemplate.frame = rightTemplate_rect;
-    self.rightImageView.frame = self.rightTemplate.bounds;
+    for (WYAImageClipTemplate * template in self.templates) {
+        template.frame = self.bounds;
+    }
 }
 
 - (void)wya_templatePath{
-    [self templateViewWithView:self.leftTemplate points:self.leftPoints isTemplatePath:YES];
-    [self templateViewWithView:self.rightTemplate points:self.rightPoints isTemplatePath:YES];
-    self.leftImageView.hidden = YES;
-    self.rightImageView.hidden = YES;
+    for (NSInteger index = 0; index < self.templates.count; index++) {
+        [self templateViewWithView:self.templates[index] points:self.points[index] isTemplatePath:YES];
+    }
+
 }
 
 - (void)wya_templateView{
-    [self templateViewWithView:self.leftTemplate points:self.leftPoints isTemplatePath:NO];
-    [self templateViewWithView:self.rightTemplate points:self.rightPoints isTemplatePath:NO];
-    self.leftImageView.hidden = NO;
-    self.rightImageView.hidden = NO;
+    for (NSInteger index = 0; index < self.templates.count; index++) {
+        [self templateViewWithView:self.templates[index] points:self.points[index] isTemplatePath:NO];
+    }
 }
 
 #pragma mark ======= Private Method
@@ -85,74 +69,110 @@
     [view addCoverLayerWithPoints:points isTemplatePath:isTemplatePath];
 }
 
-- (void)templateAnimationWithView:(UIView *)view point:(CGPoint)point{
-    [self.leftTemplate wya_templateAnimationWithView:view point:point];
+- (void)templateAnimationWithView:(WYAImageClipTemplate *)view point:(CGPoint)point panChange:(BOOL)panChange{
+
+    WYAImageClipTemplate * lastTemplate;
+    for (WYAImageClipTemplate * template in self.templates) {
+        if (template != view) {
+            if (CGPathContainsPoint(template.pathRef, NULL, point, NO)) {
+
+                if (panChange == NO) {
+                    // 已结束
+//                    UIImage * image = view.image;
+//                    UIImage * lastImage = template.image;
+//                    view.image = lastImage;
+//                    template.image = image;
+                    // 现在移动结束后移除layer失败
+                    if (template.animationShapeLayer) {
+                        [template wya_templateRemoveAnimationPath];
+                    }
+                } else {
+                    // 改变中
+                }
+                if (!template.animationShapeLayer) {
+                    NSLog(@"只执行了一次");
+                    [template wya_templateAddAnimationPath];
+                    lastTemplate = template;
+                }
+                return;
+            } else {
+                if (template.animationShapeLayer) {
+                    NSLog(@"就是这个图片");
+                    [template wya_templateRemoveAnimationPath];
+
+                }
+                return;
+            }
+        } else {
+
+        }
+
+    }
+
 }
 
 #pragma mark ======= Setter
-- (void)setLeftImage:(UIImage *)leftImage{
-    self.leftImageView.image = leftImage;
-}
-
-- (void)setRightImage:(UIImage *)rightImage{
-    self.rightImageView.image = rightImage;
+-(void)setImages:(NSArray *)images{
+    if (images) {
+        for (NSInteger index = 0; index < images.count; index++) {
+            WYAImageClipTemplate * template = self.templates[index];
+            template.image = images[index];
+        }
+    }
 }
 
 #pragma mark ======= Getter
-- (NSArray *)leftPoints{
+- (NSArray *)points{
     CGFloat width = self.cmam_width;
     CGFloat height = self.cmam_height;
     CGFloat point_x = 0;
-    return @[
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(point_x),
-                 },
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(height),
-                 },
-             @{
-                 @"point_x": @(width / 2),
-                 @"point_y": @(height),
-                 },
-             @{
-                 @"point_x": @(width / 2),
-                 @"point_y": @(point_x),
-                 },
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(point_x),
-                 },
-             ];
-}
+    return  @[
+              @[
+                  @{
+                      @"point_x": @(point_x),
+                      @"point_y": @(point_x),
+                      },
+                  @{
+                      @"point_x": @(width / 2),
+                      @"point_y": @(point_x),
+                      },
+                  @{
+                      @"point_x": @(width / 2),
+                      @"point_y": @(height),
+                      },
+                  @{
+                      @"point_x": @(point_x),
+                      @"point_y": @(height),
+                      },
+                  @{
+                      @"point_x": @(point_x),
+                      @"point_y": @(point_x),
+                      },
+                  ],
+              @[
+                  @{
+                      @"point_x": @(width / 2),
+                      @"point_y": @(point_x),
+                      },
+                  @{
+                      @"point_x": @(width),
+                      @"point_y": @(point_x),
+                      },
+                  @{
+                      @"point_x": @(width),
+                      @"point_y": @(height),
+                      },
+                  @{
+                      @"point_x": @(width / 2),
+                      @"point_y": @(height),
+                      },
+                  @{
+                      @"point_x": @(width / 2),
+                      @"point_y": @(point_x),
+                      },
+                  ],
+              ];
 
-- (NSArray *)rightPoints{
-    CGFloat width = self.cmam_width;
-    CGFloat height = self.cmam_height;
-    CGFloat point_x = 0;
-    return @[
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(point_x),
-                 },
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(height),
-                 },
-             @{
-                 @"point_x": @(width / 2),
-                 @"point_y": @(height),
-                 },
-             @{
-                 @"point_x": @(width / 2),
-                 @"point_y": @(point_x),
-                 },
-             @{
-                 @"point_x": @(point_x),
-                 @"point_y": @(point_x),
-                 },
-             ];
 }
 
 /*
@@ -163,4 +183,44 @@
 }
 */
 
+
+- (NSArray *)templates{
+    if(!_templates) {
+        WeakSelf(weakSelf);
+        WYAImageClipTemplate * leftTemplate = [[WYAImageClipTemplate alloc]init];
+//        leftTemplate.backgroundColor = [UIColor redColor];
+        leftTemplate.panClick = ^(CGPoint point, WYAImageClipTemplate * _Nonnull view, BOOL panIsChange) {
+            [weakSelf templateAnimationWithView:view point:point panChange:panIsChange];
+        };
+        WYAImageClipTemplate * rightTemplate = [[WYAImageClipTemplate alloc]init];
+//        rightTemplate.backgroundColor = [UIColor blueColor];
+        rightTemplate.panClick = ^(CGPoint point, WYAImageClipTemplate * _Nonnull view, BOOL panIsChange) {
+            [weakSelf templateAnimationWithView:view point:point panChange:panIsChange];
+        };
+        _templates = @[leftTemplate, rightTemplate];
+    }
+    return _templates;
+}
 @end
+//  @[
+//    @{
+//        @"point_x": @(point_x),
+//        @"point_y": @(point_x),
+//        },
+//    @{
+//        @"point_x": @(point_x),
+//        @"point_y": @(height),
+//        },
+//    @{
+//        @"point_x": @(width / 2),
+//        @"point_y": @(height),
+//        },
+//    @{
+//        @"point_x": @(width / 2),
+//        @"point_y": @(point_x),
+//        },
+//    @{
+//        @"point_x": @(point_x),
+//        @"point_y": @(point_x),
+//        },
+//    ],

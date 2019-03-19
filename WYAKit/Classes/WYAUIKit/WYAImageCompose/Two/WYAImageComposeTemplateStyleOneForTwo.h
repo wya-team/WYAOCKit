@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAImageComposeTemplateStyleOneForTwo : UIView
-@property(nonatomic, strong) UIImage * leftImage;
-@property(nonatomic, strong) UIImage * rightImage;
+@property(nonatomic, strong) NSArray * images;
+
 - (void)wya_templatePath;
 - (void)wya_templateView;
 @end

@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAImageComposeView : UIImageView
 
-@property(nonatomic, copy) void(^panClick)(CGPoint point, UIView * view);
+@property(nonatomic, copy) void(^panClick)(CGPoint point, WYAImageComposeView * view);
 
 @end
 
