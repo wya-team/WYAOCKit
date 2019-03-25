@@ -127,6 +127,15 @@
 - (void)setText:(NSString *)text{
     if (text) {
         self.textView.text = text;
+        self.noteLabel.text = [NSString
+                               stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
+    }
+}
+
+- (void)setTextColor:(UIColor *)textColor{
+    _textColor = textColor;
+    if (textColor) {
+        self.textView.textColor = textColor;
     }
 }
 
@@ -167,6 +176,8 @@
         textView.text      = @"";
         textView.textColor = [UIColor blackColor];
         textView.font      = FONT(17);
+    } else {
+        textView.textColor = self.textColor;
     }
     if (self.wya_delegate &&
         [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
@@ -178,13 +189,15 @@
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView {
     if (textView.text.length < 1) {
         textView.text      = self.lastPlaceHold;
-        textView.textColor = _placeHoldColor;
+        textView.textColor = [UIColor blackColor];
         textView.font      = FONT(_placeHoldFont);
     } else {
         if ([textView.text isEqualToString:self.lastPlaceHold]) {
             textView.text      = self.lastPlaceHold;
-            textView.textColor = _placeHoldColor;
+            textView.textColor = [UIColor blackColor];
             textView.font      = FONT(_placeHoldFont);
+        } else {
+            textView.textColor = self.textColor;
         }
     }
     if (self.wya_delegate &&
@@ -221,7 +234,9 @@
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
-    NSInteger length = self.textView.text.length;
+    if (![textView.text isEqualToString:self.lastPlaceHold]) {
+        textView.textColor = self.textColor;
+    }
 
     NSString * toBeString = textView.text;
 

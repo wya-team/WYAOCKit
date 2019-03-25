@@ -311,10 +311,17 @@
             [arr addObject:model.image];
         }
 
-        WYAImageBrowserViewController * vc = [[WYAImageBrowserViewController alloc] init];
-        vc.array                           = [arr copy];
-        vc.selectIndex                     = indexPath.item;
-        [self presentViewController:vc animated:YES completion:nil];
+        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:indexPath.item imageCount:arr.count datasource:nil placeHoldImageBlock:^UIImage *(WYAImageBrowser *browser, NSInteger index) {
+            return arr[index];
+        } HighQualityImageURLBlock:^NSURL *(WYAImageBrowser *browser, NSInteger index) {
+            return nil;
+        } AssetBlock:^ALAsset *(WYAImageBrowser *browser, NSInteger index) {
+            return nil;
+        } SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
+            WYAEditCameraCell * cell = (WYAEditCameraCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+            return cell.imageView;
+        }];
+        imageBrowser.hidesForSinglePage = NO;
     }
 }
 

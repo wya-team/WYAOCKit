@@ -34,11 +34,13 @@
     [textView wya_PlaceHoldString:@"占位文字"
                    PlaceHoldColor:[UIColor grayColor]
                     PlaceHoldFont:15.f];
-    textView.textViewWordsCount  = 50;
+    textView.textViewWordsCount  = 5000;
     textView.showTitle           = NO;
     textView.layer.cornerRadius  = 4.f;
     textView.layer.masksToBounds = YES;
     textView.textViewMaxHeight   = 100;
+    textView.text = @"测试一下";
+    textView.textColor = [UIColor redColor];
     [self.view addSubview:textView];
 
     WYATextView * textView1 =

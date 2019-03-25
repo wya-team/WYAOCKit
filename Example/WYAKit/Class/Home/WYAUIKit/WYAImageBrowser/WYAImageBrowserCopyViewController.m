@@ -22,15 +22,7 @@
     UIImage * image2 = [UIImage imageNamed:@"2"];
     UIImage * image3 = [UIImage imageNamed:@"icon_cancel_notice"];
 
-    WYAImageBrowser * imageBrowser = [[WYAImageBrowser alloc]initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight-WYATopHeight-WYABottomHeight)];
-    imageBrowser.images = @[image1, image2, image3];
-    imageBrowser.selectIndex = 1;
-    imageBrowser.pageControlNormalColor = [UIColor grayColor];
-    imageBrowser.pageControlSelectColor = [UIColor whiteColor];
-    imageBrowser.imageSelectBlock = ^(NSInteger index) {
-
-    };
-    [self.view addSubview:imageBrowser];
+    
 }
 
 /*

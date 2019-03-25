@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
  imagePicker展示图片的cell
  */
 @interface WYAEditCameraCell : UICollectionViewCell
-
+@property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UIImage * image;
 @property (nonatomic, copy) void (^editBlock)(void);
 @end

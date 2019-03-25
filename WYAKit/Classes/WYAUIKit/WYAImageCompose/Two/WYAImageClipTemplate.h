@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) void(^panClick)(CGPoint point, WYAImageClipTemplate * view, BOOL panIsChange);
 
 @property (nonatomic, strong) UIImage * image;
-@property (nonatomic, strong) CAShapeLayer * animationShapeLayer;
+@property (nonatomic, weak) CAShapeLayer * animationShapeLayer;
+@property (nonatomic, assign) BOOL resetImageFrame;
 /**
  生产模板
 

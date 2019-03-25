@@ -13,16 +13,14 @@
 #import "WYAImageComposeTemplateListHeaderView.h"
 #import "WYAImageTemplateCell.h"
 
-#import "WYAImageComposeTemplateStyleOneForOne.h"
-#import "WYAImageComposeTemplateStyleTwoForOne.h"
-
-#import "WYAImageComposeTemplateStyleOneForTwo.h"
-#import "WYAImageComposeTemplateStyleTwoForTwo.h"
+#import "WYAImageComposeTemplate.h"
+#import "WYAImageComposeTemplatePoints.h"
 @interface WYAImageComposeViewController ()<WYANavBarDelegate,UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) WYANavBar * navBar;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSArray * dataSource;
-@property (nonatomic, strong) UIView * superImageComposeTemplateView;
+@property (nonatomic, strong) UIView * templateSuperView;
+@property (nonatomic, strong) WYAImageComposeTemplate * superImageComposeTemplateView;
 @end
 
 @implementation WYAImageComposeViewController
@@ -44,6 +42,8 @@
 
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 
+    [self.view addSubview:self.templateSuperView];
+
     CGFloat collectionView_X      = 0;
     CGFloat collectionView_Y      = ScreenHeight-WYABottomHeight-49;
     CGFloat collectionView_Width  = self.view.cmam_width;
@@ -52,10 +52,28 @@
     CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
 
-    WYAImageComposeTemplateStyleOneForTwo * view = [self wya_templateOneOfTwoView];
-    [view wya_templateView];
-    [self.view addSubview:view];
-    self.superImageComposeTemplateView = view;
+    WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]];
+
+    [self.templateSuperView addSubview:template];
+    self.superImageComposeTemplateView = template;
+}
+
+- (WYAImageComposeTemplate *)templatePathWithPoints:(NSArray *)points images:(NSArray *)images{
+    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc]initWithPoints:points images:images];
+    template.frame = CGRectMake(0, 0, self.templateSuperView.cmam_width, self.templateSuperView.cmam_height);
+    [template wya_templatePath];
+    return template;
+}
+
+- (WYAImageComposeTemplate *)templateViewWithPoints:(NSArray *)points images:(NSArray *)images{
+    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc]initWithPoints:points images:images];
+    template.frame = CGRectMake(0, 0, ScreenWidth, self.templateSuperView.cmam_size.height);
+    [template wya_templateView];
+    return template;
+}
+
+- (UIImage *)templateImageWithView:(WYAImageComposeTemplate *)template{
+    return [UIImage wya_createViewImage:template];
 }
 
 #pragma mark - WYANavBarDelegate -
@@ -135,27 +153,37 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     }
     if (indexPath.section == 0) {
         if (indexPath.item == 0) {
-            WYAImageComposeTemplateStyleOneForOne * view = [self wya_templateOneOfOneView];
-            [view wya_templateView];
-            [self.view addSubview:view];
-            self.superImageComposeTemplateView = view;
+            NSArray * arr = @[
+                              [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
+                              ];
+            WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
+            [self.templateSuperView addSubview:template];
+            self.superImageComposeTemplateView = template;
         }else{
-            WYAImageComposeTemplateStyleTwoForOne * view = [self wya_templateTwoOfOneView];
-            [view wya_templateView];
-            [self.view addSubview:view];
-            self.superImageComposeTemplateView = view;
+            NSArray * arr = @[
+                              [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
+                              ];
+            WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
+            [self.templateSuperView addSubview:template];
+            self.superImageComposeTemplateView = template;
         }
     }else if (indexPath.section == 1) {
         if (indexPath.item == 0) {
-            WYAImageComposeTemplateStyleOneForTwo * view = [self wya_templateOneOfTwoView];
-            [view wya_templateView];
-            [self.view addSubview:view];
-            self.superImageComposeTemplateView = view;
+            NSArray * arr = @[
+                              [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
+                              [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                              ];
+            WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
+            [self.templateSuperView addSubview:template];
+            self.superImageComposeTemplateView = template;
         }else{
-            WYAImageComposeTemplateStyleTwoForTwo * view = [self wya_templateTwoOfTwoView];
-            [view wya_templateView];
-            [self.view addSubview:view];
-            self.superImageComposeTemplateView = view;
+            NSArray * arr = @[
+                              [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
+                              [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                              ];
+            WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
+            [self.templateSuperView addSubview:template];
+            self.superImageComposeTemplateView = template;
         }
     }
 }
@@ -220,45 +248,17 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 -(NSArray *)dataSource{
+//    return @[];
     return @[
              @[
-                 [self templateOneOfOneImage],
-                 [self templateTwoOfOneImage],
+                 [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]]],
+                 [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]]],
                  ],
              @[
-                 [self templateOneOfTwoImage],
-                 [self templateTwoOfTwoImage],
-               ],
+                 [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
+                 [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]]
+                 ],
              ];
-
-}
-
-- (UIImage *)templateOneOfOneImage{
-    WYAImageComposeTemplateStyleOneForOne * view = [self wya_templateOneOfOneView];
-    [view wya_templatePath];
-    UIImage * image = [UIImage wya_createViewImage:view];
-    return image;
-}
-
-- (UIImage *)templateTwoOfOneImage{
-    WYAImageComposeTemplateStyleTwoForOne * view = [self wya_templateTwoOfOneView];
-    [view wya_templatePath];
-    UIImage * image = [UIImage wya_createViewImage:view];
-    return image;
-}
-
-- (UIImage *)templateOneOfTwoImage{
-    WYAImageComposeTemplateStyleOneForTwo * view = [self wya_templateOneOfTwoView];
-    [view wya_templatePath];
-    UIImage * image = [UIImage wya_createViewImage:view];
-    return image;
-}
-
-- (UIImage *)templateTwoOfTwoImage{
-    WYAImageComposeTemplateStyleTwoForTwo * view = [self wya_templateTwoOfTwoView];
-    [view wya_templatePath];
-    UIImage * image = [UIImage wya_createViewImage:view];
-    return image;
 }
 
 
@@ -272,59 +272,20 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 */
 
-- (WYAImageComposeTemplateStyleOneForOne *)wya_templateOneOfOneView{
-    WYAImageComposeTemplateStyleOneForOne * object = [[WYAImageComposeTemplateStyleOneForOne alloc]init];
-    CGFloat view_x = 0;
-    CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-    CGFloat view_width = ScreenWidth;
-    CGFloat view_height = ScreenWidth;
-    CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
-    object.frame = view_rect;
-    object.image = [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)];
-    object.backgroundColor = [UIColor whiteColor];
-    return object;
-}
-
-- (WYAImageComposeTemplateStyleTwoForOne *)wya_templateTwoOfOneView{
-    WYAImageComposeTemplateStyleTwoForOne * object = [[WYAImageComposeTemplateStyleTwoForOne alloc]init];
-    CGFloat view_x = 0;
-    CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-    CGFloat view_width = ScreenWidth;
-    CGFloat view_height = ScreenWidth;
-    CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
-    object.frame = view_rect;
-    object.image = [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)];
-    object.backgroundColor = [UIColor whiteColor];
-    return object;
-}
-
-- (WYAImageComposeTemplateStyleOneForTwo *)wya_templateOneOfTwoView{
-    WYAImageComposeTemplateStyleOneForTwo * object = [[WYAImageComposeTemplateStyleOneForTwo alloc]init];
-    CGFloat view_x = 0;
-    CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-    CGFloat view_width = ScreenWidth;
-    CGFloat view_height = ScreenWidth;
-    CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
-    object.frame = view_rect;
-    object.images = @[
-                      [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)],
-                      [UIImage loadBundleImage:@"1.png" ClassName:NSStringFromClass(self.class)]
-                      ];
-    object.backgroundColor = [UIColor whiteColor];
-    return object;
-}
-
-- (WYAImageComposeTemplateStyleTwoForTwo *)wya_templateTwoOfTwoView{
-    WYAImageComposeTemplateStyleTwoForTwo * object = [[WYAImageComposeTemplateStyleTwoForTwo alloc]init];
-    CGFloat view_x = 0;
-    CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-    CGFloat view_width = ScreenWidth;
-    CGFloat view_height = ScreenWidth;
-    CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
-    object.frame = view_rect;
-    object.topImage = [UIImage loadBundleImage:@"0.png" ClassName:NSStringFromClass(self.class)];
-    object.bottomImage = [UIImage loadBundleImage:@"1.png" ClassName:NSStringFromClass(self.class)];
-    object.backgroundColor = [UIColor whiteColor];
-    return object;
+- (UIView *)templateSuperView{
+    if(!_templateSuperView){
+        _templateSuperView = ({
+            CGFloat view_x = 0;
+            CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
+            CGFloat view_width = ScreenWidth;
+            CGFloat view_height = ScreenWidth;
+            CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
+            UIView * object = [[UIView alloc]init];
+            object.frame = view_rect;
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+       });
+    }
+    return _templateSuperView;
 }
 @end

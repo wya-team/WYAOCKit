@@ -9,8 +9,9 @@
 #import "WYAImageComposeView.h"
 
 @interface WYAImageClipTemplate ()
-@property(nonatomic, strong) NSArray * points;
+@property (nonatomic, strong) NSArray * points;
 @property (nonatomic, strong) WYAImageComposeView * composeView;
+@property (nonatomic, strong) CAShapeLayer * animationLayer;
 @end
 
 @implementation WYAImageClipTemplate
@@ -19,7 +20,7 @@
 {
     self = [super init];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor clearColor];
 
         [self addSubview:self.composeView];
 
@@ -32,7 +33,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.composeView.frame = self.bounds;
+    self.composeView.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
@@ -68,9 +69,23 @@
         shapeLayer.strokeColor = [UIColor blackColor].CGColor;
         shapeLayer.fillColor = [UIColor whiteColor].CGColor;  //其他颜色都可以，只要不是透明的
         [self.layer addSublayer:shapeLayer];
+
     }else{
         shapeLayer.fillColor = [UIColor whiteColor].CGColor;  //其他颜色都可以，只要不是透明的
         self.layer.mask = shapeLayer;
+
+        // 绘制判断区域
+        CGMutablePathRef pathRef = CGPathCreateMutable();
+        for (NSInteger index = 0; index < points.count; index++) {
+            NSDictionary * dic = points[index];
+            if (index == 0) {
+                CGPathMoveToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
+            }else{
+                CGPathAddLineToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
+            }
+        }
+        CGPathCloseSubpath(pathRef);
+        self.pathRef = pathRef;
     }
 //
     //    CGFloat width = 200;
@@ -89,18 +104,7 @@
     //    shapeLayer.fillRule = kCAFillRuleEvenOdd;
     //    self.layer.mask = shapeLayer;
 
-    // 绘制判断区域
-    CGMutablePathRef pathRef = CGPathCreateMutable();
-    for (NSInteger index = 0; index < points.count; index++) {
-        NSDictionary * dic = points[index];
-        if (index == 0) {
-            CGPathMoveToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
-        }else{
-            CGPathAddLineToPoint(pathRef, NULL, [dic[@"point_x"] floatValue], [dic[@"point_y"] floatValue]);
-        }
-    }
-    CGPathCloseSubpath(pathRef);
-    self.pathRef = pathRef;
+
 }
 
 - (void)wya_templateAddAnimationPath{
@@ -115,24 +119,24 @@
         }
     }
 
-    self.animationShapeLayer = [CAShapeLayer layer];
+    self.animationLayer = [CAShapeLayer layer];
 
-    [self.animationShapeLayer setFillColor:[UIColor clearColor].CGColor];
+    [self.animationLayer setFillColor:[UIColor clearColor].CGColor];
 
     //  设置虚线颜色为
-    [self.animationShapeLayer setStrokeColor:[UIColor redColor].CGColor];
+    [self.animationLayer setStrokeColor:[UIColor redColor].CGColor];
 
     //  设置虚线宽度
-    [self.animationShapeLayer setLineWidth:5];
-    [self.animationShapeLayer setLineJoin:kCALineJoinRound];
+    [self.animationLayer setLineWidth:5];
+    [self.animationLayer setLineJoin:kCALineJoinRound];
 
     //  设置线宽，线间距
-    [self.animationShapeLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:20], [NSNumber numberWithInt:10], nil]];
+    [self.animationLayer setLineDashPattern:[NSArray arrayWithObjects:[NSNumber numberWithInt:20], [NSNumber numberWithInt:10], nil]];
 
-    self.animationShapeLayer.path = path.CGPath;
+    self.animationLayer.path = path.CGPath;
 
     //  把绘制好的虚线添加上来
-    [self.layer addSublayer:self.animationShapeLayer];
+    [self.layer addSublayer:self.animationLayer];
 
     CABasicAnimation *dashAnimation = [CABasicAnimation animationWithKeyPath:@"lineDashPhase"];
     [dashAnimation setFromValue:[NSNumber numberWithFloat:0.0f]];
@@ -141,14 +145,14 @@
     dashAnimation.cumulative = YES; //关键属性，自己看文档
     [dashAnimation setRepeatCount:MAXFLOAT];
     dashAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-    [self.animationShapeLayer addAnimation:dashAnimation forKey:@"linePhase"];
+    [self.animationLayer addAnimation:dashAnimation forKey:@"linePhase"];
 }
 
 - (void)wya_templateRemoveAnimationPath{
-    if (self.animationShapeLayer) {
-        [self.animationShapeLayer removeAnimationForKey:@"linePhase"];
-        [self.animationShapeLayer removeFromSuperlayer];
-        self.animationShapeLayer = nil;
+    if (self.animationLayer) {
+        [self.animationLayer removeAnimationForKey:@"linePhase"];
+        [self.animationLayer removeFromSuperlayer];
+        self.animationLayer = nil;
     }
 }
 
@@ -160,7 +164,7 @@
     if ([gesture state] == UIGestureRecognizerStateBegan
         || [gesture state] == UIGestureRecognizerStateChanged) {
         if (self.panClick) {
-            self.panClick(point, piece, YES);
+            self.panClick(point, self, YES);
         }
         CGPoint translation = [gesture translationInView:piece];
 //        NSLog(@"translation==%@",NSStringFromCGPoint(translation));
@@ -169,7 +173,10 @@
         [gesture setTranslation:CGPointZero inView:piece];
     } else {
         if (self.panClick) {
-            self.panClick(point, piece, NO);
+            self.panClick(point, self, NO);
+        }
+        if (self.resetImageFrame) {
+            self.composeView.frame = self.bounds;
         }
     }
 }
@@ -213,5 +220,9 @@
        });
     }
     return _composeView;
+}
+
+-(CAShapeLayer *)animationShapeLayer{
+    return self.animationLayer;
 }
 @end

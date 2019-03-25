@@ -9,9 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAImageComposeTemplateStyleOneForTwo : UIView
-@property(nonatomic, strong) NSArray * images;
+@interface WYAImageComposeTemplate : UIView
 
+- (instancetype)initWithPoints:(NSArray *)points images:(NSArray *)images;
 - (void)wya_templatePath;
 - (void)wya_templateView;
 @end

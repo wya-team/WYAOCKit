@@ -48,7 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL showWordsCount;           // default is YES
 @property (nonatomic, assign) CGFloat textViewMaxHeight;     //最大高度
 @property (nonatomic, assign) NSUInteger textViewWordsCount; //最大字数
-@property (nonatomic, copy) NSString * text;
+@property (nonatomic, copy) NSString * text; // 如果需要显示字数个数，请先设置最大字数
+@property (nonatomic, strong) UIColor * textColor;
 /**
  设置textView的PlaceHolder
 

@@ -33,7 +33,6 @@
 #import <WYAKit/WYAPickerView.h>
 #import <WYAKit/WYADatePicker.h>
 #import <WYAKit/WYAIMGCode.h>
-#import <WYAKit/WYAImageBrowserViewController.h>
 #import <WYAKit/WYACameraViewController.h>
 #import <WYAKit/WYAQRCodeViewController.h>
 #import <WYAKit/WYAPhotoBrowser.h>

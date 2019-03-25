@@ -9,7 +9,7 @@
 #import "WYAEditCameraCell.h"
 
 @interface WYAEditCameraCell ()
-@property (nonatomic, strong) UIImageView * imageView;
+
 @property (nonatomic, strong) UIButton * button;
 @end
 
