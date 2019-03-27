@@ -41,6 +41,7 @@
     textView.textViewMaxHeight   = 100;
     textView.text = @"测试一下";
     textView.textColor = [UIColor redColor];
+    [textView.textView becomeFirstResponder];
     [self.view addSubview:textView];
 
     WYATextView * textView1 =

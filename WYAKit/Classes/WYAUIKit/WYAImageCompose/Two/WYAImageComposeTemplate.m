@@ -72,13 +72,18 @@
             if (self.lastTemplate) {
                 [self.lastTemplate wya_templateRemoveAnimationPath];
             }
+            self.isExchange = NO;
+        } else {
+            view.resetImageFrame = NO;
         }
 
         return;
     }
 
     for (WYAImageClipTemplate * template in self.templates) {
+
         if (template != view) {
+        NSLog(@"\ntemplate==%p,\nview==%p,\npoint==%@,\ntemplatePoints==%@",template,view,NSStringFromCGPoint(point),template.templatePoints);
             if (CGPathContainsPoint(template.pathRef, NULL, point, NO)) {
 
                 if (!template.animationShapeLayer) {
@@ -93,8 +98,9 @@
                     NSLog(@"就是这个图片");
                     [template wya_templateRemoveAnimationPath];
                     self.isExchange = NO;
+                    return;
                 }
-                return;
+
             }
         } else {
 

@@ -50,7 +50,10 @@
         delay:2
         options:UIViewAnimationOptionAllowUserInteraction
         animations:^{ label.alpha = 0; }
-        completion:^(BOOL finished) { [label removeFromSuperview]; }];
+        completion:^(BOOL finished) {
+            [label removeFromSuperview];
+            [button removeFromSuperview];
+        }];
 }
 
 + (void)wya_showCenterToastWithMessage:(NSString *)message {
@@ -90,7 +93,10 @@
         delay:2
         options:UIViewAnimationOptionAllowUserInteraction
         animations:^{ label.alpha = 0; }
-        completion:^(BOOL finished) { [label removeFromSuperview]; }];
+        completion:^(BOOL finished) {
+            [label removeFromSuperview];
+            [button removeFromSuperview];
+        }];
 }
 
 + (void)wya_showToastImage:(NSString *)imageString

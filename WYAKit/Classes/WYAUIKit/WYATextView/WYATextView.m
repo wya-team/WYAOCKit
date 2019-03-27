@@ -8,7 +8,7 @@
 #import "WYATextView.h"
 
 @interface WYATextView () <UITextViewDelegate>
-@property (nonatomic, strong) UITextView * textView;
+
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * noteLabel;
 @property (nonatomic, copy) NSString * placeHold; //占位文字
