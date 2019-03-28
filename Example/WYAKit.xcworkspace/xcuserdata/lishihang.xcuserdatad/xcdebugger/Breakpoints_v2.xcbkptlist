@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYATextView/WYATextView.m"
-            timestampString = "575381036.444291"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageBrowser/WYAZoomingScrollView.m"
+            timestampString = "575207940.599848"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "-textViewShouldEndEditing:"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
+            landmarkName = "-centerOfScrollViewContent:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAImageBrowser/WYAZoomingScrollView.m"
-            timestampString = "575207940.599848"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYATextView/WYATextView.m"
+            timestampString = "575441590.717769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
-            landmarkName = "-centerOfScrollViewContent:"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "-autoChnageTextViewHeightWithTextView:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYATextView/WYATextView.m"
+            timestampString = "575441590.717859"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-autoChnageTextViewHeightWithTextView:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

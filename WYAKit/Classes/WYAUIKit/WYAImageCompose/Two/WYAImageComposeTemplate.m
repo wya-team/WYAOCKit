@@ -83,24 +83,25 @@
     for (WYAImageClipTemplate * template in self.templates) {
 
         if (template != view) {
-        NSLog(@"\ntemplate==%p,\nview==%p,\npoint==%@,\ntemplatePoints==%@",template,view,NSStringFromCGPoint(point),template.templatePoints);
+            // 当前所在的模板和原来的模板不是同一个
+//        NSLog(@"\ntemplate==%p,\nview==%p,\npoint==%@,\ntemplatePoints==%@",template,view,NSStringFromCGPoint(point),template.templatePoints);
             if (CGPathContainsPoint(template.pathRef, NULL, point, NO)) {
-
-                if (!template.animationShapeLayer) {
+                // 当前手势滑到的区域
+                if (template.haveAnimationShapeLayer == NO) {
                     NSLog(@"只执行了一次");
                     [template wya_templateAddAnimationPath];
                     self.lastTemplate = template;
                     self.isExchange = YES;
+
                 }
                 return;
             } else {
-                if (template.animationShapeLayer) {
+                if (template.haveAnimationShapeLayer) {
                     NSLog(@"就是这个图片");
                     [template wya_templateRemoveAnimationPath];
                     self.isExchange = NO;
                     return;
                 }
-
             }
         } else {
 

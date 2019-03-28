@@ -9,58 +9,54 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
- 参照系统的textviewDelegate用法
- */
-@protocol WYATextViewDelegate <NSObject>
-
-@optional
-- (BOOL)wya_TextViewShouldBeginEditing:(UITextView *)textView;
-- (BOOL)wya_TextViewShouldEndEditing:(UITextView *)textView;
-
-- (void)wya_TextViewDidBeginEditing:(UITextView *)textView;
-- (void)wya_TextViewDidEndEditing:(UITextView *)textView;
-
-- (BOOL)wya_TextView:(UITextView *)textView
-    shouldChangeTextInRange:(NSRange)range
-            replacementText:(NSString *)text;
-- (void)wya_TextViewDidChange:(UITextView *)textView;
-
-- (void)wya_TextViewDidChangeSelection:(UITextView *)textView;
-
-- (BOOL)wya_TextView:(UITextView *)textView
-    shouldInteractWithURL:(NSURL *)URL
-                  inRange:(NSRange)characterRange
-              interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0);
-- (BOOL)wya_TextView:(UITextView *)textView
-    shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment
-                             inRange:(NSRange)characterRange
-                         interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0);
-
-@end
-
 @interface WYATextView : UIView
 
 @property (nonatomic, strong) UITextView * textView;
-@property (nonatomic, weak) id<WYATextViewDelegate> wya_delegate;
 
-@property (nonatomic, copy) NSString * title;                //标题
-@property (nonatomic, assign) BOOL showTitle;                // default is YES
-@property (nonatomic, assign) BOOL showWordsCount;           // default is YES
-@property (nonatomic, assign) CGFloat textViewMaxHeight;     //最大高度
-@property (nonatomic, assign) NSUInteger textViewWordsCount; //最大字数
-@property (nonatomic, copy) NSString * text; // 如果需要显示字数个数，请先设置最大字数
-@property (nonatomic, strong) UIColor * textColor;
 /**
- 设置textView的PlaceHolder
-
- @param placeHoldString 文字
- @param placeHoldColor 颜色
- @param placeHoldFont 大小
+ 标题
  */
-- (void)wya_PlaceHoldString:(NSString *)placeHoldString
-             PlaceHoldColor:(UIColor *)placeHoldColor
-              PlaceHoldFont:(CGFloat)placeHoldFont;
+@property (nonatomic, copy) NSString * title;
+
+/**
+ 是否显示标题,default is YES
+ */
+@property (nonatomic, assign) BOOL showTitle;
+
+/**
+ 是否显示字数限制，default is YES
+ */
+@property (nonatomic, assign) BOOL showWordsCount;
+
+/**
+ 是否需要自适应高度
+ */
+@property (nonatomic, assign) BOOL autoChangeHeight;
+
+/**
+ 最大高度
+ */
+@property (nonatomic, assign) CGFloat textViewMaxHeight;
+
+/**
+ 最大字数
+ */
+@property (nonatomic, assign) NSUInteger textViewWordsCount;
+
+/**
+ 如果需要显示字数个数，请先设置最大字数
+ */
+@property (nonatomic, copy) NSString * text;
+
+/**
+ 占位文字
+ */
+@property (nonatomic, copy) NSString * placeHoldString;
+
+/**
+ 占位文字颜色
+ */
+@property (nonatomic, strong) UIColor * placeHoldColor;
 
 @end
 

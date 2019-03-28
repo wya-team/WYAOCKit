@@ -142,7 +142,7 @@
     [dashAnimation setFromValue:[NSNumber numberWithFloat:0.0f]];
     [dashAnimation setToValue:[NSNumber numberWithFloat:300.f]];
     [dashAnimation setDuration:4.f];
-    dashAnimation.cumulative = YES; //关键属性，自己看文档
+    dashAnimation.cumulative = YES;
     [dashAnimation setRepeatCount:MAXFLOAT];
     dashAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.animationLayer addAnimation:dashAnimation forKey:@"linePhase"];
@@ -222,7 +222,10 @@
     return _composeView;
 }
 
--(CAShapeLayer *)animationShapeLayer{
-    return self.animationLayer;
+-(BOOL)haveAnimationShapeLayer{
+    if (self.animationLayer) {
+        return  YES;
+    }
+    return NO;
 }
 @end

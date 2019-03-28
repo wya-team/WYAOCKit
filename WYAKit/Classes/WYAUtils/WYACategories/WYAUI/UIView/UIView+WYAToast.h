@@ -26,12 +26,27 @@ typedef NS_ENUM(NSInteger, WYAToastImageType) {
 + (void)wya_showBottomToastWithMessage:(NSString *)message;
 
 /**
+ 位于底部的toast提示框
+
+ @param message 信息
+ @param use 底部视图用户交互是否打开
+ */
++ (void)wya_showBottomToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use;
+
+/**
  位于屏幕中心的提示框
 
  @param message 信息
  */
 + (void)wya_showCenterToastWithMessage:(NSString *)message;
 
+/**
+ 位于屏幕中心的提示框
+
+ @param message 信息
+ @param use 底部视图用户交互是否打开
+ */
++ (void)wya_showCenterToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use;
 /**
  图片提示框
 
@@ -83,7 +98,8 @@ typedef NS_ENUM(NSInteger, WYAToastImageType) {
                 autoRotation:(BOOL)autoRotation
                    imageType:(WYAToastImageType)imageType
         sourceInWYAKitBundle:(BOOL)isSource
-                 autoDismiss:(BOOL)autoDismiss;
+                 autoDismiss:(BOOL)autoDismiss
+    bgViewUserInteractionUse:(BOOL)use;
 
 /**
  请和wya_toastWithMessage配合使用

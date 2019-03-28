@@ -6,16 +6,12 @@
 //
 
 #import "WYATextView.h"
-
-@interface WYATextView () <UITextViewDelegate>
+#import "UITextView+WYAPlaceholder.h"
+@interface WYATextView ()
 
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UILabel * noteLabel;
-@property (nonatomic, copy) NSString * placeHold; //占位文字
-@property (nonatomic, strong) UIColor * placeHoldColor;
-@property (nonatomic, assign) CGFloat placeHoldFont;
 
-@property (nonatomic, copy) NSString * lastPlaceHold;
 @end
 
 @implementation WYATextView
@@ -41,57 +37,139 @@
     self.showTitle          = YES;
     self.showWordsCount     = YES;
     self.textViewWordsCount = 0;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange:) name:UITextViewTextDidChangeNotification object:self.textView];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    CGFloat titleLabel_x = 5 * SizeAdapter;
+    CGFloat titleLabel_y = 7 * SizeAdapter;
+    CGFloat titleLabel_width = 40 * SizeAdapter;
+    CGFloat titleLabel_height = 20 * SizeAdapter;
+    CGRect titleLabel_rect = CGRectMake(titleLabel_x, titleLabel_y,  titleLabel_width, titleLabel_height);
+    self.titleLabel.frame = titleLabel_rect;
+
+    CGFloat noteLabel_x = 0;
+    CGFloat noteLabel_y = self.cmam_height - 20 * SizeAdapter;
+    CGFloat noteLabel_width = self.cmam_width - 5 * SizeAdapter;
+    CGFloat noteLabel_height = 20 * SizeAdapter;
+    CGRect noteLabel_rect = CGRectMake(noteLabel_x, noteLabel_y,  noteLabel_width, noteLabel_height);
+    self.noteLabel.frame = noteLabel_rect;
+
+    CGFloat textView_x;
+    CGFloat textView_width;
+    if (self.showTitle == NO) {
+        textView_x = 0;
+        textView_width = self.cmam_width;
+    } else {
+        textView_x = self.titleLabel.cmam_right;
+        textView_width = self.cmam_width - self.titleLabel.cmam_right;
+    }
+    CGFloat textView_y = 0;
+    CGFloat textView_height;
+    if (self.showWordsCount == YES) {
+        textView_height = self.cmam_height - self.noteLabel.cmam_height;
+    } else {
+        textView_height = self.cmam_height;
+    }
+    CGRect textView_rect = CGRectMake(textView_x, textView_y,  textView_width, textView_height);
+    self.textView.frame = textView_rect;
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
 #pragma mark--- Private Method
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
-        make.left.mas_equalTo(self.mas_left).with.offset(5 * SizeAdapter);
-        make.top.mas_equalTo(self.mas_top).with.offset(7 * SizeAdapter);
-        make.size.mas_equalTo(CGSizeMake(40 * SizeAdapter, 20 * SizeAdapter));
-    }];
+- (void)textChange:(NSNotification *)not{
+    UITextView * textView = (UITextView *)not.object;
+    if (self.showWordsCount) {
+        [self recordTextViewInputWithTextView:textView];
+    }
+    if (self.autoChangeHeight) {
+        [self autoChnageTextViewHeightWithTextView:textView];
+    }
+}
 
-    [self.noteLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
-        make.left.bottom.mas_equalTo(self);
-        make.right.mas_equalTo(self.mas_right).with.offset(-5 * SizeAdapter);
-        make.height.mas_equalTo(20 * SizeAdapter);
-    }];
+- (void)recordTextViewInputWithTextView:(UITextView *)textView{
+    NSString * toBeString = textView.text;
 
-    [self.textView mas_remakeConstraints:^(MASConstraintMaker * make) {
-        if (self.showTitle == NO) {
-            make.left.mas_equalTo(self.mas_left);
-        } else {
-            make.left.mas_equalTo(self.titleLabel.mas_right).with.offset(0);
+    // 获取键盘输入模式
+
+    NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
+
+    if ([lang isEqualToString:
+         @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
+
+        UITextRange * selectedRange = [textView markedTextRange];
+
+        //获取高亮部分
+
+        UITextPosition * position = [textView positionFromPosition:selectedRange.start offset:0];
+
+        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+
+        if (!position) {
+            if (toBeString.length > self.textViewWordsCount) {
+                textView.text = [toBeString
+                                 substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
+
+                self.noteLabel.text = [NSString
+                                       stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+
+            } else {
+                self.noteLabel.text = [NSString
+                                       stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+            }
         }
 
-        make.top.right.mas_equalTo(self);
-        if (self.showWordsCount == YES) {
-            make.bottom.mas_equalTo(self.noteLabel.mas_top);
-        } else {
-            make.bottom.mas_equalTo(self.mas_bottom);
-        }
+    } else { // 中文输入法以外的直接统计
 
-    }];
+        if (toBeString.length > self.textViewWordsCount) {
+            textView.text = [toBeString substringToIndex:self.textViewWordsCount];
+
+            self.noteLabel.text = [NSString
+                                   stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+
+        } else {
+            self.noteLabel.text =
+            [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+        }
+    }
+}
+
+- (void)autoChnageTextViewHeightWithTextView:(UITextView *)textView{
+    CGFloat maxHeight = self.textViewMaxHeight;
+    CGRect frame = textView.frame;
+    CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
+    CGSize size = [textView sizeThatFits:constraintSize];
+    NSLog(@"self.height==%f,size.height==%f,maxHeight==%f",self.cmam_height,size.height,self.textViewMaxHeight);
+    if (self.cmam_height >= size.height) {
+        return;
+    }
+    if (size.height >= maxHeight)
+    {
+        size.height = maxHeight;
+    }
+
+    textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
+    CGFloat self_x = self.cmam_left;
+    CGFloat self_y = self.cmam_top;
+    CGFloat self_width = self.cmam_width;
+    CGFloat self_height;
+    if (self.showWordsCount) {
+        self_height = size.height + self.noteLabel.cmam_height;
+    } else {
+        self_height = size.height;
+    }
+    CGRect self_rect = CGRectMake(self_x, self_y,  self_width, self_height);
+    self.frame = self_rect;
 }
 
 #pragma mark--- Public Method
-- (void)wya_PlaceHoldString:(NSString *)placeHoldString
-             PlaceHoldColor:(UIColor *)placeHoldColor
-              PlaceHoldFont:(CGFloat)placeHoldFont {
-    self.textView.text      = placeHoldString;
-    self.lastPlaceHold      = placeHoldString;
-    self.textView.textColor = placeHoldColor;
-    self.placeHoldColor     = placeHoldColor;
-    self.textView.font      = FONT(placeHoldFont);
-    self.placeHoldFont      = placeHoldFont;
-}
 
 #pragma mark--- Setter
-- (void)setTextViewMaxHeight:(float)textViewMaxHeight {
-    _textViewMaxHeight = textViewMaxHeight;
-}
-
 - (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount {
     _textViewWordsCount = textViewWordsCount;
     self.noteLabel.text = [NSString stringWithFormat:@"0/%lu", (unsigned long)textViewWordsCount];
@@ -132,11 +210,12 @@
     }
 }
 
-- (void)setTextColor:(UIColor *)textColor{
-    _textColor = textColor;
-    if (textColor) {
-        self.textView.textColor = textColor;
-    }
+-(void)setPlaceHoldString:(NSString *)placeHoldString{
+    self.textView.wya_placeHolder = placeHoldString;
+}
+
+- (void)setPlaceHoldColor:(UIColor *)placeHoldColor{
+    self.textView.wya_placeHolderColor = placeHoldColor;
 }
 
 #pragma mark--- Getter
@@ -152,7 +231,7 @@
 - (UITextView *)textView {
     if (!_textView) {
         _textView          = [[UITextView alloc] init];
-        _textView.delegate = self;
+        _textView.scrollEnabled = YES;
     }
     return _textView;
 }
@@ -170,198 +249,5 @@
 - (NSString *)text{
     return self.textView.text;
 }
-#pragma mark--- UITextViewDelegate
-- (BOOL)textViewShouldBeginEditing:(UITextView *)textView {
-    if ([textView.text isEqualToString:self.lastPlaceHold]) {
-        textView.text      = @"";
-        textView.textColor = [UIColor blackColor];
-        textView.font      = FONT(17);
-    } else {
-        textView.textColor = self.textColor;
-    }
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldBeginEditing:)]) {
-        return [self.wya_delegate wya_TextViewShouldBeginEditing:textView];
-    }
-    return YES;
-}
-
-- (BOOL)textViewShouldEndEditing:(UITextView *)textView {
-    if (textView.text.length < 1) {
-        textView.text      = self.lastPlaceHold;
-        textView.textColor = [UIColor blackColor];
-        textView.font      = FONT(_placeHoldFont);
-    } else {
-        if ([textView.text isEqualToString:self.lastPlaceHold]) {
-            textView.text      = self.lastPlaceHold;
-            textView.textColor = [UIColor blackColor];
-            textView.font      = FONT(_placeHoldFont);
-        } else {
-            textView.textColor = self.textColor;
-        }
-    }
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewShouldEndEditing:)]) {
-        return [self.wya_delegate wya_TextViewShouldEndEditing:textView];
-    }
-    return YES;
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidBeginEditing:)]) {
-        [self.wya_delegate wya_TextViewDidBeginEditing:textView];
-    }
-}
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidEndEditing:)]) {
-        [self.wya_delegate wya_TextViewDidEndEditing:textView];
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView
-    shouldChangeTextInRange:(NSRange)range
-            replacementText:(NSString *)text {
-    if (self.wya_delegate &&
-        [self.wya_delegate
-            respondsToSelector:@selector(wya_TextView:shouldChangeTextInRange:replacementText:)]) {
-        return [self.wya_delegate wya_TextView:textView
-                       shouldChangeTextInRange:range
-                               replacementText:text];
-    }
-    return YES;
-}
-
-- (void)textViewDidChange:(UITextView *)textView {
-    if (![textView.text isEqualToString:self.lastPlaceHold]) {
-        textView.textColor = self.textColor;
-    }
-
-    NSString * toBeString = textView.text;
-
-    // 获取键盘输入模式
-
-    NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
-
-    if ([lang isEqualToString:
-                  @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
-
-        UITextRange * selectedRange = [textView markedTextRange];
-
-        //获取高亮部分
-
-        UITextPosition * position = [textView positionFromPosition:selectedRange.start offset:0];
-
-        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
-
-        if (!position) {
-            if (toBeString.length > self.textViewWordsCount) {
-                textView.text = [toBeString
-                    substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
-
-                self.noteLabel.text = [NSString
-                    stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
-
-            } else {
-                self.noteLabel.text = [NSString
-                    stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
-            }
-        }
-
-    } else { // 中文输入法以外的直接统计
-
-        if (toBeString.length > self.textViewWordsCount) {
-            textView.text = [toBeString substringToIndex:self.textViewWordsCount];
-
-            self.noteLabel.text = [NSString
-                stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
-
-        } else {
-            self.noteLabel.text =
-                [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
-        }
-    }
-    /*
-    CGFloat maxHeight;
-    if (self.textViewMaxHeight>1) {
-        maxHeight = self.textViewMaxHeight;
-    }else{
-        maxHeight = 750.0;
-    }
-    CGRect frame = textView.frame;
-    CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
-    CGSize size = [textView sizeThatFits:constraintSize];
-    if (size.height<=frame.size.height) {
-        size.height=frame.size.height;
-    }else{
-        if (size.height >= maxHeight)
-        {
-            size.height = maxHeight;
-            textView.scrollEnabled = YES;   // 允许滚动
-        }
-        else
-        {
-            textView.scrollEnabled = NO;    // 不允许滚动
-        }
-    }
-    textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width,
-    size.height+20*SizeAdapter);
-    [self setNeedsLayout];
-    [self layoutIfNeeded];*/
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChange:)]) {
-        [self.wya_delegate wya_TextViewDidChange:textView];
-    }
-}
-
-- (void)textViewDidChangeSelection:(UITextView *)textView {
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextViewDidChangeSelection:)]) {
-        [self.wya_delegate wya_TextViewDidChangeSelection:textView];
-    }
-}
-
-- (BOOL)textView:(UITextView *)textView
-    shouldInteractWithURL:(NSURL *)URL
-                  inRange:(NSRange)characterRange
-              interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0) {
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_TextView:
-                                                                       shouldInteractWithURL:
-                                                                                     inRange:
-                                                                                 interaction:)]) {
-        return [self.wya_delegate wya_TextView:textView
-                         shouldInteractWithURL:URL
-                                       inRange:characterRange
-                                   interaction:interaction];
-    }
-    return YES;
-}
-
-- (BOOL)textView:(UITextView *)textView
-    shouldInteractWithTextAttachment:(NSTextAttachment *)textAttachment
-                             inRange:(NSRange)characterRange
-                         interaction:(UITextItemInteraction)interaction NS_AVAILABLE_IOS(10_0) {
-    if (self.wya_delegate &&
-        [self.wya_delegate respondsToSelector:@selector(wya_TextView:
-                                                  shouldInteractWithTextAttachment:
-                                                                           inRange:
-                                                                       interaction:)]) {
-        return [self.wya_delegate wya_TextView:textView
-              shouldInteractWithTextAttachment:textAttachment
-                                       inRange:characterRange
-                                   interaction:interaction];
-    }
-    return YES;
-}
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end
