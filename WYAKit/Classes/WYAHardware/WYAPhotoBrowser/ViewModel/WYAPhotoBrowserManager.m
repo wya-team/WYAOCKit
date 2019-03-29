@@ -115,10 +115,13 @@ AssetCollectionSubType:(AssetCollectionSubType)subType
                 if (smartSubResult.count > 0) {
                     for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
                         PHAsset * assert             = (PHAsset *)smartSubResult[aaa];
-                        WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
-                        model.asset                  = assert;
-                        model.selected               = NO;
-                        [datas addObject:model];
+//                        if ([self checkImageLocalWithAsset:assert]) {
+                            WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
+                            model.asset                  = assert;
+                            model.selected               = NO;
+                            [datas addObject:model];
+//                        }
+
                     }
                 }
             }
@@ -304,12 +307,28 @@ screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
     if (smartSubResult.count > 0) {
         for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
             PHAsset * assert             = (PHAsset *)smartSubResult[aaa];
-            WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
-            model.asset                  = assert;
-            model.selected               = NO;
-            [datas addObject:model];
+//            if ([self checkImageLocalWithAsset:assert]) {
+                WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
+                model.asset                  = assert;
+                model.selected               = NO;
+                [datas addObject:model];
+//            }
         }
     }
     return datas;
 }
+
++ (BOOL)checkImageLocalWithAsset:(PHAsset *)asset{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    option.networkAccessAllowed = NO;
+    option.synchronous = YES;
+
+    __block BOOL isInLocalAblum = YES;
+
+    [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+        isInLocalAblum = imageData ? YES : NO;
+    }];
+    return isInLocalAblum;
+}
+
 @end

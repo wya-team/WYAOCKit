@@ -13,7 +13,7 @@
 @property (nonatomic, strong) NSArray * templates;
 @property (nonatomic, strong) NSArray * points;
 @property (nonatomic, strong) NSArray * images;
-@property (nonatomic, strong) WYAImageClipTemplate * lastTemplate;
+@property (nonatomic, strong) WYAImageClipTemplate * exchangeTemplate;
 @property (nonatomic, assign) BOOL isExchange;
 @end
 
@@ -63,14 +63,15 @@
 
     if (panChange == NO) {
         // 已结束
+        NSLog(@"手势结束");
         if (self.isExchange == YES) {
             UIImage * image = view.image;
-            UIImage * lastImage = self.lastTemplate.image;
+            UIImage * lastImage = self.exchangeTemplate.image;
             view.image = lastImage;
-            self.lastTemplate.image = image;
+            self.exchangeTemplate.image = image;
             view.resetImageFrame = YES;
-            if (self.lastTemplate) {
-                [self.lastTemplate wya_templateRemoveAnimationPath];
+            if (self.exchangeTemplate) {
+                [self.exchangeTemplate wya_templateRemoveAnimationPath];
             }
             self.isExchange = NO;
         } else {
@@ -84,17 +85,17 @@
 
         if (template != view) {
             // 当前所在的模板和原来的模板不是同一个
-//        NSLog(@"\ntemplate==%p,\nview==%p,\npoint==%@,\ntemplatePoints==%@",template,view,NSStringFromCGPoint(point),template.templatePoints);
+            NSLog(@"\n当前便利的视图==%p,\n手势点击的视图==%p,\n要交换图片的视图==%p",template,view,self.exchangeTemplate);
+//            NSLog(@"\npoint==%@,\ntemplatePoints==%@",NSStringFromCGPoint(point),template.templatePoints);
             if (CGPathContainsPoint(template.pathRef, NULL, point, NO)) {
                 // 当前手势滑到的区域
+                self.isExchange = YES;
                 if (template.haveAnimationShapeLayer == NO) {
                     NSLog(@"只执行了一次");
                     [template wya_templateAddAnimationPath];
-                    self.lastTemplate = template;
-                    self.isExchange = YES;
-
+                    self.exchangeTemplate = template;
+                    return;
                 }
-                return;
             } else {
                 if (template.haveAnimationShapeLayer) {
                     NSLog(@"就是这个图片");

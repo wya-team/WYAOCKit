@@ -146,6 +146,7 @@
     [dashAnimation setRepeatCount:MAXFLOAT];
     dashAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     [self.animationLayer addAnimation:dashAnimation forKey:@"linePhase"];
+    self.haveAnimationShapeLayer = YES;
 }
 
 - (void)wya_templateRemoveAnimationPath{
@@ -153,13 +154,14 @@
         [self.animationLayer removeAnimationForKey:@"linePhase"];
         [self.animationLayer removeFromSuperlayer];
         self.animationLayer = nil;
+        self.haveAnimationShapeLayer = NO;
     }
 }
 
 #pragma mark ======= Private Method
 - (void)panClick:(UIPanGestureRecognizer *)gesture{
 
-    WYAImageClipTemplate * piece = [gesture view];
+    WYAImageClipTemplate * piece = (WYAImageClipTemplate *)[gesture view];
     CGPoint point = [gesture locationInView:piece];
     if ([gesture state] == UIGestureRecognizerStateBegan
         || [gesture state] == UIGestureRecognizerStateChanged) {
@@ -222,10 +224,4 @@
     return _composeView;
 }
 
--(BOOL)haveAnimationShapeLayer{
-    if (self.animationLayer) {
-        return  YES;
-    }
-    return NO;
-}
 @end

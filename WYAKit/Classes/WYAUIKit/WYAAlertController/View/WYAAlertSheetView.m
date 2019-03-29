@@ -29,49 +29,15 @@
     if (self) {
         self.labelPadding = 30 * SizeAdapter;
 
-        self.containerView                 = [[UIView alloc] init];
-        self.containerView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.7];
         [self addSubview:self.containerView];
-
-        self.cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-        [self.cancelButton
-            setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1]
-                 forState:UIControlStateNormal];
-        [self.cancelButton setBackgroundColor:[UIColor whiteColor]];
-        [self.cancelButton addTarget:self
-                              action:@selector(cancelClick)
-                    forControlEvents:UIControlEventTouchUpInside];
         [self.containerView addSubview:self.cancelButton];
-
-        self.titleView                 = [[UIView alloc] init];
-        self.titleView.backgroundColor = [UIColor whiteColor];
         [self.containerView addSubview:self.titleView];
 
-        self.titleLabel                 = [[UILabel alloc] init];
         self.titleLabel.text            = title;
-        self.titleLabel.textColor       = [UIColor lightGrayColor];
-        self.titleLabel.font            = FONT(15);
-        self.titleLabel.textAlignment   = NSTextAlignmentCenter;
-        self.titleLabel.backgroundColor = [UIColor whiteColor];
         [self.titleView addSubview:self.titleLabel];
 
-        self.messageLabel                 = [[UILabel alloc] init];
         self.messageLabel.text            = message;
-        self.messageLabel.textColor       = [UIColor lightGrayColor];
-        self.messageLabel.font            = FONT(13);
-        self.messageLabel.numberOfLines   = 0;
-        self.messageLabel.textAlignment   = NSTextAlignmentCenter;
-        self.messageLabel.backgroundColor = [UIColor whiteColor];
         [self.titleView addSubview:self.messageLabel];
-
-        self.buttonView = [[UIView alloc] init];
-        self.buttonView.backgroundColor =
-            [UIColor colorWithRed:203.0 / 255.0
-                            green:203.0 / 255.0
-                             blue:203.0 / 255.0
-                            alpha:1];
-
         [self.containerView addSubview:self.buttonView];
     }
     return self;
@@ -79,7 +45,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-
+    
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
@@ -146,6 +112,7 @@
     }];
 }
 
+#pragma mark ======= Public Method
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
     for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
 
@@ -156,17 +123,10 @@
     UIButton * actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [actionButton setTag:[self.actions indexOfObject:action]];
     [actionButton setTitle:action.title forState:UIControlStateNormal];
-    [actionButton setTitleColor:[UIColor colorWithRed:0.0 green:122.0 / 255.0 blue:1 alpha:1]
+    [actionButton setTitleColor:action.textColor
                        forState:UIControlStateNormal];
-    [actionButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+    actionButton.titleLabel.font = action.textFont;
     [actionButton setBackgroundColor:[UIColor whiteColor]];
-    //    [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
-    //    [actionButton setBackgroundImage:self.grayImage forState:UIControlStateHighlighted];
-    if (action.style == WYAAlertActionStyleDestructive) {
-        [actionButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    } else if (action.style == WYAAlertActionStyleCancel) {
-        actionButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    }
     [actionButton addTarget:self
                      action:@selector(actionButtonDidClicked:)
            forControlEvents:UIControlEventTouchUpInside];
@@ -181,6 +141,11 @@
 
     // 因为可能添加多个 button，所以只要标记为需要更新，这样即使添加了多次也只会更新一次
     [self layoutIfNeeded];
+}
+
+- (void)wya_addCornerRadiusWithNumber:(CGFloat)number{
+    [self layoutIfNeeded];
+    [self.containerView addRoundedCorners:UIRectCornerTopLeft | UIRectCornerTopRight withRadii:CGSizeMake(number, number) viewRect:self.containerView.bounds];
 }
 
 /** 点击按钮事件 */
@@ -199,8 +164,101 @@
 }
 
 #pragma mark--- Getter
-- (NSMutableArray *)buttons {
-    if (!_buttons) { _buttons = [NSMutableArray arrayWithCapacity:0]; }
+- (CGFloat)height {
+    [self layoutIfNeeded];
+    return self.containerView.cmam_height;
+}
+
+#pragma mark ======= Lazy
+- (UIView *)containerView{
+    if(!_containerView){
+        _containerView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [[UIColor wya_hex:@"#F5F5F7"] colorWithAlphaComponent:1];
+            object;
+       });
+    }
+    return _containerView;
+}
+
+- (UIButton *)cancelButton{
+    if(!_cancelButton){
+        _cancelButton = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setTitle:@"取消" forState:UIControlStateNormal];
+            [object setTitleColor:[UIColor wya_hex:@"#4787F2"] forState:UIControlStateNormal];
+            object.titleLabel.font = FONT(16);
+            [object setBackgroundColor:[UIColor whiteColor]];
+            [object addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
+            object;
+       });
+    }
+    return _cancelButton;
+}
+
+- (UIView *)titleView{
+    if(!_titleView){
+        _titleView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+       });
+    }
+    return _titleView;
+}
+
+- (UIView *)buttonView{
+    if(!_buttonView){
+        _buttonView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor =
+            [UIColor colorWithRed:203.0 / 255.0
+                            green:203.0 / 255.0
+                             blue:203.0 / 255.0
+                            alpha:1];
+            object;
+       });
+    }
+    return _buttonView;
+}
+
+- (UILabel *)titleLabel{
+    if(!_titleLabel){
+        _titleLabel = ({
+            UILabel * object = [[UILabel alloc]init];
+            object                 = [[UILabel alloc] init];
+            object.textColor       = [UIColor lightGrayColor];
+            object.font            = FONT(15);
+            object.textAlignment   = NSTextAlignmentCenter;
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+       });
+    }
+    return _titleLabel;
+}
+
+- (UILabel *)messageLabel{
+    if(!_messageLabel){
+        _messageLabel = ({
+            UILabel * object = [[UILabel alloc]init];
+            object.textColor       = [UIColor lightGrayColor];
+            object.font            = FONT(13);
+            object.numberOfLines   = 0;
+            object.textAlignment   = NSTextAlignmentCenter;
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+       });
+    }
+    return _messageLabel;
+}
+
+- (NSMutableArray *)buttons{
+    if(!_buttons){
+        _buttons = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+       });
+    }
     return _buttons;
 }
 
@@ -208,18 +266,5 @@
     if (!_actions) { _actions = [NSMutableArray arrayWithCapacity:0]; }
     return _actions;
 }
-
-- (CGFloat)height {
-    [self layoutIfNeeded];
-    return self.containerView.cmam_height;
-}
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

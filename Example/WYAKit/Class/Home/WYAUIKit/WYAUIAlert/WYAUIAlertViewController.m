@@ -115,10 +115,9 @@
                                       AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             // 创建 action
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"知道了"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"知道了" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 1) {
@@ -130,14 +129,12 @@
             alert.presentStyle             = WYAPopupPresentStyleBounce;
             alert.dismissStyle             = WYAPopupDismissStyleShrink;
             // 创建 action
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"关闭"
-                                              style:WYAAlertActionStyleCancel
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"重试"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"关闭" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"重试" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
@@ -161,14 +158,14 @@
             alert.presentStyle             = WYAPopupPresentStyleExpandHorizontal;
             alert.dismissStyle             = WYAPopupDismissStyleContractHorizontal;
             // 创建 action
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"关闭"
-                                              style:WYAAlertActionStyleCancel
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"重试"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
+
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"关闭" textColor:nil textFont:nil handler:^{
+
+            }];
+
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"重试" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [alert wya_addTextField:tf];
@@ -177,29 +174,23 @@
         } else if (indexPath.row == 3) {
             WYAAlertController * alert = [WYAAlertController
                 wya_alertWithTitle:@""
-                           Message:@"辅"
-                                   @"助"
-                                   @"说"
-                                   @"明"
-                                   @"文"
-                                   @"字辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
+                           Message:@"辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
                   AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleExpandVertical;
             alert.dismissStyle             = WYAPopupDismissStyleContractVertical;
             // 创建 action
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项一"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项二"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
-            WYAAlertAction * defaultAction1 =
-                [WYAAlertAction wya_actionWithTitle:@"选项三"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一" textColor:nil textFont:nil handler:^{
+
+            }];
+
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"选项二" textColor:nil textFont:nil handler:^{
+
+            }];;
+
+            WYAAlertAction * defaultAction1 = [WYAAlertAction wya_actionWithTitle:@"选项三" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [alert wya_addAction:defaultAction1];
@@ -218,18 +209,15 @@
             alert.presentStyle             = WYAPopupPresentStyleSlideDown;
             alert.dismissStyle             = WYAPopupDismissStyleSlideDown;
             // 创建 action
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项一"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项二"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
-            WYAAlertAction * defaultAction1 =
-                [WYAAlertAction wya_actionWithTitle:@"选项三"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"选项二" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * defaultAction1 = [WYAAlertAction wya_actionWithTitle:@"选项三" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [alert wya_addAction:defaultAction1];
@@ -240,24 +228,21 @@
         if (indexPath.row == 0) {
             WYAAlertController * alert =
                 [WYAAlertController wya_alertSheetWithTitle:@""
-                                                    Message:@""];
+                                                    Message:@"" AlertSheetCornerRadius:0];
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 1) {
             WYAAlertController * alert =
                 [WYAAlertController wya_alertSheetWithTitle:@""
-                                                    Message:@""];
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项一(警示项)"
-                                              style:WYAAlertActionStyleDestructive
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项二"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
-            WYAAlertAction * defaultAction1 =
-                [WYAAlertAction wya_actionWithTitle:@"选项三"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
+                                                    Message:@"" AlertSheetCornerRadius:8];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一(警示项)" textColor:[UIColor redColor] textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"选项二" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * defaultAction1 = [WYAAlertAction wya_actionWithTitle:@"选项三" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [alert wya_addAction:defaultAction1];
@@ -265,19 +250,17 @@
         } else {
             WYAAlertController * alert =
                 [WYAAlertController wya_alertSheetWithTitle:@"标题文字"
-                                                    Message:@"详细信息"];
-            WYAAlertAction * defaultAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项一"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
-            WYAAlertAction * cancelAction =
-                [WYAAlertAction wya_actionWithTitle:@"选项二"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Cancel"); }];
-            WYAAlertAction * defaultAction1 =
-                [WYAAlertAction wya_actionWithTitle:@"选项三"
-                                              style:WYAAlertActionStyleDefault
-                                            handler:^{ NSLog(@"Default"); }];
+                                                    Message:@"详细信息" AlertSheetCornerRadius:0];
+
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"选项二" textColor:nil textFont:nil handler:^{
+
+            }];
+            WYAAlertAction * defaultAction1 = [WYAAlertAction wya_actionWithTitle:@"选项三" textColor:nil textFont:nil handler:^{
+
+            }];
             [alert wya_addAction:defaultAction];
             [alert wya_addAction:cancelAction];
             [alert wya_addAction:defaultAction1];

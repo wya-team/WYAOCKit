@@ -4,6 +4,7 @@
 //
 //  Created by 李世航 on 2019/3/19.
 //
+//  模板数据依照微商水印相机顺序依次起名
 
 #import <Foundation/Foundation.h>
 
@@ -43,8 +44,24 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)templateThirteenOfThreeWithTemplateSize:(CGSize)templateSize;
 + (NSArray *)templateFourteenOfThreeWithTemplateSize:(CGSize)templateSize;
 + (NSArray *)templateFifteenOfThreeWithTemplateSize:(CGSize)templateSize;
-// 四图
 
+// 四图
++ (NSArray *)templateOneOfFourWithTemplateSize:(CGSize)templateSize;
+
+// 五图
++ (NSArray *)templateOneOfFiveWithTemplateSize:(CGSize)templateSize;
+
+// 六图
++ (NSArray *)templateOneOfSixWithTemplateSize:(CGSize)templateSize;
+
+// 七图
++ (NSArray *)templateOneOfSevenWithTemplateSize:(CGSize)templateSize;
+
+// 八图
++ (NSArray *)templateOneOfEightWithTemplateSize:(CGSize)templateSize;
+
+// 九图
++ (NSArray *)templateTwoOfNineWithTemplateSize:(CGSize)templateSize;
 @end
 
 NS_ASSUME_NONNULL_END

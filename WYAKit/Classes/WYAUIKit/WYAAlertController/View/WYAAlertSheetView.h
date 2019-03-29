@@ -33,6 +33,8 @@ NS_ASSUME_NONNULL_BEGIN
  *    @param action action
  */
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action;
+
+- (void)wya_addCornerRadiusWithNumber:(CGFloat)number;
 @end
 
 NS_ASSUME_NONNULL_END

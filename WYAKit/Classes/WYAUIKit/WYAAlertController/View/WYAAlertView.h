@@ -1,5 +1,5 @@
 
-#import "WYAStyle.h"
+#import "WYAAlertStyle.h"
 #import <UIKit/UIKit.h>
 @class WYAAlertAction;
 

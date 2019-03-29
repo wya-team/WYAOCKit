@@ -5,7 +5,8 @@
 #import "WYACameraViewController.h"
 
 #import "WYAProgressView.h"
-
+#import "WYAAlertController.h"
+#import "WYASystemPermissions.h"
 @interface WYACameraViewController ()
 
 @property (nonatomic, strong) UIView * containerView; //内容父容器
@@ -52,54 +53,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
-    AVAuthorizationStatus AVstatus =
-        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]; //相机权限
-    AVAuthorizationStatus avAudioStatus =
-        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
-    if (AVstatus == AVAuthorizationStatusNotDetermined) {
-        [AVCaptureDevice
-            requestAccessForMediaType:AVMediaTypeVideo
-                    completionHandler:^(BOOL granted) {
-                        if (granted) {
-                            dispatch_sync(dispatch_get_main_queue(),
-                                          ^{ [self setupCaptureSession]; });
-
-                        } else {
-                            dispatch_sync(dispatch_get_main_queue(), ^{
-                                [UIView wya_warningToastWithMessage:
-                                            @"检测到您未开启相机，将在三秒钟返回"];
-                            });
-
-                            dispatch_after(
-                                dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)),
-                                dispatch_get_main_queue(), ^{
-                                    if (self.navigationController) {
-                                        [self.navigationController popViewControllerAnimated:YES];
-                                    } else {
-                                        [self dismissViewControllerAnimated:YES completion:nil];
-                                    }
-                                });
-                        }
-                    }];
-    } else if (AVstatus == AVAuthorizationStatusAuthorized) {
-        [self setupCaptureSession];
-    } else if (AVstatus == AVAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:
-                    @"检"
-                    @"测到您没有开启相机权限，请前往设置开启"];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                       dispatch_get_main_queue(), ^{
-                           [[UIApplication sharedApplication]
-                               openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                       });
-    }
-
-    if (avAudioStatus == AVAuthorizationStatusDenied) {
-        [UIView wya_showCenterToastWithMessage:
-                    @"检"
-                    @"测到您没有开启麦克风权限，请前往设置开启"];
-    }
-
     [self setupSubView];
 }
 
@@ -171,6 +124,32 @@
     [layer addSublayer:self.captureVideoPreviewLayer];
     //开启录制功能
     [self.videoTool startRecordFunction];
+}
+
+- (void)openSystemPermissionsWithText:(NSString *)text{
+    WYAAlertController * alert =
+    [WYAAlertController wya_alertWithTitle:text
+                                   Message:nil
+                          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+    alert.backgroundButton.enabled = NO;
+    alert.presentStyle             = WYAPopupPresentStyleBounce;
+    alert.dismissStyle             = WYAPopupDismissStyleShrink;
+    // 创建 action
+    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"确定" textColor:nil textFont:nil handler:^{
+        [[UIApplication sharedApplication]
+         openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+    }];
+
+    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" textColor:nil textFont:nil handler:^{
+        if (self.navigationController) {
+            [self.navigationController popViewControllerAnimated:YES];
+        } else {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+    }];
+    [alert wya_addAction:cancelAction];
+    [alert wya_addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)closeButtonClick {

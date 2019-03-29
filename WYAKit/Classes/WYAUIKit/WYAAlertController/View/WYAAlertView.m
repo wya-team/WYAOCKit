@@ -232,19 +232,12 @@
     UIButton * actionButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [actionButton setTag:[self.actions indexOfObject:action]];
     [actionButton setTitle:action.title forState:UIControlStateNormal];
-
-    actionButton.titleLabel.font = FONT(15);
+    [actionButton setTitleColor:action.textColor forState:UIControlStateNormal];
+    actionButton.titleLabel.font = action.textFont;
     [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
     [actionButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1]] forState:UIControlStateHighlighted];
-    if (action.style == WYAAlertActionStyleDestructive) {
-        [actionButton setTitleColor:random(244, 51, 60, 1) forState:UIControlStateNormal];
-    } else if (action.style == WYAAlertActionStyleCancel) {
-        [actionButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    } else {
-        [actionButton
-            setTitleColor:[UIColor colorWithRed:0.0 / 255.0 green:122.0 / 255.0 blue:1 alpha:1]
-                 forState:UIControlStateNormal];
-    }
+
+
     [actionButton addTarget:self
                      action:@selector(actionButtonDidClicked:)
            forControlEvents:UIControlEventTouchUpInside];

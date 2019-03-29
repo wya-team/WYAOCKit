@@ -86,7 +86,8 @@
 forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.dataSource.count > 0) {
         WYAPhotoBrowserAlbumCell * albumCell = (WYAPhotoBrowserAlbumCell *)cell;
-        PHAssetCollection * collection       = self.dataSource[indexPath.row];
+        NSMutableArray * array       = self.dataSource[indexPath.row];
+        PHAssetCollection * collection = [array firstObject];
         PHFetchResult * smartSubResult =
             [PHAsset fetchAssetsInAssetCollection:collection
                                           options:nil];
@@ -131,11 +132,18 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    PHAssetCollection * collection = self.dataSource[indexPath.row];
-    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-    if (smartSubResult.count < 1) { return; }
+    NSMutableArray * arr = self.dataSource[indexPath.row];
+    NSMutableArray * collectionArray = [NSMutableArray array];
+    for (PHAssetCollection * collection in arr) {
+        PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+        if (smartSubResult.count > 0) {
+            [collectionArray addObject:collection];
+        }
+    }
+
+
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.collection                      = collection;
+    vc.collections                      = collectionArray;
     vc.maxCount                        = self.maxCount;
     vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:YES];
@@ -169,12 +177,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                              CollectionSort:AssetCollectionEndDate];
 
         NSMutableArray * allArray = [NSMutableArray arrayWithCapacity:0];
-        [allArray addObjectsFromArray:systemArray];
-        [allArray addObjectsFromArray:videoArray];
-        [allArray addObjectsFromArray:screenshortArray];
-        [allArray addObjectsFromArray:addArray];
-        [allArray addObjectsFromArray:livePhotoArray];
-        [allArray addObjectsFromArray:userArray];
+        [allArray addObject:systemArray];
+        [allArray addObject:videoArray];
+        [allArray addObject:screenshortArray];
+        [allArray addObject:addArray];
+        [allArray addObject:livePhotoArray];
+        [allArray addObject:userArray];
+
         self.dataSource = allArray;
         dispatch_async(dispatch_get_main_queue(), ^{ [self.table reloadData]; });
     });

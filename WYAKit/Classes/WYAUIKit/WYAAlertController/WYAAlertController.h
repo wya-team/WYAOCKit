@@ -1,6 +1,6 @@
 
 #import "WYAAlertAction.h"
-#import "WYAStyle.h"
+#import "WYAAlertStyle.h"
 #import <UIKit/UIKit.h>
 
 @class WYAPopupView;
@@ -44,7 +44,8 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @return alert控制器
  */
 + (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
-                                         Message:(NSString * _Nullable)message;
+                                         Message:(NSString * _Nullable)message
+                          AlertSheetCornerRadius:(CGFloat)cornerRadius;
 
 /**
  自定义弹出视图（视图需确定Size大小，事件，按钮需自行添加）

@@ -6,7 +6,7 @@
 //  Copyright © 2016年 code. All rights reserved.
 //
 
-#import "WYAStyle.h"
+#import "WYAAlertStyle.h"
 #import <UIKit/UIKit.h>
 
 @interface WYAPopupPresentAnimator : NSObject <UIViewControllerAnimatedTransitioning>

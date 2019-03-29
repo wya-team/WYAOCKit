@@ -57,24 +57,6 @@
         CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
 
-    PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
-    if (status == PHAuthorizationStatusNotDetermined) {
-        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-
-            if (status == PHAuthorizationStatusAuthorized) {
-                NSLog(@"获取到权限了");
-                [self performBlock];
-            } else if (status == PHAuthorizationStatusDenied) {
-                NSLog(@"不允许访问");
-
-            } else if (status == PHAuthorizationStatusRestricted) {
-                NSLog(@"此应用程序没有被授权访问");
-            }
-        }];
-    } else if (status == PHAuthorizationStatusAuthorized) {
-        [self performBlock];
-    }
-
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:@"取消" forState:UIControlStateNormal];
     [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
@@ -110,8 +92,12 @@
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if (self.collection) {
-            NSMutableArray * array = [WYAPhotoBrowserManager screenAssetWithCollection:self.collection];
+        if (self.collections) {
+            NSMutableArray * array = [NSMutableArray array];
+            for (PHAssetCollection * collection in self.collections) {
+                NSMutableArray * arr = [WYAPhotoBrowserManager screenAssetWithCollection:collection];
+                [array addObjectsFromArray:arr];
+            }
             self.dataSource        = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
 
         } else {
@@ -125,6 +111,9 @@
 
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
+            if (self.dataSource.count < 1) {
+                return;
+            }
             [self.collectionView
                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
                                                             inSection:0]

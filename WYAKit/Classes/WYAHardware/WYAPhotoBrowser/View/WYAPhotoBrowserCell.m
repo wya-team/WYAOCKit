@@ -24,7 +24,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor redColor];
 
         [self.contentView addSubview:self.imageV];
         [self.contentView addSubview:self.button];
@@ -97,6 +96,12 @@
     //        opi.synchronous = YES; //默认no，异步加载
     opi.resizeMode = PHImageRequestOptionsResizeModeFast;
     //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    // 从iCloud上下载图片
+    opi.networkAccessAllowed = YES;
+    // 图片获取进度
+    opi.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+
+    };
 
     [manager requestImageForAsset:self.model.asset
                        targetSize:CGSizeMake(width, height)

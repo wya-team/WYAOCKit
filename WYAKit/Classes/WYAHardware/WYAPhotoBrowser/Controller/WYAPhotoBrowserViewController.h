@@ -11,7 +11,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WYAPhotoBrowserViewController : UIViewController
-@property (nonatomic, strong) PHAssetCollection * collection;
+@property (nonatomic, strong) NSMutableArray * collections;
 @property (nonatomic, assign) NSInteger maxCount;
 @property (nonatomic, assign) WYAPhotoBrowserType photoBrowserType;
 @end

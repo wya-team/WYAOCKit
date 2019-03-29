@@ -157,26 +157,23 @@
           AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction
-        wya_actionWithTitle:@"清理"
-                      style:WYAAlertActionStyleCancel
-                    handler:^{
-                        NSLog(@"Default");
-                        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
-                            NSLog(@"清理成功");
-                            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(
-                                               NSString * folderSize) {
-                                [UIView
-                                    wya_showBottomToastWithMessage:
-                                        [NSString stringWithFormat:@"清理成功，当前缓存%@",
-                                                                   folderSize]];
-                                self.contentLabel.text = folderSize;
-                            }];
-                        }];
-                    }];
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消"
-                                                                  style:WYAAlertActionStyleDefault
-                                                                handler:^{ NSLog(@"Cancel"); }];
+    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"清理" textColor:nil textFont:nil handler:^{
+        [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
+            NSLog(@"清理成功");
+            [WYAClearCache wya_defaultCachesFolderSizeBlock:^(
+                                                              NSString * folderSize) {
+                [UIView
+                 wya_showBottomToastWithMessage:
+                 [NSString stringWithFormat:@"清理成功，当前缓存%@",
+                  folderSize]];
+                self.contentLabel.text = folderSize;
+            }];
+        }];
+    }];
+
+    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" textColor:nil textFont:nil handler:^{
+
+    }];
     [alert wya_addAction:cancelAction];
     [alert wya_addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];

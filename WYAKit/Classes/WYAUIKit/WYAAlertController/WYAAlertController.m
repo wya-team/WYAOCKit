@@ -7,6 +7,7 @@
 
 @interface WYAAlertController () <UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) UIView * bottomView;
+@property (nonatomic, assign) CGFloat sheetCornerR;
 @end
 
 @implementation WYAAlertController
@@ -50,11 +51,14 @@
 }
 
 + (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
-                                         Message:(NSString * _Nullable)message {
+                                         Message:(NSString * _Nullable)message
+                          AlertSheetCornerRadius:(CGFloat)cornerRadius {
     WYAAlertController * alertController                          = [[WYAAlertController alloc] init];
     alertController.alertStyle                                    = WYAAlertStyleSheet;
     alertController.alertView                                     = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
-    ((WYAAlertSheetView *)(alertController.alertView)).controller = alertController;
+    WYAAlertSheetView * alertSheet = (WYAAlertSheetView *)alertController.alertView;
+    alertController.sheetCornerR = cornerRadius;
+    alertSheet.controller = alertController;
     alertController.presentStyle                                  = WYAPopupPresentStyleSlideUp;
     alertController.dismissStyle                                  = WYAPopupDismissStyleSlideDown;
     return alertController;
@@ -106,6 +110,12 @@
             }
 
         }];
+        if (self.sheetCornerR) {
+            if ([self.alertView isMemberOfClass:[WYAAlertSheetView class]]) {
+                WYAAlertSheetView * alertSheet = (WYAAlertSheetView *)self.alertView;
+                [alertSheet wya_addCornerRadiusWithNumber:self.sheetCornerR];
+            }
+        }
     } else {
         self.bottomView.hidden = YES;
         [self.alertView mas_remakeConstraints:^(MASConstraintMaker * make) {

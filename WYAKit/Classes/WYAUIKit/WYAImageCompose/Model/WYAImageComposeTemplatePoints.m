@@ -1739,4 +1739,909 @@
              ];
 }
 
++ (NSArray *)templateOneOfFourWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             ];
+}
+
++ (NSArray *)templateOneOfFiveWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             ];
+}
+
++ (NSArray *)templateOneOfSixWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             ];
+}
+
++ (NSArray *)templateOneOfSevenWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3  * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3  * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             ];
+}
+
++ (NSArray *)templateOneOfEightWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width /3),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 4 * 3),
+                     },
+                 ],
+             ];
+}
+
++ (NSArray *)templateTwoOfNineWithTemplateSize:(CGSize)templateSize{
+    CGFloat width = templateSize.width;
+    CGFloat height = templateSize.height;
+    CGFloat point_x = 0;
+    return @[
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(point_x),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width /3),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(point_x),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x": @(width),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height),
+                     },
+                 @{
+                     @"point_x": @(width / 3 * 2),
+                     @"point_y": @(height / 3 * 2),
+                     },
+                 ],
+             ];
+}
 @end
