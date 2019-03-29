@@ -67,6 +67,7 @@
     }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+    [self performBlock];
 }
 
 - (void)didReceiveMemoryWarning {

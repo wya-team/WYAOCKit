@@ -53,6 +53,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithWhite:1 alpha:0.3];
+    [self setupCaptureSession];
     [self setupSubView];
 }
 

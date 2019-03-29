@@ -4,9 +4,9 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, WYAVideoPreset) {
-    WYAVideoPresetLow,
-    WYAVideoPresetMedium,
-    WYAVideoPresetHigh,
+    WYAVideoPresetLow,  // 低质量
+    WYAVideoPresetMedium,   // 中等质量
+    WYAVideoPresetHigh, // 高质量
 };
 
 typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
@@ -16,69 +16,84 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
 
 @interface WYACameraTool : NSObject
 
-/**
- 是否保存至相册
- */
+/// 是否保存至相册
 @property (nonatomic, assign) BOOL saveAblum;
 
-/**
- 自定义相册名
- */
+/// 自定义相册名
 @property (nonatomic, copy) NSString * albumName;
 
-/**
- 只有在拍摄完成并保存在相册中才会有路径
- */
+/// 只有在拍摄完成并保存在相册中才会有路径
 @property (readonly, nonatomic) NSString * imagePath;
 
-/**
- 只有在录制完成后才能获取到视频地址（如果需要保存本地相册，就对应返回系统相册路径）
- */
+/// 只有在录制完成后才能获取到视频地址（如果需要保存本地相册，就对应返回系统相册路径）
 @property (readonly, nonatomic) NSString * videoPath; //视频路径
 
-/**
- 拍摄模式
- */
+/// 拍摄模式
 @property (nonatomic, assign) WYAVideoPreset videoPreset;
 
-/**
- 保存图片或视频时的回调
- */
+/// 保存图片或视频时的回调
 @property (nonatomic, copy) void (^saveMediaCallback)(BOOL isSuccess, NSString * result);
+
 - (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation;
 
-//捕获到的视频呈现的layer
+/**
+ 捕获到的视频呈现的layer
+
+ @return 视频layer
+ */
 - (AVCaptureVideoPreviewLayer *)previewLayer;
 
-//启动摄影功能
+/**
+ 启动摄影功能
+ */
 - (void)startRecordFunction;
 
-//关闭摄影功能
+/**
+ 关闭摄影功能
+ */
 - (void)stopRecordFunction;
 
-//开始录制
+/**
+ 开始录制
+ */
 - (void)startCapture;
 
-//停止录制
+/**
+ 停止录制
+ */
 - (void)stopCapture;
 
-//开启手电筒
+/**
+ 开启手电筒
+ */
 - (void)openFlashLight;
 
-//关闭手电筒
+/**
+ 关闭手电筒
+ */
 - (void)closeFlashLight;
 
-//开启闪光灯
+/**
+ 开启闪光灯
+ */
 - (void)openFlash;
 
-//关闭闪光灯
+/**
+ 关闭闪光灯
+ */
 - (void)closeFlash;
 
-//切换前后置摄像头
+/**
+ 切换前后置摄像头
+
+ @param isFront YES:前置
+ */
 - (void)changeCameraInputDeviceisFront:(BOOL)isFront;
 
 /**
  拍照
+
+ @param image 回调
  */
 - (void)startTakingPhoto:(void (^)(UIImage * image))image;
 
@@ -90,19 +105,21 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
  @param image 图片
  @param videoUrl 本地视频url
  */
-- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void (^)(BOOL isSuccess, NSString * result))callback;
+- (void)savePhtotsWithImage:(UIImage *)image
+                   videoUrl:(NSURL *)videoUrl
+                   callBack:(void (^)(BOOL isSuccess, NSString * result))callback;
 
 @end
 
 @interface WYACameraTool (Authorization)
 
 /**
-   相机是否可以用
+ 相机是否可以用
  */
 - (BOOL)isAvailableWithCamera;
 
 /**
-    麦克风是否可以用
+ 麦克风是否可以用
  */
 - (BOOL)isAvailableWithMic;
 @end
