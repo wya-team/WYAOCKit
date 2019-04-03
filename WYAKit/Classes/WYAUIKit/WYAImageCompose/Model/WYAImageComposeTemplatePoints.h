@@ -47,6 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // 四图
 + (NSArray *)templateOneOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateTwoOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateThreeOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateFourOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateFiveOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateSixOfFourWithTemplateSize:(CGSize)templateSize;
++ (NSArray *)templateSevenOfFourWithTemplateSize:(CGSize)templateSize;
 
 // 五图
 + (NSArray *)templateOneOfFiveWithTemplateSize:(CGSize)templateSize;

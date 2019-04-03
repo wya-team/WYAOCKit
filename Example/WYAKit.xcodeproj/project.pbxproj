@@ -36,6 +36,7 @@
 		2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */; };
 		2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2186911F21CC980500DA6849 /* WYALoadingViewController.m */; };
 		2186912A21CCC94F00DA6849 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2186912921CCC94F00DA6849 /* SystemConfiguration.framework */; };
+		219F62032254BBBF00584CF5 /* bbb.png in Resources */ = {isa = PBXBuildFile; fileRef = 219F62022254BBBF00584CF5 /* bbb.png */; };
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
 		21A72F572227D60700CD84C3 /* WYAAudioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A72F562227D60700CD84C3 /* WYAAudioViewController.m */; };
@@ -180,6 +181,7 @@
 		2186911E21CC980500DA6849 /* WYALoadingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALoadingViewController.h; sourceTree = "<group>"; };
 		2186911F21CC980500DA6849 /* WYALoadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALoadingViewController.m; sourceTree = "<group>"; };
 		2186912921CCC94F00DA6849 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		219F62022254BBBF00584CF5 /* bbb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bbb.png; sourceTree = "<group>"; };
 		21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCell.h; sourceTree = "<group>"; };
 		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
 		21A6C47F21C0AA6C006DA6D1 /* WYADownloadCompleteCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCompleteCell.h; sourceTree = "<group>"; };
@@ -420,6 +422,7 @@
 				21438436222E6710004D742E /* WYAUploadViewController.h */,
 				21438437222E6710004D742E /* WYAUploadViewController.m */,
 				2143843A222E7294004D742E /* aaa.png */,
+				219F62022254BBBF00584CF5 /* bbb.png */,
 			);
 			path = WYAUpload;
 			sourceTree = "<group>";
@@ -1099,6 +1102,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				219F62032254BBBF00584CF5 /* bbb.png in Resources */,
 				2143843B222E7294004D742E /* aaa.png in Resources */,
 				21DAB53421D46BA600E43594 /* spin.svg in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,

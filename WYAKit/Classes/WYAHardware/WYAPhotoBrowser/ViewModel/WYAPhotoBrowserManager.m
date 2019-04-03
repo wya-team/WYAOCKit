@@ -331,4 +331,8 @@ screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
     return isInLocalAblum;
 }
 
++ (void)loadImageWithImageRequestOptions:(PHImageRequestOptions *)requestOptions {
+    
+}
+
 @end

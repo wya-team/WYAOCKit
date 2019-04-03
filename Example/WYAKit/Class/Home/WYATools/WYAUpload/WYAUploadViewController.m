@@ -31,21 +31,21 @@
 - (void)uploadImage{
     NSString * path = [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"png"];
     UIImage * image = [[UIImage alloc]initWithContentsOfFile:path];
+    NSString * path1 = [[NSBundle mainBundle] pathForResource:@"bbb" ofType:@"png"];
+    UIImage * image1 = [[UIImage alloc]initWithContentsOfFile:path1];
     WYAUploader * uploader = [WYAUploader sharedUpload];
     WYAUploadModel * model = [[WYAUploadModel alloc]init];
     model.uploadUrl = @"https://oa2.ruishan666.com/_cms/api/image/get-oss-info.json";
     model.uploadBefore = ^NSDictionary *{
-        return @{
-                 @"uploadType":@"image",
-                 @"sync": @NO,
-                 @"image":image,
-                 @"imageName":@"xxx.png",
-                 @"imageType":@"png",//@"png",@"jpeg",
-                 };
+        return nil;
     };
-    model.uploadAfter = ^(CGFloat progress, NSDictionary * _Nonnull resultDic, NSError * _Nonnull error) {
-
+    model.uploadAfter = ^(BOOL isfinish, NSMutableArray * _Nonnull resultArray) {
+        NSLog(@"finis=%d,result==%@",isfinish,resultArray);
     };
+    model.sync = YES;
+    model.fileType = WYAUploadImageTypePNG;
+    model.imageType = WYAUploadImageTypePNG;
+    model.imageArray = @[image, image];
     uploader.uploadModel = model;
     [uploader wya_uploadFile];
 }

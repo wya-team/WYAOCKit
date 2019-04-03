@@ -97,7 +97,7 @@
                 }
             });
         }];
-    } else  if (status== CNAuthorizationStatusAuthorized){
+    } else if (status== CNAuthorizationStatusAuthorized){
         authorizedBlock();
     } else {
         neverNotAllowBlock();

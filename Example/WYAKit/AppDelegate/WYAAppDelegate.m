@@ -23,9 +23,7 @@
                  @"aa":@"bb",
                  };
     };
-    instance.uploadModel.uploadAfter = ^(CGFloat progress, NSDictionary * _Nonnull resultDic, NSError * _Nonnull error) {
-
-    };
+    
 
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

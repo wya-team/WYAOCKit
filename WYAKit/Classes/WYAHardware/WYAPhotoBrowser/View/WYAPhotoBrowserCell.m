@@ -24,7 +24,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-
+        self.contentView.backgroundColor = [UIColor redColor];
         [self.contentView addSubview:self.imageV];
         [self.contentView addSubview:self.button];
         [self.contentView addSubview:self.videoPreview];
@@ -100,7 +100,7 @@
     opi.networkAccessAllowed = YES;
     // 图片获取进度
     opi.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-
+        NSLog(@"progress==%f,errror==%@,stop==%d,info==%@",progress,[error localizedDescription], *stop,info);
     };
 
     [manager requestImageForAsset:self.model.asset
@@ -108,6 +108,7 @@
                       contentMode:PHImageContentModeAspectFill
                           options:opi
                     resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                        NSLog(@"imageinfo==%@",info);
                         self.imageV.image     = result;
                         self.model.cacheImage = result;
                     }];

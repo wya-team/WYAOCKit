@@ -12,10 +12,12 @@
 @interface WYAUploader ()
 @property(nonatomic, strong) WYAUploadModel * model;
 @property(nonatomic, strong) OSSClient * client;
+@property (nonatomic, strong) NSDictionary * aliyunParams;
 @end
 
 @implementation WYAUploader
 
+#pragma mark ======= Public Method
 + (instancetype)sharedUpload{
     static WYAUploader * loader;
     static dispatch_once_t onceToken;
@@ -24,24 +26,6 @@
     });
     loader.uploadModel = nil;
     return loader;
-}
-
-+ (AFHTTPSessionManager *)AFManager
-{
-    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-    // 超过时间
-    manager.requestSerializer.timeoutInterval = 6;
-
-    // 声明上传的是json格式的参数，需要你和后台约定好，不然会出现后台无法获取到你上传的参数问题
-    manager.requestSerializer = [AFHTTPRequestSerializer serializer]; // 上传普通格式
-    //    manager.requestSerializer = [AFJSONRequestSerializer serializer]; // 上传JSON格式
-
-    // 声明获取到的数据格式
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer]; // AFN不会解析,数据是data，需要自己解析
-    //        manager.responseSerializer = [AFJSONResponseSerializer serializer]; // AFN会JSON解析返回的数据
-    // 个人建议还是自己解析的比较好，有时接口返回的数据不合格会报3840错误，大致是AFN无法解析返回来的数据
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html",@"text/plain",@"text/xml", nil];
-    return manager;
 }
 
 - (void)wya_uploadFile{
@@ -57,122 +41,261 @@
         [self uploadALiYunWithDataDic:resultDic AfterCallback:self.uploadModel.uploadAfter];
 
     } Fail:^(NSString * _Nonnull err) {
-        self.uploadModel.uploadAfter(0,
-                                     @{
-                                       @"status": @"0",
-                                       @"msg": @"上传失败,参数获取错误",
-                                       @"data": [NSNull null]
-                                       },
-                                     err);
+        self.uploadModel.uploadAfter(NO,
+                                     @[@{
+                                           @"status": @"0",
+                                           @"msg": @"上传失败,参数获取错误",
+                                           @"data": [NSNull null]
+                                           },]);
     }];
 
 }
 
 - (void)uploadALiYunWithDataDic:(NSDictionary *)dataDic
-                  AfterCallback:(void(^)(CGFloat progress, NSDictionary *  resultDic, NSError * error))after
+                  AfterCallback:(void(^)(BOOL isfinish, NSMutableArray * resultArray))after
 {
     id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:dataDic[@"OSSAccessKeyId"]                                                                                                            secretKey:dataDic[@"accessKeySecret"]];
     self.client = [[OSSClient alloc] initWithEndpoint:dataDic[@"host"] credentialProvider:credential];
-    OSSPutObjectRequest * put = [OSSPutObjectRequest new];
-    put.bucketName = dataDic[@"bucket"];
-    put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
-        // 当前上传段长度、当前已经上传总长度、一共需要上传的总长度
-        after(totalBytesSent/totalBytesExpectedToSend*1.0, nil, nil);
-    };
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
-    NSTimeInterval time = [date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
-    NSString * timeString = [NSString stringWithFormat:@"%.0f", time];
-    NSString * firstPath = [dataDic[@"dir"] stringByAppendingPathComponent:timeString];
-    NSString * fileName;
-    if ([dataDic[@"uploadType"] isEqualToString:@"image"]) {
 
-        fileName = [[firstPath stringByAppendingPathComponent:dataDic[@"imageName"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        put.objectKey = fileName;
+//    if ([dataDic.allKeys containsObject:@"uploadType"]) {
+//        if ([dataDic[@"uploadType"] isEqualToString:@""]) {
+//
+//        }
+//    }else {
+//        self.uploadModel.uploadAfter(0,
+//                                     @{
+//                                       @"status": @"0",
+//                                       @"msg": @"上传失败,参数获取错误",
+//                                       @"data": [NSNull null]
+//                                       },
+//                                     nil);
+//    }
 
-        //设置上传文件格式（告诉浏览器这是图片，不然默认的是下载）
-        if ([dataDic[@"imageType"] isEqualToString:@"png"]) {
-            put.contentType = @"image/png";
-            NSData *data = UIImagePNGRepresentation(dataDic[@"image"]);
-            put.uploadingData = data;
-        } else if ([dataDic[@"imageType"] isEqualToString:@"jpeg"]) {
-            put.contentType = @"image/jpeg";
-            NSData *data = UIImageJPEGRepresentation(dataDic[@"image"], [dataDic[@"imageCompressionRatio"] floatValue]);
-            put.uploadingData = data;
-        }
-
-
-    }else if ([dataDic[@"uploadType"] isEqualToString:@"video"]) {
-        fileName = [[firstPath stringByAppendingPathComponent:dataDic[@"videoName"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        put.objectKey = fileName;
-        if (dataDic[@"videoData"]) {
-            put.uploadingData = dataDic[@"videoData"];
-        }
-        if (dataDic[@"videoPath"]) {
-            put.uploadingFileURL = dataDic[@"videoPath"];
-        }
-    }else if ([dataDic[@"uploadType"] isEqualToString:@"file"]) {
-        fileName = [[firstPath stringByAppendingPathComponent:dataDic[@"fileName"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        put.objectKey = fileName;
-        if (dataDic[@"fileData"]) {
-            put.uploadingData = dataDic[@"fileData"];
-        }
-        if (dataDic[@"filePath"]) {
-            put.uploadingFileURL = dataDic[@"filePath"];
-        }
-    }
-
-    // 阻塞直到上传完成
-    OSSTask * putTask = [self.client putObject:put];
-    if ([dataDic[@"sync"] integerValue] == 1) {
-        [putTask waitUntilFinished];
-        if (putTask.error) {
-            NSLog(@"错误==%@",[putTask.error localizedDescription]);
-            after(0,
-                  @{
-                    @"status": @"0",
-                    @"msg": @"上传失败",
-                    @"data": [NSNull null],
-                    },
-                  nil);
-        }else{
-            NSLog(@"成功=%@",putTask.result);
-            NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
-            after(1,
-                  @{@"status": @"1",
-                    @"msg": @"上传成功",
-                    @"data": @{
-                                @"url":url,
-                            }
-                    },
-                  nil);
-        }
-    }else {
-        [putTask continueWithBlock:^id _Nullable(OSSTask * _Nonnull task) {
-            if (putTask.error) {
-                NSLog(@"错误==%@",[putTask.error localizedDescription]);
-                after(0,
-                      @{
-                        @"status": @"0",
-                        @"msg": @"上传失败",
-                        @"data": [NSNull null]
-                        },
-                      nil);
-            }else{
-                NSLog(@"成功=%@",putTask.result);
-                NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
-                after(1,
-                      @{@"status": @"1",
-                        @"msg": @"上传成功",
-                        @"data": @{
-                                    @"url":url,
-                                 }},
-                      nil);
-            }
-            return nil;
-        }];
+    switch (self.uploadModel.fileType) {
+        case WYAUploadFileTypeImage:
+            [self uploadImageWithDataDic:dataDic AfterCallback:after];
+            break;
+        case WYAUploadFileTypeVideo:
+            [self uploadVideoWithDataDic:dataDic AfterCallback:after];
+            break;
+        case WYAUploadFileTypeFile:
+            [self uploadFileWithDataDic:dataDic AfterCallback:after];
+            break;
+        default:
+            break;
     }
 }
 
+- (void)uploadImageWithDataDic:(NSDictionary *)dataDic
+                 AfterCallback:(void(^)(BOOL isfinish, NSMutableArray * resultArray))after{
+    NSMutableArray * array = [NSMutableArray array];
+    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    queue.maxConcurrentOperationCount = self.uploadModel.imageArray.count;
+    if (self.uploadModel.imageArray.count > 0) {
+        for (UIImage * image in self.uploadModel.imageArray) {
+            NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+                OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+                put.bucketName = dataDic[@"bucket"];
+//                put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+//
+//                };
+                NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
+                NSTimeInterval time = [date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
+                NSString * timeString = [NSString stringWithFormat:@"%.0f", time];
+                NSString * firstPath = [dataDic[@"dir"] stringByAppendingPathComponent:timeString];
+                NSString * fileName = [[firstPath stringByAppendingPathComponent:self.uploadModel.fileName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                put.objectKey = fileName;
+                switch (self.uploadModel.imageType) {
+                    case WYAUploadImageTypePNG:
+                    {
+                        put.contentType = @"image/png";
+                    }
+                        break;
+                    case WYAUploadImageTypeJPEG:
+                    {
+                        put.contentType = @"image/jpeg";
+                    }
+                        break;
+                    default:
+                        break;
+                }
+                put.uploadingData = [self dataWithImage:image];
+                // 阻塞直到上传完成
+                OSSTask * putTask = [self.client putObject:put];
+                [putTask waitUntilFinished];
+                if (putTask.error) {
+                    NSLog(@"错误==%@",[putTask.error localizedDescription]);
+                    NSDictionary * dic = @{
+                                           @"image":image,
+                                           @"error":putTask.error,
+                                           };
+                    [array addObject:dic];
+                }else{
+                    NSLog(@"成功=%@",putTask.result);
+                    NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
+                    NSDictionary * dic = @{
+                                           @"url":url,
+                                           };
+                    [array addObject:dic];
+                }
+                if (!self.uploadModel.sync) {
+                    if (image == self.uploadModel.imageArray.lastObject) {
+                        after(YES, array);
+
+                    }
+                }
+            }];
+            if (queue.operations.count != 0) {
+                [operation addDependency:queue.operations.lastObject];
+            }
+            [queue addOperation:operation];
+        }
+        if (self.uploadModel.sync) {
+            [queue waitUntilAllOperationsAreFinished];
+            after(YES, array);
+        }
+    } else {
+        [array addObject:@{@"result":@"上传图片不能为空"}];
+        after(NO, array);
+    }
+
+
+}
+
+- (NSData *)dataWithImage:(UIImage *)image{
+    switch (self.uploadModel.imageType) {
+        case WYAUploadImageTypePNG:
+            return UIImagePNGRepresentation(image);
+        case WYAUploadImageTypeJPEG:
+            return UIImageJPEGRepresentation(image, self.uploadModel.imageCompressionRatio);
+        default:
+            return nil;
+    }
+}
+
+- (void)uploadVideoWithDataDic:(NSDictionary *)dataDic
+                 AfterCallback:(void(^)(BOOL isfinish, NSMutableArray * resultArray))after{
+    NSMutableArray * array = [NSMutableArray array];
+    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    queue.maxConcurrentOperationCount = self.uploadModel.videoDataArray.count;
+    if (self.uploadModel.videoDataArray.count > 0) {
+        for (NSData * data in self.uploadModel.videoDataArray) {
+            NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+                OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+                put.bucketName = dataDic[@"bucket"];
+//                put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+//                    // 当前上传段长度、当前已经上传总长度、一共需要上传的总长度
+//
+//                };
+                NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
+                NSTimeInterval time = [date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
+                NSString * timeString = [NSString stringWithFormat:@"%.0f", time];
+                NSString * firstPath = [dataDic[@"dir"] stringByAppendingPathComponent:timeString];
+                NSString * fileName = [[firstPath stringByAppendingPathComponent:self.uploadModel.fileName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                put.objectKey = fileName;
+                put.uploadingData = data;
+//                put.uploadingFileURL =
+                // 阻塞直到上传完成
+                OSSTask * putTask = [self.client putObject:put];
+                [putTask waitUntilFinished];
+                if (putTask.error) {
+                    NSLog(@"错误==%@",[putTask.error localizedDescription]);
+                    NSDictionary * dic = @{
+                                           @"videoData":data,
+                                           @"error":putTask.error,
+                                           };
+                    [array addObject:dic];
+                }else{
+                    NSLog(@"成功=%@",putTask.result);
+                    NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
+                    NSDictionary * dic = @{
+                                           @"url":url,
+                                           };
+                    [array addObject:dic];
+                }
+                if (!self.uploadModel.sync) {
+                    if (data == self.uploadModel.videoDataArray.lastObject) {
+                        after(YES, array);
+                    }
+                }
+            }];
+            if (queue.operations.count != 0) {
+                [operation addDependency:queue.operations.lastObject];
+            }
+            [queue addOperation:operation];
+        }
+        if (self.uploadModel.sync) {
+            [queue waitUntilAllOperationsAreFinished];
+            after(YES, array);
+        }
+    } else {
+        [array addObject:@{@"result":@"上传视频数据不能为空"}];
+        after(NO, array);
+    }
+}
+
+- (void)uploadFileWithDataDic:(NSDictionary *)dataDic
+                AfterCallback:(void(^)(BOOL isfinish, NSMutableArray * resultArray))after{
+    NSMutableArray * array = [NSMutableArray array];
+    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    queue.maxConcurrentOperationCount = self.uploadModel.fileDataArray.count;
+    if (self.uploadModel.fileDataArray.count > 0) {
+        for (NSData * data in self.uploadModel.fileDataArray) {
+            NSBlockOperation * operation = [NSBlockOperation blockOperationWithBlock:^{
+                OSSPutObjectRequest * put = [OSSPutObjectRequest new];
+                put.bucketName = dataDic[@"bucket"];
+//                put.uploadProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+//                    // 当前上传段长度、当前已经上传总长度、一共需要上传的总长度
+//                    after(totalBytesSent/totalBytesExpectedToSend*1.0, nil, nil);
+//                };
+                NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];//获取当前时间0秒后的时间
+                NSTimeInterval time = [date timeIntervalSince1970]*1000;// *1000 是精确到毫秒，不乘就是精确到秒
+                NSString * timeString = [NSString stringWithFormat:@"%.0f", time];
+                NSString * firstPath = [dataDic[@"dir"] stringByAppendingPathComponent:timeString];
+                NSString * fileName = [[firstPath stringByAppendingPathComponent:self.uploadModel.fileName] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                put.objectKey = fileName;
+                put.uploadingData = data;
+                //                put.uploadingFileURL =
+                // 阻塞直到上传完成
+                OSSTask * putTask = [self.client putObject:put];
+                [putTask waitUntilFinished];
+                if (putTask.error) {
+                    NSLog(@"错误==%@",[putTask.error localizedDescription]);
+                    NSDictionary * dic = @{
+                                           @"videoData":data,
+                                           @"error":putTask.error,
+                                           };
+                    [array addObject:dic];
+                }else{
+                    NSLog(@"成功=%@",putTask.result);
+                    NSString * url = [NSString stringWithFormat:@"https://%@.%@/%@",dataDic[@"bucket"],dataDic[@"host"],fileName];
+                    NSDictionary * dic = @{
+                                           @"url":url,
+                                           };
+                    [array addObject:dic];
+                }
+                if (!self.uploadModel.sync) {
+                    if (data == self.uploadModel.fileDataArray.lastObject) {
+                        after(YES, array);
+                    }
+                }
+            }];
+            if (queue.operations.count != 0) {
+                [operation addDependency:queue.operations.lastObject];
+            }
+            [queue addOperation:operation];
+        }
+        if (self.uploadModel.sync) {
+            [queue waitUntilAllOperationsAreFinished];
+            after(YES, array);
+        }
+    } else {
+        [array addObject:@{@"result":@"上传视频数据不能为空"}];
+        after(NO, array);
+    }
+}
+
+#pragma mark ======= Private Method
 + (void)getWithUrl:(NSString *)urlString
             Params:(NSMutableDictionary *)params
            Success:(void(^)(NSDictionary * dic))success
@@ -195,8 +318,20 @@
 
 }
 
+#pragma mark ======= Setter
 -(void)setUploadModel:(WYAUploadModel *)uploadModel{
     _model = uploadModel;
+}
+
+#pragma mark ======= Getter
++ (AFHTTPSessionManager *)AFManager
+{
+    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer.timeoutInterval = 6;
+    manager.requestSerializer = [AFHTTPRequestSerializer serializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html",@"text/plain",@"text/xml", nil];
+    return manager;
 }
 
 -(WYAUploadModel *)uploadModel{
