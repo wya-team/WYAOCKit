@@ -50,7 +50,7 @@ TODO: Add long description of the pod here.
   s.dependency 'YYImage', '~> 1.0.4'
   s.dependency 'SVGKit'
   s.dependency 'MJRefresh'
-  s.dependency 'SDWebImage'
+  s.dependency 'SDWebImage', '~> 4.4.3'
   s.dependency 'Realm', '~> 3.11.1'
   s.dependency 'AFNetworking', '~> 3.0'
   s.dependency 'NTYAmrConverter'
