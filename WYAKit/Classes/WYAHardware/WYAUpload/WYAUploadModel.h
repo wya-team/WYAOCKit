@@ -9,16 +9,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/*
- @{
-
-
- // file
- @"fileName":@"",
- @"fileData":<NSData *>,
- @"filePath":@"",
- }
- */
 typedef NS_ENUM(NSInteger, WYAUploadFileType) {
     WYAUploadFileTypeImage,
     WYAUploadFileTypeVideo,

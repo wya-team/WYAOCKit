@@ -57,20 +57,6 @@
     id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:dataDic[@"OSSAccessKeyId"]                                                                                                            secretKey:dataDic[@"accessKeySecret"]];
     self.client = [[OSSClient alloc] initWithEndpoint:dataDic[@"host"] credentialProvider:credential];
 
-//    if ([dataDic.allKeys containsObject:@"uploadType"]) {
-//        if ([dataDic[@"uploadType"] isEqualToString:@""]) {
-//
-//        }
-//    }else {
-//        self.uploadModel.uploadAfter(0,
-//                                     @{
-//                                       @"status": @"0",
-//                                       @"msg": @"上传失败,参数获取错误",
-//                                       @"data": [NSNull null]
-//                                       },
-//                                     nil);
-//    }
-
     switch (self.uploadModel.fileType) {
         case WYAUploadFileTypeImage:
             [self uploadImageWithDataDic:dataDic AfterCallback:after];
