@@ -368,7 +368,7 @@
 - (void)dismiss
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.2f animations:^{
         self.alpha = 0.0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
@@ -757,7 +757,11 @@
     UIImage *image;
     if ([self.sourceImageView isKindOfClass:[UIButton class]]) {
         UIButton * button = (UIButton *)self.sourceImageView;
-        image = button.currentBackgroundImage;
+        if (button.currentBackgroundImage) {
+            image = button.currentBackgroundImage;
+        } else if (button.currentImage) {
+            image = button.currentImage;
+        }
     } else if ([self.sourceImageView isKindOfClass:[UIImageView class]]) {
         image = self.sourceImageView.image;
     }
@@ -790,7 +794,7 @@
     self.alpha = 1.0;
     
     // 动画修改图片视图的frame , 居中同时放大
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.2f animations:^{
         tempView.frame = targetRect;
     } completion:^(BOOL finished) {
         [tempView removeFromSuperview];
@@ -833,7 +837,7 @@
     [self addSubview:tempView];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [UIView animateWithDuration:0.4f animations:^{
+    [UIView animateWithDuration:0.2f animations:^{
         tempView.frame = targetTemp;
         self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
