@@ -15,7 +15,9 @@
 @end
 
 @implementation WYATextView
-
+{
+    CGFloat _initialHeight;
+}
 - (instancetype)init {
     self = [super init];
     if (self) { [self createUI]; }
@@ -145,12 +147,17 @@
     CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
     CGSize size = [textView sizeThatFits:constraintSize];
     NSLog(@"self.height==%f,size.height==%f,maxHeight==%f",self.cmam_height,size.height,self.textViewMaxHeight);
-    if (self.cmam_height >= size.height) {
-        return;
-    }
-    if (size.height >= maxHeight)
-    {
+w    NSLog(@"initialHeight==%f",_initialHeight);
+    if (size.height >= maxHeight) {
+        // 如果大于最大高度，就不在增加高度
         size.height = maxHeight;
+    } else if (size.height < _initialHeight) {
+        // 记录的是初始值，如果有文字记录需要减去文字记录label的高度w
+        if (self.showWordsCount) {
+            size.height = _initialHeight - self.noteLabel.cmam_height;
+        } else {
+            size.height = _initialHeight;
+        }
     }
 
     textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
@@ -170,6 +177,13 @@
 #pragma mark--- Public Method
 
 #pragma mark--- Setter
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    if (!_initialHeight) {
+        _initialHeight = frame.size.height;
+    }
+}
+
 - (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount {
     _textViewWordsCount = textViewWordsCount;
     self.noteLabel.text = [NSString stringWithFormat:@"0/%lu", (unsigned long)textViewWordsCount];
