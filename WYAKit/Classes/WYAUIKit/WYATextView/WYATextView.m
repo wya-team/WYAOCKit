@@ -172,6 +172,9 @@
     }
     CGRect self_rect = CGRectMake(self_x, self_y,  self_width, self_height);
     self.frame = self_rect;
+    if (self.textViewContentFrame) {
+        self.textViewContentFrame();
+    }
 }
 
 #pragma mark--- Public Method
