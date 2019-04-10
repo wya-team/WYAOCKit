@@ -147,7 +147,7 @@
     CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
     CGSize size = [textView sizeThatFits:constraintSize];
     NSLog(@"self.height==%f,size.height==%f,maxHeight==%f",self.cmam_height,size.height,self.textViewMaxHeight);
-w    NSLog(@"initialHeight==%f",_initialHeight);
+    NSLog(@"initialHeight==%f",_initialHeight);
     if (size.height >= maxHeight) {
         // 如果大于最大高度，就不在增加高度
         size.height = maxHeight;

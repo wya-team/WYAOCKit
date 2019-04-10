@@ -35,7 +35,7 @@
     UIImage * image1 = [[UIImage alloc]initWithContentsOfFile:path1];
     WYAUploader * uploader = [WYAUploader sharedUpload];
     WYAUploadModel * model = [[WYAUploadModel alloc]init];
-    model.uploadUrl = @"https://oa2.ruishan666.com/_cms/api/image/get-oss-info.json";
+    model.uploadUrl = @"https://gateway-mobile.wyawds.com//api/oss/get-sign.json";
     model.uploadBefore = ^NSDictionary *{
         return nil;
     };
