@@ -50,13 +50,9 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle){
      */
     WYAImageBrowserPageControlStyleClassic = 1,
     /**
-     *  动画效果pagecontrol
-     */
-    WYAImageBrowserPageControlStyleAnimated = 2,
-    /**
      *  不显示pagecontrol
      */
-    WYAImageBrowserPageControlStyleNone = 3
+    WYAImageBrowserPageControlStyleNone = 2
 
 };
 
@@ -125,34 +121,23 @@ typedef UIImageView *(^SourceImageViewBlock)(WYAImageBrowser * browser, NSIntege
 
 @interface WYAImageBrowser : UIView
 
-/**
- *  pagecontrol 样式，默认为XLPhotoBrowserPageControlStyleAnimated样式
- */
+/// pagecontrol 样式，默认为WYAImageBrowserPageControlStyleClassic样式
 @property (nonatomic, assign) WYAImageBrowserPageControlStyle pageControlStyle;
-/**
- *  分页控件位置 , 默认为XLPhotoBrowserPageControlAlimentCenter
- */
+/// 分页控件位置 , 默认为WYAImageBrowserPageControlAlimentCenter
 @property (nonatomic, assign) WYAImageBrowserPageControlAliment pageControlAliment;
-
+/// 占位图片回调
 @property (nonatomic, copy) PlaceHoldImageBlock placeHoldImageBlock;
-
+/// 高清图片回调
 @property (nonatomic, copy) HighQualityImageURLBlock highQualityImageURLBlock;
-
+/// 图片资源回调
 @property (nonatomic, copy) AssetBlock assetBlock;
-
+/// 图片展示的父视图
 @property (nonatomic, copy) SourceImageViewBlock sourceImageViewBlock;
 
-/**
- *  datasource
- */
 @property (nonatomic, weak) id<WYAImageBrowserDatasource> datasource;
-/**
- *  delegate
- */
+
 @property (nonatomic , weak) id<WYAImageBrowserDelegate> delegate;
-/**
- *  browser style
- */
+/// 图片浏览器样式
 @property (nonatomic , assign) WYAImageBrowserStyle browserStyle;
 /**
  *  占位图片,可选(默认是一张灰色的100*100像素图片) 

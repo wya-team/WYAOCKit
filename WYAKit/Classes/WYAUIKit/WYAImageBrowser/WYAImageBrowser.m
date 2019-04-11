@@ -8,71 +8,41 @@
 #define BaseTag 100
 
 @interface WYAImageBrowser () <WYAZoomingScrollViewDelegate, UIScrollViewDelegate>
-
-/**
- *  用户点击的图片视图,用于做图片浏览器弹出的放大动画,不给次属性赋值会通过代理方法photoBrowser: sourceImageViewForIndex:尝试获取,如果还是获取不到则没有弹出放大动画
- */
+/// 用户点击的图片视图,用于做图片浏览器弹出的放大动画,不给次属性赋值会通过代理方法photoBrowser: sourceImageViewForIndex:尝试获取,如果还是获取不到则没有弹出放大动画
 @property (nonatomic, weak) UIImageView *sourceImageView;
-/**
- *  当前显示的图片位置索引 , 默认是0
- */
+/// 当前显示的图片位置索引 , 默认是0
 @property (nonatomic, assign ) NSInteger currentImageIndex;
-/**
- *  浏览的图片数量,大于0
- */
+/// 浏览的图片数量,大于0
 @property (nonatomic, assign ) NSInteger imageCount;
 
 @property (nonatomic , strong) UIWindow *photoBrowserWindow;
-
-/**
- *  存放所有图片的容器
- */
+/// 存放所有图片的容器
 @property (nonatomic , strong) UIScrollView  *scrollView;
-/**
- *   保存图片的过程指示菊花
- */
+/// 保存图片的过程指示菊花
 @property (nonatomic , strong) UIActivityIndicatorView  *indicatorView;
-/**
- *   保存图片的结果指示label
- */
+/// 保存图片的结果指示label
 @property (nonatomic , strong) UILabel *savaImageTipLabel;
-/**
- *  正在使用的XLZoomingScrollView对象集
- */
+/// 正在使用的WYAZoomingScrollView对象集
 @property (nonatomic , strong) NSMutableSet  *visibleZoomingScrollViews;
-/**
- *  循环利用池中的XLZoomingScrollView对象集,用于循环利用
- */
+/// 循环利用池中的WYAZoomingScrollView对象集,用于循环利用
 @property (nonatomic , strong) NSMutableSet  *reusableZoomingScrollViews;
-/**
- *  pageControl
- */
+
 @property (nonatomic , strong) UIControl  *pageControl;
-/**
- *  index label
- */
+/// index label
 @property (nonatomic , strong) UILabel  *indexLabel;
-/**
- *  保存按钮
- */
+/// 保存按钮
 @property (nonatomic , strong) UIButton *saveButton;
-/**
- *  ActionSheet的otherbuttontitles
- */
+/// ActionSheet的otherbuttontitles
 @property (nonatomic , strong) NSArray  *actionOtherButtonTitles;
-/**
- *  ActionSheet的title
- */
+/// ActionSheet的title
 @property (nonatomic , strong) NSString  *actionSheetTitle;
-/**
- *  actionSheet的取消按钮title
- */
+/// actionSheet的取消按钮title
 @property (nonatomic , strong) NSString  *actionSheetCancelTitle;
-/**
- *  actionSheet的高亮按钮title
- */
+/// actionSheet的高亮按钮title
 @property (nonatomic , strong) NSString  *actionSheetDeleteButtonTitle;
+/// 小圆点大小
 @property (nonatomic, assign) CGSize pageControlDotSize;
+/// 图片数组
 @property(nonatomic, strong) NSArray *images;
 
 @end
@@ -368,7 +338,7 @@
 - (void)dismiss
 {
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [UIView animateWithDuration:0.2f animations:^{
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.alpha = 0.0;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
@@ -794,7 +764,7 @@
     self.alpha = 1.0;
     
     // 动画修改图片视图的frame , 居中同时放大
-    [UIView animateWithDuration:0.2f animations:^{
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         tempView.frame = targetRect;
     } completion:^(BOOL finished) {
         [tempView removeFromSuperview];
@@ -837,8 +807,9 @@
     [self addSubview:tempView];
     
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [UIView animateWithDuration:0.2f animations:^{
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         tempView.frame = targetTemp;
+        self.alpha = 0.f;
         self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
