@@ -32,6 +32,14 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  */
 - (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result;
 
+/**
+ 返回所需key对应的值
+ 
+ @param pickerView self
+ @param result 返回结果为字符串用@"-"隔开
+ */
+- (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultValues:(NSString *)result;
+
 @end
 
 @interface WYAPickerView : UIView
@@ -87,6 +95,11 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  array关键字(需要先指定)
  */
 @property (nonatomic, copy) NSString * arrayKeyWords;
+
+/**
+ 返回参数关键字(需要先指定)
+ */
+@property (nonatomic, copy) NSString * paramWords;
 
 /**
  数据源

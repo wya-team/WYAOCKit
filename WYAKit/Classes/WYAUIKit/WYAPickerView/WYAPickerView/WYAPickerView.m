@@ -22,10 +22,15 @@ static CGFloat titleHeight = 44.0;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, strong) WYACustomPickerView * customPicker;
 @property (nonatomic, copy) NSString * resultString;
+@property (nonatomic, copy) NSString * resultValues;// 与resultString相同，以-为间隔
 
 @property (nonatomic, strong) NSArray * provinces;
 @property (nonatomic, strong) NSArray * citys;
 @property (nonatomic, strong) NSArray * areas;
+
+@property (nonatomic, assign) NSInteger one;
+@property (nonatomic, assign) NSInteger two;
+@property (nonatomic, assign) NSInteger three;
 
 @end
 
@@ -199,6 +204,7 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle:
             a                 = self.dataArray[row];
+            _one = row;
             self.resultString = a;
             break;
         case WYAPickerViewColumnStyleDouble: {
@@ -211,10 +217,12 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
                 NSDictionary * cityDic = [self.citys firstObject];
                 b                      = cityDic[self.titleKeyWords];
+                _one = row;
 
             } else {
                 NSDictionary * dic = self.citys[row];
                 b                  = dic[self.titleKeyWords];
+                _two = row;
             }
         } break;
         case WYAPickerViewColumnStyleThree: {
@@ -233,6 +241,7 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
                 NSDictionary * areaDic = [self.areas firstObject];
                 c                      = areaDic[self.titleKeyWords];
+                _one = row;
 
             } else if (component == 1) {
                 NSDictionary * dic = self.citys[row];
@@ -243,9 +252,12 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
                 NSDictionary * areaDic = [self.areas firstObject];
                 c                      = areaDic[self.titleKeyWords];
+                _two = row;
+
             } else {
                 NSDictionary * areaDic = self.areas[row];
                 c                      = areaDic[self.titleKeyWords];
+                _three = row;
             }
         } break;
         default:
@@ -254,10 +266,19 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
     if (a.length > 0 && b.length > 0 && c.length > 0) {
         self.resultString = [NSString stringWithFormat:@"%@-%@-%@", a, b, c];
+        if (self.paramWords) {
+            self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords], self.areas[_three][self.paramWords]];
+        }
     } else if (a.length > 0 && b.length > 0) {
         self.resultString = [NSString stringWithFormat:@"%@-%@", a, b];
+        if (self.paramWords) {
+            self.resultValues = [NSString stringWithFormat:@"%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords]];
+        }
     } else if (a.length > 0) {
         self.resultString = a;
+        if (self.paramWords) {
+            self.resultValues = self.provinces[_one][self.paramWords];
+        }
     }
     NSLog(@"string==%@", self.resultString);
     if (self.autoTitleChange) {
@@ -283,8 +304,19 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
 
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
+        if (self.resultValues == nil) {
+            self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords], self.areas[_three][self.paramWords]];
+        }
         [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
     }
+    if (self.delegate &&
+        [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultValues:)]) {
+        if (self.resultValues == nil) {
+            self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords], self.areas[_three][self.paramWords]];
+        }
+        [self.delegate wya_ChooseWithPickerView:self ResultValues:self.resultValues];
+    }
+    
     if (self.cmam_parentController) {
         [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
     } else {
