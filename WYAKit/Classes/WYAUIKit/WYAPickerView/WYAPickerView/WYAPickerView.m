@@ -364,6 +364,9 @@ __TVOS_PROHIBITED; // attributed title is favored if both methods are implemente
         [_titleView wya_SetRightButtonWithTitle:@"确定"
                                      TitleColor:[UIColor wya_hex:@"#108DE7"]
                                       TitleFont:15];
+        [_titleView.leftButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1]] forState:UIControlStateHighlighted];
+        [_titleView.rightButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1]] forState:UIControlStateHighlighted];
+
         _titleView.leftButton.layer.borderWidth  = 0;
         _titleView.rightButton.layer.borderWidth = 0;
     }
