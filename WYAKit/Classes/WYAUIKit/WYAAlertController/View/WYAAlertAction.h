@@ -13,8 +13,16 @@
 
 
 + (instancetype)wya_actionWithTitle:(NSString *)title
+                            handler:(void (^)(void))handler;
+
++ (instancetype)wya_actionWithTitle:(NSString *)title
+                          textColor:(UIColor *)textColor
+                            handler:(void (^)(void))handler;
+
++ (instancetype)wya_actionWithTitle:(NSString *)title
                           textColor:(UIColor *)textColor
                            textFont:(UIFont *)textFont
                             handler:(void (^)(void))handler;
+
 
 @end
