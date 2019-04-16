@@ -45,10 +45,12 @@
 
     UITapGestureRecognizer *singleTapBackgroundView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapBackgroundView:)];
     UITapGestureRecognizer *doubleTapBackgroundView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapBackgroundView:)];
+    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panBackgroundView:)];
     doubleTapBackgroundView.numberOfTapsRequired = 2;
     [singleTapBackgroundView requireGestureRecognizerToFail:doubleTapBackgroundView];
     [self addGestureRecognizer:singleTapBackgroundView];
     [self addGestureRecognizer:doubleTapBackgroundView];
+    [self addGestureRecognizer:pan];
 }
 
 - (void)layoutSubviews
@@ -136,6 +138,21 @@
         CGRect zoomRect = [self zoomRectForScale:self.scrollview.maximumZoomScale withCenter:CGPointMake(touchX, touchY)];
         [self.scrollview zoomToRect:zoomRect animated:YES];
     }
+}
+
+- (void)panBackgroundView:(UIPanGestureRecognizer *)gesture{
+    CGPoint translationPoint = [gesture translationInView:gesture.view];
+    CGPoint velocityPoint = [gesture velocityInView:gesture.view];
+    if (fabs(velocityPoint.x) < fabs(velocityPoint.y)) {
+        if (translationPoint.y > 0) {
+            // 向下移动
+            NSLog(@"向下移动");
+            if (self.zoomingScrollViewdelegate && [self.zoomingScrollViewdelegate respondsToSelector:@selector(zoomingScrollView:panGestureRecognizer:)]) {
+                [self.zoomingScrollViewdelegate zoomingScrollView:self panGestureRecognizer:gesture];
+            }
+        }
+    }
+
 }
 
 - (void)resetZoomScale

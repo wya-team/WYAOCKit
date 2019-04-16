@@ -17,6 +17,7 @@
 - (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView singleTapDetected:(UITapGestureRecognizer *)singleTap;
 
 @optional
+- (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView panGestureRecognizer:(UIPanGestureRecognizer *)panGesture;
 /**
  *  图片加载进度
  *

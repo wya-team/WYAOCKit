@@ -48,7 +48,10 @@
 @end
 
 @implementation WYAImageBrowser
-
+{
+    CGFloat _lastAlpha;
+    CGFloat _lastTranslationY; // 记录手势向下偏移量
+}
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -80,7 +83,7 @@
 
     self.currentImageIndex = 0;
     self.imageCount = 0;
-
+    _lastAlpha = self.photoBrowserWindow.rootViewController.view.alpha;
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification  object:nil];
 
 }
@@ -772,6 +775,37 @@
     }];
 }
 
+- (void)exitImageBrowserWithZoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView{
+    NSInteger currentIndex = zoomingScrollView.tag - BaseTag;
+    UIView *sourceView = [self sourceImageViewForIndex:currentIndex];
+    if (sourceView == nil) {
+        [self dismiss];
+        return;
+    }
+    self.scrollView.hidden = YES;
+    self.pageControl.hidden = YES;
+    self.indexLabel.hidden = YES;
+    self.saveButton.hidden = YES;
+
+    CGRect targetTemp = [sourceView.superview convertRect:sourceView.frame toView:self];
+    NSLog(@"rect==%@",NSStringFromCGRect(targetTemp));
+    UIImageView *tempView = [[UIImageView alloc] init];
+    tempView.contentMode = sourceView.contentMode;
+    tempView.clipsToBounds = YES;
+    tempView.image = zoomingScrollView.currentImage;
+    tempView.frame = CGRectMake(- zoomingScrollView.scrollview.contentOffset.x + zoomingScrollView.imageView.cmam_left,  - zoomingScrollView.scrollview.contentOffset.y + zoomingScrollView.imageView.cmam_top, zoomingScrollView.imageView.cmam_width, zoomingScrollView.imageView.cmam_height);
+    [self addSubview:tempView];
+
+    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn & UIViewAnimationOptionBeginFromCurrentState animations:^{
+        tempView.frame = targetTemp;
+        self.alpha = 0.f;
+        self.backgroundColor = [UIColor clearColor];
+    } completion:^(BOOL finished) {
+        [self removeFromSuperview];
+    }];
+}
+
 #pragma mark --- WYAZoomingScrollViewDelegate
 
 /**
@@ -786,34 +820,31 @@
         [self.savaImageTipLabel removeFromSuperview];
         [self.indicatorView removeFromSuperview];
     }];
-    NSInteger currentIndex = zoomingScrollView.tag - BaseTag;
-    UIView *sourceView = [self sourceImageViewForIndex:currentIndex];
-    if (sourceView == nil) {
-        [self dismiss];
-        return;
+
+    [self exitImageBrowserWithZoomingScrollView:zoomingScrollView];
+}
+
+- (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView panGestureRecognizer:(UIPanGestureRecognizer *)panGesture{
+    NSLog(@"frame==%@",NSStringFromCGRect(zoomingScrollView.frame));
+    NSLog(@"status==%ld",(long)panGesture.state);
+    CGPoint translationPoint = [panGesture translationInView:panGesture.view];
+    if (panGesture.state == UIGestureRecognizerStateChanged) {
+
+        CGPoint point = [panGesture locationInView:panGesture.view.superview];
+        zoomingScrollView.center = point;
+        if (translationPoint.y > _lastTranslationY) {
+            zoomingScrollView.bounds = CGRectMake(0, 0, zoomingScrollView.cmam_width - 2, zoomingScrollView.cmam_height - 2);
+            self.photoBrowserWindow.rootViewController.view.alpha = _lastAlpha - 0.005;
+        } else {
+            zoomingScrollView.bounds = CGRectMake(0, 0, zoomingScrollView.cmam_width + 2, zoomingScrollView.cmam_height + 2);
+            self.photoBrowserWindow.rootViewController.view.alpha = _lastAlpha + 0.005;
+        }
+
+        _lastAlpha = self.photoBrowserWindow.rootViewController.view.alpha;
+        _lastTranslationY = translationPoint.y;
+    } else if (panGesture.state == UIGestureRecognizerStateEnded || panGesture.state == UIGestureRecognizerStateFailed || panGesture.state == UIGestureRecognizerStateCancelled) {
+        [self exitImageBrowserWithZoomingScrollView:zoomingScrollView];
     }
-    self.scrollView.hidden = YES;
-    self.pageControl.hidden = YES;
-    self.indexLabel.hidden = YES;
-    self.saveButton.hidden = YES;
-    
-    CGRect targetTemp = [sourceView.superview convertRect:sourceView.frame toView:self];
-    NSLog(@"rect==%@",NSStringFromCGRect(targetTemp));
-    UIImageView *tempView = [[UIImageView alloc] init];
-    tempView.contentMode = sourceView.contentMode;
-    tempView.clipsToBounds = YES;
-    tempView.image = zoomingScrollView.currentImage;
-    tempView.frame = CGRectMake(- zoomingScrollView.scrollview.contentOffset.x + zoomingScrollView.imageView.cmam_left,  - zoomingScrollView.scrollview.contentOffset.y + zoomingScrollView.imageView.cmam_top, zoomingScrollView.imageView.cmam_width, zoomingScrollView.imageView.cmam_height);
-    [self addSubview:tempView];
-    
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        tempView.frame = targetTemp;
-        self.alpha = 0.f;
-        self.backgroundColor = [UIColor clearColor];
-    } completion:^(BOOL finished) {
-        [self removeFromSuperview];
-    }];
 }
 
 #pragma mark - UIScrollViewDelegate
