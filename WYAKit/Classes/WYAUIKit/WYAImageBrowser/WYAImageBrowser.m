@@ -496,7 +496,6 @@
 }
 
 #pragma mark    -   private ---loadimage
-
 - (void)showPhotos
 {
     // 只有一张图片
@@ -583,7 +582,6 @@
 - (void)setUpImageForZoomingScrollViewAtIndex:(NSInteger)index
 {
     WYAZoomingScrollView *zoomingScrollView = [self dequeueReusableZoomingScrollView];
-//    zoomingScrollView.scrollview.bounces = NO;
     zoomingScrollView.zoomingScrollViewdelegate = self;
     [zoomingScrollView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)]];
     zoomingScrollView.tag = BaseTag + index;
@@ -681,7 +679,7 @@
         // 复位，使上次拖动位置为初始位置
         [pan setTranslation:CGPointZero inView:panView];
         if (offsetY < 0) return;
-
+        
         /// 计算背景色
         // 透明度
         CGFloat alpha = offsetY > 0 ? (1 - offsetY/(ScreenHeight/2)) : 1.0;
