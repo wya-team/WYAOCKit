@@ -46,11 +46,8 @@
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
 		21DAB4F721D0AE2100E43594 /* WYADemoDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */; };
-		21DAB53021D3637A00E43594 /* WYACameraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB52F21D3637A00E43594 /* WYACameraModel.m */; };
 		21DAB53321D46BA600E43594 /* spin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB53121D46BA600E43594 /* spin_white.svg */; };
 		21DAB53421D46BA600E43594 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB53221D46BA600E43594 /* spin.svg */; };
-		21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21E5A60A21B1072B007E8C5F /* WYACameraCell.m */; };
-		21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */; };
 		21FAF1D021DE406100BEB031 /* WYAFunctionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 21FAF1CF21DE406100BEB031 /* WYAFunctionModel.m */; };
 		21FAF1D921DE4F9700BEB031 /* UITextField+WYATextFieldBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 21FAF1D821DE4F9700BEB031 /* UITextField+WYATextFieldBlock.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -65,6 +62,9 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
+		79A7CDBD2261ACC700581C63 /* WYACameraCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A7CDB82261ACC700581C63 /* WYACameraCell.m */; };
+		79A7CDBE2261ACC700581C63 /* WYACameraCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 79A7CDB92261ACC700581C63 /* WYACameraCell.xib */; };
+		79A7CDBF2261ACC700581C63 /* WYACameraModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 79A7CDBA2261ACC700581C63 /* WYACameraModel.m */; };
 		7E91C43C6FD8CC0E458A5255 /* Pods_WYAKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F60F6FE250AF5CA1776BC059 /* Pods_WYAKit_Tests.framework */; };
 		917A49808D1DD8B518EB389F /* Pods_WYAKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B138027D323AEC294D6B793 /* Pods_WYAKit_Example.framework */; };
 		950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 950B40E321CA3AAE002BC685 /* WYAGridViewController.m */; };
@@ -201,13 +201,8 @@
 		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
 		21DAB4F521D0AE2100E43594 /* WYADemoDrawerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDrawerViewController.h; sourceTree = "<group>"; };
 		21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDrawerViewController.m; sourceTree = "<group>"; };
-		21DAB52E21D3637A00E43594 /* WYACameraModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraModel.h; sourceTree = "<group>"; };
-		21DAB52F21D3637A00E43594 /* WYACameraModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraModel.m; sourceTree = "<group>"; };
 		21DAB53121D46BA600E43594 /* spin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin_white.svg; sourceTree = "<group>"; };
 		21DAB53221D46BA600E43594 /* spin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin.svg; sourceTree = "<group>"; };
-		21E5A60921B1072B007E8C5F /* WYACameraCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACameraCell.h; sourceTree = "<group>"; };
-		21E5A60A21B1072B007E8C5F /* WYACameraCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACameraCell.m; sourceTree = "<group>"; };
-		21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WYACameraCell.xib; sourceTree = "<group>"; };
 		21FAF1CE21DE406100BEB031 /* WYAFunctionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAFunctionModel.h; sourceTree = "<group>"; };
 		21FAF1CF21DE406100BEB031 /* WYAFunctionModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAFunctionModel.m; sourceTree = "<group>"; };
 		21FAF1D721DE4F9700BEB031 /* UITextField+WYATextFieldBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITextField+WYATextFieldBlock.h"; sourceTree = "<group>"; };
@@ -230,6 +225,11 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		79A7CDB82261ACC700581C63 /* WYACameraCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYACameraCell.m; sourceTree = "<group>"; };
+		79A7CDB92261ACC700581C63 /* WYACameraCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WYACameraCell.xib; sourceTree = "<group>"; };
+		79A7CDBA2261ACC700581C63 /* WYACameraModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYACameraModel.m; sourceTree = "<group>"; };
+		79A7CDBB2261ACC700581C63 /* WYACameraCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYACameraCell.h; sourceTree = "<group>"; };
+		79A7CDBC2261ACC700581C63 /* WYACameraModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYACameraModel.h; sourceTree = "<group>"; };
 		801C2E365940271D211968FE /* Pods-WYAKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example.release.xcconfig"; sourceTree = "<group>"; };
 		83F2399E7D27BA1829D1D461 /* Pods-WYAKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		950B40E221CA3AAE002BC685 /* WYAGridViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAGridViewController.h; sourceTree = "<group>"; };
@@ -458,13 +458,13 @@
 		21470BEF219ABE880099CB6F /* WYACameraVC */ = {
 			isa = PBXGroup;
 			children = (
+				79A7CDBB2261ACC700581C63 /* WYACameraCell.h */,
+				79A7CDB82261ACC700581C63 /* WYACameraCell.m */,
+				79A7CDB92261ACC700581C63 /* WYACameraCell.xib */,
+				79A7CDBC2261ACC700581C63 /* WYACameraModel.h */,
+				79A7CDBA2261ACC700581C63 /* WYACameraModel.m */,
 				210E9F6321A93D2300BFE994 /* WYAImagePicker.h */,
 				210E9F6421A93D2300BFE994 /* WYAImagePicker.m */,
-				21E5A60921B1072B007E8C5F /* WYACameraCell.h */,
-				21E5A60A21B1072B007E8C5F /* WYACameraCell.m */,
-				21E5A60B21B1072B007E8C5F /* WYACameraCell.xib */,
-				21DAB52E21D3637A00E43594 /* WYACameraModel.h */,
-				21DAB52F21D3637A00E43594 /* WYACameraModel.m */,
 			);
 			path = WYACameraVC;
 			sourceTree = "<group>";
@@ -1108,10 +1108,10 @@
 				21DAB53421D46BA600E43594 /* spin.svg in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				95F0946321CBD0CA00FFC0CF /* Images.xcassets in Resources */,
-				21E5A60D21B1072B007E8C5F /* WYACameraCell.xib in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
 				2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */,
 				956D1E7A219D7929006A40AB /* TODO .md in Resources */,
+				79A7CDBE2261ACC700581C63 /* WYACameraCell.xib in Resources */,
 				21DAB53321D46BA600E43594 /* spin_white.svg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1240,6 +1240,7 @@
 			files = (
 				210E9F5021A6876900BFE994 /* WYAPickerViewController.m in Sources */,
 				21A8731921A3956B007F2921 /* WYAPaginationViewController.m in Sources */,
+				79A7CDBD2261ACC700581C63 /* WYACameraCell.m in Sources */,
 				954CB76721A94DC30016C0F5 /* WYAOneTableViewController.m in Sources */,
 				95268E472238A91000EC372C /* WYABaseViewController.m in Sources */,
 				95F0944E21CB79DB00FFC0CF /* WYAMineViewController.m in Sources */,
@@ -1250,7 +1251,7 @@
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				9578497B21B0C673001E19DC /* WYAInputItemModel.m in Sources */,
 				95F0944B21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m in Sources */,
-				21E5A60C21B1072B007E8C5F /* WYACameraCell.m in Sources */,
+				79A7CDBF2261ACC700581C63 /* WYACameraModel.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */,
 				6003F59E195388D20070C39A /* WYAAppDelegate.m in Sources */,
@@ -1288,7 +1289,6 @@
 				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
 				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
-				21DAB53021D3637A00E43594 /* WYACameraModel.m in Sources */,
 				21FAF1D921DE4F9700BEB031 /* UITextField+WYATextFieldBlock.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */,

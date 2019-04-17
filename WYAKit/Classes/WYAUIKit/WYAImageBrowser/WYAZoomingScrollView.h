@@ -49,6 +49,11 @@
 @property (nonatomic , strong , readonly) UIScrollView *scrollview;
 
 /**
+ 是否为返回原位，为layoutsubviews添加动画效果
+ */
+@property (nonatomic , assign) BOOL isMoveBack;
+
+/**
  *  显示图片
  *
  *  @param url         图片的高清大图链接

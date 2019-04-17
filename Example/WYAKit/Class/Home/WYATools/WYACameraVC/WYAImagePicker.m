@@ -82,6 +82,7 @@
     self.textField              = [[UITextField alloc] init];
     self.textField.placeholder  = @"请输入图片选择最大数量";
     self.textField.delegate     = self;
+    self.textField.text = @"3";
     self.textField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:self.textField];
     CGFloat textField_X      = 10;

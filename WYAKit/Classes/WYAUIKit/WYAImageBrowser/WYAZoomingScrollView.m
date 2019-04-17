@@ -62,7 +62,15 @@
     self.progressView.cmam_centerY = self.cmam_height * 0.5;
     self.scrollview.frame = self.bounds;
     
-    [self setMaxAndMinZoomScales];
+    if (self.isMoveBack) {
+        [UIView animateWithDuration:0.25 animations:^{
+            [self setMaxAndMinZoomScales];
+        } completion:^(BOOL finished) {
+            self.isMoveBack = NO;
+        }];
+    }else{
+        [self setMaxAndMinZoomScales];
+    }
 }
 
 #pragma mark    -   UIScrollViewDelegate
@@ -226,9 +234,9 @@
         return;
     }
     CGFloat imageWidthHeightRatio = image.size.width / image.size.height;
-    self.photoImageView.cmam_width = self.cmam_width;
-    self.photoImageView.cmam_height = self.cmam_width / imageWidthHeightRatio;
-    self.photoImageView.cmam_left = 0;
+    [self.photoImageView setCmam_width:self.cmam_width];
+    [self.photoImageView setCmam_height:self.cmam_width / imageWidthHeightRatio];
+    [self.photoImageView setCmam_left:0];
     if (self.photoImageView.cmam_height > ScreenHeight) {
         self.photoImageView.cmam_top = 0;
         self.scrollview.scrollEnabled = YES;
