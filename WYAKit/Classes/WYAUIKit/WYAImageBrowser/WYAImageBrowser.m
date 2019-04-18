@@ -637,7 +637,8 @@
         WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
         CGPoint velocity = [pan velocityInView:panView];
         CGFloat ratio = velocity.y/velocity.x;
-        if (velocity.y > 0 && fabs(ratio) >= 1.2) {
+        NSLog(@"ratio = %.2f",ratio);
+        if (velocity.y > 0 && fabs(ratio) >= 0.965) {
             panView.scrollview.scrollEnabled = NO;
             return YES;
         }else{
@@ -658,10 +659,11 @@
     CGPoint point = [pan translationInView:panView];
     CGPoint velocity = [pan velocityInView:panView];
     
-    // 计算手势向下的高宽比,大于1.2则允许移动，角度约小于等于40°
+    // 计算手势向下的高宽比,大于0.965则允许移动，角度约小于等于46°
     CGFloat ratio = velocity.y/velocity.x;
+    NSLog(@"ratio = %.2f",ratio);
     // 向下移动
-    if (velocity.y > 0 && fabs(ratio) >= 1.2 && pan.state == UIGestureRecognizerStateBegan) {
+    if (velocity.y > 0 && fabs(ratio) >= 0.965 && pan.state == UIGestureRecognizerStateBegan) {
         self.enablePan = YES;
         NSInteger currentIndex = panView.tag - BaseTag;
         UIView *sourceView = [self sourceImageViewForIndex:currentIndex];
