@@ -688,7 +688,7 @@
         
         /// 计算背景色
         // 透明度
-        CGFloat alpha = self.offset.y > 0 ? (1 - self.offset.y/(ScreenHeight/2)) : 1.0;
+        CGFloat alpha = self.offset.y > 0 ? (1 - self.offset.y/(ScreenHeight*3/5)) : 1.0;
         // 放缩比例
         CGFloat scale = 1 - self.offset.y/self.bgView.frame.size.height;
         // 设置最小尺寸
