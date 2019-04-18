@@ -24,6 +24,12 @@
 @property (nonatomic , assign) CGRect originFrame;
 /// 当前浏览大图的拖动初始位置
 @property (nonatomic , assign) CGRect startFrame;
+/// 初始作用在图片的位置（相对父视图）
+@property (nonatomic, assign) CGPoint startPoint;
+/// 初始作用在图片的位置（相对当前屏幕）
+@property (nonatomic, assign) CGPoint relativeStartPoint;
+/// 累计偏移量(拖动过程发生的偏移)
+@property (nonatomic, assign) CGPoint offset;
 /// 存放所有图片的容器
 @property (nonatomic , strong) UIScrollView  *scrollView;
 /// 保存图片的过程指示菊花
@@ -570,8 +576,7 @@
         if ((zoomingScrollView.tag - BaseTag) == index) {
             return zoomingScrollView;
         }
-    }
-    WYAZoomingScrollView* zoomingScrollView = [self dequeueReusableZoomingScrollView];
+    }                                                                                    WYAZoomingScrollView* zoomingScrollView = [self dequeueReusableZoomingScrollView];
     [self setUpImageForZoomingScrollViewAtIndex:index];
     return zoomingScrollView;
 }
@@ -651,12 +656,6 @@
     WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
     // 相对于初始或者上次复位位置的偏移量
     CGPoint point = [pan translationInView:panView];
-    NSLog(@"point = %.f,%.f",point.x,point.y);
-    
-    CGFloat centerY = panView.frame.origin.y + panView.frame.size.height/2;
-    // offsetY大于0，则为已向下滑动
-    CGFloat offsetY = centerY - self.bgView.center.y;
-    
     CGPoint velocity = [pan velocityInView:panView];
     
     // 计算手势向下的高宽比,大于1.2则允许移动，角度约小于等于40°
@@ -669,36 +668,49 @@
         CGRect rect = [sourceView convertRect:sourceView.bounds toView:[UIApplication sharedApplication].keyWindow];
         self.originFrame = rect;
         self.startFrame = panView.frame;
+        // 触点相对当前界面的位置
+        self.relativeStartPoint = [pan locationInView:panView];
+        // 手势视图，在父视图中的位置
+        self.startPoint = CGPointMake(self.relativeStartPoint.x + self.startFrame.origin.x, self.relativeStartPoint.y + self.startFrame.origin.y);
+        self.offset = CGPointMake(0, 0);
     }
     
     if (!self.enablePan) return;
     
     if (pan.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"正在拖动");
         pan.view.transform = CGAffineTransformTranslate(pan.view.transform, point.x, point.y);
+        self.offset = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
         // 复位，使上次拖动位置为初始位置
         [pan setTranslation:CGPointZero inView:panView];
-        if (offsetY < 0) return;
+        if (self.offset.y < 0) return;
         
         /// 计算背景色
         // 透明度
-        CGFloat alpha = offsetY > 0 ? (1 - offsetY/(ScreenHeight/2)) : 1.0;
+        CGFloat alpha = self.offset.y > 0 ? (1 - self.offset.y/(ScreenHeight/2)) : 1.0;
         // 放缩比例
-        CGFloat scale = 1 - offsetY/ScreenHeight;
+        CGFloat scale = 1 - self.offset.y/self.bgView.frame.size.height;
         // 设置最小尺寸
         if (scale < 1/3) scale = 1/3;
         
-        CGRect frame = CGRectMake(0, 0, ScreenWidth*scale, ScreenHeight*scale);
-        CGPoint center = panView.center;
-        panView.frame = frame;
-        panView.center = center;
+        CGFloat a = self.startPoint.x;
+        CGFloat b = self.startPoint.y;
+        CGFloat c = self.offset.x;
+        CGFloat d = self.offset.y;
+        CGFloat w = self.bgView.frame.size.width;
+        CGFloat h = self.bgView.frame.size.height;
+        
+        CGFloat endX = a + c - self.relativeStartPoint.x*scale;
+        CGFloat endY = b + d - self.relativeStartPoint.y*scale;
+    
+        panView.frame = CGRectMake(endX, endY, w*scale, h*scale);
+        
         self.bgView.alpha = alpha;
     }
     if (pan.state == UIGestureRecognizerStateEnded) {
         NSLog(@"手势已结束");
         [panView removeGestureRecognizer:pan];
         // 如果发生的垂直位移大于1/4屏宽，则退出浏览模式
-        if (offsetY > ScreenWidth/4.0) {
+        if (self.offset.y > ScreenWidth/4.0) {
             
             UIWindow * window = [[[UIApplication sharedApplication] delegate] window];
             CGRect rect = [panView.imageView convertRect:panView.imageView.bounds toView:window];

@@ -241,7 +241,7 @@
         self.photoImageView.cmam_top = 0;
         self.scrollview.scrollEnabled = YES;
     } else {
-        self.photoImageView.cmam_top = (ScreenHeight - self.photoImageView.cmam_height ) * 0.5;
+        self.photoImageView.cmam_top = (self.cmam_height - self.photoImageView.cmam_height ) * 0.5;
         self.scrollview.scrollEnabled = NO;
     }
     self.scrollview.maximumZoomScale = MAX(ScreenHeight / self.photoImageView.cmam_height, 3.0);
