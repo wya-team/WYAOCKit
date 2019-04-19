@@ -15,7 +15,7 @@
 /// 浏览的图片数量,大于0
 @property (nonatomic, assign ) NSInteger imageCount;
 
-@property (nonatomic , strong) UIView *photoBrowserRootView;
+@property (nonatomic , strong) UIWindow *photoBrowserRootView;
 /// 展示给用户的背景颜色
 @property (nonatomic , strong) UIView *bgView;
 /// 是否允许向下拖动
@@ -337,13 +337,11 @@
         self.currentImageIndex = 0;
     }
     
-    [[UIApplication sharedApplication].keyWindow addSubview:self.photoBrowserRootView];
     self.frame = self.photoBrowserRootView.bounds;
     self.bgView = [[UIView alloc] initWithFrame:self.photoBrowserRootView.bounds];
     [self.bgView setBackgroundColor:[UIColor blackColor]];
     [self.photoBrowserRootView addSubview:self.bgView];
     [self.photoBrowserRootView addSubview:self];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
     [self iniaialUI];
 }
 
@@ -352,7 +350,6 @@
  */
 - (void)dismiss
 {
-    [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.bgView.alpha = 0.0;
     } completion:^(BOOL finished) {
@@ -372,7 +369,7 @@
     [self.savaImageTipLabel removeFromSuperview];
     [self.indicatorView removeFromSuperview];
     [self.bgView removeFromSuperview];
-    [self.photoBrowserRootView removeFromSuperview];
+    self.photoBrowserRootView.windowLevel = UIWindowLevelNormal - 1;
     self.photoBrowserRootView = nil;
     
 }
@@ -621,7 +618,7 @@
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         UIPanGestureRecognizer * pan = (UIPanGestureRecognizer *)gestureRecognizer;
         WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
-        if (panView.imageView.frame.size.width > panView.imageView.bounds.size.width) {
+        if (panView.imageView.frame.size.width > panView.imageView.bounds.size.width && panView.imageView.frame.size.height > panView.imageView.bounds.size.height) {
             return NO;
         }
     }
@@ -637,7 +634,6 @@
         WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
         CGPoint velocity = [pan velocityInView:panView];
         CGFloat ratio = velocity.y/velocity.x;
-        NSLog(@"ratio = %.2f",ratio);
         if (velocity.y > 0 && fabs(ratio) >= 0.965) {
             panView.scrollview.scrollEnabled = NO;
             return YES;
@@ -661,7 +657,6 @@
     
     // 计算手势向下的高宽比,大于0.965则允许移动，角度约小于等于46°
     CGFloat ratio = velocity.y/velocity.x;
-    NSLog(@"ratio = %.2f",ratio);
     // 向下移动
     if (velocity.y > 0 && fabs(ratio) >= 0.965 && pan.state == UIGestureRecognizerStateBegan) {
         self.enablePan = YES;
@@ -703,7 +698,7 @@
         
         CGFloat endX = a + c - self.relativeStartPoint.x*scale;
         CGFloat endY = b + d - self.relativeStartPoint.y*scale;
-    
+        
         panView.frame = CGRectMake(endX, endY, w*scale, h*scale);
         
         self.bgView.alpha = alpha;
@@ -731,6 +726,7 @@
                     [self removeAllBrowserViews];
                 }
             }];
+            
         }else{
             [UIView animateWithDuration:0.25 animations:^{
                 self.enablePan = NO;
@@ -917,21 +913,27 @@
         return;
     }
     CGFloat imageWidthHeightRatio = image.size.width / image.size.height;
+    CGFloat screenRatio = ScreenWidth/ScreenHeight;
     CGFloat width = ScreenWidth;
     CGFloat height = ScreenWidth / imageWidthHeightRatio;
     CGFloat x = 0;
     CGFloat y;
-    if (height > ScreenHeight) {
+    y = (ScreenHeight - height ) * 0.5;
+    
+    // 图片高宽比大于当前屏幕高宽比
+    if (screenRatio > imageWidthHeightRatio) {
+        height = ScreenHeight;
+        width = ScreenHeight*imageWidthHeightRatio;
         y = 0;
-    } else {
-        y = (ScreenHeight - height ) * 0.5;
+        x = (ScreenWidth - width)*0.5;
     }
+    
     targetRect = CGRectMake(x, y, width, height);
     self.scrollView.hidden = YES;
     self.bgView.alpha = 1.0;
     
     // 动画修改图片视图的frame , 居中同时放大
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
         tempView.frame = targetRect;
     } completion:^(BOOL finished) {
         [tempView removeFromSuperview];
@@ -1176,7 +1178,9 @@
 - (UIView *)photoBrowserRootView
 {
     if (!_photoBrowserRootView) {
-        _photoBrowserRootView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _photoBrowserRootView = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _photoBrowserRootView.windowLevel = UIWindowLevelStatusBar + 100;
+        [_photoBrowserRootView makeKeyAndVisible];
     }
     return _photoBrowserRootView;
 }

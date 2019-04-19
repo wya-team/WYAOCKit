@@ -7,7 +7,7 @@
 
 @interface WYAZoomingScrollView () <UIScrollViewDelegate>
 {
-   UIScrollView *_scrollview;
+    UIScrollView *_scrollview;
 }
 
 @property (nonatomic , strong) UIImageView  *photoImageView;
@@ -42,7 +42,7 @@
 - (void)initial
 {
     [self addSubview:self.scrollview];
-
+    
     UITapGestureRecognizer *singleTapBackgroundView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapBackgroundView:)];
     UITapGestureRecognizer *doubleTapBackgroundView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapBackgroundView:)];
     doubleTapBackgroundView.numberOfTapsRequired = 2;
@@ -74,7 +74,7 @@
 }
 
 #pragma mark    -   UIScrollViewDelegate
-    
+
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
     self.photoImageView.center = [self centerOfScrollViewContent:scrollView];
@@ -162,7 +162,7 @@
 - (void)setShowImage:(UIImage *)image
 {
     self.photoImageView.image = image;
-    [self setMaxAndMinZoomScales];
+    //    [self setMaxAndMinZoomScales];
     [self setNeedsLayout];
     self.progress = 1.0;
     self.hasLoadedImage = YES;
@@ -191,18 +191,18 @@
     [self setMaxAndMinZoomScales];
     
     __weak typeof(self) weakSelf = self;
-
+    
     [self addSubview:self.progressView];;
     self.progressView.mode = WYAImageBrowserProgressViewModeLoopDiagram;
     self.imageURL = url;
-
+    
     // TODO 失败点击重新下载功能
     [weakSelf.photoImageView sd_setImageWithURL:url placeholderImage:placeholder options:SDWebImageRetryFailed| SDWebImageLowPriority| SDWebImageHandleCookies progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
         dispatch_async(dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([strongSelf.imageURL isEqual:targetURL] && expectedSize > 0) {
                 strongSelf.progress = (CGFloat)receivedSize / expectedSize ;
-//                NSLog(@"targetURL %@ , strongSelf %@ , strongSelf.imageURL = %@ , progress = %f",targetURL , strongSelf , strongSelf.imageURL,strongSelf.progress);
+                //                NSLog(@"targetURL %@ , strongSelf %@ , strongSelf.imageURL = %@ , progress = %f",targetURL , strongSelf , strongSelf.imageURL,strongSelf.progress);
             }
         });
     } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
@@ -234,20 +234,29 @@
         return;
     }
     CGFloat imageWidthHeightRatio = image.size.width / image.size.height;
-    [self.photoImageView setCmam_width:self.cmam_width];
-    [self.photoImageView setCmam_height:self.cmam_width / imageWidthHeightRatio];
-    [self.photoImageView setCmam_left:0];
-    if (self.photoImageView.cmam_height > ScreenHeight) {
+    CGFloat screenRatio = ScreenWidth/ScreenHeight;
+    // 图片高宽比大于当前屏幕高宽比
+    if (screenRatio > imageWidthHeightRatio) {
+        [self.photoImageView setCmam_height:self.cmam_height];
+        [self.photoImageView setCmam_width:self.cmam_height * imageWidthHeightRatio];
+        [self.photoImageView setCmam_left:(self.cmam_width - self.photoImageView.cmam_width)/2];
+    }else{
+        [self.photoImageView setCmam_width:self.cmam_width];
+        [self.photoImageView setCmam_height:self.cmam_width / imageWidthHeightRatio];
+    }
+    
+    if (self.photoImageView.cmam_height > self.cmam_height) {
         self.photoImageView.cmam_top = 0;
         self.scrollview.scrollEnabled = YES;
     } else {
         self.photoImageView.cmam_top = (self.cmam_height - self.photoImageView.cmam_height ) * 0.5;
         self.scrollview.scrollEnabled = NO;
     }
-    self.scrollview.maximumZoomScale = MAX(ScreenHeight / self.photoImageView.cmam_height, 3.0);
+    self.scrollview.maximumZoomScale = MAX(self.cmam_height / self.photoImageView.cmam_height, 3.0);
     self.scrollview.minimumZoomScale = 1.0;
     self.scrollview.zoomScale = 1.0;
-    self.scrollview.contentSize = CGSizeMake(self.photoImageView.cmam_width, MAX(self.photoImageView.cmam_height, ScreenHeight));
+    self.scrollview.contentSize = CGSizeMake(MAX(self.photoImageView.cmam_width, self.cmam_width), MAX(self.photoImageView.cmam_height, self.cmam_height));
+    
 }
 
 /**
@@ -255,7 +264,7 @@
  */
 - (void)prepareForReuse
 {
-//    NSLog(@"prepareForReuse: strongSelf %@ , strongSelf.imageURL = %@ , progress = %f" , self , self.imageURL,self.progress);
+    //    NSLog(@"prepareForReuse: strongSelf %@ , strongSelf.imageURL = %@ , progress = %f" , self , self.imageURL,self.progress);
     [self setMaxAndMinZoomScales];
     self.progress = 0;
     self.photoImageView.image = nil;
@@ -291,7 +300,6 @@
         _photoImageView = [[UIImageView alloc] init];
         _photoImageView.backgroundColor = [UIColor clearColor];
     }
-
     return _photoImageView;
 }
 
