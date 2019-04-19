@@ -720,6 +720,7 @@
                 self.enablePan = NO;
                 [panView.imageView setFrame:self.originFrame];
                 self.bgView.alpha = 0.0;
+                self.pageControl.hidden = YES;// 立即隐藏pangeControl
             } completion:^(BOOL finished) {
                 if (finished) {
                     [panView.imageView removeFromSuperview];
