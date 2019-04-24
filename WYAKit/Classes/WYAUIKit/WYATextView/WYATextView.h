@@ -30,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString * placeHoldString;
 /// 占位文字颜色
 @property (nonatomic, strong) UIColor * placeHoldColor;
+/// textView的上下距离
+@property (nonatomic, assign) CGFloat textViewPadding;
 /// 控件高度随输入文字变化高度
 @property (nonatomic, copy) void (^textViewContentFrame)(void);
 @end

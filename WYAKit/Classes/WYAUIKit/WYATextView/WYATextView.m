@@ -68,12 +68,12 @@
         textView_x     = self.titleLabel.cmam_right;
         textView_width = self.cmam_width - self.titleLabel.cmam_right;
     }
-    CGFloat textView_y = 5 * SizeAdapter;
+    CGFloat textView_y = self.textViewPadding;
     CGFloat textView_height;
     if (self.showWordsCount == YES) {
-        textView_height = self.cmam_height - self.noteLabel.cmam_height - 10 * SizeAdapter;
+        textView_height = self.cmam_height - self.noteLabel.cmam_height - self.textViewPadding * 2;
     } else {
-        textView_height = self.cmam_height - 10 * SizeAdapter;
+        textView_height = self.cmam_height - self.textViewPadding * 2;
     }
     CGRect textView_rect = CGRectMake(textView_x, textView_y, textView_width, textView_height);
     self.textView.frame  = textView_rect;
@@ -166,9 +166,9 @@
     CGFloat self_width = self.cmam_width;
     CGFloat self_height;
     if (self.showWordsCount) {
-        self_height = size.height + self.noteLabel.cmam_height + 10 * SizeAdapter;
+        self_height = size.height + self.noteLabel.cmam_height + self.textViewPadding * 2;
     } else {
-        self_height = size.height + 10 * SizeAdapter;
+        self_height = size.height + self.textViewPadding * 2;
     }
     CGRect self_rect = CGRectMake(self_x, self_y, self_width, self_height);
     self.frame       = self_rect;
@@ -233,6 +233,11 @@
 
 - (void)setPlaceHoldColor:(UIColor *)placeHoldColor {
     self.textView.wya_placeHolderColor = placeHoldColor;
+}
+
+- (void)setTextViewPadding:(CGFloat)textViewPadding{
+    _textViewPadding = textViewPadding;
+    [self layoutIfNeeded];
 }
 
 #pragma mark--- Getter
