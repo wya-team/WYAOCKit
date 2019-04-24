@@ -166,9 +166,9 @@
     CGFloat self_width = self.cmam_width;
     CGFloat self_height;
     if (self.showWordsCount) {
-        self_height = size.height + self.noteLabel.cmam_height;
+        self_height = size.height + self.noteLabel.cmam_height + 10 * SizeAdapter;
     } else {
-        self_height = size.height;
+        self_height = size.height + 10 * SizeAdapter;
     }
     CGRect self_rect = CGRectMake(self_x, self_y, self_width, self_height);
     self.frame       = self_rect;
