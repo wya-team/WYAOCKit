@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYANoticeBar/WYANoticeBar.m"
-            timestampString = "577760404.821709"
+            timestampString = "577781046.118138"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "-paomaAnimate"
             landmarkType = "7">
          </BreakpointContent>

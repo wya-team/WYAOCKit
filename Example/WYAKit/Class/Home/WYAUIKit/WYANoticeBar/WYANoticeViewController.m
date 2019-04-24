@@ -52,7 +52,7 @@
     self.bar.rightButtonImage      = [UIImage imageNamed:@"icon_back_notice"];
     self.bar.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar.showTextColor         = REDCOLOR;
-    self.bar.noticeBackgroundColor = random(253, 253, 240, 1);
+    self.bar.noticeBackgroundColor = [random(253, 253, 240, 1) colorWithAlphaComponent:0.5];
     [self.view addSubview:self.bar];
 
     self.bar1 = [[WYANoticeBar alloc]

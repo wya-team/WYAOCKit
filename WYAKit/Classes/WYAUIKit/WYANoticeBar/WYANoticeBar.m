@@ -81,6 +81,7 @@
     [self addSubview:self.rightButton];
 
     self.titleView = [[UIView alloc] init];
+    self.titleView.clipsToBounds = YES;
     [self addSubview:self.titleView];
     [self sendSubviewToBack:self.titleView];
 
