@@ -68,12 +68,12 @@
         textView_x = self.titleLabel.cmam_right;
         textView_width = self.cmam_width - self.titleLabel.cmam_right;
     }
-    CGFloat textView_y = 0;
+    CGFloat textView_y = 5 * SizeAdapter;
     CGFloat textView_height;
     if (self.showWordsCount == YES) {
-        textView_height = self.cmam_height - self.noteLabel.cmam_height;
+        textView_height = self.cmam_height - self.noteLabel.cmam_height - 10 * SizeAdapter;
     } else {
-        textView_height = self.cmam_height;
+        textView_height = self.cmam_height - 10 * SizeAdapter;
     }
     CGRect textView_rect = CGRectMake(textView_x, textView_y,  textView_width, textView_height);
     self.textView.frame = textView_rect;

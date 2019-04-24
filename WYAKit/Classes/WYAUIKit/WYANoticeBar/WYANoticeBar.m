@@ -121,7 +121,7 @@
 
                     lbindex0.frame = self->rectMark2;
                     lbindex1.frame = self->rectMark1;
-
+                    if (self.titleLabelArray.count < 2) return ;
                     [self.titleLabelArray replaceObjectAtIndex:0 withObject:lbindex1];
                     [self.titleLabelArray replaceObjectAtIndex:1 withObject:lbindex0];
 
@@ -207,6 +207,11 @@
 - (void)setShowText:(NSString *)showText {
     _showText = showText;
     if (showText) {
+        [self wya_stop];
+        for (UIView * view in self.titleView.subviews) {
+            [view removeFromSuperview];
+        }
+        [self.titleLabelArray removeAllObjects];
         [self setNeedsLayout];
         [self layoutIfNeeded];
         self.titleLabel      = [[UILabel alloc] init];
