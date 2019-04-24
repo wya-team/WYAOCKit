@@ -20,16 +20,16 @@ typedef NS_ENUM(NSInteger, WYAUploadImageType) {
     WYAUploadImageTypeJPEG,
 };
 
-typedef NSDictionary *(^UploadBefore)(void);
-typedef void(^UploadAfter)(BOOL isfinish, NSMutableArray * resultArray);
+typedef NSDictionary * (^UploadBefore)(void);
+typedef void (^UploadAfter)(BOOL isfinish, NSMutableArray * resultArray);
 
 @interface WYAUploadModel : NSObject
 /// 获取上传图片至阿里云的参数的地址
-@property(nonatomic, copy) NSString * uploadUrl;
+@property (nonatomic, copy) NSString * uploadUrl;
 /// 上传之前回调
-@property(nonatomic, copy) UploadBefore uploadBefore;
+@property (nonatomic, copy) UploadBefore uploadBefore;
 /// 上传之后回调
-@property(nonatomic, copy) UploadAfter uploadAfter;
+@property (nonatomic, copy) UploadAfter uploadAfter;
 /// 是否同步
 @property (nonatomic, assign) BOOL sync;
 /// 上传文件类型

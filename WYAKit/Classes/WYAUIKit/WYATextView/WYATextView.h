@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 占位文字颜色
 @property (nonatomic, strong) UIColor * placeHoldColor;
 /// 控件高度随输入文字变化高度
-@property (nonatomic, copy) void(^textViewContentFrame)(void);
+@property (nonatomic, copy) void (^textViewContentFrame)(void);
 @end
 
 NS_ASSUME_NONNULL_END

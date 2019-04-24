@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestViewController : UIViewController
-@property(nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) UIImage * image;
 @end
 
 NS_ASSUME_NONNULL_END

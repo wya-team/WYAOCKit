@@ -37,7 +37,7 @@
     self.maximumComponents = [self.calendar components:self.unitFlags fromDate:maximumDate];
 }
 
-- (void)setSelectDate:(NSDate *)selectDate{
+- (void)setSelectDate:(NSDate *)selectDate {
     if (selectDate) {
         self.selectComponents = [self.calendar components:self.unitFlags fromDate:selectDate];
     }

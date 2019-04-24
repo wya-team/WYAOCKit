@@ -17,14 +17,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    CGFloat view_x = 0;
-    CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-    CGFloat view_width = ScreenWidth;
-    CGFloat view_height = ScreenWidth;
-    CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
+    CGFloat view_x       = 0;
+    CGFloat view_y       = (ScreenHeight - ScreenWidth) / 2;
+    CGFloat view_width   = ScreenWidth;
+    CGFloat view_height  = ScreenWidth;
+    CGRect view_rect     = CGRectMake(view_x, view_y, view_width, view_height);
     UIImageView * object = [[UIImageView alloc] init];
-    object.frame = view_rect;
-    object.image = self.image;
+    object.frame         = view_rect;
+    object.image         = self.image;
     [self.view addSubview:object];
 }
 

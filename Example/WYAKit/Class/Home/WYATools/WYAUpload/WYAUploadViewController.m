@@ -8,6 +8,7 @@
 
 #import "WYAUploadViewController.h"
 #import <WYAKit/WYAUploader.h>
+
 @interface WYAUploadViewController ()
 
 @end
@@ -18,34 +19,33 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    UIButton *  object = [[UIButton alloc]initWithFrame:CGRectMake( 50, 100, 100, 100)];
+    UIButton * object = [[UIButton alloc] initWithFrame:CGRectMake(50, 100, 100, 100)];
     [object setTitle:@"上传图片" forState:UIControlStateNormal];
     [object setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
 
     object.titleLabel.font = [UIFont systemFontOfSize:17];
     [object addTarget:self action:@selector(uploadImage) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:object];
-
 }
 
-- (void)uploadImage{
-    NSString * path = [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"png"];
-    UIImage * image = [[UIImage alloc]initWithContentsOfFile:path];
-    NSString * path1 = [[NSBundle mainBundle] pathForResource:@"bbb" ofType:@"png"];
-    UIImage * image1 = [[UIImage alloc]initWithContentsOfFile:path1];
+- (void)uploadImage {
+    NSString * path        = [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"png"];
+    UIImage * image        = [[UIImage alloc] initWithContentsOfFile:path];
+    NSString * path1       = [[NSBundle mainBundle] pathForResource:@"bbb" ofType:@"png"];
+    UIImage * image1       = [[UIImage alloc] initWithContentsOfFile:path1];
     WYAUploader * uploader = [WYAUploader sharedUpload];
-    WYAUploadModel * model = [[WYAUploadModel alloc]init];
-    model.uploadUrl = @"https://gateway-mobile.wyawds.com//api/oss/get-sign.json";
-    model.uploadBefore = ^NSDictionary *{
+    WYAUploadModel * model = [[WYAUploadModel alloc] init];
+    model.uploadUrl        = @"https://gateway-mobile.wyawds.com//api/oss/get-sign.json";
+    model.uploadBefore     = ^NSDictionary * {
         return nil;
     };
     model.uploadAfter = ^(BOOL isfinish, NSMutableArray * _Nonnull resultArray) {
-        NSLog(@"finis=%d,result==%@",isfinish,resultArray);
+        NSLog(@"finis=%d,result==%@", isfinish, resultArray);
     };
-    model.sync = YES;
-    model.fileType = WYAUploadImageTypePNG;
-    model.imageType = WYAUploadImageTypePNG;
-    model.imageArray = @[image, image];
+    model.sync           = YES;
+    model.fileType       = WYAUploadImageTypePNG;
+    model.imageType      = WYAUploadImageTypePNG;
+    model.imageArray     = @[ image, image ];
     uploader.uploadModel = model;
     [uploader wya_uploadFile];
 }

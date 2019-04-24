@@ -33,10 +33,10 @@
         [self.containerView addSubview:self.cancelButton];
         [self.containerView addSubview:self.titleView];
 
-        self.titleLabel.text            = title;
+        self.titleLabel.text = title;
         [self.titleView addSubview:self.titleLabel];
 
-        self.messageLabel.text            = message;
+        self.messageLabel.text = message;
         [self.titleView addSubview:self.messageLabel];
         [self.containerView addSubview:self.buttonView];
     }
@@ -45,7 +45,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
+
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
@@ -143,7 +143,7 @@
     [self layoutIfNeeded];
 }
 
-- (void)wya_addCornerRadiusWithNumber:(CGFloat)number{
+- (void)wya_addCornerRadiusWithNumber:(CGFloat)number {
     [self layoutIfNeeded];
     [self.containerView addRoundedCorners:UIRectCornerTopLeft | UIRectCornerTopRight withRadii:CGSizeMake(number, number) viewRect:self.containerView.bounds];
 }
@@ -170,94 +170,94 @@
 }
 
 #pragma mark ======= Lazy
-- (UIView *)containerView{
-    if(!_containerView){
+- (UIView *)containerView {
+    if (!_containerView) {
         _containerView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = [[UIColor wya_hex:@"#F5F5F7"] colorWithAlphaComponent:1];
             object;
-       });
+        });
     }
     return _containerView;
 }
 
-- (UIButton *)cancelButton{
-    if(!_cancelButton){
+- (UIButton *)cancelButton {
+    if (!_cancelButton) {
         _cancelButton = ({
-            UIButton * object = [[UIButton alloc]init];
+            UIButton * object = [[UIButton alloc] init];
             [object setTitle:@"取消" forState:UIControlStateNormal];
             [object setTitleColor:[UIColor wya_hex:@"#4787F2"] forState:UIControlStateNormal];
             object.titleLabel.font = FONT(16);
             [object setBackgroundColor:[UIColor whiteColor]];
             [object addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
             object;
-       });
+        });
     }
     return _cancelButton;
 }
 
-- (UIView *)titleView{
-    if(!_titleView){
+- (UIView *)titleView {
+    if (!_titleView) {
         _titleView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = [UIColor whiteColor];
             object;
-       });
+        });
     }
     return _titleView;
 }
 
-- (UIView *)buttonView{
-    if(!_buttonView){
+- (UIView *)buttonView {
+    if (!_buttonView) {
         _buttonView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object = [[UIView alloc] init];
             object.backgroundColor =
-            [UIColor colorWithRed:203.0 / 255.0
-                            green:203.0 / 255.0
-                             blue:203.0 / 255.0
-                            alpha:1];
+                [UIColor colorWithRed:203.0 / 255.0
+                                green:203.0 / 255.0
+                                 blue:203.0 / 255.0
+                                alpha:1];
             object;
-       });
+        });
     }
     return _buttonView;
 }
 
-- (UILabel *)titleLabel{
-    if(!_titleLabel){
+- (UILabel *)titleLabel {
+    if (!_titleLabel) {
         _titleLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object       = [[UILabel alloc] init];
             object                 = [[UILabel alloc] init];
             object.textColor       = [UIColor lightGrayColor];
             object.font            = FONT(15);
             object.textAlignment   = NSTextAlignmentCenter;
             object.backgroundColor = [UIColor whiteColor];
             object;
-       });
+        });
     }
     return _titleLabel;
 }
 
-- (UILabel *)messageLabel{
-    if(!_messageLabel){
+- (UILabel *)messageLabel {
+    if (!_messageLabel) {
         _messageLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object       = [[UILabel alloc] init];
             object.textColor       = [UIColor lightGrayColor];
             object.font            = FONT(13);
             object.numberOfLines   = 0;
             object.textAlignment   = NSTextAlignmentCenter;
             object.backgroundColor = [UIColor whiteColor];
             object;
-       });
+        });
     }
     return _messageLabel;
 }
 
-- (NSMutableArray *)buttons{
-    if(!_buttons){
+- (NSMutableArray *)buttons {
+    if (!_buttons) {
         _buttons = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
+            NSMutableArray * object = [[NSMutableArray alloc] init];
             object;
-       });
+        });
     }
     return _buttons;
 }

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAKitInstance : NSObject
 @property (nonatomic, strong) WYABannerConfig * bannerConfig;
 + (instancetype)sharedInstance;
-@property(nonatomic, strong) WYAUploadModel * uploadModel;
+@property (nonatomic, strong) WYAUploadModel * uploadModel;
 @end
 
 @interface WYABannerConfig : NSObject

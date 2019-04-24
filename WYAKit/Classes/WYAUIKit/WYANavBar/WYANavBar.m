@@ -98,17 +98,17 @@
 
     [_leftButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200*SizeAdapter) * 0.5);
+        make.width.mas_equalTo((ScreenWidth - 200 * SizeAdapter) * 0.5);
     }];
 
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker * make) {
         make.center.mas_equalTo(self.navBarView);
-        make.size.mas_equalTo(CGSizeMake(200*SizeAdapter, 44));
+        make.size.mas_equalTo(CGSizeMake(200 * SizeAdapter, 44));
     }];
 
     [_rightButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.right.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200*SizeAdapter) * 0.5);
+        make.width.mas_equalTo((ScreenWidth - 200 * SizeAdapter) * 0.5);
     }];
 
     [_lineView mas_makeConstraints:^(MASConstraintMaker * make) {

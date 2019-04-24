@@ -132,9 +132,9 @@
             vc.hidesBottomBarWhenPushed      = YES;
             [self.navigationController pushViewController:vc animated:YES];
             return;
-        }else if ([itemModel.className isEqualToString:@"WYAImageComposeViewController"]) {
+        } else if ([itemModel.className isEqualToString:@"WYAImageComposeViewController"]) {
             WYAImageComposeViewController * vc = [[WYAImageComposeViewController alloc] init];
-            vc.hidesBottomBarWhenPushed      = YES;
+            vc.hidesBottomBarWhenPushed        = YES;
             [self.navigationController pushViewController:vc animated:YES];
             return;
         }

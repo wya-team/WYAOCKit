@@ -41,28 +41,28 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    CGFloat noticeButton_x = 0;
-    CGFloat noticeButton_y = (self.cmam_height - 30 * SizeAdapter) / 2;
-    CGFloat noticeButton_width = self.showNoticeButton ? 30 * SizeAdapter : 0;
+    CGFloat noticeButton_x      = 0;
+    CGFloat noticeButton_y      = (self.cmam_height - 30 * SizeAdapter) / 2;
+    CGFloat noticeButton_width  = self.showNoticeButton ? 30 * SizeAdapter : 0;
     CGFloat noticeButton_height = self.showNoticeButton ? 30 * SizeAdapter : 0;
-    CGRect noticeButton_rect = CGRectMake(noticeButton_x, noticeButton_y,  noticeButton_width, noticeButton_height);
-    self.noticeButton.frame = noticeButton_rect;
+    CGRect noticeButton_rect    = CGRectMake(noticeButton_x, noticeButton_y, noticeButton_width, noticeButton_height);
+    self.noticeButton.frame     = noticeButton_rect;
 
-    CGFloat rightButton_x = self.showRightButton ? self.cmam_width - 30 * SizeAdapter : self.cmam_width;
-    CGFloat rightButton_y = (self.cmam_height - 30 * SizeAdapter) / 2;
-    CGFloat rightButton_width = self.showRightButton ? 30 * SizeAdapter : 0;
+    CGFloat rightButton_x      = self.showRightButton ? self.cmam_width - 30 * SizeAdapter : self.cmam_width;
+    CGFloat rightButton_y      = (self.cmam_height - 30 * SizeAdapter) / 2;
+    CGFloat rightButton_width  = self.showRightButton ? 30 * SizeAdapter : 0;
     CGFloat rightButton_height = self.showRightButton ? 30 * SizeAdapter : 0;
-    CGRect rightButton_rect = CGRectMake(rightButton_x, rightButton_y,  rightButton_width, rightButton_height);
-    self.rightButton.frame = rightButton_rect;
+    CGRect rightButton_rect    = CGRectMake(rightButton_x, rightButton_y, rightButton_width, rightButton_height);
+    self.rightButton.frame     = rightButton_rect;
 
-    CGFloat titleView_x = self.showNoticeButton ? self.noticeButton.cmam_right : 10 * SizeAdapter;
-    CGFloat titleView_y = (self.cmam_height - 30 * SizeAdapter) / 2;
+    CGFloat titleView_x     = self.showNoticeButton ? self.noticeButton.cmam_right : 10 * SizeAdapter;
+    CGFloat titleView_y     = (self.cmam_height - 30 * SizeAdapter) / 2;
     CGFloat titleView_width = self.cmam_width -
-    (self.showNoticeButton ? self.noticeButton.cmam_right : 0 * SizeAdapter) -
-    (self.showRightButton ? self.rightButton.cmam_width : 0 * SizeAdapter);
+                              (self.showNoticeButton ? self.noticeButton.cmam_right : 0 * SizeAdapter) -
+                              (self.showRightButton ? self.rightButton.cmam_width : 0 * SizeAdapter);
     CGFloat titleView_height = 30 * SizeAdapter;
-    CGRect titleView_rect = CGRectMake(titleView_x, titleView_y,  titleView_width, titleView_height);
-    self.titleView.frame = titleView_rect;
+    CGRect titleView_rect    = CGRectMake(titleView_x, titleView_y, titleView_width, titleView_height);
+    self.titleView.frame     = titleView_rect;
 }
 
 - (void)createUI {
@@ -121,7 +121,7 @@
 
                     lbindex0.frame = self->rectMark2;
                     lbindex1.frame = self->rectMark1;
-                    if (self.titleLabelArray.count < 2) return ;
+                    if (self.titleLabelArray.count < 2) return;
                     [self.titleLabelArray replaceObjectAtIndex:0 withObject:lbindex1];
                     [self.titleLabelArray replaceObjectAtIndex:1 withObject:lbindex0];
 

@@ -9,13 +9,12 @@
 
 @implementation WYAImageComposeView
 
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.userInteractionEnabled = YES;
-//        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
-//        [self addGestureRecognizer:pan];
+        //        UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
+        //        [self addGestureRecognizer:pan];
 
         UIRotationGestureRecognizer * rotation = [[UIRotationGestureRecognizer alloc] initWithTarget:self action:@selector(rotationAction:)];
         [self addGestureRecognizer:rotation];
@@ -26,32 +25,32 @@
     return self;
 }
 
-- (void)panClick:(UIPanGestureRecognizer *)gesture{
+- (void)panClick:(UIPanGestureRecognizer *)gesture {
 
-    UIView *piece = [gesture view];
+    UIView * piece = [gesture view];
 
     if ([gesture state] == UIGestureRecognizerStateBegan || [gesture state] == UIGestureRecognizerStateChanged) {
         if (self.panClick) {
             CGPoint point = [gesture locationInView:piece];
-            NSLog(@"point==%@",NSStringFromCGPoint(point));
+            NSLog(@"point==%@", NSStringFromCGPoint(point));
             self.panClick(point, piece);
         }
         CGPoint translation = [gesture translationInView:[piece superview]];
-        NSLog(@"translation==%@",NSStringFromCGPoint(translation));
+        NSLog(@"translation==%@", NSStringFromCGPoint(translation));
         piece.center = CGPointMake(piece.center.x + translation.x, piece.center.y + translation.y);
 
         [gesture setTranslation:CGPointZero inView:[piece superview]];
     }
 }
 
-- (void)rotationAction:(UIRotationGestureRecognizer *)gesture{
-    self.transform = CGAffineTransformRotate(self.transform, gesture.rotation);
+- (void)rotationAction:(UIRotationGestureRecognizer *)gesture {
+    self.transform   = CGAffineTransformRotate(self.transform, gesture.rotation);
     gesture.rotation = 0;
 }
 
-- (void)pinchAction:(UIPinchGestureRecognizer *)gesture{
+- (void)pinchAction:(UIPinchGestureRecognizer *)gesture {
     self.transform = CGAffineTransformScale(self.transform, gesture.scale, gesture.scale);
-    gesture.scale = 1.0f;
+    gesture.scale  = 1.0f;
 }
 
 /*

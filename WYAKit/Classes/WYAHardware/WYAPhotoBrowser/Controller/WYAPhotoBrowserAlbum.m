@@ -83,8 +83,8 @@
 forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.dataSource.count > 0) {
         WYAPhotoBrowserAlbumCell * albumCell = (WYAPhotoBrowserAlbumCell *)cell;
-        NSMutableArray * array       = self.dataSource[indexPath.row];
-        PHAssetCollection * collection = [array firstObject];
+        NSMutableArray * array               = self.dataSource[indexPath.row];
+        PHAssetCollection * collection       = [array firstObject];
         PHFetchResult * smartSubResult =
             [PHAsset fetchAssetsInAssetCollection:collection
                                           options:nil];
@@ -129,7 +129,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSMutableArray * arr = self.dataSource[indexPath.row];
+    NSMutableArray * arr             = self.dataSource[indexPath.row];
     NSMutableArray * collectionArray = [NSMutableArray array];
     for (PHAssetCollection * collection in arr) {
         PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
@@ -138,9 +138,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         }
     }
 
-
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.collections                      = collectionArray;
+    vc.collections                     = collectionArray;
     vc.maxCount                        = self.maxCount;
     vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:YES];

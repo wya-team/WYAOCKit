@@ -38,10 +38,10 @@
     static WYAFloatBallManager * instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance                                                                                     = [super allocWithZone:zone];
-        instance.floatVcClass                                                                        = [NSMutableArray array];
-//        [instance wya_floatBallCurrentNavigationController].interactivePopGestureRecognizer.delegate = instance;
-//        [instance wya_floatBallCurrentNavigationController].delegate                                 = instance;
+        instance              = [super allocWithZone:zone];
+        instance.floatVcClass = [NSMutableArray array];
+        //        [instance wya_floatBallCurrentNavigationController].interactivePopGestureRecognizer.delegate = instance;
+        //        [instance wya_floatBallCurrentNavigationController].delegate                                 = instance;
     });
     return instance;
 }
@@ -86,7 +86,7 @@
 #pragma mark ======= Action
 - (BOOL)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer {
     NSArray * vcArray = [self wya_floatBallCurrentViewController].navigationController.viewControllers;
-    if (vcArray.count < 2){
+    if (vcArray.count < 2) {
         return NO;
     }
     if ([self.floatVcClass containsObject:NSStringFromClass([[self wya_floatBallCurrentViewController] class])]) {

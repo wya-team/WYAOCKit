@@ -20,7 +20,7 @@
     [super viewDidLoad];
     self.navTitle = @"关于WYAKit";
     [self.view addSubview:self.tableView];
-    
+
     // Do any additional setup after loading the view.
 }
 

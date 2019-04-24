@@ -159,7 +159,8 @@
                         autoRotation:YES
                            imageType:WYAToastImageTypeSVG
                 sourceInWYAKitBundle:YES
-                         autoDismiss:NO bgViewUserInteractionUse:YES];
+                         autoDismiss:NO
+            bgViewUserInteractionUse:YES];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{ [UIView wya_dismissToast]; });
     }];

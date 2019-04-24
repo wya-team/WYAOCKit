@@ -267,7 +267,7 @@
     } else if (indexPath.section == 1) {
         self.datePicker              = [[WYADatePicker alloc] init];
         self.datePicker.pickerHeight = 260;
-        self.datePicker.selectDate = [NSDate wya_begindayOfMonth:[NSDate date]];
+        self.datePicker.selectDate   = [NSDate wya_begindayOfMonth:[NSDate date]];
         if (indexPath.row == 0) {
             self.datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
         } else if (indexPath.row == 1) {

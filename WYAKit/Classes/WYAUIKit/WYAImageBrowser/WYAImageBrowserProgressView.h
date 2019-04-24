@@ -1,13 +1,12 @@
 //
 //  WYAImageBrowserProgressView.h
 
-
 #import <UIKit/UIKit.h>
 
 /**
  *  进度视图类型类型
  */
-typedef NS_ENUM(NSUInteger, WYAImageBrowserProgressViewMode){
+typedef NS_ENUM(NSUInteger, WYAImageBrowserProgressViewMode) {
     /**
      *  圆环形
      */

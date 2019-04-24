@@ -235,8 +235,7 @@
     [actionButton setTitleColor:action.textColor forState:UIControlStateNormal];
     actionButton.titleLabel.font = action.textFont;
     [actionButton setBackgroundImage:self.whiteImage forState:UIControlStateNormal];
-    [actionButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0/255.0 green:234.0/255.0 blue:234.0/255.0 alpha:1]] forState:UIControlStateHighlighted];
-
+    [actionButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0 / 255.0 green:234.0 / 255.0 blue:234.0 / 255.0 alpha:1]] forState:UIControlStateHighlighted];
 
     [actionButton addTarget:self
                      action:@selector(actionButtonDidClicked:)

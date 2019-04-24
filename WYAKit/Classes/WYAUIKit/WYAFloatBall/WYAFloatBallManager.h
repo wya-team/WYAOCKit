@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (instancetype)shared;
 
-
 /**
  滑动手势返回时调用用来判断是否展示
 
@@ -141,4 +140,3 @@ NS_ASSUME_NONNULL_END
  }
 
  */
-

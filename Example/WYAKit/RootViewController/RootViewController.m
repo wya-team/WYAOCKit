@@ -36,7 +36,6 @@
                                                                  className:@"WYAHomeViewController"
                                                            normalImageName:@"icon_home_normal"
                                                          selectedImageName:@"icon_home_select"];
-    
 
     RootControllerModel * item2Model = [RootControllerModel modelWithTitle:@"关于"
                                                                  className:@"WYAMineViewController"

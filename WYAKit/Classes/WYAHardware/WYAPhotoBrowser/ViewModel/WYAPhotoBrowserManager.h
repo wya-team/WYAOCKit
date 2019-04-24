@@ -106,8 +106,8 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
  */
 + (NSMutableArray<PHAssetCollection *> *)
 screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
-AssetCollectionSubType:(AssetCollectionSubType)subType
-CollectionSort:(AssetCollectionSort)collectionSort;
+         AssetCollectionSubType:(AssetCollectionSubType)subType
+                 CollectionSort:(AssetCollectionSort)collectionSort;
 
 /**
  获取图片资源
@@ -123,8 +123,6 @@ CollectionSort:(AssetCollectionSort)collectionSort;
 AssetCollectionSubType:(AssetCollectionSubType)subType
         CollectionSort:(AssetCollectionSort)collectionSort
              assetSort:(AssetSort)assetSort;
-
-
 
 /**
  获取对应的图片资源

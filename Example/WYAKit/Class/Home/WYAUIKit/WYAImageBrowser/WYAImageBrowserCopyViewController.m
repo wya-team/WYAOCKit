@@ -8,6 +8,7 @@
 
 #import "WYAImageBrowserCopyViewController.h"
 #import <WYAKit/WYAImageBrowser.h>
+
 @interface WYAImageBrowserCopyViewController ()
 
 @end
@@ -21,8 +22,6 @@
     UIImage * image1 = [UIImage imageNamed:@"1"];
     UIImage * image2 = [UIImage imageNamed:@"2"];
     UIImage * image3 = [UIImage imageNamed:@"icon_cancel_notice"];
-
-    
 }
 
 /*

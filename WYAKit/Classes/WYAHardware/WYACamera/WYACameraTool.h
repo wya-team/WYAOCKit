@@ -4,9 +4,9 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, WYAVideoPreset) {
-    WYAVideoPresetLow,  // 低质量
-    WYAVideoPresetMedium,   // 中等质量
-    WYAVideoPresetHigh, // 高质量
+    WYAVideoPresetLow,    // 低质量
+    WYAVideoPresetMedium, // 中等质量
+    WYAVideoPresetHigh,   // 高质量
 };
 
 typedef NS_ENUM(NSUInteger, WYACameraOrientation) {

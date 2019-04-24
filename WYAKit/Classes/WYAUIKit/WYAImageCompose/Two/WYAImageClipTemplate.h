@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) CGMutablePathRef pathRef;
 
-@property(nonatomic, copy) void(^panClick)(CGPoint point, WYAImageClipTemplate * view, BOOL panIsChange);
+@property (nonatomic, copy) void (^panClick)(CGPoint point, WYAImageClipTemplate * view, BOOL panIsChange);
 
 @property (nonatomic, strong) UIImage * image;
 @property (nonatomic, assign) BOOL haveAnimationShapeLayer;

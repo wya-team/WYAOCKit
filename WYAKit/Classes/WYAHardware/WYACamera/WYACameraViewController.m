@@ -7,6 +7,7 @@
 #import "WYAProgressView.h"
 #import "WYAAlertController.h"
 #import "WYASystemPermissions.h"
+
 @interface WYACameraViewController ()
 
 @property (nonatomic, strong) UIView * containerView; //内容父容器
@@ -127,27 +128,33 @@
     [self.videoTool startRecordFunction];
 }
 
-- (void)openSystemPermissionsWithText:(NSString *)text{
+- (void)openSystemPermissionsWithText:(NSString *)text {
     WYAAlertController * alert =
-    [WYAAlertController wya_alertWithTitle:text
-                                   Message:nil
-                          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+        [WYAAlertController wya_alertWithTitle:text
+                                       Message:nil
+                              AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     alert.presentStyle             = WYAPopupPresentStyleBounce;
     alert.dismissStyle             = WYAPopupDismissStyleShrink;
     // 创建 action
-    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"确定" textColor:nil textFont:nil handler:^{
-        [[UIApplication sharedApplication]
-         openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-    }];
+    WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"确定"
+                                                               textColor:nil
+                                                                textFont:nil
+                                                                 handler:^{
+                                                                     [[UIApplication sharedApplication]
+                                                                         openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                                 }];
 
-    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消" textColor:nil textFont:nil handler:^{
-        if (self.navigationController) {
-            [self.navigationController popViewControllerAnimated:YES];
-        } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
+    WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消"
+                                                              textColor:nil
+                                                               textFont:nil
+                                                                handler:^{
+                                                                    if (self.navigationController) {
+                                                                        [self.navigationController popViewControllerAnimated:YES];
+                                                                    } else {
+                                                                        [self dismissViewControllerAnimated:YES completion:nil];
+                                                                    }
+                                                                }];
     [alert wya_addAction:cancelAction];
     [alert wya_addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];

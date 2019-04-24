@@ -1,7 +1,6 @@
 //
 //  UITextView+WYAPlaceHolder.h
 
-
 #import <UIKit/UIKit.h>
 
 @interface UITextView (WYAPlaceHolder)

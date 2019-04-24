@@ -17,13 +17,12 @@
     WYAKitInstance * instance        = [WYAKitInstance sharedInstance];
     instance.bannerConfig.autoScroll = YES;
 
-    instance.uploadModel.uploadUrl = @"sss";
-    instance.uploadModel.uploadBefore = ^NSDictionary *{
+    instance.uploadModel.uploadUrl    = @"sss";
+    instance.uploadModel.uploadBefore = ^NSDictionary * {
         return @{
-                 @"aa":@"bb",
-                 };
+            @"aa" : @"bb",
+        };
     };
-    
 
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
@@ -33,7 +32,7 @@
 
     [self.window makeKeyAndVisible];
     [WYADownloader sharedDownloader];
-    [WYAFloatBallManager wya_addFloatVcS:@[ @"WYAReadMeViewController"]];
+    [WYAFloatBallManager wya_addFloatVcS:@[ @"WYAReadMeViewController" ]];
     return YES;
 }
 

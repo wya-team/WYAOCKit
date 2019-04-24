@@ -82,7 +82,7 @@
     self.textField              = [[UITextField alloc] init];
     self.textField.placeholder  = @"请输入图片选择最大数量";
     self.textField.delegate     = self;
-    self.textField.text = @"3";
+    self.textField.text         = @"3";
     self.textField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:self.textField];
     CGFloat textField_X      = 10;
@@ -229,70 +229,76 @@
         }
         WYAAlertController * alert = [WYAAlertController wya_alertSheetWithTitle:@"" Message:@"" AlertSheetCornerRadius:0];
         WeakSelf(weakSelf);
-        WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"相机" textColor:nil textFont:nil handler:^{
-            WYACameraViewController * camera =
-            [[WYACameraViewController alloc] initWithType:WYACameraTypeVideo
-                                        cameraOrientation:WYACameraOrientationFront];
-            camera.preset    = WYAVideoPresetHigh;
-            camera.saveAblum = YES;
-            camera.albumName = @"测试";
-            camera.takePhoto = ^(UIImage * photo, NSString * imagePath) {
-                WYACameraModel * model = [[WYACameraModel alloc] init];
-                model.image            = photo;
-                model.sourceType       = WYACameraSourceTypeImage;
-                [self.dataSource insertObject:model atIndex:0];
-                if ([self.textField.text integerValue] == self.dataSource.count) {
-                    self.allImage = YES;
-                }
-                [self.collectionView reloadData];
-            };
-            camera.takeVideo = ^(NSString * videoPath) {
-                WYACameraModel * model = [[WYACameraModel alloc] init];
-                UIImage * image        = [UIImage
-                                          wya_getVideoPreViewImage:[NSURL fileURLWithPath:videoPath]];
-                model.image      = image;
-                model.sourceType = WYACameraSourceTypeVideo;
-                [self.dataSource insertObject:model atIndex:0];
-                if ([self.textField.text integerValue] == self.dataSource.count) {
-                    self.allImage = YES;
-                }
-                [self.collectionView reloadData];
-            };
-            [weakSelf presentViewController:camera animated:YES completion:nil];
-        }];
-        
-        WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"相册" textColor:nil textFont:nil handler:^{
-            NSInteger inter =
-            [self.textField.text integerValue] - self.dataSource.count;
-            if (inter == 0) { return; }
-            WYAPhotoBrowser * photo =
-            [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-                                     photoBrowserType:WYAPhotoBrowserTypeAll];
-            photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
-                NSLog(@"images==%@", media);
-                NSMutableArray * array = [NSMutableArray array];
-                for (NSObject * image in media) {
-                    if ([image isKindOfClass:[UIImage class]]) {
-                        WYACameraModel * model = [[WYACameraModel alloc] init];
-                        model.image            = (UIImage *)image;
-                        model.sourceType       = WYACameraSourceTypeImage;
-                        [array addObject:model];
-                    }
-                }
-                [self.dataSource
-                 insertObjects:array
-                 atIndexes:[NSIndexSet
-                            indexSetWithIndexesInRange:NSMakeRange(
-                                                                   0,
-                                                                   media
-                                                                   .count)]];
-                if ([self.textField.text integerValue] == self.dataSource.count) {
-                    self.allImage = YES;
-                }
-                [self.collectionView reloadData];
-            };
-            [weakSelf presentViewController:photo animated:YES completion:nil];
-        }];
+        WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"相机"
+                                                                   textColor:nil
+                                                                    textFont:nil
+                                                                     handler:^{
+                                                                         WYACameraViewController * camera =
+                                                                             [[WYACameraViewController alloc] initWithType:WYACameraTypeVideo
+                                                                                                         cameraOrientation:WYACameraOrientationFront];
+                                                                         camera.preset    = WYAVideoPresetHigh;
+                                                                         camera.saveAblum = YES;
+                                                                         camera.albumName = @"测试";
+                                                                         camera.takePhoto = ^(UIImage * photo, NSString * imagePath) {
+                                                                             WYACameraModel * model = [[WYACameraModel alloc] init];
+                                                                             model.image            = photo;
+                                                                             model.sourceType       = WYACameraSourceTypeImage;
+                                                                             [self.dataSource insertObject:model atIndex:0];
+                                                                             if ([self.textField.text integerValue] == self.dataSource.count) {
+                                                                                 self.allImage = YES;
+                                                                             }
+                                                                             [self.collectionView reloadData];
+                                                                         };
+                                                                         camera.takeVideo = ^(NSString * videoPath) {
+                                                                             WYACameraModel * model = [[WYACameraModel alloc] init];
+                                                                             UIImage * image        = [UIImage
+                                                                                 wya_getVideoPreViewImage:[NSURL fileURLWithPath:videoPath]];
+                                                                             model.image      = image;
+                                                                             model.sourceType = WYACameraSourceTypeVideo;
+                                                                             [self.dataSource insertObject:model atIndex:0];
+                                                                             if ([self.textField.text integerValue] == self.dataSource.count) {
+                                                                                 self.allImage = YES;
+                                                                             }
+                                                                             [self.collectionView reloadData];
+                                                                         };
+                                                                         [weakSelf presentViewController:camera animated:YES completion:nil];
+                                                                     }];
+
+        WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"相册"
+                                                                  textColor:nil
+                                                                   textFont:nil
+                                                                    handler:^{
+                                                                        NSInteger inter =
+                                                                            [self.textField.text integerValue] - self.dataSource.count;
+                                                                        if (inter == 0) { return; }
+                                                                        WYAPhotoBrowser * photo =
+                                                                            [[WYAPhotoBrowser alloc] initWithMaxCount:inter
+                                                                                                     photoBrowserType:WYAPhotoBrowserTypeAll];
+                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
+                                                                            NSLog(@"images==%@", media);
+                                                                            NSMutableArray * array = [NSMutableArray array];
+                                                                            for (NSObject * image in media) {
+                                                                                if ([image isKindOfClass:[UIImage class]]) {
+                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
+                                                                                    model.image            = (UIImage *)image;
+                                                                                    model.sourceType       = WYACameraSourceTypeImage;
+                                                                                    [array addObject:model];
+                                                                                }
+                                                                            }
+                                                                            [self.dataSource
+                                                                                insertObjects:array
+                                                                                    atIndexes:[NSIndexSet
+                                                                                                  indexSetWithIndexesInRange:NSMakeRange(
+                                                                                                                                 0,
+                                                                                                                                 media
+                                                                                                                                     .count)]];
+                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
+                                                                                self.allImage = YES;
+                                                                            }
+                                                                            [self.collectionView reloadData];
+                                                                        };
+                                                                        [weakSelf presentViewController:photo animated:YES completion:nil];
+                                                                    }];
         [alert wya_addAction:defaultAction];
         [alert wya_addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
@@ -304,16 +310,22 @@
             [arr addObject:model.image];
         }
 
-        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:indexPath.item imageCount:arr.count datasource:nil placeHoldImageBlock:^UIImage *(WYAImageBrowser *browser, NSInteger index) {
-            return arr[index];
-        } HighQualityImageURLBlock:^NSURL *(WYAImageBrowser *browser, NSInteger index) {
-            return nil;
-        } AssetBlock:^ALAsset *(WYAImageBrowser *browser, NSInteger index) {
-            return nil;
-        } SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
-            WYAEditCameraCell * cell = (WYAEditCameraCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
-            return cell.imageView;
-        }];
+        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:indexPath.item
+            imageCount:arr.count
+            datasource:nil
+            placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
+                return arr[index];
+            }
+            HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
+                return nil;
+            }
+            AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
+                return nil;
+            }
+            SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
+                WYAEditCameraCell * cell = (WYAEditCameraCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+                return cell.imageView;
+            }];
         imageBrowser.hidesForSinglePage = NO;
     }
 }

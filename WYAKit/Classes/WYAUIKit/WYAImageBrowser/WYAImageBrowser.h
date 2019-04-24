@@ -4,14 +4,13 @@
 //
 //  Created by lishihang.
 
-
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
 /**
  *  图片浏览器的样式
  */
-typedef NS_ENUM(NSUInteger, WYAImageBrowserStyle){
+typedef NS_ENUM(NSUInteger, WYAImageBrowserStyle) {
     /**
      *  长按图片弹出功能组件,底部一个PageControl
      */
@@ -29,7 +28,7 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserStyle){
 /**
  *  pageControl的位置
  */
-typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment){
+typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment) {
     /**
      * pageControl在右边
      */
@@ -38,13 +37,13 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment){
      *  pageControl 中间
      */
     WYAImageBrowserPageControlAlimentCenter = 2,
-    WYAImageBrowserPageControlAlimentLeft = 3
+    WYAImageBrowserPageControlAlimentLeft   = 3
 };
 
 /**
  *  pageControl的样式
  */
-typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle){
+typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
     /**
      * 系统自带经典样式
      */
@@ -56,14 +55,11 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle){
 
 };
 
-
 @class WYAImageBrowser;
 
 @protocol WYAImageBrowserDelegate <NSObject>
 
 @optional
-
-
 
 @end
 
@@ -111,13 +107,13 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle){
 
 @end
 
-typedef UIImage *(^PlaceHoldImageBlock)(WYAImageBrowser * browser, NSInteger index);
+typedef UIImage * (^PlaceHoldImageBlock)(WYAImageBrowser * browser, NSInteger index);
 
-typedef NSURL *(^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
+typedef NSURL * (^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
 
-typedef ALAsset *(^AssetBlock)(WYAImageBrowser * browser, NSInteger index);
+typedef ALAsset * (^AssetBlock)(WYAImageBrowser * browser, NSInteger index);
 
-typedef UIImageView *(^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteger index);
+typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteger index);
 
 @interface WYAImageBrowser : UIView
 
@@ -136,42 +132,40 @@ typedef UIImageView *(^SourceImageViewBlock)(WYAImageBrowser * browser, NSIntege
 
 @property (nonatomic, weak) id<WYAImageBrowserDatasource> datasource;
 
-@property (nonatomic , weak) id<WYAImageBrowserDelegate> delegate;
+@property (nonatomic, weak) id<WYAImageBrowserDelegate> delegate;
 /// 图片浏览器样式
-@property (nonatomic , assign) WYAImageBrowserStyle browserStyle;
+@property (nonatomic, assign) WYAImageBrowserStyle browserStyle;
 /**
  *  占位图片,可选(默认是一张灰色的100*100像素图片) 
  *  当没有实现数据源中placeholderImageForIndex方法时,默认会使用这个占位图片
  */
-@property(nonatomic, strong) UIImage *placeholderImage;
+@property (nonatomic, strong) UIImage * placeholderImage;
 
-
-#pragma mark    自定义PageControl样式接口
+#pragma mark 自定义PageControl样式接口
 
 /**
  *  是否在只有一张图时隐藏pagecontrol，默认为YES
  */
-@property(nonatomic) BOOL hidesForSinglePage;
+@property (nonatomic) BOOL hidesForSinglePage;
 
 /**
  *  当前分页控件小圆标颜色
  */
-@property (nonatomic, strong) UIColor *currentPageDotColor;
+@property (nonatomic, strong) UIColor * currentPageDotColor;
 /**
  *  其他分页控件小圆标颜色
  */
-@property (nonatomic, strong) UIColor *pageDotColor;
+@property (nonatomic, strong) UIColor * pageDotColor;
 /**
  *  当前分页控件小圆标图片
  */
-@property (nonatomic, strong) UIImage *currentPageDotImage;
+@property (nonatomic, strong) UIImage * currentPageDotImage;
 /**
  *  其他分页控件小圆标图片
  */
-@property (nonatomic, strong) UIImage *pageDotImage;
+@property (nonatomic, strong) UIImage * pageDotImage;
 
-
-#pragma mark    WYAImageBrowser控制接口
+#pragma mark WYAImageBrowser控制接口
 
 /**
  *  快速创建并进入图片浏览器 , 同时传入数据源对象
@@ -208,7 +202,7 @@ typedef UIImageView *(^SourceImageViewBlock)(WYAImageBrowser * browser, NSIntege
  *  @param deleteButtonTitle      删除按钮文字,如果为nil,不显示删除按钮
  *  @param otherButtonTitle    其他按钮数组
  */
-- (void)setActionSheetWithTitle:(NSString *)title delegate:(id<WYAImageBrowserDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle deleteButtonTitle:( NSString *)deleteButtonTitle otherButtonTitles:( NSString *)otherButtonTitle, ... NS_REQUIRES_NIL_TERMINATION;
+- (void)setActionSheetWithTitle:(NSString *)title delegate:(id<WYAImageBrowserDelegate>)delegate cancelButtonTitle:(NSString *)cancelButtonTitle deleteButtonTitle:(NSString *)deleteButtonTitle otherButtonTitles:(NSString *)otherButtonTitle, ... NS_REQUIRES_NIL_TERMINATION;
 /**
  *  保存当前展示的图片
  */

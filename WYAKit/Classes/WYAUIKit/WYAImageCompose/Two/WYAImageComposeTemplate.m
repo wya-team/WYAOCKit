@@ -19,12 +19,11 @@
 
 @implementation WYAImageComposeTemplate
 
-- (instancetype)initWithPoints:(NSArray *)points images:(NSArray *)images
-{
+- (instancetype)initWithPoints:(NSArray *)points images:(NSArray *)images {
     self = [super init];
     if (self) {
-        self.points = points;
-        self.images = images;
+        self.points     = points;
+        self.images     = images;
         self.isExchange = NO;
         for (WYAImageClipTemplate * template in self.templates) {
             [self addSubview:template];
@@ -33,7 +32,7 @@
     return self;
 }
 
-- (void)layoutSubviews{
+- (void)layoutSubviews {
     [super layoutSubviews];
 
     for (WYAImageClipTemplate * template in self.templates) {
@@ -41,35 +40,34 @@
     }
 }
 
-- (void)wya_templatePath{
+- (void)wya_templatePath {
     for (NSInteger index = 0; index < self.templates.count; index++) {
         [self templateViewWithView:self.templates[index] points:self.points[index] isTemplatePath:YES];
     }
-
 }
 
-- (void)wya_templateView{
+- (void)wya_templateView {
     for (NSInteger index = 0; index < self.templates.count; index++) {
         [self templateViewWithView:self.templates[index] points:self.points[index] isTemplatePath:NO];
     }
 }
 
 #pragma mark ======= Private Method
-- (void)templateViewWithView:(WYAImageClipTemplate *)view points:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath{
+- (void)templateViewWithView:(WYAImageClipTemplate *)view points:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath {
     [view addCoverLayerWithPoints:points isTemplatePath:isTemplatePath];
 }
 
-- (void)templateAnimationWithView:(WYAImageClipTemplate *)view point:(CGPoint)point panChange:(BOOL)panChange{
+- (void)templateAnimationWithView:(WYAImageClipTemplate *)view point:(CGPoint)point panChange:(BOOL)panChange {
 
     if (panChange == NO) {
         // 已结束
         NSLog(@"手势结束");
         if (self.isExchange == YES) {
-            UIImage * image = view.image;
-            UIImage * lastImage = self.exchangeTemplate.image;
-            view.image = lastImage;
+            UIImage * image             = view.image;
+            UIImage * lastImage         = self.exchangeTemplate.image;
+            view.image                  = lastImage;
             self.exchangeTemplate.image = image;
-            view.resetImageFrame = YES;
+            view.resetImageFrame        = YES;
             if (self.exchangeTemplate) {
                 [self.exchangeTemplate wya_templateRemoveAnimationPath];
             }
@@ -85,8 +83,8 @@
 
         if (template != view) {
             // 当前所在的模板和原来的模板不是同一个
-            NSLog(@"\n当前便利的视图==%p,\n手势点击的视图==%p,\n要交换图片的视图==%p",template,view,self.exchangeTemplate);
-//            NSLog(@"\npoint==%@,\ntemplatePoints==%@",NSStringFromCGPoint(point),template.templatePoints);
+            NSLog(@"\n当前便利的视图==%p,\n手势点击的视图==%p,\n要交换图片的视图==%p", template, view, self.exchangeTemplate);
+            //            NSLog(@"\npoint==%@,\ntemplatePoints==%@",NSStringFromCGPoint(point),template.templatePoints);
             if (CGPathContainsPoint(template.pathRef, NULL, point, NO)) {
                 // 当前手势滑到的区域
                 self.isExchange = YES;
@@ -105,31 +103,28 @@
                 }
             }
         } else {
-
         }
-
     }
-
 }
 
 #pragma mark ======= Setter
--(void)setImages:(NSArray *)images{
+- (void)setImages:(NSArray *)images {
     if (images) {
         for (NSInteger index = 0; index < images.count; index++) {
             WYAImageClipTemplate * template = self.templates[index];
-            template.image = images[index];
+            template.image                  = images[index];
         }
     }
 }
 
 #pragma mark ======= Getter
-- (NSArray *)templates{
-    if(!_templates) {
+- (NSArray *)templates {
+    if (!_templates) {
         WeakSelf(weakSelf);
         NSMutableArray * array = [NSMutableArray array];
         for (id obj in self.points) {
-            WYAImageClipTemplate * template = [[WYAImageClipTemplate alloc]init];
-            template.panClick = ^(CGPoint point, WYAImageClipTemplate * _Nonnull view, BOOL panIsChange) {
+            WYAImageClipTemplate * template = [[WYAImageClipTemplate alloc] init];
+            template.panClick               = ^(CGPoint point, WYAImageClipTemplate * _Nonnull view, BOOL panIsChange) {
                 [weakSelf templateAnimationWithView:view point:point panChange:panIsChange];
             };
             [array addObject:template];
@@ -147,7 +142,5 @@
     // Drawing code
 }
 */
-
-
 
 @end

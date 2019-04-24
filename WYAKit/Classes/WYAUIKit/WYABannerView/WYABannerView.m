@@ -272,7 +272,7 @@ NSString * const ID = @"WYABannerCell";
 }
 
 + (void)clearImagesCache {
-//    [[[SDWebImageManager sharedManager] imageCache] clearDiskOnCompletion:nil];
+    //    [[[SDWebImageManager sharedManager] imageCache] clearDiskOnCompletion:nil];
 }
 
 #pragma mark - life circles

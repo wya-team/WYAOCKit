@@ -7,6 +7,7 @@
 
 #import "WYATextView.h"
 #import "UITextView+WYAPlaceholder.h"
+
 @interface WYATextView ()
 
 @property (nonatomic, strong) UILabel * titleLabel;
@@ -14,8 +15,7 @@
 
 @end
 
-@implementation WYATextView
-{
+@implementation WYATextView {
     CGFloat _initialHeight;
 }
 - (instancetype)init {
@@ -45,27 +45,27 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
 
-    CGFloat titleLabel_x = 5 * SizeAdapter;
-    CGFloat titleLabel_y = 7 * SizeAdapter;
-    CGFloat titleLabel_width = 40 * SizeAdapter;
+    CGFloat titleLabel_x      = 5 * SizeAdapter;
+    CGFloat titleLabel_y      = 7 * SizeAdapter;
+    CGFloat titleLabel_width  = 40 * SizeAdapter;
     CGFloat titleLabel_height = 20 * SizeAdapter;
-    CGRect titleLabel_rect = CGRectMake(titleLabel_x, titleLabel_y,  titleLabel_width, titleLabel_height);
-    self.titleLabel.frame = titleLabel_rect;
+    CGRect titleLabel_rect    = CGRectMake(titleLabel_x, titleLabel_y, titleLabel_width, titleLabel_height);
+    self.titleLabel.frame     = titleLabel_rect;
 
-    CGFloat noteLabel_x = 0;
-    CGFloat noteLabel_y = self.cmam_height - 20 * SizeAdapter;
-    CGFloat noteLabel_width = self.cmam_width - 5 * SizeAdapter;
+    CGFloat noteLabel_x      = 0;
+    CGFloat noteLabel_y      = self.cmam_height - 20 * SizeAdapter;
+    CGFloat noteLabel_width  = self.cmam_width - 5 * SizeAdapter;
     CGFloat noteLabel_height = 20 * SizeAdapter;
-    CGRect noteLabel_rect = CGRectMake(noteLabel_x, noteLabel_y,  noteLabel_width, noteLabel_height);
-    self.noteLabel.frame = noteLabel_rect;
+    CGRect noteLabel_rect    = CGRectMake(noteLabel_x, noteLabel_y, noteLabel_width, noteLabel_height);
+    self.noteLabel.frame     = noteLabel_rect;
 
     CGFloat textView_x;
     CGFloat textView_width;
     if (self.showTitle == NO) {
-        textView_x = 0;
+        textView_x     = 0;
         textView_width = self.cmam_width;
     } else {
-        textView_x = self.titleLabel.cmam_right;
+        textView_x     = self.titleLabel.cmam_right;
         textView_width = self.cmam_width - self.titleLabel.cmam_right;
     }
     CGFloat textView_y = 5 * SizeAdapter;
@@ -75,16 +75,16 @@
     } else {
         textView_height = self.cmam_height - 10 * SizeAdapter;
     }
-    CGRect textView_rect = CGRectMake(textView_x, textView_y,  textView_width, textView_height);
-    self.textView.frame = textView_rect;
+    CGRect textView_rect = CGRectMake(textView_x, textView_y, textView_width, textView_height);
+    self.textView.frame  = textView_rect;
 }
 
--(void)dealloc{
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
 #pragma mark--- Private Method
-- (void)textChange:(NSNotification *)not{
+- (void)textChange:(NSNotification *) not{
     UITextView * textView = (UITextView *)not.object;
     if (self.showWordsCount) {
         [self recordTextViewInputWithTextView:textView];
@@ -94,7 +94,7 @@
     }
 }
 
-- (void)recordTextViewInputWithTextView:(UITextView *)textView{
+- (void)recordTextViewInputWithTextView:(UITextView *)textView {
     NSString * toBeString = textView.text;
 
     // 获取键盘输入模式
@@ -102,7 +102,7 @@
     NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
 
     if ([lang isEqualToString:
-         @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
+                  @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
 
         UITextRange * selectedRange = [textView markedTextRange];
 
@@ -115,14 +115,14 @@
         if (!position) {
             if (toBeString.length > self.textViewWordsCount) {
                 textView.text = [toBeString
-                                 substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
+                    substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
 
                 self.noteLabel.text = [NSString
-                                       stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                    stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
 
             } else {
                 self.noteLabel.text = [NSString
-                                       stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                    stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
             }
         }
 
@@ -132,22 +132,22 @@
             textView.text = [toBeString substringToIndex:self.textViewWordsCount];
 
             self.noteLabel.text = [NSString
-                                   stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
 
         } else {
             self.noteLabel.text =
-            [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
         }
     }
 }
 
-- (void)autoChnageTextViewHeightWithTextView:(UITextView *)textView{
-    CGFloat maxHeight = self.textViewMaxHeight;
-    CGRect frame = textView.frame;
+- (void)autoChnageTextViewHeightWithTextView:(UITextView *)textView {
+    CGFloat maxHeight     = self.textViewMaxHeight;
+    CGRect frame          = textView.frame;
     CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
-    CGSize size = [textView sizeThatFits:constraintSize];
-    NSLog(@"self.height==%f,size.height==%f,maxHeight==%f",self.cmam_height,size.height,self.textViewMaxHeight);
-    NSLog(@"initialHeight==%f",_initialHeight);
+    CGSize size           = [textView sizeThatFits:constraintSize];
+    NSLog(@"self.height==%f,size.height==%f,maxHeight==%f", self.cmam_height, size.height, self.textViewMaxHeight);
+    NSLog(@"initialHeight==%f", _initialHeight);
     if (size.height >= maxHeight) {
         // 如果大于最大高度，就不在增加高度
         size.height = maxHeight;
@@ -160,9 +160,9 @@
         }
     }
 
-    textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
-    CGFloat self_x = self.cmam_left;
-    CGFloat self_y = self.cmam_top;
+    textView.frame     = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
+    CGFloat self_x     = self.cmam_left;
+    CGFloat self_y     = self.cmam_top;
     CGFloat self_width = self.cmam_width;
     CGFloat self_height;
     if (self.showWordsCount) {
@@ -170,8 +170,8 @@
     } else {
         self_height = size.height;
     }
-    CGRect self_rect = CGRectMake(self_x, self_y,  self_width, self_height);
-    self.frame = self_rect;
+    CGRect self_rect = CGRectMake(self_x, self_y, self_width, self_height);
+    self.frame       = self_rect;
     if (self.textViewContentFrame) {
         self.textViewContentFrame();
     }
@@ -180,7 +180,7 @@
 #pragma mark--- Public Method
 
 #pragma mark--- Setter
-- (void)setFrame:(CGRect)frame{
+- (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     if (!_initialHeight) {
         _initialHeight = frame.size.height;
@@ -219,19 +219,19 @@
     [self layoutIfNeeded];
 }
 
-- (void)setText:(NSString *)text{
+- (void)setText:(NSString *)text {
     if (text) {
-        self.textView.text = text;
+        self.textView.text  = text;
         self.noteLabel.text = [NSString
-                               stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
+            stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
     }
 }
 
--(void)setPlaceHoldString:(NSString *)placeHoldString{
+- (void)setPlaceHoldString:(NSString *)placeHoldString {
     self.textView.wya_placeHolder = placeHoldString;
 }
 
-- (void)setPlaceHoldColor:(UIColor *)placeHoldColor{
+- (void)setPlaceHoldColor:(UIColor *)placeHoldColor {
     self.textView.wya_placeHolderColor = placeHoldColor;
 }
 
@@ -247,7 +247,7 @@
 
 - (UITextView *)textView {
     if (!_textView) {
-        _textView          = [[UITextView alloc] init];
+        _textView               = [[UITextView alloc] init];
         _textView.scrollEnabled = YES;
     }
     return _textView;
@@ -263,7 +263,7 @@
     return _noteLabel;
 }
 
-- (NSString *)text{
+- (NSString *)text {
     return self.textView.text;
 }
 

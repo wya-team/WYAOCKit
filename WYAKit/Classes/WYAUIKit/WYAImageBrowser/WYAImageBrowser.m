@@ -1,29 +1,28 @@
 //
 //  WYAImageBrowser.m
 
-
 #import "WYAImageBrowser.h"
 #import "WYAZoomingScrollView.h"
 
 #define BaseTag 100
 
-@interface WYAImageBrowser () <WYAZoomingScrollViewDelegate, UIScrollViewDelegate,UIGestureRecognizerDelegate>
+@interface WYAImageBrowser () <WYAZoomingScrollViewDelegate, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 /// 用户点击的图片视图,用于做图片浏览器弹出的放大动画,不给次属性赋值会通过代理方法photoBrowser: sourceImageViewForIndex:尝试获取,如果还是获取不到则没有弹出放大动画
-@property (nonatomic, weak) UIImageView *sourceImageView;
+@property (nonatomic, weak) UIImageView * sourceImageView;
 /// 当前显示的图片位置索引 , 默认是0
-@property (nonatomic, assign ) NSInteger currentImageIndex;
+@property (nonatomic, assign) NSInteger currentImageIndex;
 /// 浏览的图片数量,大于0
-@property (nonatomic, assign ) NSInteger imageCount;
+@property (nonatomic, assign) NSInteger imageCount;
 
-@property (nonatomic , strong) UIWindow *photoBrowserRootView;
+@property (nonatomic, strong) UIWindow * photoBrowserRootView;
 /// 展示给用户的背景颜色
-@property (nonatomic , strong) UIView *bgView;
+@property (nonatomic, strong) UIView * bgView;
 /// 是否允许向下拖动
-@property (nonatomic , assign) BOOL enablePan;
+@property (nonatomic, assign) BOOL enablePan;
 /// 当前浏览大图的原图位置
-@property (nonatomic , assign) CGRect originFrame;
+@property (nonatomic, assign) CGRect originFrame;
 /// 当前浏览大图的拖动初始位置
-@property (nonatomic , assign) CGRect startFrame;
+@property (nonatomic, assign) CGRect startFrame;
 /// 初始作用在图片的位置（相对父视图）
 @property (nonatomic, assign) CGPoint startPoint;
 /// 初始作用在图片的位置（相对当前屏幕）
@@ -31,222 +30,204 @@
 /// 累计偏移量(拖动过程发生的偏移)
 @property (nonatomic, assign) CGPoint offset;
 /// 存放所有图片的容器
-@property (nonatomic , strong) UIScrollView  *scrollView;
+@property (nonatomic, strong) UIScrollView * scrollView;
 /// 保存图片的过程指示菊花
-@property (nonatomic , strong) UIActivityIndicatorView  *indicatorView;
+@property (nonatomic, strong) UIActivityIndicatorView * indicatorView;
 /// 保存图片的结果指示label
-@property (nonatomic , strong) UILabel *savaImageTipLabel;
+@property (nonatomic, strong) UILabel * savaImageTipLabel;
 /// 正在使用的WYAZoomingScrollView对象集
-@property (nonatomic , strong) NSMutableSet  *visibleZoomingScrollViews;
+@property (nonatomic, strong) NSMutableSet * visibleZoomingScrollViews;
 /// 循环利用池中的WYAZoomingScrollView对象集,用于循环利用
-@property (nonatomic , strong) NSMutableSet  *reusableZoomingScrollViews;
+@property (nonatomic, strong) NSMutableSet * reusableZoomingScrollViews;
 
-@property (nonatomic , strong) UIControl  *pageControl;
+@property (nonatomic, strong) UIControl * pageControl;
 /// index label
-@property (nonatomic , strong) UILabel  *indexLabel;
+@property (nonatomic, strong) UILabel * indexLabel;
 /// 保存按钮
-@property (nonatomic , strong) UIButton *saveButton;
+@property (nonatomic, strong) UIButton * saveButton;
 /// ActionSheet的otherbuttontitles
-@property (nonatomic , strong) NSArray  *actionOtherButtonTitles;
+@property (nonatomic, strong) NSArray * actionOtherButtonTitles;
 /// ActionSheet的title
-@property (nonatomic , strong) NSString  *actionSheetTitle;
+@property (nonatomic, strong) NSString * actionSheetTitle;
 /// actionSheet的取消按钮title
-@property (nonatomic , strong) NSString  *actionSheetCancelTitle;
+@property (nonatomic, strong) NSString * actionSheetCancelTitle;
 /// actionSheet的高亮按钮title
-@property (nonatomic , strong) NSString  *actionSheetDeleteButtonTitle;
+@property (nonatomic, strong) NSString * actionSheetDeleteButtonTitle;
 /// 小圆点大小
 @property (nonatomic, assign) CGSize pageControlDotSize;
 /// 图片数组
-@property(nonatomic, strong) NSArray *images;
+@property (nonatomic, strong) NSArray * images;
 
 @end
 
 @implementation WYAImageBrowser
 
-- (void)awakeFromNib
-{
+- (void)awakeFromNib {
     [super awakeFromNib];
     [self initial];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self initial];
     }
     return self;
 }
 
-- (void)initial
-{
-    self.visibleZoomingScrollViews = [[NSMutableSet alloc] init];
+- (void)initial {
+    self.visibleZoomingScrollViews  = [[NSMutableSet alloc] init];
     self.reusableZoomingScrollViews = [[NSMutableSet alloc] init];
     [self placeholderImage];
-    
-    _pageControlAliment = WYAImageBrowserPageControlAlimentCenter;
-    _pageControlDotSize = CGSizeMake(10, 10);
-    _pageControlStyle = WYAImageBrowserPageControlStyleClassic;
-    _hidesForSinglePage = YES;
+
+    _pageControlAliment  = WYAImageBrowserPageControlAlimentCenter;
+    _pageControlDotSize  = CGSizeMake(10, 10);
+    _pageControlStyle    = WYAImageBrowserPageControlStyleClassic;
+    _hidesForSinglePage  = YES;
     _currentPageDotColor = [UIColor whiteColor];
-    _pageDotColor = [UIColor lightGrayColor];
-    _browserStyle = WYAImageBrowserStylePageControl;
-    
+    _pageDotColor        = [UIColor lightGrayColor];
+    _browserStyle        = WYAImageBrowserStylePageControl;
+
     self.currentImageIndex = 0;
-    self.imageCount = 0;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification  object:nil];
-    
+    self.imageCount        = 0;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(orientationDidChange) name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
-- (void)iniaialUI
-{
-    
+- (void)iniaialUI {
+
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    
-    self.scrollView = [[UIScrollView alloc] init];
-    self.scrollView.delegate = self;
+
+    self.scrollView                                = [[UIScrollView alloc] init];
+    self.scrollView.delegate                       = self;
     self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.pagingEnabled = YES;
-    self.scrollView.backgroundColor = [UIColor clearColor];
+    self.scrollView.showsVerticalScrollIndicator   = NO;
+    self.scrollView.pagingEnabled                  = YES;
+    self.scrollView.backgroundColor                = [UIColor clearColor];
     [self addSubview:self.scrollView];
-    
+
     if (self.currentImageIndex == 0) { // 如果刚进入的时候是0,不会调用scrollViewDidScroll:方法,不会展示第一张图片
-        NSLog(@"self.currentImageIndex == %zd",self.currentImageIndex);
+        NSLog(@"self.currentImageIndex == %zd", self.currentImageIndex);
         [self showPhotos];
     }
-    
+
     [self setUpPageControl];
-    
-    UILabel *indexLabel = [[UILabel alloc] init];
-    indexLabel.textAlignment = NSTextAlignmentCenter;
-    indexLabel.textColor = [UIColor whiteColor];
-    indexLabel.font = [UIFont systemFontOfSize:18];
+
+    UILabel * indexLabel       = [[UILabel alloc] init];
+    indexLabel.textAlignment   = NSTextAlignmentCenter;
+    indexLabel.textColor       = [UIColor whiteColor];
+    indexLabel.font            = [UIFont systemFontOfSize:18];
     indexLabel.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    indexLabel.clipsToBounds = YES;
-    self.indexLabel = indexLabel;
+    indexLabel.clipsToBounds   = YES;
+    self.indexLabel            = indexLabel;
     [self addSubview:indexLabel];
-    UIButton *saveButton = [[UIButton alloc] init];
+    UIButton * saveButton = [[UIButton alloc] init];
     [saveButton setTitle:@"保存" forState:UIControlStateNormal];
     [saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    saveButton.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+    saveButton.backgroundColor    = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
     saveButton.layer.cornerRadius = 5;
-    saveButton.clipsToBounds = YES;
+    saveButton.clipsToBounds      = YES;
     [saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
     self.saveButton = saveButton;
     [self addSubview:saveButton];
-    
+
     [self showFirstImage];
     [self updateIndexContent];
     [self updateIndexVisible];
 }
 
-- (void)setUpPageControl
-{
+- (void)setUpPageControl {
     if (_pageControl) {
         [_pageControl removeFromSuperview];
         _pageControl = nil;
         // 重新加载数据时调整
     }
     switch (self.pageControlStyle) {
-        case WYAImageBrowserPageControlStyleClassic:
-        {
-            UIPageControl *pageControl = [[UIPageControl alloc] init];
-            _pageControl = pageControl;
-            pageControl.numberOfPages = self.imageCount;
+        case WYAImageBrowserPageControlStyleClassic: {
+            UIPageControl * pageControl               = [[UIPageControl alloc] init];
+            _pageControl                              = pageControl;
+            pageControl.numberOfPages                 = self.imageCount;
             pageControl.currentPageIndicatorTintColor = self.currentPageDotColor;
-            pageControl.pageIndicatorTintColor = self.pageDotColor;
-            pageControl.userInteractionEnabled = NO;
+            pageControl.pageIndicatorTintColor        = self.pageDotColor;
+            pageControl.userInteractionEnabled        = NO;
             [self addSubview:pageControl];
             pageControl.currentPage = self.currentImageIndex;
-        }
-            break;
+        } break;
         default:
             break;
     }
-    
+
     // 重设pagecontroldot图片
     self.currentPageDotImage = self.currentPageDotImage;
-    self.pageDotImage = self.pageDotImage;
+    self.pageDotImage        = self.pageDotImage;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self.reusableZoomingScrollViews removeAllObjects];
     [self.visibleZoomingScrollViews removeAllObjects];
 }
 
-#pragma mark    -   layout
+#pragma mark -   layout
 
-- (void)orientationDidChange
-{
-    self.scrollView.delegate = nil; // 旋转期间,禁止调用scrollView的代理事件等
-    WYAZoomingScrollView *temp = [self zoomingScrollViewAtIndex:self.currentImageIndex];
+- (void)orientationDidChange {
+    self.scrollView.delegate    = nil; // 旋转期间,禁止调用scrollView的代理事件等
+    WYAZoomingScrollView * temp = [self zoomingScrollViewAtIndex:self.currentImageIndex];
     [temp.scrollview setZoomScale:1.0 animated:YES];
     [self updateFrames];
     self.scrollView.delegate = self;
 }
 
-- (void)updateFrames
-{
-    self.frame = [UIScreen mainScreen].bounds;
+- (void)updateFrames {
+    self.frame  = [UIScreen mainScreen].bounds;
     CGRect rect = self.bounds;
     rect.size.width += 10;
-    self.scrollView.frame = rect; // frame修改的时候,也会触发scrollViewDidScroll,不是每次都触发
-    self.scrollView.cmam_left = 0;
-    self.scrollView.contentSize = CGSizeMake((self.scrollView.cmam_width) * self.imageCount, 0);
-    self.scrollView.contentOffset = CGPointMake(self.currentImageIndex * (self.scrollView.cmam_width), 0);// 回触发scrollViewDidScroll
+    self.scrollView.frame         = rect; // frame修改的时候,也会触发scrollViewDidScroll,不是每次都触发
+    self.scrollView.cmam_left     = 0;
+    self.scrollView.contentSize   = CGSizeMake((self.scrollView.cmam_width) * self.imageCount, 0);
+    self.scrollView.contentOffset = CGPointMake(self.currentImageIndex * (self.scrollView.cmam_width), 0); // 回触发scrollViewDidScroll
     [self.scrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.tag >= BaseTag) {
             obj.frame = CGRectMake((self.scrollView.cmam_width) * (obj.tag - BaseTag), 0, self.cmam_width, self.cmam_height);
         }
     }];
-    
-    self.saveButton.frame = CGRectMake(30, self.cmam_height - 70, 50, 25);
-    self.indexLabel.bounds = CGRectMake(0, 0, 80, 30);
-    self.indexLabel.cmam_centerX = self.cmam_width * 0.5;
-    self.indexLabel.cmam_centerY = 35;
+
+    self.saveButton.frame              = CGRectMake(30, self.cmam_height - 70, 50, 25);
+    self.indexLabel.bounds             = CGRectMake(0, 0, 80, 30);
+    self.indexLabel.cmam_centerX       = self.cmam_width * 0.5;
+    self.indexLabel.cmam_centerY       = 35;
     self.indexLabel.layer.cornerRadius = self.indexLabel.cmam_height * 0.5;
-    
+
     self.savaImageTipLabel.layer.cornerRadius = 5;
-    self.savaImageTipLabel.clipsToBounds = YES;
+    self.savaImageTipLabel.clipsToBounds      = YES;
     [self.savaImageTipLabel sizeToFit];
     self.savaImageTipLabel.cmam_height = 30;
     self.savaImageTipLabel.cmam_width += 20;
     self.savaImageTipLabel.center = self.center;
-    
+
     self.indicatorView.center = self.center;
-    
+
     CGSize size = CGSizeZero;
-    
+
     size = CGSizeMake(self.imageCount * self.pageControlDotSize.width * 1.2, self.pageControlDotSize.height);
-    
+
     CGFloat x;
     switch (self.pageControlAliment) {
-        case WYAImageBrowserPageControlAlimentCenter:
-        {
+        case WYAImageBrowserPageControlAlimentCenter: {
             x = (self.cmam_width - size.width) * 0.5;
-        }
-            break;
-        case WYAImageBrowserPageControlAlimentLeft:
-        {
+        } break;
+        case WYAImageBrowserPageControlAlimentLeft: {
             x = 10;
-        }
-            break;
-        case WYAImageBrowserPageControlAlimentRight:
-        {
+        } break;
+        case WYAImageBrowserPageControlAlimentRight: {
             x = self.cmam_width - size.width - 10;
-        }
-            break;
+        } break;
         default:
             break;
     }
-    CGFloat y = self.cmam_height - size.height - 50;
+    CGFloat y              = self.cmam_height - size.height - 50;
     self.pageControl.frame = CGRectMake(x, y, size.width, size.height);
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     [super layoutSubviews];
     [self updateFrames];
 }
@@ -266,16 +247,15 @@
                                   placeHoldImageBlock:(PlaceHoldImageBlock)placeHoldimageBlock
                              HighQualityImageURLBlock:(HighQualityImageURLBlock)highQualityImageBlock
                                            AssetBlock:(AssetBlock)assetBlock
-                                 SourceImageViewBlock:(SourceImageViewBlock)sourceImageViewBlock
-{
-    WYAImageBrowser *browser = [[WYAImageBrowser alloc] init];
-    browser.imageCount = imageCount;
-    browser.currentImageIndex = currentImageIndex;
-    browser.datasource = datasource;
-    browser.placeHoldImageBlock = placeHoldimageBlock;
+                                 SourceImageViewBlock:(SourceImageViewBlock)sourceImageViewBlock {
+    WYAImageBrowser * browser        = [[WYAImageBrowser alloc] init];
+    browser.imageCount               = imageCount;
+    browser.currentImageIndex        = currentImageIndex;
+    browser.datasource               = datasource;
+    browser.placeHoldImageBlock      = placeHoldimageBlock;
     browser.highQualityImageURLBlock = highQualityImageBlock;
-    browser.assetBlock = assetBlock;
-    browser.sourceImageViewBlock = sourceImageViewBlock;
+    browser.assetBlock               = assetBlock;
+    browser.sourceImageViewBlock     = sourceImageViewBlock;
     [browser show];
     return browser;
 }
@@ -288,13 +268,12 @@
  
  @return XLPhotoBrowser实例对象
  */
-+ (instancetype)showImageBrowserWithImages:(NSArray *)images currentImageIndex:(NSInteger)currentImageIndex
-{
-    if (images.count <=0 || images ==nil) {
++ (instancetype)showImageBrowserWithImages:(NSArray *)images currentImageIndex:(NSInteger)currentImageIndex {
+    if (images.count <= 0 || images == nil) {
         NSLog(@"一行代码展示图片浏览的方法,传入的数据源为空,请检查传入数据源");
         return nil;
     }
-    
+
     //检查数据源对象是否非法
     for (id image in images) {
         if (![image isKindOfClass:[UIImage class]] && ![image isKindOfClass:[NSString class]] && ![image isKindOfClass:[NSURL class]] && ![image isKindOfClass:[ALAsset class]]) {
@@ -302,11 +281,11 @@
             return nil;
         }
     }
-    
-    WYAImageBrowser *browser = [[WYAImageBrowser alloc] init];
-    browser.imageCount = images.count;
+
+    WYAImageBrowser * browser = [[WYAImageBrowser alloc] init];
+    browser.imageCount        = images.count;
     browser.currentImageIndex = currentImageIndex;
-    browser.images = images;
+    browser.images            = images;
     [browser show];
     return browser;
 }
@@ -325,8 +304,7 @@
 //    [self show];
 //}
 
-- (void)show
-{
+- (void)show {
     if (self.imageCount <= 0) {
         return;
     }
@@ -336,8 +314,8 @@
     if (self.currentImageIndex < 0) {
         self.currentImageIndex = 0;
     }
-    
-    self.frame = self.photoBrowserRootView.bounds;
+
+    self.frame  = self.photoBrowserRootView.bounds;
     self.bgView = [[UIView alloc] initWithFrame:self.photoBrowserRootView.bounds];
     [self.bgView setBackgroundColor:[UIColor blackColor]];
     [self.photoBrowserRootView addSubview:self.bgView];
@@ -348,30 +326,31 @@
 /**
  *  退出
  */
-- (void)dismiss
-{
-    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-        self.bgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self removeAllBrowserViews];
+- (void)dismiss {
+    [UIView animateWithDuration:0.25
+        delay:0
+        options:UIViewAnimationOptionCurveEaseIn
+        animations:^{
+            self.bgView.alpha = 0.0;
         }
-    }];
+        completion:^(BOOL finished) {
+            if (finished) {
+                [self removeAllBrowserViews];
+            }
+        }];
 }
-
 
 /**
  移除所有浏览使用到的视图
  */
-- (void)removeAllBrowserViews{
-    
+- (void)removeAllBrowserViews {
+
     [self removeFromSuperview];
     [self.savaImageTipLabel removeFromSuperview];
     [self.indicatorView removeFromSuperview];
     [self.bgView removeFromSuperview];
     self.photoBrowserRootView.windowLevel = UIWindowLevelNormal - 1;
-    self.photoBrowserRootView = nil;
-    
+    self.photoBrowserRootView             = nil;
 }
 
 /**
@@ -382,10 +361,9 @@
  *  @param deleteButtonTitle      删除按钮文字
  *  @param otherButtonTitle      其他按钮数组
  */
-- (void)setActionSheetWithTitle:(nullable NSString *)title cancelButtonTitle:(nullable NSString *)cancelButtonTitle deleteButtonTitle:(nullable NSString *)deleteButtonTitle otherButtonTitles:(nullable NSString *)otherButtonTitle, ...
-{
-    NSMutableArray *otherButtonTitlesArray = [NSMutableArray array];
-    NSString *buttonTitle;
+- (void)setActionSheetWithTitle:(nullable NSString *)title cancelButtonTitle:(nullable NSString *)cancelButtonTitle deleteButtonTitle:(nullable NSString *)deleteButtonTitle otherButtonTitles:(nullable NSString *)otherButtonTitle, ... {
+    NSMutableArray * otherButtonTitlesArray = [NSMutableArray array];
+    NSString * buttonTitle;
     va_list argumentList;
     if (otherButtonTitle) {
         [otherButtonTitlesArray addObject:otherButtonTitle];
@@ -395,35 +373,32 @@
         }
         va_end(argumentList);
     }
-    self.actionOtherButtonTitles = otherButtonTitlesArray;
-    self.actionSheetTitle = title;
-    self.actionSheetCancelTitle = cancelButtonTitle;
+    self.actionOtherButtonTitles      = otherButtonTitlesArray;
+    self.actionSheetTitle             = title;
+    self.actionSheetCancelTitle       = cancelButtonTitle;
     self.actionSheetDeleteButtonTitle = deleteButtonTitle;
-    
 }
 
 /**
  *  保存当前展示的图片
  */
-- (void)saveCurrentShowImage
-{
+- (void)saveCurrentShowImage {
     [self saveImage];
 }
 
-#pragma mark    -   private -- 长按图片相关
+#pragma mark -   private -- 长按图片相关
 
-- (void)longPress:(UILongPressGestureRecognizer *)longPress
-{
-    WYAZoomingScrollView *currentZoomingScrollView = [self zoomingScrollViewAtIndex:self.currentImageIndex];
+- (void)longPress:(UILongPressGestureRecognizer *)longPress {
+    WYAZoomingScrollView * currentZoomingScrollView = [self zoomingScrollViewAtIndex:self.currentImageIndex];
     if (longPress.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"UIGestureRecognizerStateBegan , currentZoomingScrollView.progress %f",currentZoomingScrollView.progress);
+        NSLog(@"UIGestureRecognizerStateBegan , currentZoomingScrollView.progress %f", currentZoomingScrollView.progress);
         if (currentZoomingScrollView.progress < 1.0) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self longPress:longPress];
             });
             return;
         }
-        
+
         if (self.actionOtherButtonTitles.count <= 0 && self.actionSheetDeleteButtonTitle.length <= 0 && self.actionSheetTitle.length <= 0) {
             return;
         }
@@ -470,11 +445,10 @@
 //    [self updatePageControlIndex];
 //}
 
-#pragma mark    -   private -- save image
+#pragma mark -   private -- save image
 
-- (void)saveImage
-{
-    WYAZoomingScrollView *zoomingScrollView = [self zoomingScrollViewAtIndex:self.currentImageIndex];
+- (void)saveImage {
+    WYAZoomingScrollView * zoomingScrollView = [self zoomingScrollViewAtIndex:self.currentImageIndex];
     if (zoomingScrollView.progress < 1.0) {
         self.savaImageTipLabel.text = @" >_< 图片加载中,请稍后 ";
         [self addSubview:self.savaImageTipLabel];
@@ -498,32 +472,31 @@
     [self.savaImageTipLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1.0];
 }
 
-#pragma mark    -   private ---loadimage
-- (void)showPhotos
-{
+#pragma mark -   private ---loadimage
+- (void)showPhotos {
     // 只有一张图片
     if (self.imageCount == 1) {
         [self setUpImageForZoomingScrollViewAtIndex:0];
         return;
     }
-    
+
     CGRect visibleBounds = self.scrollView.bounds;
     NSInteger firstIndex = floor((CGRectGetMinX(visibleBounds)) / CGRectGetWidth(visibleBounds));
-    NSInteger lastIndex  = floor((CGRectGetMaxX(visibleBounds)-1) / CGRectGetWidth(visibleBounds));
-    
+    NSInteger lastIndex  = floor((CGRectGetMaxX(visibleBounds) - 1) / CGRectGetWidth(visibleBounds));
+
     if (firstIndex < 0) {
         firstIndex = 0;
     }
     if (firstIndex >= self.imageCount) {
         firstIndex = self.imageCount - 1;
     }
-    if (lastIndex < 0){
+    if (lastIndex < 0) {
         lastIndex = 0;
     }
     if (lastIndex >= self.imageCount) {
         lastIndex = self.imageCount - 1;
     }
-    
+
     // 回收不再显示的zoomingScrollView
     NSInteger zoomingScrollViewIndex = 0;
     for (WYAZoomingScrollView * zoomingScrollView in self.visibleZoomingScrollViews) {
@@ -534,13 +507,13 @@
             [zoomingScrollView removeFromSuperview];
         }
     }
-    
+
     // _visiblePhotoViews 减去 _reusablePhotoViews中的元素
     [self.visibleZoomingScrollViews minusSet:self.reusableZoomingScrollViews];
     while (self.reusableZoomingScrollViews.count > 2) { // 循环利用池中最多保存两个可以用对象
         [self.reusableZoomingScrollViews removeObject:[self.reusableZoomingScrollViews anyObject]];
     }
-    
+
     // 展示图片
     for (NSInteger index = firstIndex; index <= lastIndex; index++) {
         if (![self isShowingZoomingScrollViewAtIndex:index]) {
@@ -552,9 +525,8 @@
 /**
  *  判断指定的某个位置图片是否在显示
  */
-- (BOOL)isShowingZoomingScrollViewAtIndex:(NSInteger)index
-{
-    for (WYAZoomingScrollView* view in self.visibleZoomingScrollViews) {
+- (BOOL)isShowingZoomingScrollViewAtIndex:(NSInteger)index {
+    for (WYAZoomingScrollView * view in self.visibleZoomingScrollViews) {
         if ((view.tag - BaseTag) == index) {
             return YES;
         }
@@ -567,13 +539,13 @@
  *
  *  @param index 指定位置索引
  */
-- (WYAZoomingScrollView *)zoomingScrollViewAtIndex:(NSInteger)index
-{
-    for (WYAZoomingScrollView* zoomingScrollView in self.visibleZoomingScrollViews) {
+- (WYAZoomingScrollView *)zoomingScrollViewAtIndex:(NSInteger)index {
+    for (WYAZoomingScrollView * zoomingScrollView in self.visibleZoomingScrollViews) {
         if ((zoomingScrollView.tag - BaseTag) == index) {
             return zoomingScrollView;
         }
-    }                                                                                    WYAZoomingScrollView* zoomingScrollView = [self dequeueReusableZoomingScrollView];
+    }
+    WYAZoomingScrollView * zoomingScrollView = [self dequeueReusableZoomingScrollView];
     [self setUpImageForZoomingScrollViewAtIndex:index];
     return zoomingScrollView;
 }
@@ -581,176 +553,173 @@
 /**
  *   加载指定位置的图片
  */
-- (void)setUpImageForZoomingScrollViewAtIndex:(NSInteger)index
-{
-    WYAZoomingScrollView *zoomingScrollView = [self dequeueReusableZoomingScrollView];
+- (void)setUpImageForZoomingScrollViewAtIndex:(NSInteger)index {
+    WYAZoomingScrollView * zoomingScrollView    = [self dequeueReusableZoomingScrollView];
     zoomingScrollView.zoomingScrollViewdelegate = self;
     [zoomingScrollView addGestureRecognizer:[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)]];
-    zoomingScrollView.tag = BaseTag + index;
+    zoomingScrollView.tag   = BaseTag + index;
     zoomingScrollView.frame = CGRectMake((self.scrollView.cmam_width) * index, 0, self.cmam_width, self.cmam_height);
-    self.currentImageIndex = index;
+    self.currentImageIndex  = index;
     if ([self highQualityImageURLForIndex:index]) { // 如果提供了高清大图数据源,就去加载
         [zoomingScrollView setShowHighQualityImageWithURL:[self highQualityImageURLForIndex:index] placeholderImage:[self placeholderImageForIndex:index]];
     } else if ([self assetForIndex:index]) {
-        ALAsset *asset = [self assetForIndex:index];
+        ALAsset * asset     = [self assetForIndex:index];
         CGImageRef imageRef = asset.defaultRepresentation.fullScreenImage;
         CGImageRelease(imageRef);
         [zoomingScrollView setShowImage:[UIImage imageWithCGImage:imageRef]];
     } else {
         [zoomingScrollView setShowImage:[self placeholderImageForIndex:index]];
     }
-    
+
     // 添加拖动手势
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panEvent:)];
-    pan.delegate = self;
-    pan.maximumNumberOfTouches = 1;
+    UIPanGestureRecognizer * pan             = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panEvent:)];
+    pan.delegate                             = self;
+    pan.maximumNumberOfTouches               = 1;
     zoomingScrollView.userInteractionEnabled = YES;
     [zoomingScrollView addGestureRecognizer:pan];
-    
+
     [self.visibleZoomingScrollViews addObject:zoomingScrollView];
     [self.scrollView addSubview:zoomingScrollView];
 }
 
+#pragma mark------- UIGestureRecognizerDelegate
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
 
-#pragma mark ------- UIGestureRecognizerDelegate
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch{
-    
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        UIPanGestureRecognizer * pan = (UIPanGestureRecognizer *)gestureRecognizer;
+        UIPanGestureRecognizer * pan   = (UIPanGestureRecognizer *)gestureRecognizer;
         WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
         if (panView.imageView.frame.size.width > panView.imageView.bounds.size.width && panView.imageView.frame.size.height > panView.imageView.bounds.size.height) {
             return NO;
         }
     }
     return YES;
-    
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-    
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
-        
-        UIPanGestureRecognizer * pan = (UIPanGestureRecognizer *)gestureRecognizer;
+
+        UIPanGestureRecognizer * pan   = (UIPanGestureRecognizer *)gestureRecognizer;
         WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
-        CGPoint velocity = [pan velocityInView:panView];
-        CGFloat ratio = velocity.y/velocity.x;
+        CGPoint velocity               = [pan velocityInView:panView];
+        CGFloat ratio                  = velocity.y / velocity.x;
         if (velocity.y > 0 && fabs(ratio) >= 0.965) {
             panView.scrollview.scrollEnabled = NO;
             return YES;
-        }else{
+        } else {
             panView.scrollview.scrollEnabled = YES;
             return NO;
         }
     }
     return NO;
-    
 }
 
+#pragma mark------- 添加拖动手势
+- (void)panEvent:(UIPanGestureRecognizer *)pan {
 
-#pragma mark ------- 添加拖动手势
-- (void)panEvent:(UIPanGestureRecognizer *)pan{
-    
     WYAZoomingScrollView * panView = (WYAZoomingScrollView *)pan.view;
     // 相对于初始或者上次复位位置的偏移量
-    CGPoint point = [pan translationInView:panView];
+    CGPoint point    = [pan translationInView:panView];
     CGPoint velocity = [pan velocityInView:panView];
-    
+
     // 计算手势向下的高宽比,大于0.965则允许移动，角度约小于等于46°
-    CGFloat ratio = velocity.y/velocity.x;
+    CGFloat ratio = velocity.y / velocity.x;
     // 向下移动
     if (velocity.y > 0 && fabs(ratio) >= 0.965 && pan.state == UIGestureRecognizerStateBegan) {
-        self.enablePan = YES;
+        self.enablePan         = YES;
         NSInteger currentIndex = panView.tag - BaseTag;
-        UIView *sourceView = [self sourceImageViewForIndex:currentIndex];
-        CGRect rect = [sourceView convertRect:sourceView.bounds toView:[UIApplication sharedApplication].keyWindow];
-        self.originFrame = rect;
-        self.startFrame = panView.frame;
+        UIView * sourceView    = [self sourceImageViewForIndex:currentIndex];
+        CGRect rect            = [sourceView convertRect:sourceView.bounds toView:[UIApplication sharedApplication].keyWindow];
+        self.originFrame       = rect;
+        self.startFrame        = panView.frame;
         // 触点相对当前界面的位置
         self.relativeStartPoint = [pan locationInView:panView];
         // 手势视图，在父视图中的位置
         self.startPoint = CGPointMake(self.relativeStartPoint.x + self.startFrame.origin.x, self.relativeStartPoint.y + self.startFrame.origin.y);
-        self.offset = CGPointMake(0, 0);
+        self.offset     = CGPointMake(0, 0);
     }
-    
+
     if (!self.enablePan) return;
-    
+
     if (pan.state == UIGestureRecognizerStateChanged) {
         pan.view.transform = CGAffineTransformTranslate(pan.view.transform, point.x, point.y);
-        self.offset = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
+        self.offset        = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
         // 复位，使上次拖动位置为初始位置
         [pan setTranslation:CGPointZero inView:panView];
         if (self.offset.y < 0) return;
-        
+
         /// 计算背景色
         // 透明度
-        CGFloat alpha = self.offset.y > 0 ? (1 - self.offset.y/(ScreenHeight*3/5)) : 1.0;
+        CGFloat alpha = self.offset.y > 0 ? (1 - self.offset.y / (ScreenHeight * 3 / 5)) : 1.0;
         // 放缩比例
-        CGFloat scale = 1 - self.offset.y/self.bgView.frame.size.height;
+        CGFloat scale = 1 - self.offset.y / self.bgView.frame.size.height;
         // 设置最小尺寸
-        if (scale < 1/3) scale = 1/3;
-        
+        if (scale < 1 / 3) scale = 1 / 3;
+
         CGFloat a = self.startPoint.x;
         CGFloat b = self.startPoint.y;
         CGFloat c = self.offset.x;
         CGFloat d = self.offset.y;
         CGFloat w = self.bgView.frame.size.width;
         CGFloat h = self.bgView.frame.size.height;
-        
-        CGFloat endX = a + c - self.relativeStartPoint.x*scale;
-        CGFloat endY = b + d - self.relativeStartPoint.y*scale;
-        
-        panView.frame = CGRectMake(endX, endY, w*scale, h*scale);
-        
+
+        CGFloat endX = a + c - self.relativeStartPoint.x * scale;
+        CGFloat endY = b + d - self.relativeStartPoint.y * scale;
+
+        panView.frame = CGRectMake(endX, endY, w * scale, h * scale);
+
         self.bgView.alpha = alpha;
     }
     if (pan.state == UIGestureRecognizerStateEnded) {
         NSLog(@"手势已结束");
         [panView removeGestureRecognizer:pan];
         // 如果发生的垂直位移大于1/4屏宽，则退出浏览模式
-        if (self.offset.y > ScreenWidth/4.0) {
-            
+        if (self.offset.y > ScreenWidth / 4.0) {
+
             UIWindow * window = [[[UIApplication sharedApplication] delegate] window];
-            CGRect rect = [panView.imageView convertRect:panView.imageView.bounds toView:window];
+            CGRect rect       = [panView.imageView convertRect:panView.imageView.bounds toView:window];
             [window addSubview:panView.imageView];
             [panView.imageView setFrame:rect];
             panView.imageView.clipsToBounds = YES;
-            panView.imageView.contentMode = self.sourceImageView.contentMode;
-            
-            [UIView animateWithDuration:0.25 animations:^{
-                self.enablePan = NO;
-                [panView.imageView setFrame:self.originFrame];
-                self.bgView.alpha = 0.0;
-                self.pageControl.hidden = YES;// 立即隐藏pangeControl
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [panView.imageView removeFromSuperview];
-                    [self removeAllBrowserViews];
+            panView.imageView.contentMode   = self.sourceImageView.contentMode;
+
+            [UIView animateWithDuration:0.25
+                animations:^{
+                    self.enablePan = NO;
+                    [panView.imageView setFrame:self.originFrame];
+                    self.bgView.alpha       = 0.0;
+                    self.pageControl.hidden = YES; // 立即隐藏pangeControl
                 }
-            }];
-            
-        }else{
-            [UIView animateWithDuration:0.25 animations:^{
-                self.enablePan = NO;
-                NSLog(@"imageViewFrame = %@",NSStringFromCGRect(panView.imageView.frame));
-                panView.isMoveBack = YES;
-                [panView setFrame:self.startFrame];
-                self.bgView.alpha = 1.0;
-            } completion:^(BOOL finished) {
-                if (finished) {
-                    [panView addGestureRecognizer:pan];
+                completion:^(BOOL finished) {
+                    if (finished) {
+                        [panView.imageView removeFromSuperview];
+                        [self removeAllBrowserViews];
+                    }
+                }];
+
+        } else {
+            [UIView animateWithDuration:0.25
+                animations:^{
+                    self.enablePan = NO;
+                    NSLog(@"imageViewFrame = %@", NSStringFromCGRect(panView.imageView.frame));
+                    panView.isMoveBack = YES;
+                    [panView setFrame:self.startFrame];
+                    self.bgView.alpha = 1.0;
                 }
-            }];
+                completion:^(BOOL finished) {
+                    if (finished) {
+                        [panView addGestureRecognizer:pan];
+                    }
+                }];
         }
     }
 }
 
-
 /**
  *  从缓存池中获取一个XLZoomingScrollView对象
  */
-- (WYAZoomingScrollView *)dequeueReusableZoomingScrollView
-{
-    WYAZoomingScrollView *photoView = [self.reusableZoomingScrollViews anyObject];
+- (WYAZoomingScrollView *)dequeueReusableZoomingScrollView {
+    WYAZoomingScrollView * photoView = [self.reusableZoomingScrollViews anyObject];
     if (photoView) {
         [self.reusableZoomingScrollViews removeObject:photoView];
     } else {
@@ -762,17 +731,16 @@
 /**
  *  获取指定位置的占位图片,和外界的数据源交互
  */
-- (UIImage *)placeholderImageForIndex:(NSInteger)index
-{
+- (UIImage *)placeholderImageForIndex:(NSInteger)index {
     if (self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:placeholderImageForIndex:)]) {
-        
+
         return [self.datasource photoBrowser:self placeholderImageForIndex:index];
-        
+
     } else if (self.placeHoldImageBlock) {
-        
+
         return self.placeHoldImageBlock(self, index);
-        
-    } else if (self.images.count>index) {
+
+    } else if (self.images.count > index) {
         if ([self.images[index] isKindOfClass:[UIImage class]]) {
             return self.images[index];
         } else {
@@ -785,12 +753,11 @@
 /**
  *  获取指定位置的高清大图URL,和外界的数据源交互
  */
-- (NSURL *)highQualityImageURLForIndex:(NSInteger)index
-{
+- (NSURL *)highQualityImageURLForIndex:(NSInteger)index {
     if (self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:highQualityImageURLForIndex:)]) {
-        NSURL *url = [self.datasource photoBrowser:self highQualityImageURLForIndex:index];
+        NSURL * url = [self.datasource photoBrowser:self highQualityImageURLForIndex:index];
         if (!url) {
-            NSLog(@"高清大图URL数据 为空,请检查代码 , 图片索引:%zd",index);
+            NSLog(@"高清大图URL数据 为空,请检查代码 , 图片索引:%zd", index);
             return nil;
         }
         if ([url isKindOfClass:[NSString class]]) {
@@ -798,14 +765,14 @@
         }
         if (![url isKindOfClass:[NSURL class]]) {
             //        NSAssert([url isKindOfClass:[NSURL class]], @"高清大图URL数据有问题,不是NSString也不是NSURL");
-            NSLog(@"高清大图URL数据有问题,不是NSString也不是NSURL , 错误数据:%@ , 图片索引:%zd",url,index);
+            NSLog(@"高清大图URL数据有问题,不是NSString也不是NSURL , 错误数据:%@ , 图片索引:%zd", url, index);
             return nil;
         }
         return url;
     } else if (self.highQualityImageURLBlock) {
         NSURL * url = self.highQualityImageURLBlock(self, index);
         if (!url) {
-            NSLog(@"高清大图URL数据 为空,请检查代码 , 图片索引:%zd",index);
+            NSLog(@"高清大图URL数据 为空,请检查代码 , 图片索引:%zd", index);
             return nil;
         }
         if ([url isKindOfClass:[NSString class]]) {
@@ -813,15 +780,15 @@
         }
         if (![url isKindOfClass:[NSURL class]]) {
             //        NSAssert([url isKindOfClass:[NSURL class]], @"高清大图URL数据有问题,不是NSString也不是NSURL");
-            NSLog(@"高清大图URL数据有问题,不是NSString也不是NSURL , 错误数据:%@ , 图片索引:%zd",url,index);
+            NSLog(@"高清大图URL数据有问题,不是NSString也不是NSURL , 错误数据:%@ , 图片索引:%zd", url, index);
             return nil;
         }
         return url;
-    } else if(self.images.count>index) {
+    } else if (self.images.count > index) {
         if ([self.images[index] isKindOfClass:[NSURL class]]) {
             return self.images[index];
         } else if ([self.images[index] isKindOfClass:[NSString class]]) {
-            NSURL *url = [NSURL URLWithString:self.images[index]];
+            NSURL * url = [NSURL URLWithString:self.images[index]];
             return url;
         } else {
             return nil;
@@ -833,8 +800,7 @@
 /**
  *  获取指定位置的 ALAsset,获取图片
  */
-- (ALAsset *)assetForIndex:(NSInteger)index
-{
+- (ALAsset *)assetForIndex:(NSInteger)index {
     if (self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:assetForIndex:)]) {
         return [self.datasource photoBrowser:self assetForIndex:index];
     } else if (self.assetBlock) {
@@ -852,8 +818,7 @@
 /**
  *  获取多图浏览,指定位置图片的UIImageView视图,用于做弹出放大动画和回缩动画
  */
-- (UIView *)sourceImageViewForIndex:(NSInteger)index
-{
+- (UIView *)sourceImageViewForIndex:(NSInteger)index {
     if (self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:sourceImageViewForIndex:)]) {
         return [self.datasource photoBrowser:self sourceImageViewForIndex:index];
     } else if (self.sourceImageViewBlock) {
@@ -865,12 +830,11 @@
 /**
  *  第一个展示的图片 , 点击图片,放大的动画就是从这里来的
  */
-- (void)showFirstImage
-{
+- (void)showFirstImage {
     // 获取到用户点击的那个UIImageView对象,进行坐标转化
     CGRect startRect;
     if (!self.sourceImageView) {
-        if(self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:sourceImageViewForIndex:)]) {
+        if (self.datasource && [self.datasource respondsToSelector:@selector(photoBrowser:sourceImageViewForIndex:)]) {
             self.sourceImageView = [self.datasource photoBrowser:self sourceImageViewForIndex:self.currentImageIndex];
         } else if (self.sourceImageViewBlock) {
             self.sourceImageView = self.sourceImageViewBlock(self, self.currentImageIndex);
@@ -881,15 +845,15 @@
         }
     }
     startRect = [self.sourceImageView.superview convertRect:self.sourceImageView.frame toView:self];
-    
-    UIImageView *tempView = [[UIImageView alloc] init];
-    tempView.image = [self placeholderImageForIndex:self.currentImageIndex];
-    tempView.frame = startRect;
+
+    UIImageView * tempView = [[UIImageView alloc] init];
+    tempView.image         = [self placeholderImageForIndex:self.currentImageIndex];
+    tempView.frame         = startRect;
     [self addSubview:tempView];
-    
+
     CGRect targetRect; // 目标frame
-    
-    UIImage *image;
+
+    UIImage * image;
     if ([self.sourceImageView isKindOfClass:[UIButton class]]) {
         UIButton * button = (UIButton *)self.sourceImageView;
         if (button.currentBackgroundImage) {
@@ -900,7 +864,7 @@
     } else if ([self.sourceImageView isKindOfClass:[UIImageView class]]) {
         image = self.sourceImageView.image;
     }
-    
+
     //TODO 完善image为空的闪退
     if (image == nil) {
         ///objc[1903]: Class PLBuildVersion is implemented in both /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/PrivateFrameworks/AssetsLibraryServices.framework/AssetsLibraryServices (0x1110ec998) and /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/PrivateFrameworks/PhotoLibraryServices.framework/PhotoLibraryServices (0x110e6b880). One of the two will be used. Which one is undefined.
@@ -909,130 +873,126 @@
         //
         //        (lldb) po targetRect
         //        (origin = (x = 0, y = NaN), size = (width = 414, height = NaN))
-        
+
         NSLog(@"需要提供源视图才能做弹出/退出图片浏览器的缩放动画");
         return;
     }
     CGFloat imageWidthHeightRatio = image.size.width / image.size.height;
-    CGFloat screenRatio = ScreenWidth/ScreenHeight;
-    CGFloat width = ScreenWidth;
-    CGFloat height = ScreenWidth / imageWidthHeightRatio;
-    CGFloat x = 0;
+    CGFloat screenRatio           = ScreenWidth / ScreenHeight;
+    CGFloat width                 = ScreenWidth;
+    CGFloat height                = ScreenWidth / imageWidthHeightRatio;
+    CGFloat x                     = 0;
     CGFloat y;
-    y = (ScreenHeight - height ) * 0.5;
-    
+    y = (ScreenHeight - height) * 0.5;
+
     // 图片高宽比大于当前屏幕高宽比
     if (screenRatio > imageWidthHeightRatio) {
         height = ScreenHeight;
-        width = ScreenHeight*imageWidthHeightRatio;
-        y = 0;
-        x = (ScreenWidth - width)*0.5;
+        width  = ScreenHeight * imageWidthHeightRatio;
+        y      = 0;
+        x      = (ScreenWidth - width) * 0.5;
     }
-    
-    targetRect = CGRectMake(x, y, width, height);
+
+    targetRect             = CGRectMake(x, y, width, height);
     self.scrollView.hidden = YES;
-    self.bgView.alpha = 1.0;
-    
+    self.bgView.alpha      = 1.0;
+
     // 动画修改图片视图的frame , 居中同时放大
-    [UIView animateWithDuration:0.25 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        tempView.frame = targetRect;
-    } completion:^(BOOL finished) {
-        [tempView removeFromSuperview];
-        self.scrollView.hidden = NO;
-    }];
+    [UIView animateWithDuration:0.25
+        delay:0
+        options:UIViewAnimationOptionCurveEaseOut
+        animations:^{
+            tempView.frame = targetRect;
+        }
+        completion:^(BOOL finished) {
+            [tempView removeFromSuperview];
+            self.scrollView.hidden = NO;
+        }];
 }
 
-#pragma mark --- WYAZoomingScrollViewDelegate
+#pragma mark--- WYAZoomingScrollViewDelegate
 
 /**
  *  单击图片,退出浏览
  */
-- (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView singleTapDetected:(UITapGestureRecognizer *)singleTap
-{
+- (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView singleTapDetected:(UITapGestureRecognizer *)singleTap {
     NSInteger currentIndex = zoomingScrollView.tag - BaseTag;
-    UIView *sourceView = [self sourceImageViewForIndex:currentIndex];
+    UIView * sourceView    = [self sourceImageViewForIndex:currentIndex];
     if (sourceView == nil) {
         [self dismiss];
         return;
     }
-    self.scrollView.hidden = YES;
+    self.scrollView.hidden  = YES;
     self.pageControl.hidden = YES;
-    self.indexLabel.hidden = YES;
-    self.saveButton.hidden = YES;
-    
+    self.indexLabel.hidden  = YES;
+    self.saveButton.hidden  = YES;
+
     CGRect targetTemp = [sourceView.superview convertRect:sourceView.frame toView:self];
-    NSLog(@"rect==%@",NSStringFromCGRect(targetTemp));
-    UIImageView *tempView = [[UIImageView alloc] init];
-    tempView.contentMode = sourceView.contentMode;
+    NSLog(@"rect==%@", NSStringFromCGRect(targetTemp));
+    UIImageView * tempView = [[UIImageView alloc] init];
+    tempView.contentMode   = sourceView.contentMode;
     tempView.clipsToBounds = YES;
-    tempView.image = zoomingScrollView.currentImage;
-    tempView.frame = CGRectMake(- zoomingScrollView.scrollview.contentOffset.x + zoomingScrollView.imageView.cmam_left,  - zoomingScrollView.scrollview.contentOffset.y + zoomingScrollView.imageView.cmam_top, zoomingScrollView.imageView.cmam_width, zoomingScrollView.imageView.cmam_height);
+    tempView.image         = zoomingScrollView.currentImage;
+    tempView.frame         = CGRectMake(-zoomingScrollView.scrollview.contentOffset.x + zoomingScrollView.imageView.cmam_left, -zoomingScrollView.scrollview.contentOffset.y + zoomingScrollView.imageView.cmam_top, zoomingScrollView.imageView.cmam_width, zoomingScrollView.imageView.cmam_height);
     [self addSubview:tempView];
-    
-    [UIView animateWithDuration:0.25 animations:^{
-        tempView.frame = targetTemp;
-        self.savaImageTipLabel.alpha = 0.0;
-        self.indicatorView.alpha = 0.0;
-        self.bgView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self removeAllBrowserViews];
+
+    [UIView animateWithDuration:0.25
+        animations:^{
+            tempView.frame               = targetTemp;
+            self.savaImageTipLabel.alpha = 0.0;
+            self.indicatorView.alpha     = 0.0;
+            self.bgView.alpha            = 0.0;
         }
-    }];
+        completion:^(BOOL finished) {
+            if (finished) {
+                [self removeAllBrowserViews];
+            }
+        }];
 }
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self showPhotos];
-    NSInteger pageNum = floor((scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width);
+    NSInteger pageNum      = floor((scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width);
     self.currentImageIndex = pageNum == self.imageCount ? pageNum - 1 : pageNum;
     [self updateIndexContent];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    NSInteger pageNum = floor((scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width);
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    NSInteger pageNum      = floor((scrollView.contentOffset.x + scrollView.bounds.size.width * 0.5) / scrollView.bounds.size.width);
     self.currentImageIndex = pageNum == self.imageCount ? pageNum - 1 : pageNum;
     [self updateIndexContent];
 }
 
-#pragma mark    -   图片索引的显示内容和显隐逻辑
+#pragma mark -   图片索引的显示内容和显隐逻辑
 
 /**
  更新索引指示控件的显隐逻辑
  */
-- (void)updateIndexVisible
-{
+- (void)updateIndexVisible {
     switch (self.browserStyle) {
-        case WYAImageBrowserStylePageControl:
-        {
+        case WYAImageBrowserStylePageControl: {
             self.pageControl.hidden = NO;
-            self.indexLabel.hidden = YES;
-            self.saveButton.hidden = YES;
-        }
-            break;
-        case WYAImageBrowserStyleIndexLabel:
-        {
-            self.indexLabel.hidden = NO;
+            self.indexLabel.hidden  = YES;
+            self.saveButton.hidden  = YES;
+        } break;
+        case WYAImageBrowserStyleIndexLabel: {
+            self.indexLabel.hidden  = NO;
             self.pageControl.hidden = YES;
-            self.saveButton.hidden = YES;
-        }
-            break;
-        case WYAImageBrowserStyleSimple:
-        {
-            self.indexLabel.hidden = NO;
-            self.saveButton.hidden = NO;
+            self.saveButton.hidden  = YES;
+        } break;
+        case WYAImageBrowserStyleSimple: {
+            self.indexLabel.hidden  = NO;
+            self.saveButton.hidden  = NO;
             self.pageControl.hidden = YES;
-        }
-            break;
+        } break;
         default:
             break;
     }
-    
+
     if (self.imageCount == 1 && self.hidesForSinglePage == YES) {
-        self.indexLabel.hidden = YES;
+        self.indexLabel.hidden  = YES;
         self.pageControl.hidden = YES;
     }
 }
@@ -1040,12 +1000,11 @@
 /**
  *  修改图片指示索引内容
  */
-- (void)updateIndexContent
-{
-    UIPageControl *pageControl = (UIPageControl *)self.pageControl;
-    pageControl.currentPage = self.currentImageIndex;
-    NSString *title = [NSString stringWithFormat:@"%zd / %zd",self.currentImageIndex+1,self.imageCount];
-    self.indexLabel.text = title;
+- (void)updateIndexContent {
+    UIPageControl * pageControl = (UIPageControl *)self.pageControl;
+    pageControl.currentPage     = self.currentImageIndex;
+    NSString * title            = [NSString stringWithFormat:@"%zd / %zd", self.currentImageIndex + 1, self.imageCount];
+    self.indexLabel.text        = title;
 }
 
 #pragma mark ======= Setter
@@ -1065,38 +1024,33 @@
 //    _sourceImageViewBlock = sourceImageViewBlock;
 //}
 
-- (void)setCurrentPageDotColor:(UIColor *)currentPageDotColor
-{
-    _currentPageDotColor = currentPageDotColor;
-    UIPageControl *pageControl = (UIPageControl *)_pageControl;
+- (void)setCurrentPageDotColor:(UIColor *)currentPageDotColor {
+    _currentPageDotColor                      = currentPageDotColor;
+    UIPageControl * pageControl               = (UIPageControl *)_pageControl;
     pageControl.currentPageIndicatorTintColor = currentPageDotColor;
 }
 
-- (void)setPageDotColor:(UIColor *)pageDotColor
-{
+- (void)setPageDotColor:(UIColor *)pageDotColor {
     _pageDotColor = pageDotColor;
     if ([self.pageDotColor isKindOfClass:[UIPageControl class]]) {
-        UIPageControl *pageControl = (UIPageControl *)_pageControl;
+        UIPageControl * pageControl        = (UIPageControl *)_pageControl;
         pageControl.pageIndicatorTintColor = pageDotColor;
     }
 }
 
-- (void)setCurrentPageDotImage:(UIImage *)currentPageDotImage
-{
+- (void)setCurrentPageDotImage:(UIImage *)currentPageDotImage {
     _currentPageDotImage = currentPageDotImage;
     [self setCustomPageControlDotImage:currentPageDotImage isCurrentPageDot:YES];
 }
 
-- (void)setPageDotImage:(UIImage *)pageDotImage
-{
+- (void)setPageDotImage:(UIImage *)pageDotImage {
     _pageDotImage = pageDotImage;
     [self setCustomPageControlDotImage:pageDotImage isCurrentPageDot:NO];
 }
 
-- (void)setCustomPageControlDotImage:(UIImage *)image isCurrentPageDot:(BOOL)isCurrentPageDot
-{
+- (void)setCustomPageControlDotImage:(UIImage *)image isCurrentPageDot:(BOOL)isCurrentPageDot {
     if (!image || !self.pageControl) return;
-    UIPageControl *pageControl = (UIPageControl *)_pageControl;
+    UIPageControl * pageControl = (UIPageControl *)_pageControl;
     if (isCurrentPageDot) {
         [pageControl setValue:image forKey:@"_currentPageImage"];
     } else {
@@ -1104,82 +1058,68 @@
     }
 }
 
-- (void)setPageControlStyle:(WYAImageBrowserPageControlStyle)pageControlStyle
-{
+- (void)setPageControlStyle:(WYAImageBrowserPageControlStyle)pageControlStyle {
     _pageControlStyle = pageControlStyle;
     [self setUpPageControl];
     [self updateIndexVisible];
 }
 
-- (void)setHidesForSinglePage:(BOOL)hidesForSinglePage
-{
+- (void)setHidesForSinglePage:(BOOL)hidesForSinglePage {
     _hidesForSinglePage = hidesForSinglePage;
     [self updateIndexVisible];
 }
 
-- (void)setBrowserStyle:(WYAImageBrowserStyle)browserStyle
-{
+- (void)setBrowserStyle:(WYAImageBrowserStyle)browserStyle {
     _browserStyle = browserStyle;
     [self updateIndexVisible];
 }
 
-- (void)setPageControlAliment:(WYAImageBrowserPageControlAliment)pageControlAliment
-{
+- (void)setPageControlAliment:(WYAImageBrowserPageControlAliment)pageControlAliment {
     _pageControlAliment = pageControlAliment;
     switch (self.pageControlAliment) {
-        case WYAImageBrowserPageControlAlimentLeft:
-        {
+        case WYAImageBrowserPageControlAlimentLeft: {
             self.pageControl.cmam_left = 10;
-        }
-            break;
-        case WYAImageBrowserPageControlAlimentRight:
-        {
+        } break;
+        case WYAImageBrowserPageControlAlimentRight: {
             self.pageControl.cmam_left = (self.cmam_width - self.pageControl.cmam_width) - 10;
-        }
-            break;
+        } break;
         case WYAImageBrowserPageControlAlimentCenter:
-        default:
-        {
+        default: {
             self.pageControl.cmam_left = (self.cmam_width - self.pageControl.cmam_width) * 0.5;
-        }
-            break;
+        } break;
     }
 }
 
 #pragma mark ======= Lazy
-- (UILabel *)savaImageTipLabel
-{
+- (UILabel *)savaImageTipLabel {
     if (_savaImageTipLabel == nil) {
-        _savaImageTipLabel = [[UILabel alloc] init];
-        _savaImageTipLabel.textColor = [UIColor whiteColor];
+        _savaImageTipLabel                 = [[UILabel alloc] init];
+        _savaImageTipLabel.textColor       = [UIColor whiteColor];
         _savaImageTipLabel.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
-        _savaImageTipLabel.textAlignment = NSTextAlignmentCenter;
-        _savaImageTipLabel.font = [UIFont boldSystemFontOfSize:17];
+        _savaImageTipLabel.textAlignment   = NSTextAlignmentCenter;
+        _savaImageTipLabel.font            = [UIFont boldSystemFontOfSize:17];
     }
     return _savaImageTipLabel;
 }
 
-- (UIActivityIndicatorView *)indicatorView
-{
+- (UIActivityIndicatorView *)indicatorView {
     if (!_indicatorView) {
-        _indicatorView = [[UIActivityIndicatorView alloc] init];
+        _indicatorView                            = [[UIActivityIndicatorView alloc] init];
         _indicatorView.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
     }
     return _indicatorView;
 }
 
-- (UIImage *)placeholderImage
-{
+- (UIImage *)placeholderImage {
     if (!_placeholderImage) {
         _placeholderImage = [UIImage wya_createImageWithColor:[UIColor grayColor]];
     }
     return _placeholderImage;
 }
 
-- (UIView *)photoBrowserRootView
-{
+- (UIView *)photoBrowserRootView {
     if (!_photoBrowserRootView) {
-        _photoBrowserRootView = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _photoBrowserRootView             = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _photoBrowserRootView.windowLevel = UIWindowLevelStatusBar + 100;
         [_photoBrowserRootView makeKeyAndVisible];
     }

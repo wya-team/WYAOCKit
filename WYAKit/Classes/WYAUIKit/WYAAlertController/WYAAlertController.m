@@ -53,14 +53,14 @@
 + (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message
                           AlertSheetCornerRadius:(CGFloat)cornerRadius {
-    WYAAlertController * alertController                          = [[WYAAlertController alloc] init];
-    alertController.alertStyle                                    = WYAAlertStyleSheet;
-    alertController.alertView                                     = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
-    WYAAlertSheetView * alertSheet = (WYAAlertSheetView *)alertController.alertView;
-    alertController.sheetCornerR = cornerRadius;
-    alertSheet.controller = alertController;
-    alertController.presentStyle                                  = WYAPopupPresentStyleSlideUp;
-    alertController.dismissStyle                                  = WYAPopupDismissStyleSlideDown;
+    WYAAlertController * alertController = [[WYAAlertController alloc] init];
+    alertController.alertStyle           = WYAAlertStyleSheet;
+    alertController.alertView            = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
+    WYAAlertSheetView * alertSheet       = (WYAAlertSheetView *)alertController.alertView;
+    alertController.sheetCornerR         = cornerRadius;
+    alertSheet.controller                = alertController;
+    alertController.presentStyle         = WYAPopupPresentStyleSlideUp;
+    alertController.dismissStyle         = WYAPopupDismissStyleSlideDown;
     return alertController;
 }
 

@@ -24,7 +24,7 @@
 // 考虑是否加入默认图片的设置？
 - (UIImageView *)iconImageView {
     if (!_iconImageView) {
-        _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
+        _iconImageView                     = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)];
         _iconImageView.layer.borderWidth   = 8;
         _iconImageView.layer.borderColor   = wya_rgb(102, 103, 103).CGColor;
         _iconImageView.layer.cornerRadius  = self.bounds.size.width / 2;

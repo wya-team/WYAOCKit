@@ -16,8 +16,8 @@
 }
 
 + (void)wya_showBottomToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame      = Window.bounds;
+    UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
@@ -36,9 +36,9 @@
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
     if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
     CGFloat height =
-    [UILabel getHeightByWidth:width + 30 * SizeAdapter
-                        title:message
-                         font:label.font];
+        [UILabel getHeightByWidth:width + 30 * SizeAdapter
+                            title:message
+                             font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50 * SizeAdapter);
@@ -52,13 +52,13 @@
     }];
 
     [UIView animateWithDuration:0.3
-                          delay:2
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{ label.alpha = 0; }
-                     completion:^(BOOL finished) {
-                         [label removeFromSuperview];
-                         [button removeFromSuperview];
-                     }];
+        delay:2
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{ label.alpha = 0; }
+        completion:^(BOOL finished) {
+            [label removeFromSuperview];
+            [button removeFromSuperview];
+        }];
 }
 
 + (void)wya_showCenterToastWithMessage:(NSString *)message {
@@ -66,8 +66,8 @@
 }
 
 + (void)wya_showCenterToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame      = Window.bounds;
+    UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
@@ -85,9 +85,9 @@
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
     if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
     CGFloat height =
-    [UILabel getHeightByWidth:width + 30 * SizeAdapter
-                        title:message
-                         font:label.font];
+        [UILabel getHeightByWidth:width + 30 * SizeAdapter
+                            title:message
+                             font:label.font];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
@@ -100,13 +100,13 @@
     }];
 
     [UIView animateWithDuration:0.3
-                          delay:2
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{ label.alpha = 0; }
-                     completion:^(BOOL finished) {
-                         [label removeFromSuperview];
-                         [button removeFromSuperview];
-                     }];
+        delay:2
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{ label.alpha = 0; }
+        completion:^(BOOL finished) {
+            [label removeFromSuperview];
+            [button removeFromSuperview];
+        }];
 }
 
 + (void)wya_showToastImage:(NSString *)imageString
@@ -162,8 +162,8 @@
     bgViewUserInteractionUse:(BOOL)use {
     UIButton * button;
     if (autoDismiss) {
-        button       = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = Window.bounds;
+        button                        = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame                  = Window.bounds;
         button.userInteractionEnabled = use;
         [Window addSubview:button];
         [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];

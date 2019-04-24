@@ -32,28 +32,28 @@
     WYATextView * textView = [[WYATextView alloc]
         initWithFrame:CGRectMake(10, 100, self.view.frame.size.width - 20, 100)];
 
-    textView.placeHoldString = @"占位文字";
-    textView.placeHoldColor = [UIColor grayColor];
+    textView.placeHoldString     = @"占位文字";
+    textView.placeHoldColor      = [UIColor grayColor];
     textView.textViewWordsCount  = 5000;
     textView.showTitle           = NO;
     textView.layer.cornerRadius  = 4.f;
     textView.layer.masksToBounds = YES;
     textView.textViewMaxHeight   = 100;
-    textView.text = @"测试一下";
+    textView.text                = @"测试一下";
     [textView.textView becomeFirstResponder];
     [self.view addSubview:textView];
 
     WYATextView * textView1 =
         [[WYATextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame) + 20,
                                                       self.view.frame.size.width - 20, 100)];
-    textView1.placeHoldString = @"占位文字";
-    textView1.placeHoldColor = [UIColor grayColor];
+    textView1.placeHoldString     = @"占位文字";
+    textView1.placeHoldColor      = [UIColor grayColor];
     textView1.textViewWordsCount  = 1000;
     textView1.title               = @"哈哈";
     textView1.layer.cornerRadius  = 4.f;
     textView1.layer.masksToBounds = YES;
     textView1.textViewMaxHeight   = 200;
-    textView1.autoChangeHeight = YES;
+    textView1.autoChangeHeight    = YES;
     [self.view addSubview:textView1];
 }
 

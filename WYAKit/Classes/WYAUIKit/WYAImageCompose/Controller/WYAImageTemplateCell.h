@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAImageTemplateCell : UICollectionViewCell
-@property(nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) UIImage * image;
 @end
 
 NS_ASSUME_NONNULL_END

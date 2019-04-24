@@ -15,7 +15,8 @@
 
 #import "WYAImageComposeTemplate.h"
 #import "WYAImageComposeTemplatePoints.h"
-@interface WYAImageComposeViewController ()<WYANavBarDelegate,UICollectionViewDelegate, UICollectionViewDataSource>
+
+@interface WYAImageComposeViewController () <WYANavBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 @property (nonatomic, strong) WYANavBar * navBar;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSArray * dataSource;
@@ -45,34 +46,34 @@
     [self.view addSubview:self.templateSuperView];
 
     CGFloat collectionView_X      = 0;
-    CGFloat collectionView_Y      = ScreenHeight-WYABottomHeight-49;
+    CGFloat collectionView_Y      = ScreenHeight - WYABottomHeight - 49;
     CGFloat collectionView_Width  = self.view.cmam_width;
     CGFloat collectionView_Height = 49;
     self.collectionView.frame =
-    CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
+        CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
     [self.view addSubview:self.collectionView];
 
-    WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]];
+    WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)] ]];
 
     [self.templateSuperView addSubview:template];
     self.superImageComposeTemplateView = template;
 }
 
-- (WYAImageComposeTemplate *)templatePathWithPoints:(NSArray *)points images:(NSArray *)images{
-    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc]initWithPoints:points images:images];
-    template.frame = CGRectMake(0, 0, self.templateSuperView.cmam_width, self.templateSuperView.cmam_height);
+- (WYAImageComposeTemplate *)templatePathWithPoints:(NSArray *)points images:(NSArray *)images {
+    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc] initWithPoints:points images:images];
+    template.frame                     = CGRectMake(0, 0, self.templateSuperView.cmam_width, self.templateSuperView.cmam_height);
     [template wya_templatePath];
     return template;
 }
 
-- (WYAImageComposeTemplate *)templateViewWithPoints:(NSArray *)points images:(NSArray *)images{
-    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc]initWithPoints:points images:images];
-    template.frame = CGRectMake(0, 0, ScreenWidth, self.templateSuperView.cmam_size.height);
+- (WYAImageComposeTemplate *)templateViewWithPoints:(NSArray *)points images:(NSArray *)images {
+    WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc] initWithPoints:points images:images];
+    template.frame                     = CGRectMake(0, 0, ScreenWidth, self.templateSuperView.cmam_size.height);
     [template wya_templateView];
     return template;
 }
 
-- (UIImage *)templateImageWithView:(WYAImageComposeTemplate *)template{
+- (UIImage *)templateImageWithView:(WYAImageComposeTemplate *) template {
     return [UIImage wya_createViewImage:template];
 }
 
@@ -86,13 +87,13 @@
 }
 
 - (void)wya_rightBarButtonItemPressed:(UIButton *)sender {
-    TestViewController * test = [[TestViewController alloc]init];
-    test.image = [UIImage wya_createViewImage:self.superImageComposeTemplateView];
+    TestViewController * test = [[TestViewController alloc] init];
+    test.image                = [UIImage wya_createViewImage:self.superImageComposeTemplateView];
     [self.navigationController pushViewController:test animated:YES];
 }
 
 #pragma mark--- UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.dataSource.count;
 }
 
@@ -104,9 +105,9 @@
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAImageTemplateCell * cell =
-    [collectionView dequeueReusableCellWithReuseIdentifier:@"template"
-                                              forIndexPath:indexPath];
-    
+        [collectionView dequeueReusableCellWithReuseIdentifier:@"template"
+                                                  forIndexPath:indexPath];
+
     cell.image = self.dataSource[indexPath.section][indexPath.item];
     return cell;
 }
@@ -114,7 +115,6 @@
 - (void)collectionView:(UICollectionView *)collectionView
        willDisplayCell:(UICollectionViewCell *)cell
     forItemAtIndexPath:(NSIndexPath *)indexPath {
-
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
@@ -133,20 +133,20 @@
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout *)collectionViewLayout
-minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+                                      layout:(UICollectionViewLayout *)collectionViewLayout
+    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 0 * SizeAdapter;
 }
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                   layout:(UICollectionViewLayout *)collectionViewLayout
-minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+                                 layout:(UICollectionViewLayout *)collectionViewLayout
+    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 5;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView
-didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     if (self.superImageComposeTemplateView) {
         [self.superImageComposeTemplateView removeFromSuperview];
@@ -154,23 +154,26 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     }
     if (indexPath.section == 0) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.item == 0) {
 
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        }else{
+        } else {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
         }
-    }else if (indexPath.section == 1) {
+    } else if (indexPath.section == 1) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.item == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -179,45 +182,48 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 2){
+        } else if (indexPath.item == 2) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateThreeOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 3){
+        } else if (indexPath.item == 3) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateFourOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 4){
+        } else if (indexPath.item == 4) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateFiveOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 5){
+        } else if (indexPath.item == 5) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateSixOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 6){
+        } else if (indexPath.item == 6) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateSevenOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 7){
+        } else if (indexPath.item == 7) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateEightOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 8){
+        } else if (indexPath.item == 8) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateNineOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.item == 9){
+        } else if (indexPath.item == 9) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTenOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
         }
     } else if (indexPath.section == 2) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -281,11 +287,15 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 3) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -317,12 +327,17 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 4) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"4"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfFiveWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -330,13 +345,19 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 5) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"4"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"5"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfSixWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -344,14 +365,21 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 6) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"4"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"5"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"6"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfSevenWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -359,15 +387,23 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 7) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)],
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"4"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"5"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"6"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"7"
+                           ClassName:NSStringFromClass(self.class)],
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfEightWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -375,16 +411,25 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
     } else if (indexPath.section == 8) {
         NSArray * arr = @[
-                          [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)],
-                          [UIImage loadBundleImage:@"8" ClassName:NSStringFromClass(self.class)]
-                          ];
+            [UIImage loadBundleImage:@"0"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"1"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"2"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"3"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"4"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"5"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"6"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"7"
+                           ClassName:NSStringFromClass(self.class)],
+            [UIImage loadBundleImage:@"8"
+                           ClassName:NSStringFromClass(self.class)]
+        ];
         if (indexPath.row == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
@@ -397,19 +442,19 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView * view =
-    [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                       withReuseIdentifier:@"header"
-                                              forIndexPath:indexPath];
+        [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                           withReuseIdentifier:@"header"
+                                                  forIndexPath:indexPath];
     UIView * vi = [view viewWithTag:1];
     if (vi) {
         [vi removeFromSuperview];
     }
-    UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 30 * SizeAdapter, 49)];
-    label.text = [NSString stringWithFormat:@"%ld",(long)indexPath.section + 1];
-    label.textColor = [UIColor blackColor];
-    label.font = FONT(15);
-    label.tag = 1;
-    label.textAlignment = NSTextAlignmentCenter;
+    UILabel * label         = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 30 * SizeAdapter, 49)];
+    label.text              = [NSString stringWithFormat:@"%ld", (long)indexPath.section + 1];
+    label.textColor         = [UIColor blackColor];
+    label.font              = FONT(15);
+    label.tag               = 1;
+    label.textAlignment     = NSTextAlignmentCenter;
     label.layer.borderColor = [UIColor grayColor].CGColor;
     label.layer.borderWidth = 1;
     [view addSubview:label];
@@ -421,10 +466,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (!_navBar) {
         _navBar = ({
             WYANavBar * object =
-            [[WYANavBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)];
+                [[WYANavBar alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, WYATopHeight)];
             object.delegate = self;
             object.navTitle = @"拼图制作";
-            
+
             [object wya_customGobackWithImage:[UIImage loadBundleImage:@"返回"
                                                              ClassName:NSStringFromClass(self.class)]];
             [object wya_addRightNavBarButtonWithNormalTitle:@[ @"预览" ]];
@@ -437,10 +482,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        layout.headerReferenceSize = CGSizeMake(30 * SizeAdapter, 49);
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
-                           collectionViewLayout:layout];
+        layout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
+        layout.headerReferenceSize          = CGSizeMake(30 * SizeAdapter, 49);
+        _collectionView                     = [[UICollectionView alloc] initWithFrame:CGRectZero
+                                             collectionViewLayout:layout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.dataSource      = self;
         _collectionView.delegate        = self;
@@ -451,77 +496,126 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         }
         [_collectionView registerClass:[WYAImageTemplateCell class] forCellWithReuseIdentifier:@"template"];
         [_collectionView registerClass:[UICollectionReusableView class]
-     forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-            withReuseIdentifier:@"header"];
+            forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                   withReuseIdentifier:@"header"];
     }
     return _collectionView;
 }
 
--(NSArray *)dataSource{
+- (NSArray *)dataSource {
     if (_dataSource == nil) {
         _dataSource = @[
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateEightOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateNineOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTenOfTwoWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],]]]
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateEightOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateNineOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateElevenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwelveOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThirteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFifteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfFiveWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfSixWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfSevenWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfEightWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        @[
-                            [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:@[[UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)],[UIImage loadBundleImage:@"8" ClassName:NSStringFromClass(self.class)]]]],
-                            ],
-                        ];
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfOneWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateEightOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateNineOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTenOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
+                                                                 images:@[
+                                                                     [UIImage loadBundleImage:@"0"
+                                                                                    ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                 ]]]
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateEightOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateNineOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateElevenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwelveOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThirteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFifteenOfThreeWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfFourWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfFiveWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfSixWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfSevenWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateOneOfEightWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+            @[
+               [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:@[ [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)], [UIImage loadBundleImage:@"8" ClassName:NSStringFromClass(self.class)] ]]],
+            ],
+        ];
     }
     return _dataSource;
 }
-
 
 /*
 #pragma mark - Navigation
@@ -533,19 +627,19 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 }
 */
 
-- (UIView *)templateSuperView{
-    if(!_templateSuperView){
+- (UIView *)templateSuperView {
+    if (!_templateSuperView) {
         _templateSuperView = ({
-            CGFloat view_x = 0;
-            CGFloat view_y = (ScreenHeight - ScreenWidth) / 2;
-            CGFloat view_width = ScreenWidth;
-            CGFloat view_height = ScreenWidth;
-            CGRect view_rect = CGRectMake(view_x, view_y,  view_width, view_height);
-            UIView * object = [[UIView alloc]init];
-            object.frame = view_rect;
+            CGFloat view_x         = 0;
+            CGFloat view_y         = (ScreenHeight - ScreenWidth) / 2;
+            CGFloat view_width     = ScreenWidth;
+            CGFloat view_height    = ScreenWidth;
+            CGRect view_rect       = CGRectMake(view_x, view_y, view_width, view_height);
+            UIView * object        = [[UIView alloc] init];
+            object.frame           = view_rect;
             object.backgroundColor = [UIColor whiteColor];
             object;
-       });
+        });
     }
     return _templateSuperView;
 }

@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedUpload;
 
-@property(nonatomic, strong) WYAUploadModel * uploadModel;
+@property (nonatomic, strong) WYAUploadModel * uploadModel;
 
 /**
  上传文件

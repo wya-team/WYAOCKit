@@ -35,9 +35,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    [self.navigationController.navigationBar
-//        setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]]
-//             forBarMetrics:UIBarMetricsDefault];
+    //    [self.navigationController.navigationBar
+    //        setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]]
+    //             forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setTranslucent:YES];
     //去掉导航栏底部的黑线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
@@ -99,7 +99,7 @@
                 NSMutableArray * arr = [WYAPhotoBrowserManager screenAssetWithCollection:collection];
                 [array addObjectsFromArray:arr];
             }
-            self.dataSource        = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
+            self.dataSource = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
 
         } else {
             NSMutableArray * array =

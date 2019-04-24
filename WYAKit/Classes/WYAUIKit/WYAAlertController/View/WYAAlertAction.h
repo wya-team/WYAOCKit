@@ -11,7 +11,6 @@
 /// 回调事件
 @property (nonatomic, copy) void (^handler)(void);
 
-
 + (instancetype)wya_actionWithTitle:(NSString *)title
                             handler:(void (^)(void))handler;
 
@@ -23,6 +22,5 @@
                           textColor:(UIColor *)textColor
                            textFont:(UIFont *)textFont
                             handler:(void (^)(void))handler;
-
 
 @end

@@ -100,7 +100,7 @@
     opi.networkAccessAllowed = YES;
     // 图片获取进度
     opi.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-        NSLog(@"progress==%f,errror==%@,stop==%d,info==%@",progress,[error localizedDescription], *stop,info);
+        NSLog(@"progress==%f,errror==%@,stop==%d,info==%@", progress, [error localizedDescription], *stop, info);
     };
 
     [manager requestImageForAsset:self.model.asset
@@ -108,7 +108,7 @@
                       contentMode:PHImageContentModeAspectFill
                           options:opi
                     resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                        NSLog(@"imageinfo==%@",info);
+                        NSLog(@"imageinfo==%@", info);
                         self.imageV.image     = result;
                         self.model.cacheImage = result;
                     }];

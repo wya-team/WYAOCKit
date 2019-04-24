@@ -18,9 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param nowNotAllowBlock 弹出提示点击了不允许
  @param neverNotAllowBlock 从未允许
  */
-+ (void)wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:(void(^)(void))authorizedBlock
-                               nowNotAllowAuthorizedBlock:(void(^)(void))nowNotAllowBlock
-                             neverNotAllowAuthorizedBlock:(void(^)(void))neverNotAllowBlock;
++ (void)wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                               nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
+                             neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock;
 
 /**
  检测相机权限
@@ -29,9 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param nowNotAllowBlock 弹出提示点击了不允许
  @param neverNotAllowBlock 从未允许
  */
-+ (void)wya_checkVideoPermissionsWithAuthorizedBlock:(void(^)(void))authorizedBlock
-                          nowNotAllowAuthorizedBlock:(void(^)(void))nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(void(^)(void))neverNotAllowBlock;
++ (void)wya_checkVideoPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                          nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
+                        neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock;
 
 /**
  检测音频权限
@@ -40,9 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param nowNotAllowBlock 弹出提示点击了不允许
  @param neverNotAllowBlock 从未允许
  */
-+ (void)wya_checkAudioPermissionsWithAuthorizedBlock:(void(^)(void))authorizedBlock
-                          nowNotAllowAuthorizedBlock:(void(^)(void))nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(void(^)(void))neverNotAllowBlock;
++ (void)wya_checkAudioPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                          nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
+                        neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock;
 
 /**
  检测通讯录权限(iOS9.0)
@@ -52,10 +52,10 @@ NS_ASSUME_NONNULL_BEGIN
  @param neverNotAllowBlock 从未允许
  @param errorBlock 错误
  */
-+ (void)wya_checkAddressBookPermissionsWithAuthorizedBlock:(void(^)(void))authorizedBlock
-                                nowNotAllowAuthorizedBlock:(void(^)(void))nowNotAllowBlock
-                              neverNotAllowAuthorizedBlock:(void(^)(void))neverNotAllowBlock
-                                                errorBlock:(void(^)(NSError *))errorBlock;
++ (void)wya_checkAddressBookPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
+                                nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
+                              neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock
+                                                errorBlock:(void (^)(NSError *))errorBlock;
 @end
 
 NS_ASSUME_NONNULL_END

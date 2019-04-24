@@ -9,22 +9,21 @@
 #import "WYAReadMeViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface WYAReadMeViewController () <WKNavigationDelegate,UIScrollViewDelegate>
+@interface WYAReadMeViewController () <WKNavigationDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) WKWebView * webView;
 @property (nonatomic, strong) UIProgressView * myProgressView;
 @end
 
 @implementation WYAReadMeViewController
 
-
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    self.tabBarController.tabBar.hidden = YES;
+    //    self.tabBarController.tabBar.hidden = YES;
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-//    self.tabBarController.tabBar.hidden = NO;
+    //    self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)viewDidLoad {
@@ -33,7 +32,6 @@
     [self wya_addRightNavBarButtonWithNormalTitle:@[ @"复制链接" ]];
     [self.view addSubview:self.webView];
     [self.view addSubview:self.myProgressView];
-
 }
 
 - (void)wya_goBack {
@@ -115,7 +113,7 @@
             configuration.userContentController = userContentController;
 
             WKWebView * object = [[WKWebView alloc]
-                initWithFrame:CGRectMake(1, WYATopHeight, ScreenWidth-2, ScreenHeight - WYATopHeight)
+                initWithFrame:CGRectMake(1, WYATopHeight, ScreenWidth - 2, ScreenHeight - WYATopHeight)
                 configuration:configuration];
             object.allowsBackForwardNavigationGestures = YES;
             object.navigationDelegate                  = self;
@@ -123,19 +121,19 @@
                      forKeyPath:@"estimatedProgress"
                         options:NSKeyValueObservingOptionNew
                         context:nil];
-            object.opaque               = NO;
-            object.multipleTouchEnabled = YES;
-            object.scrollView.alwaysBounceVertical = YES;
+            object.opaque                                    = NO;
+            object.multipleTouchEnabled                      = YES;
+            object.scrollView.alwaysBounceVertical           = YES;
             object.scrollView.showsHorizontalScrollIndicator = NO;
-            object.scrollView.bouncesZoom = NO;
-            object.scrollView.delegate = self;
+            object.scrollView.bouncesZoom                    = NO;
+            object.scrollView.delegate                       = self;
             object;
         });
     }
     return _webView;
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     scrollView.contentOffset = CGPointMake(0, scrollView.contentOffset.y);
 }
 

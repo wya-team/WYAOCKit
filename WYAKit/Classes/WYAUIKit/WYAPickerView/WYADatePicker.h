@@ -76,8 +76,6 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  */
 @property (nonatomic, assign) CGFloat pickerItemHeight;
 
-
-
 /**
  获取datePicker高度
 

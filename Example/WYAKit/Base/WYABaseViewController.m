@@ -8,7 +8,7 @@
 
 #import "WYABaseViewController.h"
 
-@interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate,UINavigationControllerDelegate>
+@interface WYABaseViewController () <WYANavBarDelegate, UIGestureRecognizerDelegate, UINavigationControllerDelegate>
 
 @end
 
@@ -26,8 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    self.navigationController.delegate = self;
-    self.view.backgroundColor = BGCOLOR;
+    self.navigationController.delegate                                 = self;
+    self.view.backgroundColor                                          = BGCOLOR;
     [self addCustomNavBar];
 }
 
@@ -41,9 +41,9 @@
                                                         fromViewController:(UIViewController *)fromVC
                                                           toViewController:(UIViewController *)toVC {
 
-    WYAFloatBallManager * manger =  [WYAFloatBallManager shared];
-    UIViewController * vc = manger.floatViewController;
-    UIViewController * mainVC = fromVC.navigationController.viewControllers.firstObject;
+    WYAFloatBallManager * manger = [WYAFloatBallManager shared];
+    UIViewController * vc        = manger.floatViewController;
+    UIViewController * mainVC    = fromVC.navigationController.viewControllers.firstObject;
 
     if (vc) {
         if (operation == UINavigationControllerOperationPush) {
@@ -292,7 +292,7 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)wya_pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
+- (void)wya_pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
     [self.navigationController pushViewController:viewController animated:animated];
 }
 

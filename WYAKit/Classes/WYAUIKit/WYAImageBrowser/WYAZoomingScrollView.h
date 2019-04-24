@@ -1,7 +1,6 @@
 //
 //  WYAZoomingScrollView.h
 
-
 #import <UIKit/UIKit.h>
 
 @class WYAZoomingScrollView;
@@ -27,13 +26,12 @@
 
 @end
 
-
 @interface WYAZoomingScrollView : UIView
 
 /**
  *  zoomingScrollViewdelegate
  */
-@property (nonatomic , weak) id <WYAZoomingScrollViewDelegate> zoomingScrollViewdelegate;
+@property (nonatomic, weak) id<WYAZoomingScrollViewDelegate> zoomingScrollViewdelegate;
 /**
  *  图片加载进度
  */
@@ -41,17 +39,17 @@
 /**
  *  展示的图片
  */
-@property (nonatomic , strong , readonly) UIImage  *currentImage;
+@property (nonatomic, strong, readonly) UIImage * currentImage;
 /**
  *  展示图片的UIImageView视图  ,  回缩的动画用
  */
-@property (nonatomic , weak , readonly) UIImageView *imageView;
-@property (nonatomic , strong , readonly) UIScrollView *scrollview;
+@property (nonatomic, weak, readonly) UIImageView * imageView;
+@property (nonatomic, strong, readonly) UIScrollView * scrollview;
 
 /**
  是否为返回原位，为layoutsubviews添加动画效果
  */
-@property (nonatomic , assign) BOOL isMoveBack;
+@property (nonatomic, assign) BOOL isMoveBack;
 
 /**
  *  显示图片
