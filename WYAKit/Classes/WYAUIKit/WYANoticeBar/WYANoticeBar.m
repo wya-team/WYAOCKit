@@ -7,22 +7,21 @@
 
 #import "WYANoticeBar.h"
 
+static void * NoticeBar = &NoticeBar;
+
 @interface WYANoticeBar ()
 @property (nonatomic, strong) UIButton * noticeButton;
 @property (nonatomic, strong) UIButton * rightButton;
-@property (nonatomic, strong) UIView * titleView;
-@property (nonatomic, strong) UILabel * titleLabel;
-@property (nonatomic, strong) NSMutableArray * titleLabelArray;
+@property (nonatomic, strong) UIScrollView * scrollView;
 @property (nonatomic, assign) WYANoticeBarScrollDirection direction;
-@property (nonatomic, assign) NSInteger titleIndex;
 @end
 
 @implementation WYANoticeBar {
-    CGRect rectMark1; //标记第一个位置
-    CGRect rectMark2; //标记第二个位置
-    BOOL isStop;      //停止
+    NSTimer *_timer;
+    CGFloat _labelWidth;
 }
 
+#pragma mark ======= LifeCircle
 - (instancetype)initWithFrame:(CGRect)frame {
     return [self initWithFrame:frame scrollDirection:WYANoticeBarScrollDirectionLeft];
 }
@@ -32,12 +31,13 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.direction = scrollDirection;
+        self.showTextFont = 15;
+        self.showTextColor = [UIColor blackColor];
         [self createUI];
     }
     return self;
 }
 
-#pragma mark--- Private Method
 - (void)layoutSubviews {
     [super layoutSubviews];
 
@@ -62,146 +62,138 @@
                               (self.showRightButton ? self.rightButton.cmam_width : 0 * SizeAdapter);
     CGFloat titleView_height = 30 * SizeAdapter;
     CGRect titleView_rect    = CGRectMake(titleView_x, titleView_y, titleView_width, titleView_height);
-    self.titleView.frame     = titleView_rect;
+    self.scrollView.frame     = titleView_rect;
 }
 
-- (void)createUI {
-    self.layer.masksToBounds = YES;
-    WeakSelf(weakSelf);
-    self.noticeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.noticeButton addCallBackAction:^(UIButton * button) {
-        if (weakSelf.leftButtonHandle) { weakSelf.leftButtonHandle(); }
-    }];
-    [self addSubview:self.noticeButton];
-
-    self.rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.rightButton addCallBackAction:^(UIButton * button) {
-        if (weakSelf.rightButtonHandle) { weakSelf.rightButtonHandle(); }
-    }];
-    [self addSubview:self.rightButton];
-
-    self.titleView = [[UIView alloc] init];
-    self.titleView.clipsToBounds = YES;
-    [self addSubview:self.titleView];
-    [self sendSubviewToBack:self.titleView];
-
-    self.titleLabelArray = [NSMutableArray arrayWithCapacity:0];
-
-    self.noticeBackgroundColor = [UIColor whiteColor];
-    self.titleIndex            = 0;
+-(void)dealloc{
+    [self wya_stop];
+    [self.scrollView removeObserver:self forKeyPath:@"contentOffset" context:NoticeBar];
 }
 
-- (void)paomaAnimate {
-    if (!isStop) {
-        if (self.direction == WYANoticeBarScrollDirectionLeft) {
-            if (self.titleLabelArray.count < 2) { return; }
-            UILabel * lbindex0 = self.titleLabelArray[0];
-            UILabel * lbindex1 = self.titleLabelArray[1];
-
-            [UIView transitionWithView:self
-                duration:[self displayDurationForString:self.titleLabel.text]
-                options:UIViewAnimationOptionCurveLinear
-                animations:^{
-
-                    CGFloat lbindex0_X      = -self->rectMark1.size.width;
-                    CGFloat lbindex0_Y      = 0;
-                    CGFloat lbindex0_Width  = self->rectMark1.size.width;
-                    CGFloat lbindex0_Height = self->rectMark1.size.height;
-                    lbindex0.frame =
-                        CGRectMake(lbindex0_X, lbindex0_Y, lbindex0_Width, lbindex0_Height);
-
-                    CGFloat lbindex1_X      = lbindex0.frame.origin.x + lbindex0.frame.size.width;
-                    CGFloat lbindex1_Y      = 0;
-                    CGFloat lbindex1_Width  = lbindex1.frame.size.width;
-                    CGFloat lbindex1_Height = lbindex1.frame.size.height;
-                    lbindex1.frame =
-                        CGRectMake(lbindex1_X, lbindex1_Y, lbindex1_Width, lbindex1_Height);
-
-                }
-                completion:^(BOOL finished) {
-
-                    lbindex0.frame = self->rectMark2;
-                    lbindex1.frame = self->rectMark1;
-                    if (self.titleLabelArray.count < 2) return;
-                    [self.titleLabelArray replaceObjectAtIndex:0 withObject:lbindex1];
-                    [self.titleLabelArray replaceObjectAtIndex:1 withObject:lbindex0];
-
-                    [self paomaAnimate];
-                }];
-        } else if (self.direction == WYANoticeBarScrollDirectionTop ||
-                   self.direction == WYANoticeBarScrollDirectionBottom) {
-            UILabel * label = self.titleLabelArray[self.titleIndex];
-            UILabel * nextLabel;
-            if (self.titleIndex == self.titleLabelArray.count - 1) {
-                nextLabel = self.titleLabelArray[0];
-            } else {
-                nextLabel = self.titleLabelArray[self.titleIndex + 1];
-            }
-            label.frame = CGRectMake(0, 0, self.titleView.cmam_width, self.titleView.cmam_height);
-            if (self.direction == WYANoticeBarScrollDirectionTop) {
-                nextLabel.frame = CGRectMake(0, self.titleView.cmam_height,
-                                             self.titleView.cmam_width, self.titleView.cmam_height);
-            } else {
-                nextLabel.frame = CGRectMake(0, -self.titleView.cmam_height,
-                                             self.titleView.cmam_width, self.titleView.cmam_height);
-            }
-
-            [UIView transitionWithView:label
-                duration:0.5
-                options:UIViewAnimationOptionCurveEaseInOut
-                animations:^{
-                    if (self.direction == WYANoticeBarScrollDirectionTop) {
-                        label.frame =
-                            CGRectMake(0, -self.titleView.cmam_height, self.titleView.cmam_width,
-                                       self.titleView.cmam_height);
-                    } else {
-                        label.frame =
-                            CGRectMake(0, self.titleView.cmam_height, self.titleView.cmam_width,
-                                       self.titleView.cmam_height);
-                    }
-                    nextLabel.frame =
-                        CGRectMake(0, 0, self.titleView.cmam_width, self.titleView.cmam_height);
-                }
-                completion:^(BOOL finished) {
-                    if (self.titleIndex == self.titleLabelArray.count - 1) {
-                        self.titleIndex = 0;
-                    } else {
-                        self.titleIndex++;
-                    }
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)),
-                                   dispatch_get_main_queue(), ^{ [self paomaAnimate]; });
-
-                }];
-        }
-    }
-}
-
+#pragma mark ======= Public Method
 - (void)wya_start {
-    isStop = NO;
+    CGFloat time = 0;
     if (self.direction == WYANoticeBarScrollDirectionLeft) {
-        if (self.titleLabelArray.count < 2) { return; }
-        UILabel * lbindex0 = self.titleLabelArray[0];
-        UILabel * lbindex1 = self.titleLabelArray[1];
-
-        lbindex0.frame = rectMark2;
-        lbindex1.frame = rectMark1;
-
-        [self.titleLabelArray replaceObjectAtIndex:0 withObject:lbindex1];
-        [self.titleLabelArray replaceObjectAtIndex:1 withObject:lbindex0];
-
-    } else if (self.direction == WYANoticeBarScrollDirectionTop ||
-               self.direction == WYANoticeBarScrollDirectionBottom) {
+        time = 0.01;
+    } else {
+        time = 2;
     }
+    _timer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+    [_timer fire];
 
-    [self paomaAnimate];
 }
 
 - (void)wya_stop {
-    isStop = YES;
+    if (_timer && [_timer isValid]) {
+        [_timer setFireDate:[NSDate distantFuture]];
+    }
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+    }
 }
 
-- (NSTimeInterval)displayDurationForString:(NSString *)string {
-    return string.length / 5;
+#pragma mark--- Private Method
+- (void)createUI {
+    self.layer.masksToBounds = YES;
+
+    [self addSubview:self.noticeButton];
+    [self addSubview:self.rightButton];
+    [self addSubview:self.scrollView];
+    [self sendSubviewToBack:self.scrollView];
+
+    self.noticeBackgroundColor = [UIColor whiteColor];
+}
+
+- (void)resertUI{
+
+    for (UIView * view in self.scrollView.subviews) {
+        [view removeFromSuperview];
+    }
+    if (self.direction == WYANoticeBarScrollDirectionLeft) {
+        UILabel * titleLabel      = [[UILabel alloc] init];
+        titleLabel.textColor = self.showTextColor;
+        titleLabel.font = FONT(self.showTextFont);
+        titleLabel.text = self.showText;
+        CGSize size = [titleLabel sizeThatFits:CGSizeZero];
+        _labelWidth = size.width;
+        titleLabel.frame   = CGRectMake(0, 0, size.width, self.scrollView.cmam_height);
+        [self.scrollView addSubview:titleLabel];
+        [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+    } else {
+        UIView * view;
+        for (NSInteger index = 0; index<self.textArray.count; index++) {
+            UILabel * label      = [[UILabel alloc] init];
+            label.textColor = self.showTextColor;
+            label.font = FONT(self.showTextFont);
+            NSInteger i;
+            if (self.direction == WYANoticeBarScrollDirectionTop) {
+                i = index;
+            } else {
+                i = self.textArray.count - 1 - index;
+            }
+            label.text = self.textArray[i];
+            label.frame   = CGRectMake(0, view.cmam_bottom, self.scrollView.cmam_width, self.scrollView.cmam_height);
+            [self.scrollView addSubview:label];
+            view = label;
+        }
+        if (self.direction == WYANoticeBarScrollDirectionTop) {
+            [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+        } else {
+            [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.cmam_height * (self.textArray.count - 1)) animated:NO];
+        }
+    }
+
+
+}
+
+-(void)timerAction{
+    switch (self.direction) {
+        case WYANoticeBarScrollDirectionLeft:
+            [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x + 1, 0) animated:NO];
+            break;
+        case WYANoticeBarScrollDirectionTop:
+            [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.contentOffset.y + self.scrollView.cmam_height) animated:YES];
+            break;
+        case WYANoticeBarScrollDirectionBottom:
+            [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.contentOffset.y - self.scrollView.cmam_height) animated:YES];
+            break;
+        default:
+            break;
+    }
+
+}
+
+#pragma mark ======= KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary<NSKeyValueChangeKey, id> *)change
+                       context:(void *)context {
+    if ([keyPath isEqualToString:@"contentOffset"] && context == NoticeBar) {
+        if (self.direction == WYANoticeBarScrollDirectionLeft) {
+            NSValue * newvalue = change[NSKeyValueChangeNewKey];
+            CGFloat point_x    = newvalue.UIOffsetValue.horizontal;
+            if (point_x > _labelWidth) {
+                [self.scrollView setContentOffset:CGPointMake(-self.cmam_width, 0) animated:NO];
+            }
+        } else {
+            NSValue * newvalue = change[NSKeyValueChangeNewKey];
+            CGFloat point_y    = newvalue.UIOffsetValue.vertical;
+            if (self.direction == WYANoticeBarScrollDirectionTop) {
+                if (fabs(point_y) == self.textArray.count * self.scrollView.cmam_height) {
+                    [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
+                }
+            } else {
+                if (point_y == -self.scrollView.cmam_height) {
+                    [self.scrollView setContentOffset:CGPointMake(0, self.scrollView.cmam_height * (self.textArray.count - 1)) animated:NO];
+                }
+            }
+        }
+
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark--- Setter
@@ -209,30 +201,8 @@
     _showText = showText;
     if (showText) {
         [self wya_stop];
-        for (UIView * view in self.titleView.subviews) {
-            [view removeFromSuperview];
-        }
-        [self.titleLabelArray removeAllObjects];
-        [self setNeedsLayout];
         [self layoutIfNeeded];
-        self.titleLabel      = [[UILabel alloc] init];
-        self.titleLabel.font = FONT(15);
-        self.titleLabel.text = showText;
-        [self.titleView addSubview:self.titleLabel];
-        [self.titleLabelArray addObject:self.titleLabel];
-        CGSize size = [self.titleLabel sizeThatFits:CGSizeZero];
-        rectMark1   = CGRectMake(0, 0, size.width + 10, self.titleView.cmam_height);
-        rectMark2   = CGRectMake(rectMark1.origin.x + rectMark1.size.width, 0, size.width + 10,
-                               self.titleView.cmam_height);
-
-        self.titleLabel.frame = rectMark1;
-        if (size.width > self.titleView.cmam_width) {
-            UILabel * label = [[UILabel alloc] initWithFrame:rectMark2];
-            label.font      = FONT(15);
-            label.text      = showText;
-            [self.titleView addSubview:label];
-            [self.titleLabelArray addObject:label];
-        }
+        [self resertUI];
     }
 }
 
@@ -259,27 +229,11 @@
 }
 
 - (void)setShowTextColor:(UIColor *)showTextColor {
-    if (self.direction == WYANoticeBarScrollDirectionLeft) {
-        UILabel * lbindex0 = self.titleLabelArray[0];
-        lbindex0.textColor = showTextColor;
-        if (self.titleLabelArray.count < 2) { return; }
-        UILabel * lbindex1 = self.titleLabelArray[1];
-        lbindex1.textColor = showTextColor;
-    } else {
-        for (UILabel * label in self.titleLabelArray) { label.textColor = showTextColor; }
-    }
+    _showTextColor = showTextColor;
 }
 
 - (void)setShowTextFont:(CGFloat)showTextFont {
-    if (self.direction == WYANoticeBarScrollDirectionLeft) {
-        UILabel * lbindex0 = self.titleLabelArray[0];
-        lbindex0.font      = FONT(showTextFont);
-        if (self.titleLabelArray.count < 2) { return; }
-        UILabel * lbindex1 = self.titleLabelArray[1];
-        lbindex1.font      = FONT(showTextFont);
-    } else {
-        for (UILabel * label in self.titleLabelArray) { label.font = FONT(showTextFont); }
-    }
+    _showTextFont = showTextFont;
 }
 
 - (void)setNoticeButtonImage:(UIImage *)noticeButtonImage {
@@ -291,7 +245,7 @@
 }
 
 - (void)setNoticeBackgroundColor:(UIColor *)noticeBackgroundColor {
-    self.titleView.backgroundColor = noticeBackgroundColor;
+    self.scrollView.backgroundColor = noticeBackgroundColor;
     [self.noticeButton setBackgroundColor:noticeBackgroundColor];
     [self.rightButton setBackgroundColor:noticeBackgroundColor];
 }
@@ -299,31 +253,50 @@
 - (void)setTextArray:(NSArray *)textArray {
     _textArray = textArray;
     if (textArray) {
-        [self setNeedsLayout];
+        [self wya_stop];
         [self layoutIfNeeded];
-        for (NSInteger index = 0; index < textArray.count; index++) {
-            UILabel * label = [[UILabel alloc] init];
-            label.text      = textArray[index];
-            label.textColor = random(0, 0, 0, 1);
-            label.font      = FONT(15);
-            [self.titleView addSubview:label];
-            [self.titleLabelArray addObject:label];
-            if (index == 0) {
-                rectMark1   = CGRectMake(0, 0, self.titleView.cmam_width, self.titleView.cmam_height);
-                label.frame = rectMark1;
-            } else {
-                label.frame = CGRectMake(0, self.titleView.cmam_height, self.titleView.cmam_width,
-                                         self.titleView.cmam_height);
-            }
-        }
+        [self resertUI];
     }
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
+#pragma mark ======= Getter
+- (UIButton *)noticeButton{
+    if(!_noticeButton){
+        _noticeButton = ({
+            WeakSelf(weakSelf);
+            UIButton * object = [[UIButton alloc]init];
+            [object addCallBackAction:^(UIButton * button) {
+                if (weakSelf.leftButtonHandle) { weakSelf.leftButtonHandle(); }
+            }];
+            object;
+       });
+    }
+    return _noticeButton;
+}
+
+- (UIButton *)rightButton{
+    if(!_rightButton){
+        _rightButton = ({
+            WeakSelf(weakSelf);
+            UIButton * object = [[UIButton alloc]init];
+            [object addCallBackAction:^(UIButton *button) {
+                if (weakSelf.rightButtonHandle) { weakSelf.rightButtonHandle(); }
+            }];
+            object;
+       });
+    }
+    return _rightButton;
+}
+
+- (UIScrollView *)scrollView{
+    if(!_scrollView){
+        _scrollView = ({
+            UIScrollView * object = [[UIScrollView alloc]init];
+            object.clipsToBounds = YES;
+            [object addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:NoticeBar];
+            object;
+       });
+    }
+    return _scrollView;
+}
 @end

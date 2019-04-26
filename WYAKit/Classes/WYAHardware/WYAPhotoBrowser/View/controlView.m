@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UIButton * previewButton;
 
-@property (nonatomic, strong) UIButton * doneButton;
+
 
 @end
 
@@ -38,10 +38,7 @@
         [self.doneButton setTitle:@"完成" forState:UIControlStateNormal];
         [self.doneButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [self.doneButton setBackgroundImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [self.doneButton setBackgroundImage:[UIImage imageNamed:@""]
-                                   forState:UIControlStateSelected];
-        self.doneButton.frame = CGRectMake(ScreenWidth - 60, 15, 45, frame.size.height - 30);
+        self.doneButton.frame = CGRectMake(ScreenWidth - 85, 15, 70, frame.size.height - 30);
         [self.doneButton addTarget:self
                             action:@selector(doneClick)
                   forControlEvents:UIControlEventTouchUpInside];

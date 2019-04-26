@@ -50,9 +50,9 @@
     self.bar.noticeButtonImage     = [UIImage imageNamed:@"icon_voiceorange"];
     self.bar.showRightButton       = YES;
     self.bar.rightButtonImage      = [UIImage imageNamed:@"icon_back_notice"];
-    self.bar.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar.showTextColor         = REDCOLOR;
     self.bar.noticeBackgroundColor = [random(253, 253, 240, 1) colorWithAlphaComponent:0.5];
+    self.bar.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     [self.view addSubview:self.bar];
 
     self.bar1 = [[WYANoticeBar alloc]
@@ -60,9 +60,9 @@
                                  self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar1.showNoticeButton      = YES;
     self.bar1.noticeButtonImage     = [UIImage imageNamed:@"icon_voiceorange"];
-    self.bar1.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar1.showTextColor         = REDCOLOR;
     self.bar1.noticeBackgroundColor = random(253, 253, 240, 1);
+    self.bar1.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     [self.view addSubview:self.bar1];
 
     self.bar2 = [[WYANoticeBar alloc]
@@ -71,9 +71,9 @@
                                  self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar2.showRightButton       = YES;
     self.bar2.rightButtonImage      = [UIImage imageNamed:@"icon_cancel_notice"];
-    self.bar2.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar2.showTextColor         = REDCOLOR;
     self.bar2.noticeBackgroundColor = random(253, 253, 240, 1);
+    self.bar2.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     WeakSelf(weakSelf);
     self.bar2.rightButtonHandle = ^{ [weakSelf.bar2 removeFromSuperview]; };
     [self.view addSubview:self.bar2];
@@ -82,9 +82,9 @@
         initWithFrame:CGRectMake(10 * SizeAdapter,
                                  CGRectGetMaxY(self.bar2.frame) + 20 * SizeAdapter,
                                  self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
-    self.bar3.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     self.bar3.showTextColor         = REDCOLOR;
     self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
+    self.bar3.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
     [self.view addSubview:self.bar3];
 
     CGFloat flipLabel_X      = 10;
@@ -95,22 +95,23 @@
     WYANoticeBar * flipNoticeBar =
         [[WYANoticeBar alloc] initWithFrame:rect
                             scrollDirection:WYANoticeBarScrollDirectionTop];
-    flipNoticeBar.textArray             = @[ @"哈哈", @"呵呵", @"好嗨哦" ];
     flipNoticeBar.showTextColor         = REDCOLOR;
     flipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
+    flipNoticeBar.textArray             = @[ @"哈哈", @"呵呵", @"好嗨哦" ];
     [self.view addSubview:flipNoticeBar];
 
-    //    CGFloat bottomFlipLabel_X = 10;
-    //    CGFloat bottomFlipLabel_Y = CGRectGetMaxY(flipNoticeBar.frame)+20;
-    //    CGFloat bottomFlipLabel_Width = ScreenWidth-20;
-    //    CGFloat bottomFlipLabel_Height = 30;
-    //    CGRect bottomRect = CGRectMake(bottomFlipLabel_X, bottomFlipLabel_Y,
-    //    bottomFlipLabel_Width, bottomFlipLabel_Height);
-    //    WYANoticeBar * bottomFlipNoticeBar = [[WYANoticeBar alloc] initWithFrame:bottomRect
-    //    scrollDirection:WYANoticeBarScrollDirectionBottom];
-    //    bottomFlipNoticeBar.textArray = @[@"哈哈",@"呵呵",@"好嗨哦"];
-    //    bottomFlipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
-    //    [self.view addSubview:bottomFlipNoticeBar];
+    CGFloat bottomFlipLabel_X = 10;
+    CGFloat bottomFlipLabel_Y = CGRectGetMaxY(flipNoticeBar.frame)+20;
+    CGFloat bottomFlipLabel_Width = ScreenWidth-20;
+    CGFloat bottomFlipLabel_Height = 30;
+    CGRect bottomRect = CGRectMake(bottomFlipLabel_X, bottomFlipLabel_Y,
+    bottomFlipLabel_Width, bottomFlipLabel_Height);
+    WYANoticeBar * bottomFlipNoticeBar = [[WYANoticeBar alloc] initWithFrame:bottomRect
+    scrollDirection:WYANoticeBarScrollDirectionBottom];
+
+    bottomFlipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
+    bottomFlipNoticeBar.textArray = @[@"哈哈",@"呵呵",@"好嗨哦"];
+    [self.view addSubview:bottomFlipNoticeBar];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
                    dispatch_get_main_queue(), ^{
@@ -119,11 +120,13 @@
                        [self.bar2 wya_start];
                        [self.bar3 wya_start];
                        [flipNoticeBar wya_start];
-                       //        [bottomFlipNoticeBar wya_start];
+                       [bottomFlipNoticeBar wya_start];
                    });
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(10 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        self.bar.showText = @"jdisjdi";
+        [self.bar wya_stop];
+        self.bar.showText = @"jdisjdifoisjogijaoihjdoishofghieuwhfiruhewifuhsdiuhfiudshfikudshiouahsodhjaosihdoasihdoaishdoiash";
+        [self.bar wya_start];
     });
 }
 

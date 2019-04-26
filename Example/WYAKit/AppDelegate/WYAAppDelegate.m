@@ -9,7 +9,7 @@
 #import "WYAAppDelegate.h"
 #import "RootViewController.h"
 #import <WYAKit/WYAKitInstance.h>
-
+#import <WHDebugTool/WHDebugToolManager.h>
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application
@@ -26,7 +26,7 @@
 
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-
+    [[WHDebugToolManager sharedInstance] toggleWith:DebugToolTypeAll];
     RootViewController * rootViewController = [[RootViewController alloc] init];
     self.window.rootViewController          = rootViewController;
 

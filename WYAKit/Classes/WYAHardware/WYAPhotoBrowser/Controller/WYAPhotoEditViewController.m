@@ -81,6 +81,8 @@
             if (model.cropImage) {
                 //是否有之前裁剪的图片
                 [self.images addObject:model.cropImage];
+            } else if (model.cacheImage) {
+                [self.images addObject:model.cacheImage];
             } else {
                 PHImageManager * manager    = [PHImageManager defaultManager];
                 PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
@@ -138,6 +140,7 @@
             forCellWithReuseIdentifier:@"video"];
         [_collectionView registerClass:[UICollectionViewCell class]
             forCellWithReuseIdentifier:@"cell"];
+        [_collectionView setContentOffset:CGPointMake(self.selectIndex * _collectionView.cmam_width, 0) animated:NO];
     }
     return _collectionView;
 }

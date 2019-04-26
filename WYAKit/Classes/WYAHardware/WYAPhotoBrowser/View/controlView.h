@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface controlView : UIView
-
+@property (nonatomic, strong) UIButton * doneButton;
 @property (nonatomic, copy) void (^previewBlock)(void);
 @property (nonatomic, copy) void (^doneBlock)(void);
 @end

@@ -290,6 +290,11 @@
                 }
             }
         }
+        if (self.images.count == 0) {
+            [self.controlV.doneButton setTitle:@"完成" forState:UIControlStateNormal];
+        } else {
+            [self.controlV.doneButton setTitle:[NSString stringWithFormat:@"完成(%lu)",(unsigned long)self.images.count] forState:UIControlStateNormal];
+        }
         [collectionView reloadData];
     };
 }
@@ -325,7 +330,9 @@
 - (void)collectionView:(UICollectionView *)collectionView
     didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
-    vc.models                       = [@[ self.dataSource[indexPath.item] ] mutableCopy];
+    vc.models                       = self.models;
+    WYAPhotoBrowserModel * model = self.dataSource[indexPath.item];
+    vc.selectIndex = [self.models indexOfObject:model];
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
         NSArray * models = [self.dataSource copy];
         for (WYAPhotoBrowserModel * photoModel in models) {
