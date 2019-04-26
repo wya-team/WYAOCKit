@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import <WYAKit/WYAKitInstance.h>
 #import <WHDebugTool/WHDebugToolManager.h>
+
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application

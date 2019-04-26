@@ -514,61 +514,71 @@
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTwoOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateThreeOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFourOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateFiveOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSixOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateSevenOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateEightOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateNineOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]],
                [self templateImageWithView:[self templatePathWithPoints:[WYAImageComposeTemplatePoints templateTenOfTwoWithTemplateSize:self.templateSuperView.cmam_size]
                                                                  images:@[
                                                                      [UIImage loadBundleImage:@"0"
                                                                                     ClassName:NSStringFromClass(self.class)],
-                                                                     [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                                                                     [UIImage loadBundleImage:@"1"
+                                                                                    ClassName:NSStringFromClass(self.class)],
                                                                  ]]]
             ],
             @[

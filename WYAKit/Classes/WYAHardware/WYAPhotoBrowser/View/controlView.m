@@ -12,8 +12,6 @@
 
 @property (nonatomic, strong) UIButton * previewButton;
 
-
-
 @end
 
 @implementation controlView

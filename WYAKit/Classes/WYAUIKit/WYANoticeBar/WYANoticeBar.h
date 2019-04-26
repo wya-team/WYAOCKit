@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
-    WYANoticeBarScrollDirectionLeft, // 向左移动
-    WYANoticeBarScrollDirectionTop, // 向上移动
+    WYANoticeBarScrollDirectionLeft,   // 向左移动
+    WYANoticeBarScrollDirectionTop,    // 向上移动
     WYANoticeBarScrollDirectionBottom, // 向下移动
 };
 

@@ -202,7 +202,7 @@
             [object addTarget:self
                           action:@selector(buttonClick:)
                 forControlEvents:UIControlEventTouchUpInside];
-            object.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            object.imageView.contentMode       = UIViewContentModeScaleAspectFill;
             object.adjustsImageWhenHighlighted = NO;
             object;
         });

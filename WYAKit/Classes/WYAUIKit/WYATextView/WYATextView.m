@@ -235,7 +235,7 @@
     self.textView.wya_placeHolderColor = placeHoldColor;
 }
 
-- (void)setTextViewPadding:(CGFloat)textViewPadding{
+- (void)setTextViewPadding:(CGFloat)textViewPadding {
     _textViewPadding = textViewPadding;
     [self layoutIfNeeded];
 }

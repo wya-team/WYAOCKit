@@ -100,17 +100,17 @@
     flipNoticeBar.textArray             = @[ @"哈哈", @"呵呵", @"好嗨哦" ];
     [self.view addSubview:flipNoticeBar];
 
-    CGFloat bottomFlipLabel_X = 10;
-    CGFloat bottomFlipLabel_Y = CGRectGetMaxY(flipNoticeBar.frame)+20;
-    CGFloat bottomFlipLabel_Width = ScreenWidth-20;
+    CGFloat bottomFlipLabel_X      = 10;
+    CGFloat bottomFlipLabel_Y      = CGRectGetMaxY(flipNoticeBar.frame) + 20;
+    CGFloat bottomFlipLabel_Width  = ScreenWidth - 20;
     CGFloat bottomFlipLabel_Height = 30;
-    CGRect bottomRect = CGRectMake(bottomFlipLabel_X, bottomFlipLabel_Y,
-    bottomFlipLabel_Width, bottomFlipLabel_Height);
+    CGRect bottomRect              = CGRectMake(bottomFlipLabel_X, bottomFlipLabel_Y,
+                                   bottomFlipLabel_Width, bottomFlipLabel_Height);
     WYANoticeBar * bottomFlipNoticeBar = [[WYANoticeBar alloc] initWithFrame:bottomRect
-    scrollDirection:WYANoticeBarScrollDirectionBottom];
+                                                             scrollDirection:WYANoticeBarScrollDirectionBottom];
 
     bottomFlipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
-    bottomFlipNoticeBar.textArray = @[@"哈哈",@"呵呵",@"好嗨哦"];
+    bottomFlipNoticeBar.textArray             = @[ @"哈哈", @"呵呵", @"好嗨哦" ];
     [self.view addSubview:bottomFlipNoticeBar];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
