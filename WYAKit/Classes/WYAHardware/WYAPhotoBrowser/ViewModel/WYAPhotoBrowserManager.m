@@ -11,11 +11,11 @@
 
 @implementation WYAPhotoBrowserManager
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)
- screenAssetWithFilter:(AssetCollectionType)collectionType
-AssetCollectionSubType:(AssetCollectionSubType)subType
-        CollectionSort:(AssetCollectionSort)collectionSort
-             assetSort:(AssetSort)assetSort {
++ (void)screenAssetWithFilter:(AssetCollectionType)collectionType
+       AssetCollectionSubType:(AssetCollectionSubType)subType
+               CollectionSort:(AssetCollectionSort)collectionSort
+                    assetSort:(AssetSort)assetSort
+                  resultBlock:(ResultBlock)resultBlock {
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
@@ -73,67 +73,75 @@ AssetCollectionSubType:(AssetCollectionSubType)subType
         default:
             break;
     }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
+                                                                              subtype:collSubType
+                                                                              options:options];
 
-    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
-                                                                          subtype:collSubType
-                                                                          options:options];
+        if (userAlbums.count > 0) {
+            //获取相机胶卷中的照片
 
-    if (userAlbums.count > 0) {
-        //获取相机胶卷中的照片
+            for (NSInteger index = 0; index < userAlbums.count; index++) {
+                PHAssetCollection * collection = userAlbums[index];
+                if ([collection isKindOfClass:[PHAssetCollection class]]) {
+                    //代表当前的collection是一个相册
 
-        for (NSInteger index = 0; index < userAlbums.count; index++) {
-            PHAssetCollection * collection = userAlbums[index];
-            if ([collection isKindOfClass:[PHAssetCollection class]]) {
-                //代表当前的collection是一个相册
+                    //                NSLog(@"name==%@",collection.localizedTitle);
+                    //                NSLog(@"type==%d",collection.assetCollectionType);
+                    //                NSLog(@"subType==%d",collection.assetCollectionSubtype);
+                    PHFetchOptions * fetchO             = [[PHFetchOptions alloc] init];
+                    NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
+                    switch (assetSort) {
+                        case AssetCreationDate:
+                            [subSortDescriptors
+                             addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
+                                                                     ascending:YES]];
+                            break;
+                        case AssetModificationDate:
+                            [subSortDescriptors
+                             addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
+                                                                     ascending:YES]];
+                            break;
+                        default:
+                            break;
+                    }
 
-                //                NSLog(@"name==%@",collection.localizedTitle);
-                //                NSLog(@"type==%d",collection.assetCollectionType);
-                //                NSLog(@"subType==%d",collection.assetCollectionSubtype);
-                PHFetchOptions * fetchO             = [[PHFetchOptions alloc] init];
-                NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
-                switch (assetSort) {
-                    case AssetCreationDate:
-                        [subSortDescriptors
-                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
-                                                                    ascending:YES]];
-                        break;
-                    case AssetModificationDate:
-                        [subSortDescriptors
-                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
-                                                                    ascending:YES]];
-                        break;
-                    default:
-                        break;
-                }
+                    fetchO.sortDescriptors = subSortDescriptors;
 
-                fetchO.sortDescriptors = subSortDescriptors;
-
-                PHFetchResult * smartSubResult =
+                    PHFetchResult * smartSubResult =
                     [PHAsset fetchAssetsInAssetCollection:collection
                                                   options:fetchO];
-                NSLog(@"smartCount==%d", smartSubResult.count);
-                if (smartSubResult.count > 0) {
-                    for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
-                        PHAsset * assert = (PHAsset *)smartSubResult[aaa];
-                        //                        if ([self checkImageLocalWithAsset:assert]) {
-                        WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
-                        model.asset                  = assert;
-                        model.selected               = NO;
-                        [datas addObject:model];
-                        //                        }
+                    NSLog(@"smartCount==%d", smartSubResult.count);
+                    if (smartSubResult.count > 0) {
+                        for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
+                            PHAsset * assert = (PHAsset *)smartSubResult[aaa];
+                            //                        if ([self checkImageLocalWithAsset:assert]) {
+                            WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
+                            model.asset                  = assert;
+                            model.selected               = NO;
+                            [datas addObject:model];
+                            //                        }
+                        }
                     }
                 }
             }
-        }
-    }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                resultBlock(datas);
+            });
 
-    return datas;
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                resultBlock(nil);
+            });
+        }
+    });
+
 }
 
-+ (NSMutableArray<PHAssetCollection *> *)
-screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
-         AssetCollectionSubType:(AssetCollectionSubType)subType
-                 CollectionSort:(AssetCollectionSort)collectionSort {
++ (void)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
+                 AssetCollectionSubType:(AssetCollectionSubType)subType
+                         CollectionSort:(AssetCollectionSort)collectionSort
+                  assertCollectionBlock:(AssertCollectionBlock)assertCollectionBlock{
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
@@ -192,32 +200,38 @@ screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
         default:
             break;
     }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
+                                                                              subtype:collSubType
+                                                                              options:options];
 
-    PHFetchResult * userAlbums = [PHAssetCollection fetchAssetCollectionsWithType:collType
-                                                                          subtype:collSubType
-                                                                          options:options];
+        if (userAlbums.count > 0) {
+            //获取相机胶卷中的照片
 
-    if (userAlbums.count > 0) {
-        //获取相机胶卷中的照片
+            for (NSInteger index = 0; index < userAlbums.count; index++) {
+                PHAssetCollection * collection = userAlbums[index];
+                if ([collection isKindOfClass:[PHAssetCollection class]]) {
+                    //代表当前的collection是一个相册
 
-        for (NSInteger index = 0; index < userAlbums.count; index++) {
-            PHAssetCollection * collection = userAlbums[index];
-            if ([collection isKindOfClass:[PHAssetCollection class]]) {
-                //代表当前的collection是一个相册
-
-                [datas addObject:collection];
-                //                NSLog(@"name==%@",collection.localizedTitle);
+                    [datas addObject:collection];
+                    //                NSLog(@"name==%@",collection.localizedTitle);
+                }
             }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                assertCollectionBlock(datas);
+            });
+        } else {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                assertCollectionBlock(nil);
+            });
         }
-    }
-    return datas;
+    });
 }
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)
-screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
-                  AssetCollectionSubType:(PHAssetCollectionSubtype)subType
-                          CollectionSort:(AssetCollectionSort)collectionSort
-                               assetSort:(AssetSort)assetSort {
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
+                                                              AssetCollectionSubType:(PHAssetCollectionSubtype)subType
+                                                                      CollectionSort:(AssetCollectionSort)collectionSort
+                                                                           assetSort:(AssetSort)assetSort {
     NSMutableArray * datas = [NSMutableArray arrayWithCapacity:0];
     //建立筛选项
     NSMutableArray * sortDescriptors = [NSMutableArray arrayWithCapacity:0];
@@ -289,32 +303,35 @@ screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
     return datas;
 }
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:
-    (PHAssetCollection *)collection {
-    NSMutableArray * datas              = [NSMutableArray array];
-    PHFetchOptions * fetchO             = [[PHFetchOptions alloc] init];
-    NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
-    [subSortDescriptors
-        addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
++ (void)screenAssetWithCollection:(NSMutableArray<PHAssetCollection *> *)collections
+                      resultBlock:(ResultBlock)resultBlock {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableArray * datas              = [NSMutableArray array];
+        PHFetchOptions * fetchO             = [[PHFetchOptions alloc] init];
+        NSMutableArray * subSortDescriptors = [NSMutableArray arrayWithCapacity:0];
+        [subSortDescriptors
+         addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
 
-    fetchO.sortDescriptors = subSortDescriptors;
-
-    PHFetchResult * smartSubResult =
-        [PHAsset fetchAssetsInAssetCollection:collection
-                                      options:fetchO];
-    //                NSLog(@"smartCount==%d",smartSubResult.count);
-    if (smartSubResult.count > 0) {
-        for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
-            PHAsset * assert = (PHAsset *)smartSubResult[aaa];
-            //            if ([self checkImageLocalWithAsset:assert]) {
-            WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
-            model.asset                  = assert;
-            model.selected               = NO;
-            [datas addObject:model];
-            //            }
+        fetchO.sortDescriptors = subSortDescriptors;
+        for (PHAssetCollection * collection in collections) {
+            PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
+            //                NSLog(@"smartCount==%d",smartSubResult.count);
+            if (smartSubResult.count > 0) {
+                for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
+                    PHAsset * assert = (PHAsset *)smartSubResult[aaa];
+                    //            if ([self checkImageLocalWithAsset:assert]) {
+                    WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
+                    model.asset                  = assert;
+                    model.selected               = NO;
+                    [datas addObject:model];
+                    //            }
+                }
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    resultBlock(datas);
+                });
+            }
         }
-    }
-    return datas;
+    });
 }
 
 + (BOOL)checkImageLocalWithAsset:(PHAsset *)asset {
