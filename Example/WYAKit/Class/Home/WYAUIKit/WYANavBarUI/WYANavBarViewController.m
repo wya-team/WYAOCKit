@@ -207,6 +207,7 @@
             self.navBackGroundColor      = WHITECOLOR;
             self.navTitleFont            = 18;
             self.navBackGroundImageNamed = @"";
+
             [self wya_addRightNavBarButtonWithNormalTitle:@[ @"帮助", @"更多" ]
                                               normalColor:@[ BLUECOLOR, BLUECOLOR ]
                                          highlightedColor:@[]];

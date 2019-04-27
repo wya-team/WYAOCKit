@@ -9,66 +9,65 @@
 #import "Masonry.h"
 #define TITLEFONT 18
 #define BUTTON_TITLEFONT 16
-#define ITEMSPACE_DEFAULT 10.f
-#define LEFT_OR_RIGHT_SPACE 10.0
-#define BUTTONWIDTH 36
+#define ITEMSPACE_DEFAULT (0.f * SizeAdapter)
+#define LEFT_OR_RIGHT_SPACE (15.0 * SizeAdapter)
 #define LEFT_BASE_TAG 1000
 #define RIGHT_BASE_TAG 2000
 
 @interface WYANavBar ()
-@property (nonatomic, strong) UILabel * titleLabel;              // 标题
-@property (nonatomic, strong) UIImageView * backgroundImageView; // 背景图片
-@property (nonatomic, strong) UIView * navBarView;               // 导航栏View
+/// 标题label
+@property (nonatomic, strong) UILabel * titleLabel;
+/// 背景图片
+@property (nonatomic, strong) UIImageView * backgroundImageView;
+/// 导航栏视图44
+@property (nonatomic, strong) UIView * navBarView;
+/// 底部分割线
 @property (nonatomic, strong) UIView * lineView;
-@property (nonatomic, strong) UIView * leftButtonView;
-@property (nonatomic, strong) UIView * rightButtonView;
+/// 左边第一个按钮（返回）
+@property (nonatomic, strong) UIButton * leftButtonOne;
+/// 左边第二个按钮
+@property (nonatomic, strong) UIButton * leftButtonTwo;
+/// 右边第一个按钮
+@property (nonatomic, strong) UIButton * rightButtonOne;
+/// 右边第二个按钮
+@property (nonatomic, strong) UIButton * rightButtonTwo;
+
 @end
 
 @implementation WYANavBar
-
+#pragma mark ======= LifeCircle
 - (instancetype)init {
     if (self = [super init]) {
+        [self setDefaultVConfig];
         self.frame           = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
-        _titleLabel          = [[UILabel alloc] init];
-        _backgroundImageView = [[UIImageView alloc] init];
-        _navBarView          = [[UIView alloc] init];
-        _lineView            = [[UIView alloc] init];
-        _pageItemView        = [[UIView alloc] init];
-        _leftButtonView      = [[UIView alloc] init];
-        _rightButtonView     = [[UIView alloc] init];
-
-        [self addSubview:_backgroundImageView];
-        [_backgroundImageView addSubview:_navBarView];
-        [_navBarView addSubview:_pageItemView];
-        [_navBarView addSubview:_titleLabel];
-        [_navBarView addSubview:_lineView];
-        [_navBarView addSubview:_rightButtonView];
-        [_navBarView addSubview:_leftButtonView];
-        [self setUp];
+        self.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.backgroundImageView];
+        [self.backgroundImageView addSubview:self.navBarView];
+        [self.navBarView addSubview:self.pageItemView];
+        [self.navBarView addSubview:self.titleLabel];
+        [self.navBarView addSubview:self.lineView];
+        [self.navBarView addSubview:self.leftButtonOne];
+        [self.navBarView addSubview:self.leftButtonTwo];
+        [self.navBarView addSubview:self.rightButtonOne];
+        [self.navBarView addSubview:self.rightButtonTwo];
     }
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        [self setDefaultVConfig];
         self.frame           = CGRectMake(0, 0, ScreenWidth, WYATopHeight);
-        _titleLabel          = [[UILabel alloc] init];
-        _backgroundImageView = [[UIImageView alloc] init];
-        _navBarView          = [[UIView alloc] init];
-        _lineView            = [[UIView alloc] init];
-        _pageItemView        = [[UIView alloc] init];
-        _leftButtonView      = [[UIView alloc] init];
-        _rightButtonView     = [[UIView alloc] init];
-
-        [_navBarView addSubview:_titleLabel];
-        [_navBarView addSubview:_pageItemView];
-        [_navBarView addSubview:_lineView];
-        [_backgroundImageView addSubview:_navBarView];
-        [self addSubview:_backgroundImageView];
-        [_navBarView addSubview:_rightButtonView];
-        [_navBarView addSubview:_leftButtonView];
-
-        [self setUp];
+        self.backgroundColor = [UIColor whiteColor];
+        [self addSubview:self.backgroundImageView];
+        [self.backgroundImageView addSubview:self.navBarView];
+        [self.navBarView addSubview:self.pageItemView];
+        [self.navBarView addSubview:self.titleLabel];
+        [self.navBarView addSubview:self.lineView];
+        [self.navBarView addSubview:self.leftButtonOne];
+        [self.navBarView addSubview:self.leftButtonTwo];
+        [self.navBarView addSubview:self.rightButtonOne];
+        [self.navBarView addSubview:self.rightButtonTwo];
     }
     return self;
 }
@@ -79,446 +78,391 @@
         self.frame = CGRectMake(0, -WYAStatusBarHeight, ScreenWidth, WYATopHeight);
     }
 
-    [_backgroundImageView mas_makeConstraints:^(MASConstraintMaker * make) {
+    [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.bottom.mas_equalTo(self);
     }];
 
-    [_navBarView mas_makeConstraints:^(MASConstraintMaker * make) {
+    [self.navBarView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.top.equalTo(self.backgroundImageView.mas_top).offset(WYAStatusBarHeight);
         make.left.mas_equalTo(self.backgroundImageView);
         make.size.mas_equalTo(CGSizeMake(ScreenWidth, WYANavBarHeight));
     }];
 
-    [_pageItemView mas_makeConstraints:^(MASConstraintMaker * make) {
+    [self.pageItemView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.navBarView.mas_left).offset(46);
         make.right.equalTo(self.navBarView.mas_right).offset(-46);
         make.top.equalTo(self.navBarView.mas_top).offset(0);
         make.height.mas_equalTo(WYANavBarHeight);
     }];
 
-    [_leftButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
-        make.left.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200 * SizeAdapter) * 0.5);
+    [self.leftButtonOne mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.left.equalTo(self.navBarView.mas_left).offset(LEFT_OR_RIGHT_SPACE);
+        make.top.bottom.mas_equalTo(self.navBarView);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
+    }];
+
+    [self.leftButtonTwo mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.left.equalTo(self.leftButtonOne.mas_right).offset(self->_space);
+        make.top.bottom.mas_equalTo(self.navBarView);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
+    }];
+
+
+    [self.rightButtonOne mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.right.equalTo(self.navBarView.mas_right).offset(-LEFT_OR_RIGHT_SPACE);
+        make.top.bottom.mas_equalTo(self.navBarView);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
+    }];
+
+    [self.rightButtonTwo mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.right.equalTo(self.rightButtonOne.mas_left).offset(-self->_space);
+        make.top.bottom.mas_equalTo(self.navBarView);
+        make.size.mas_equalTo(CGSizeMake(44, 44));
     }];
 
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker * make) {
-        make.center.mas_equalTo(self.navBarView);
-        make.size.mas_equalTo(CGSizeMake(200 * SizeAdapter, 44));
-    }];
-
-    [_rightButtonView mas_makeConstraints:^(MASConstraintMaker * make) {
-        make.right.top.bottom.mas_equalTo(self.navBarView);
-        make.width.mas_equalTo((ScreenWidth - 200 * SizeAdapter) * 0.5);
+        make.top.mas_equalTo(self.navBarView.mas_top);
+        make.left.mas_equalTo(self.leftButtonTwo.mas_right);
+        make.right.mas_equalTo(self.rightButtonTwo.mas_left);
+        make.height.mas_equalTo(44);
     }];
 
     [_lineView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.bottom.mas_equalTo(self.navBarView);
-        make.height.mas_equalTo(1);
+        make.height.mas_equalTo(0.5);
     }];
 }
-#pragma mark ======= private methods
-- (void)setUp {
-    self.backgroundColor                        = [UIColor whiteColor];
-    self.titleLabel.textColor                   = [UIColor blackColor];
-    self.titleLabel.font                        = [UIFont systemFontOfSize:TITLEFONT];
-    self.titleLabel.adjustsFontSizeToFitWidth   = YES;
-    _backgroundImageView.userInteractionEnabled = YES;
-    self.titleLabel.textAlignment               = NSTextAlignmentCenter;
-    _lineView.backgroundColor                   = [UIColor groupTableViewBackgroundColor];
-    _navTitleFont                               = TITLEFONT;
-    _space                                      = ITEMSPACE_DEFAULT;
-    _leftBarButtonItemTitleFont                 = BUTTON_TITLEFONT;
-    _rightBarButtonItemTitleFont                = BUTTON_TITLEFONT;
-}
-- (void)addLeftBarViewButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                normalColor:(NSArray<UIColor *> *)normalColors
-                           highlightedColor:(NSArray<UIColor *> *)highlightedColors
-                                NormalImage:(NSArray<NSString *> *)normalImages
-                             highlightedImg:(NSArray<NSString *> *)highlightedImgs {
-    for (UIView * subView in self.leftButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
-    }
-    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
-    CGFloat startY  = 4.0f;
-    CGFloat width   = 36;
-    CGFloat height  = 36;
-    CGFloat space   = self.space;
-    NSInteger count = normalTitles.count > 0 ? normalTitles.count : normalImages.count;
-    for (int i = 0; i < count; i++) {
-        int column = i % count;
 
-        UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-        customButton.tag = LEFT_BASE_TAG + i;
-
-        if (normalTitles) {
-            width = [[normalTitles wya_safeObjectAtIndex:i]
-                wya_widthWithFontSize:self.leftBarButtonItemTitleFont
-                               height:height];
-
-            customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-
-            customButton.titleLabel.font =
-                [UIFont systemFontOfSize:self.leftBarButtonItemTitleFont];
-
-            [customButton setTitle:[normalTitles wya_safeObjectAtIndex:i]
-                          forState:UIControlStateNormal];
-
-            [customButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-
-            if (normalColors.count) {
-                [customButton setTitleColor:[normalColors wya_safeObjectAtIndex:i]
-                                   forState:UIControlStateNormal];
-            }
-            if (highlightedColors.count) {
-                [customButton setTitleColor:[highlightedColors wya_safeObjectAtIndex:i]
-                                   forState:UIControlStateHighlighted];
-            }
-        } else if (normalImages.count > 0) {
-            UIImage * image = [UIImage imageNamed:[normalImages wya_safeObjectAtIndex:i]];
-
-            [customButton setImage:image forState:UIControlStateNormal];
-
-            if (highlightedImgs.count > 0) {
-                UIImage * imageHighlighted =
-                    [UIImage imageNamed:[highlightedImgs wya_safeObjectAtIndex:i]];
-                [customButton setImage:imageHighlighted forState:UIControlStateHighlighted];
-            }
-        }
-        [self.leftButtonView addSubview:customButton];
-
-        if (i == 0) {
-            [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.left.equalTo(self.navBarView.mas_left).offset(20);
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        } else {
-            [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.left.equalTo(self.navBarView.mas_left)
-                    .offset(startX + column * (width + space));
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        }
-
-        [customButton addTarget:self
-                         action:@selector(customLeftButtonPressed:)
-               forControlEvents:UIControlEventTouchUpInside];
-        [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
-    }
-}
-
-- (void)addRightBarViewButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                 normalColor:(NSArray<UIColor *> *)normalColors
-                            highlightedColor:(NSArray<UIColor *> *)highlightedColors
-                                 NormalImage:(NSArray<NSString *> *)normalImages
-                              highlightedImg:(NSArray<NSString *> *)highlightedImgs {
-    for (UIView * subView in self.rightButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
-    }
-    //    CGFloat startX = LEFT_OR_RIGHT_SPACE;
-    CGFloat startY  = 4.0f;
-    CGFloat width   = 36;
-    CGFloat height  = 36;
-    CGFloat space   = self.space;
-    NSInteger count = normalTitles.count > 0 ? normalTitles.count : normalImages.count;
-    for (int i = 0; i < count; i++) {
-        int column = i % count;
-
-        UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-        customButton.tag = RIGHT_BASE_TAG + i;
-
-        if (normalTitles) {
-            width = [[normalTitles wya_safeObjectAtIndex:i]
-                wya_widthWithFontSize:self.rightBarButtonItemTitleFont
-                               height:height];
-
-            customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-
-            customButton.titleLabel.font =
-                [UIFont systemFontOfSize:self.rightBarButtonItemTitleFont];
-
-            customButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-
-            [customButton setTitle:[normalTitles wya_safeObjectAtIndex:i]
-                          forState:UIControlStateNormal];
-
-            [customButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-
-            if (normalColors.count) {
-                [customButton setTitleColor:[normalColors wya_safeObjectAtIndex:i]
-                                   forState:UIControlStateNormal];
-            }
-            if (highlightedColors.count) {
-                [customButton setTitleColor:[highlightedColors wya_safeObjectAtIndex:i]
-                                   forState:UIControlStateHighlighted];
-            }
-        } else if (normalImages.count > 0) {
-            UIImage * image = [UIImage imageNamed:[normalImages wya_safeObjectAtIndex:i]];
-
-            [customButton setImage:image forState:UIControlStateNormal];
-
-            if (highlightedImgs.count > 0) {
-                UIImage * imageHighlighted =
-                    [UIImage imageNamed:[highlightedImgs wya_safeObjectAtIndex:i]];
-                [customButton setImage:imageHighlighted forState:UIControlStateHighlighted];
-            }
-        }
-
-        [self.rightButtonView addSubview:customButton];
-
-        [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
-
-        [customButton addTarget:self
-                         action:@selector(customRightButtonpressed:)
-               forControlEvents:UIControlEventTouchUpInside];
-
-        if (i == 0) {
-            [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.right.equalTo(self.navBarView.mas_right).offset(-16 * SizeAdapter);
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        } else {
-            [customButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.right.equalTo(self.navBarView.mas_right)
-                    .offset(-space - column * (width + space));
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        }
-    }
-}
-
-- (void)addLeftGoBackWithTitle:(NSString *)title
-                   normalColor:(UIColor *)normalColor
-              highlightedColor:(UIColor *)highlightedColor
-                         Image:(NSString *)imageNamed {
-    for (UIView * subView in self.leftButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
-    }
-    UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    customButton.frame = CGRectMake(16 * SizeAdapter, 4, 36, 36);
-
-    customButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-
-    customButton.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
-
-    [customButton setTitle:title forState:UIControlStateNormal];
-
-    [customButton setTitleColor:normalColor forState:UIControlStateNormal];
-
-    if (highlightedColor) {
-        [customButton setTitleColor:highlightedColor forState:UIControlStateHighlighted];
-    }
-
-    [customButton addTarget:self
-                     action:@selector(goBackPressed:)
-           forControlEvents:UIControlEventTouchUpInside];
-    [customButton setEnlargeEdgeWithTop:4 right:4 bottom:4 left:4];
-    [self.leftButtonView addSubview:customButton];
-}
 #pragma mark ======= setter
-
-- (void)setLeftButtons:(NSArray *)leftButtons {
-    for (UIView * subView in self.leftButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
-    }
-    CGFloat startX   = LEFT_OR_RIGHT_SPACE;
-    CGFloat space    = self.space;
-    NSUInteger count = leftButtons.count;
-    _leftButtons     = leftButtons;
-    for (int i = 0; i < count; i++) {
-        int column            = i % count;
-        UIButton * tempButton = [_leftButtons wya_safeObjectAtIndex:i];
-        CGFloat width         = tempButton.bounds.size.width;
-        CGFloat height        = tempButton.bounds.size.height;
-        CGFloat startY        = (44 - width) * 0.5;
-
-        [self.leftButtonView addSubview:tempButton];
-        if (i == 0) {
-            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.left.equalTo(self.navBarView.mas_left).offset(16 * SizeAdapter);
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        } else {
-            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.left.equalTo(self.navBarView.mas_left)
-                    .offset(startX + column * (width + space));
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        }
-    }
+- (void)setNavTitle:(NSString *)navTitle{
+    _navTitle = navTitle;
+    self.titleLabel.text = navTitle;
 }
-- (void)setRightButtons:(NSArray *)rightButtons {
-    for (UIView * subView in self.rightButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
-    }
-    //    CGFloat startX  = LEFT_OR_RIGHT_SPACE;
-    CGFloat startY   = 4.0f;
-    CGFloat space    = self.space;
-    NSUInteger count = rightButtons.count;
-    _rightButtons    = rightButtons;
-    for (int i = 0; i < count; i++) {
-        int column            = i % count;
-        UIButton * tempButton = [_rightButtons wya_safeObjectAtIndex:i];
-        CGFloat width         = tempButton.bounds.size.width;
-        CGFloat height        = tempButton.bounds.size.height;
-        [self.rightButtonView addSubview:tempButton];
-        if (i == 0) {
-            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.right.equalTo(self.navBarView.mas_right).offset(-16 * SizeAdapter);
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        } else {
-            [tempButton mas_makeConstraints:^(MASConstraintMaker * make) {
-                make.right.equalTo(self.navBarView.mas_right)
-                    .offset(-space - column * (width + space));
-                make.size.mas_equalTo(CGSizeMake(width, height));
-                make.top.equalTo(self.navBarView.mas_top).offset(startY);
-            }];
-        }
-    }
+- (void)setNavTitleFont:(CGFloat)navTitleFont{
+    _navTitleFont = navTitleFont;
+    self.titleLabel.font = FONT(_navTitleFont);
 }
-- (void)setIsShowLine:(BOOL)isShowLine {
-    _isShowLine = isShowLine;
-    if (!isShowLine) {
-        [self.lineView removeFromSuperview];
-        self.lineView = nil;
-    }
-}
-
-- (void)setBackgroundImage:(UIImage *)backgroundImage {
-    if (_backgroundImage) { _backgroundImageView.image = [UIImage new]; }
-    if (backgroundImage) {
-        _backgroundImage           = backgroundImage;
-        _backgroundImageView.image = backgroundImage;
-    }
-}
-- (void)setNavTitle:(NSString *)navTitle {
-    _navTitle            = navTitle;
-    self.titleLabel.text = _navTitle;
-}
-- (void)setNavTitleFont:(CGFloat)navTitleFont {
-    _navTitleFont        = navTitleFont;
-    self.titleLabel.font = [UIFont systemFontOfSize:_navTitleFont];
-}
-- (void)setNavTitleColor:(UIColor *)navTitleColor {
-    _navTitleColor            = navTitleColor;
+- (void)setNavTitleColor:(UIColor *)navTitleColor{
+    _navTitleColor = navTitleColor;
     self.titleLabel.textColor = _navTitleColor;
 }
+- (void)setLeftBarButtonItemTitleFont:(CGFloat)leftBarButtonItemTitleFont{
+    _leftBarButtonItemTitleFont = leftBarButtonItemTitleFont;
+    self.leftButtonOne.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
+    self.leftButtonTwo.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
+}
+- (void)setRightBarButtonItemTitleFont:(CGFloat)rightBarButtonItemTitleFont{
+    _rightBarButtonItemTitleFont = rightBarButtonItemTitleFont;
+    self.rightButtonOne.titleLabel.font = FONT(_rightBarButtonItemTitleFont);
+    self.rightButtonTwo.titleLabel.font = FONT(_rightBarButtonItemTitleFont);
+}
+
+- (void)setIsShowLine:(BOOL)isShowLine{
+    _isShowLine = isShowLine;
+    self.lineView.hidden = _isShowLine;
+}
+- (void)setBackgroundImage:(UIImage *)backgroundImage{
+    _backgroundImage = backgroundImage;
+    self.backgroundImageView.image = _backgroundImage;
+}
+- (void)setLeftButtons:(NSArray<UIButton *> *)leftButtons{
+    UIButton * tempButton = [leftButtons firstObject];
+    NSString * title = tempButton.titleLabel.text;
+    UIImage * image = tempButton.imageView.image;
+    [self.leftButtonOne setTitle:title forState:0];
+    [self.leftButtonOne setImage:image forState:0];
+    UIButton * tempButton2 = [leftButtons lastObject];
+    NSString * title2 = tempButton2.titleLabel.text;
+    UIImage * image2 = tempButton2.imageView.image;
+    [self.leftButtonTwo setTitle:title2 forState:0];
+    [self.leftButtonTwo setImage:image2 forState:0];
+}
+- (void)setRightButtons:(NSArray<UIButton *> *)rightButtons{
+    UIButton * tempButton = [rightButtons firstObject];
+    NSString * title = tempButton.titleLabel.text;
+    UIImage * image = tempButton.imageView.image;
+    [self.rightButtonOne setTitle:title forState:0];
+    [self.rightButtonOne setImage:image forState:0];
+    UIButton * tempButton2 = [rightButtons lastObject];
+    NSString * title2 = tempButton2.titleLabel.text;
+    UIImage * image2 = tempButton2.imageView.image;
+    [self.rightButtonTwo setTitle:title2 forState:0];
+    [self.rightButtonTwo setImage:image2 forState:0];
+}
 #pragma mark ======= public methods
-#pragma mark ======= left
-#pragma mark--------- goBack
-- (void)wya_goBackButtonWithImage:(NSString *)imageNamed {
-    [self wya_customGobackWithImage:[UIImage imageNamed:imageNamed]];
-}
-- (void)wya_customGobackWithImage:(UIImage *)image {
-    for (UIView * subView in self.leftButtonView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) { [subView removeFromSuperview]; }
+#pragma mark ======= right Button
+- (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> * _Nonnull)normalTitles{
+    [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:0];
+    [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
+    [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+
+    [self.rightButtonOne setTitle:[normalTitles firstObject] forState:0];
+    if (normalTitles.count > 1) {
+        [self.rightButtonTwo setTitle:[normalTitles lastObject] forState:0];
     }
-    UIButton * customButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    customButton.frame = CGRectMake(16 * SizeAdapter, 4, 36, 36);
-
-    [customButton setImage:image forState:UIControlStateNormal];
-
-    [customButton addTarget:self
-                     action:@selector(goBackPressed:)
-           forControlEvents:UIControlEventTouchUpInside];
-
-    [self.leftButtonView addSubview:customButton];
-}
-- (void)wya_goBackButtonWithTitle:(NSString *)title
-                      normalColor:(UIColor * _Nullable)normalColor
-                 highlightedColor:(UIColor * _Nullable)highlightedColor {
-    UIColor * normal = normalColor ? normalColor : [UIColor blackColor];
-    [self addLeftGoBackWithTitle:title
-                     normalColor:normal
-                highlightedColor:highlightedColor
-                           Image:nil];
-}
-
-#pragma mark------------leftCustom
-- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles {
-    [self addLeftBarViewButtonWithNormalTitle:normalTitles
-                                  normalColor:nil
-                             highlightedColor:nil
-                                  NormalImage:nil
-                               highlightedImg:nil];
-}
-- (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *> *)normalImages
-                                highlightedImg:(NSArray<NSString *> *)highlightedImgs {
-    [self addLeftBarViewButtonWithNormalTitle:nil
-                                  normalColor:nil
-                             highlightedColor:nil
-                                  NormalImage:normalImages
-                               highlightedImg:highlightedImgs];
-}
-
-- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                   normalColor:(NSArray<UIColor *> *)normalColors
-                              highlightedColor:(NSArray<UIColor *> *)highlightedColors {
-    [self addLeftBarViewButtonWithNormalTitle:normalTitles
-                                  normalColor:normalColors
-                             highlightedColor:highlightedColors
-                                  NormalImage:nil
-                               highlightedImg:nil];
-}
-#pragma mark ======= right
-- (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles {
-    [self addRightBarViewButtonWithNormalTitle:normalTitles
-                                   normalColor:nil
-                              highlightedColor:nil
-                                   NormalImage:nil
-                                highlightedImg:nil];
 }
 - (void)wya_addRightNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles
-                                    normalColor:(NSArray<UIColor *> *)normalColors
-                               highlightedColor:(NSArray<UIColor *> *)highlightedColors {
-    [self addRightBarViewButtonWithNormalTitle:normalTitles
-                                   normalColor:normalColors
-                              highlightedColor:highlightedColors
-                                   NormalImage:nil
-                                highlightedImg:nil];
-}
-- (void)wya_addRightNavBarButtonWithNormalImage:(NSArray<NSString *> *)normalImages
-                                 highlightedImg:(NSArray<NSString *> *)highlightedImgs {
-    [self addRightBarViewButtonWithNormalTitle:nil
-                                   normalColor:nil
-                              highlightedColor:nil
-                                   NormalImage:normalImages
-                                highlightedImg:highlightedImgs];
-}
-#pragma mark ======= leftAction
-- (void)goBackPressed:(UIButton *)sender {
-    NSLog(@"%@", sender.titleLabel.text);
+                                    normalColor:(NSArray<UIColor *> * _Nonnull)normalColors
+                               highlightedColor:(NSArray<UIColor *> * _Nonnull)highlightedColors{
+    [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:0];
+    [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
+    [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_goBackPressed:)]) {
-        [self.delegate wya_goBackPressed:sender];
+    [self.rightButtonOne setTitle:[normalTitles firstObject] forState:0];
+    if (normalTitles.count > 1) {
+        [self.rightButtonTwo setTitle:[normalTitles lastObject] forState:0];
+    }
+
+    if (normalColors.count > 0) {
+        [self.rightButtonOne setTitleColor:[normalColors firstObject] forState:0];
+        if (normalColors.count > 1) {
+            [self.rightButtonTwo setTitleColor:[normalColors lastObject] forState:0];
+        }
+    }
+    if (highlightedColors.count > 0) {
+        [self.rightButtonOne setTitleColor:[highlightedColors firstObject] forState:UIControlStateHighlighted];
+        if (highlightedColors.count > 1) {
+            [self.rightButtonTwo setTitleColor:[highlightedColors lastObject] forState:UIControlStateHighlighted];
+        }
     }
 }
-- (void)customLeftButtonPressed:(UIButton *)sender {
-    NSLog(@"%@", sender.titleLabel.text);
-    //    sender.tag = sender.tag - LEFT_BASE_TAG;
-    if (self.delegate &&
-        [self.delegate respondsToSelector:@selector(wya_leftBarButtonItemPressed:)]) {
+- (void)wya_addRightNavBarButtonWithNormalImage:(NSArray<NSString *> *)normalImages highlightedImg:(NSArray<NSString *> *)highlightedImgs{
+    [self.rightButtonOne setTitle:@"" forState:0];
+    [self.rightButtonOne setTitle:@"" forState:UIControlStateHighlighted];
+    [self.rightButtonTwo setTitle:@"" forState:0];
+    [self.rightButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
+
+    [self.rightButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
+    if (normalImages.count > 1) {
+        [self.rightButtonTwo setImage:[UIImage imageNamed:[normalImages lastObject]] forState:0];
+    }
+    if (highlightedImgs.count > 0) {
+
+        [self.rightButtonOne setImage:[UIImage imageNamed:[highlightedImgs firstObject]] forState:UIControlStateHighlighted];
+        if (highlightedImgs.count > 1) {
+            [self.rightButtonTwo setImage:[UIImage imageNamed:[highlightedImgs lastObject]] forState:UIControlStateHighlighted];
+        }
+    }
+}
+#pragma mark ======= left Button
+
+- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles{
+    [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:0];
+    [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
+    [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.leftButtonOne setTitle:[normalTitles firstObject] forState:0];
+    if (normalTitles.count > 1) {
+        [self.leftButtonTwo setTitle:[normalTitles lastObject] forState:0];
+    }
+}
+
+- (void)wya_addLeftNavBarButtonWithNormalTitle:(NSArray<NSString *> *)normalTitles normalColor:(NSArray<UIColor *> *)normalColors highlightedColor:(NSArray<UIColor *> *)highlightedColors{
+    [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:0];
+    [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
+    [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    [self.leftButtonOne setTitle:[normalTitles firstObject] forState:0];
+    if (normalTitles.count > 1) {
+        [self.leftButtonTwo setTitle:[normalTitles lastObject] forState:0];
+    }
+
+    if (normalColors.count > 0) {
+        [self.leftButtonOne setTitleColor:[normalColors firstObject] forState:0];
+        if (normalColors.count > 1) {
+            [self.leftButtonTwo setTitleColor:[normalColors lastObject] forState:0];
+        }
+    }
+    if (highlightedColors.count > 0) {
+        [self.leftButtonOne setTitleColor:[highlightedColors firstObject] forState:UIControlStateHighlighted];
+        if (highlightedColors.count > 1) {
+            [self.leftButtonTwo setTitleColor:[highlightedColors lastObject] forState:UIControlStateHighlighted];
+        }
+    }
+}
+
+- (void)wya_addLeftNavBarButtonWithNormalImage:(NSArray<NSString *> *)normalImages highlightedImg:(NSArray<NSString *> *)highlightedImgs{
+    [self.leftButtonOne setTitle:@"" forState:0];
+    [self.leftButtonOne setTitle:@"" forState:UIControlStateHighlighted];
+    [self.leftButtonTwo setTitle:@"" forState:0];
+    [self.leftButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
+    [self.leftButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
+    if (normalImages.count > 1) {
+        [self.leftButtonTwo setImage:[UIImage imageNamed:[normalImages lastObject]] forState:0];
+    }
+    if (highlightedImgs.count > 0) {
+        [self.leftButtonOne setImage:[UIImage imageNamed:[highlightedImgs firstObject]] forState:UIControlStateHighlighted];
+        if (highlightedImgs.count > 1) {
+            [self.leftButtonTwo setImage:[UIImage imageNamed:[highlightedImgs lastObject]] forState:UIControlStateHighlighted];
+        }
+    }
+}
+
+
+- (void)wya_goBackButtonWithTitle:(NSString *)title
+                      normalColor:(UIColor * _Nullable)normalColor
+                 highlightedColor:(UIColor * _Nullable)highlightedColor{
+    [self.leftButtonOne setTitle:@"" forState:0];
+    [self.leftButtonOne setTitle:@"" forState:UIControlStateHighlighted];
+    [self.leftButtonOne setTitle:title forState:0];
+    [self.leftButtonOne setTitleColor:normalColor forState:0];
+    [self.leftButtonOne setTitleColor:highlightedColor forState:UIControlStateHighlighted];
+}
+
+- (void)wya_goBackButtonWithImage:(NSString *)imageNamed{
+    [self.leftButtonOne setTitle:@"" forState:0];
+    [self.leftButtonOne setTitle:@"" forState:UIControlStateHighlighted];
+    [self.leftButtonOne setImage:[UIImage imageNamed:imageNamed] forState:0];
+}
+- (void)wya_customGobackWithImage:(UIImage *)image{
+    [self.leftButtonOne setTitle:@"" forState:0];
+    [self.leftButtonOne setTitle:@"" forState:UIControlStateHighlighted];
+    [self.leftButtonOne setImage:image forState:0];
+}
+#pragma mark ======= leftAction
+
+/// 左侧第一个按钮点击事件
+- (void)leftButtonPressed:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_leftBarButtonItemPressed:)]) {
         [self.delegate wya_leftBarButtonItemPressed:sender];
+    }
+    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_goBackPressed:)]) {
+                [self.delegate wya_goBackPressed:sender];
     }
 }
 #pragma mark ======= rightAction
-- (void)customRightButtonpressed:(UIButton *)sender {
-    NSLog(@"%@", sender.titleLabel.text);
-    //    sender.tag = sender.tag - RIGHT_BASE_TAG;
-    if (self.delegate &&
-        [self.delegate respondsToSelector:@selector(wya_rightBarButtonItemPressed:)]) {
+- (void)rightButtonpressed:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(wya_rightBarButtonItemPressed:)]) {
         [self.delegate wya_rightBarButtonItemPressed:sender];
     }
+}
+#pragma mark ======= Lazy
+- (UILabel *)titleLabel{
+    if(!_titleLabel){
+        _titleLabel = ({
+            UILabel * object = [[UILabel alloc]init];
+            object.textColor                   = [UIColor blackColor];
+            object.font                        = [UIFont systemFontOfSize:TITLEFONT];
+            object.adjustsFontSizeToFitWidth   = YES;
+            object.textAlignment               = NSTextAlignmentCenter;
+            object;
+        });
+    }
+    return _titleLabel;
+}
+
+- (UIImageView *)backgroundImageView{
+    if(!_backgroundImageView){
+        _backgroundImageView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.userInteractionEnabled = YES;
+            object.contentMode = UIViewContentModeScaleAspectFill;
+            object;
+        });
+    }
+    return _backgroundImageView;
+}
+
+- (UIView *)navBarView{
+    if(!_navBarView){
+        _navBarView = ({
+            UIView * object = [[UIView alloc]init];
+            object;
+        });
+    }
+    return _navBarView;
+}
+- (UIView *)pageItemView{
+    if(!_pageItemView){
+        _pageItemView = ({
+            UIView * object = [[UIView alloc]init];
+            object;
+        });
+    }
+    return _pageItemView;
+}
+- (UIView *)lineView{
+    if(!_lineView){
+        _lineView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor                   = [UIColor groupTableViewBackgroundColor];
+            object;
+        });
+    }
+    return _lineView;
+}
+
+- (UIButton *)leftButtonOne{
+    if(!_leftButtonOne){
+        _leftButtonOne = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            object.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            object.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
+            object.tag = LEFT_BASE_TAG;
+            object.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [object addTarget:self action:@selector(leftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+        });
+    }
+    return _leftButtonOne;
+}
+
+- (UIButton *)leftButtonTwo{
+    if(!_leftButtonTwo){
+        _leftButtonTwo = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            object.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            object.titleLabel.font = FONT(_leftBarButtonItemTitleFont);
+            object.tag = LEFT_BASE_TAG + 1;
+            object.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            [object addTarget:self action:@selector(leftButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+        });
+    }
+    return _leftButtonTwo;
+}
+
+- (UIButton *)rightButtonOne{
+    if(!_rightButtonOne){
+        _rightButtonOne = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            object.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            object.titleLabel.font = FONT(_rightBarButtonItemTitleFont);
+            object.tag = RIGHT_BASE_TAG;
+            object.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            [object addTarget:self action:@selector(rightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+        });
+    }
+    return _rightButtonOne;
+}
+
+- (UIButton *)rightButtonTwo{
+    if(!_rightButtonTwo){
+        _rightButtonTwo = ({
+            UIButton * object = [[UIButton alloc]init];
+            [object setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            object.imageView.contentMode = UIViewContentModeScaleAspectFill;
+            object.titleLabel.font = FONT(_rightBarButtonItemTitleFont);
+            object.tag = RIGHT_BASE_TAG + 1;
+            object.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+            [object addTarget:self action:@selector(rightButtonpressed:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+        });
+    }
+    return _rightButtonTwo;
+}
+#pragma mark ======= private methods
+/// 设置默认的字体大小按钮z标题大小等属性
+- (void)setDefaultVConfig {
+    _navTitleFont                               = TITLEFONT;
+    _space                                  = ITEMSPACE_DEFAULT;
+    _leftBarButtonItemTitleFont = BUTTON_TITLEFONT;
+    _rightBarButtonItemTitleFont = BUTTON_TITLEFONT;
 }
 @end

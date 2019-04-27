@@ -57,27 +57,11 @@
 }
 
 - (CGFloat)wya_heightWithFontSize:(CGFloat)fontSize width:(CGFloat)width {
-    NSDictionary * attrs = @{NSFontAttributeName : FONT(fontSize)};
-    return [self boundingRectWithSize:CGSizeMake(width, 0)
-                              options:NSStringDrawingTruncatesLastVisibleLine |
-                                      NSStringDrawingUsesLineFragmentOrigin |
-                                      NSStringDrawingUsesFontLeading
-                           attributes:attrs
-                              context:nil]
-               .size.height +
-           fontSize;
+  return  [UILabel getHeightByWidth:width title:self font:FONT(fontSize)];
 }
 
 - (CGFloat)wya_widthWithFontSize:(CGFloat)fontSize height:(CGFloat)maxHeight {
-    NSDictionary * attrs = @{NSFontAttributeName : FONT(fontSize)};
-    return [self boundingRectWithSize:CGSizeMake(0, maxHeight)
-                              options:NSStringDrawingTruncatesLastVisibleLine |
-                                      NSStringDrawingUsesLineFragmentOrigin |
-                                      NSStringDrawingUsesFontLeading
-                           attributes:attrs
-                              context:nil]
-               .size.width +
-           fontSize;
+    return [UILabel getWidthWithTitle:self font:FONT(fontSize)];
 }
 
 - (NSNumber *)wya_toNumber {
