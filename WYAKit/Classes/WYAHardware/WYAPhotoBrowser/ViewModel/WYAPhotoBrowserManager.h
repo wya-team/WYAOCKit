@@ -92,22 +92,11 @@ typedef NS_OPTIONS(NSInteger, AssetMediaType) {
     AssetMediaTypeAudio,
 };
 
+typedef void(^ResultBlock)(NSMutableArray <WYAPhotoBrowserModel *> * models);
+typedef void(^AssertCollectionBlock)(NSMutableArray<PHAssetCollection *> * collections);
 @interface WYAPhotoBrowserManager : NSObject
 
 @property (nonatomic, assign) AssetMediaType mediaType;
-
-/**
- 获取相册分组
-
- @param collectionType 集合类型
- @param subType 子集合类型
- @param collectionSort 集合排序方式
- @return 集合数组
- */
-+ (NSMutableArray<PHAssetCollection *> *)
-screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
-         AssetCollectionSubType:(AssetCollectionSubType)subType
-                 CollectionSort:(AssetCollectionSort)collectionSort;
 
 /**
  获取图片资源
@@ -116,13 +105,24 @@ screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
  @param subType 子集合类型
  @param collectionSort 集合排序方式
  @param assetSort 子集合排序方式
- @return 图片数组
  */
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)
- screenAssetWithFilter:(AssetCollectionType)collectionType
-AssetCollectionSubType:(AssetCollectionSubType)subType
-        CollectionSort:(AssetCollectionSort)collectionSort
-             assetSort:(AssetSort)assetSort;
++ (void)screenAssetWithFilter:(AssetCollectionType)collectionType
+       AssetCollectionSubType:(AssetCollectionSubType)subType
+               CollectionSort:(AssetCollectionSort)collectionSort
+                    assetSort:(AssetSort)assetSort
+                  resultBlock:(ResultBlock)resultBlock;
+
+/**
+ 获取相册分组
+
+ @param collectionType 集合类型
+ @param subType 子集合类型
+ @param collectionSort 集合排序方式
+ */
++ (void)screenAssetCollectionWithFilter:(AssetCollectionType)collectionType
+                 AssetCollectionSubType:(AssetCollectionSubType)subType
+                         CollectionSort:(AssetCollectionSort)collectionSort
+                  assertCollectionBlock:(AssertCollectionBlock)assertCollectionBlock;
 
 /**
  获取对应的图片资源
@@ -133,14 +133,13 @@ AssetCollectionSubType:(AssetCollectionSubType)subType
  @param assetSort 子集合排序方式
  @return 图片数组
  */
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)
-screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
-                  AssetCollectionSubType:(PHAssetCollectionSubtype)subType
-                          CollectionSort:(AssetCollectionSort)collectionSort
-                               assetSort:(AssetSort)assetSort;
++ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetFromAssetCollectionWithFilter:(PHAssetCollectionType)collectionType
+                                                              AssetCollectionSubType:(PHAssetCollectionSubtype)subType
+                                                                      CollectionSort:(AssetCollectionSort)collectionSort
+                                                                           assetSort:(AssetSort)assetSort;
 
-+ (NSMutableArray<WYAPhotoBrowserModel *> *)screenAssetWithCollection:
-    (PHAssetCollection *)collection;
++ (void)screenAssetWithCollection:(NSMutableArray<PHAssetCollection *> *)collections
+                      resultBlock:(ResultBlock)resultBlock;
 
 ///**
 // 检查图片是否在本地

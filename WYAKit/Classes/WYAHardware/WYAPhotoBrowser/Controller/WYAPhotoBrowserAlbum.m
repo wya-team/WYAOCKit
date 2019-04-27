@@ -20,7 +20,7 @@
 @end
 
 @implementation WYAPhotoBrowserAlbum
-
+#pragma mark ======= LifeCircle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
@@ -67,7 +67,7 @@
     [self.navigationController pushViewController:vc animated:NO];
     [self photoAlbum];
 }
-
+#pragma mark ======= UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.dataSource.count;
 }
@@ -146,54 +146,64 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void)photoAlbum {
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSMutableArray * systemArray = [WYAPhotoBrowserManager
-            screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
-                     AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
-                             CollectionSort:AssetCollectionEndDate]; //相机胶卷
-        NSMutableArray * videoArray =
-            [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
-                                             AssetCollectionSubType:AssetCollectionSubTypeVideo
-                                                     CollectionSort:AssetCollectionEndDate]; //视频
-        NSMutableArray * screenshortArray = [WYAPhotoBrowserManager
-            screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
-                     AssetCollectionSubType:AssetCollectionSubTypeScreenshots
-                             CollectionSort:AssetCollectionEndDate]; //截图
-        NSMutableArray * addArray = [WYAPhotoBrowserManager
-            screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
-                     AssetCollectionSubType:AssetCollectionSubTypeRecentlyAdded
-                             CollectionSort:AssetCollectionEndDate]; //最近添加
-        NSMutableArray * livePhotoArray = [WYAPhotoBrowserManager
-            screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
-                     AssetCollectionSubType:AssetCollectionSubTypeLivePhotos
-                             CollectionSort:AssetCollectionEndDate]; //实况照片
-        NSMutableArray * userArray = [WYAPhotoBrowserManager
-            screenAssetCollectionWithFilter:AssetCollectionTypeAlbum
-                     AssetCollectionSubType:AssetCollectionSubTypeAlbumRegular
-                             CollectionSort:AssetCollectionEndDate];
+    //相机胶卷
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
+    //视频
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeVideo
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
+    //截图
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeScreenshots
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
+    //最近添加
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeRecentlyAdded
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
+    //实况照片
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeLivePhotos
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
 
-        NSMutableArray * allArray = [NSMutableArray arrayWithCapacity:0];
-        [allArray addObject:systemArray];
-        [allArray addObject:videoArray];
-        [allArray addObject:screenshortArray];
-        [allArray addObject:addArray];
-        [allArray addObject:livePhotoArray];
-        [allArray addObject:userArray];
-
-        self.dataSource = allArray;
-        dispatch_async(dispatch_get_main_queue(), ^{ [self.table reloadData]; });
-    });
+    [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeAlbum
+                                     AssetCollectionSubType:AssetCollectionSubTypeAlbumRegular
+                                             CollectionSort:AssetCollectionEndDate
+                                      assertCollectionBlock:^(NSMutableArray<PHAssetCollection *> *collections) {
+                                          [self.dataSource addObject:collections];
+                                          [self.table reloadData];
+                                      }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before
-navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark ======= Getter
+- (NSMutableArray *)dataSource{
+    if(!_dataSource){
+        _dataSource = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
+            object;
+       });
+    }
+    return _dataSource;
 }
-*/
-
 @end

@@ -92,36 +92,42 @@
 - (void)performBlock {
     self.dataSource = [NSMutableArray arrayWithCapacity:0];
 
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if (self.collections) {
-            NSMutableArray * array = [NSMutableArray array];
-            for (PHAssetCollection * collection in self.collections) {
-                NSMutableArray * arr = [WYAPhotoBrowserManager screenAssetWithCollection:collection];
-                [array addObjectsFromArray:arr];
+    if (self.collections) {
+        [WYAPhotoBrowserManager screenAssetWithCollection:self.collections resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
+            if (models.count > 0) {
+                self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
+                [self.collectionView reloadData];
+                if (self.dataSource.count < 1) {
+                    return;
+                }
+                [self.collectionView
+                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
+                                                             inSection:0]
+                 atScrollPosition:UICollectionViewScrollPositionBottom
+                 animated:NO];
             }
-            self.dataSource = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
 
-        } else {
-            NSMutableArray * array =
-                [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
-                                       AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
-                                               CollectionSort:AssetCollectionStartDate
-                                                    assetSort:AssetCreationDate];
-            self.dataSource = [self deleteSomePHAssetWithArray:array photoType:self.photoBrowserType];
-        }
+        }];
+    } else {
+        [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
+                               AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
+                                       CollectionSort:AssetCollectionStartDate
+                                            assetSort:AssetCreationDate resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
+                                                if (models.count > 0) {
+                                                    self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
+                                                    [self.collectionView reloadData];
+                                                    if (self.dataSource.count < 1) {
+                                                        return;
+                                                    }
+                                                    [self.collectionView
+                                                     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
+                                                                                                 inSection:0]
+                                                     atScrollPosition:UICollectionViewScrollPositionBottom
+                                                     animated:NO];
+                                                }
+                                            }];
 
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-            if (self.dataSource.count < 1) {
-                return;
-            }
-            [self.collectionView
-                scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
-                                                            inSection:0]
-                       atScrollPosition:UICollectionViewScrollPositionBottom
-                               animated:NO];
-        });
-    });
+    }
 
     WeakSelf(weakSelf);
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
