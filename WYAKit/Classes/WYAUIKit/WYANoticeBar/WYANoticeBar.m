@@ -125,6 +125,8 @@ static void * NoticeBar = &NoticeBar;
         titleLabel.frame     = CGRectMake(0, 0, size.width, self.scrollView.cmam_height);
         if (size.width > self.scrollView.cmam_width) {
             _autoRun = YES;
+        } else {
+            _autoRun = NO;
         }
         [self.scrollView addSubview:titleLabel];
         [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
@@ -147,6 +149,8 @@ static void * NoticeBar = &NoticeBar;
         }
         if (self.textArray.count>1) {
             _autoRun = YES;
+        } else {
+            _autoRun = NO;
         }
         if (self.direction == WYANoticeBarScrollDirectionTop) {
             [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
