@@ -19,6 +19,7 @@ static void * NoticeBar = &NoticeBar;
 @implementation WYANoticeBar {
     NSTimer * _timer;
     CGFloat _labelWidth;
+    BOOL _autoRun;
 }
 
 #pragma mark ======= LifeCircle
@@ -32,6 +33,8 @@ static void * NoticeBar = &NoticeBar;
     if (self) {
         self.direction     = scrollDirection;
         self.showTextFont  = 15;
+        self.verticalSpeed = 2;
+        self.horizontalSpeed = 0.01;
         self.showTextColor = [UIColor blackColor];
         [self createUI];
     }
@@ -74,13 +77,15 @@ static void * NoticeBar = &NoticeBar;
 - (void)wya_start {
     CGFloat time = 0;
     if (self.direction == WYANoticeBarScrollDirectionLeft) {
-        time = 0.01;
+        time = self.horizontalSpeed;
     } else {
-        time = 2;
+        time = self.verticalSpeed;;
     }
-    _timer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
-    [_timer fire];
+    if (_autoRun == YES) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
+        [_timer fire];
+    }
 }
 
 - (void)wya_stop {
@@ -118,6 +123,9 @@ static void * NoticeBar = &NoticeBar;
         CGSize size          = [titleLabel sizeThatFits:CGSizeZero];
         _labelWidth          = size.width;
         titleLabel.frame     = CGRectMake(0, 0, size.width, self.scrollView.cmam_height);
+        if (size.width > self.scrollView.cmam_width) {
+            _autoRun = YES;
+        }
         [self.scrollView addSubview:titleLabel];
         [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
     } else {
@@ -136,6 +144,9 @@ static void * NoticeBar = &NoticeBar;
             label.frame = CGRectMake(0, view.cmam_bottom, self.scrollView.cmam_width, self.scrollView.cmam_height);
             [self.scrollView addSubview:label];
             view = label;
+        }
+        if (self.textArray.count>1) {
+            _autoRun = YES;
         }
         if (self.direction == WYANoticeBarScrollDirectionTop) {
             [self.scrollView setContentOffset:CGPointMake(0, 0) animated:NO];
@@ -213,6 +224,10 @@ static void * NoticeBar = &NoticeBar;
     [self layoutIfNeeded];
 }
 
+- (void)setNoticeButtonCanTouch:(BOOL)noticeButtonCanTouch{
+    self.noticeButton.userInteractionEnabled = noticeButtonCanTouch;
+}
+
 - (void)setShowRightButton:(BOOL)showRightButton {
     _showRightButton = showRightButton;
     if (showRightButton == NO) {
@@ -222,6 +237,10 @@ static void * NoticeBar = &NoticeBar;
     }
     [self setNeedsLayout];
     [self layoutIfNeeded];
+}
+
+- (void)setRightButtonCanTouch:(BOOL)rightButtonCanTouch{
+    self.rightButton.userInteractionEnabled = rightButtonCanTouch;
 }
 
 - (void)setShowTextColor:(UIColor *)showTextColor {
@@ -253,6 +272,14 @@ static void * NoticeBar = &NoticeBar;
         [self layoutIfNeeded];
         [self resertUI];
     }
+}
+
+- (void)setHorizontalSpeed:(CGFloat)horizontalSpeed{
+    _horizontalSpeed = horizontalSpeed;
+}
+
+- (void)setVerticalSpeed:(CGFloat)verticalSpeed{
+    _verticalSpeed = verticalSpeed;
 }
 
 #pragma mark ======= Getter

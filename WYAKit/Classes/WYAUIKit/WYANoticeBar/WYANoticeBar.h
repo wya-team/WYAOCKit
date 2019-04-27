@@ -19,8 +19,12 @@ typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
 
 /// 是否显示左侧按钮（显示的是图片或者文字）
 @property (nonatomic, assign) BOOL showNoticeButton;
+/// 通知按钮是否可以点击
+@property (nonatomic, assign) BOOL noticeButtonCanTouch;
 /// 是否显示右侧按钮（显示的是图片或者文字）
 @property (nonatomic, assign) BOOL showRightButton;
+/// 右侧按钮是否可以点击
+@property (nonatomic, assign) BOOL rightButtonCanTouch;
 /// 显示的文字(WYANoticeBarScrollDirectionLeft模式下设置使用),最后设置
 @property (nonatomic, copy) NSString * showText;
 /// 显示的文字颜色
@@ -35,6 +39,10 @@ typedef NS_ENUM(NSUInteger, WYANoticeBarScrollDirection) {
 @property (nonatomic, strong) UIColor * noticeBackgroundColor;
 /// 类型为WYANoticeBarScrollDirectionTop、WYANoticeBarScrollDirectionBottom显示的文字需要使用数组传入，最后设置
 @property (nonatomic, strong) NSArray * textArray;
+/// 水平方向速度 （min~0.1）default is 0.01
+@property (nonatomic, assign) CGFloat horizontalSpeed;
+/// 垂直方向速度 （1~max）default is 2
+@property (nonatomic, assign) CGFloat verticalSpeed;
 /// 左侧按钮点击事件
 @property (nonatomic, copy) void (^leftButtonHandle)(void);
 /// 右侧按钮点击事件
