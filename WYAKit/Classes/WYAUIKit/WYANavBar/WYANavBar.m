@@ -233,13 +233,11 @@
     [self.rightButtonOne setTitle:@"" forState:UIControlStateHighlighted];
     [self.rightButtonTwo setTitle:@"" forState:0];
     [self.rightButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
-
     [self.rightButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
     if (normalImages.count > 1) {
         [self.rightButtonTwo setImage:[UIImage imageNamed:[normalImages lastObject]] forState:0];
     }
     if (highlightedImgs.count > 0) {
-
         [self.rightButtonOne setImage:[UIImage imageNamed:[highlightedImgs firstObject]] forState:UIControlStateHighlighted];
         if (highlightedImgs.count > 1) {
             [self.rightButtonTwo setImage:[UIImage imageNamed:[highlightedImgs lastObject]] forState:UIControlStateHighlighted];
