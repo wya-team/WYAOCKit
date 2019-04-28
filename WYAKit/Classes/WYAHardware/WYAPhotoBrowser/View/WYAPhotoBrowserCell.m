@@ -20,7 +20,7 @@
 @end
 
 @implementation WYAPhotoBrowserCell
-
+#pragma mark ======= LifeCircle
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {

@@ -8,11 +8,10 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
+@class WYAPhotoBrowserAlbumModel;
 @interface WYAPhotoBrowserAlbumCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView * imgView;
-@property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) WYAPhotoBrowserAlbumModel * model;
 
 @end
 

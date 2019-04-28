@@ -6,9 +6,10 @@
 //
 
 #import "WYAPhotoBrowserAlbumCell.h"
-
+#import "WYAPhotoBrowserAlbumModel.h"
 @interface WYAPhotoBrowserAlbumCell ()
-
+@property (nonatomic, strong) UIImageView * imgView;
+@property (nonatomic, strong) UILabel * titleLabel;
 @end
 
 @implementation WYAPhotoBrowserAlbumCell
@@ -17,14 +18,8 @@
               reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.imgView                     = [[UIImageView alloc] init];
-        self.imgView.layer.cornerRadius  = 2.f;
-        self.imgView.layer.masksToBounds = YES;
-        [self.contentView addSubview:self.imgView];
 
-        self.titleLabel           = [[UILabel alloc] init];
-        self.titleLabel.textColor = [UIColor blackColor];
-        self.titleLabel.font      = FONT(15);
+        [self.contentView addSubview:self.imgView];
         [self.contentView addSubview:self.titleLabel];
     }
     return self;
@@ -46,15 +41,39 @@
     }];
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+#pragma mark ======= Setter
+- (void)setModel:(WYAPhotoBrowserAlbumModel *)model{
+    if (model) {
+        self.titleLabel.text = model.title;
+        if (model.image) {
+            self.imgView.image = model.image;
+        }
+    }
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+#pragma mark ======= Getter
+- (UIImageView *)imgView{
+    if(!_imgView){
+        _imgView = ({
+            UIImageView * object = [[UIImageView alloc]init];
+            object.layer.cornerRadius  = 2.f;
+            object.layer.masksToBounds = YES;
+            object.image = [UIImage loadBundleImage:@"icon_photo" ClassName:NSStringFromClass(self.class)];
+            object;
+       });
+    }
+    return _imgView;
 }
 
+- (UILabel *)titleLabel{
+    if(!_titleLabel){
+        _titleLabel = ({
+            UILabel * object = [[UILabel alloc]init];
+            object.textColor = [UIColor blackColor];
+            object.font      = FONT(15);
+            object;
+       });
+    }
+    return _titleLabel;
+}
 @end

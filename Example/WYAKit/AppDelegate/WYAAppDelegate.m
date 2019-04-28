@@ -27,7 +27,7 @@
 
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-//    [[WHDebugToolManager sharedInstance] toggleWith:DebugToolTypeAll];
+    [[WHDebugToolManager sharedInstance] toggleWith:DebugToolTypeAll];
     RootViewController * rootViewController = [[RootViewController alloc] init];
     self.window.rootViewController          = rootViewController;
 

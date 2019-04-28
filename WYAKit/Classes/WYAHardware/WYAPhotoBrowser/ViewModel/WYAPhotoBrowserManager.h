@@ -138,6 +138,12 @@ typedef void(^AssertCollectionBlock)(NSMutableArray<PHAssetCollection *> * colle
                                                                       CollectionSort:(AssetCollectionSort)collectionSort
                                                                            assetSort:(AssetSort)assetSort;
 
+/**
+ 获取相册的图片
+
+ @param collections 相册数组
+ @param resultBlock 回调
+ */
 + (void)screenAssetWithCollection:(NSMutableArray<PHAssetCollection *> *)collections
                       resultBlock:(ResultBlock)resultBlock;
 

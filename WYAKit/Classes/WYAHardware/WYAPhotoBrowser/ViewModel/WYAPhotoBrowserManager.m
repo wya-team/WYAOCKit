@@ -23,11 +23,11 @@
     switch (collectionSort) {
         case AssetCollectionEndDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -81,8 +81,7 @@
         if (userAlbums.count > 0) {
             //获取相机胶卷中的照片
 
-            for (NSInteger index = 0; index < userAlbums.count; index++) {
-                PHAssetCollection * collection = userAlbums[index];
+            for (id collection in userAlbums) {
                 if ([collection isKindOfClass:[PHAssetCollection class]]) {
                     //代表当前的collection是一个相册
 
@@ -108,9 +107,7 @@
 
                     fetchO.sortDescriptors = subSortDescriptors;
 
-                    PHFetchResult * smartSubResult =
-                    [PHAsset fetchAssetsInAssetCollection:collection
-                                                  options:fetchO];
+                    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:fetchO];
                     NSLog(@"smartCount==%d", smartSubResult.count);
                     if (smartSubResult.count > 0) {
                         for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {
@@ -131,7 +128,7 @@
 
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                resultBlock(nil);
+                resultBlock(datas);
             });
         }
     });
@@ -149,11 +146,11 @@
     switch (collectionSort) {
         case AssetCollectionEndDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -222,7 +219,7 @@
             });
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
-                assertCollectionBlock(nil);
+                assertCollectionBlock(datas);
             });
         }
     });
@@ -239,11 +236,11 @@
     switch (collectionSort) {
         case AssetCollectionEndDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"endDate" ascending:YES]];
             break;
         case AssetCollectionStartDate:
             [sortDescriptors
-                addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
+             addObject:[NSSortDescriptor sortDescriptorWithKey:@"startDate" ascending:YES]];
             break;
         default:
             break;
@@ -269,13 +266,13 @@
                 switch (assetSort) {
                     case AssetCreationDate:
                         [subSortDescriptors
-                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
-                                                                    ascending:YES]];
+                         addObject:[NSSortDescriptor sortDescriptorWithKey:@"creationDate"
+                                                                 ascending:YES]];
                         break;
                     case AssetModificationDate:
                         [subSortDescriptors
-                            addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
-                                                                    ascending:YES]];
+                         addObject:[NSSortDescriptor sortDescriptorWithKey:@"modificationDate"
+                                                                 ascending:YES]];
                         break;
                     default:
                         break;
@@ -284,8 +281,8 @@
                 fetchO.sortDescriptors = subSortDescriptors;
 
                 PHFetchResult * smartSubResult =
-                    [PHAsset fetchAssetsInAssetCollection:collection
-                                                  options:fetchO];
+                [PHAsset fetchAssetsInAssetCollection:collection
+                                              options:fetchO];
                 //                NSLog(@"smartCount==%d",smartSubResult.count);
                 if (smartSubResult.count > 0) {
                     for (NSInteger aaa = 0; aaa < smartSubResult.count; aaa++) {

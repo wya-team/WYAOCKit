@@ -10,12 +10,11 @@
 #import "WYAPhotoBrowserManager.h"
 #import "WYAPhotoBrowserViewController.h"
 #import <Photos/Photos.h>
-
+#import "WYAPhotoBrowserAlbumModel.h"
 @interface WYAPhotoBrowserAlbum () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * table;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) NSMutableArray * images;
 
 @end
 
@@ -28,6 +27,12 @@
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self setupUI];
+    [self photoAlbum];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setBackgroundImage:nil
@@ -37,17 +42,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    //
+
+    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
+    vc.maxCount                        = self.maxCount;
+    vc.photoBrowserType                = self.photoBrowserType;
+    [self.navigationController pushViewController:vc animated:NO];
+}
+
+#pragma mark ======= UI
+-(void)setupUI{
     self.title                 = @"照片";
-    self.images                = [NSMutableArray array];
     self.view.backgroundColor  = [UIColor colorWithWhite:0.2 alpha:0.5];
-    self.table                 = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
-    self.table.dataSource      = self;
-    self.table.delegate        = self;
-    self.table.backgroundColor = [UIColor whiteColor];
-    self.table.rowHeight       = 60 * SizeAdapter;
-    [self.table registerClass:[WYAPhotoBrowserAlbumCell class] forCellReuseIdentifier:@"cell"];
+
     [self.view addSubview:self.table];
 
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -60,91 +66,45 @@
     }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-
-    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.maxCount                        = self.maxCount;
-    vc.photoBrowserType                = self.photoBrowserType;
-    [self.navigationController pushViewController:vc animated:NO];
-    [self photoAlbum];
-}
-#pragma mark ======= UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataSource.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    return cell;
-}
+- (void)configModelWithIndexPath:(NSIndexPath *)indexPath modelBlock:(void(^)(WYAPhotoBrowserAlbumModel * model))modelBlock{
+    WYAPhotoBrowserAlbumModel * model = [[WYAPhotoBrowserAlbumModel alloc]init];
+    NSMutableArray * array               = self.dataSource[indexPath.row];
+    PHAssetCollection * collection       = [array firstObject];
+    PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+    model.title = [NSString stringWithFormat:@"%@(%lu)", collection.localizedTitle,(unsigned long)smartSubResult.count];
 
-- (void)tableView:(UITableView *)tableView
-  willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.dataSource.count > 0) {
-        WYAPhotoBrowserAlbumCell * albumCell = (WYAPhotoBrowserAlbumCell *)cell;
-        NSMutableArray * array               = self.dataSource[indexPath.row];
-        PHAssetCollection * collection       = [array firstObject];
-        PHFetchResult * smartSubResult =
-            [PHAsset fetchAssetsInAssetCollection:collection
-                                          options:nil];
-        albumCell.titleLabel.text =
-            [NSString stringWithFormat:@"%@(%lu)", collection.localizedTitle,
-                                       (unsigned long)smartSubResult.count];
-        albumCell.imgView.image =
-            [UIImage loadBundleImage:@"icon_photo"
-                           ClassName:NSStringFromClass(self.class)];
-        if (self.images.count > 0) {
-            id object = self.images[indexPath.row];
-            if ([object isKindOfClass:[UIImage class]]) {
-                UIImage * image         = (UIImage *)object;
-                albumCell.imgView.image = image;
-            }
-        }
-        id obj = [smartSubResult lastObject];
+    id obj = [smartSubResult lastObject];
 
-        if (obj) {
-            if ([obj isKindOfClass:[PHAsset class]]) {
-                PHAsset * asset          = (PHAsset *)obj;
-                PHImageManager * manager = [PHImageManager defaultManager];
-                [manager requestImageForAsset:asset
-                                   targetSize:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)
-                                  contentMode:PHImageContentModeAspectFit
-                                      options:nil
-                                resultHandler:^(UIImage * _Nullable result,
-                                                NSDictionary * _Nullable info) {
-                                    dispatch_async(dispatch_get_main_queue(), ^{
-                                        albumCell.imgView.image = result;
-                                        if (result) {
-                                            [self.images addObject:result];
-                                        } else {
-                                            [self.images addObject:@""];
-                                        }
-                                    });
-                                }];
-            }
+    if (obj) {
+        if ([obj isKindOfClass:[PHAsset class]]) {
+            PHAsset * asset          = (PHAsset *)obj;
+            PHImageManager * manager = [PHImageManager defaultManager];
+            PHImageRequestOptions * options = [[PHImageRequestOptions alloc]init];
+            options.synchronous = NO; //默认no，异步加载
+            options.resizeMode = PHImageRequestOptionsResizeModeFast;
+            options.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+            // 从iCloud上下载图片
+            options.networkAccessAllowed = YES;
+            // 图片获取进度
+            options.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                NSLog(@"progress==%f,errror==%@,stop==%d,info==%@", progress, [error localizedDescription], *stop, info);
+            };
+            [manager requestImageForAsset:asset
+                               targetSize:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)
+                              contentMode:PHImageContentModeAspectFit
+                                  options:options
+                            resultHandler:^(UIImage * _Nullable result,
+                                            NSDictionary * _Nullable info) {
+                                model.image = result;
+                                modelBlock(model);
+                            }];
         }
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSMutableArray * arr             = self.dataSource[indexPath.row];
-    NSMutableArray * collectionArray = [NSMutableArray array];
-    for (PHAssetCollection * collection in arr) {
-        PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
-        if (smartSubResult.count > 0) {
-            [collectionArray addObject:collection];
-        }
-    }
-
-    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.collections                     = collectionArray;
-    vc.maxCount                        = self.maxCount;
-    vc.photoBrowserType                = self.photoBrowserType;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
+#pragma mark ======= Private Method
 - (void)photoAlbum {
     //相机胶卷
     [WYAPhotoBrowserManager screenAssetCollectionWithFilter:AssetCollectionTypeSmartAlbum
@@ -196,6 +156,40 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
                                       }];
 }
 
+#pragma mark ======= UITableViewDelegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    WYAPhotoBrowserAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    [self configModelWithIndexPath:indexPath modelBlock:^(WYAPhotoBrowserAlbumModel *model) {
+        cell.model = model;
+    }];
+    return cell;
+}
+
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSMutableArray * arr             = self.dataSource[indexPath.row];
+    NSMutableArray * collectionArray = [NSMutableArray array];
+    for (PHAssetCollection * collection in arr) {
+        PHFetchResult * smartSubResult = [PHAsset fetchAssetsInAssetCollection:collection options:nil];
+        if (smartSubResult.count > 0) {
+            [collectionArray addObject:collection];
+        }
+    }
+
+    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
+    vc.collections                     = collectionArray;
+    vc.maxCount                        = self.maxCount;
+    vc.photoBrowserType                = self.photoBrowserType;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 #pragma mark ======= Getter
 - (NSMutableArray *)dataSource{
     if(!_dataSource){
@@ -206,4 +200,20 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
     return _dataSource;
 }
+
+- (UITableView *)table{
+    if(!_table){
+        _table = ({
+            UITableView * object       = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+            object.dataSource      = self;
+            object.delegate        = self;
+            object.backgroundColor = [UIColor whiteColor];
+            object.rowHeight       = 60 * SizeAdapter;
+            [object registerClass:[WYAPhotoBrowserAlbumCell class] forCellReuseIdentifier:@"cell"];
+            object;
+       });
+    }
+    return _table;
+}
+
 @end
