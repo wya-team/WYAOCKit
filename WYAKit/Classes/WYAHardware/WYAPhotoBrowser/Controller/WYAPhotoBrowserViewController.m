@@ -218,7 +218,7 @@
     } else {
         [self.controlV.doneButton setTitle:[NSString stringWithFormat:@"完成(%lu)", (unsigned long)self.images.count] forState:UIControlStateNormal];
     }
-    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
+    [self.collectionView reloadData];
 }
 
 #pragma mark--- UICollectionViewDataSource
