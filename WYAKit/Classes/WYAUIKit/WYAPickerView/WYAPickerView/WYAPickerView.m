@@ -140,7 +140,6 @@ static CGFloat titleHeight = 44.0;
             } else {
                 label.text = self.dataArray[row];
             }
-
         }
 
         break;
@@ -226,6 +225,7 @@ static CGFloat titleHeight = 44.0;
                 NSDictionary * cityDic = [self.citys firstObject];
                 b                      = cityDic[self.titleKeyWords];
                 _one                   = row;
+                _two                   = 0;
 
             } else {
                 NSDictionary * dic = self.citys[row];
@@ -250,6 +250,8 @@ static CGFloat titleHeight = 44.0;
                 NSDictionary * areaDic = [self.areas firstObject];
                 c                      = areaDic[self.titleKeyWords];
                 _one                   = row;
+                _two                   = 0;
+                _three                 = 0;
 
             } else if (component == 1) {
                 NSDictionary * dic = self.citys[row];
@@ -261,6 +263,7 @@ static CGFloat titleHeight = 44.0;
                 NSDictionary * areaDic = [self.areas firstObject];
                 c                      = areaDic[self.titleKeyWords];
                 _two                   = row;
+                _three                 = 0;
 
             } else {
                 NSDictionary * areaDic = self.areas[row];
