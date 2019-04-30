@@ -78,6 +78,7 @@
     UITextField * searchField = [self valueForKey:@"_searchField"];
     [searchField setValue:[UIFont boldSystemFontOfSize:_placeholderFont]
                forKeyPath:@"_placeholderLabel.font"];
+    self.placeholderWidth = [UILabel getWidthWithTitle:placeholderString font:FONT(_placeholderFont)];
     CGFloat offsetX = (self.selfWidth - self.placeholderWidth - self.searchIconHeight) * 0.5;
     [self setPositionAdjustment:UIOffsetMake(offsetX, 0) forSearchBarIcon:UISearchBarIconSearch];
 }
