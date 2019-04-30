@@ -102,11 +102,8 @@
         make.right.mas_equalTo(self.containerView.mas_right).with.offset(-(self->labelPadding / 2));
         if (self.titleLabel.text && self.titleLabel.text.length > 0) {
             make.top.mas_equalTo(self.containerView.mas_top).with.offset(15 * SizeAdapter);
-            CGFloat titleHeight =
-                [self.titleLabel.text wya_heightWithFontSize:17
-                                                       width:ScreenWidth - self->containerPadding -
-                                                             self->labelPadding] -
-                8.5 * SizeAdapter;
+            CGFloat titleHeight = [UILabel getHeightByWidth:ScreenWidth - self->containerPadding -
+                                   self->labelPadding title:self.titleLabel.text font:self.titleLabel.font];
             make.height.mas_equalTo(titleHeight);
         } else {
             make.top.mas_equalTo(self.containerView.mas_top).with.offset(0 * SizeAdapter);
@@ -123,11 +120,8 @@
             } else {
                 make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(15 * SizeAdapter);
             }
-            CGFloat titleHeight = [self.messageLabel.text
-                                      wya_heightWithFontSize:13
-                                                       width:ScreenWidth - self->containerPadding -
-                                                             self->labelPadding] -
-                                  6.5 * SizeAdapter;
+            CGFloat titleHeight = [UILabel getHeightByWidth:ScreenWidth - self->containerPadding -
+                                   self->labelPadding title:self.messageLabel.text font:self.messageLabel.font];
             make.height.mas_equalTo(titleHeight);
         } else {
             make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(0 * SizeAdapter);

@@ -241,13 +241,13 @@
     label.layer.masksToBounds = YES;
 
     [view addSubview:label];
-    CGFloat width = [message wya_widthWithFontSize:13 height:20 * SizeAdapter];
+    CGFloat width = [UILabel getWidthWithTitle:message font:FONT(13)];
     if (width > 90 * SizeAdapter) {
         label.numberOfLines = 0;
     } else {
         label.numberOfLines = 1;
     }
-    CGFloat height = [message wya_heightWithFontSize:13 width:90 * SizeAdapter];
+    CGFloat height = [UILabel getHeightByWidth:90 * SizeAdapter title:label.text font:label.font];
     if (message.length < 1) { height = 0; }
     CGFloat hei = 50 * SizeAdapter + height;
 

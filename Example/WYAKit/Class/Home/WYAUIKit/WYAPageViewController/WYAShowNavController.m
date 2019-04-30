@@ -63,9 +63,7 @@
 }
 
 - (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index {
-    CGFloat tempW =
-        [[self.titles wya_safeObjectAtIndex:index] wya_widthWithFontSize:15
-                                                                  height:WYANavBarHeight];
+    CGFloat tempW = [UILabel getWidthWithTitle:[self.titles wya_safeObjectAtIndex:index] font:FONT(15)];
     return tempW;
 }
 - (CGRect)wya_pageController:(WYAPageController *)pageController

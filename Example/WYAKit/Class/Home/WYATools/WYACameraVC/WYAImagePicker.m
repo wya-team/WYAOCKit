@@ -11,7 +11,7 @@
 
 #import "WYAImagePicker.h"
 #import "WYAPopVerReadMeViewController.h"
-
+#import <WYAKit/ZLPhotoActionSheet.h>
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
 
@@ -271,33 +271,7 @@
                                                                         NSInteger inter =
                                                                             [self.textField.text integerValue] - self.dataSource.count;
                                                                         if (inter == 0) { return; }
-                                                                        WYAPhotoBrowser * photo =
-                                                                            [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-                                                                                                     photoBrowserType:WYAPhotoBrowserTypeAll];
-                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
-                                                                            NSLog(@"images==%@", media);
-                                                                            NSMutableArray * array = [NSMutableArray array];
-                                                                            for (NSObject * image in media) {
-                                                                                if ([image isKindOfClass:[UIImage class]]) {
-                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
-                                                                                    model.image            = (UIImage *)image;
-                                                                                    model.sourceType       = WYACameraSourceTypeImage;
-                                                                                    [array addObject:model];
-                                                                                }
-                                                                            }
-                                                                            [self.dataSource
-                                                                                insertObjects:array
-                                                                                    atIndexes:[NSIndexSet
-                                                                                                  indexSetWithIndexesInRange:NSMakeRange(
-                                                                                                                                 0,
-                                                                                                                                 media
-                                                                                                                                     .count)]];
-                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
-                                                                                self.allImage = YES;
-                                                                            }
-                                                                            [self.collectionView reloadData];
-                                                                        };
-                                                                        [weakSelf presentViewController:photo animated:YES completion:nil];
+                                                                        [self getPasWithNumber:inter];
                                                                     }];
         [alert wya_addAction:defaultAction];
         [alert wya_addAction:cancelAction];
@@ -332,6 +306,94 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
+}
+
+- (ZLPhotoActionSheet *)getPasWithNumber:(NSInteger)number {
+    ZLPhotoActionSheet * actionSheet = [[ZLPhotoActionSheet alloc] init];
+
+    actionSheet.configuration.allowSelectGif       = NO;
+    actionSheet.configuration.allowSelectVideo     = NO;
+    actionSheet.configuration.allowSelectLivePhoto = NO;
+    actionSheet.configuration.allowForceTouch      = YES;
+    actionSheet.configuration.allowEditImage       = NO;
+    actionSheet.configuration.allowEditVideo       = NO;
+    actionSheet.configuration.allowMixSelect       = NO;
+    //设置相册内部显示拍照按钮
+    actionSheet.configuration.allowTakePhotoInLibrary = NO;
+    //设置在内部拍照按钮上实时显示相机俘获画面
+    actionSheet.configuration.showCaptureImageOnTakePhotoBtn = NO;
+    //设置照片最大预览数
+    actionSheet.configuration.maxPreviewCount = 20;
+    //设置照片最大选择数
+    actionSheet.configuration.maxSelectCount = number;
+    //设置允许选择的视频最大时长
+    actionSheet.configuration.maxVideoDuration = 0;
+    //设置照片cell弧度
+    actionSheet.configuration.cellCornerRadio = 4;
+    //单选模式是否显示选择按钮
+    //    actionSheet.configuration.showSelectBtn = YES;
+    //是否在选择图片后直接进入编辑界面
+    actionSheet.configuration.editAfterSelectThumbnailImage = NO;
+    //是否保存编辑后的图片
+    //    actionSheet.configuration.saveNewImageAfterEdit = NO;
+    //设置编辑比例
+    //    actionSheet.configuration.clipRatios = @[GetClipRatio(7, 1)];
+    //是否在已选择照片上显示遮罩层
+    actionSheet.configuration.showSelectedMask = YES;
+    //颜色，状态栏样式
+    actionSheet.configuration.selectedMaskColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+    actionSheet.configuration.navBarColor       = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    actionSheet.configuration.navTitleColor     = [UIColor blackColor];
+    //    actionSheet.configuration.bottomBtnsNormalTitleColor = kRGB(80, 160, 100);
+    //    actionSheet.configuration.bottomBtnsDisableBgColor = kRGB(190, 30, 90);
+    actionSheet.configuration.bottomViewBgColor = [UIColor whiteColor];
+    actionSheet.configuration.statusBarStyle    = UIStatusBarStyleDefault;
+    //是否允许框架解析图片
+    actionSheet.configuration.shouldAnialysisAsset = YES;
+    //框架语言
+    actionSheet.configuration.languageType = ZLLanguageChineseSimplified;
+    //自定义多语言
+    //    actionSheet.configuration.customLanguageKeyValue = @{@"ZLPhotoBrowserCameraText": @"没错，我就是一个相机"};
+    //自定义图片
+    //    actionSheet.configuration.customImageNames = @[@"zl_navBack"];
+
+    //是否使用系统相机
+    //    actionSheet.configuration.useSystemCamera = YES;
+    //    actionSheet.configuration.sessionPreset = ZLCaptureSessionPreset1920x1080;
+    //    actionSheet.configuration.exportVideoType = ZLExportVideoTypeMp4;
+    //    actionSheet.configuration.allowRecordVideo = NO;
+    //    actionSheet.configuration.maxVideoDuration = 5;
+#pragma mark - required
+    //如果调用的方法没有传sender，则该属性必须提前赋值
+    actionSheet.sender = self;
+    //记录上次选择的图片
+
+    [actionSheet setSelectImageBlock:^(NSArray<UIImage *> * _Nonnull images, NSArray<PHAsset *> * _Nonnull assets, BOOL isOriginal) {
+        NSMutableArray * array = [NSMutableArray array];
+        for (NSObject * image in images) {
+            if ([image isKindOfClass:[UIImage class]]) {
+                WYACameraModel * model = [[WYACameraModel alloc] init];
+                model.image            = (UIImage *)image;
+                model.sourceType       = WYACameraSourceTypeImage;
+                [array addObject:model];
+            }
+        }
+        [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
+        if ([self.textField.text integerValue] == self.dataSource.count) {
+            self.allImage = YES;
+        }
+        [self.collectionView reloadData];
+    }];
+
+    actionSheet.selectImageRequestErrorBlock = ^(NSArray<PHAsset *> * _Nonnull errorAssets, NSArray<NSNumber *> * _Nonnull errorIndex) {
+        NSLog(@"图片解析出错的索引为: %@, 对应assets为: %@", errorIndex, errorAssets);
+    };
+
+    actionSheet.cancleBlock = ^{
+        NSLog(@"取消选择图片");
+    };
+
+    return actionSheet;
 }
 
 @end

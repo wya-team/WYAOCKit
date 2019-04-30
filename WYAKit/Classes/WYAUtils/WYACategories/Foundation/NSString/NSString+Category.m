@@ -57,7 +57,7 @@
 }
 
 - (CGFloat)wya_heightWithFontSize:(CGFloat)fontSize width:(CGFloat)width {
-  return  [UILabel getHeightByWidth:width title:self font:FONT(fontSize)];
+  return  [UILabel getHeightByWidth:width title:self font:[UIFont systemFontOfSize:fontSize]];
 }
 
 - (CGFloat)wya_widthWithFontSize:(CGFloat)fontSize height:(CGFloat)maxHeight {

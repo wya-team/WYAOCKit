@@ -15,7 +15,7 @@
     [self setValue:FONT(font) forKeyPath:@"_placeholderLabel.font"];
 }
 - (void)wya_setLeftViewWithText:(NSString *)text textColor:(UIColor *)color font:(CGFloat)font {
-    CGFloat width       = [text wya_widthWithFontSize:font height:self.cmam_height];
+    CGFloat width       = [UILabel getWidthWithTitle:text font:FONT(font)];
     UILabel * leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, self.cmam_height)];
     leftLabel.text      = text;
     leftLabel.textColor = color;

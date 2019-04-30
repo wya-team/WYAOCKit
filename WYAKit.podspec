@@ -35,9 +35,10 @@ TODO: Add long description of the pod here.
   s.static_framework = true
   
   s.resource_bundles = {
-     'WYAKit' => ['WYAKit/Assets/*.xcassets']
+     'WYAKit' => ['WYAKit/Assets/*.xcassets'],
+     'ZLPhotoBrowser' => ['WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle']
   }
-  
+
   
   
   s.frameworks = 'UIKit', 'ImageIO'
@@ -56,6 +57,7 @@ TODO: Add long description of the pod here.
   s.dependency 'NTYAmrConverter'
   s.dependency 'AliyunOSSiOS'
   s.dependency 'WHDebugTool', '~> 1.7'
+  s.dependency 'GPUImage'
   #暂时未使用到的
   s.dependency 'YYText'
 end

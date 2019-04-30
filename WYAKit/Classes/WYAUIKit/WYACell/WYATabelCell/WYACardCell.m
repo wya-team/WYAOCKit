@@ -120,9 +120,7 @@
 + (CGFloat)wya_cellHeight:(NSString *)text {
     WYACardCell * card = [[WYACardCell alloc] init];
 
-    return 64 * SizeAdapter +
-           [text wya_heightWithFontSize:14
-                                  width:card.contentView.cmam_width - 26 * SizeAdapter];
+    return 64 * SizeAdapter + [UILabel getHeightByWidth:card.contentView.cmam_width - 26 * SizeAdapter title:text font:FONT(14)];
 }
 
 - (void)awakeFromNib {

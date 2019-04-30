@@ -125,8 +125,8 @@
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 1) {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertWithTitle:@"操作失败"
-                                               Message:@"账号或密码不一致，请重试"
+                [WYAAlertController wya_alertWithTitle:@"提示"
+                                               Message:@"取消后你所填写的内容将无法恢复，确认取消?"
                                       AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleBounce;
