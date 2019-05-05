@@ -672,6 +672,7 @@
     }
     if (pan.state == UIGestureRecognizerStateEnded) {
         NSLog(@"手势已结束");
+        [self removeZoomingScrollViewDelegate];
         [panView removeGestureRecognizer:pan];
         // 如果发生的垂直位移大于1/4屏宽，则退出浏览模式
         if (self.offset.y > ScreenWidth / 4.0) {
@@ -679,12 +680,14 @@
             UIWindow * window = [[[UIApplication sharedApplication] delegate] window];
             CGRect rect       = [panView.imageView convertRect:panView.imageView.bounds toView:window];
             [window addSubview:panView.imageView];
+            NSLog(@"rect = %@",NSStringFromCGRect(rect));
             [panView.imageView setFrame:rect];
             panView.imageView.clipsToBounds = YES;
             panView.imageView.contentMode   = self.sourceImageView.contentMode;
 
             [UIView animateWithDuration:0.25
                 animations:^{
+                    NSLog(@"window.frame = %@",NSStringFromCGRect(window.frame));
                     self.enablePan = NO;
                     [panView.imageView setFrame:self.originFrame];
                     self.bgView.alpha       = 0.0;
@@ -692,27 +695,45 @@
                 }
                 completion:^(BOOL finished) {
                     if (finished) {
+                        [self addZoomingScrollViewDelegate];
                         [panView.imageView removeFromSuperview];
                         [self removeAllBrowserViews];
                     }
                 }];
 
         } else {
+            [self removeZoomingScrollViewDelegate];
             [UIView animateWithDuration:0.25
                 animations:^{
                     self.enablePan = NO;
-                    NSLog(@"imageViewFrame = %@", NSStringFromCGRect(panView.imageView.frame));
                     panView.isMoveBack = YES;
                     [panView setFrame:self.startFrame];
                     self.bgView.alpha = 1.0;
                 }
                 completion:^(BOOL finished) {
                     if (finished) {
+                        [self addZoomingScrollViewDelegate];
                         [panView addGestureRecognizer:pan];
                     }
                 }];
         }
     }
+}
+
+- (void)removeZoomingScrollViewDelegate{
+    
+    for (WYAZoomingScrollView * scrollView in self.visibleZoomingScrollViews) {
+        scrollView.zoomingScrollViewdelegate = nil;
+    }
+    
+}
+
+- (void)addZoomingScrollViewDelegate{
+    
+    for (WYAZoomingScrollView * scrollView in self.visibleZoomingScrollViews) {
+        scrollView.zoomingScrollViewdelegate = self;
+    }
+    
 }
 
 /**

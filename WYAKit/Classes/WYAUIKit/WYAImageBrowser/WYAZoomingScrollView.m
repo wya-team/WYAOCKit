@@ -71,7 +71,6 @@
 }
 
 #pragma mark -   UIScrollViewDelegate
-
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     self.photoImageView.center = [self centerOfScrollViewContent:scrollView];
 }
@@ -138,7 +137,6 @@
 }
 
 #pragma mark -   public method
-
 /**
  *  显示图片
  *
