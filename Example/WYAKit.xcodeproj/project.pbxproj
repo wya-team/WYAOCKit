@@ -1205,14 +1205,12 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/WYAKit/WYAKit.bundle",
-				"${PODS_CONFIGURATION_BUILD_DIR}/WYAKit/ZLPhotoBrowser.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WYAKit.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZLPhotoBrowser.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

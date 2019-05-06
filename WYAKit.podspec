@@ -35,11 +35,9 @@ TODO: Add long description of the pod here.
   s.static_framework = true
   
   s.resource_bundles = {
-     'WYAKit' => ['WYAKit/Assets/*.xcassets'],
-     'ZLPhotoBrowser' => ['WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle']
+     'WYAKit' => ['WYAKit/Assets/*.xcassets', 'WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle'],
   }
 
-  
   
   s.frameworks = 'UIKit', 'ImageIO'
   

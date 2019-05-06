@@ -209,7 +209,9 @@
     ZLPhotoBrowserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ZLPhotoBrowserCell"];
     
     if (!cell) {
-        cell = [[kZLPhotoBrowserBundle loadNibNamed:@"ZLPhotoBrowserCell" owner:self options:nil] lastObject];
+        NSString * bundlePath = [kZLPhotoBrowserBundle.resourcePath stringByAppendingPathComponent:@"WYAKit.bundle/ZLPhotoBrowser.bundle"];
+        NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
+        cell = [[resource_bundle loadNibNamed:@"ZLPhotoBrowserCell" owner:self options:nil] lastObject];
     }
     
     ZLAlbumListModel *albumModel = self.arrayDataSources[indexPath.row];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (ZLPhotoBrowser)
+@interface UIImage (FixSource)
 
 - (UIImage*)rotate:(UIImageOrientation)orient;
 

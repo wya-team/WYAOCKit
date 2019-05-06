@@ -9,8 +9,8 @@
 #import "ZLImageEditTool.h"
 #import "ZLPhotoConfiguration.h"
 #import "ZLClipItem.h"
-#import "UIImage+ZLPhotoBrowser.h"
-#import "UIButton+EnlargeTouchArea.h"
+#import "UIImage+FixSource.h"
+
 #import "ZLBrushBoardImageView.h"
 #import "ZLDrawItem.h"
 

@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "578285877.224876"
+            timestampString = "578803371.801924"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "144"
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "578285877.225004"
+            timestampString = "578803371.802045"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "578285877.225099"
+            timestampString = "578803371.802114"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "168"
@@ -170,7 +170,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "578285877.225178"
+            timestampString = "578803371.802175"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -186,12 +186,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUtils/WYACategories/Foundation/NSString/NSString+Category.m"
-            timestampString = "578286708.521515"
+            timestampString = "578798447.648504"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
             endingLineNumber = "60"
             landmarkName = "-wya_heightWithFontSize:width:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/NSBundle+ZLPhotoBrowser.m"
+            timestampString = "578830054.247094"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "19"
+            endingLineNumber = "19"
+            landmarkName = "+zlPhotoBrowserBundle"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/NSBundle+ZLPhotoBrowser.m"
+            timestampString = "578830054.24716"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
+            landmarkName = "+zlLocalizedStringForKey:value:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
