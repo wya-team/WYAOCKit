@@ -76,8 +76,8 @@
 #define kZLPhotoBrowserBundle [NSBundle bundleForClass:[self class]]
 
 // 图片路径
-#define kZLPhotoBrowserSrcName(file) [@"ZLPhotoBrowser.bundle" stringByAppendingPathComponent:file]
-#define kZLPhotoBrowserFrameworkSrcName(file) [@"Frameworks/ZLPhotoBrowser.framework/ZLPhotoBrowser.bundle" stringByAppendingPathComponent:file]
+//#define kZLPhotoBrowserSrcName(file) [@"ZLPhotoBrowser.bundle" stringByAppendingPathComponent:file]
+//#define kZLPhotoBrowserFrameworkSrcName(file) [@"Frameworks/ZLPhotoBrowser.framework/ZLPhotoBrowser.bundle" stringByAppendingPathComponent:file]
 
 #define kViewWidth      [[UIScreen mainScreen] bounds].size.width
 #define kViewHeight     [[UIScreen mainScreen] bounds].size.height
@@ -193,7 +193,10 @@ static inline UIImage * GetImageWithName(NSString *name) {
     if ([names containsObject:name]) {
         return [UIImage imageNamed:name];
     }
-    return [UIImage imageNamed:kZLPhotoBrowserSrcName(name)]?:[UIImage imageNamed:kZLPhotoBrowserFrameworkSrcName(name)];
+    NSString * bundlePath = [[[NSBundle bundleForClass:NSClassFromString(@"ZLDefine")]
+                              .resourcePath stringByAppendingPathComponent:@"WYAKit.bundle/ZLPhotoBrowser.bundle"] stringByAppendingPathComponent:name];
+    UIImage * image = [UIImage imageNamed:bundlePath];
+    return image;
 }
 
 static inline CGFloat GetMatchValue(NSString *text, CGFloat fontSize, BOOL isHeightFixed, CGFloat fixedValue) {

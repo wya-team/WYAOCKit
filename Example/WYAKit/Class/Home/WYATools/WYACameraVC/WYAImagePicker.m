@@ -271,7 +271,10 @@
                                                                         NSInteger inter =
                                                                             [self.textField.text integerValue] - self.dataSource.count;
                                                                         if (inter == 0) { return; }
-                                                                        [self getPasWithNumber:inter];
+                                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                                                            ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
+                                                                            [sheet showPhotoLibrary];
+                                                                        });
                                                                     }];
         [alert wya_addAction:defaultAction];
         [alert wya_addAction:cancelAction];

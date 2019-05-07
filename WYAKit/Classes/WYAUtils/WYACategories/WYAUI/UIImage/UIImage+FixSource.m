@@ -6,9 +6,9 @@
 //  Copyright © 2017年 long. All rights reserved.
 //
 
-#import "UIImage+ZLPhotoBrowser.h"
+#import "UIImage+FixSource.h"
 
-@implementation UIImage (ZLPhotoBrowser)
+@implementation UIImage (FixSource)
 
 /** 按给定的方向旋转图片 */
 - (UIImage*)rotate:(UIImageOrientation)orient

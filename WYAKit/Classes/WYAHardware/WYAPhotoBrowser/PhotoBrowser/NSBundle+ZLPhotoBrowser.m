@@ -16,7 +16,8 @@
 {
     static NSBundle *photoBrowserBundle = nil;
     if (photoBrowserBundle == nil) {
-        photoBrowserBundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[ZLPhotoActionSheet class]] pathForResource:@"ZLPhotoBrowser" ofType:@"bundle"]];
+        NSString * bundlePath = [[NSBundle bundleForClass:[ZLPhotoActionSheet class]].resourcePath stringByAppendingPathComponent:@"WYAKit.bundle"];
+        photoBrowserBundle = [NSBundle bundleWithPath:bundlePath];
     }
     return photoBrowserBundle;
 }
@@ -36,7 +37,8 @@ static NSBundle *bundle = nil;
 {
     if (bundle == nil) {
         // 从bundle中查找资源
-        bundle = [NSBundle bundleWithPath:[[NSBundle zlPhotoBrowserBundle] pathForResource:[self getLanguage] ofType:@"lproj"]];
+        NSString * bundlePath = [[NSBundle zlPhotoBrowserBundle] pathForResource:[self getLanguage] ofType:@"lproj" inDirectory:@"ZLPhotoBrowser.bundle"];
+        bundle = [NSBundle bundleWithPath:bundlePath];
     }
     value = [bundle localizedStringForKey:key value:value table:nil];
     return [[NSBundle mainBundle] localizedStringForKey:key value:value table:nil];

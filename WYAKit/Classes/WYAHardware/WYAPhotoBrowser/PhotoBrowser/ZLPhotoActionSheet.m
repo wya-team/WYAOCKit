@@ -109,7 +109,10 @@ double const ScalePhotoWidth = 1000;
 
 - (instancetype)init
 {
-    self = [[kZLPhotoBrowserBundle loadNibNamed:@"ZLPhotoActionSheet" owner:self options:nil] lastObject];
+    NSString * bundlePath = [kZLPhotoBrowserBundle.resourcePath stringByAppendingPathComponent:@"WYAKit.bundle/ZLPhotoBrowser.bundle"];
+    NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
+
+    self = [[resource_bundle loadNibNamed:@"ZLPhotoActionSheet" owner:self options:nil] lastObject];
     if (self) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
