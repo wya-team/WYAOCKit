@@ -51,6 +51,13 @@
  */
 @property (nonatomic, assign) BOOL isMoveBack;
 
+
+/**
+ 是否为返回缩略图位置
+ */
+@property (nonatomic, assign) BOOL isMoveOrigin;
+
+
 /**
  *  显示图片
  *

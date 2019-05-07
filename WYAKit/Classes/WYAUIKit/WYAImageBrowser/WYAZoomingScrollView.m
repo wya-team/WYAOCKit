@@ -57,6 +57,11 @@
     self.progressView.cmam_centerY = self.cmam_height * 0.5;
     self.scrollview.frame          = self.bounds;
 
+    if (self.isMoveOrigin)  {
+        self.isMoveOrigin = NO;
+        return;
+    }
+   
     if (self.isMoveBack) {
         [UIView animateWithDuration:0.25
             animations:^{

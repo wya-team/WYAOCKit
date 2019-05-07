@@ -685,6 +685,7 @@
             panView.imageView.clipsToBounds = YES;
             panView.imageView.contentMode   = self.sourceImageView.contentMode;
 
+            panView.isMoveOrigin = YES;
             [UIView animateWithDuration:0.25
                 animations:^{
                     NSLog(@"window.frame = %@",NSStringFromCGRect(window.frame));
