@@ -112,6 +112,12 @@
                         self.imageV.image     = result;
                         self.model.cacheImage = result;
                     }];
+//    [manager requestImageDataForAsset:self.model.asset options:opi resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+//        UIImage * image = [[UIImage alloc]initWithData:imageData];
+//        UIImage * aaa = [UIImage wya_ImageCompressFitSizeScale:image targetSize:CGSizeMake(width, height)];
+//        self.imageV.image     = aaa;
+//        self.model.cacheImage = aaa;
+//    }];
 }
 
 - (void)getVideoInfo {

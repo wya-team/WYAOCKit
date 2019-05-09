@@ -6,10 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class WYAPhotoBrowserModel;
 
-@class PHAsset;
+typedef void(^WYAImageModelRequestSuccessBlock)(UIImage *image, WYAPhotoBrowserModel * model, NSDictionary *info);
 
 @interface WYAPhotoBrowserModel : NSObject
 
@@ -19,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL selected;        //是否被选中
 @property (nonatomic, assign) BOOL isMaxCount;      //是否到最大个数
 @property (nonatomic, strong) NSURL * videoUrl;     //视频url
+
+@property (nonatomic, assign) CGSize requestSize;
 
 @end
 

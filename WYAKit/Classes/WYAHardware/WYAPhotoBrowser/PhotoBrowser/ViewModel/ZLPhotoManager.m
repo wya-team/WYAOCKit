@@ -581,6 +581,13 @@ static BOOL _sortAscending;
             completion(image, info);
         }
     }];
+//    return [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+//        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey];
+//        if (downloadFinined && completion) {
+//            UIImage * image = [[UIImage alloc]initWithData:imageData];
+//            completion(image, info);
+//        }
+//    }];
 }
 
 + (BOOL)judgeAssetisInLocalAblum:(PHAsset *)asset

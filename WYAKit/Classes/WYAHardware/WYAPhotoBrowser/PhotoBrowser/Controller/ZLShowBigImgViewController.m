@@ -19,7 +19,7 @@
 #import "ZLAnimateTransition.h"
 #import "ZLInteractiveTrasition.h"
 #import "ZLPullDownInteractiveTransition.h"
-
+#import "WYAImageCropViewController.h"
 @interface ZLShowBigImgViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIViewControllerTransitioningDelegate>
 {
     UICollectionView *_collectionView;
@@ -297,7 +297,7 @@
     _btnEdit.frame = CGRectMake(kViewWidth/2-30, 7, 60, 30);
     [_btnEdit addTarget:self action:@selector(btnEdit_Click:) forControlEvents:UIControlEventTouchUpInside];
     [_bottomView addSubview:_btnEdit];
-    
+
     _btnDone = [UIButton buttonWithType:UIButtonTypeCustom];
     [_btnDone setTitle:GetLocalLanguageTextValue(ZLPhotoBrowserDoneText) forState:UIControlStateNormal];
     _btnDone.titleLabel.font = [UIFont systemFontOfSize:15];
@@ -363,11 +363,26 @@
     } else if (model.type == ZLAssetMediaTypeImage ||
                (model.type == ZLAssetMediaTypeGif && !configuration.allowSelectGif) ||
                (model.type == ZLAssetMediaTypeLivePhoto && !configuration.allowSelectLivePhoto)) {
-        ZLEditViewController *vc = [[ZLEditViewController alloc] init];
-        vc.model = model;
+//        ZLEditViewController *vc = [[ZLEditViewController alloc] init];
+//        vc.model = model;
         ZLBigImageCell *cell = (ZLBigImageCell *)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:_currentPage-1 inSection:0]];
-        vc.oriImage = cell.previewView.image;
-        [self.navigationController pushViewController:vc animated:NO];
+//        vc.oriImage = cell.previewView.image;
+//        [self.navigationController pushViewController:vc animated:NO];
+        WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc] initWithImage:cell.previewView.image];
+        imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+            /// 已经编辑成功
+            [imageCrop dismissViewControllerAnimated:YES completion:nil];
+            model.image = image;
+            cell.model = model;
+
+            ZLImageNavigationController *nav = (ZLImageNavigationController *)self.navigationController;
+            for (ZLPhotoModel *photoModel in nav.arrSelectedModels) {
+                if (photoModel.asset == model.asset) {
+                    photoModel.image = model.image;
+                }
+            }
+        };
+        [self presentViewController:imageCrop animated:YES completion:nil];
     }
 }
 
@@ -413,6 +428,11 @@
 - (void)callBack
 {
     ZLImageNavigationController *nav = (ZLImageNavigationController *)self.navigationController;
+    for (ZLPhotoModel * model in nav.arrSelectedModels) {
+        if (model.image) {
+            model.image = nil;
+        }
+    }
     if (self.btnBackBlock) {
         self.btnBackBlock(nav.arrSelectedModels, nav.isSelectOriginalPhoto);
     }
@@ -584,17 +604,9 @@
     if (!configuration.allowEditImage && !configuration.allowEditVideo) return;
 
     ZLPhotoModel *m = self.models[_currentPage-1];
-    BOOL flag = [m.asset.localIdentifier isEqualToString:nav.arrSelectedModels.firstObject.asset.localIdentifier];
-    
-    if ((nav.arrSelectedModels.count == 0 ||
-         (nav.arrSelectedModels.count <= 1 && flag)) &&
-        
-        ((configuration.allowEditImage &&
-         (m.type == ZLAssetMediaTypeImage ||
-         (m.type == ZLAssetMediaTypeGif && !configuration.allowSelectGif) ||
-         (m.type == ZLAssetMediaTypeLivePhoto && !configuration.allowSelectLivePhoto))) ||
-        
-        (configuration.allowEditVideo && m.type == ZLAssetMediaTypeVideo && round(m.asset.duration) >= configuration.maxEditVideoTime))) {
+//    BOOL flag = [m.asset.localIdentifier isEqualToString:nav.arrSelectedModels.firstObject.asset.localIdentifier];
+//    (nav.arrSelectedModels.count == 0 || (nav.arrSelectedModels.count <= 1 && flag)) &&
+    if ((configuration.allowEditImage && (m.type == ZLAssetMediaTypeImage || (m.type == ZLAssetMediaTypeGif && !configuration.allowSelectGif) || (m.type == ZLAssetMediaTypeLivePhoto && !configuration.allowSelectLivePhoto))) || (configuration.allowEditVideo && m.type == ZLAssetMediaTypeVideo && round(m.asset.duration) >= configuration.maxEditVideoTime)) {
         _btnEdit.hidden = NO;
     } else {
         _btnEdit.hidden = YES;

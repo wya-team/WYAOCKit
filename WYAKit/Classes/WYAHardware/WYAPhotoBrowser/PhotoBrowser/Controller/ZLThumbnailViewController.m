@@ -196,8 +196,8 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     
     CGFloat offsetX = 12;
     if (configuration.allowEditImage || configuration.allowEditVideo) {
-        self.btnEdit.frame = CGRectMake(offsetX, 7, GetMatchValue(GetLocalLanguageTextValue(ZLPhotoBrowserEditText), 15, YES, bottomBtnH), bottomBtnH);
-        offsetX = CGRectGetMaxX(self.btnEdit.frame) + 10;
+//        self.btnEdit.frame = CGRectMake(offsetX, 7, GetMatchValue(GetLocalLanguageTextValue(ZLPhotoBrowserEditText), 15, YES, bottomBtnH), bottomBtnH);
+//        offsetX = CGRectGetMaxX(self.btnEdit.frame) + 10;
     }
     self.btnPreView.frame = CGRectMake(offsetX, 7, GetMatchValue(GetLocalLanguageTextValue(ZLPhotoBrowserPreviewText), 15, YES, bottomBtnH), bottomBtnH);
     offsetX = CGRectGetMaxX(self.btnPreView.frame) + 10;
@@ -285,7 +285,7 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     }
     
     BOOL canEdit = NO;
-    if (nav.arrSelectedModels.count == 1) {
+    if (nav.arrSelectedModels.count >= 1) {
         ZLPhotoModel *m = nav.arrSelectedModels.firstObject;
         canEdit = (configuration.allowEditImage && ((m.type == ZLAssetMediaTypeImage) ||
         (m.type == ZLAssetMediaTypeGif && !configuration.allowSelectGif) ||
@@ -354,11 +354,11 @@ typedef NS_ENUM(NSUInteger, SlideSelectType) {
     [self.bottomView addSubview:self.bline];
     
     if (configuration.allowEditImage || configuration.allowEditVideo) {
-        self.btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.btnEdit.titleLabel.font = [UIFont systemFontOfSize:15];
-        [self.btnEdit setTitle:GetLocalLanguageTextValue(ZLPhotoBrowserEditText) forState:UIControlStateNormal];
-        [self.btnEdit addTarget:self action:@selector(btnEdit_Click:) forControlEvents:UIControlEventTouchUpInside];
-        [self.bottomView addSubview:self.btnEdit];
+//        self.btnEdit = [UIButton buttonWithType:UIButtonTypeCustom];
+//        self.btnEdit.titleLabel.font = [UIFont systemFontOfSize:15];
+//        [self.btnEdit setTitle:GetLocalLanguageTextValue(ZLPhotoBrowserEditText) forState:UIControlStateNormal];
+//        [self.btnEdit addTarget:self action:@selector(btnEdit_Click:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.bottomView addSubview:self.btnEdit];
     }
     
     self.btnPreView = [UIButton buttonWithType:UIButtonTypeCustom];

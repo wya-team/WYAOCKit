@@ -275,6 +275,34 @@
                                                                             ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
                                                                             [sheet showPhotoLibrary];
                                                                         });
+//                                                                        WYAPhotoBrowser * photo =
+//                                                                        [[WYAPhotoBrowser alloc] initWithMaxCount:inter
+//                                                                                                 photoBrowserType:WYAPhotoBrowserTypeAll];
+//                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
+//                                                                            NSLog(@"images==%@", media);
+//                                                                            NSMutableArray * array = [NSMutableArray array];
+//                                                                            for (NSObject * image in media) {
+//                                                                                if ([image isKindOfClass:[UIImage class]]) {
+//                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
+//                                                                                    model.image            = (UIImage *)image;
+//                                                                                    model.sourceType       = WYACameraSourceTypeImage;
+//                                                                                    [array addObject:model];
+//                                                                                }
+//                                                                            }
+//                                                                            [self.dataSource
+//                                                                             insertObjects:array
+//                                                                             atIndexes:[NSIndexSet
+//                                                                                        indexSetWithIndexesInRange:NSMakeRange(
+//                                                                                                                               0,
+//                                                                                                                               media
+//                                                                                                                               .count)]];
+//                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
+//                                                                                self.allImage = YES;
+//                                                                            }
+//                                                                            [self.collectionView reloadData];
+//                                                                        };
+//                                                                        [weakSelf presentViewController:photo animated:YES completion:nil];
+
                                                                     }];
         [alert wya_addAction:defaultAction];
         [alert wya_addAction:cancelAction];
@@ -318,7 +346,7 @@
     actionSheet.configuration.allowSelectVideo     = NO;
     actionSheet.configuration.allowSelectLivePhoto = NO;
     actionSheet.configuration.allowForceTouch      = YES;
-    actionSheet.configuration.allowEditImage       = NO;
+    actionSheet.configuration.allowEditImage       = YES;
     actionSheet.configuration.allowEditVideo       = NO;
     actionSheet.configuration.allowMixSelect       = NO;
     //设置相册内部显示拍照按钮

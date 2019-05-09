@@ -5,7 +5,7 @@
 //  Created by long on 15/11/30.
 //  Copyright © 2015年 long. All rights reserved.
 //
-
+//  相册列表cell
 #import <UIKit/UIKit.h>
 
 @class ZLAlbumListModel;

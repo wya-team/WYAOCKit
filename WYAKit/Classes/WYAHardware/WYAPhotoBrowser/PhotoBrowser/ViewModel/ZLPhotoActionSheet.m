@@ -559,7 +559,7 @@ double const ScalePhotoWidth = 1000;
 {
     ZLProgressHUD *hud = [[ZLProgressHUD alloc] init];
     [hud show];
-    
+
     if (!self.configuration.shouldAnialysisAsset) {
         NSMutableArray *assets = [NSMutableArray arrayWithCapacity:data.count];
         for (ZLPhotoModel *m in data) {
@@ -590,46 +590,65 @@ double const ScalePhotoWidth = 1000;
     __block NSInteger doneCount = 0;
     for (int i = 0; i < data.count; i++) {
         ZLPhotoModel *model = data[i];
-        [ZLPhotoManager requestSelectedImageForAsset:model isOriginal:self.isSelectOriginalPhoto allowSelectGif:self.configuration.allowSelectGif completion:^(UIImage *image, NSDictionary *info) {
-            if ([[info objectForKey:PHImageResultIsDegradedKey] boolValue]) return;
-            
-            doneCount++;
-            zl_strongify(weakSelf);
-            
-            if (image) {
-                [photos replaceObjectAtIndex:i withObject:[ZLPhotoManager scaleImage:image original:strongSelf->_isSelectOriginalPhoto]];
-                [assets replaceObjectAtIndex:i withObject:model.asset];
-            } else {
-                [errorAssets addObject:model.asset];
-                [errorIndexs addObject:@(i)];
-            }
-            
+        if (model.image) {
+            // 有裁剪图片
+            [photos replaceObjectAtIndex:i withObject:model.image];
+            doneCount ++;
             if (doneCount < data.count) {
-                return;
+                continue;
             }
-            
-            NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];
-            for (NSNumber *errorIndex in errorIndexs) {
-                [set addIndex:errorIndex.integerValue];
+            if (self.selectImageBlock) {
+                self.selectImageBlock(photos, assets, self.isSelectOriginalPhoto);
+                [self.arrSelectedModels removeAllObjects];
             }
-            
-            [photos removeObjectsAtIndexes:set];
-            [assets removeObjectsAtIndexes:set];
-            
             [hud hide];
-            if (strongSelf.selectImageBlock) {
-                strongSelf.selectImageBlock(photos, assets, strongSelf.isSelectOriginalPhoto);
-                [strongSelf.arrSelectedModels removeAllObjects];
-            }
-            if (errorAssets.count > 0 && strongSelf.selectImageRequestErrorBlock) {
-                strongSelf.selectImageRequestErrorBlock(errorAssets, errorIndexs);
-            }
             if (hide) {
-                [strongSelf.arrDataSources removeAllObjects];
-                [strongSelf hide];
+                [self.arrDataSources removeAllObjects];
+                [self hide];
                 [vc dismissViewControllerAnimated:YES completion:nil];
             }
-        }];
+        } else {
+            [ZLPhotoManager requestSelectedImageForAsset:model isOriginal:self.isSelectOriginalPhoto allowSelectGif:self.configuration.allowSelectGif completion:^(UIImage *image, NSDictionary *info) {
+                if ([[info objectForKey:PHImageResultIsDegradedKey] boolValue]) return;
+
+                doneCount++;
+                zl_strongify(weakSelf);
+
+                if (image) {
+                    [photos replaceObjectAtIndex:i withObject:[ZLPhotoManager scaleImage:image original:strongSelf->_isSelectOriginalPhoto]];
+                    [assets replaceObjectAtIndex:i withObject:model.asset];
+                } else {
+                    [errorAssets addObject:model.asset];
+                    [errorIndexs addObject:@(i)];
+                }
+
+                if (doneCount < data.count) {
+                    return;
+                }
+
+                NSMutableIndexSet *set = [[NSMutableIndexSet alloc] init];
+                for (NSNumber *errorIndex in errorIndexs) {
+                    [set addIndex:errorIndex.integerValue];
+                }
+
+                [photos removeObjectsAtIndexes:set];
+                [assets removeObjectsAtIndexes:set];
+
+                [hud hide];
+                if (strongSelf.selectImageBlock) {
+                    strongSelf.selectImageBlock(photos, assets, strongSelf.isSelectOriginalPhoto);
+                    [strongSelf.arrSelectedModels removeAllObjects];
+                }
+                if (errorAssets.count > 0 && strongSelf.selectImageRequestErrorBlock) {
+                    strongSelf.selectImageRequestErrorBlock(errorAssets, errorIndexs);
+                }
+                if (hide) {
+                    [strongSelf.arrDataSources removeAllObjects];
+                    [strongSelf hide];
+                    [vc dismissViewControllerAnimated:YES completion:nil];
+                }
+            }];
+        }
     }
 }
 

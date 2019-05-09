@@ -146,7 +146,11 @@
     switch (model.type) {
         case ZLAssetMediaTypeImage: {
             [self addSubview:self.imageGifView];
-            [self.imageGifView loadNormalImage:model.asset];
+            if (model.image) {
+                [self.imageGifView loadImage:model.image];
+            } else {
+                [self.imageGifView loadNormalImage:model.asset];
+            }
         }
             break;
         case ZLAssetMediaTypeGif: {
