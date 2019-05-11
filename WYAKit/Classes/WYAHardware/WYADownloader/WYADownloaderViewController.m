@@ -17,7 +17,7 @@
 #import "WYAProgressView.h"
 
 @interface WYADownloaderViewController () <WYANavBarDelegate, UITableViewDelegate,
-                                           UITableViewDataSource>
+UITableViewDataSource>
 @property (nonatomic, strong) WYANavBar * customNavBar;
 @property (nonatomic, strong) UILabel * cacheLabel;
 @property (nonatomic, strong) WYAProgressView * cacheProgressView;
@@ -26,7 +26,7 @@
 @end
 
 @implementation WYADownloaderViewController
-
+#pragma mark ======= LifeCircle
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
@@ -49,20 +49,20 @@
     CGFloat customNavBar_Width  = ScreenWidth;
     CGFloat customNavBar_Height = WYATopHeight;
     self.customNavBar.frame =
-        CGRectMake(customNavBar_X, customNavBar_Y, customNavBar_Width, customNavBar_Height);
+    CGRectMake(customNavBar_X, customNavBar_Y, customNavBar_Width, customNavBar_Height);
 
     CGFloat cacheLabel_X      = 0;
     CGFloat cacheLabel_Y      = self.view.cmam_height - 30 - WYABottomHeight;
     CGFloat cacheLabel_Width  = ScreenWidth;
     CGFloat cacheLabel_Height = 30;
     self.cacheLabel.frame =
-        CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
+    CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
 
     CGFloat tableView_X     = 0;
     CGFloat tableView_Y     = WYATopHeight;
     CGFloat tableView_Width = ScreenWidth;
     CGFloat tableView_Height =
-        self.view.cmam_height - WYATopHeight - self.cacheLabel.cmam_height - WYABottomHeight;
+    self.view.cmam_height - WYATopHeight - self.cacheLabel.cmam_height - WYABottomHeight;
     self.tableView.frame = CGRectMake(tableView_X, tableView_Y, tableView_Width, tableView_Height);
 }
 
@@ -71,6 +71,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark ======= Private Method
 - (void)setupCacheLabel {
     //    double allMemory           = [NSString wya_phoneFreeMemory];
     [WYAClearCache wya_getDivceAvailableSizeBlock:^(NSString * _Nonnull folderSize) {
@@ -80,7 +81,7 @@
         NSString * useSize = [NSString stringWithFormat:@"%2.fM", size];
         NSString * string  = [NSString stringWithFormat:@"已下载%@,可用空间%@", useSize, folderSize];
         NSMutableAttributedString * text =
-            [[NSMutableAttributedString alloc] initWithString:string];
+        [[NSMutableAttributedString alloc] initWithString:string];
         [text addAttribute:NSForegroundColorAttributeName
                      value:[UIColor redColor]
                      range:[string rangeOfString:useSize]];
@@ -110,18 +111,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     WYADownloaderCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cell"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                    forIndexPath:indexPath];
     if (indexPath.section == 0) {
         cell.titleLabel.text = @"下载中";
         cell.fileNumberLabel.text =
-            [NSString stringWithFormat:@"当前%d个任务正在下载",
-                                       [WYADownloader sharedDownloader].downloadingArray.count];
+        [NSString stringWithFormat:@"当前%d个任务正在下载",
+         [WYADownloader sharedDownloader].downloadingArray.count];
     } else {
         cell.titleLabel.text      = @"已完成";
         cell.fileNumberLabel.text = [NSString
-            stringWithFormat:@"已下载%d个文件",
-                             [WYADownloader sharedDownloader].downloadCompleteArray.count];
+                                     stringWithFormat:@"已下载%d个文件",
+                                     [WYADownloader sharedDownloader].downloadCompleteArray.count];
     }
     return cell;
 }
@@ -183,10 +184,10 @@
             CGFloat cacheLabel_Width  = ScreenWidth;
             CGFloat cacheLabel_Height = 30;
             CGRect rect =
-                CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
+            CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
             WYAProgressView * object =
-                [[WYAProgressView alloc] initWithFrame:rect
-                                     progressViewStyle:WYAProgressViewStyleStraight];
+            [[WYAProgressView alloc] initWithFrame:rect
+                                 progressViewStyle:WYAProgressViewStyleStraight];
             object.progressTintColor = [UIColor redColor];
             object.trackTintColor    = random(244, 244, 244, 1);
             object;
@@ -199,8 +200,8 @@
     if (!_tableView) {
         _tableView = ({
             UITableView * object =
-                [[UITableView alloc] initWithFrame:CGRectZero
-                                             style:UITableViewStylePlain];
+            [[UITableView alloc] initWithFrame:CGRectZero
+                                         style:UITableViewStylePlain];
             object.delegate   = self;
             object.dataSource = self;
             [object registerClass:[WYADownloaderCell class] forCellReuseIdentifier:@"cell"];

@@ -86,9 +86,8 @@
 #pragma mark--- Private Method
 - (void)textChange:(NSNotification *) not{
     UITextView * textView = (UITextView *)not.object;
-    if (self.showWordsCount) {
-        [self recordTextViewInputWithTextView:textView];
-    }
+    [self recordTextViewInputWithTextView:textView];
+
     if (self.autoChangeHeight) {
         [self autoChnageTextViewHeightWithTextView:textView];
     }
@@ -98,11 +97,9 @@
     NSString * toBeString = textView.text;
 
     // 获取键盘输入模式
-
     NSString * lang = [[UIApplication sharedApplication] textInputMode].primaryLanguage;
 
-    if ([lang isEqualToString:
-                  @"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
+    if ([lang isEqualToString:@"zh-Hans"]) { // zh-Hans代表简体中文输入，包括简体拼音，健体五笔，简体手写
 
         UITextRange * selectedRange = [textView markedTextRange];
 
@@ -116,13 +113,16 @@
             if (toBeString.length > self.textViewWordsCount) {
                 textView.text = [toBeString
                     substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
-
-                self.noteLabel.text = [NSString
-                    stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                if (self.showWordsCount) {
+                    self.noteLabel.text = [NSString
+                                           stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                }
 
             } else {
-                self.noteLabel.text = [NSString
-                    stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                if (self.showWordsCount) {
+                    self.noteLabel.text = [NSString
+                                           stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                }
             }
         }
 
@@ -130,14 +130,20 @@
 
         if (toBeString.length > self.textViewWordsCount) {
             textView.text = [toBeString substringToIndex:self.textViewWordsCount];
-
-            self.noteLabel.text = [NSString
-                stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+            if (self.showWordsCount) {
+                self.noteLabel.text = [NSString
+                                       stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+            }
 
         } else {
-            self.noteLabel.text =
+            if (self.showWordsCount) {
+                self.noteLabel.text =
                 [NSString stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+            }
         }
+    }
+    if (self.textChange) {
+        self.textChange(textView.text);
     }
 }
 

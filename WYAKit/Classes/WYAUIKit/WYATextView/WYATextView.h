@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) CGFloat textViewPadding;
 /// 控件高度随输入文字变化高度
 @property (nonatomic, copy) void (^textViewContentFrame)(void);
+/// 监听文本输入回调
+@property (nonatomic, copy) void (^textChange)(NSString * text);
 @end
 
 NS_ASSUME_NONNULL_END

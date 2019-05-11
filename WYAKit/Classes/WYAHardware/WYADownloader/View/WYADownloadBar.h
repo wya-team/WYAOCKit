@@ -10,10 +10,14 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYADownloadBar : UIView
+/// 选中回调
 @property (nonatomic, copy) void (^selectCallback)(WYADownloadBar * bar, BOOL isAllSelect);
+/// 删除回调
 @property (nonatomic, copy) void (^deleteCallback)(WYADownloadBar * bar);
-@property (nonatomic, assign) NSUInteger arrayCount; //控制删除按钮个数的显示和全选按钮是否禁用
-@property (nonatomic, assign) BOOL allSelect;        //外部传入控制全选按钮显示状态
+/// 控制删除按钮个数的显示和全选按钮是否禁用
+@property (nonatomic, assign) NSUInteger arrayCount;
+/// 外部传入控制全选按钮显示状态
+@property (nonatomic, assign) BOOL allSelect;
 
 @end
 

@@ -22,16 +22,19 @@
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
+    UIView * view = [[UIView alloc]init];
+    view.backgroundColor = random(77, 77, 77, 1);
+    view.layer.cornerRadius  = 5 * SizeAdapter;
+    view.layer.masksToBounds = YES;
+    [button addSubview:view];
+
     UILabel * label           = [[UILabel alloc] init];
     label.font                = FONT(15);
     label.text                = message;
     label.textColor           = [UIColor whiteColor];
-    label.backgroundColor     = random(77, 77, 77, 1);
     label.textAlignment       = NSTextAlignmentCenter;
     label.numberOfLines       = 0;
-    label.layer.cornerRadius  = 5 * SizeAdapter;
-    label.layer.masksToBounds = YES;
-    [button addSubview:label];
+    [view addSubview:label];
 
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
     if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
@@ -39,7 +42,8 @@
         [UILabel getHeightByWidth:width + 30 * SizeAdapter
                             title:message
                              font:label.font];
-    [label mas_makeConstraints:^(MASConstraintMaker * make) {
+
+    [view mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.bottom.mas_equalTo(Window.mas_bottom).with.offset(-50 * SizeAdapter);
         make.width.mas_equalTo(width + 30 * SizeAdapter);
@@ -49,6 +53,9 @@
             make.height.mas_equalTo(height + 15 * SizeAdapter);
         }
 
+    }];
+    [label mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 15 * SizeAdapter, 0, 15 * SizeAdapter));
     }];
 
     [UIView animateWithDuration:0.3
@@ -72,23 +79,27 @@
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
+    UIView * view = [[UIView alloc]init];
+    view.backgroundColor     = random(77, 77, 77, 1);
+    view.layer.cornerRadius  = 5 * SizeAdapter;
+    view.layer.masksToBounds = YES;
+    [button addSubview:view];
+
     UILabel * label           = [[UILabel alloc] init];
     label.font                = [UIFont systemFontOfSize:15 * SizeAdapter];
     label.text                = message;
     label.textColor           = [UIColor whiteColor];
-    label.backgroundColor     = random(77, 77, 77, 1);
     label.textAlignment       = NSTextAlignmentCenter;
-    label.layer.cornerRadius  = 5 * SizeAdapter;
-    label.layer.masksToBounds = YES;
     label.numberOfLines       = 0;
-    [button addSubview:label];
+    [view addSubview:label];
+
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
     if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
     CGFloat height =
         [UILabel getHeightByWidth:width + 30 * SizeAdapter
                             title:message
                              font:label.font];
-    [label mas_makeConstraints:^(MASConstraintMaker * make) {
+    [view mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
         make.width.mas_equalTo(width + 30 * SizeAdapter);
@@ -97,6 +108,9 @@
         } else {
             make.height.mas_equalTo(height + 15 * SizeAdapter);
         }
+    }];
+    [label mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 15 * SizeAdapter, 0, 15 * SizeAdapter));
     }];
 
     [UIView animateWithDuration:0.3

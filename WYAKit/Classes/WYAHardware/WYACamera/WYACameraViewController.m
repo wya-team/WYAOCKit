@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UIView * containerView; //内容父容器
 @property (strong, nonatomic)
-    AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
+AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool * videoTool;
 
 @property (nonatomic, strong) UIView * cameraBar;          //顶部放置以下控件的视图
@@ -35,12 +35,13 @@
 @end
 
 @implementation WYACameraViewController
-
+#pragma mark ======= LifeCircle
 - (instancetype)init {
     return [self initWithType:WYACameraTypeAll cameraOrientation:WYACameraOrientationBack];
 }
 
-- (instancetype)initWithType:(WYACameraType)type cameraOrientation:(WYACameraOrientation)cameraOrientation {
+- (instancetype)initWithType:(WYACameraType)type
+           cameraOrientation:(WYACameraOrientation)cameraOrientation {
     self = [super init];
     if (self) {
         self.time              = 15.0;
@@ -66,8 +67,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [UIView animateWithDuration:2
-        animations:^{ self.messageLabel.alpha = 0; }
-        completion:^(BOOL finished) { [self.messageLabel removeFromSuperview]; }];
+                     animations:^{ self.messageLabel.alpha = 0; }
+                     completion:^(BOOL finished) { [self.messageLabel removeFromSuperview]; }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -77,7 +78,14 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-#pragma mark - Private Method -
+#pragma mark - Public Method -
+- (void)clearCache {
+    NSFileManager * fileManage = [NSFileManager defaultManager];
+    NSError * error;
+    [fileManage removeItemAtPath:[self.videoTool getVideoPathCache] error:&error];
+}
+
+#pragma mark ======= UI
 - (void)setupSubView {
     [self.view addSubview:self.containerView];
     [self.view addSubview:self.closeButton];
@@ -118,6 +126,7 @@
     self.messageLabel.center     = CGPointMake(messageLabel_centerX, messageLabel_centerY);
 }
 
+#pragma mark ======= Private Method
 - (void)setupCaptureSession {
     self.captureVideoPreviewLayer       = [self.videoTool previewLayer];
     CALayer * layer                     = self.containerView.layer;
@@ -130,9 +139,9 @@
 
 - (void)openSystemPermissionsWithText:(NSString *)text {
     WYAAlertController * alert =
-        [WYAAlertController wya_alertWithTitle:text
-                                       Message:nil
-                              AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+    [WYAAlertController wya_alertWithTitle:text
+                                   Message:nil
+                          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     alert.presentStyle             = WYAPopupPresentStyleBounce;
     alert.dismissStyle             = WYAPopupDismissStyleShrink;
@@ -142,7 +151,7 @@
                                                                 textFont:nil
                                                                  handler:^{
                                                                      [[UIApplication sharedApplication]
-                                                                         openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                                                                      openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
                                                                  }];
 
     WYAAlertAction * cancelAction = [WYAAlertAction wya_actionWithTitle:@"取消"
@@ -160,88 +169,9 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-- (void)closeButtonClick {
-    [self endRecordingVideo];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)flashButtonClick:(UIButton *)flashButton {
-    flashButton.selected = !flashButton.selected;
-    if (flashButton.selected) {
-        [self.videoTool openFlash];
-    } else {
-        [self.videoTool closeFlash];
-    }
-}
-
-- (void)flashLightButtonClick:(UIButton *)button {
-    button.selected = !button.selected;
-    if (button.selected) {
-        [self.videoTool openFlashLight];
-    } else {
-        [self.videoTool closeFlashLight];
-    }
-}
-
-- (void)cameraButtonClick:(UIButton *)cameraButton {
-    cameraButton.selected = !cameraButton.selected;
-    if (cameraButton.selected) {
-        [self.videoTool changeCameraInputDeviceisFront:YES];
-    } else {
-        [self.videoTool changeCameraInputDeviceisFront:NO];
-    }
-}
-
-- (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress {
-    if (longPress.state == UIGestureRecognizerStateBegan) {
-        [self startTimer];
-        [self.videoTool startCapture];
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
-                         }];
-
-    } else if (longPress.state == UIGestureRecognizerStateEnded) {
-        [self endRecordingVideo];
-        [self.videoTool stopRecordFunction];
-
-        [UIView animateWithDuration:0.2
-            animations:^{ self.progressView.transform = CGAffineTransformIdentity; }
-            completion:^(BOOL finished) {
-
-                if (self.videoTool.videoPath) {
-                    self.placeholdImageView.hidden = NO;
-                    NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
-                    self.player                    = [AVPlayer playerWithURL:url];
-                    AVPlayerLayer * layer          = [AVPlayerLayer playerLayerWithPlayer:self.player];
-                    layer.videoGravity             = AVLayerVideoGravityResizeAspectFill;
-                    layer.frame                    = self.placeholdImageView.frame;
-                    layer.backgroundColor          = [UIColor blackColor].CGColor;
-                    [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
-                    [self.player play];
-                    //注册通知
-                    [[NSNotificationCenter defaultCenter]
-                        addObserver:self
-                           selector:@selector(runLoopTheMovie:)
-                               name:AVPlayerItemDidPlayToEndTimeNotification
-                             object:nil];
-                }
-            }];
-    }
-}
-
 - (void)endRecordingVideo {
     [self stopTimer];
     [self.videoTool stopCapture];
-}
-
-- (void)takingPictures {
-    [self.videoTool startTakingPhoto:^(UIImage * image) {
-        self.placeholdImageView.hidden = NO;
-        self.placeholdImageView.image  = image;
-        [self endRecordingVideo];
-
-    }];
 }
 
 - (void)cancelClick {
@@ -283,22 +213,15 @@
                              }];
 }
 
-- (void)runLoopTheMovie:(NSNotification *)n {
-    AVPlayerItem * p = [n object];
-    [p seekToTime:kCMTimeZero];
-
-    [self.player play];
-}
-
 - (void)startTimer {
     CGFloat signleTime = self.time / 360;
     self.timeCount     = 0;
     self.timeMargin    = signleTime;
     self.timer         = [NSTimer scheduledTimerWithTimeInterval:signleTime
-                                                  target:self
-                                                selector:@selector(updateProgress)
-                                                userInfo:nil
-                                                 repeats:YES];
+                                                          target:self
+                                                        selector:@selector(updateProgress)
+                                                        userInfo:nil
+                                                         repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
@@ -320,11 +243,94 @@
     self.progressView.progress = progress;
 }
 
-#pragma mark - Public Method -
-- (void)clearCache {
-    NSFileManager * fileManage = [NSFileManager defaultManager];
-    NSError * error;
-    [fileManage removeItemAtPath:[self.videoTool getVideoPathCache] error:&error];
+
+#pragma mark ======= Event
+- (void)closeButtonClick {
+    [self endRecordingVideo];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)flashButtonClick:(UIButton *)flashButton {
+    flashButton.selected = !flashButton.selected;
+    if (flashButton.selected) {
+        [self.videoTool openFlash];
+    } else {
+        [self.videoTool closeFlash];
+    }
+}
+
+- (void)flashLightButtonClick:(UIButton *)button {
+    button.selected = !button.selected;
+    if (button.selected) {
+        [self.videoTool openFlashLight];
+    } else {
+        [self.videoTool closeFlashLight];
+    }
+}
+
+- (void)cameraButtonClick:(UIButton *)cameraButton {
+    cameraButton.selected = !cameraButton.selected;
+    if (cameraButton.selected) {
+        [self.videoTool changeCameraInputDeviceisFront:YES];
+    } else {
+        [self.videoTool changeCameraInputDeviceisFront:NO];
+    }
+}
+
+#pragma mark ======= GestureRecognizer Event
+- (void)startRecordingVideo:(UILongPressGestureRecognizer *)longPress {
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        [self startTimer];
+        [self.videoTool startCapture];
+        [UIView animateWithDuration:0.2
+                         animations:^{
+                             self.progressView.transform = CGAffineTransformMakeScale(1.2, 1.2);
+                         }];
+
+    } else if (longPress.state == UIGestureRecognizerStateEnded) {
+        [self endRecordingVideo];
+        [self.videoTool stopRecordFunction];
+
+        [UIView animateWithDuration:0.2
+                         animations:^{ self.progressView.transform = CGAffineTransformIdentity; }
+                         completion:^(BOOL finished) {
+
+                             if (self.videoTool.videoPath) {
+                                 self.placeholdImageView.hidden = NO;
+                                 NSURL * url                    = [NSURL fileURLWithPath:self.videoTool.videoPath];
+                                 self.player                    = [AVPlayer playerWithURL:url];
+                                 AVPlayerLayer * layer          = [AVPlayerLayer playerLayerWithPlayer:self.player];
+                                 layer.videoGravity             = AVLayerVideoGravityResizeAspectFill;
+                                 layer.frame                    = self.placeholdImageView.frame;
+                                 layer.backgroundColor          = [UIColor blackColor].CGColor;
+                                 [self.placeholdImageView.layer insertSublayer:layer atIndex:0];
+                                 [self.player play];
+                                 //注册通知
+                                 [[NSNotificationCenter defaultCenter]
+                                  addObserver:self
+                                  selector:@selector(runLoopTheMovie:)
+                                  name:AVPlayerItemDidPlayToEndTimeNotification
+                                  object:nil];
+                             }
+                         }];
+    }
+}
+
+- (void)takingPictures {
+    [self.videoTool startTakingPhoto:^(UIImage * image) {
+        self.placeholdImageView.hidden = NO;
+        self.placeholdImageView.image  = image;
+        [self endRecordingVideo];
+
+    }];
+}
+
+#pragma mark ======= Notifation
+- (void)runLoopTheMovie:(NSNotification *)n {
+    AVPlayerItem * p = [n object];
+    [p seekToTime:kCMTimeZero];
+
+    [self.player play];
 }
 
 #pragma mark - Setter -
@@ -444,34 +450,34 @@
 - (WYAProgressView *)progressView {
     if (!_progressView) {
         _progressView = [[WYAProgressView alloc]
-                initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
-                                         ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
-                                         80 * SizeAdapter, 80 * SizeAdapter)
-            progressViewStyle:WYAProgressViewStyleCircle];
+                         initWithFrame:CGRectMake((ScreenWidth - 80 * SizeAdapter) / 2,
+                                                  ScreenHeight - WYABottomHeight - 80 * SizeAdapter - 30,
+                                                  80 * SizeAdapter, 80 * SizeAdapter)
+                         progressViewStyle:WYAProgressViewStyleCircle];
         _progressView.borderWidth         = 10 * SizeAdapter;
         _progressView.layer.cornerRadius  = 40 * SizeAdapter;
         _progressView.layer.masksToBounds = YES;
         _progressView.backgroundImage     = [UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)];
         if (self.cameraType == WYACameraTypeAll) {
             UITapGestureRecognizer * tap =
-                [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                        action:@selector(takingPictures)];
+            [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(takingPictures)];
             [_progressView addGestureRecognizer:tap];
 
             UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]
-                initWithTarget:self
-                        action:@selector(startRecordingVideo:)];
+                                                        initWithTarget:self
+                                                        action:@selector(startRecordingVideo:)];
             [_progressView addGestureRecognizer:longPress];
             [longPress requireGestureRecognizerToFail:tap];
         } else if (self.cameraType == WYACameraTypeImage) {
             UITapGestureRecognizer * tap =
-                [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                        action:@selector(takingPictures)];
+            [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                    action:@selector(takingPictures)];
             [_progressView addGestureRecognizer:tap];
         } else {
             UILongPressGestureRecognizer * longPress = [[UILongPressGestureRecognizer alloc]
-                initWithTarget:self
-                        action:@selector(startRecordingVideo:)];
+                                                        initWithTarget:self
+                                                        action:@selector(startRecordingVideo:)];
             [_progressView addGestureRecognizer:longPress];
         }
     }
@@ -489,7 +495,7 @@
     if (!_placeholdImageView) {
         _placeholdImageView = ({
             WYACameraPreviewImageView * object =
-                [[WYACameraPreviewImageView alloc] initWithFrame:self.view.bounds];
+            [[WYACameraPreviewImageView alloc] initWithFrame:self.view.bounds];
             object.userInteractionEnabled = YES;
             object.hidden                 = YES;
             WeakSelf(weakSelf);
@@ -514,19 +520,19 @@
                 }
 
                 WYAImageCropViewController * vc =
-                    [[WYAImageCropViewController alloc] initWithImage:previewImage];
+                [[WYAImageCropViewController alloc] initWithImage:previewImage];
                 vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
                     [vc dismissViewControllerAnimated:NO
                                            completion:^{
                                                [strongSelf
-                                                   dismissViewControllerAnimated:YES
-                                                                      completion:^{
-                                                                          if (strongSelf
-                                                                                  .takePhoto) {
-                                                                              strongSelf.takePhoto(
-                                                                                  image, self.videoTool.imagePath);
-                                                                          }
-                                                                      }];
+                                                dismissViewControllerAnimated:YES
+                                                completion:^{
+                                                    if (strongSelf
+                                                        .takePhoto) {
+                                                        strongSelf.takePhoto(
+                                                                             image, self.videoTool.imagePath);
+                                                    }
+                                                }];
                                            }];
                 };
                 [strongSelf presentViewController:vc animated:YES completion:nil];

@@ -71,7 +71,7 @@ static CGFloat sliderSpace  = 10;
     [self.sliderButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.mas_centerY);
         make.centerX.mas_equalTo(self.bgProgressView.mas_left)
-            .with.offset(self.value * self.bgProgressView.cmam_width);
+        .with.offset(self.value * self.bgProgressView.cmam_width);
         make.size.mas_equalTo(CGSizeMake(20 * SizeAdapter, 20 * SizeAdapter));
     }];
 }
@@ -84,8 +84,8 @@ static CGFloat sliderSpace  = 10;
     [self addSubview:self.sliderButton];
 
     UIPanGestureRecognizer * pan =
-        [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(panClick:)];
+    [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(panClick:)];
     [self.sliderButton addGestureRecognizer:pan];
     _isFastForward = NO;
 }
@@ -181,18 +181,10 @@ static CGFloat sliderSpace  = 10;
     if (!_sliderButton) {
         _sliderButton = [WYAVideoSliderButton buttonWithType:UIButtonTypeCustom];
         [_sliderButton
-            setImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)]
-            forState:UIControlStateNormal];
+         setImage:[UIImage loadBundleImage:@"yuan" ClassName:NSStringFromClass(self.class)]
+         forState:UIControlStateNormal];
     }
     return _sliderButton;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

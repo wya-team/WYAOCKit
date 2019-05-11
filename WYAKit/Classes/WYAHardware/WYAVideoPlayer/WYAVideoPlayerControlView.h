@@ -81,19 +81,20 @@
 @end
 
 @interface WYAVideoPlayerControlView : UIView
-
-/**
- 放大按钮
- */
+/// 放大按钮
 @property (nonatomic, strong) UIButton * zoomButton;
-@property (nonatomic, strong) UIButton * backButton; //返回按钮
+/// 返回按钮
+@property (nonatomic, strong) UIButton * backButton;
 @property (nonatomic, weak) id<VideoControlDelegate> videoControlDelegate;
-
-/**
- 是否需要单击手势
- */
+/// 是否需要单击手势
 @property (nonatomic, assign) BOOL oneFingerClick;
 
+/**
+ 初始化
+
+ @param item 模型
+ @return self
+ */
 - (instancetype)initWithPlayItem:(WYAVideoItem *)item;
 
 /**

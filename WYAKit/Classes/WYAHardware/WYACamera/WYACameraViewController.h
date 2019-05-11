@@ -10,40 +10,24 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 };
 
 @interface WYACameraViewController : UIViewController
-
-/**
- 获取拍摄照片
- */
+/// 获取拍摄照片
 @property (nonatomic, copy) void (^takePhoto)(UIImage * photo, NSString * imagePath);
-
-/**
- 获取拍摄视频
- */
+/// 获取拍摄视频
 @property (nonatomic, copy) void (^takeVideo)(NSString * videoPath);
-
-/**
- 设置录制时间
- */
+/// 设置录制时间
 @property (nonatomic, assign) CGFloat time;
-
-/**
- 录制视频质量
- */
+/// 录制视频质量
 @property (nonatomic, assign) WYAVideoPreset preset;
-
-/**
- 是否保存图片或视频至相册
- */
+/// 是否保存图片或视频至相册
 @property (nonatomic, assign) BOOL saveAblum;
-
-/**
- 相册名
- */
+/// 相册名
 @property (nonatomic, copy) NSString * albumName;
+
 /**
  初始化
 
  @param type 相机类型
+ @param cameraOrientation 相机朝向
  @return self
  */
 - (instancetype)initWithType:(WYACameraType)type cameraOrientation:(WYACameraOrientation)cameraOrientation;

@@ -48,7 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param redundantAudio 是否成功转化后删除最初的那个音频
  @return 是否成功转化
  */
-- (BOOL)wya_turnAmrAudioWithWavPath:(NSString *)wavPath amrPath:(NSString *)amrPath DeleteRedundantAudio:(BOOL)redundantAudio;
+- (BOOL)wya_turnAmrAudioWithWavPath:(NSString *)wavPath
+                            amrPath:(NSString *)amrPath
+               DeleteRedundantAudio:(BOOL)redundantAudio;
 
 /**
  amr格式转wav格式
@@ -58,7 +60,9 @@ NS_ASSUME_NONNULL_BEGIN
  @param redundantAudio 是否成功转化后删除最初的那个音频
  @return 是否成功转化
  */
-- (BOOL)wya_turnWavAudioWithAmrPath:(NSString *)amrPath wavPath:(NSString *)wavPath DeleteRedundantAudio:(BOOL)redundantAudio;
+- (BOOL)wya_turnWavAudioWithAmrPath:(NSString *)amrPath
+                            wavPath:(NSString *)wavPath
+               DeleteRedundantAudio:(BOOL)redundantAudio;
 
 /**
  播放音频
@@ -70,7 +74,11 @@ NS_ASSUME_NONNULL_BEGIN
  @param error 错误
  @return 是否成功播放
  */
-- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url volume:(CGFloat)volume numberOfLoops:(NSInteger)numberOfLoops currentTime:(NSTimeInterval)currentTime error:(NSError *)error;
+- (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url
+                           volume:(CGFloat)volume
+                    numberOfLoops:(NSInteger)numberOfLoops
+                      currentTime:(NSTimeInterval)currentTime
+                            error:(NSError *)error;
 
 /**
  暂停播放

@@ -10,30 +10,15 @@
 #import <UIKit/UIKit.h>
 
 @interface WYAVideoItem : NSObject
-
-/**
- 视频url（必传属性）
- */
+/// 视频url（必传属性）
 @property (nonatomic, strong) NSURL * videoUrl;
-
-/**
- 父视图（必传属性）
- */
+/// 父视图（必传属性）
 @property (nonatomic, strong) UIView * superView;
-
-/**
- 位置（必传属性）
- */
+/// 位置（必传属性）
 @property (nonatomic, assign) CGRect rect;
-
-/**
- 从哪个时间点开始（单位：s）
- */
+/// 从哪个时间点开始（单位：s）
 @property (nonatomic, assign) NSInteger seekTime;
-
-/**
- 是否需要自动播放
- */
+/// 是否需要自动播放
 @property (nonatomic, assign) BOOL seekToTimeAutoPlay;
 
 @end

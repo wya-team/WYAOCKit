@@ -14,9 +14,7 @@
  */
 
 #import "WYAAudioRecoder.h"
-
 #import <AVKit/AVKit.h>
-
 #import <NTYAmrConverter/NTYAmrConverter.h>
 
 @interface WYAAudioRecoder () <AVAudioRecorderDelegate, AVAudioPlayerDelegate>
@@ -37,6 +35,7 @@
     return recoder;
 }
 
+#pragma mark ======= Private Method
 - (AVAudioRecorder *)createAudioRecorderWithUrl:(NSURL *)url {
     NSError * recorderError;
     AVAudioRecorder * audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[NTYAmrCoder audioRecorderSettings] error:&recorderError];
@@ -185,15 +184,15 @@
 - (NSDictionary *)setting {
     // 录音参数
     NSDictionary * setting = [NSDictionary dictionaryWithObjectsAndKeys:
-                                               [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,        // 编码格式
-                                               [NSNumber numberWithFloat:8000], AVSampleRateKey,                     //采样率
-                                               [NSNumber numberWithInt:2], AVNumberOfChannelsKey,                    //通道数
-                                               [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,                  //采样位数(PCM专属)
-                                               [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,            //是否允许音频交叉(PCM专属)
-                                               [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,                  //采样信号是否是浮点数(PCM专属)
-                                               [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,              //是否是大端存储模式(PCM专属)
-                                               [NSNumber numberWithInt:AVAudioQualityMax], AVEncoderAudioQualityKey, //音质
-                                               nil];
+                              [NSNumber numberWithInt:kAudioFormatLinearPCM], AVFormatIDKey,        // 编码格式
+                              [NSNumber numberWithFloat:8000], AVSampleRateKey,                     //采样率
+                              [NSNumber numberWithInt:2], AVNumberOfChannelsKey,                    //通道数
+                              [NSNumber numberWithInt:16], AVLinearPCMBitDepthKey,                  //采样位数(PCM专属)
+                              [NSNumber numberWithBool:NO], AVLinearPCMIsNonInterleaved,            //是否允许音频交叉(PCM专属)
+                              [NSNumber numberWithBool:NO], AVLinearPCMIsFloatKey,                  //采样信号是否是浮点数(PCM专属)
+                              [NSNumber numberWithBool:NO], AVLinearPCMIsBigEndianKey,              //是否是大端存储模式(PCM专属)
+                              [NSNumber numberWithInt:AVAudioQualityMax], AVEncoderAudioQualityKey, //音质
+                              nil];
     return setting;
 }
 

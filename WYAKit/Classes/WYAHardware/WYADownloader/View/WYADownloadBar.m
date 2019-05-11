@@ -14,7 +14,7 @@
 @end
 
 @implementation WYADownloadBar
-
+#pragma mark - LifeCircle -
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -33,7 +33,7 @@
     CGFloat selectButton_Width  = (self.cmam_width - 1) / 2;
     CGFloat selectButton_Height = self.cmam_height;
     self.selectButton.frame =
-        CGRectMake(selectButton_X, selectButton_Y, selectButton_Width, selectButton_Height);
+    CGRectMake(selectButton_X, selectButton_Y, selectButton_Width, selectButton_Height);
 
     CGFloat line_X      = CGRectGetMaxX(self.selectButton.frame);
     CGFloat line_Y      = self.cmam_height * 0.2;
@@ -46,9 +46,10 @@
     CGFloat deleteButton_Width  = (self.cmam_width - 1) / 2;
     CGFloat deleteButton_Height = self.cmam_height;
     self.deleteButton.frame =
-        CGRectMake(deleteButton_X, deleteButton_Y, deleteButton_Width, deleteButton_Height);
+    CGRectMake(deleteButton_X, deleteButton_Y, deleteButton_Width, deleteButton_Height);
 }
 
+#pragma mark - Setter -
 - (void)setArrayCount:(NSUInteger)arrayCount {
     if (arrayCount > 0) {
         [self.deleteButton setTitle:[NSString stringWithFormat:@"删除(%d)", arrayCount]

@@ -18,22 +18,35 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 };
 
 @interface WYADownloadModel : NSObject
-
-@property (nonatomic, copy) NSString * urlString;                 //下载地址（需要解码）
-@property (nonatomic, copy, readonly) NSString * destinationPath; //本地文件路径
-@property (nonatomic, copy) NSString * title;                     //下载内容标题
-
+/// 下载地址（需要解码）
+@property (nonatomic, copy) NSString * urlString;
+/// 本地文件路径
+@property (nonatomic, copy, readonly) NSString * destinationPath;
+/// 下载内容标题
+@property (nonatomic, copy) NSString * title;
+/// 文件大小
 @property (nonatomic, copy) NSString * fileSize;
-@property (nonatomic, assign) CGFloat progress;               //进度
-@property (nonatomic, copy) NSString * speed;                 //下载速度，直接显示就好
-@property (nonatomic, assign) WYADownloadState downloadState; //下载状态
+/**************KVO监听**************/
+/// 进度
+@property (nonatomic, assign) CGFloat progress;
+/// 下载速度，直接显示就好
+@property (nonatomic, copy) NSString * speed;
+/// 下载状态
+@property (nonatomic, assign) WYADownloadState downloadState;
 
-@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask; //下载任务
+
+/// 下载任务
+@property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask;
+/// 下载保存数据
 @property (nonatomic, strong) NSData * downloadData;
-
+/// 图片第一帧图片(用于储存数据库)
+@property (nonatomic, strong) NSData * imageData;
+/// 视频第一帧图片
 @property (nonatomic, strong) UIImage * videoImage;
-@property (nonatomic, strong) NSData * imageData; //图片第一帧图片(用于储存数据库)
+
 @property (nonatomic, copy) void (^imageCallback)(UIImage * image);
+
+
 //以下方法请勿调用
 - (void)startDownloadWithSession:(NSURLSession *)session;
 - (void)suspendDownload;
@@ -41,7 +54,7 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 - (void)giveupDownload;
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
                             handle:
-                                (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle;
+(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle;
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;

@@ -36,10 +36,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAVideoSlider : UIView
 @property (nonatomic, weak) id<WYAVideoSliderDelegate> delegate;
-
-@property (nonatomic, assign) CGFloat value; //滑杆进度
+/// 滑杆进度
+@property (nonatomic, assign) CGFloat value;
+/// 缓冲进度
 @property (nonatomic, assign) CGFloat bufferValue;
-@property (nonatomic, assign, readonly) BOOL isFastForward; //是否快进，否则就是快退
+/// 是否快进，否则就是快退
+@property (nonatomic, assign, readonly) BOOL isFastForward;
 @end
 
 NS_ASSUME_NONNULL_END

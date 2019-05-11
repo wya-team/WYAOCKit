@@ -16,7 +16,7 @@
 @end
 
 @implementation WYAVideoFastView
-
+#pragma mark - LifeCircle -
 - (instancetype)init {
     self = [super init];
     if (self) { [self setup]; }
@@ -66,12 +66,12 @@
     if (isSpeed) {
         //快进
         self.imageView.image =
-            [UIImage loadBundleImage:@"icon_quick-retreat"
-                           ClassName:NSStringFromClass(self.class)];
+        [UIImage loadBundleImage:@"icon_quick-retreat"
+                       ClassName:NSStringFromClass(self.class)];
     } else {
         self.imageView.image =
-            [UIImage loadBundleImage:@"icon_fast-forward"
-                           ClassName:NSStringFromClass(self.class)];
+        [UIImage loadBundleImage:@"icon_fast-forward"
+                       ClassName:NSStringFromClass(self.class)];
     }
 }
 
@@ -79,7 +79,7 @@
     self.progressLabel.text = text;
     NSArray * array         = [text componentsSeparatedByString:@"/"];
     NSMutableAttributedString * textAttributed =
-        [[NSMutableAttributedString alloc] initWithString:text];
+    [[NSMutableAttributedString alloc] initWithString:text];
     [textAttributed addAttribute:NSForegroundColorAttributeName
                            value:[UIColor redColor]
                            range:[text rangeOfString:[array firstObject]]];
@@ -126,13 +126,5 @@
     }
     return _progressView;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

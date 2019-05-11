@@ -14,7 +14,7 @@
 @end
 
 @implementation WYACameraPreviewImageView
-
+#pragma mark ======= LifeCircle
 - (instancetype)init {
     self = [super init];
     if (self) { [self setup]; }
@@ -39,14 +39,14 @@
     [self.cancelButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.editButton.mas_centerY);
         make.right.mas_equalTo(self.editButton.mas_left)
-            .with.offset(-(self.cmam_width - 180 * SizeAdapter) / 4);
+        .with.offset(-(self.cmam_width - 180 * SizeAdapter) / 4);
         make.size.mas_equalTo(CGSizeMake(60 * SizeAdapter, 60 * SizeAdapter));
     }];
 
     [self.finishButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.editButton.mas_centerY);
         make.left.mas_equalTo(self.editButton.mas_right)
-            .with.offset((self.cmam_width - 180 * SizeAdapter) / 4);
+        .with.offset((self.cmam_width - 180 * SizeAdapter) / 4);
         make.size.mas_equalTo(CGSizeMake(60 * SizeAdapter, 60 * SizeAdapter));
     }];
 }
@@ -108,13 +108,5 @@
     }
     return _editButton;
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

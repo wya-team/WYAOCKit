@@ -16,7 +16,7 @@
 @end
 
 @implementation WYABrightnessView
-
+#pragma mark ======= LifeCircle
 + (instancetype)sharedBrightnessView {
     static WYABrightnessView * instance;
     static dispatch_once_t onceToken;
@@ -54,7 +54,7 @@
     CGFloat titleLabel_Width  = self.cmam_width;
     CGFloat titleLabel_Height = 30;
     self.titleLabel.frame =
-        CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
+    CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
 
     self.imageView.center    = CGPointMake(155 * 0.5, 155 * 0.5);
     CGFloat imageView_Width  = 79;
@@ -69,6 +69,7 @@
 }
 
 #pragma mark - Private Method -
+#pragma mark ======= UI
 - (void)setup {
     self.layer.cornerRadius  = 5.f;
     self.layer.masksToBounds = YES;
@@ -100,6 +101,21 @@
     [self updateLongView:[UIScreen mainScreen].brightness];
 }
 
+- (void)updateLongView:(CGFloat)sound {
+    CGFloat stage   = 1 / 15.0;
+    NSInteger level = sound / stage;
+
+    for (int i = 0; i < self.tips.count; i++) {
+        UIImageView * img = self.tips[i];
+
+        if (i <= level) {
+            img.hidden = NO;
+        } else {
+            img.hidden = YES;
+        }
+    }
+}
+
 - (void)addNotification {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateLayer:)
@@ -113,26 +129,6 @@
                                options:NSKeyValueObservingOptionNew
                                context:NULL];
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    CGFloat sound      = [change[@"new"] floatValue];
-    Window.windowLevel = UIWindowLevelAlert + 1000;
-    [self appearSoundView];
-    [self updateLongView:sound];
-}
-
-- (void)updateLayer:(NSNotification *)notify {
-    [Window bringSubviewToFront:self];
-
-    self.orientationDidChange = YES;
-    [self setNeedsLayout];
-    [self layoutIfNeeded];
-}
-
-#pragma mark - Methond
 
 - (void)appearSoundView {
     if (self.alpha == 0.0) {
@@ -149,24 +145,26 @@
     }
 }
 
-#pragma mark - Update View
 
-- (void)updateLongView:(CGFloat)sound {
-    CGFloat stage   = 1 / 15.0;
-    NSInteger level = sound / stage;
-
-    for (int i = 0; i < self.tips.count; i++) {
-        UIImageView * img = self.tips[i];
-
-        if (i <= level) {
-            img.hidden = NO;
-        } else {
-            img.hidden = YES;
-        }
-    }
+#pragma mark ======= KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    CGFloat sound      = [change[@"new"] floatValue];
+    Window.windowLevel = UIWindowLevelAlert + 1000;
+    [self appearSoundView];
+    [self updateLongView:sound];
 }
 
-#pragma mark - Setter -
+#pragma mark ======= Notifation
+- (void)updateLayer:(NSNotification *)notify {
+    [Window bringSubviewToFront:self];
+
+    self.orientationDidChange = YES;
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
+}
 
 #pragma mark - Getter -
 - (UILabel *)titleLabel {
@@ -188,7 +186,7 @@
         _imageView = ({
             UIImageView * object = [[UIImageView alloc] init];
             object.image         = [UIImage loadBundleImage:@"icon_video_brightness"
-                                          ClassName:NSStringFromClass(self.class)];
+                                                  ClassName:NSStringFromClass(self.class)];
             object;
         });
     }
@@ -200,21 +198,13 @@
         _gridView = ({
             UIView * object = [[UIView alloc] init];
             object.backgroundColor =
-                [UIColor colorWithRed:0.25f
-                                green:0.22f
-                                 blue:0.21f
-                                alpha:1.00f];
+            [UIColor colorWithRed:0.25f
+                            green:0.22f
+                             blue:0.21f
+                            alpha:1.00f];
             object;
         });
     }
     return _gridView;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
-
 @end

@@ -10,58 +10,7 @@
 #define Config_pch
 #import <UIKit/UIKit.h>
 #import "WYAReadMeViewController.h"
-/*********** WYAKit **************/
-
-#import <WYAKit/UIViewController+WYADrawerView.h>
-
-#import <WYAKit/WYATextView.h>
-#import <WYAKit/WYANavBar.h>
-#import <WYAKit/Category.h>
-#import <WYAKit/WYAPageController.h>
-#import <WYAKit/WYABannerView.h>
-#import <WYAKit/WYANoticeBar.h>
-#import <WYAKit/WYAImageBrowser.h>
-#import <WYAKit/WYASlider.h>
-#import <WYAKit/WYAPaginationView.h>
-#import <WYAKit/WYAOptionMenu.h>
-#import <WYAKit/WYAOptionMenuModel.h>
-#import <WYAKit/WYAEditCameraCell.h>
-#import <WYAKit/WYATableViewCell.h>
-
-
-#import <WYAKit/WYAAlertController.h>
-#import <WYAKit/WYAPickerView.h>
-#import <WYAKit/WYADatePicker.h>
-#import <WYAKit/WYAIMGCode.h>
-#import <WYAKit/WYACameraViewController.h>
-#import <WYAKit/WYAQRCodeViewController.h>
-#import <WYAKit/WYAPhotoBrowser.h>
-#import <WYAKit/WYACard.h>
-#import <WYAKit/WYAShareView.h>
-#import <WYAKit/WYAProgressView.h>
-#import <WYAKit/WYAVideoItem.h>
-#import <WYAKit/WYAVideoPlayerView.h>
-#import <WYAKit/WYAImageCropViewController.h>
-#import <WYAKit/WYADownloader.h>
-#import <WYAKit/WYADownloadModel.h>
-#import <WYAKit/WYASegmentedControl.h>
-#import <WYAKit/WYANumberKeyboard.h>
-#import <WYAKit/WYAClearCache.h>
-
-#import <WYAKit/UIView+WYAToast.h>
-#import <WYAKit/UIView+Gestures.h>
-#import <WYAKit/UIView+WYAAnimation.h>
-#import <WYAKit/UIButton+Category.h>
-#import <WYAKit/NSNotificationCenter+WYANotificationCenter.h>
-#import <WYAKit/WYACustomPopoverBackgroundView.h>
-#import <WYAKit/WYACustomSearchBar.h>
-#import <WYAKit/WYADownloaderViewController.h>
-#import <WYAKit/WYAAudioRecoder.h>
-#import <WYAKit/WYAImageComposeViewController.h>
-
-#import <WYAKit/WYAFloatBallManager.h>
-#import <WYAKit/WYATransitionPop.h>
-#import <WYAKit/WYATransitionPush.h>
+#import <WYAKit/WYAKit.h>
 /******************************常用宏*******************/
 #import "CustomColor.h"
 //#import <Realm/Realm.h>

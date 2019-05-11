@@ -16,12 +16,14 @@
 @implementation WYADownloadModel {
     NSNumber * startTime;
 }
+#pragma mark - LifeCircle -
 - (instancetype)init {
     self = [super init];
     if (self) { _downloadState = WYADownloadStateDownloading; }
     return self;
 }
 
+#pragma mark - Public Method -
 - (void)startDownloadWithSession:(NSURLSession *)session {
     NSAssert(self.urlString, @"下载地址不能为空");
     // 字符串解码
@@ -42,7 +44,7 @@
         if (!self.imageData) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 UIImage * image =
-                    [UIImage wya_getVideoPreViewImage:[NSURL URLWithString:self.urlString]];
+                [UIImage wya_getVideoPreViewImage:[NSURL URLWithString:self.urlString]];
                 self.imageData = UIImagePNGRepresentation(image);
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     self.videoImg = image;
@@ -60,7 +62,7 @@
 
         if (!self.localPath) {
             NSString * path =
-                [floderPath stringByAppendingPathComponent:self.urlString.lastPathComponent];
+            [floderPath stringByAppendingPathComponent:self.urlString.lastPathComponent];
             if (path.pathExtension.length < 1) {
                 path = [path stringByAppendingPathExtension:@"mp4"];
             }
@@ -95,7 +97,7 @@
 
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
                             handle:
-                                (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle {
+(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle {
     //    NSFileManager * fileManager = [NSFileManager defaultManager];
     //    NSError * fileError;
     //    BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:[NSURL
@@ -127,27 +129,27 @@
         self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
         if (totalBytesExpectedToWrite > 1024 * 1024 * 1024) {
             self.fileSize =
-                [NSString stringWithFormat:@"%2.fGB", (double)totalBytesExpectedToWrite /
-                                                          (1024 * 1024 * 1024)];
+            [NSString stringWithFormat:@"%2.fGB", (double)totalBytesExpectedToWrite /
+             (1024 * 1024 * 1024)];
         } else if (totalBytesExpectedToWrite > 1024 * 1024) {
             self.fileSize = [NSString
-                stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / (1024 * 1024)];
+                             stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / (1024 * 1024)];
         } else if (totalBytesExpectedToWrite > 1024) {
             self.fileSize =
-                [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / 1024];
+            [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / 1024];
         } else {
             self.fileSize =
-                [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite];
+            [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite];
         }
         if (self->startTime) {
             CFAbsoluteTime startTimeValue = [self->startTime doubleValue];
 
             CGFloat downloadSpeed =
-                (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
+            (CGFloat)totalBytesWritten / (CGFloat)(CFAbsoluteTimeGetCurrent() - startTimeValue);
 
             if (downloadSpeed > 1024 * 1024 * 1024) {
                 self.speed =
-                    [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
+                [NSString stringWithFormat:@"%.2fGB/s", downloadSpeed / (1024 * 1024 * 1024)];
             } else if (downloadSpeed > 1024 * 1024) {
                 self.speed = [NSString stringWithFormat:@"%.2fMB/s", downloadSpeed / (1024 * 1024)];
             } else if (downloadSpeed > 1024) {

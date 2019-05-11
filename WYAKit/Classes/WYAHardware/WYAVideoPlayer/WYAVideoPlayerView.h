@@ -37,8 +37,8 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 @interface WYAVideoPlayerView : UIView
 
 @property (nonatomic, weak) id<WYAVideoPlayerDelegate> playerDelegate;
-
-@property (nonatomic, assign, readonly) PlayerStatus status; //获取视频当前的状态
+/// 获取视频当前的状态
+@property (nonatomic, assign, readonly) PlayerStatus status;
 
 /**
  是否需要单击手势（用来触发控制栏的）

@@ -14,7 +14,7 @@
 #import "WYAProgressView.h"
 
 @interface WYADownloadingViewController () <WYANavBarDelegate, UITableViewDelegate,
-                                            UITableViewDataSource>
+UITableViewDataSource>
 @property (nonatomic, strong) WYADownloader * downloader;
 @property (nonatomic, strong) WYANavBar * customNavBar;
 @property (nonatomic, strong) UILabel * cacheLabel;
@@ -30,7 +30,7 @@
 @end
 
 @implementation WYADownloadingViewController
-
+#pragma mark - LifeCircle -
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -54,20 +54,20 @@
     CGFloat customNavBar_Width  = ScreenWidth;
     CGFloat customNavBar_Height = WYATopHeight;
     self.customNavBar.frame =
-        CGRectMake(customNavBar_X, customNavBar_Y, customNavBar_Width, customNavBar_Height);
+    CGRectMake(customNavBar_X, customNavBar_Y, customNavBar_Width, customNavBar_Height);
 
     CGFloat cacheLabel_X      = 0;
     CGFloat cacheLabel_Y      = self.view.cmam_height - 30 - WYABottomHeight;
     CGFloat cacheLabel_Width  = ScreenWidth;
     CGFloat cacheLabel_Height = 30;
     self.cacheLabel.frame =
-        CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
+    CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
 
     CGFloat tableView_X     = 0;
     CGFloat tableView_Y     = WYATopHeight;
     CGFloat tableView_Width = ScreenWidth;
     CGFloat tableView_Height =
-        self.view.cmam_height - WYATopHeight - self.cacheLabel.cmam_height - WYABottomHeight;
+    self.view.cmam_height - WYATopHeight - self.cacheLabel.cmam_height - WYABottomHeight;
     self.tableView.frame = CGRectMake(tableView_X, tableView_Y, tableView_Width, tableView_Height);
 }
 
@@ -81,7 +81,7 @@
         NSString * useSize = [NSString stringWithFormat:@"%2.fM", size];
         NSString * string  = [NSString stringWithFormat:@"已下载%@,可用空间%@", useSize, folderSize];
         NSMutableAttributedString * text =
-            [[NSMutableAttributedString alloc] initWithString:string];
+        [[NSMutableAttributedString alloc] initWithString:string];
         [text addAttribute:NSForegroundColorAttributeName
                      value:[UIColor redColor]
                      range:[string rangeOfString:useSize]];
@@ -102,7 +102,7 @@
                          CGFloat downloadBar_Width  = self.downloadBar.cmam_width;
                          CGFloat downloadBar_Height = self.downloadBar.cmam_height;
                          self.downloadBar.frame     = CGRectMake(downloadBar_X, downloadBar_Y,
-                                                             downloadBar_Width, downloadBar_Height);
+                                                                 downloadBar_Width, downloadBar_Height);
                      }];
 }
 
@@ -114,7 +114,7 @@
                          CGFloat downloadBar_Width  = self.downloadBar.cmam_width;
                          CGFloat downloadBar_Height = self.downloadBar.cmam_height;
                          self.downloadBar.frame     = CGRectMake(downloadBar_X, downloadBar_Y,
-                                                             downloadBar_Width, downloadBar_Height);
+                                                                 downloadBar_Width, downloadBar_Height);
                      }];
 }
 
@@ -192,8 +192,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     WYADownloadingCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cell"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                    forIndexPath:indexPath];
     return cell;
 }
 
@@ -254,6 +254,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
+#pragma mark - Setter -
 - (void)setIsEdit:(BOOL)isEdit {
     _isEdit = isEdit;
     NSLog(@"isEdit==%d", isEdit);
@@ -280,10 +281,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
             CGFloat cacheLabel_Width  = ScreenWidth;
             CGFloat cacheLabel_Height = 30;
             CGRect rect =
-                CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
+            CGRectMake(cacheLabel_X, cacheLabel_Y, cacheLabel_Width, cacheLabel_Height);
             WYAProgressView * object =
-                [[WYAProgressView alloc] initWithFrame:rect
-                                     progressViewStyle:WYAProgressViewStyleStraight];
+            [[WYAProgressView alloc] initWithFrame:rect
+                                 progressViewStyle:WYAProgressViewStyleStraight];
             object.progressTintColor = [UIColor redColor];
             object.trackTintColor    = random(244, 244, 244, 1);
             object;
@@ -310,8 +311,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (!_tableView) {
         _tableView = ({
             UITableView * object =
-                [[UITableView alloc] initWithFrame:self.view.frame
-                                             style:UITableViewStylePlain];
+            [[UITableView alloc] initWithFrame:self.view.frame
+                                         style:UITableViewStylePlain];
             object.delegate   = self;
             object.dataSource = self;
             [object registerClass:[WYADownloadingCell class] forCellReuseIdentifier:@"cell"];
@@ -330,7 +331,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
             CGFloat downloadBar_Width  = self.view.cmam_width;
             CGFloat downloadBar_Height = 44;
             object.frame =
-                CGRectMake(downloadBar_X, downloadBar_Y, downloadBar_Width, downloadBar_Height);
+            CGRectMake(downloadBar_X, downloadBar_Y, downloadBar_Width, downloadBar_Height);
             object.backgroundColor = [UIColor groupTableViewBackgroundColor];
             WeakSelf(weakSelf);
             object.selectCallback = ^(WYADownloadBar * _Nonnull bar, BOOL isAllSelect) {

@@ -9,10 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface WYAQRCodeViewController : UIViewController
-
-/**
- 获取扫描结果
- */
+/// 获取扫描结果
 @property (nonatomic, copy) void (^scanReault)(NSString * reault);
 
 @end
