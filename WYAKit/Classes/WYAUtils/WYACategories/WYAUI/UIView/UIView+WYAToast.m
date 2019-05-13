@@ -55,7 +55,7 @@
 
     }];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 15 * SizeAdapter, 0, 15 * SizeAdapter));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 22 * SizeAdapter, 0, 22 * SizeAdapter));
     }];
 
     [UIView animateWithDuration:0.3
@@ -110,7 +110,7 @@
         }
     }];
     [label mas_makeConstraints:^(MASConstraintMaker * make) {
-        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 15 * SizeAdapter, 0, 15 * SizeAdapter));
+        make.edges.mas_equalTo(UIEdgeInsetsMake(0, 22 * SizeAdapter, 0, 22 * SizeAdapter));
     }];
 
     [UIView animateWithDuration:0.3
