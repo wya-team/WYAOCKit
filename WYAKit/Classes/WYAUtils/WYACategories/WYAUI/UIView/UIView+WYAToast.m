@@ -16,9 +16,14 @@
 }
 
 + (void)wya_showBottomToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
+    UIView * tagView = [Window viewWithTag:17858629000];
+    if (tagView) {
+        [tagView removeFromSuperview];
+    }
     UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
+    button.tag = 17858629000;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
@@ -73,9 +78,14 @@
 }
 
 + (void)wya_showCenterToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
+    UIView * tagView = [Window viewWithTag:17858629000];
+    if (tagView) {
+        [tagView removeFromSuperview];
+    }
     UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
+    button.tag = 17858629000;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
