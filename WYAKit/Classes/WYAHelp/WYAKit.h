@@ -53,6 +53,7 @@
 
 #import "WYARealmBaseManager.h"
 /****************** UICategory ********************/
+#import "UIControl+category.h"
 #import "UIButton+Category.h"
 #import "UIColor+Category.h"
 #import "UIImage+Catagory.h"

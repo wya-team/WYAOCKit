@@ -12,9 +12,6 @@ typedef void (^ButtonActionCallBack)(UIButton * button);
 
 @interface UIButton (Category)
 
-@property (nonatomic, assign) double debounceTime;// 防抖保护时长，单位s
-@property (nonatomic, assign) double endTime;// 上次事件触发保护期至
-
 - (void)addCallBackAction:(ButtonActionCallBack)action
          forControlEvents:(UIControlEvents)controlEvents;
 
