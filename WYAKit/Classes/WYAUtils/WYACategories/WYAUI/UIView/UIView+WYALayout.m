@@ -324,11 +324,9 @@
 
 //1.提供一个UIView的分类方法，这个方法通过响应者链条获取view所在的控制器
 - (UIViewController *)cmam_parentController
-
 {
     UIResponder * responder = [self nextResponder];
     while (responder) {
-
         if ([responder isKindOfClass:[UIViewController class]]) {
             return (UIViewController *)responder;
         }
