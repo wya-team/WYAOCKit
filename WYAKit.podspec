@@ -56,6 +56,6 @@ TODO: Add long description of the pod here.
   s.dependency 'AliyunOSSiOS'
   s.dependency 'WHDebugTool', '~> 1.7'
   s.dependency 'GPUImage'
-  #暂时未使用到的
+  # 暂时未使用到的
   s.dependency 'YYText'
 end
