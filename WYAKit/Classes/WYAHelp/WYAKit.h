@@ -18,6 +18,7 @@
 #import "ZLPhotoBrowser.h"
 #import "WYAVideoPlayerView.h"
 
+#import "WYAPhotoBrowser.h"
 #import "UIViewController+WYADrawerView.h"
 #import "WYATextView.h"
 #import "WYANavBar.h"

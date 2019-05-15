@@ -6,7 +6,7 @@
 //
 
 #import "WYAPhotoBrowserAlbumCell.h"
-#import "WYAPhotoBrowserAlbumModel.h"
+#import "WYAPhotoBrowserModel.h"
 @interface WYAPhotoBrowserAlbumCell ()
 @property (nonatomic, strong) UIImageView * imgView;
 @property (nonatomic, strong) UILabel * titleLabel;

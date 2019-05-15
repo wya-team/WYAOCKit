@@ -65,42 +65,42 @@
 
 #pragma mark ======= DataSource
 - (void)getDataSource {
-    if (self.collections) {
-        [WYAPhotoBrowserManager screenAssetWithCollection:self.collections resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
-            if (models.count > 0) {
-                self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
-                [self.collectionView reloadData];
-                if (self.dataSource.count < 1) {
-                    return;
-                }
-                [self.collectionView
-                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
-                                                             inSection:0]
-                 atScrollPosition:UICollectionViewScrollPositionBottom
-                 animated:NO];
-            }
-
-        }];
-    } else {
-        [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
-                               AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
-                                       CollectionSort:AssetCollectionStartDate
-                                            assetSort:AssetCreationDate resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
-                                                if (models.count > 0) {
-                                                    self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
-                                                    [self.collectionView reloadData];
-                                                    if (self.dataSource.count < 1) {
-                                                        return;
-                                                    }
-                                                    [self.collectionView
-                                                     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
-                                                                                                 inSection:0]
-                                                     atScrollPosition:UICollectionViewScrollPositionBottom
-                                                     animated:NO];
-                                                }
-                                            }];
-
-    }
+//    if (self.collections) {
+//        [WYAPhotoBrowserManager screenAssetWithCollection:self.collections resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
+//            if (models.count > 0) {
+//                self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
+//                [self.collectionView reloadData];
+//                if (self.dataSource.count < 1) {
+//                    return;
+//                }
+//                [self.collectionView
+//                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
+//                                                             inSection:0]
+//                 atScrollPosition:UICollectionViewScrollPositionBottom
+//                 animated:NO];
+//            }
+//
+//        }];
+//    } else {
+//        [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
+//                               AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
+//                                       CollectionSort:AssetCollectionStartDate
+//                                            assetSort:AssetCreationDate resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
+//                                                if (models.count > 0) {
+//                                                    self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
+//                                                    [self.collectionView reloadData];
+//                                                    if (self.dataSource.count < 1) {
+//                                                        return;
+//                                                    }
+//                                                    [self.collectionView
+//                                                     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
+//                                                                                                 inSection:0]
+//                                                     atScrollPosition:UICollectionViewScrollPositionBottom
+//                                                     animated:NO];
+//                                                }
+//                                            }];
+//
+//    }
 }
 
 #pragma mark--- Private Method

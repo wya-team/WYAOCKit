@@ -37,7 +37,6 @@
     label.font                = FONT(15);
     label.text                = message;
     label.textColor           = [UIColor whiteColor];
-    label.backgroundColor = [UIColor redColor];
     label.textAlignment       = NSTextAlignmentCenter;
     label.numberOfLines       = 0;
     [view addSubview:label];
@@ -100,7 +99,6 @@
     label.font                = [UIFont systemFontOfSize:15 * SizeAdapter];
     label.text                = message;
     label.textColor           = [UIColor whiteColor];
-    label.backgroundColor = [UIColor redColor];
     label.textAlignment       = NSTextAlignmentCenter;
     label.numberOfLines       = 0;
     [view addSubview:label];

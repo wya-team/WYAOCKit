@@ -271,37 +271,37 @@
                                                                         NSInteger inter =
                                                                             [self.textField.text integerValue] - self.dataSource.count;
                                                                         if (inter == 0) { return; }
-                                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                                                            ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
-                                                                            [sheet showPhotoLibrary];
-                                                                        });
-//                                                                        WYAPhotoBrowser * photo =
-//                                                                        [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-//                                                                                                 photoBrowserType:WYAPhotoBrowserTypeAll];
-//                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
-//                                                                            NSLog(@"images==%@", media);
-//                                                                            NSMutableArray * array = [NSMutableArray array];
-//                                                                            for (NSObject * image in media) {
-//                                                                                if ([image isKindOfClass:[UIImage class]]) {
-//                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
-//                                                                                    model.image            = (UIImage *)image;
-//                                                                                    model.sourceType       = WYACameraSourceTypeImage;
-//                                                                                    [array addObject:model];
-//                                                                                }
-//                                                                            }
-//                                                                            [self.dataSource
-//                                                                             insertObjects:array
-//                                                                             atIndexes:[NSIndexSet
-//                                                                                        indexSetWithIndexesInRange:NSMakeRange(
-//                                                                                                                               0,
-//                                                                                                                               media
-//                                                                                                                               .count)]];
-//                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
-//                                                                                self.allImage = YES;
-//                                                                            }
-//                                                                            [self.collectionView reloadData];
-//                                                                        };
-//                                                                        [weakSelf presentViewController:photo animated:YES completion:nil];
+//                                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                                                                            ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
+//                                                                            [sheet showPhotoLibrary];
+//                                                                        });
+                                                                        WYAPhotoBrowser * photo =
+                                                                        [[WYAPhotoBrowser alloc] initWithMaxCount:inter
+                                                                                                 photoBrowserType:WYAPhotoBrowserTypeAll];
+                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
+                                                                            NSLog(@"images==%@", media);
+                                                                            NSMutableArray * array = [NSMutableArray array];
+                                                                            for (NSObject * image in media) {
+                                                                                if ([image isKindOfClass:[UIImage class]]) {
+                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
+                                                                                    model.image            = (UIImage *)image;
+                                                                                    model.sourceType       = WYACameraSourceTypeImage;
+                                                                                    [array addObject:model];
+                                                                                }
+                                                                            }
+                                                                            [self.dataSource
+                                                                             insertObjects:array
+                                                                             atIndexes:[NSIndexSet
+                                                                                        indexSetWithIndexesInRange:NSMakeRange(
+                                                                                                                               0,
+                                                                                                                               media
+                                                                                                                               .count)]];
+                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
+                                                                                self.allImage = YES;
+                                                                            }
+                                                                            [self.collectionView reloadData];
+                                                                        };
+                                                                        [weakSelf presentViewController:photo animated:YES completion:nil];
 
                                                                     }];
         [alert wya_addAction:defaultAction];

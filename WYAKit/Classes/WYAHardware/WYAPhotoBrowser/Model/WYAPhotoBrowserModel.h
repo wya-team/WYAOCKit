@@ -9,6 +9,15 @@
 #import <Photos/Photos.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface WYAPhotoBrowserAlbumModel : NSObject
+/// 标题
+@property (nonatomic, copy) NSString * title;
+/// 图片
+@property (nonatomic, strong) UIImage * image;
+
+@end
+
 @class WYAPhotoBrowserModel;
 
 typedef void(^WYAImageModelRequestSuccessBlock)(UIImage *image, WYAPhotoBrowserModel * model, NSDictionary *info);
