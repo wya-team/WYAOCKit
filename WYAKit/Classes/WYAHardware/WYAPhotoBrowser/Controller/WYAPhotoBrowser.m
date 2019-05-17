@@ -7,7 +7,7 @@
 
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserAlbum.h"
-
+#import "WYAPhotoBrowserManager.h"
 @interface WYAPhotoBrowser ()
 
 @end
@@ -26,6 +26,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopAllCacheAsset];
 }
 
 /*

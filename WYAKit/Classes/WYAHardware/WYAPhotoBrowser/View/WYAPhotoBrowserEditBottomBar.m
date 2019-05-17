@@ -5,15 +5,15 @@
 //  Created by 李世航 on 2018/11/30.
 //
 
-#import "WYAPhotoEditControlView.h"
+#import "WYAPhotoBrowserEditBottomBar.h"
 
-@interface WYAPhotoEditControlView ()
+@interface WYAPhotoBrowserEditBottomBar ()
 @property (nonatomic, strong) UIButton * editButton;
 @property (nonatomic, strong) UIButton * centerButton;
 @property (nonatomic, strong) UIButton * doneButton;
 @end
 
-@implementation WYAPhotoEditControlView
+@implementation WYAPhotoBrowserEditBottomBar
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -53,26 +53,6 @@
         CGRectMake(doneButton_X, doneButton_Y, doneButton_Width, doneButton_Height);
 }
 
-#pragma mark--- Private Method
-- (void)editClick {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(edit)]) {
-        [self.delegate edit];
-    }
-}
-
-- (void)centerClick:(UIButton *)button {
-    button.selected = !button.selected;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(editWithOriginalImage:)]) {
-        [self.delegate editWithOriginalImage:button.selected];
-    }
-}
-
-- (void)doneClick {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(done)]) {
-        [self.delegate done];
-    }
-}
-
 #pragma mark - Setter -
 - (void)setVideoHidden:(BOOL)videoHidden {
     self.editButton.hidden   = videoHidden;
@@ -87,9 +67,11 @@
             [button setTitle:@"编辑" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button.titleLabel.font = FONT(13);
-            [button addTarget:self
-                          action:@selector(editClick)
-                forControlEvents:UIControlEventTouchUpInside];
+            [button addCallBackAction:^(UIButton *button) {
+                if (self.editBlock) {
+                    self.editBlock();
+                }
+            }];
             button;
         });
     }
@@ -110,9 +92,11 @@
                     forState:UIControlStateSelected];
             button.titleLabel.font = FONT(13);
             button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20 * SizeAdapter);
-            [button addTarget:self
-                          action:@selector(centerClick:)
-                forControlEvents:UIControlEventTouchUpInside];
+            [button addCallBackAction:^(UIButton *button) {
+                if (self.originalBlock) {
+                    self.originalBlock();
+                }
+            }];
             button;
         });
     }
@@ -130,9 +114,11 @@
             [button
                 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108DE7"]]
                           forState:UIControlStateNormal];
-            [button addTarget:self
-                          action:@selector(doneClick)
-                forControlEvents:UIControlEventTouchUpInside];
+            [button addCallBackAction:^(UIButton *button) {
+                if (self.doneBlock) {
+                    self.doneBlock();
+                }
+            }];
             button;
         });
     }

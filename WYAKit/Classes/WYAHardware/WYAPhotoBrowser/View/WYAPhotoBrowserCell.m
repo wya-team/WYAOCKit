@@ -8,6 +8,7 @@
 
 #import "WYAPhotoBrowserCell.h"
 #import "WYAPhotoBrowserModel.h"
+#import "WYAPhotoBrowserManager.h"
 #import <Photos/Photos.h>
 
 @interface WYAPhotoBrowserCell ()
@@ -17,6 +18,8 @@
 @property (nonatomic, strong) UILabel * videoLabel;
 @property (nonatomic, strong) UIView * cellPreview;
 
+@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, assign) PHImageRequestID imageRequestID;
 @end
 
 @implementation WYAPhotoBrowserCell
@@ -78,62 +81,9 @@
 
 #pragma mark - Private Method -
 - (void)buttonClick:(UIButton *)sender {
-    if (self.selectImage) { self.selectImage(sender, self.model); }
-}
-
-- (void)loadImage {
-    PHAsset * asset = (PHAsset *)self.model.asset;
-    CGFloat ratio   = asset.pixelWidth / (CGFloat)asset.pixelHeight;
-    CGFloat width   = self.cmam_width * [UIScreen mainScreen].scale * 3;
-    // 超宽图片
-    if (ratio > 1.8) { width = width * ratio; }
-    // 超高图片
-    if (ratio < 0.2) { width = width * 0.5; }
-    CGFloat height = width / ratio;
-
-    PHImageManager * manager    = [PHImageManager defaultManager];
-    PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
-    //        opi.synchronous = YES; //默认no，异步加载
-    opi.resizeMode = PHImageRequestOptionsResizeModeFast;
-    //            opi.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    // 从iCloud上下载图片
-    opi.networkAccessAllowed = YES;
-    // 图片获取进度
-    opi.progressHandler = ^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-        NSLog(@"progress==%f,errror==%@,stop==%d,info==%@", progress, [error localizedDescription], *stop, info);
-    };
-
-    [manager requestImageForAsset:self.model.asset
-                       targetSize:CGSizeMake(width, height)
-                      contentMode:PHImageContentModeAspectFill
-                          options:opi
-                    resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                        NSLog(@"imageinfo==%@", info);
-                        self.imageV.image     = result;
-                        self.model.cacheImage = result;
-                    }];
-//    [manager requestImageDataForAsset:self.model.asset options:opi resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-//        UIImage * image = [[UIImage alloc]initWithData:imageData];
-//        UIImage * aaa = [UIImage wya_ImageCompressFitSizeScale:image targetSize:CGSizeMake(width, height)];
-//        self.imageV.image     = aaa;
-//        self.model.cacheImage = aaa;
-//    }];
-}
-
-- (void)getVideoInfo {
-    PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
-    options.version                 = PHImageRequestOptionsVersionCurrent;
-    options.deliveryMode            = PHVideoRequestOptionsDeliveryModeAutomatic;
-
-    PHImageManager * manager = [PHImageManager defaultManager];
-    [manager requestAVAssetForVideo:self.model.asset
-                            options:options
-                      resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-                          AVURLAsset * urlAsset = (AVURLAsset *)asset;
-
-                          NSURL * url         = urlAsset.URL;
-                          self.model.videoUrl = url;
-                      }];
+    sender.selected = !sender.selected;
+    self.model.selected = sender.selected;
+    if (self.selectImage) { self.selectImage(self.model, sender.selected); }
 }
 
 #pragma mark - Public Method -
@@ -142,43 +92,28 @@
 - (void)setModel:(WYAPhotoBrowserModel *)model {
     _model = model;
     if (model) {
-        self.videoPreview.hidden = YES;
-
-        PHAsset * asset = (PHAsset *)model.asset;
-        if (asset.mediaType == PHAssetMediaTypeVideo) {
-            self.videoPreview.hidden = NO;
-            NSInteger time           = (NSInteger)asset.duration;
-            NSInteger dur            = time % 60;
-            NSInteger due            = time / 60;
-            NSString * string        = [NSString stringWithFormat:@"%ld:%ld", (long)due, (long)dur];
-            self.videoLabel.text     = string;
-            [self getVideoInfo];
-        }
-
-        if (model.cropImage) {
-            self.imageV.image = model.cropImage;
-        } else {
-            if (model.cacheImage) {
-                self.imageV.image = model.cacheImage;
-            } else {
-                [self loadImage];
-            }
-        }
-
         self.button.selected = model.selected;
-        if (model.isMaxCount) {
-            if (!model.selected) {
-                self.cellPreview.hidden     = NO;
-                self.userInteractionEnabled = NO;
-            } else {
-                self.cellPreview.hidden     = YES;
-                self.userInteractionEnabled = YES;
+        CGSize size;
+        size.width = self.cmam_width * 1.7;
+        size.height = self.cmam_height * 1.7;
+
+        WeakSelf(weakSelf);
+        if (model.asset && self.imageRequestID >= PHInvalidImageRequestID) {
+            [[PHCachingImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+        }
+        self.identifier = model.asset.localIdentifier;
+        self.imageV.image = nil;
+        self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.asset size:size progressHandler:nil completion:^(UIImage *image, NSDictionary *info) {
+            StrongSelf(strongSelf);
+
+            if ([strongSelf.identifier isEqualToString:model.asset.localIdentifier]) {
+                strongSelf.imageV.image = image;
             }
 
-        } else {
-            self.cellPreview.hidden     = YES;
-            self.userInteractionEnabled = YES;
-        }
+            if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+                strongSelf.imageRequestID = -1;
+            }
+        }];
     }
 }
 

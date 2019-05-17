@@ -12,32 +12,48 @@
 #import "WYAPhotoBrowserManager.h"
 #import "WYAPhotoBrowserModel.h"
 #import "WYAPhotoEditViewController.h"
-#import "controlView.h"
+#import "WYAPhotoBrowserBottomBar.h"
 
 @interface WYAPhotoBrowserViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
-@property (nonatomic, strong) controlView * controlV;
-@property (nonatomic, strong) NSMutableArray * images;
-@property (nonatomic, strong) NSMutableArray * models;
-
+@property (nonatomic, strong) WYAPhotoBrowserBottomBar * bottomBar;
+@property (nonatomic, strong) NSMutableArray * assets;
+@property (nonatomic, strong) WYAPhotoBrowserAlbumModel * albumModel;
 @end
 
-@implementation WYAPhotoBrowserViewController
+@implementation WYAPhotoBrowserViewController{
+    NSMutableArray * _cacheArray;
+    NSMutableArray * _preViewArray; // 预览视图数组
+}
 #pragma mark ======= LifeCircle
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.albumModel = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getCameraRollAlbumList:YES allowSelectImage:YES];
+    _cacheArray = [NSMutableArray array];
+    [self.albumModel.models enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [_cacheArray addObject:obj.asset];
+    }];
+    _preViewArray = [NSMutableArray array];
+    [self setupUI];
+    [self getDataSource];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTranslucent:YES];
     //去掉导航栏底部的黑线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
+
+    CGFloat width = (ScreenWidth - 25) / 4 * 1.7;
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] startCacheAssetWithArray:_cacheArray size:CGSizeMake(width, width)];
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupUI];
-    [self getDataSource];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    CGFloat width = (ScreenWidth - 25) / 4 * 1.7;
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopCacheAssetWithArray:_cacheArray size:CGSizeMake(width, width)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,51 +75,19 @@
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
 
-    [self.view addSubview:self.controlV];
+    [self.view addSubview:self.bottomBar];
     [self.view addSubview:self.collectionView];
 }
 
-#pragma mark ======= DataSource
+#pragma mark - Private Method
 - (void)getDataSource {
-//    if (self.collections) {
-//        [WYAPhotoBrowserManager screenAssetWithCollection:self.collections resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
-//            if (models.count > 0) {
-//                self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
-//                [self.collectionView reloadData];
-//                if (self.dataSource.count < 1) {
-//                    return;
-//                }
-//                [self.collectionView
-//                 scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
-//                                                             inSection:0]
-//                 atScrollPosition:UICollectionViewScrollPositionBottom
-//                 animated:NO];
-//            }
-//
-//        }];
-//    } else {
-//        [WYAPhotoBrowserManager screenAssetWithFilter:AssetCollectionTypeSmartAlbum
-//                               AssetCollectionSubType:AssetCollectionSubTypeUserLibrary
-//                                       CollectionSort:AssetCollectionStartDate
-//                                            assetSort:AssetCreationDate resultBlock:^(NSMutableArray<WYAPhotoBrowserModel *> *models) {
-//                                                if (models.count > 0) {
-//                                                    self.dataSource = [self deleteSomePHAssetWithArray:models photoType:self.photoBrowserType];
-//                                                    [self.collectionView reloadData];
-//                                                    if (self.dataSource.count < 1) {
-//                                                        return;
-//                                                    }
-//                                                    [self.collectionView
-//                                                     scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1
-//                                                                                                 inSection:0]
-//                                                     atScrollPosition:UICollectionViewScrollPositionBottom
-//                                                     animated:NO];
-//                                                }
-//                                            }];
-//
-//    }
+
+    self.dataSource = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoInResult:self.albumModel.result allowSelectVideo:YES allowSelectImage:YES allowSelectGif:YES allowSelectLivePhoto:YES];
+
+
+    [self.collectionView reloadData];
 }
 
-#pragma mark--- Private Method
 - (void)showAlert {
     UIAlertController * alertController = [UIAlertController
                                            alertControllerWithTitle:nil
@@ -118,9 +102,9 @@
 }
 
 -(void)previewClick{
-    if (self.models.count < 1) { return; }
+    if (_preViewArray.count < 1) { return; }
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
-    vc.models                       = self.models;
+    vc.models                       = _preViewArray;
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
         NSArray * models = [self.dataSource copy];
         for (WYAPhotoBrowserModel * photoModel in models) {
@@ -144,84 +128,39 @@
     [self dismissViewControllerAnimated:YES
                                    completion:^{
                                        if (photoBrowser.callBackBlock) {
-                                           photoBrowser.callBackBlock(self.images);
+                                           photoBrowser.callBackBlock(self.assets);
                                        }
                                    }];
 }
 
-- (NSMutableArray *)deleteSomePHAssetWithArray:(NSMutableArray *)array photoType:(WYAPhotoBrowserType)type {
-    NSMutableArray * arr = [NSMutableArray array];
-    switch (self.photoBrowserType) {
-        case WYAPhotoBrowserTypeAll:
-            return array;
+- (void)selectCellImageWithModel:(WYAPhotoBrowserModel *)model select:(BOOL)select{
+    if (select) {
+        [_preViewArray addObject:model];
+    } else {
+        [_preViewArray removeObject:model];
+    }
+    [self changePreviewButtonState];
+    [self changeDoneButtonState];
+}
 
-        case WYAPhotoBrowserTypePhoto: {
-            for (WYAPhotoBrowserModel * model in array) {
-
-                if (model.asset.mediaType == PHAssetMediaTypeImage) {
-                    [arr addObject:model];
-                }
-            }
-            return arr;
-        }
-
-        case WYAPhotoBrowserTypeVideo: {
-            for (WYAPhotoBrowserModel * model in array) {
-                if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-                    [arr addObject:model];
-                }
-            }
-            return arr;
-        }
-        default:
-            return nil;
+-(void)changePreviewButtonState{
+    if (_preViewArray.count > 0) {
+        self.bottomBar.previewButton.enabled = YES;
+    } else {
+        self.bottomBar.previewButton.enabled = NO;
     }
 }
 
-- (void)imageSelectClickWithModel:(WYAPhotoBrowserModel *)model image:(UIImage *)image{
-    if (model.selected) {
-        model.selected = NO;
-        for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
-            photoModel.isMaxCount = NO;
-        }
-        if (model.asset.mediaType == PHAssetMediaTypeImage) {
-            [self.images removeObject:image];
-        } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-            if (model.videoUrl == nil) {
-                [self.images removeObject:image];
-            } else {
-                [self.images removeObject:model.videoUrl];
-            }
-        }
-        [self.models removeObject:model];
+-(void)changeDoneButtonState{
+    if (_preViewArray.count > 0) {
+        self.bottomBar.doneButton.enabled = YES;
+        [self.bottomBar.doneButton setTitle:[NSString stringWithFormat:@"完成(%d)",_preViewArray.count] forState:UIControlStateNormal];
     } else {
-        if (model.asset.mediaType == PHAssetMediaTypeImage) {
-            [self.images addObject:image];
-        } else if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-            if (model.videoUrl == nil) {
-                [self.images addObject:image];
-            } else {
-                [self.images addObject:model.videoUrl];
-            }
-        }
+        self.bottomBar.doneButton.enabled = NO;
 
-        [self.models addObject:model];
-        model.selected = YES;
-        if (self.images.count == self.maxCount) {
-            for (WYAPhotoBrowserModel * photoModel in self.dataSource) {
-                photoModel.isMaxCount = YES;
-            }
-        }
     }
-    if (self.images.count == 0) {
-        [self.controlV.doneButton setTitle:@"完成" forState:UIControlStateNormal];
-    } else {
-        [self.controlV.doneButton setTitle:[NSString stringWithFormat:@"完成(%lu)", (unsigned long)self.images.count] forState:UIControlStateNormal];
-    }
-    [self.collectionView reloadData];
 }
-
-#pragma mark--- UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
     return self.dataSource.count;
@@ -233,9 +172,9 @@
     [collectionView dequeueReusableCellWithReuseIdentifier:@"image"
                                               forIndexPath:indexPath];
     cell.model                        = self.dataSource[indexPath.row];
-    __block WYAPhotoBrowserCell * imageCell = cell;
-    cell.selectImage                  = ^(UIButton * btn, WYAPhotoBrowserModel * model) {
-        [self imageSelectClickWithModel:model image:imageCell.imageV.image];
+    WeakSelf(weakSelf);
+    cell.selectImage = ^(WYAPhotoBrowserModel *model, BOOL isSelect) {
+        [weakSelf selectCellImageWithModel:model select:isSelect];
     };
     return cell;
 }
@@ -271,39 +210,34 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
-    vc.models                       = self.models;
+    vc.models                       = self.albumModel.models;
     WYAPhotoBrowserModel * model    = self.dataSource[indexPath.item];
-    vc.selectIndex                  = [self.models indexOfObject:model];
+    vc.selectIndex                  = [self.albumModel.models indexOfObject:model];
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
-        NSArray * models = [self.dataSource copy];
-        for (WYAPhotoBrowserModel * photoModel in models) {
-            for (WYAPhotoBrowserModel * model in array) {
-                if ([photoModel.asset isEqual:model.asset]) {
-                    [self.dataSource
-                     wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel]
-                     withObject:model];
-                }
-            }
-        }
-        [collectionView reloadData];
+//        NSArray * models = [self.dataSource copy];
+//        for (WYAPhotoBrowserModel * photoModel in models) {
+//            for (WYAPhotoBrowserModel * model in array) {
+//                if ([photoModel.asset isEqual:model.asset]) {
+//                    [self.dataSource
+//                     wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel]
+//                     withObject:model];
+//                }
+//            }
+//        }
+//        [collectionView reloadData];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark--- Getter
-- (NSMutableArray *)images {
-    if (!_images) { _images = [NSMutableArray array]; }
-    return _images;
-}
-
-- (NSMutableArray *)models {
-    if (!_models) {
-        _models = ({
-            NSMutableArray * object = [[NSMutableArray alloc] init];
+- (NSMutableArray *)assets{
+    if(!_assets){
+        _assets = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
             object;
         });
     }
-    return _models;
+    return _assets;
 }
 
 - (NSMutableArray *)dataSource{
@@ -316,15 +250,15 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return _dataSource;
 }
 
-- (controlView *)controlV{
-    if(!_controlV){
-        _controlV = ({
+- (WYAPhotoBrowserBottomBar *)bottomBar{
+    if(!_bottomBar){
+        _bottomBar = ({
             CGFloat object_x = 0;
             CGFloat object_y = ScreenHeight - WYABottomHeight - 49;
             CGFloat object_width = ScreenWidth;
             CGFloat object_height = 49;
             CGRect object_rect = CGRectMake(object_x, object_y,  object_width, object_height);
-            controlView * object = [[controlView alloc]initWithFrame:object_rect];
+            WYAPhotoBrowserBottomBar * object = [[WYAPhotoBrowserBottomBar alloc]initWithFrame:object_rect];
             object.previewBlock = ^{
                 [self previewClick];
             };
@@ -334,7 +268,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
             object;
         });
     }
-    return _controlV;
+    return _bottomBar;
 }
 
 - (UICollectionView *)collectionView {
@@ -362,4 +296,8 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     }
     return _collectionView;
 }
+
+
+
+
 @end

@@ -7,6 +7,7 @@
 
 #import "WYAPhotoBrowserAlbumCell.h"
 #import "WYAPhotoBrowserModel.h"
+#import "WYAPhotoBrowserManager.h"
 @interface WYAPhotoBrowserAlbumCell ()
 @property (nonatomic, strong) UIImageView * imgView;
 @property (nonatomic, strong) UILabel * titleLabel;
@@ -44,10 +45,10 @@
 #pragma mark ======= Setter
 - (void)setModel:(WYAPhotoBrowserAlbumModel *)model{
     if (model) {
-        self.titleLabel.text = model.title;
-        if (model.image) {
-            self.imgView.image = model.image;
-        }
+        self.titleLabel.text = [NSString stringWithFormat:@"%@(%ld)", model.title,model.count];
+        [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.headImageAsset size:CGSizeMake(40, 40) progressHandler:nil completion:^(UIImage *image, NSDictionary *info) {
+            self.imgView.image = image;
+        }];
     }
 }
 

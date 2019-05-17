@@ -6,15 +6,15 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "controlView.h"
+#import "WYAPhotoBrowserBottomBar.h"
 
-@interface controlView ()
+@interface WYAPhotoBrowserBottomBar ()
 
-@property (nonatomic, strong) UIButton * previewButton;
+
 
 @end
 
-@implementation controlView
+@implementation WYAPhotoBrowserBottomBar
 
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -24,19 +24,22 @@
 
         self.previewButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.previewButton setTitle:@"预览" forState:UIControlStateNormal];
-        [self.previewButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.previewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [self.previewButton setTitle:@"预览" forState:UIControlStateDisabled];
+        [self.previewButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.previewButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         self.previewButton.frame = CGRectMake(15, 0, 45, frame.size.height);
+        self.previewButton.enabled = NO;
         [self.previewButton addTarget:self
                                action:@selector(previewClick)
                      forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.previewButton];
 
         self.doneButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [self.doneButton setTitle:@"完成" forState:UIControlStateNormal];
-        [self.doneButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-        [self.doneButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [self.doneButton setTitle:@"完成" forState:UIControlStateDisabled];
+        [self.doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.doneButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         self.doneButton.frame = CGRectMake(ScreenWidth - 85, 15, 70, frame.size.height - 30);
+        self.doneButton.enabled = NO;
         [self.doneButton addTarget:self
                             action:@selector(doneClick)
                   forControlEvents:UIControlEventTouchUpInside];

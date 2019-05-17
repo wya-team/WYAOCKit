@@ -7,7 +7,12 @@
 
 #import "WYAPhotoPreviewCell.h"
 #import "WYAPhotoBrowserModel.h"
+#import "WYAPhotoBrowserManager.h"
 #import <Photos/Photos.h>
+
+@interface WYAPhotoPreviewCell ()
+@property (nonatomic, assign) PHImageRequestID imageRequestID;
+@end
 
 @implementation WYAPhotoPreviewCell
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -33,26 +38,18 @@
 - (void)setModel:(WYAPhotoBrowserModel *)model {
     _model = model;
     if (model) {
-        if (model.cropImage) {
-            self.preview.imageView.image = model.cropImage;
+        if (self.imageRequestID) {
+            [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
+        }
+        if (model.image) {
+            self.preview.imageView.image = model.image;
         } else {
-            if (model.cacheImage) {
-                self.preview.imageView.image = model.cacheImage;
-            } else {
-                PHImageManager * manager    = [PHImageManager defaultManager];
-                PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
+            self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.asset size:CGSizeMake(ScreenWidth, ScreenHeight) progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
 
-                [manager requestImageForAsset:model.asset
-                                   targetSize:CGSizeMake(self.cmam_width, self.cmam_height)
-                                  contentMode:PHImageContentModeAspectFill
-                                      options:opi
-                                resultHandler:^(UIImage * _Nullable result,
-                                                NSDictionary * _Nullable info) {
-                                    self.preview.imageView.image = result;
-                                    model.cacheImage             = result;
-                                    [self.preview setScrollZoom];
-                                }];
-            }
+            } completion:^(UIImage * photo, NSDictionary * info) {
+                self.preview.imageView.image = photo;
+                model.image = photo;
+            }];
         }
     }
 }
@@ -133,36 +130,6 @@
 #pragma mark - Setter -
 - (void)setModel:(WYAPhotoBrowserModel *)model {
     if (model) {
-        PHAsset * asset          = model.asset;
-        PHImageManager * manager = [PHImageManager defaultManager];
-        if (model.cacheImage) {
-            self.playImageView.image = model.cacheImage;
-        } else {
-            [manager
-                requestImageForAsset:asset
-                          targetSize:CGSizeMake(self.cmam_width, self.cmam_height)
-                         contentMode:PHImageContentModeAspectFill
-                             options:nil
-                       resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                           self.playImageView.image = result;
-                           model.cacheImage         = result;
-                       }];
-        }
-        if (asset.mediaType == PHAssetMediaTypeVideo) {
-            PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc] init];
-            option.version                 = PHVideoRequestOptionsVersionOriginal;
-            option.progressHandler         = ^(double progress, NSError * _Nullable error,
-                                       BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
-                NSLog(@"progress==%f", progress);
-                NSLog(@"error==%@", [error localizedDescription]);
-            };
-            [manager requestPlayerItemForVideo:asset
-                                       options:option
-                                 resultHandler:^(AVPlayerItem * _Nullable playerItem,
-                                                 NSDictionary * _Nullable info) {
-                                     self.playerItem = playerItem;
-                                 }];
-        }
     }
 }
 

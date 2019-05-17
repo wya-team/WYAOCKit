@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface controlView : UIView
+@interface WYAPhotoBrowserBottomBar : UIView
+@property (nonatomic, strong) UIButton * previewButton;
 @property (nonatomic, strong) UIButton * doneButton;
 @property (nonatomic, copy) void (^previewBlock)(void);
 @property (nonatomic, copy) void (^doneBlock)(void);
