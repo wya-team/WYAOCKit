@@ -15,7 +15,10 @@
 @end
 
 @implementation WYAImageClipTemplate
-
+{
+    NSMutableArray * _xArray;
+    NSMutableArray * _yArray;
+}
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -31,7 +34,16 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.composeView.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
+    if (_xArray && _yArray) {
+        CGFloat minWidth = [(NSNumber *)[_xArray valueForKeyPath:@"@min.floatValue"] floatValue];
+        CGFloat maxWidth = [(NSNumber *)[_xArray valueForKeyPath:@"@max.floatValue"] floatValue];
+        CGFloat minHeight = [(NSNumber *)[_yArray valueForKeyPath:@"@min.floatValue"] floatValue];
+        CGFloat maxHeight = [(NSNumber *)[_yArray valueForKeyPath:@"@max.floatValue"] floatValue];
+        self.composeView.center = CGPointMake((maxWidth - minWidth) / 2 + minWidth, (maxHeight - minHeight) / 2 + minHeight);
+        self.composeView.bounds = CGRectMake(0, 0, maxWidth - minWidth, maxHeight - minHeight);
+    } else {
+        self.composeView.frame = CGRectZero;
+    }
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
@@ -85,22 +97,7 @@
         CGPathCloseSubpath(pathRef);
         self.pathRef = pathRef;
     }
-    //
-    //    CGFloat width = 200;
-    //    CGFloat point_x = self.cmam_width/4;
-    //    UIBezierPath *path = [UIBezierPath bezierPath];
-    //    path.usesEvenOddFillRule = YES;
-    //    [path moveToPoint:CGPointMake(point_x, point_x)];
-    //    [path addLineToPoint:CGPointMake(point_x + width/2, point_x + width)];
-    //    [path addLineToPoint:CGPointMake(point_x + width, point_x)];
-    //    [path addLineToPoint:CGPointMake(point_x, point_x)];
-    //
-    //
-    //    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    //    shapeLayer.path = path.CGPath;
-    //    shapeLayer.fillColor = [UIColor whiteColor].CGColor;  //其他颜色都可以，只要不是透明的
-    //    shapeLayer.fillRule = kCAFillRuleEvenOdd;
-    //    self.layer.mask = shapeLayer;
+
 }
 
 - (void)wya_templateAddAnimationPath {
@@ -196,11 +193,29 @@
     return NO;
 }
 
+- (void)findMinWidth{
+
+}
+
+- (void)findMaxWidth{
+
+}
+
 #pragma mark ======= Setter
 - (void)setImage:(UIImage *)image {
     _image = image;
     if (image) {
         self.composeView.image = image;
+    }
+}
+
+- (void)setPoints:(NSArray *)points{
+    _points = points;
+    _xArray = [NSMutableArray array];
+    _yArray = [NSMutableArray array];
+    for (NSDictionary * dic in points) {
+        [_xArray addObject:dic[@"point_x"]];
+        [_yArray addObject:dic[@"point_y"]];
     }
 }
 

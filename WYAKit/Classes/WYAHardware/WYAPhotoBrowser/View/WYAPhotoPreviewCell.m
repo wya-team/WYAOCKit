@@ -10,320 +10,1070 @@
 #import "WYAPhotoBrowserManager.h"
 #import <Photos/Photos.h>
 
-@interface WYAPhotoPreviewCell ()
-@property (nonatomic, assign) PHImageRequestID imageRequestID;
-@end
-
 @implementation WYAPhotoPreviewCell
-- (instancetype)initWithFrame:(CGRect)frame {
+
+- (void)awakeFromNib {
+    // Initialization code
+    [super awakeFromNib];
+}
+
+- (WYAPreviewView *)previewView
+{
+    if (!_previewView) {
+        _previewView = [[WYAPreviewView alloc] initWithFrame:self.bounds];
+        _previewView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+    return _previewView;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
-        self.preview = [[WYAPhotoPreview alloc] init];
-        [self addSubview:self.preview];
+        [self addSubview:self.previewView];
+        WeakSelf(weakSelf);
+        self.previewView.singleTapCallBack = ^() {
+            StrongSelf(strongSelf);
+            if (strongSelf.singleTapCallBack) strongSelf.singleTapCallBack();
+        };
+        self.previewView.longPressCallBack = ^{
+            StrongSelf(strongSelf);
+            if (strongSelf.longPressCallBack)
+                strongSelf.longPressCallBack();
+        };
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    self.preview.frame = self.bounds;
-}
-
-#pragma mark - Public Method -
-- (void)setScrollZoom {
-    [self.preview setScrollZoom];
-}
-
-#pragma mark--- Setter
-- (void)setModel:(WYAPhotoBrowserModel *)model {
+- (void)setModel:(WYAPhotoBrowserModel *)model
+{
     _model = model;
-    if (model) {
-        if (self.imageRequestID) {
-            [[PHImageManager defaultManager] cancelImageRequest:self.imageRequestID];
-        }
-        if (model.image) {
-            self.preview.imageView.image = model.image;
-        } else {
-            self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.asset size:CGSizeMake(ScreenWidth, ScreenHeight) progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+    self.previewView.showGif = self.showGif;
+    self.previewView.showLivePhoto = self.showLivePhoto;
+    self.previewView.model = model;
+}
 
-            } completion:^(UIImage * photo, NSDictionary * info) {
-                self.preview.imageView.image = photo;
-                model.image = photo;
-            }];
-        }
+- (void)resetCellStatus
+{
+    [self.previewView resetScale];
+}
+
+- (void)reloadGifLivePhotoVideo
+{
+    if (self.willDisplaying) {
+        self.willDisplaying = NO;
+        [self.previewView reload];
+    } else {
+        [self.previewView resumePlay];
     }
 }
+
 @end
 
-@interface WYAVideoPreviewCell ()
-@property (nonatomic, strong) AVPlayer * player;
-@property (nonatomic, strong) AVPlayerLayer * playerlayer;
-@property (nonatomic, strong) AVPlayerItem * playerItem;
-@property (nonatomic, strong) UIImageView * playImageView;
-@property (nonatomic, strong) UIButton * playButton;
+@implementation WYAPreviewView
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    if (self.model.type == WYAAssetMediaTypeImage ||
+        self.model.type == WYAAssetMediaTypeGif ||
+        (self.model.type == WYAAssetMediaTypeLivePhoto && !self.showLivePhoto) ||
+        self.model.type == WYAAssetMediaTypeNetImage) {
+        self.imageGifView.frame = self.bounds;
+    } else if (self.model.type == WYAAssetMediaTypeLivePhoto) {
+        self.livePhotoView.frame = self.bounds;
+    } else if (self.model.type == WYAAssetMediaTypeVideo) {
+        self.videoView.frame = self.bounds;
+    } else if (self.model.type == WYAAssetMediaTypeNetVideo) {
+        self.netVideoView.frame = self.bounds;
+    }
+}
+
+- (WYAPreviewImageAndGif *)imageGifView
+{
+    if (!_imageGifView) {
+        _imageGifView = [[WYAPreviewImageAndGif alloc] initWithFrame:self.bounds];
+        _imageGifView.singleTapCallBack = self.singleTapCallBack;
+        _imageGifView.longPressCallBack = self.longPressCallBack;
+    }
+    return _imageGifView;
+}
+
+- (WYAPreviewLivePhoto *)livePhotoView
+{
+    if (!_livePhotoView) {
+        _livePhotoView = [[WYAPreviewLivePhoto alloc] initWithFrame:self.bounds];
+        _livePhotoView.singleTapCallBack = self.singleTapCallBack;
+    }
+    return _livePhotoView;
+}
+
+- (WYAPreviewVideo *)videoView
+{
+    if (!_videoView) {
+        _videoView = [[WYAPreviewVideo alloc] initWithFrame:self.bounds];
+        _videoView.singleTapCallBack = self.singleTapCallBack;
+    }
+    return _videoView;
+}
+
+- (WYAPreviewNetVideo *)netVideoView
+{
+    if (!_netVideoView) {
+        _netVideoView = [[WYAPreviewNetVideo alloc] initWithFrame:self.bounds];
+        _netVideoView.singleTapCallBack = self.singleTapCallBack;
+    }
+    return _netVideoView;
+}
+
+- (void)setModel:(WYAPhotoBrowserModel *)model
+{
+    _model = model;
+
+    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+
+    switch (model.type) {
+        case WYAAssetMediaTypeImage: {
+            [self addSubview:self.imageGifView];
+            if (model.image) {
+                [self.imageGifView loadImage:model.image];
+            } else {
+                [self.imageGifView loadNormalImage:model.asset];
+            }
+        }
+            break;
+        case WYAAssetMediaTypeGif: {
+            [self addSubview:self.imageGifView];
+            [self.imageGifView loadNormalImage:model.asset];
+        }
+            break;
+        case WYAAssetMediaTypeLivePhoto: {
+            if (self.showLivePhoto) {
+                [self addSubview:self.livePhotoView];
+                [self.livePhotoView loadNormalImage:model.asset];
+            } else {
+                [self addSubview:self.imageGifView];
+                [self.imageGifView loadNormalImage:model.asset];
+            }
+        }
+            break;
+        case WYAAssetMediaTypeVideo: {
+            [self addSubview:self.videoView];
+            [self.videoView loadNormalImage:model.asset];
+        }
+            break;
+        case WYAAssetMediaTypeNetImage: {
+            [self addSubview:self.imageGifView];
+            [self.imageGifView loadImage:model.image?:model.url];
+        }
+            break;
+        case WYAAssetMediaTypeNetVideo: {
+            [self addSubview:self.netVideoView];
+            [self.netVideoView loadNetVideo:model.url];
+        }
+            break;
+
+        default:
+            break;
+    }
+}
+
+- (void)reload
+{
+    if (self.showGif &&
+        self.model.type == WYAAssetMediaTypeGif) {
+        [self.imageGifView loadGifImage:self.model.asset];
+    } else if (self.showLivePhoto &&
+               self.model.type == WYAAssetMediaTypeLivePhoto) {
+        [self.livePhotoView loadLivePhoto:self.model.asset];
+    } else if (self.model.type == WYAAssetMediaTypeVideo) {
+        // 暂时不用这种界面停止滑动在加载视频的方法，因为未解决 force touch 预览视频进入界面后直接加载视频和gif的情况
+        //        [self.videoView loadVideo:self.model.asset];
+    }
+}
+
+- (void)resumePlay
+{
+    if (self.model.type == WYAAssetMediaTypeGif) {
+        [self.imageGifView resumeGif];
+    }
+}
+
+- (void)handlerEndDisplaying
+{
+    if (self.model.type == WYAAssetMediaTypeGif) {
+        if ([self.imageGifView.imageView.image isKindOfClass:NSClassFromString(@"_UIAnimatedImage")]) {
+            [self.imageGifView loadNormalImage:self.model.asset];
+        }
+    } else if (self.model.type == WYAAssetMediaTypeVideo) {
+        if ([self.videoView haveLoadVideo]) {
+            [self.videoView loadNormalImage:self.model.asset];
+        }
+    } else if (self.model.type == WYAAssetMediaTypeNetVideo) {
+        [self.netVideoView seekToZero];
+    }
+}
+
+- (void)resetScale
+{
+    if (self.model.type == WYAAssetMediaTypeImage ||
+        self.model.type == WYAAssetMediaTypeGif ||
+        self.model.type == WYAAssetMediaTypeNetImage) {
+        [self.imageGifView resetScale];
+    }
+}
+
+- (UIImage *)image
+{
+    if (self.model.type == WYAAssetMediaTypeImage ||
+        self.model.type == WYAAssetMediaTypeGif ||
+        self.model.type == WYAAssetMediaTypeNetImage) {
+        return self.imageGifView.imageView.image;
+    }
+    return nil;
+}
+
 @end
 
-@implementation WYAVideoPreviewCell
+@implementation WYABasePreviewView
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self.contentView addSubview:self.playImageView];
-        [self.contentView addSubview:self.playButton];
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    CGFloat width = 40;
+    CGFloat x = (GetViewWidth(self) - width) / 2;
+    CGFloat y = (GetViewHeight(self) - width) / 2;
+    self.indicator.frame = CGRectMake(x, y, width, width);
+}
+
+- (WYAProgressView *)indicator
+{
+    if (!_indicator) {
+        _indicator = [[WYAProgressView alloc] init];
+        _indicator.hidden = YES;
+    }
+    return _indicator;
+}
+
+- (UIImageView *)imageView
+{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        //        _imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    }
+    return _imageView;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapAction)];
+        [self addGestureRecognizer:self.singleTap];
+
+        [self placeSubviews];
+
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controllerScrollViewDidScroll) name:@"controllerScrollViewDidScroll" object:nil];
     }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)placeSubviews
+{
 
-    self.playImageView.frame = self.contentView.frame;
-
-    self.playButton.center    = self.contentView.center;
-    CGFloat playButton_Width  = 50 * SizeAdapter;
-    CGFloat playButton_Height = 50 * SizeAdapter;
-    self.playButton.bounds    = CGRectMake(0, 0, playButton_Width, playButton_Height);
 }
 
-- (void)buttonClick {
-    self.playButton.selected = !self.playButton.selected;
-    if (self.playButton.selected) {
-        [self.player play];
-    } else {
-        [self.player pause];
+- (void)controllerScrollViewDidScroll
+{
+
+}
+
+- (CGSize)requestImageSize:(PHAsset *)asset
+{
+    CGFloat scale = 2;
+    CGFloat width = MIN(kViewWidth, kMaxImageWidth);
+    CGSize size = CGSizeMake(width*scale, width*scale*asset.pixelHeight/asset.pixelWidth);
+    return size;
+}
+
+- (void)singleTapAction
+{
+    if (self.singleTapCallBack) self.singleTapCallBack();
+}
+
+- (UIImage *)image
+{
+    return self.imageView.image;
+}
+
+- (void)loadNormalImage:(PHAsset *)asset
+{
+    if (self.asset && self.imageRequestID >= 0) {
+        [[PHCachingImageManager defaultManager] cancelImageRequest:self.imageRequestID];
     }
 }
 
-- (void)playEnd:(NSNotification *)n {
-    AVPlayerItem * p = [n object];
-    //关键代码
-    [p seekToTime:kCMTimeZero];
-
-    [self.player play];
-    self.playButton.selected = YES;
+- (void)resetScale
+{
+    //子类重写
 }
 
-#pragma mark - KVO -
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    AVPlayerItem * playerItem = (AVPlayerItem *)object;
-    if ([keyPath isEqualToString:@"status"]) {
-        if ([playerItem status] == AVPlayerStatusReadyToPlay) {
-            NSLog(@"AVPlayerStatusReadyToPlay");
-            //            self.playImageView.hidden = YES;
+@end
+
+@interface WYAPreviewImageAndGif () <UIScrollViewDelegate>
+
+@property (nonatomic, assign) BOOL isGif;
+
+@end
+
+@implementation WYAPreviewImageAndGif
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.scrollView.frame = self.bounds;
+    [self resetScale];
+    if (self.loadOK) {
+        [self resetSubviewSize:self.asset?:self.imageView.image];
+    }
+}
+
+- (UIScrollView *)scrollView
+{
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] init];
+        _scrollView.frame = self.bounds;
+        _scrollView.maximumZoomScale = 3.0;
+        _scrollView.minimumZoomScale = 1.0;
+        _scrollView.multipleTouchEnabled = YES;
+        _scrollView.delegate = self;
+        _scrollView.scrollsToTop = NO;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        //        _scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        _scrollView.delaysContentTouches = NO;
+    }
+    return _scrollView;
+}
+
+- (UIView *)containerView
+{
+    if (!_containerView) {
+        _containerView = [[UIView alloc] init];
+    }
+    return _containerView;
+}
+
+- (void)placeSubviews
+{
+    [super placeSubviews];
+
+    [self addSubview:self.scrollView];
+    [self.scrollView addSubview:self.containerView];
+    [self.containerView addSubview:self.imageView];
+    [self addSubview:self.indicator];
+
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self addGestureRecognizer:doubleTap];
+
+    [self.singleTap requireGestureRecognizerToFail:doubleTap];
+}
+
+- (void)controllerScrollViewDidScroll
+{
+    [self pauseGif];
+}
+
+- (void)resetScale
+{
+    self.scrollView.zoomScale = 1;
+}
+
+- (UIImage *)image
+{
+    return self.imageView.image;
+}
+
+- (void)resumeGif
+{
+    CALayer *layer = self.imageView.layer;
+    if (layer.speed != 0) return;
+    CFTimeInterval pausedTime = [layer timeOffset];
+    layer.speed = 1.0;
+    layer.timeOffset = 0.0;
+    layer.beginTime = 0.0;
+    CFTimeInterval timeSincePause = [layer convertTime:CACurrentMediaTime() fromLayer:nil] - pausedTime;
+    layer.beginTime = timeSincePause;
+}
+
+- (void)pauseGif
+{
+    CALayer *layer = self.imageView.layer;
+    if (layer.speed == .0) return;
+    CFTimeInterval pausedTime = [layer convertTime:CACurrentMediaTime() fromLayer:nil];
+    layer.speed = 0.0;
+    layer.timeOffset = pausedTime;
+}
+
+- (void)loadGifImage:(PHAsset *)asset
+{
+    WeakSelf(weakSelf);
+
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestOriginalImageDataForAsset:asset progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.indicator.progress = progress;
+            if (progress >= 1) {
+                strongSelf.indicator.hidden = YES;
+            } else {
+                strongSelf.indicator.hidden = NO;
+            }
+        });
+    } completion:^(NSData *data, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+            strongSelf.indicator.hidden = YES;
+            strongSelf.imageView.image = [ZLPhotoManager transformToGifImageWithData:data];
+            [strongSelf resumeGif];
+            [strongSelf resetSubviewSize:asset];
+        }
+    }];
+}
+
+- (void)loadNormalImage:(PHAsset *)asset
+{
+    [super loadNormalImage:asset];
+
+    self.asset = asset;
+
+    WeakSelf(weakSelf);
+    self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:asset size:[self requestImageSize:asset] progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.indicator.progress = progress;
+            if (progress >= 1) {
+                strongSelf.indicator.hidden = YES;
+            } else {
+                strongSelf.indicator.hidden = NO;
+            }
+        });
+    } completion:^(UIImage *image, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        strongSelf.imageView.image = image;
+        [strongSelf resetSubviewSize:asset];
+        if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+            strongSelf.indicator.hidden = YES;
+            strongSelf.loadOK = YES;
+        }
+    }];
+}
+
+/**
+ @param obj UIImage/NSURL
+ */
+- (void)loadImage:(id)obj
+{
+    if (!_longPressGesture) {
+        self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressAction:)];
+        self.longPressGesture.minimumPressDuration = .5;
+        [self addGestureRecognizer:self.longPressGesture];
+    }
+    if ([obj isKindOfClass:UIImage.class]) {
+        self.imageView.image = obj;
+        [self resetSubviewSize:obj];
+    } else {
+        WeakSelf(weakSelf);
+        [self.imageView sd_setImageWithURL:obj placeholderImage:nil options:SDWebImageHighPriority progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
+            StrongSelf(strongSelf);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                float progress = (float)receivedSize / (float)expectedSize;
+                strongSelf.indicator.progress = progress;
+                if (progress >= 1) {
+                    strongSelf.indicator.hidden = YES;
+                } else {
+                    strongSelf.indicator.hidden = NO;
+                }
+            });
+        } completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            StrongSelf(strongSelf);
+            strongSelf.indicator.hidden = YES;
+            if (error) {
+
+            } else {
+                strongSelf.loadOK = YES;
+                [strongSelf resetSubviewSize:image];
+            }
+        }];
+    }
+}
+
+- (void)resetSubviewSize:(id)obj
+{
+    CGRect frame;
+
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation);
+    CGFloat w, h;
+    if ([obj isKindOfClass:PHAsset.class]) {
+        w = [(PHAsset *)obj pixelWidth];
+        h = [(PHAsset *)obj pixelHeight];
+    } else {
+        w = ((UIImage *)obj).size.width;
+        h = ((UIImage *)obj).size.height;
+    }
+
+    CGFloat width = MIN(kViewWidth, w);
+
+    if (isLandscape) {
+        CGFloat height = MIN(GetViewHeight(self), h);
+        frame.origin = CGPointZero;
+        frame.size.height = height;
+        UIImage *image = self.imageView.image;
+
+        CGFloat imageScale = image.size.width/image.size.height;
+        CGFloat screenScale = kViewWidth/GetViewHeight(self);
+
+        if (imageScale > screenScale) {
+            frame.size.width = floorf(height * imageScale);
+            if (frame.size.width > kViewWidth) {
+                frame.size.width = kViewWidth;
+                frame.size.height = kViewWidth / imageScale;
+            }
         } else {
-            NSLog(@"AVPlayerStatusFailed");
+            CGFloat width = floorf(height * imageScale);
+            if (width < 1 || isnan(width)) {
+                //iCloud图片height为NaN
+                width = GetViewWidth(self);
+            }
+            frame.size.width = width;
         }
-    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        // 计算缓冲进度
-        NSLog(@"缓冲中");
-    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
-        // 当缓冲是空的时候
-
-    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
-        // 当缓冲好的时候
-    }
-}
-
-#pragma mark - Setter -
-- (void)setModel:(WYAPhotoBrowserModel *)model {
-    if (model) {
-    }
-}
-
-- (void)setPlayerItem:(AVPlayerItem *)playerItem {
-    _playerItem = playerItem;
-    if (playerItem) {
-        self.player                   = [AVPlayer playerWithPlayerItem:playerItem];
-        self.playerlayer              = [AVPlayerLayer playerLayerWithPlayer:self.player];
-        self.playerlayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        self.playerlayer.frame        = self.bounds;
-        [self.contentView.layer insertSublayer:self.playerlayer below:self.playButton.layer];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:playerItem];
-        [playerItem addObserver:self
-                     forKeyPath:@"status"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil]; // 监听status属性
-        [playerItem addObserver:self
-                     forKeyPath:@"loadedTimeRanges"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil]; // 监听loadedTimeRanges属性
-        // 缓冲区空了，需要等待数据
-        [playerItem addObserver:self
-                     forKeyPath:@"playbackBufferEmpty"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil];
-        // 缓冲区有足够数据可以播放了
-        [playerItem addObserver:self
-                     forKeyPath:@"playbackLikelyToKeepUp"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil];
-    }
-}
-
-#pragma mark - Getter -
-- (UIImageView *)playImageView {
-    if (!_playImageView) {
-        _playImageView = ({
-            UIImageView * object = [[UIImageView alloc] init];
-            object;
-        });
-    }
-    return _playImageView;
-}
-- (UIButton *)playButton {
-    if (!_playButton) {
-        _playButton = ({
-            UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_begin"
-                                            ClassName:NSStringFromClass(self.class)]
-                    forState:UIControlStateNormal];
-            [object setImage:[UIImage loadBundleImage:@"icon_pause"
-                                            ClassName:NSStringFromClass(self.class)]
-                    forState:UIControlStateSelected];
-            [object addTarget:self
-                          action:@selector(buttonClick)
-                forControlEvents:UIControlEventTouchUpInside];
-            object;
-        });
-    }
-    return _playButton;
-}
-
-- (void)dealloc {
-    [self.playerItem removeObserver:self forKeyPath:@"status"];
-    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [self.playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-    [self.playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:AVPlayerItemDidPlayToEndTimeNotification
-                                                  object:self.playerItem];
-}
-
-@end
-
-@interface WYAPhotoPreview () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
-@property (nonatomic, strong) UIView * imageContainerView;
-@end
-
-@implementation WYAPhotoPreview
-
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        self.scrollV                                = [[UIScrollView alloc] init];
-        self.scrollV.bouncesZoom                    = YES;
-        self.scrollV.maximumZoomScale               = 3.0;
-        self.scrollV.minimumZoomScale               = 1.0;
-        self.scrollV.multipleTouchEnabled           = YES;
-        self.scrollV.delegate                       = self;
-        self.scrollV.scrollsToTop                   = NO;
-        self.scrollV.showsHorizontalScrollIndicator = NO;
-        self.scrollV.showsVerticalScrollIndicator   = YES;
-        self.scrollV.autoresizingMask =
-            UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.scrollV.delaysContentTouches    = NO;
-        self.scrollV.canCancelContentTouches = YES;
-        self.scrollV.alwaysBounceVertical    = NO;
-        if (@available(iOS 11, *)) {
-            self.scrollV.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-        }
-        [self addSubview:self.scrollV];
-
-        self.imageContainerView               = [[UIView alloc] init];
-        self.imageContainerView.clipsToBounds = YES;
-        self.imageContainerView.contentMode   = UIViewContentModeScaleAspectFill;
-        [self.scrollV addSubview:self.imageContainerView];
-
-        self.imageView                        = [[UIImageView alloc] init];
-        self.imageView.contentMode            = UIViewContentModeScaleAspectFill;
-        self.imageView.userInteractionEnabled = YES;
-        [self.imageContainerView addSubview:self.imageView];
-    }
-    return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-
-    CGFloat scrollV_X      = 0;
-    CGFloat scrollV_Y      = 0;
-    CGFloat scrollV_Width  = self.cmam_width - 0;
-    CGFloat scrollV_Height = self.cmam_height;
-    self.scrollV.frame     = CGRectMake(scrollV_X, scrollV_Y, scrollV_Width, scrollV_Height);
-
-    [self setScrollZoom];
-}
-
-#pragma mark - Private Method -
-- (void)setScrollZoom {
-    [self.scrollV setZoomScale:1 animated:NO];
-    [self setSubViewFrame];
-}
-
-- (void)setSubViewFrame {
-    self.imageContainerView.cmam_origin = CGPointZero;
-    self.imageContainerView.cmam_width  = self.scrollV.cmam_width;
-    UIImage * image                     = self.imageView.image;
-    if (image.size.height / image.size.width > self.cmam_height / self.scrollV.cmam_width) {
-        self.imageContainerView.cmam_height =
-            floor(image.size.height / (image.size.width / self.scrollV.cmam_width));
     } else {
-        CGFloat height = image.size.height / image.size.width * self.scrollV.cmam_width;
-        if (height < 1 || isnan(height)) { height = self.cmam_height; }
-        height                               = floor(height);
-        self.imageContainerView.cmam_height  = height;
-        self.imageContainerView.cmam_centerY = self.cmam_height / 2;
+        frame.origin = CGPointZero;
+        frame.size.width = width;
+        UIImage *image = self.imageView.image;
+
+        CGFloat imageScale = image.size.height/image.size.width;
+        CGFloat screenScale = GetViewHeight(self)/kViewWidth;
+
+        if (imageScale > screenScale) {
+            frame.size.height = floorf(width * imageScale);
+        } else {
+            CGFloat height = floorf(width * imageScale);
+            if (height < 1 || isnan(height)) {
+                //iCloud图片height为NaN
+                height = GetViewHeight(self);
+            }
+            frame.size.height = height;
+        }
     }
 
-    if (self.imageContainerView.cmam_height > self.cmam_height &&
-        self.imageContainerView.cmam_height - self.cmam_height <= 1) {
-        self.imageContainerView.cmam_height = self.cmam_height;
+    self.containerView.frame = frame;
+
+
+    CGSize contentSize;
+    if (!isLandscape) {
+        contentSize = CGSizeMake(width, MAX(GetViewHeight(self), frame.size.height));
+        if (frame.size.height < GetViewHeight(self)) {
+            self.containerView.center = CGPointMake(GetViewWidth(self)/2, GetViewHeight(self)/2);
+        } else {
+            self.containerView.frame = (CGRect){CGPointMake((GetViewWidth(self)-frame.size.width)/2, 0), frame.size};
+        }
+    } else {
+        contentSize = frame.size;
+        if (frame.size.width < GetViewWidth(self) ||
+            frame.size.height < GetViewHeight(self)) {
+            self.containerView.center = CGPointMake(GetViewWidth(self)/2, GetViewHeight(self)/2);
+        }
     }
 
-    CGFloat contentSizeH     = MAX(self.imageContainerView.cmam_height, self.cmam_height);
-    self.scrollV.contentSize = CGSizeMake(self.scrollV.cmam_width, contentSizeH);
-    [self.scrollV scrollRectToVisible:self.bounds animated:NO];
-    self.scrollV.alwaysBounceVertical =
-        self.imageContainerView.cmam_height <= self.cmam_height ? NO : YES;
-    self.imageView.frame = self.imageContainerView.bounds;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.scrollView.contentSize = contentSize;
+
+        self.imageView.frame = self.containerView.bounds;
+
+        [self.scrollView scrollRectToVisible:self.bounds animated:NO];
+    });
 }
 
-- (void)refreshImageContainerViewCenter {
-    CGFloat offsetX = (self.scrollV.cmam_width > self.scrollV.contentSize.width)
-                          ? ((self.scrollV.cmam_width - self.scrollV.contentSize.width) * 0.5)
-                          : 0.0;
-    CGFloat offsetY = (self.scrollV.cmam_height > self.scrollV.contentSize.height)
-                          ? ((self.scrollV.cmam_height - self.scrollV.contentSize.height) * 0.5)
-                          : 0.0;
-    self.imageContainerView.center = CGPointMake(self.scrollV.contentSize.width * 0.5 + offsetX,
-                                                 self.scrollV.contentSize.height * 0.5 + offsetY);
+#pragma mark - 手势点击事件
+- (void)longPressAction:(UILongPressGestureRecognizer *)ges
+{
+    if (ges.state == UIGestureRecognizerStateBegan) {
+        if (self.longPressCallBack) {
+            self.longPressCallBack();
+        }
+    }
 }
 
-#pragma mark - UIScrollViewDelegate -
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    return self.imageContainerView;
+- (void)doubleTapAction:(UITapGestureRecognizer *)tap
+{
+    UIScrollView *scrollView = self.scrollView;
+
+    CGFloat scale = 1;
+    if (scrollView.zoomScale != 3.0) {
+        scale = 3;
+    } else {
+        scale = 1;
+    }
+    CGRect zoomRect = [self zoomRectForScale:scale withCenter:[tap locationInView:tap.view]];
+    [scrollView zoomToRect:zoomRect animated:YES];
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
-    scrollView.contentInset = UIEdgeInsetsZero;
+- (CGRect)zoomRectForScale:(float)scale withCenter:(CGPoint)center
+{
+    CGRect zoomRect;
+    zoomRect.size.height = self.scrollView.frame.size.height / scale;
+    zoomRect.size.width  = self.scrollView.frame.size.width  / scale;
+    zoomRect.origin.x    = center.x - (zoomRect.size.width  /2.0);
+    zoomRect.origin.y    = center.y - (zoomRect.size.height /2.0);
+    return zoomRect;
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return scrollView.subviews[0];
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
-    [self refreshImageContainerViewCenter];
+    CGFloat offsetX = (GetViewWidth(scrollView) > scrollView.contentSize.width) ? (GetViewWidth(scrollView) - scrollView.contentSize.width) * 0.5 : 0.0;
+    CGFloat offsetY = (GetViewHeight(scrollView) > scrollView.contentSize.height) ? (GetViewHeight(scrollView) - scrollView.contentSize.height) * 0.5 : 0.0;
+    self.containerView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX, scrollView.contentSize.height * 0.5 + offsetY);
 }
 
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView
-                       withView:(UIView *)view
-                        atScale:(CGFloat)scale {
-    //    [scrollView setZoomScale:scale animated:NO];
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self resumeGif];
 }
 
-#pragma mark - Getter -
+@end
+
+@implementation WYAPreviewLivePhoto
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.imageView.frame = self.bounds;
+    _lpView.frame = self.bounds;
+}
+
+- (PHLivePhotoView *)lpView
+{
+    if (!_lpView) {
+        _lpView = [[PHLivePhotoView alloc] initWithFrame:self.bounds];
+        _lpView.contentMode = UIViewContentModeScaleAspectFit;
+        [self addSubview:_lpView];
+    }
+    return _lpView;
+}
+
+- (void)placeSubviews
+{
+    [super placeSubviews];
+
+    [self addSubview:self.imageView];
+    [self addSubview:self.lpView];
+    [self addSubview:self.indicator];
+}
+
+- (void)controllerScrollViewDidScroll
+{
+    [self.lpView stopPlayback];
+}
+
+- (void)loadNormalImage:(PHAsset *)asset
+{
+    [super loadNormalImage:asset];
+
+    self.asset = asset;
+
+    if (_lpView) {
+        [_lpView removeFromSuperview];
+        _lpView = nil;
+    }
+
+    WeakSelf(weakSelf);
+    self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:asset size:[self requestImageSize:asset] progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            strongSelf.indicator.progress = progress;
+            if (progress >= 1) {
+                strongSelf.indicator.hidden = YES;
+            } else {
+                strongSelf.indicator.hidden = NO;
+            }
+        });
+    } completion:^(UIImage *image, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        strongSelf.imageView.image = image;
+        if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+            strongSelf.indicator.hidden = YES;
+        }
+    }];
+}
+
+- (void)loadLivePhoto:(PHAsset *)asset
+{
+    WeakSelf(weakSelf);
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestLivePhotoForAsset:asset completion:^(PHLivePhoto *lv, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        if (lv) {
+            strongSelf.lpView.livePhoto = lv;
+            [strongSelf.lpView startPlaybackWithStyle:PHLivePhotoViewPlaybackStyleFull];
+        }
+    }];
+}
+
+@end
+
+@implementation WYAPreviewVideo
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    self.imageView.frame = self.bounds;
+    _playLayer.frame = self.bounds;
+}
+
+- (AVPlayerLayer *)playLayer
+{
+    if (!_playLayer) {
+        _playLayer = [[AVPlayerLayer alloc] init];
+        _playLayer.frame = self.bounds;
+    }
+    return _playLayer;
+}
+
+- (UIButton *)playBtn
+{
+    if (!_playBtn) {
+        _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        _playBtn.frame = CGRectMake(0, 64, GetViewWidth(self), GetViewHeight(self) - 64 - 44);
+        [_playBtn addTarget:self action:@selector(playBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self bringSubviewToFront:_playBtn];
+    return _playBtn;
+}
+
+- (UILabel *)icloudLoadFailedLabel
+{
+    if (!_icloudLoadFailedLabel) {
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] init];
+        //创建图片附件
+        NSTextAttachment *attach = [[NSTextAttachment alloc]init];
+//        attach.image = GetImageWithName(@"zl_videoLoadFailed");
+        attach.bounds = CGRectMake(0, -10, 30, 30);
+        //创建属性字符串 通过图片附件
+        NSAttributedString *attrStr = [NSAttributedString attributedStringWithAttachment:attach];
+        //把NSAttributedString添加到NSMutableAttributedString里面
+        [str appendAttributedString:attrStr];
+
+        NSAttributedString *lastStr = [[NSAttributedString alloc] initWithString:@"iCloud无法同步"];
+        [str appendAttributedString:lastStr];
+        _icloudLoadFailedLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 70, 200, 35)];
+        _icloudLoadFailedLabel.font = [UIFont systemFontOfSize:12];
+        _icloudLoadFailedLabel.attributedText = str;
+        _icloudLoadFailedLabel.textColor = [UIColor whiteColor];
+        [self addSubview:_icloudLoadFailedLabel];
+    }
+    return _icloudLoadFailedLabel;
+}
+
+- (void)placeSubviews
+{
+    [super placeSubviews];
+
+    [self addSubview:self.imageView];
+    [self addSubview:self.indicator];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)controllerScrollViewDidScroll
+{
+    if (_playLayer.player && _playLayer.player.rate != 0) {
+        [self playBtnClick];
+    }
+}
+
+- (void)appDidEnterBackground:(NSNotification *)notify
+{
+    if (_playLayer.player && _playLayer.player.rate != 0) {
+        [self playBtnClick];
+    }
+}
+
+- (void)loadNormalImage:(PHAsset *)asset
+{
+    [super loadNormalImage:asset];
+
+    self.asset = asset;
+
+    if (_playLayer) {
+        _playLayer.player = nil;
+        [_playLayer removeFromSuperlayer];
+        _playLayer = nil;
+    }
+
+    self.imageView.image = nil;
+
+    //    if (![ZLPhotoManager judgeAssetisInLocalAblum:asset]) {
+    //        [self initVideoLoadFailedFromiCloudUI];
+    //        return;
+    //    }
+
+    self.playBtn.userInteractionEnabled = YES;
+    self.icloudLoadFailedLabel.hidden = YES;
+    self.imageView.hidden = NO;
+
+    WeakSelf(weakSelf);
+    self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:asset size:[self requestImageSize:asset] progressHandler:nil completion:^(UIImage *image, NSDictionary *info) {
+        StrongSelf(strongSelf);
+        strongSelf.imageView.image = image;
+    }];
+    [self loadVideo:asset];
+}
+
+- (void)loadVideo:(PHAsset *)asset
+{
+    WeakSelf(weakSelf);
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestVideoForAsset:asset completion:^(AVPlayerItem *item, NSDictionary *info) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            StrongSelf(strongSelf);
+            //            if (!item) {
+            //                [strongSelf initVideoLoadFailedFromiCloudUI];
+            //                return;
+            //            }
+            AVPlayer *player = [AVPlayer playerWithPlayerItem:item];
+            [strongSelf.layer addSublayer:strongSelf.playLayer];
+            strongSelf.playLayer.player = player;
+            [[NSNotificationCenter defaultCenter] addObserver:strongSelf selector:@selector(playFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem];
+            [strongSelf addSubview:strongSelf.playBtn];
+        });
+    }];
+}
+
+- (void)initVideoLoadFailedFromiCloudUI
+{
+    self.icloudLoadFailedLabel.hidden = NO;
+    self.playBtn.userInteractionEnabled = NO;
+}
+
+- (BOOL)haveLoadVideo
+{
+    return _playLayer ? YES : NO;
+}
+
+- (void)stopPlayVideo
+{
+    if (!_playLayer) {
+        return;
+    }
+    AVPlayer *player = self.playLayer.player;
+
+    if (player.rate != .0) {
+        [player pause];
+//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+    }
+}
+
+- (void)playBtnClick
+{
+    [super singleTapAction];
+    [self switchVideoStatus];
+}
+
+- (void)switchVideoStatus
+{
+    AVPlayer *player = self.playLayer.player;
+    CMTime stop = player.currentItem.currentTime;
+    CMTime duration = player.currentItem.duration;
+    if (player.rate == .0) {
+        [self.playBtn setImage:nil forState:UIControlStateNormal];
+        if (stop.value == duration.value) {
+            [player.currentItem seekToTime:CMTimeMake(0, 1)];
+        }
+        [player play];
+    } else {
+//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [player pause];
+    }
+}
+
+- (void)playFinished:(AVPlayerItem *)item
+{
+    [super singleTapAction];
+//    [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+    self.imageView.hidden = NO;
+    [self.playLayer.player seekToTime:kCMTimeZero];
+}
+
+@end
+
+@implementation WYAPreviewNetVideo
+{
+    BOOL _observerIsRemoved;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (!_observerIsRemoved) {
+        [self.playLayer.player.currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        [self.playLayer.player.currentItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        _observerIsRemoved = YES;
+    }
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+
+    _playLayer.frame = self.bounds;
+    _playBtn.center = self.center;
+}
+
+- (void)controllerScrollViewDidScroll
+{
+    if (_playLayer.player && _playLayer.player.rate != 0) {
+        [self playBtnClick];
+    }
+}
+
+- (AVPlayerLayer *)playLayer
+{
+    if (!_playLayer) {
+        _playLayer = [[AVPlayerLayer alloc] init];
+        _playLayer.frame = self.bounds;
+    }
+    return _playLayer;
+}
+
+- (UIButton *)playBtn
+{
+    if (!_playBtn) {
+        _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        _playBtn.frame = CGRectMake(0, 64, GetViewWidth(self), GetViewHeight(self) - 64 - 44);
+        [_playBtn addTarget:self action:@selector(playBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self bringSubviewToFront:_playBtn];
+    return _playBtn;
+}
+
+- (void)placeSubviews
+{
+    [super placeSubviews];
+
+    [self.layer addSublayer:self.playLayer];
+    [self addSubview:self.playBtn];
+    [self addSubview:self.indicator];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+- (void)appDidEnterBackground:(NSNotification *)notify
+{
+    if (_playLayer.player && _playLayer.player.rate != 0) {
+        [self playBtnClick];
+    }
+}
+
+- (void)loadNetVideo:(NSURL *)url
+{
+    //    [self.indicator stopAnimating];
+    AVPlayer *player = [AVPlayer playerWithURL:url];
+    self.playLayer.player = player;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem];
+    [player.currentItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+    [player.currentItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
+    _observerIsRemoved = NO;
+}
+
+- (void)seekToZero
+{
+    if (!_observerIsRemoved) {
+        [self.playLayer.player.currentItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        [self.playLayer.player.currentItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        _observerIsRemoved = YES;
+    }
+
+    AVPlayer *player = self.playLayer.player;
+    [player.currentItem seekToTime:kCMTimeZero];
+}
+
+- (void)stopPlayNetVideo
+{
+    if (!_playLayer) {
+        return;
+    }
+    AVPlayer *player = self.playLayer.player;
+
+    if (player.rate != .0) {
+        [player pause];
+//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        //        [self.indicator stopAnimating];
+    }
+}
+
+- (void)playBtnClick
+{
+    [super singleTapAction];
+    [self switchVideoStatus];
+}
+
+- (void)switchVideoStatus
+{
+    AVPlayer *player = self.playLayer.player;
+    CMTime stop = player.currentItem.currentTime;
+    CMTime duration = player.currentItem.duration;
+    if (player.rate == .0) {
+        [self.playBtn setImage:nil forState:UIControlStateNormal];
+        if (stop.value == duration.value) {
+            [player.currentItem seekToTime:CMTimeMake(0, 1)];
+        }
+        [player play];
+    } else {
+//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        //        [self.indicator stopAnimating];
+        [player pause];
+    }
+}
+
+- (void)playFinished:(AVPlayerItem *)item
+{
+    [super singleTapAction];
+//    [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+    //    [self.indicator stopAnimating];
+    [self.playLayer.player seekToTime:kCMTimeZero];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
+        //缓冲为空
+        //        NSLog(@"缓冲为空");
+        if (self.playLayer.player.rate != 0.0) {
+            //            NSLog(@"正在播放，显示等待视图");
+            //            [self.indicator startAnimating];
+        }
+    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
+        //缓冲好了
+        //        NSLog(@"缓冲好了");
+        //        [self.indicator stopAnimating];
+    }
+}
 
 @end

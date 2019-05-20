@@ -223,7 +223,7 @@ static BOOL _sortAscending;
         model.headImageAsset = result.firstObject;
     }
     //为了获取所有asset gif设置为yes
-    model.models = [ZLPhotoManager getPhotoInResult:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage allowSelectGif:allowSelectImage allowSelectLivePhoto:allowSelectImage];
+    model.models = [self getPhotoInResult:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage allowSelectGif:allowSelectImage allowSelectLivePhoto:allowSelectImage];
 
     return model;
 }
@@ -327,7 +327,7 @@ static BOOL _sortAscending;
             [self requestOriginalImageForAsset:model.asset progressHandler:nil completion:completion];
         } else {
             CGFloat scale = 2;
-            CGFloat width = MIN(kViewWidth, kMaxImageWidth);
+            CGFloat width = MIN(ScreenWidth, 500);
             CGSize size = CGSizeMake(width*scale, width*scale*model.asset.pixelHeight/model.asset.pixelWidth);
             [self requestImageForAsset:model.asset size:size progressHandler:nil completion:completion];
         }

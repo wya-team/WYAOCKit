@@ -8,9 +8,7 @@
 #import "WYAPhotoBrowserEditBottomBar.h"
 
 @interface WYAPhotoBrowserEditBottomBar ()
-@property (nonatomic, strong) UIButton * editButton;
-@property (nonatomic, strong) UIButton * centerButton;
-@property (nonatomic, strong) UIButton * doneButton;
+
 @end
 
 @implementation WYAPhotoBrowserEditBottomBar
@@ -53,12 +51,6 @@
         CGRectMake(doneButton_X, doneButton_Y, doneButton_Width, doneButton_Height);
 }
 
-#pragma mark - Setter -
-- (void)setVideoHidden:(BOOL)videoHidden {
-    self.editButton.hidden   = videoHidden;
-    self.centerButton.hidden = videoHidden;
-}
-
 #pragma mark--- Getter
 - (UIButton *)editButton {
     if (!_editButton) {
@@ -93,8 +85,9 @@
             button.titleLabel.font = FONT(13);
             button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20 * SizeAdapter);
             [button addCallBackAction:^(UIButton *button) {
+                button.selected = !button.selected;
                 if (self.originalBlock) {
-                    self.originalBlock();
+                    self.originalBlock(button.selected);
                 }
             }];
             button;

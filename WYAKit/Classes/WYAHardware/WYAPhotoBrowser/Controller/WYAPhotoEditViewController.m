@@ -14,42 +14,117 @@
 #import "WYAPhotoBrowserManager.h"
 #import <Photos/Photos.h>
 
-@interface WYAPhotoEditViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, WYAImageCropViewControllerDelegate>
+@interface WYAPhotoEditViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate>
+{
+    UICollectionView *_collectionView;
+    UIButton * _navRightButton;
+    BOOL _isFirstAppear;
 
-@property (nonatomic, strong) UICollectionView * collectionView;
+    //设备旋转前的index
+    UICollectionViewFlowLayout *_layout;
+
+    NSString *_modelIdentifile;
+
+    BOOL _shouldStartDismiss;
+    NSInteger _panCount;
+
+}
+
+@property (nonatomic, assign) BOOL interactive;
+@property (nonatomic, strong) UILabel *labPhotosBytes;
 @property (nonatomic, strong) WYAPhotoBrowserEditBottomBar * bottomBar;
-@property (nonatomic, strong) NSMutableArray<WYAPhotoBrowserModel *> * images;
+
 @end
 
 @implementation WYAPhotoEditViewController{
     NSMutableArray * _cacheArray;
 }
 #pragma mark - LifeCircle
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.hidden = YES;
-
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopCacheAssetWithArray:_cacheArray size:CGSizeMake(ScreenWidth * 1.7, ScreenHeight * 1.7)];
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    NSLog(@"---- %s", __FUNCTION__);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
-    [self loadImages];
+    _isFirstAppear = YES;
+    if (!self.selectedModels) {
+        self.selectedModels = [NSMutableArray array];
+    }
     [self setupUI];
+
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deviceOrientationChanged:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
 }
 
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+    [UIApplication sharedApplication].statusBarHidden = NO;
+    if (!_isFirstAppear) {
+        return;
+    }
+
+    [_collectionView setContentOffset:CGPointMake((ScreenWidth+kItemMargin)*self.selectIndex, 0)];
 }
 
-#pragma mark ======= UI
--(void)setupUI{
-    [self.view addSubview:self.collectionView];
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+
+    if (!_isFirstAppear) {
+        return;
+    }
+    _isFirstAppear = NO;
+    [self reloadCurrentCell];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+
+    UIEdgeInsets inset = UIEdgeInsetsMake(20, 0, 0, 0);
+    if (@available(iOS 11, *)) {
+        inset = self.view.safeAreaInsets;
+    }
+    _layout.minimumLineSpacing = kItemMargin;
+    _layout.sectionInset = UIEdgeInsetsMake(0, kItemMargin/2, 0, kItemMargin/2);
+    _layout.itemSize = CGSizeMake(ScreenWidth, ScreenHeight);
+    [_collectionView setCollectionViewLayout:_layout];
+
+    _collectionView.frame = CGRectMake(-kItemMargin/2, 0, ScreenWidth+kItemMargin, ScreenHeight);
+
+//    [_collectionView setContentOffset:CGPointMake((ScreenWidth+kItemMargin)*_indexBeforeRotation, 0)];
+
+
+}
+
+#pragma mark - 设备旋转
+//- (void)deviceOrientationChanged:(NSNotification *)notify
+//{
+//    //    NSLog(@"%s %@", __FUNCTION__, NSStringFromCGRect(self.view.bounds));
+//    _indexBeforeRotation = _currentPage - 1;
+//}
+
+#pragma mark - UI
+- (void)setupUI
+{
+    _layout = [[UICollectionViewFlowLayout alloc] init];
+    _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layout];
+    [_collectionView registerClass:[WYAPhotoPreviewCell class] forCellWithReuseIdentifier:@"ZLBigImageCell"];
+    _collectionView.dataSource = self;
+    _collectionView.delegate = self;
+    _collectionView.pagingEnabled = YES;
+    _collectionView.scrollsToTop = NO;
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.contentSize = CGSizeMake((ScreenWidth + kItemMargin) * self.models.count, ScreenHeight);
+    [self.view addSubview:_collectionView];
     [self.view addSubview:self.bottomBar];
     [self.bottomBar mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.mas_equalTo(self.view);
@@ -78,155 +153,200 @@
         make.bottom.mas_equalTo(topPreview.mas_bottom).with.offset(-7);
         make.size.mas_equalTo(CGSizeMake(40, 30));
     }];
+
+    _navRightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_navRightButton setImage:[UIImage loadBundleImage:@"icon_radio_normal" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
+    [_navRightButton setImage:[UIImage loadBundleImage:@"icon_radio_selected" ClassName:NSStringFromClass(self.class)] forState:UIControlStateSelected];
+    [_navRightButton addTarget:self
+                     action:@selector(rightBtnClick)
+           forControlEvents:UIControlEventTouchUpInside];
+    [topPreview addSubview:_navRightButton];
+    [_navRightButton mas_makeConstraints:^(MASConstraintMaker * make) {
+        make.right.mas_equalTo(topPreview.mas_right).with.offset(-15 * SizeAdapter);
+        make.centerY.mas_equalTo(cancelButton.mas_centerY);
+        make.size.mas_equalTo(CGSizeMake(22, 22));
+    }];
 }
 
-#pragma mark - Private Method
-- (void)loadImages {
-    _cacheArray = [NSMutableArray array];
-    for (WYAPhotoBrowserModel * model in self.models) {
-        [_cacheArray addObject:model.asset];
+#pragma mark - Event
+- (void)editWithOriginalImageWithSelect:(BOOL)isSelect
+{
+    NSInteger index              = _collectionView.contentOffset.x / _collectionView.cmam_width;
+    WYAPhotoBrowserModel * model = self.models[index];
+    if (isSelect) {
+
+        [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestOriginalImageForAsset:model.asset progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+
+        } completion:^(UIImage * image, NSDictionary * info) {
+            model.image = image;
+            model.selected = YES;
+            _navRightButton.selected = model.selected;
+            if (![self.selectedModels containsObject:model]) {
+                [self.selectedModels addObject:model];
+            }
+        }];
+    } else {
+
+        model.image = nil;
+        model.selected = NO;
+        _navRightButton.selected = model.selected;
+        if (![self.selectedModels containsObject:model]) {
+            [self.selectedModels removeObject:model];
+        }
     }
-    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] startCacheAssetWithArray:_cacheArray size:CGSizeMake(ScreenWidth * 1.7, ScreenHeight * 1.7)];
+
 }
 
-- (void)cancelClick {
+- (void)edit
+{
+    NSInteger index              = _collectionView.contentOffset.x / _collectionView.cmam_width;
+    WYAPhotoPreviewCell * cell = [_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+
+    WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc] initWithImage:cell.previewView.imageGifView.image];
+    imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+        [imageCrop dismissViewControllerAnimated:YES completion:nil];
+
+        WYAPhotoBrowserModel * model = self.models[index];
+        model.image              = image;
+        model.selected = YES;
+        _navRightButton.selected = model.selected;
+        if (![self.selectedModels containsObject:model]) {
+            [self.selectedModels addObject:model];
+        }
+        [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
+    };
+    [self presentViewController:imageCrop animated:YES completion:nil];
+}
+
+- (void)done
+{
+    __block NSMutableArray * array = [NSMutableArray array];
+    [self.selectedModels enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.image) {
+            [array addObject:obj.image];
+        } else {
+            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:nil allowSelectGif:nil completion:^(UIImage * image, NSDictionary * info) {
+                [array addObject:image];
+            }];
+        }
+    }];
+    WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
+    if (photoBrowser.callBackBlock) {
+        photoBrowser.callBackBlock(array);
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)cancelClick
+{
     self.navigationController.navigationBar.hidden = NO;
     [self.navigationController popViewControllerAnimated:YES];
     if (self.callback) { self.callback(self.models); }
 }
 
-- (void)edit {
-    NSInteger index              = self.collectionView.contentOffset.x / self.collectionView.cmam_width;
+- (void)rightBtnClick
+{
+    NSInteger index = _collectionView.contentOffset.x / _collectionView.cmam_width;
     WYAPhotoBrowserModel * model = self.models[index];
-
-    WYAImageCropViewController * imageCrop =
-        [[WYAImageCropViewController alloc] initWithImage:model.image];
-    imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
-        [imageCrop dismissViewControllerAnimated:YES completion:nil];
-        NSInteger index            = self.collectionView.contentOffset.x / self.collectionView.cmam_width;
-
-        WYAPhotoBrowserModel * model = self.models[index];
-        model.image              = image;
-        [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
-    };
-    [self presentViewController:imageCrop animated:YES completion:nil];
-}
-
-/**
- 获取原图
-
- @param original 如果为YES，获取的是本地的原图片
- */
-- (void)editWithOriginalImage:(BOOL)original {
-
-}
-
-- (void)done {
-    __block NSMutableArray * array = [NSMutableArray array];
-    [self.models enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.selected) {
-            [array addObject:obj.image];
-        }
-    }];
-    WYAPhotoBrowser * photo = (WYAPhotoBrowser *)self.navigationController;
-    if (photo.callBackBlock) {
-        [self dismissViewControllerAnimated:YES completion:^{ photo.callBackBlock(array); }];
+    model.selected = !model.selected;
+    _navRightButton.selected = model.selected;
+    if (model.selected) {
+        [self.selectedModels addObject:model];
+    } else {
+        [self.selectedModels removeObject:model];
     }
 }
 
-#pragma mark--- UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+#pragma mark - panAction
+
+#pragma mark - 更新按钮、导航条等显示状态
+- (void)resetDontBtnState
+{
+    if (self.selectedModels.count > 0) {
+        [self.bottomBar.doneButton setTitle:[NSString stringWithFormat:@"完成(%ld)", self.selectedModels.count] forState:UIControlStateNormal];
+    } else {
+        [self.bottomBar.doneButton setTitle:@"完成" forState:UIControlStateNormal];
+    }
+}
+
+- (void)resetEditBtnState
+{
+
+}
+
+- (void)resetOriginalBtnState
+{
+
+}
+#pragma mark - UICollectionDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
     return self.models.count;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    WYAPhotoBrowserModel * model = self.models[indexPath.item];
-    if (model.asset.mediaType == PHAssetMediaTypeVideo) {
-        WYAVideoPreviewCell * cell =
-            [collectionView dequeueReusableCellWithReuseIdentifier:@"video"
-                                                      forIndexPath:indexPath];
-        return cell;
-    } else if (model.asset.mediaType == PHAssetMediaTypeImage) {
-        WYAPhotoPreviewCell * cell =
-            [collectionView dequeueReusableCellWithReuseIdentifier:@"image"
-                                                      forIndexPath:indexPath];
-        cell.model = self.models[indexPath.item];
-        return cell;
-    } else {
-        return nil;
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    WYAPhotoPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ZLBigImageCell" forIndexPath:indexPath];
+    WYAPhotoBrowserModel *model = self.models[indexPath.row];
+
+    cell.model = model;
+    WeakSelf(weakSelf);
+    cell.singleTapCallBack = ^() {
+        StrongSelf(strongSelf);
+    };
+    __weak typeof(cell) weakCell = cell;
+    cell.longPressCallBack = ^{
+        StrongSelf(strongSelf);
+        __strong typeof(weakCell) strongCell = weakCell;
+        if (!strongCell.previewView.image) {
+            return;
+        }
+        
+    };
+
+    return cell;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGPoint offset = _collectionView.contentOffset;
+
+    CGFloat page = offset.x/_collectionView.cmam_width;
+    if (ceilf(page) >= self.models.count) {
+        return;
     }
+    NSInteger index = (NSInteger)page;
+    WYAPhotoBrowserModel * model = self.models[index];
+    _navRightButton.selected = model.selected;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                  layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.view.cmam_width, self.view.cmam_height);
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView
-                             layout:(UICollectionViewLayout *)collectionViewLayout
-    referenceSizeForHeaderInSection:(NSInteger)section {
-    return CGSizeMake(0, 0);
-}
-//设置每个item的UIEdgeInsets
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
-                        layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0 * SizeAdapter, 0 * SizeAdapter, 0 * SizeAdapter, 0 * SizeAdapter);
+- (void)reloadCurrentCell
+{
+
 }
 
-//设置每个item水平间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                                      layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 0 * SizeAdapter;
-}
-
-//设置每个item垂直间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView
-                                 layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 0 * SizeAdapter;
-}
-
-#pragma mark - Getter
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
-        _collectionView =
-        [[UICollectionView alloc] initWithFrame:self.view.frame
-                           collectionViewLayout:layout];
-        _collectionView.backgroundColor = [UIColor blackColor];
-        _collectionView.dataSource      = self;
-        _collectionView.delegate        = self;
-        _collectionView.pagingEnabled   = YES;
-        _collectionView.contentOffset   = CGPointMake(0, 0);
-        _collectionView.scrollsToTop    = NO;
-        _collectionView.contentInset    = UIEdgeInsetsMake(0, 0, 0, 0);
-        [_collectionView registerClass:[WYAPhotoPreviewCell class]
-            forCellWithReuseIdentifier:@"image"];
-        [_collectionView registerClass:[WYAVideoPreviewCell class]
-            forCellWithReuseIdentifier:@"video"];
-        [_collectionView registerClass:[UICollectionViewCell class]
-            forCellWithReuseIdentifier:@"cell"];
-        [_collectionView setContentOffset:CGPointMake(self.selectIndex * _collectionView.cmam_width, 0) animated:NO];
-    }
-    return _collectionView;
-}
-
-- (NSMutableArray<WYAPhotoBrowserModel *> *)images{
-    if(!_images){
-        _images = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
-            object;
-        });
-    }
-    return _images;
-}
-
+#pragma mark ======= Getter
 - (WYAPhotoBrowserEditBottomBar *)bottomBar{
     if(!_bottomBar){
         _bottomBar = ({
@@ -235,17 +355,16 @@
             object.editBlock = ^{
                 [weakSelf edit];
             };
-            object.originalBlock = ^{
-                [weakSelf editWithOriginalImage:NO];
+            object.originalBlock = ^(BOOL select) {
+                [weakSelf editWithOriginalImageWithSelect:select];
             };
             object.doneBlock = ^{
                 [weakSelf done];
             };
             object;
-       });
+        });
     }
     return _bottomBar;
 }
-
 
 @end

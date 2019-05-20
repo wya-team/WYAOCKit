@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "579694151.839197"
+            timestampString = "579778429.932536"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "168"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "579694151.8392479"
+            timestampString = "579778429.932605"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -234,7 +234,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/Controller/ZLShowBigImgViewController.m"
-            timestampString = "578996035.207487"
+            timestampString = "579776675.421719"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "392"
@@ -250,27 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/Controller/ZLShowBigImgViewController.m"
-            timestampString = "578996035.208039"
+            timestampString = "579776675.42178"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "378"
             endingLineNumber = "378"
-            landmarkName = "-btnEdit_Click:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/Controller/ZLShowBigImgViewController.m"
-            timestampString = "578998260.757679"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "352"
-            endingLineNumber = "352"
             landmarkName = "-btnEdit_Click:"
             landmarkType = "7">
          </BreakpointContent>
@@ -329,13 +313,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/Controller/WYAPhotoBrowserViewController.m"
-            timestampString = "579756478.947413"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/Controller/ZLShowBigImgViewController.m"
+            timestampString = "579776675.421932"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "-collectionView:didSelectItemAtIndexPath:"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
+            landmarkName = "-viewDidLayoutSubviews"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/Controller/ZLShowBigImgViewController.m"
+            timestampString = "579776675.421988"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "668"
+            endingLineNumber = "668"
+            landmarkName = "-collectionView:numberOfItemsInSection:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

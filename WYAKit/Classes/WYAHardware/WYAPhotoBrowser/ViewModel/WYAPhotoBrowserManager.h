@@ -124,24 +124,32 @@
 /**
  * @brief 获取原图
  */
-- (void)requestOriginalImageForAsset:(PHAsset *)asset progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion;
+- (void)requestOriginalImageForAsset:(PHAsset *)asset
+                     progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
+                          completion:(void (^)(UIImage *, NSDictionary *))completion;
 
 /**
  * @brief 根据传入size获取图片
  */
-- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)size progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion;
+- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset
+                                    size:(CGSize)size progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
+                              completion:(void (^)(UIImage *, NSDictionary *))completion;
 
 
 /**
  * @brief 获取live photo
  */
-- (void)requestLivePhotoForAsset:(PHAsset *)asset completion:(void (^)(PHLivePhoto *livePhoto, NSDictionary *info))completion;
+- (void)requestLivePhotoForAsset:(PHAsset *)asset
+                      completion:(void (^)(PHLivePhoto *livePhoto, NSDictionary *info))completion;
 
 /**
  * @brief 获取视频
  */
-- (void)requestVideoForAsset:(PHAsset *)asset completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
-- (void)requestVideoForAsset:(PHAsset *)asset progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
+- (void)requestVideoForAsset:(PHAsset *)asset
+                  completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
+- (void)requestVideoForAsset:(PHAsset *)asset
+             progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
+                  completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
 
 - (void)startCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;
 - (void)stopCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;

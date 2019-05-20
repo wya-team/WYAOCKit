@@ -10,10 +10,12 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoBrowserEditBottomBar : UIView
-@property (nonatomic, assign) BOOL videoHidden;
+@property (nonatomic, strong) UIButton * editButton;
+@property (nonatomic, strong) UIButton * centerButton;
+@property (nonatomic, strong) UIButton * doneButton;
 
 @property (nonatomic, copy) void(^editBlock)(void);
-@property (nonatomic, copy) void(^originalBlock)(void);
+@property (nonatomic, copy) void(^originalBlock)(BOOL select);
 @property (nonatomic, copy) void(^doneBlock)(void);
 @end
 
