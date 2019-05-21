@@ -196,10 +196,17 @@
     [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
-    self.rightButtonTwo.hidden = YES;
+    self.rightButtonOne.hidden = NO;
+    self.rightButtonTwo.hidden = NO;
+    if (normalTitles.count < 1) {
+        self.rightButtonOne.hidden = YES;
+        self.rightButtonTwo.hidden = YES;
+    }else if(normalTitles.count == 1){
+        self.rightButtonOne.hidden = NO;
+        self.rightButtonTwo.hidden = YES;
+    }
     [self.rightButtonOne setTitle:[normalTitles firstObject] forState:0];
     if (normalTitles.count > 1) {
-        self.rightButtonTwo.hidden = NO;
         [self.rightButtonTwo setTitle:[normalTitles lastObject] forState:0];
     }
 }
@@ -210,15 +217,17 @@
     [self.rightButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
-    self.rightButtonTwo.hidden = YES;
+    self.rightButtonOne.hidden = NO;
+    self.rightButtonTwo.hidden = NO;
     if (normalTitles.count < 1) {
-         self.rightButtonOne.hidden = YES;
-    }else{
+        self.rightButtonOne.hidden = YES;
+        self.rightButtonTwo.hidden = YES;
+    }else if(normalTitles.count == 1){
         self.rightButtonOne.hidden = NO;
+        self.rightButtonTwo.hidden = YES;
     }
     [self.rightButtonOne setTitle:[normalTitles firstObject] forState:0];
     if (normalTitles.count > 1) {
-        self.rightButtonTwo.hidden = NO;
         [self.rightButtonTwo setTitle:[normalTitles lastObject] forState:0];
     }
 
@@ -243,12 +252,16 @@
     [self.rightButtonTwo setTitle:@"" forState:0];
     [self.rightButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
     [self.rightButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
+    self.rightButtonOne.hidden = NO;
+    self.rightButtonTwo.hidden = NO;
     if (normalImages.count < 1) {
         self.rightButtonOne.hidden = YES;
+        self.rightButtonTwo.hidden = YES;
+    }else if(normalImages.count == 1){
+        self.rightButtonOne.hidden = NO;
+        self.rightButtonTwo.hidden = YES;
     }
-    self.rightButtonTwo.hidden = YES;
     if (normalImages.count > 1) {
-        self.rightButtonTwo.hidden = NO;
         [self.rightButtonTwo setImage:[UIImage imageNamed:[normalImages lastObject]] forState:0];
     }
     if (highlightedImgs.count > 0) {
@@ -266,10 +279,17 @@
     [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
     [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
-    self.leftButtonTwo.hidden = YES;
+    self.leftButtonOne.hidden = NO;
+    self.leftButtonTwo.hidden = NO;
+    if (normalTitles.count < 1) {
+        self.leftButtonOne.hidden = YES;
+        self.leftButtonTwo.hidden = YES;
+    }else if(normalTitles.count == 1){
+        self.leftButtonOne.hidden = NO;
+        self.leftButtonTwo.hidden = YES;
+    }
     [self.leftButtonOne setTitle:[normalTitles firstObject] forState:0];
     if (normalTitles.count > 1) {
-        self.leftButtonTwo.hidden = NO;
         [self.leftButtonTwo setTitle:[normalTitles lastObject] forState:0];
     }
 }
@@ -279,10 +299,17 @@
     [self.leftButtonOne setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
     [self.leftButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
+    self.leftButtonOne.hidden = NO;
+    self.leftButtonTwo.hidden = NO;
+    if (normalTitles.count < 1) {
+        self.leftButtonOne.hidden = YES;
+        self.leftButtonTwo.hidden = YES;
+    }else if(normalTitles.count == 1){
+        self.leftButtonOne.hidden = NO;
+        self.leftButtonTwo.hidden = YES;
+    }
     [self.leftButtonOne setTitle:[normalTitles firstObject] forState:0];
-    self.leftButtonTwo.hidden = YES;
     if (normalTitles.count > 1) {
-        self.leftButtonTwo.hidden = NO;
         [self.leftButtonTwo setTitle:[normalTitles lastObject] forState:0];
     }
 
@@ -307,10 +334,17 @@
     [self.leftButtonOne setTitle:@"" forState:UIControlStateHighlighted];
     [self.leftButtonTwo setTitle:@"" forState:0];
     [self.leftButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
-    self.leftButtonTwo.hidden = YES;
+    self.leftButtonOne.hidden = NO;
+    self.leftButtonTwo.hidden = NO;
+    if (normalImages.count < 1) {
+        self.leftButtonOne.hidden = YES;
+        self.leftButtonTwo.hidden = YES;
+    }else if(normalImages.count == 1){
+        self.leftButtonOne.hidden = NO;
+        self.leftButtonTwo.hidden = YES;
+    }
     [self.leftButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
     if (normalImages.count > 1) {
-        self.leftButtonTwo.hidden = NO;
         [self.leftButtonTwo setImage:[UIImage imageNamed:[normalImages lastObject]] forState:0];
     }
     if (highlightedImgs.count > 0) {
