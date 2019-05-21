@@ -92,6 +92,13 @@
 - (void)setModel:(WYAPhotoBrowserModel *)model {
     _model = model;
     if (model) {
+        if (model.needCover) {
+            self.cellPreview.hidden = NO;
+            self.button.userInteractionEnabled = NO;
+        } else {
+            self.cellPreview.hidden = YES;
+            self.button.userInteractionEnabled = YES;
+        }
         self.button.selected = model.selected;
         CGSize size;
         size.width = self.cmam_width * 1.7;

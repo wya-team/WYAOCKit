@@ -105,6 +105,7 @@
     if (_preViewArray.count < 1) { return; }
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
     vc.models                       = _preViewArray;
+    vc.selectedModels = _preViewArray;
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
         NSArray * models = [self.dataSource copy];
         for (WYAPhotoBrowserModel * photoModel in models) {
@@ -145,11 +146,26 @@
             model.image = image;
         }];
         [_preViewArray addObject:model];
+        if (_preViewArray.count == self.maxCount) {
+            for (WYAPhotoBrowserModel * model in self.dataSource) {
+                if (![_preViewArray containsObject:model]) {
+                    model.needCover = YES;
+                }
+            }
+            [self.collectionView reloadData];
+        }
+
     } else {
         if (model.image) {
             model.image = nil;
         }
         [_preViewArray removeObject:model];
+        if (_preViewArray.count < self.maxCount) {
+            for (WYAPhotoBrowserModel * model in self.dataSource) {
+                model.needCover = NO;
+            }
+            [self.collectionView reloadData];
+        }
     }
     [self changePreviewButtonState];
     [self changeDoneButtonState];
@@ -223,6 +239,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
     vc.models                       = self.dataSource;
+    vc.selectedModels = _preViewArray;
     WYAPhotoBrowserModel * model    = self.dataSource[indexPath.item];
     vc.selectIndex                  = [self.dataSource indexOfObject:model];
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {

@@ -24,7 +24,7 @@ typedef NS_ENUM(NSUInteger, WYAAssetMediaType) {
 @interface WYAPhotoBrowserModel : NSObject
 /// 资源
 @property (nonatomic, strong) PHAsset * asset;
-//asset类型
+/// asset类型
 @property (nonatomic, assign) WYAAssetMediaType type;
 /// 视频时长
 @property (nonatomic, copy) NSString *duration;
@@ -34,6 +34,8 @@ typedef NS_ENUM(NSUInteger, WYAAssetMediaType) {
 @property (nonatomic, strong) NSURL *url ;
 /// 图片
 @property (nonatomic, strong) UIImage *image;
+
+@property (nonatomic, assign) BOOL needCover;
 
 /**初始化model对象*/
 + (instancetype)modelWithAsset:(PHAsset *)asset type:(WYAAssetMediaType)type duration:(NSString *)duration;

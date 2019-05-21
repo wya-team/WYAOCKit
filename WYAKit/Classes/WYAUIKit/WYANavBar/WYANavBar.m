@@ -211,6 +211,11 @@
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:0];
     [self.rightButtonTwo setImage:[UIImage imageNamed:@""] forState:UIControlStateHighlighted];
     self.rightButtonTwo.hidden = YES;
+    if (normalTitles.count < 1) {
+         self.rightButtonOne.hidden = YES;
+    }else{
+        self.rightButtonOne.hidden = NO;
+    }
     [self.rightButtonOne setTitle:[normalTitles firstObject] forState:0];
     if (normalTitles.count > 1) {
         self.rightButtonTwo.hidden = NO;
@@ -238,6 +243,9 @@
     [self.rightButtonTwo setTitle:@"" forState:0];
     [self.rightButtonTwo setTitle:@"" forState:UIControlStateHighlighted];
     [self.rightButtonOne setImage:[UIImage imageNamed:[normalImages firstObject]] forState:0];
+    if (normalImages.count < 1) {
+        self.rightButtonOne.hidden = YES;
+    }
     self.rightButtonTwo.hidden = YES;
     if (normalImages.count > 1) {
         self.rightButtonTwo.hidden = NO;
