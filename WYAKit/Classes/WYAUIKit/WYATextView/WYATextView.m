@@ -230,6 +230,40 @@
         self.textView.text  = text;
         self.noteLabel.text = [NSString
             stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+        CGFloat maxHeight     = self.textViewMaxHeight;
+        CGRect frame          = self.textView.frame;
+        CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
+        CGSize size           = [self.textView sizeThatFits:constraintSize];
+
+        if (size.height >= maxHeight) {
+            // 如果大于最大高度，就不在增加高度
+            size.height = maxHeight;
+        } else if (size.height < _initialHeight) {
+            // 记录的是初始值，如果有文字记录需要减去文字记录label的高度w
+            if (self.showWordsCount) {
+                size.height = _initialHeight - self.noteLabel.cmam_height;
+            } else {
+                size.height = _initialHeight;
+            }
+        }
+
+        self.textView.frame     = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
+        CGFloat self_x     = self.cmam_left;
+        CGFloat self_y     = self.cmam_top;
+        CGFloat self_width = self.cmam_width;
+        CGFloat self_height;
+        if (self.showWordsCount) {
+            self_height = size.height + self.noteLabel.cmam_height + self.textViewPadding * 2;
+        } else {
+            self_height = size.height + self.textViewPadding * 2;
+        }
+        CGRect self_rect = CGRectMake(self_x, self_y, self_width, self_height);
+        self.frame       = self_rect;
+        if (self.textViewContentFrame) {
+            self.textViewContentFrame();
+        }
     }
 }
 
