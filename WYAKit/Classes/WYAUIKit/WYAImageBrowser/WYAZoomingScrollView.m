@@ -254,6 +254,9 @@
  */
 - (void)prepareForReuse {
     //    NSLog(@"prepareForReuse: strongSelf %@ , strongSelf.imageURL = %@ , progress = %f" , self , self.imageURL,self.progress);
+    if (self.scrollview.zoomScale > self.scrollview.minimumZoomScale) {
+        [self.scrollview setZoomScale:self.scrollview.minimumZoomScale animated:NO];
+    }
     [self setMaxAndMinZoomScales];
     self.progress             = 0;
     self.photoImageView.image = nil;
