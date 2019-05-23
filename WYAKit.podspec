@@ -60,4 +60,5 @@ TODO: Add long description of the pod here.
   # 暂时未使用到的
   s.dependency 'YYText'
   s.dependency 'Bugly'
+  s.dependency 'YYModel'
 end

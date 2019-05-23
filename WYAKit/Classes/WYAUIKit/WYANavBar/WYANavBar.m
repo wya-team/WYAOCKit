@@ -140,7 +140,8 @@
 }
 - (void)setNavTitleFont:(CGFloat)navTitleFont{
     _navTitleFont = navTitleFont;
-    self.titleLabel.font = FONT(_navTitleFont);
+//    self.titleLabel.font = FONT(_navTitleFont);
+    self.titleLabel.font = [UIFont systemFontOfSize:_navTitleFont];
 }
 - (void)setNavTitleColor:(UIColor *)navTitleColor{
     _navTitleColor = navTitleColor;
