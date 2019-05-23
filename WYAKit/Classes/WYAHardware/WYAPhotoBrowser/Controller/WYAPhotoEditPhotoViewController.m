@@ -5,16 +5,17 @@
 //  Created by 李世航 on 2018/11/29.
 //
 
-#import "WYAPhotoEditViewController.h"
+#import "WYAPhotoEditPhotoViewController.h"
 #import "WYAImageCropViewController.h"
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserModel.h"
 #import "WYAPhotoBrowserEditBottomBar.h"
 #import "WYAPhotoPreviewCell.h"
+#import "WYAPhotoEditVideoViewController.h"
 #import "WYAPhotoBrowserManager.h"
 #import <Photos/Photos.h>
 
-@interface WYAPhotoEditViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate>
+@interface WYAPhotoEditPhotoViewController () <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate>
 {
     UICollectionView *_collectionView;
     UIButton * _navRightButton;
@@ -36,7 +37,7 @@
 
 @end
 
-@implementation WYAPhotoEditViewController{
+@implementation WYAPhotoEditPhotoViewController{
     NSMutableArray * _cacheArray;
 }
 #pragma mark - LifeCircle
@@ -117,7 +118,7 @@
     _layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_layout];
-    [_collectionView registerClass:[WYAPhotoPreviewCell class] forCellWithReuseIdentifier:@"ZLBigImageCell"];
+    [_collectionView registerClass:[WYAPhotoPreviewCell class] forCellWithReuseIdentifier:@"WYAPhotoPreviewCell"];
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.pagingEnabled = YES;
@@ -201,21 +202,28 @@
 {
     NSInteger index              = _collectionView.contentOffset.x / _collectionView.cmam_width;
     WYAPhotoPreviewCell * cell = [_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]];
+    WYAPhotoBrowserModel * model = self.models[index];
+    if (model.type == WYAAssetMediaTypeImage) {
+        WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc] initWithImage:cell.previewView.imageGifView.image];
+        imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
+            [imageCrop dismissViewControllerAnimated:YES completion:nil];
 
-    WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc] initWithImage:cell.previewView.imageGifView.image];
-    imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
-        [imageCrop dismissViewControllerAnimated:YES completion:nil];
 
-        WYAPhotoBrowserModel * model = self.models[index];
-        model.image              = image;
-        model.selected = YES;
-        _navRightButton.selected = model.selected;
-        if (![self.selectedModels containsObject:model]) {
-            [self.selectedModels addObject:model];
-        }
-        [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
-    };
-    [self presentViewController:imageCrop animated:YES completion:nil];
+            model.image              = image;
+            model.selected = YES;
+            _navRightButton.selected = model.selected;
+            if (![self.selectedModels containsObject:model]) {
+                [self.selectedModels addObject:model];
+            }
+            [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
+        };
+        [self presentViewController:imageCrop animated:YES completion:nil];
+    } else if (model.type == WYAAssetMediaTypeVideo) {
+        WYAPhotoEditVideoViewController * video = [[WYAPhotoEditVideoViewController alloc]init];
+        video.model = model;
+        [self presentViewController:video animated:YES completion:nil];
+    }
+
 }
 
 - (void)done
@@ -225,7 +233,7 @@
         if (obj.image) {
             [array addObject:obj.image];
         } else {
-            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:nil allowSelectGif:nil completion:^(UIImage * image, NSDictionary * info) {
+            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:[self config].allowSelectOriginal allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
                 [array addObject:image];
             }];
         }
@@ -276,7 +284,13 @@
 
 - (void)resetOriginalBtnState
 {
-
+    NSInteger index              = _collectionView.contentOffset.x / _collectionView.cmam_width;
+    WYAPhotoBrowserModel * model = self.models[index];
+    if (model.type != WYAAssetMediaTypeImage) {
+        self.bottomBar.centerButton.hidden = YES;
+    } else {
+        self.bottomBar.centerButton.hidden = NO;
+    }
 }
 #pragma mark - UICollectionDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -301,7 +315,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    WYAPhotoPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ZLBigImageCell" forIndexPath:indexPath];
+    WYAPhotoPreviewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"WYAPhotoPreviewCell" forIndexPath:indexPath];
     WYAPhotoBrowserModel *model = self.models[indexPath.row];
 
     cell.model = model;
@@ -334,6 +348,9 @@
     NSInteger index = (NSInteger)page;
     WYAPhotoBrowserModel * model = self.models[index];
     _navRightButton.selected = model.selected;
+    [self resetDontBtnState];
+    [self resetEditBtnState];
+    [self resetOriginalBtnState];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -367,4 +384,8 @@
     return _bottomBar;
 }
 
+- (WYAPhotoBrowserConfig *)config{
+    WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
+    return photoBrowser.config;
+}
 @end

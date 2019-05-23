@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYAPhotoEditViewController : UIViewController
+@interface WYAPhotoEditPhotoViewController : UIViewController
 @property (nonatomic, assign) NSInteger selectIndex;
 @property (nonatomic, strong) NSMutableArray<WYAPhotoBrowserModel *> * models;
 @property (nonatomic, strong) NSMutableArray<WYAPhotoBrowserModel *> * selectedModels;

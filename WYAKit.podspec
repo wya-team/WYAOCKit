@@ -59,4 +59,5 @@ TODO: Add long description of the pod here.
   s.dependency 'SSKeychain'
   # 暂时未使用到的
   s.dependency 'YYText'
+  s.dependency 'Bugly'
 end

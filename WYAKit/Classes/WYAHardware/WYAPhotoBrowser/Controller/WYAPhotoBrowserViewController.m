@@ -11,7 +11,7 @@
 #import "WYAPhotoBrowserCell.h"
 #import "WYAPhotoBrowserManager.h"
 #import "WYAPhotoBrowserModel.h"
-#import "WYAPhotoEditViewController.h"
+#import "WYAPhotoEditPhotoViewController.h"
 #import "WYAPhotoBrowserBottomBar.h"
 
 @interface WYAPhotoBrowserViewController () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
@@ -30,7 +30,7 @@
 #pragma mark ======= LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.albumModel = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getCameraRollAlbumList:YES allowSelectImage:YES];
+    self.albumModel = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getCameraRollAlbumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage];
     _cacheArray = [NSMutableArray array];
     [self.albumModel.models enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [_cacheArray addObject:obj.asset];
@@ -82,7 +82,7 @@
 #pragma mark - Private Method
 - (void)getDataSource {
 
-    self.dataSource = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoInResult:self.albumModel.result allowSelectVideo:YES allowSelectImage:YES allowSelectGif:YES allowSelectLivePhoto:YES];
+    self.dataSource = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoInResult:self.albumModel.result allowSelectVideo:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage allowSelectGif:[self config].allowSelectGif allowSelectLivePhoto:[self config].allowSelectLivePhoto];
 
 
     [self.collectionView reloadData];
@@ -103,7 +103,7 @@
 
 -(void)previewClick{
     if (_preViewArray.count < 1) { return; }
-    WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
+    WYAPhotoEditPhotoViewController * vc = [[WYAPhotoEditPhotoViewController alloc] init];
     vc.models                       = _preViewArray;
     vc.selectedModels = _preViewArray;
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
@@ -127,7 +127,7 @@
         if (obj.image) {
             [array addObject:obj.image];
         } else {
-            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:NO allowSelectGif:nil completion:^(UIImage * image, NSDictionary * info) {
+            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:NO allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
                 [array addObject:image];
             }];
         }
@@ -142,11 +142,11 @@
 - (void)selectCellImageWithModel:(WYAPhotoBrowserModel *)model select:(BOOL)select{
     if (select) {
         //
-        [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model isOriginal:NO allowSelectGif:nil completion:^(UIImage * image, NSDictionary * info) {
+        [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model isOriginal:[self config].allowSelectOriginal allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
             model.image = image;
         }];
         [_preViewArray addObject:model];
-        if (_preViewArray.count == self.maxCount) {
+        if (_preViewArray.count == [self config].maxSelectCount) {
             for (WYAPhotoBrowserModel * model in self.dataSource) {
                 if (![_preViewArray containsObject:model]) {
                     model.needCover = YES;
@@ -160,7 +160,7 @@
             model.image = nil;
         }
         [_preViewArray removeObject:model];
-        if (_preViewArray.count < self.maxCount) {
+        if (_preViewArray.count < [self config].maxSelectCount) {
             for (WYAPhotoBrowserModel * model in self.dataSource) {
                 model.needCover = NO;
             }
@@ -237,7 +237,7 @@ minimumLineSpacingForSectionAtIndex:(NSInteger)section {
 
 - (void)collectionView:(UICollectionView *)collectionView
 didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    WYAPhotoEditViewController * vc = [[WYAPhotoEditViewController alloc] init];
+    WYAPhotoEditPhotoViewController * vc = [[WYAPhotoEditPhotoViewController alloc] init];
     vc.models                       = self.dataSource;
     vc.selectedModels = _preViewArray;
     WYAPhotoBrowserModel * model    = self.dataSource[indexPath.item];
@@ -326,7 +326,10 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     return _collectionView;
 }
 
-
+-(WYAPhotoBrowserConfig *)config{
+    WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
+    return photoBrowser.config;
+}
 
 
 @end

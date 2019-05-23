@@ -121,6 +121,13 @@
                 strongSelf.imageRequestID = -1;
             }
         }];
+
+        if (model.type == WYAAssetMediaTypeVideo || model.type == WYAAssetMediaTypeNetVideo) {
+            self.videoPreview.hidden = NO;
+            self.videoLabel.text = model.duration;
+        } else {
+            self.videoPreview.hidden = YES;
+        }
     }
 }
 

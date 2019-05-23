@@ -44,8 +44,6 @@
     [super viewDidLoad];
 
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.maxCount                        = self.maxCount;
-    vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:NO];
 }
 
@@ -70,7 +68,7 @@
 
 #pragma mark ======= Private Method
 - (void)photoAlbum {
-    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoAblumList:YES allowSelectImage:YES complete:^(NSArray<WYAPhotoBrowserAlbumModel *> * arr) {
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoAblumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage complete:^(NSArray<WYAPhotoBrowserAlbumModel *> * arr) {
         self.dataSource = arr;
         [self.table reloadData];
     }];
@@ -88,8 +86,6 @@
     return cell;
 }
 
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSMutableArray * arr             = self.dataSource[indexPath.row];
@@ -103,8 +99,6 @@
 
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
     vc.collections                     = collectionArray;
-    vc.maxCount                        = self.maxCount;
-    vc.photoBrowserType                = self.photoBrowserType;
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -132,6 +126,11 @@
        });
     }
     return _table;
+}
+
+- (WYAPhotoBrowserConfig *)config{
+    WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
+    return photoBrowser.config;
 }
 
 @end

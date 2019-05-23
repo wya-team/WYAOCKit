@@ -761,7 +761,7 @@
 {
     if (!_playBtn) {
         _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [_playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         _playBtn.frame = CGRectMake(0, 64, GetViewWidth(self), GetViewHeight(self) - 64 - 44);
         [_playBtn addTarget:self action:@selector(playBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -886,7 +886,7 @@
 
     if (player.rate != .0) {
         [player pause];
-//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
     }
 }
 
@@ -908,7 +908,7 @@
         }
         [player play];
     } else {
-//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         [player pause];
     }
 }
@@ -916,7 +916,7 @@
 - (void)playFinished:(AVPlayerItem *)item
 {
     [super singleTapAction];
-//    [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+    [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
     self.imageView.hidden = NO;
     [self.playLayer.player seekToTime:kCMTimeZero];
 }
@@ -966,7 +966,7 @@
 {
     if (!_playBtn) {
         _playBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [_playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         _playBtn.frame = CGRectMake(0, 64, GetViewWidth(self), GetViewHeight(self) - 64 - 44);
         [_playBtn addTarget:self action:@selector(playBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -1023,7 +1023,7 @@
 
     if (player.rate != .0) {
         [player pause];
-//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         //        [self.indicator stopAnimating];
     }
 }
@@ -1046,7 +1046,7 @@
         }
         [player play];
     } else {
-//        [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+        [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
         //        [self.indicator stopAnimating];
         [player pause];
     }
@@ -1055,7 +1055,7 @@
 - (void)playFinished:(AVPlayerItem *)item
 {
     [super singleTapAction];
-//    [self.playBtn setImage:GetImageWithName(@"zl_playVideo") forState:UIControlStateNormal];
+    [self.playBtn setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)] forState:UIControlStateNormal];
     //    [self.indicator stopAnimating];
     [self.playLayer.player seekToTime:kCMTimeZero];
 }

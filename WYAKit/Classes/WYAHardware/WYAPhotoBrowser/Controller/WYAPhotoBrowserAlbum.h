@@ -10,8 +10,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoBrowserAlbum : UIViewController
-@property (nonatomic, assign) NSInteger maxCount;
-@property (nonatomic, assign) WYAPhotoBrowserType photoBrowserType;
 @end
 
 NS_ASSUME_NONNULL_END

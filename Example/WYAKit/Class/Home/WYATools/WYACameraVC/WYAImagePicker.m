@@ -275,9 +275,8 @@
 //                                                                            ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
 //                                                                            [sheet showPhotoLibrary];
 //                                                                        });
-                                                                        WYAPhotoBrowser * photo =
-                                                                        [[WYAPhotoBrowser alloc] initWithMaxCount:inter
-                                                                                                 photoBrowserType:WYAPhotoBrowserTypeAll];
+                                                                        WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc] init];
+                                                                        photo.config.maxSelectCount = inter;
                                                                         photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
                                                                             NSLog(@"images==%@", media);
                                                                             NSMutableArray * array = [NSMutableArray array];
@@ -342,29 +341,29 @@
 - (ZLPhotoActionSheet *)getPasWithNumber:(NSInteger)number {
     ZLPhotoActionSheet * actionSheet = [[ZLPhotoActionSheet alloc] init];
 
-    actionSheet.configuration.allowSelectGif       = NO;
-    actionSheet.configuration.allowSelectVideo     = NO;
-    actionSheet.configuration.allowSelectLivePhoto = NO;
+    actionSheet.configuration.allowSelectGif       = YES;
+    actionSheet.configuration.allowSelectVideo     = YES;
+    actionSheet.configuration.allowSelectLivePhoto = YES;
     actionSheet.configuration.allowForceTouch      = YES;
     actionSheet.configuration.allowEditImage       = YES;
-    actionSheet.configuration.allowEditVideo       = NO;
-    actionSheet.configuration.allowMixSelect       = NO;
+    actionSheet.configuration.allowEditVideo       = YES;
+    actionSheet.configuration.allowMixSelect       = YES;
     //设置相册内部显示拍照按钮
-    actionSheet.configuration.allowTakePhotoInLibrary = NO;
+    actionSheet.configuration.allowTakePhotoInLibrary = YES;
     //设置在内部拍照按钮上实时显示相机俘获画面
-    actionSheet.configuration.showCaptureImageOnTakePhotoBtn = NO;
+    actionSheet.configuration.showCaptureImageOnTakePhotoBtn = YES;
     //设置照片最大预览数
     actionSheet.configuration.maxPreviewCount = 20;
     //设置照片最大选择数
     actionSheet.configuration.maxSelectCount = number;
     //设置允许选择的视频最大时长
-    actionSheet.configuration.maxVideoDuration = 0;
+    actionSheet.configuration.maxVideoDuration = 120;
     //设置照片cell弧度
     actionSheet.configuration.cellCornerRadio = 4;
     //单选模式是否显示选择按钮
     //    actionSheet.configuration.showSelectBtn = YES;
     //是否在选择图片后直接进入编辑界面
-    actionSheet.configuration.editAfterSelectThumbnailImage = NO;
+    actionSheet.configuration.editAfterSelectThumbnailImage = YES;
     //是否保存编辑后的图片
     //    actionSheet.configuration.saveNewImageAfterEdit = NO;
     //设置编辑比例

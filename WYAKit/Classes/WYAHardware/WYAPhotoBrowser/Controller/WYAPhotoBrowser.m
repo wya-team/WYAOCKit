@@ -14,12 +14,13 @@
 
 @implementation WYAPhotoBrowser
 
-- (instancetype)initWithMaxCount:(NSInteger)maxCount photoBrowserType:(WYAPhotoBrowserType)type {
+- (instancetype)init
+{
     WYAPhotoBrowserAlbum * album = [[WYAPhotoBrowserAlbum alloc] init];
-    album.maxCount               = maxCount;
-    album.photoBrowserType       = type;
     self                         = [super initWithRootViewController:album];
-    if (self) {}
+    if (self) {
+        _config = [WYAPhotoBrowserConfig defaultPhotoBrowserConfig];
+    }
     return self;
 }
 

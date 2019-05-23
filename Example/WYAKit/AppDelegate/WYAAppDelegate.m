@@ -10,11 +10,12 @@
 #import "RootViewController.h"
 #import <WYAKit/WYAKitInstance.h>
 #import <WHDebugTool/WHDebugToolManager.h>
-
+#import <Bugly/Bugly.h>
 @implementation WYAAppDelegate
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Bugly startWithAppId:@"80bc7e9193"];
     WYAKitInstance * instance        = [WYAKitInstance sharedInstance];
     instance.bannerConfig.autoScroll = YES;
 

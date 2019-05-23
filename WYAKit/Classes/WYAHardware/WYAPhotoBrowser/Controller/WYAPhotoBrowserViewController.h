@@ -12,6 +12,4 @@
 
 @interface WYAPhotoBrowserViewController : UIViewController
 @property (nonatomic, strong) NSMutableArray * collections;
-@property (nonatomic, assign) NSInteger maxCount;
-@property (nonatomic, assign) WYAPhotoBrowserType photoBrowserType;
 @end

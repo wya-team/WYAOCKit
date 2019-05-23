@@ -154,4 +154,95 @@
 - (void)startCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;
 - (void)stopCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;
 - (void)stopAllCacheAsset;
+
+#pragma mark - 编辑、导出视频相关
+
+/**
+ 解析视频，获取每秒对应的一帧图片
+
+ @param size 图片size
+ */
+- (void)analysisEverySecondsImageForAsset:(PHAsset *)asset interval:(NSTimeInterval)interval size:(CGSize)size complete:(void (^)(AVAsset *avAsset, NSArray<UIImage *> *images))complete;
+
+/**
+ 导出编辑的片段视频并保存到相册
+
+ @param range 需要到处的视频间隔
+ */
+- (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(ZLExportVideoType)type complete:(void (^)(BOOL isSuc, PHAsset *asset))complete;
+
+
+/**
+ 导出视频，视频压缩设置默认为 AVAssetExportPresetMediumQuality
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+/**
+ 导出视频
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ @param presetName 视频压缩设置
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+
+/**
+ 导出指定尺寸的视频，视频区域为以视频中心为中点（视频质量未压缩）
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ @param renderSize 指定的尺寸大小
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type renderSize:(CGSize)renderSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+#pragma mark - 导出视频加水印、粒子效果
+/**
+ 导出指定尺寸视频，并添加水印，视频区域为以视频中心为中点（视频质量未压缩）
+
+ @discussion（由于文字水印在开发过程中遇到对同一个视频导出时候，有的文字显示，有的不显示的文字，所以暂不支持文字水印）
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ @param renderSize 指定的尺寸大小，如要导出全尺寸视频，可将该值设置的大些如:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
+ @param watermarkImage 水印图片
+ @param location 水印位置
+ @param imageSize 水印大小
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(ZLWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+
+/**
+ 导出全尺寸视频，并添加水印（支持设置压缩系数）
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ @param presetName 视频压缩设置
+ @param watermarkImage 水印图片
+ @param location 水印位置
+ @param imageSize 水印大小
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName watermarkImage:(UIImage *)watermarkImage watermarkLocation:(ZLWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+
+/**
+ 给视频加粒子特效，目前仅支持粒子从屏幕上方向下发射，e.g.:下雪特效，需传入一张雪花图片。
+
+ @param asset 需要导出视频的asset
+ @param type 视频导出格式
+ @param presetName 视频压缩设置
+ @param effectImage 粒子图片（建议一倍图尺寸不超过200*200）
+ @param birthRate 粒子每秒创建数量（建议30~50）
+ @param velocity 粒子扩散速度
+ */
+- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+
+
+/**
+ 获取保存视频的路径
+ */
+- (NSString *)getVideoExportFilePath:(ZLExportVideoType)type;
 @end
