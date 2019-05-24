@@ -32,7 +32,12 @@
     [super viewDidLoad];
     WYAPhotoBrowserManager * manager = [WYAPhotoBrowserManager sharedPhotoBrowserManager];
     [manager setSortAscending:[self config].sortAscending];
-    self.albumModel = [manager getCameraRollAlbumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage];
+    if (self.album) {
+        self.albumModel = self.album;
+    } else {
+        self.albumModel = [manager getCameraRollAlbumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage];
+    }
+
     _cacheArray = [NSMutableArray array];
     [self.albumModel.models enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [_cacheArray addObject:obj.asset];
@@ -42,7 +47,7 @@
     [self getDataSource];
 }
 
--(void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTranslucent:YES];
     //去掉导航栏底部的黑线
@@ -52,7 +57,7 @@
     [[WYAPhotoBrowserManager sharedPhotoBrowserManager] startCacheAssetWithArray:_cacheArray size:CGSizeMake(width, width)];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     CGFloat width = (ScreenWidth - 25) / 4 * 1.7;
     [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopCacheAssetWithArray:_cacheArray size:CGSizeMake(width, width)];

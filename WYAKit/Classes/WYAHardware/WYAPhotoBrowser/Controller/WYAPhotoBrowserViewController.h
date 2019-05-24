@@ -7,9 +7,10 @@
 //
 
 #import "WYAPhotoBrowserSource.h"
+#import "WYAPhotoBrowserModel.h"
 #import <Photos/Photos.h>
 #import <UIKit/UIKit.h>
 
 @interface WYAPhotoBrowserViewController : UIViewController
-@property (nonatomic, strong) NSMutableArray * collections;
+@property (nonatomic, strong) WYAPhotoBrowserAlbumModel * album;
 @end

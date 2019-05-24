@@ -245,4 +245,8 @@
  获取保存视频的路径
  */
 - (NSString *)getVideoExportFilePath:(ZLExportVideoType)type;
+
+- (UIImage *)transformToGifImageWithData:(NSData *)data;
+
+- (BOOL)judgeAssetisInLocalAblum:(PHAsset *)asset;
 @end

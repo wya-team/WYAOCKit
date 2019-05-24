@@ -441,7 +441,7 @@
         StrongSelf(strongSelf);
         if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
             strongSelf.indicator.hidden = YES;
-            strongSelf.imageView.image = [ZLPhotoManager transformToGifImageWithData:data];
+            strongSelf.imageView.image = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] transformToGifImageWithData:data];
             [strongSelf resumeGif];
             [strongSelf resetSubviewSize:asset];
         }
@@ -830,10 +830,10 @@
 
     self.imageView.image = nil;
 
-    //    if (![ZLPhotoManager judgeAssetisInLocalAblum:asset]) {
-    //        [self initVideoLoadFailedFromiCloudUI];
-    //        return;
-    //    }
+        if (![[WYAPhotoBrowserManager sharedPhotoBrowserManager] judgeAssetisInLocalAblum:asset]) {
+            [self initVideoLoadFailedFromiCloudUI];
+            return;
+        }
 
     self.playBtn.userInteractionEnabled = YES;
     self.icloudLoadFailedLabel.hidden = YES;
