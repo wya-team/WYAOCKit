@@ -658,47 +658,47 @@
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwoOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 2) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateThreeOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 3) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateFourOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 4) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateFiveOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 5) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateSixOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 6) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateSevenOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 7) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateEightOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 8) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateNineOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 9) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTenOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 10) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateElevenOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 11) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateTwelveOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
-        } else if (indexPath.row == 1) {
+        } else if (indexPath.row == 12) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateThirteenOfNineWithTemplateSize:self.templateSuperView.cmam_size] images:arr];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;

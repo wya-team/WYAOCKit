@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoEditVideoViewController : UIViewController
 @property (nonatomic, strong) WYAPhotoBrowserModel * model;
+@property (nonatomic, copy) void(^editVideoFinishBlock)(WYAPhotoBrowserModel * videoModel);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -21,6 +21,13 @@ static BOOL _sortAscending;
         //        manager.cachingManager.allowsCachingHighQualityImages = NO;
     });
     return manager;
+//    WYAPhotoBrowserManager * manager = [[WYAPhotoBrowserManager alloc]init];
+//    return manager;
+}
+
+- (void)dealloc
+{
+    NSLog(@"管理释放");
 }
 
 - (void)setSortAscending:(BOOL)ascending

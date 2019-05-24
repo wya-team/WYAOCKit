@@ -31,7 +31,11 @@
 
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopAllCacheAsset];
+//    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopAllCacheAsset];
+}
+
+- (void)dealloc{
+    NSLog(@"调用了图片viewcontroll----0");
 }
 
 /*

@@ -61,4 +61,5 @@ TODO: Add long description of the pod here.
   s.dependency 'YYText'
   s.dependency 'Bugly'
   s.dependency 'YYModel'
+  s.dependency 'MLeaksFinder'
 end

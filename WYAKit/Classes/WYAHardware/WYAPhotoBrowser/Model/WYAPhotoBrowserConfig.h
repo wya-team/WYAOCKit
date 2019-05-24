@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, WYAExportVideoType) {
 
 /// 最大可以选择多少个
 @property (nonatomic, assign) NSInteger maxSelectCount;
+/// 是否是升序
+@property (nonatomic, assign) BOOL sortAscending;
 /// 是否允许选择照片 默认YES
 @property (nonatomic, assign) BOOL allowSelectImage;
 /// 是否允许选择视频 默认YES
@@ -30,12 +32,17 @@ typedef NS_ENUM(NSUInteger, WYAExportVideoType) {
 @property (nonatomic, assign) BOOL allowSelectLivePhoto;
 /// 是否允许选择原图，默认NO
 @property (nonatomic, assign) BOOL allowSelectOriginal;
+/// 是否允许编辑图片，默认YES
+@property (nonatomic, assign) BOOL allowEditImage;
+/// 是否允许编辑视频，默认YES
+@property (nonatomic, assign) BOOL allowEditVideo;
 /// 编辑视频时最大裁剪时间，单位：秒，默认10s 且最低10s (当该参数为10s时，所选视频时长必须大于等于10s才允许进行编辑)
 @property (nonatomic, assign) NSInteger maxEditVideoTime;
 /// 允许选择视频的最大时长，单位：秒， 默认 120s
 @property (nonatomic, assign) NSInteger maxVideoDuration;
 /// 录制视频及编辑视频时候的视频导出格式，默认WYAExportVideoTypeMov
 @property (nonatomic, assign) WYAExportVideoType exportVideoType;
+
 /**
  默认配置
 

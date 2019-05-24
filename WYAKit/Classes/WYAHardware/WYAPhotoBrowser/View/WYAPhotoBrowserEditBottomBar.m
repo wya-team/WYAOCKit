@@ -59,9 +59,10 @@
             [button setTitle:@"编辑" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button.titleLabel.font = FONT(13);
+            WeakSelf(weakSelf);
             [button addCallBackAction:^(UIButton *button) {
-                if (self.editBlock) {
-                    self.editBlock();
+                if (weakSelf.editBlock) {
+                    weakSelf.editBlock();
                 }
             }];
             button;
@@ -84,10 +85,11 @@
                     forState:UIControlStateSelected];
             button.titleLabel.font = FONT(13);
             button.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20 * SizeAdapter);
+            WeakSelf(weakSelf);
             [button addCallBackAction:^(UIButton *button) {
                 button.selected = !button.selected;
-                if (self.originalBlock) {
-                    self.originalBlock(button.selected);
+                if (weakSelf.originalBlock) {
+                    weakSelf.originalBlock(button.selected);
                 }
             }];
             button;
@@ -107,9 +109,10 @@
             [button
                 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108DE7"]]
                           forState:UIControlStateNormal];
+            WeakSelf(weakSelf);
             [button addCallBackAction:^(UIButton *button) {
-                if (self.doneBlock) {
-                    self.doneBlock();
+                if (weakSelf.doneBlock) {
+                    weakSelf.doneBlock();
                 }
             }];
             button;

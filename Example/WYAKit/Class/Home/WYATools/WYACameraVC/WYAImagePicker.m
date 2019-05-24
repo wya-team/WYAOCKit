@@ -277,24 +277,19 @@
 //                                                                        });
                                                                         WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc] init];
                                                                         photo.config.maxSelectCount = inter;
-                                                                        photo.callBackBlock = ^(NSMutableArray * _Nonnull media) {
-                                                                            NSLog(@"images==%@", media);
+                                                                        photo.config.sortAscending = YES;
+                                                                        photo.config.allowEditVideo = NO;
+                                                                        photo.config.allowSelectVideo = NO;
+                                                                        photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull medias, NSMutableArray<PHAsset *> * _Nonnull assets) {
+                                                                            NSLog(@"images==%@", medias);
                                                                             NSMutableArray * array = [NSMutableArray array];
-                                                                            for (NSObject * image in media) {
-                                                                                if ([image isKindOfClass:[UIImage class]]) {
-                                                                                    WYACameraModel * model = [[WYACameraModel alloc] init];
-                                                                                    model.image            = (UIImage *)image;
-                                                                                    model.sourceType       = WYACameraSourceTypeImage;
-                                                                                    [array addObject:model];
-                                                                                }
+                                                                            for (UIImage * image in medias) {
+                                                                                WYACameraModel * model = [[WYACameraModel alloc] init];
+                                                                                model.image            = image;
+                                                                                model.sourceType       = WYACameraSourceTypeImage;
+                                                                                [array addObject:model];
                                                                             }
-                                                                            [self.dataSource
-                                                                             insertObjects:array
-                                                                             atIndexes:[NSIndexSet
-                                                                                        indexSetWithIndexesInRange:NSMakeRange(
-                                                                                                                               0,
-                                                                                                                               media
-                                                                                                                               .count)]];
+                                                                            [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, medias.count)]];
                                                                             if ([self.textField.text integerValue] == self.dataSource.count) {
                                                                                 self.allImage = YES;
                                                                             }

@@ -241,6 +241,7 @@
     [self stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     //    NSLog(@"---- %s", __FUNCTION__);
+    NSLog(@"调用了图片viewcontroll----5");
 }
 
 - (void)viewDidLoad {
@@ -295,7 +296,7 @@
     CGFloat bottomViewH = 44;
     CGFloat bottomBtnH = 30;
     _bottomView.frame = CGRectMake(0, kViewHeight-bottomViewH-inset.bottom, kViewWidth, kItemHeight);
-    _cancelBtn.frame = CGRectMake(10+inset.left, 7, 30, bottomBtnH);
+    _cancelBtn.frame = CGRectMake(10+inset.left, 7, 40, bottomBtnH);
     _doneBtn.frame = CGRectMake(kViewWidth-70-inset.right, 7, 60, bottomBtnH);
 }
 
@@ -397,7 +398,7 @@
             if (!item) return;
             AVPlayer *player = [AVPlayer playerWithPlayerItem:item];
             strongSelf.playerLayer.player = player;
-//            [strongSelf startTimer];
+            [strongSelf startTimer];
         });
     }];
 
@@ -446,6 +447,7 @@
     WYAPhotoBrowser * nav = (WYAPhotoBrowser *)self.navigationController;
 
     if ([self config].maxSelectCount == 1) {
+        // 需要删除？？？
 //        [nav.arrSelectedModels removeAllObjects];
     }
 
@@ -468,16 +470,16 @@
     __weak typeof(nav) weakNav = nav;
     [[WYAPhotoBrowserManager sharedPhotoBrowserManager] exportEditVideoForAsset:_avAsset range:[self getTimeRange] type:[self config].exportVideoType complete:^(BOOL isSuc, PHAsset *asset) {
         [hud hide];
+        StrongSelf(strongSelf)
         if (isSuc) {
             __strong typeof(weakNav) strongNav = weakNav;
             WYAPhotoBrowserModel * model = [WYAPhotoBrowserModel modelWithAsset:asset type:WYAAssetMediaTypeVideo duration:nil];
-//            [strongNav.arrSelectedModels removeAllObjects];
-//            [strongNav.arrSelectedModels addObject:model];
-//            if (strongNav.callSelectImageBlock) {
-//                strongNav.callSelectImageBlock();
-//            }
+            // 把编辑完成的视频回传至上一个页面
+            if (strongSelf.editVideoFinishBlock) {
+                strongSelf.editVideoFinishBlock(model);
+            }
         } else {
-            StrongSelf(strongSelf)
+
             [strongSelf startTimer];
             [UIView wya_showCenterToastWithMessage:@"视频保存失败"];
         }

@@ -68,7 +68,6 @@
         options:UIViewAnimationOptionAllowUserInteraction
         animations:^{ label.alpha = 0; }
         completion:^(BOOL finished) {
-            [label removeFromSuperview];
             [button removeFromSuperview];
         }];
 }
@@ -128,7 +127,6 @@
         options:UIViewAnimationOptionAllowUserInteraction
         animations:^{ label.alpha = 0; }
         completion:^(BOOL finished) {
-            [label removeFromSuperview];
             [button removeFromSuperview];
         }];
 }

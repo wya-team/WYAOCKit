@@ -30,7 +30,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self setupUI];
-//    [self photoAlbum];
+    [self photoAlbum];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -43,8 +43,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    [self.navigationController pushViewController:vc animated:NO];
+    WYAPhotoBrowserViewController * photoB = [[WYAPhotoBrowserViewController alloc] init];
+    [self.navigationController pushViewController:photoB animated:NO];
+}
+
+- (void)dealloc{
+    NSLog(@"调用了图片viewcontroll----1");
+    self.dataSource = nil;
 }
 
 #pragma mark ======= UI
@@ -59,8 +64,9 @@
     [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
     button.frame           = CGRectMake(0, 0, 40, 30);
     button.titleLabel.font = FONT(15);
+    WeakSelf(weakSelf);
     [button addCallBackAction:^(UIButton * button) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -68,9 +74,11 @@
 
 #pragma mark ======= Private Method
 - (void)photoAlbum {
+    WeakSelf(weakSelf);
     [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoAblumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage complete:^(NSArray<WYAPhotoBrowserAlbumModel *> * arr) {
-        self.dataSource = arr;
-        [self.table reloadData];
+        StrongSelf(strongSelf);
+        strongSelf.dataSource = arr;
+        [strongSelf.table reloadData];
     }];
 }
 

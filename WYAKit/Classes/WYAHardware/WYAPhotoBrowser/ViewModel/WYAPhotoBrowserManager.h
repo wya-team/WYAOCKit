@@ -12,7 +12,7 @@
 
 @interface WYAPhotoBrowserManager : NSObject
 
-@property (nonatomic, strong) PHCachingImageManager * cachingManager;
+@property (nonatomic, weak) PHCachingImageManager * cachingManager;
 
 +(instancetype)sharedPhotoBrowserManager;
 

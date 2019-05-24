@@ -30,7 +30,9 @@
 #pragma mark ======= LifeCircle
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.albumModel = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getCameraRollAlbumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage];
+    WYAPhotoBrowserManager * manager = [WYAPhotoBrowserManager sharedPhotoBrowserManager];
+    [manager setSortAscending:[self config].sortAscending];
+    self.albumModel = [manager getCameraRollAlbumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage];
     _cacheArray = [NSMutableArray array];
     [self.albumModel.models enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [_cacheArray addObject:obj.asset];
@@ -61,6 +63,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)dealloc{
+    NSLog(@"调用了图片viewcontroll----2");
+    self.albumModel = nil;
+    self.dataSource = nil;
+    self.assets = nil;
+    _cacheArray = nil;
+    _preViewArray = nil;
+}
+
 #pragma mark ======= UI
 - (void)setupUI{
     self.title = @"相册胶卷";
@@ -69,8 +80,9 @@
     [button setTitleColor:random(51, 51, 51, 1) forState:UIControlStateNormal];
     button.frame           = CGRectMake(0, 0, 40, 30);
     button.titleLabel.font = FONT(15);
+    WeakSelf(weakSelf);
     [button addCallBackAction:^(UIButton * button) {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf dismissViewControllerAnimated:YES completion:nil];
     }];
 
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
@@ -84,8 +96,12 @@
 
     self.dataSource = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoInResult:self.albumModel.result allowSelectVideo:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage allowSelectGif:[self config].allowSelectGif allowSelectLivePhoto:[self config].allowSelectLivePhoto];
 
-
     [self.collectionView reloadData];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([self config].sortAscending) {
+            [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:self.dataSource.count - 1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
+        }
+    });
 }
 
 - (void)showAlert {
@@ -107,15 +123,15 @@
     vc.models                       = _preViewArray;
     vc.selectedModels = _preViewArray;
     vc.callback                     = ^(NSMutableArray<WYAPhotoBrowserModel *> * _Nonnull array) {
-        NSArray * models = [self.dataSource copy];
-        for (WYAPhotoBrowserModel * photoModel in models) {
-            for (WYAPhotoBrowserModel * model in array) {
-                if ([photoModel.asset isEqual:model.asset]) {
-                    [self.dataSource wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel] withObject:model];
-                }
-            }
-        }
-        [self.collectionView reloadData];
+//        NSArray * models = [self.dataSource copy];
+//        for (WYAPhotoBrowserModel * photoModel in models) {
+//            for (WYAPhotoBrowserModel * model in array) {
+//                if ([photoModel.asset isEqual:model.asset]) {
+//                    [self.dataSource wya_safeReplaceObjectAtIndex:[self.dataSource indexOfObject:photoModel] withObject:model];
+//                }
+//            }
+//        }
+//        [self.collectionView reloadData];
 
     };
     [self.navigationController pushViewController:vc animated:YES];
@@ -123,18 +139,23 @@
 
 -(void)doneClick{
     __block NSMutableArray * array = [NSMutableArray array];
+    __block NSMutableArray * videoAsset = [NSMutableArray array];
+    WeakSelf(weakSelf);
     [_preViewArray enumerateObjectsUsingBlock:^(WYAPhotoBrowserModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.type == WYAAssetMediaTypeVideo) {
+            [videoAsset addObject:obj.asset];
+        }
         if (obj.image) {
             [array addObject:obj.image];
         } else {
-            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:NO allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
+            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:obj isOriginal:NO allowSelectGif:[weakSelf config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
                 [array addObject:image];
             }];
         }
     }];
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     if (photoBrowser.callBackBlock) {
-        photoBrowser.callBackBlock(array);
+        photoBrowser.callBackBlock(array, videoAsset);
     }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -288,11 +309,12 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
             CGFloat object_height = 49;
             CGRect object_rect = CGRectMake(object_x, object_y,  object_width, object_height);
             WYAPhotoBrowserBottomBar * object = [[WYAPhotoBrowserBottomBar alloc]initWithFrame:object_rect];
+            WeakSelf(weakSelf);
             object.previewBlock = ^{
-                [self previewClick];
+                [weakSelf previewClick];
             };
             object.doneBlock = ^{
-                [self doneClick];
+                [weakSelf doneClick];
             };
             object;
         });
@@ -330,6 +352,5 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     return photoBrowser.config;
 }
-
 
 @end

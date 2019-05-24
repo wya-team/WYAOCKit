@@ -13093,15 +13093,15 @@
                      @"point_y" : @(point_x),
                      },
                  @{
-                     @"point_x" : @(width / 3),
+                     @"point_x" : @(width / 2),
                      @"point_y" : @(point_x),
                      },
                  @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3),
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 2),
                      },
                  @{
-                     @"point_x" : @(point_x),
+                     @"point_x" : @(width / 4),
                      @"point_y" : @(height / 3),
                      },
                  @{
@@ -13111,29 +13111,7 @@
                  ],
              @[
                  @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(point_x),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(point_x),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(point_x),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(width / 3 * 2),
+                     @"point_x" : @(width / 2),
                      @"point_y" : @(point_x),
                      },
                  @{
@@ -13141,135 +13119,73 @@
                      @"point_y" : @(point_x),
                      },
                  @{
-                     @"point_x" : @(width),
+                     @"point_x" : @(width / 4 * 3),
                      @"point_y" : @(height / 3),
                      },
                  @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3),
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 2),
                      },
                  @{
-                     @"point_x" : @(width / 3 * 2),
+                     @"point_x" : @(width / 2),
                      @"point_y" : @(point_x),
                      },
                  ],
              @[
                  @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height / 3),
+                     @"point_x" : @(width),
+                     @"point_y" : @(point_x),
                      },
                  @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3),
+                     @"point_x" : @(width),
+                     @"point_y" : @(height / 2),
                      },
                  @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3 * 2),
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 2),
                      },
                  @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height / 3),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(width / 3 * 2),
+                     @"point_x" : @(width / 4 * 3),
                      @"point_y" : @(height / 3),
                      },
                  @{
                      @"point_x" : @(width),
-                     @"point_y" : @(height / 3),
+                     @"point_y" : @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(width),
+                     @"point_y" : @(height / 2),
                      },
                  @{
                      @"point_x" : @(width),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
                      @"point_y" : @(height),
                      },
                  @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height),
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 4 * 3),
                      },
                  @{
-                     @"point_x" : @(point_x),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height),
-                     },
-                 @{
-                     @"point_x" : @(width / 3),
-                     @"point_y" : @(height / 3 * 2),
-                     },
-                 ],
-             @[
-                 @{
-                     @"point_x" : @(width / 3 * 2),
-                     @"point_y" : @(height / 3 * 2),
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 2),
                      },
                  @{
                      @"point_x" : @(width),
+                     @"point_y" : @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height),
+                     },
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 7),
+                     },
+                 @{
+                     @"point_x" : @(width / 4 * 3),
                      @"point_y" : @(height / 3 * 2),
                      },
                  @{
@@ -13277,12 +13193,112 @@
                      @"point_y" : @(height),
                      },
                  @{
-                     @"point_x" : @(width / 3 * 2),
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(point_x),
                      @"point_y" : @(height),
                      },
                  @{
-                     @"point_x" : @(width / 3 * 2),
+                     @"point_x" : @(width / 4),
                      @"point_y" : @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 7),
+                     },
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height),
+                     },
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(height),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(height),
+                     },
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(height / 2),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(point_x),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 3),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(point_x),
+                     @"point_y" : @(point_x),
+                     },
+                 ],
+             @[
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 3),
+                     },
+                 @{
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4 * 3),
+                     @"point_y" : @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 7),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 3 * 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 2),
+                     },
+                 @{
+                     @"point_x" : @(width / 4),
+                     @"point_y" : @(height / 3),
+                     },
+                 @{
+                     @"point_x" : @(width / 2),
+                     @"point_y" : @(height / 9 * 2),
                      },
                  ],
              ];
