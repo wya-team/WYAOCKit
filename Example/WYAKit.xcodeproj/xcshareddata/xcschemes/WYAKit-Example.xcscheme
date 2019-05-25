@@ -38,6 +38,26 @@
                ReferencedContainer = "container:WYAKit.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "215A12122297C27F008CA47F"
+               BuildableName = "WYAKit_ExampleUITests.xctest"
+               BlueprintName = "WYAKit_ExampleUITests"
+               ReferencedContainer = "container:WYAKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "215A12202297C38D008CA47F"
+               BuildableName = "WYAKit_ExampleTests.xctest"
+               BlueprintName = "WYAKit_ExampleTests"
+               ReferencedContainer = "container:WYAKit.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

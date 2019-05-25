@@ -62,4 +62,5 @@ TODO: Add long description of the pod here.
   s.dependency 'Bugly'
   s.dependency 'YYModel'
   s.dependency 'MLeaksFinder'
+  s.dependency 'NetworkEye', '~> 1.0.1'
 end

@@ -24,7 +24,7 @@
 @end
 
 @implementation WYAPhotoBrowserViewController{
-    NSMutableArray * _cacheArray;
+    NSMutableArray * _cacheArray; // 预加载缓存数组
     NSMutableArray * _preViewArray; // 预览视图数组
 }
 #pragma mark ======= LifeCircle

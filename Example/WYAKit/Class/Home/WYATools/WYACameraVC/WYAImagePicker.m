@@ -236,7 +236,7 @@
                                                                          WYACameraViewController * camera =
                                                                              [[WYACameraViewController alloc] initWithType:WYACameraTypeVideo
                                                                                                          cameraOrientation:WYACameraOrientationFront];
-                                                                         camera.preset    = WYAVideoPresetHigh;
+                                                                         camera.preset    = AVCaptureSessionPresetMedium;
                                                                          camera.saveAblum = YES;
                                                                          camera.albumName = @"测试";
                                                                          camera.takePhoto = ^(UIImage * photo, NSString * imagePath) {

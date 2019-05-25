@@ -15,6 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     [Bugly startWithAppId:@"80bc7e9193"];
     WYAKitInstance * instance        = [WYAKitInstance sharedInstance];
     instance.bannerConfig.autoScroll = YES;

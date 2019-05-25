@@ -6,8 +6,7 @@
 
 @interface WYACameraTool () <AVCaptureFileOutputRecordingDelegate>
 
-@property (strong, nonatomic)
-AVCaptureSession * captureSession;                                           //负责输入和输出设备之间的连接会话,数据流的管理控制
+@property (strong, nonatomic) AVCaptureSession * captureSession;                 //负责输入和输出设备之间的连接会话,数据流的管理控制
 @property (strong, nonatomic) AVCaptureVideoPreviewLayer * previewLayer;         //捕获到的视频呈现的layer
 @property (strong, nonatomic) AVCaptureDeviceInput * backCameraInput;            //后置摄像头输入
 @property (strong, nonatomic) AVCaptureDeviceInput * frontCameraInput;           //前置摄像头输入
@@ -17,11 +16,10 @@ AVCaptureSession * captureSession;                                           //�
 @property (strong, nonatomic) AVCaptureStillImageOutput * imageOutPut;           //照片输出流
 @property (nonatomic, strong) AVCaptureDevice * device;
 @property (nonatomic, assign) WYACameraOrientation cameraOrientation;
-
 @end
 
 @implementation WYACameraTool
-#pragma mark ======= LifeCircle
+#pragma mark - LifeCircle
 - (instancetype)init {
     return [self initWithCameraOrientation:WYACameraOrientationBack];
 }
@@ -30,11 +28,12 @@ AVCaptureSession * captureSession;                                           //�
     self = [super init];
     if (self) {
         self.cameraOrientation = cameraOrientation;
+        self.videoPreset = AVCaptureSessionPresetMedium;
     }
     return self;
 }
 
-#pragma mark ======= Public Method
+#pragma mark - Public Method
 //启动录制功能
 - (void)startRecordFunction {
     [self.captureSession startRunning];
@@ -172,9 +171,8 @@ AVCaptureSession * captureSession;                                           //�
          UIImage * imagee = [UIImage imageWithData:imageData];
          image(imagee);
          if (self.saveAblum) {
-             [self savePhtotsWithImage:imagee videoUrl:nil callBack:self.saveMediaCallback];
+             [self savePhtotsWithImage:imagee videoUrl:nil callBack:self.saveMediaBlock];
          }
-
      }];
 }
 
@@ -196,8 +194,10 @@ AVCaptureSession * captureSession;                                           //�
 /**
  * 保存图片到相册
  */
-- (void)savePhtotsWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl callBack:(void (^)(BOOL isSuccess, NSString * result))callback {
-    self.saveMediaCallback = callback;
+- (void)savePhtotsWithImage:(UIImage *)image
+                   videoUrl:(NSURL *)videoUrl
+                   callBack:(SaveMediaBlock)callback {
+    self.saveMediaBlock = callback;
     // 获取当前的授权状态
     PHAuthorizationStatus lastStatus = [PHPhotoLibrary authorizationStatus];
 
@@ -209,23 +209,24 @@ AVCaptureSession * captureSession;                                           //�
             if (status == PHAuthorizationStatusDenied) {
                 if (lastStatus == PHAuthorizationStatusNotDetermined) {
                     //说明，用户之前没有做决定，在弹出授权框中，选择了拒绝
-                    callback(NO, nil);
+                    callback(NO, @"授权被拒", nil, nil);
                     return;
                 }
                 // 说明，之前用户选择拒绝过，现在又点击保存按钮，说明想要使用该功能，需要提示用户打开授权
-                callback(NO, @"未开启权限");
+                callback(NO, @"未开启权限", nil, nil);
 
             } else if (status == PHAuthorizationStatusAuthorized) {
                 //保存图片---调用上面封装的方法
                 [self saveImageToCustomAblumWithImage:image videoUrl:videoUrl];
             } else if (status == PHAuthorizationStatusRestricted) {
-                callback(NO, nil);
+                callback(NO, @"不允许访问", nil, nil);
             }
         });
     }];
 }
 
-#pragma mark ======= Private Method
+#pragma mark - Private Method
+#pragma mark ======= Video
 - (NSString *)getVideoNameWithType:(NSString *)fileType {
     NSTimeInterval now          = [[NSDate date] timeIntervalSince1970];
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
@@ -237,44 +238,39 @@ AVCaptureSession * captureSession;                                           //�
     return fileName;
 }
 
+#pragma mark ======= Save Image And Video
 - (void)saveImageToCustomAblumWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
 
     PHFetchResult<PHAsset *> * assets = [self synchronousSaveImageWithPhotosWithImage:image videoUrl:videoUrl];
     if (assets == nil) {
-        //失败
-        self.saveMediaCallback(NO, nil);
-        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        self.saveMediaBlock(NO, @"保存失败", nil, nil);
         return;
     }
 
     // 保存在自定义相册（如果没有则创建）--调用刚才的方法
     PHAssetCollection * assetCollection = [self getAssetCollectionWithAppNameAndCreateCollection];
     if (assetCollection == nil) {
-        //失败
-        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
-        self.saveMediaCallback(NO, nil);
+        self.saveMediaBlock(NO, @"保存失败", nil, nil);
         return;
     }
 
     // 将刚才保存到相机胶卷的图片添加到自定义相册中 --- 保存带自定义相册--属于增的操作，需要在PHPhotoLibrary的block中进行
     NSError * error = nil;
     [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
-        //--告诉系统，要操作哪个相册
+        // --告诉系统，要操作哪个相册
         PHAssetCollectionChangeRequest * collectionChangeRequest = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection];
-        //--添加图片到自定义相册--追加--就不能成为封面了
+        // --添加图片到自定义相册--追加--就不能成为封面了
         //        [collectionChangeRequest addAssets:assets];
-        //--插入图片到自定义相册--插入--可以成为封面
+        // --插入图片到自定义相册--插入--可以成为封面
         [collectionChangeRequest insertAssets:assets atIndexes:[NSIndexSet indexSetWithIndex:0]];
     } error:&error];
 
     if (error) {
         //失败
-        self.saveMediaCallback(NO, nil);
-        //        [UIView wya_showBottomToastWithMessage:@"保存失败"];
+        self.saveMediaBlock(NO, [error localizedDescription], nil, nil);
         return;
     }
-    self.saveMediaCallback(YES, nil);
-    //    [UIView wya_showBottomToastWithMessage:@"保存成功"];
+
 
     PHAsset * asset = [assets firstObject];
     if (asset.mediaType == PHAssetMediaTypeImage) {
@@ -284,7 +280,8 @@ AVCaptureSession * captureSession;                                           //�
         [[PHImageManager defaultManager] requestImageDataForAsset:asset
                                                           options:opi
                                                     resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-                                                        self->_imagePath = [info objectForKey:@"PHImageFileURLKey"];
+                                                        NSString * path = [info objectForKey:@"PHImageFileURLKey"];
+                                                        self.saveMediaBlock(YES, @"保存成功", path, nil);
                                                     }];
     } else if (asset.mediaType == PHAssetMediaTypeVideo) {
         PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
@@ -298,7 +295,8 @@ AVCaptureSession * captureSession;                                           //�
                               AVURLAsset * urlAsset = (AVURLAsset *)asset;
 
                               NSURL * url      = urlAsset.URL;
-                              self->_videoPath = [url absoluteString];
+                              NSString * path = [url absoluteString];
+                              self.saveMediaBlock(YES, @"保存成功", nil, path);
                           }];
     }
 }
@@ -353,17 +351,13 @@ AVCaptureSession * captureSession;                                           //�
     }
 }
 
-#pragma mark - 视频输出代理
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput
-didStartRecordingToOutputFileAtURL:(NSURL *)fileURL
-      fromConnections:(NSArray *)connections {
+#pragma mark - AVCaptureFileOutputRecordingDelegate
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections {
     NSLog(@"开始录制...");
     NSLog(@"connect==%@", connections);
 }
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput
-didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
-      fromConnections:(NSArray *)connections
-                error:(NSError *)error {
+
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
     NSLog(@"视频录制完成.");
     //    //视频录入完成之后在后台将视频存储到相
     //    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -375,32 +369,18 @@ didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL
     //        NSLog(@"成功保存视频到相簿.");
     //    }];
     if (self.saveAblum) {
-        [self savePhtotsWithImage:nil videoUrl:outputFileURL callBack:self.saveMediaCallback];
+        [self savePhtotsWithImage:nil videoUrl:outputFileURL callBack:self.saveMediaBlock];
     }
 }
 
 #pragma mark ======= Setter
-- (void)setVideoPreset:(WYAVideoPreset)videoPreset {
-    AVCaptureSessionPreset preset;
-    switch (videoPreset) {
-        case WYAVideoPresetLow:
-            preset = AVCaptureSessionPresetLow;
-            break;
-        case WYAVideoPresetMedium:
-            preset = AVCaptureSessionPresetMedium;
-            break;
-        case WYAVideoPresetHigh:
-            preset = AVCaptureSessionPresetHigh;
-            break;
-        default:
-            break;
-    }
-    if ([self.captureSession canSetSessionPreset:preset]) {
-        [self.captureSession setSessionPreset:preset];
+- (void)setVideoPreset:(AVCaptureSessionPreset)videoPreset {
+    if ([self.captureSession canSetSessionPreset:videoPreset]) {
+        [self.captureSession setSessionPreset:videoPreset];
     }
 }
 
-#pragma mark - Getter -
+#pragma mark ======= Getter
 //捕获到的视频呈现的layer
 - (AVCaptureVideoPreviewLayer *)previewLayer {
     if (_previewLayer == nil) {

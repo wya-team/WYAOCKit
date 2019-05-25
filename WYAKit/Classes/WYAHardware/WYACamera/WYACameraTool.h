@@ -3,30 +3,24 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Foundation/Foundation.h>
 
-typedef NS_ENUM(NSUInteger, WYAVideoPreset) {
-    WYAVideoPresetLow,    // 低质量
-    WYAVideoPresetMedium, // 中等质量
-    WYAVideoPresetHigh,   // 高质量
-};
-
 typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
     WYACameraOrientationBack,  //后置摄像头
     WYACameraOrientationFront, //前置摄像头
 };
 
+typedef void(^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * imagePath, NSString * videoPath);
+
 @interface WYACameraTool : NSObject
+/// 拍摄模式, 默认AVCaptureSessionPresetMedium
+@property (nonatomic, assign) AVCaptureSessionPreset videoPreset;
 /// 是否保存至相册
 @property (nonatomic, assign) BOOL saveAblum;
 /// 自定义相册名
 @property (nonatomic, copy) NSString * albumName;
-/// 只有在拍摄完成并保存在相册中才会有路径
-@property (readonly, nonatomic) NSString * imagePath;
-/// 只有在录制完成后才能获取到视频地址（如果需要保存本地相册，就对应返回系统相册路径）
-@property (readonly, nonatomic) NSString * videoPath; //视频路径
-/// 拍摄模式
-@property (nonatomic, assign) WYAVideoPreset videoPreset;
+/// 只有在录制完成后才能获取到视频地址,后缀默认为MP4（如果需要保存本地相册，就对应返回系统相册路径）
+@property (readonly, nonatomic) NSString * videoPath;
 /// 保存图片或视频时的回调
-@property (nonatomic, copy) void (^saveMediaCallback)(BOOL isSuccess, NSString * result);
+@property (nonatomic, copy) SaveMediaBlock saveMediaBlock;
 
 /**
  初始化
@@ -97,6 +91,11 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
  */
 - (void)startTakingPhoto:(void (^)(UIImage * image))image;
 
+/**
+ 获取视频存储本地的路径
+
+ @return 路径
+ */
 - (NSString *)getVideoPathCache;
 
 /**
@@ -107,7 +106,7 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
  */
 - (void)savePhtotsWithImage:(UIImage *)image
                    videoUrl:(NSURL *)videoUrl
-                   callBack:(void (^)(BOOL isSuccess, NSString * result))callback;
+                   callBack:(SaveMediaBlock)callback;
 
 @end
 

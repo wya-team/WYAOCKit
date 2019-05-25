@@ -11,8 +11,7 @@
 @interface WYACameraViewController ()
 
 @property (nonatomic, strong) UIView * containerView; //内容父容器
-@property (strong, nonatomic)
-AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
+@property (nonatomic, strong) AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图层
 @property (nonatomic, strong) WYACameraTool * videoTool;
 
 @property (nonatomic, strong) UIView * cameraBar;          //顶部放置以下控件的视图
@@ -34,7 +33,10 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
 @property (nonatomic, assign) WYACameraOrientation cameraOrientation;
 @end
 
-@implementation WYACameraViewController
+@implementation WYACameraViewController{
+    NSString * _imagePath;
+    NSString * _videoPath;
+}
 #pragma mark ======= LifeCircle
 - (instancetype)init {
     return [self initWithType:WYACameraTypeAll cameraOrientation:WYACameraOrientationBack];
@@ -78,7 +80,7 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
     self.navigationController.navigationBar.hidden = NO;
 }
 
-#pragma mark - Public Method -
+#pragma mark - Public Method
 - (void)clearCache {
     NSFileManager * fileManage = [NSFileManager defaultManager];
     NSError * error;
@@ -126,7 +128,7 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
     self.messageLabel.center     = CGPointMake(messageLabel_centerX, messageLabel_centerY);
 }
 
-#pragma mark ======= Private Method
+#pragma mark - Private Method
 - (void)setupCaptureSession {
     self.captureVideoPreviewLayer       = [self.videoTool previewLayer];
     CALayer * layer                     = self.containerView.layer;
@@ -200,14 +202,20 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
                              completion:^{
                                  if (self.placeholdImageView.image) {
                                      if (self.takePhoto) {
-                                         self.takePhoto(self.placeholdImageView.image, self.videoTool.imagePath);
+                                         self.takePhoto(self.placeholdImageView.image, _imagePath);
                                      }
                                  } else {
                                      [self.player pause];
                                      [self.captureVideoPreviewLayer removeFromSuperlayer];
 
                                      if (self.takeVideo) {
-                                         self.takeVideo(self.videoTool.videoPath);
+
+                                         if (self.saveAblum) {
+                                             self.takeVideo(_videoPath);
+                                         } else {
+                                             self.takeVideo(self.videoTool.videoPath);
+                                         }
+
                                      }
                                  }
                              }];
@@ -339,7 +347,7 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
     _time = time;
 }
 
-- (void)setPreset:(WYAVideoPreset)preset {
+- (void)setPreset:(AVCaptureSessionPreset)preset {
     self.videoTool.videoPreset = preset;
 }
 
@@ -487,6 +495,12 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
 - (WYACameraTool *)videoTool {
     if (!_videoTool) {
         _videoTool = [[WYACameraTool alloc] initWithCameraOrientation:self.cameraOrientation];
+        _videoTool.saveMediaBlock = ^(BOOL isSuccess, NSString *result, NSString *imagePath, NSString *videoPath) {
+            if (isSuccess) {
+                _imagePath = imagePath;
+                _videoPath = videoPath;
+            }
+        };
     }
     return _videoTool;
 }
@@ -505,16 +519,20 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
                 StrongSelf(strongSelf);
                 if (self.videoTool.videoPath) {
                     [UIView wya_showCenterToastWithMessage:@"视频编辑暂未规划"];
-                    //                    if ([UIVideoEditorController
-                    //                    canEditVideoAtPath:self.videoTool.videoPath]) {
-                    //                        UIVideoEditorController * vc =
-                    //                        [[UIVideoEditorController alloc]init];
-                    //                        vc.videoPath = strongSelf.videoTool.videoPath;
-                    //                        vc.delegate = self;
-                    //                        [strongSelf presentViewController:vc animated:YES
-                    //                        completion:nil];
-                    //                        NSLog(@"yes");
-                    //                    }
+                                        if ([UIVideoEditorController
+                                        canEditVideoAtPath:self.videoTool.videoPath]) {
+                                            UIVideoEditorController * vc =
+                                            [[UIVideoEditorController alloc]init];
+                                            if (self.saveAblum) {
+                                                vc.videoPath = _videoPath;
+                                            } else {
+                                                vc.videoPath = strongSelf.videoTool.videoPath;
+                                            }
+                                            vc.delegate = self;
+                                            [strongSelf presentViewController:vc animated:YES
+                                            completion:nil];
+                                            NSLog(@"yes");
+                                        }
 
                     return;
                 }
@@ -524,13 +542,9 @@ AVCaptureVideoPreviewLayer * captureVideoPreviewLayer; //相机拍摄预览图�
                 vc.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
                     [vc dismissViewControllerAnimated:NO
                                            completion:^{
-                                               [strongSelf
-                                                dismissViewControllerAnimated:YES
-                                                completion:^{
-                                                    if (strongSelf
-                                                        .takePhoto) {
-                                                        strongSelf.takePhoto(
-                                                                             image, self.videoTool.imagePath);
+                                               [strongSelf dismissViewControllerAnimated:YES completion:^{
+                                                    if (strongSelf.takePhoto) {
+                                                        strongSelf.takePhoto(image, _imagePath);
                                                     }
                                                 }];
                                            }];

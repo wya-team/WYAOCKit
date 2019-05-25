@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "580355708.231101"
+            timestampString = "580439982.800385"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "168"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYACameraVC/WYAImagePicker.m"
-            timestampString = "580355708.231168"
+            timestampString = "580439982.800567"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
@@ -314,7 +314,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/ViewModel/WYAPhotoBrowserManager.m"
-            timestampString = "580362651.592459"
+            timestampString = "580439982.801075"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "30"
@@ -330,12 +330,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAHardware/WYAPhotoBrowser/Controller/WYAPhotoBrowserViewController.m"
-            timestampString = "580362651.592538"
+            timestampString = "580439982.801177"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "354"
             endingLineNumber = "354"
             landmarkName = "-collectionView"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYACamera/WYACameraViewController.m"
+            timestampString = "580440394.707001"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
+            landmarkName = "-placeholdImageView"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

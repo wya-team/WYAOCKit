@@ -17,7 +17,7 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 /// 设置录制时间
 @property (nonatomic, assign) CGFloat time;
 /// 录制视频质量
-@property (nonatomic, assign) WYAVideoPreset preset;
+@property (nonatomic, assign) AVCaptureSessionPreset preset;
 /// 是否保存图片或视频至相册
 @property (nonatomic, assign) BOOL saveAblum;
 /// 相册名
