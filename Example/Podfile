@@ -7,7 +7,9 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'WYAKit_Example' do
   pod 'WYAKit', :path => '../'
-
+  pod 'WHDebugTool'
+  pod 'MLeaksFinder'
+  pod 'NetworkEye', '~> 1.0.1'
   target 'WYAKit_Tests' do
     inherit! :search_paths
 

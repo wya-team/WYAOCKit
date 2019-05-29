@@ -99,6 +99,4 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVGKit/SVGKit.h>
 #import <YYText/YYText.h>
-#import "NEHTTPEye.h"
-#import "NEHTTPEyeViewController.h"
 #endif
