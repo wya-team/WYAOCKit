@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Photos/Photos.h>
 #import "WYAPhotoBrowserModel.h"
+#import "WYAPhotoBrowserConfig.h"
 
 @interface WYAPhotoBrowserManager : NSObject
 
@@ -169,7 +170,7 @@
 
  @param range 需要到处的视频间隔
  */
-- (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(ZLExportVideoType)type complete:(void (^)(BOOL isSuc, PHAsset *asset))complete;
+- (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type complete:(void (^)(BOOL isSuc, PHAsset *asset))complete;
 
 
 /**
@@ -178,7 +179,7 @@
  @param asset 需要导出视频的asset
  @param type 视频导出格式
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 /**
  导出视频
@@ -187,7 +188,7 @@
  @param type 视频导出格式
  @param presetName 视频压缩设置
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 
 /**
@@ -197,7 +198,7 @@
  @param type 视频导出格式
  @param renderSize 指定的尺寸大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type renderSize:(CGSize)renderSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 #pragma mark - 导出视频加水印、粒子效果
 /**
@@ -212,7 +213,7 @@
  @param location 水印位置
  @param imageSize 水印大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(ZLWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 
 /**
@@ -225,7 +226,7 @@
  @param location 水印位置
  @param imageSize 水印大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName watermarkImage:(UIImage *)watermarkImage watermarkLocation:(ZLWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 
 /**
@@ -238,13 +239,13 @@
  @param birthRate 粒子每秒创建数量（建议30~50）
  @param velocity 粒子扩散速度
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(ZLExportVideoType)type presetName:(NSString *)presetName effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
 
 
 /**
  获取保存视频的路径
  */
-- (NSString *)getVideoExportFilePath:(ZLExportVideoType)type;
+- (NSString *)getVideoExportFilePath:(WYAExportVideoType)type;
 
 - (UIImage *)transformToGifImageWithData:(NSData *)data;
 

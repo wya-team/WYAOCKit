@@ -6,7 +6,6 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "WYAPhotoBrowserSource.h"
 #import "WYAPhotoBrowserModel.h"
 #import <Photos/Photos.h>
 #import <UIKit/UIKit.h>

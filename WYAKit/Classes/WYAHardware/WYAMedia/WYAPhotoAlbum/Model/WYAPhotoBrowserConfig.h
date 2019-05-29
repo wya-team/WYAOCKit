@@ -16,6 +16,15 @@ typedef NS_ENUM(NSUInteger, WYAExportVideoType) {
     WYAExportVideoTypeMp4,
 };
 
+//导出视频水印位置
+typedef NS_ENUM(NSUInteger, WYAWatermarkLocation) {
+    WYAWatermarkLocationTopLeft,
+    WYAWatermarkLocationTopRight,
+    WYAWatermarkLocationCenter,
+    WYAWatermarkLocationBottomLeft,
+    WYAWatermarkLocationBottomRight,
+};
+
 @interface WYAPhotoBrowserConfig : NSObject
 
 /// 最大可以选择多少个
