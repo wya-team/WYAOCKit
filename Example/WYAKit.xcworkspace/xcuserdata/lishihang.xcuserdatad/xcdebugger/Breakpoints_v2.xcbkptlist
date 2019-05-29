@@ -41,22 +41,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYASystemPermissions.m"
-            timestampString = "575978761.027703"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "+wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:nowNotAllowAuthorizedBlock:neverNotAllowAuthorizedBlock:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WYAKit/Class/Home/WYATools/WYAUpload/WYAUploadViewController.m"
             timestampString = "577076767.383659"
             startingColumnNumber = "9223372036854775807"

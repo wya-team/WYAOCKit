@@ -11,9 +11,32 @@
 
 @implementation WYASystemPermissions
 
-+ (void)wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
-                               nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
-                             neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock {
++ (void)wya_checkSystemPermissionType:(WYASystemPermisionType)type
+                      authorizedBlock:(AuthorizedBlock)authorizedBlock
+           nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
+         neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock
+{
+    switch (type) {
+        case WYASystemPermisionTypeAlbum:
+            [self wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:authorizedBlock nowNotAllowAuthorizedBlock:nowNotAllowBlock neverNotAllowAuthorizedBlock:neverNotAllowBlock];
+            break;
+        case WYASystemPermisionTypeCamera:
+            [self wya_checkVideoPermissionsWithAuthorizedBlock:authorizedBlock nowNotAllowAuthorizedBlock:nowNotAllowBlock neverNotAllowAuthorizedBlock:neverNotAllowBlock];
+            break;
+        case WYASystemPermisionTypeAudio:
+            [self wya_checkAudioPermissionsWithAuthorizedBlock:authorizedBlock nowNotAllowAuthorizedBlock:nowNotAllowBlock neverNotAllowAuthorizedBlock:neverNotAllowBlock];
+            break;
+        case WYASystemPermisionTypeAddressBook:
+            [self wya_checkAddressBookPermissionsWithAuthorizedBlock:authorizedBlock nowNotAllowAuthorizedBlock:nowNotAllowBlock neverNotAllowAuthorizedBlock:neverNotAllowBlock];
+            break;
+        default:
+            break;
+    }
+}
+
++ (void)wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
+                               nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
+                             neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
     if (status == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -34,9 +57,9 @@
     }
 }
 
-+ (void)wya_checkVideoPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
-                          nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock {
++ (void)wya_checkVideoPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
+                          nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
+                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]; //相机权限
     if (status == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice
@@ -57,9 +80,9 @@
     }
 }
 
-+ (void)wya_checkAudioPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
-                          nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock {
++ (void)wya_checkAudioPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
+                          nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
+                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
     if (status == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
@@ -79,10 +102,10 @@
     }
 }
 
-+ (void)wya_checkAddressBookPermissionsWithAuthorizedBlock:(void (^)(void))authorizedBlock
-                                nowNotAllowAuthorizedBlock:(void (^)(void))nowNotAllowBlock
-                              neverNotAllowAuthorizedBlock:(void (^)(void))neverNotAllowBlock
-                                                errorBlock:(void (^)(NSError *))errorBlock {
++ (void)wya_checkAddressBookPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
+                                nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
+                              neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock
+{
     CNContactStore * contactStore = [[CNContactStore alloc] init];
     CNAuthorizationStatus status  = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
     if (status == CNAuthorizationStatusNotDetermined) {
@@ -90,7 +113,7 @@
                                completionHandler:^(BOOL granted, NSError * _Nullable error) {
                                    dispatch_async(dispatch_get_main_queue(), ^{
                                        if (error) {
-                                           errorBlock(error);
+
                                        }
                                        if (granted) {
                                            authorizedBlock();
