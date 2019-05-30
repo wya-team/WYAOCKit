@@ -3,27 +3,24 @@
 #import "WYAAlertStyle.h"
 #import <UIKit/UIKit.h>
 
+// 灰色背景透明度
+static const CGFloat as_backgroundAlpha = 0.4;
+
 @class WYAPopupView;
 
-/** 灰色背景透明度 */
-static const CGFloat as_backgroundAlpha = 0.4;
 
 @interface WYAAlertController : UIViewController
 
-/**
- alert 视图（外部不要调用）
- */
+/// alert 视图（外部不要调用）
 @property (nonatomic, strong) UIView * alertView;
-
-/**
- 外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）
- */
+/// 外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）
 @property (nonatomic, strong) UIButton * backgroundButton;
-
-@property (nonatomic, assign) WYAPopupPresentStyle presentStyle; // present 转场风格
-@property (nonatomic, assign) WYAPopupDismissStyle dismissStyle; // dismiss 转场风格
-
-@property (nonatomic, assign) WYAAlertStyle alertStyle; //弹出视图类型
+/// present 转场风格
+@property (nonatomic, assign) WYAPopupPresentStyle presentStyle;
+/// dismiss 转场风格
+@property (nonatomic, assign) WYAPopupDismissStyle dismissStyle;
+/// 弹出视图类型
+@property (nonatomic, assign) WYAAlertStyle alertStyle;
 
 /**
  默认转场初始化方法
@@ -53,7 +50,7 @@ static const CGFloat as_backgroundAlpha = 0.4;
  @param view 自定义视图
  @return alert控制器
  */
-+ (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
++ (_Nonnull instancetype)wya_alertWithCustomView:(UIView * _Nonnull)view
                                       AlertStyle:(WYAAlertStyle)alertStyle;
 
 /**
@@ -75,5 +72,6 @@ static const CGFloat as_backgroundAlpha = 0.4;
 
  @param textField 输入框
  */
-- (void)wya_addTextField:(UITextField *)textField;
+- (void)wya_addTextField:(UITextField * _Nonnull)textField;
+
 @end

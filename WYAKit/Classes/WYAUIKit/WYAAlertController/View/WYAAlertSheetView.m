@@ -159,13 +159,12 @@
     if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
 }
 
-#pragma mark--- Getter
+#pragma mark - Getter
 - (CGFloat)height {
     [self layoutIfNeeded];
     return self.containerView.cmam_height;
 }
 
-#pragma mark ======= Lazy
 - (UIView *)containerView {
     if (!_containerView) {
         _containerView = ({

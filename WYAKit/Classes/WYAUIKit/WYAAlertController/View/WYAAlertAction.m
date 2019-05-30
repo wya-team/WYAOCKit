@@ -1,10 +1,6 @@
 
 #import "WYAAlertAction.h"
 
-@interface WYAAlertAction ()
-
-@end
-
 @implementation WYAAlertAction
 
 + (instancetype)wya_actionWithTitle:(NSString *)title
@@ -29,7 +25,6 @@
     } else {
         action.textColor = [UIColor blackColor];
     }
-
     action.textFont = FONT(15);
     return action;
 }

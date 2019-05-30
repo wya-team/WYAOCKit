@@ -19,21 +19,27 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak, nullable) UIViewController * controller;
 
 /**
- *    初始化 AlertView
- *
- *    @param title   标题
- *    @param message 消息
+ 初始化 AlertView
+
+ @param title 标题
+ @param message 消息
+ @return self
  */
 - (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title
                                message:(NSString * _Nullable)message;
 
 /**
- *    添加一个 action
- *
- *    @param action action
+ 添加一个 action
+
+ @param action action
  */
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action;
 
+/**
+ 给sheetView的上左和上右切圆角
+
+ @param number 数值
+ */
 - (void)wya_addCornerRadiusWithNumber:(CGFloat)number;
 @end
 

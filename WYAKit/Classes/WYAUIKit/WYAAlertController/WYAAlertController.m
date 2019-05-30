@@ -11,11 +11,11 @@
 @end
 
 @implementation WYAAlertController
-
+#pragma mark - LifeCircle
 - (instancetype)init {
     if (self = [super init]) {
-        self.transitioningDelegate  = self;                      // 设置自己为转场代理
-        self.modalPresentationStyle = UIModalPresentationCustom; // 自定义转场模式
+        self.transitioningDelegate  = self;
+        self.modalPresentationStyle = UIModalPresentationCustom;
 
         // 灰色半透明背景
         self.backgroundButton                 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -33,51 +33,6 @@
 
 - (void)dealloc {
     [self.alertView removeFromSuperview];
-}
-
-#pragma mark - 类方法返回实例
-/** 默认转场初始化 */
-+ (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title
-                                    Message:(NSString * _Nullable)message
-                           AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle {
-    WYAAlertController * alertController                      = [[WYAAlertController alloc] init];
-    alertController.alertStyle                                = WYAAlertStyleDefalut;
-    alertController.alertView                                 = [[WYAAlertView alloc] initWithTitle:title message:message];
-    ((WYAAlertView *)(alertController.alertView)).controller  = alertController;
-    ((WYAAlertView *)(alertController.alertView)).layoutStyle = layoutStyle;
-    alertController.presentStyle                              = WYAPopupPresentStyleSystem;
-    alertController.dismissStyle                              = WYAPopupDismissStyleFadeOut;
-    return alertController;
-}
-
-+ (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
-                                         Message:(NSString * _Nullable)message
-                          AlertSheetCornerRadius:(CGFloat)cornerRadius {
-    WYAAlertController * alertController = [[WYAAlertController alloc] init];
-    alertController.alertStyle           = WYAAlertStyleSheet;
-    alertController.alertView            = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
-    WYAAlertSheetView * alertSheet       = (WYAAlertSheetView *)alertController.alertView;
-    alertController.sheetCornerR         = cornerRadius;
-    alertSheet.controller                = alertController;
-    alertController.presentStyle         = WYAPopupPresentStyleSlideUp;
-    alertController.dismissStyle         = WYAPopupDismissStyleSlideDown;
-    return alertController;
-}
-
-+ (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
-                                      AlertStyle:(WYAAlertStyle)alertStyle {
-    WYAAlertController * alertController = [[WYAAlertController alloc] init];
-    alertController.alertStyle           = alertStyle;
-    alertController.alertView            = view;
-
-    if (alertStyle == WYAAlertStyleCustomAlert) {
-        alertController.presentStyle = WYAPopupPresentStyleSystem;
-        alertController.dismissStyle = WYAPopupDismissStyleFadeOut;
-    } else if (alertStyle == WYAAlertStyleCustomSheet) {
-        alertController.presentStyle = WYAPopupPresentStyleSlideUp;
-        alertController.dismissStyle = WYAPopupDismissStyleSlideDown;
-    }
-    return alertController;
 }
 
 - (void)viewDidLoad {
@@ -133,8 +88,51 @@
     }
 }
 
-#pragma mark--- Method
-/** 添加 action */
+#pragma mark - Public Method
+/** 默认转场初始化 */
++ (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title
+                                    Message:(NSString * _Nullable)message
+                           AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle {
+    WYAAlertController * alertController                      = [[WYAAlertController alloc] init];
+    alertController.alertStyle                                = WYAAlertStyleDefalut;
+    alertController.alertView                                 = [[WYAAlertView alloc] initWithTitle:title message:message];
+    ((WYAAlertView *)(alertController.alertView)).controller  = alertController;
+    ((WYAAlertView *)(alertController.alertView)).layoutStyle = layoutStyle;
+    alertController.presentStyle                              = WYAPopupPresentStyleSystem;
+    alertController.dismissStyle                              = WYAPopupDismissStyleFadeOut;
+    return alertController;
+}
+
++ (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
+                                         Message:(NSString * _Nullable)message
+                          AlertSheetCornerRadius:(CGFloat)cornerRadius {
+    WYAAlertController * alertController = [[WYAAlertController alloc] init];
+    alertController.alertStyle           = WYAAlertStyleSheet;
+    alertController.alertView            = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
+    WYAAlertSheetView * alertSheet       = (WYAAlertSheetView *)alertController.alertView;
+    alertController.sheetCornerR         = cornerRadius;
+    alertSheet.controller                = alertController;
+    alertController.presentStyle         = WYAPopupPresentStyleSlideUp;
+    alertController.dismissStyle         = WYAPopupDismissStyleSlideDown;
+    return alertController;
+}
+
++ (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
+                                      AlertStyle:(WYAAlertStyle)alertStyle {
+    WYAAlertController * alertController = [[WYAAlertController alloc] init];
+    alertController.alertStyle           = alertStyle;
+    alertController.alertView            = view;
+
+    if (alertStyle == WYAAlertStyleCustomAlert) {
+        alertController.presentStyle = WYAPopupPresentStyleSystem;
+        alertController.dismissStyle = WYAPopupDismissStyleFadeOut;
+    } else if (alertStyle == WYAAlertStyleCustomSheet) {
+        alertController.presentStyle = WYAPopupPresentStyleSlideUp;
+        alertController.dismissStyle = WYAPopupDismissStyleSlideDown;
+    }
+    return alertController;
+}
+
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
     if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
         [(WYAAlertView *)self.alertView wya_addAction:action];
@@ -143,7 +141,6 @@
     }
 }
 
-/** 直接添加一个数组的 action */
 - (void)wya_addActions:(NSArray<WYAAlertAction *> * _Nonnull)actions {
     for (WYAAlertAction * action in actions) { [self wya_addAction:action]; }
 }
@@ -154,12 +151,12 @@
     }
 }
 
+#pragma mark - Private Method
 - (void)dismissBackgroundView:(UIButton *)button {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - UIViewControllerTransitioningDelegate
-/** 返回Present动画 */
 - (id<UIViewControllerAnimatedTransitioning>)
 animationControllerForPresentedController:(UIViewController *)presented
                      presentingController:(UIViewController *)presenting
@@ -177,7 +174,7 @@ animationControllerForPresentedController:(UIViewController *)presented
     return animator;
 }
 
-#pragma mark--- Setter
+#pragma mark - Setter
 - (void)setPresentStyle:(WYAPopupPresentStyle)presentStyle {
     _presentStyle = presentStyle;
 }
