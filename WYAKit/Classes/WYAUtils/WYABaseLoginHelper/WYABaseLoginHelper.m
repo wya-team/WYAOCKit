@@ -71,7 +71,7 @@
                         dispatch_async(dispatch_get_main_queue(), ^{
                             NSLog(@"TouchID 验证失败");
                             if (block) {
-                                block(NO, @"");
+                                block(NO, @"TouchID 验证失败");
                             }
                         });
                         break;
