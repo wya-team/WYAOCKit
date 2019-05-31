@@ -25,7 +25,10 @@
 #import "WYAPageController.h"
 #import "WYABannerView.h"
 #import "WYANoticeBar.h"
+
 #import "WYAImageBrowser.h"
+#import "WYAImageBrowserAlertView.h"
+
 #import "WYASlider.h"
 #import "WYAPaginationView.h"
 #import "WYAOptionMenu.h"

@@ -47,7 +47,7 @@
 @property (nonatomic, assign) CGSize pageControlDotSize;
 /// 图片数组
 @property (nonatomic, strong) NSArray * images;
-
+@property (nonatomic, strong) NSMutableArray * alertButtons;
 @end
 
 @implementation WYAImageBrowser
@@ -78,6 +78,7 @@
 - (void)initial {
     self.visibleZoomingScrollViews  = [[NSMutableSet alloc] init];
     self.reusableZoomingScrollViews = [[NSMutableSet alloc] init];
+    self.alertButtons = [NSMutableArray array];
     [self placeholderImage];
 
     _pageControlAliment  = WYAImageBrowserPageControlAlimentCenter;
@@ -739,18 +740,15 @@
             return;
         }
 
-        WYAImageBrowserAlertView * alert = [[WYAImageBrowserAlertView alloc]initWithFrame:self.frame];
-        WYAAlertButton * alertButton = [[WYAAlertButton alloc]initWithTitle:@"保存" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+        if (self.alertButtons.count > 0) {
+            WYAImageBrowserAlertView * alert = [[WYAImageBrowserAlertView alloc]initWithFrame:self.frame];
+            for (WYAAlertButton * button in self.alertButtons) {
+                [alert addAlertButton:button];
+            }
 
-        }];
-        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
-
-        }];
-        [alert addAlertButton:alertButton];
-        [alert addAlertButton:deleteButton];
-        [self addSubview:alert];
-        [alert show];
-
+            [self addSubview:alert];
+            [alert show];
+        }
     }
 }
 
@@ -853,6 +851,9 @@
     [self saveImage];
 }
 
+- (void)addAlertSheetButton:(WYAAlertButton *)button{
+    [self.alertButtons addObject:button];
+}
 /**
  具体的删除逻辑,请根据自己项目的实际情况,自行处理
  */

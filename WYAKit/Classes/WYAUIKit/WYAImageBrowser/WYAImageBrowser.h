@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
 
 };
 
-@class WYAImageBrowser;
+@class WYAImageBrowser, WYAAlertButton;
 
 @protocol WYAImageBrowserDelegate <NSObject>
 /**
@@ -181,6 +181,8 @@ typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteg
  @return self
  */
 + (instancetype)showImageBrowserWithImages:(NSArray *)images currentImageIndex:(NSInteger)currentImageIndex;
+
+- (void)addAlertSheetButton:(WYAAlertButton *)button;
 
 /**
  *  保存当前展示的图片
