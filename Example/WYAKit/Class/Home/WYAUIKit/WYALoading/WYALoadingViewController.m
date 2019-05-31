@@ -7,6 +7,8 @@
 //
 
 #import "WYALoadingViewController.h"
+#import <WYALoadingHUD.h>
+#import "UIView+WYALoadingAnimate.h"
 
 @interface WYALoadingViewController ()
 
@@ -66,6 +68,26 @@
     CGFloat imageV_Width  = 30 * SizeAdapter;
     CGFloat imageV_Height = 30 * SizeAdapter;
     imageV.frame          = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        UIView * bgView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 200, ScreenWidth, 200)];
+        [self.view addSubview:bgView];
+        [WYALoadingHUD showInView:bgView];
+    });
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [WYALoadingHUD hide];
+//    });
+
+    [self.view drawWordAnimationWithText:@"WYA"];
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    
+    [super viewWillDisappear:animated];
+    [WYALoadingHUD hide];
+    
 }
 
 /*

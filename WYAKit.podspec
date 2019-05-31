@@ -38,6 +38,7 @@ TODO: Add long description of the pod here.
      'WYAKit' => ['WYAKit/Assets/*.xcassets', 'WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle'],
   }
 
+  s.resources = "WYAKit/Assets/Pusab.ttf"
   
   s.frameworks = 'UIKit', 'ImageIO'
   

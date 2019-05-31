@@ -1227,12 +1227,14 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-resources.sh",
+				"${PODS_ROOT}/../../WYAKit/Assets/Pusab.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/WYAKit/WYAKit.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Pusab.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WYAKit.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
