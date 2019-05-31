@@ -19,9 +19,33 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    UIImage * image1 = [UIImage imageNamed:@"1"];
-    UIImage * image2 = [UIImage imageNamed:@"2"];
-    UIImage * image3 = [UIImage imageNamed:@"icon_cancel_notice"];
+    UIImageView * imageView = [[UIImageView alloc]init];
+    imageView.center = self.view.center;
+    imageView.bounds = CGRectMake(0, 0, 100, 100);
+    imageView.image = [UIImage imageNamed:@"2"];
+    [self.view addSubview:imageView];
+
+    [imageView wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
+        
+    }];
+
+    WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:0
+                                                                                 imageCount:1
+                                                                                 datasource:nil
+                                                                        placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
+                                                                            return imageView.image;
+                                                                        }
+                                                                   HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
+                                                                       return nil;
+                                                                   }
+                                                                                 AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
+                                                                                     return nil;
+                                                                                 }
+                                                                       SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
+
+                                                                           return imageView;
+                                                                       }];
+    imageBrowser.hidesForSinglePage = NO;
 }
 
 /*

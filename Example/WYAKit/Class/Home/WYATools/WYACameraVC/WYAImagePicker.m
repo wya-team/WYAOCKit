@@ -16,7 +16,7 @@
 #define EditCameraCell @"WYAEditCameraCell"
 
 @interface WYAImagePicker () <UICollectionViewDelegate, UICollectionViewDataSource,
-                              UIPopoverPresentationControllerDelegate, UITextFieldDelegate>
+                              UIPopoverPresentationControllerDelegate, UITextFieldDelegate, WYAImageBrowserDelegate>
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
@@ -126,11 +126,16 @@
     return _dataSource;
 }
 
-#pragma mark - UITextFieldDelegate  -
+#pragma mark - WYAImageBrowserDelegate
+- (void)photoBrowser:(WYAPhotoBrowser *)browser clickActionSheetIndex:(NSInteger)actionSheetindex currentImageIndex:(NSInteger)currentImageIndex{
+    NSLog(@"actionindex==%ld,currentImageindex==%ld",(long)actionSheetindex,(long)currentImageIndex);
+}
+
+#pragma mark - UITextFieldDelegate
 - (void)textFieldDidEndEditing:(UITextField *)textField {
 }
 
-#pragma mark ======= UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
     return self.dataSource.count + (self.allImage ? 0 : 1);
@@ -160,7 +165,7 @@
     }
 }
 
-#pragma mark ======= UICollectionViewDelegate
+#pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView
        willDisplayCell:(UICollectionViewCell *)cell
     forItemAtIndexPath:(NSIndexPath *)indexPath {
