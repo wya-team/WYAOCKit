@@ -31,6 +31,7 @@
 		21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470C8A219BB2370099CB6F /* WYAUIAlertViewController.m */; };
 		21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CA8219E93D30099CB6F /* WYAPopViewController.m */; };
 		21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470CAB219E94630099CB6F /* WYATestViewController.m */; };
+		215A1256229FB457008CA47F /* WYAFlexBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 215A1255229FB457008CA47F /* WYAFlexBoxViewController.m */; };
 		2177893021D4A23400B02487 /* WYADemoDrawerLeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2177892F21D4A23400B02487 /* WYADemoDrawerLeftViewController.m */; };
 		2177893321D4A24B00B02487 /* WYADemoDrawerRightViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2177893221D4A24B00B02487 /* WYADemoDrawerRightViewController.m */; };
 		2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */; };
@@ -173,6 +174,8 @@
 		21470CA8219E93D30099CB6F /* WYAPopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAPopViewController.m; sourceTree = "<group>"; };
 		21470CAA219E94630099CB6F /* WYATestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATestViewController.h; sourceTree = "<group>"; };
 		21470CAB219E94630099CB6F /* WYATestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATestViewController.m; sourceTree = "<group>"; };
+		215A1254229FB457008CA47F /* WYAFlexBoxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAFlexBoxViewController.h; sourceTree = "<group>"; };
+		215A1255229FB457008CA47F /* WYAFlexBoxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAFlexBoxViewController.m; sourceTree = "<group>"; };
 		2177892E21D4A23400B02487 /* WYADemoDrawerLeftViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDrawerLeftViewController.h; sourceTree = "<group>"; };
 		2177892F21D4A23400B02487 /* WYADemoDrawerLeftViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDrawerLeftViewController.m; sourceTree = "<group>"; };
 		2177893121D4A24B00B02487 /* WYADemoDrawerRightViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADemoDrawerRightViewController.h; sourceTree = "<group>"; };
@@ -481,6 +484,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				215A1253229FB43F008CA47F /* Flexbox */,
 				210F3D05223270C900C0DA27 /* WYAImageBrowser */,
 				2186911D21CC978200DA6849 /* WYALoading */,
 				95369E8221CCD16300D0DDA5 /* WYANumberKeyBoard */,
@@ -621,6 +625,15 @@
 				210C72FE21C7DF6500196F07 /* WYAPopCell.m */,
 			);
 			path = PopViewController;
+			sourceTree = "<group>";
+		};
+		215A1253229FB43F008CA47F /* Flexbox */ = {
+			isa = PBXGroup;
+			children = (
+				215A1254229FB457008CA47F /* WYAFlexBoxViewController.h */,
+				215A1255229FB457008CA47F /* WYAFlexBoxViewController.m */,
+			);
+			path = Flexbox;
 			sourceTree = "<group>";
 		};
 		2186911D21CC978200DA6849 /* WYALoading */ = {
@@ -1171,9 +1184,9 @@
 				"${BUILT_PRODUCTS_DIR}/SSKeychain/SSKeychain.framework",
 				"${BUILT_PRODUCTS_DIR}/SVGKit/SVGKit.framework",
 				"${BUILT_PRODUCTS_DIR}/WHDebugTool/WHDebugTool.framework",
-				"${BUILT_PRODUCTS_DIR}/YYImage/YYImage.framework",
-				"${BUILT_PRODUCTS_DIR}/YYModel/YYModel.framework",
-				"${BUILT_PRODUCTS_DIR}/YYText/YYText.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
+				"${BUILT_PRODUCTS_DIR}/Yoga/yoga.framework",
+				"${BUILT_PRODUCTS_DIR}/YogaKit/YogaKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
@@ -1196,9 +1209,9 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SSKeychain.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVGKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WHDebugTool.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYModel.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYText.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/yoga.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YogaKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1265,6 +1278,7 @@
 				21470C8C219BB2370099CB6F /* WYAUIAlertViewController.m in Sources */,
 				9578497B21B0C673001E19DC /* WYAInputItemModel.m in Sources */,
 				95F0944B21CB6DCF00FFC0CF /* WYAPopVerReadMeViewController.m in Sources */,
+				215A1256229FB457008CA47F /* WYAFlexBoxViewController.m in Sources */,
 				79A7CDBF2261ACC700581C63 /* WYACameraModel.m in Sources */,
 				951FC0B321A559A900E1E4FE /* WYACustomPageController.m in Sources */,
 				9533A60821CA1EB2004D9F0D /* WYASegmentedController.m in Sources */,

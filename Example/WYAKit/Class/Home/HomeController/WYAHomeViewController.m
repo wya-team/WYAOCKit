@@ -137,6 +137,11 @@
             vc.hidesBottomBarWhenPushed        = YES;
             [self.navigationController pushViewController:vc animated:YES];
             return;
+        } else if ([itemModel.className isEqualToString:@"WYAFlexBoxViewController"]) {
+            WYAFlexBoxViewController * vc = [[WYAFlexBoxViewController alloc] init];
+            vc.hidesBottomBarWhenPushed        = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+            return;
         }
         WYABaseViewController * vc  = [[NSClassFromString(itemModel.className) alloc] init];
         vc.navTitle                 = itemModel.className;

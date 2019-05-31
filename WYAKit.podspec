@@ -46,7 +46,7 @@ TODO: Add long description of the pod here.
   s.dependency 'Masonry'
   s.dependency 'FMDB'
   s.dependency 'JQFMDB'
-  s.dependency 'YYImage'
+  s.dependency 'YYKit'
   s.dependency 'SVGKit'
   s.dependency 'MJRefresh'
   s.dependency 'SDWebImage'
@@ -57,7 +57,6 @@ TODO: Add long description of the pod here.
   s.dependency 'GPUImage'
   s.dependency 'SSKeychain'
   # 暂时未使用到的
-  s.dependency 'YYText'
   s.dependency 'Bugly'
-  s.dependency 'YYModel'
+  s.dependency 'YogaKit'
 end

@@ -7,7 +7,6 @@
 
 #import "UIView+WYAToast.h"
 #import <SVGKit/SVGKit.h>
-#import <YYImage/YYImage.h>
 
 @implementation UIView (WYAToast)
 

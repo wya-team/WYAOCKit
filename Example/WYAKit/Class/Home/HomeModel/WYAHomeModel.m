@@ -120,9 +120,13 @@
     item24.rowName            = @"图片合成";
     item24.className          = @"WYAImageComposeViewController";
 
+    WYAHomeItemModel * item36 = [[WYAHomeItemModel alloc] init];
+    item36.rowName            = @"FlexBox";
+    item36.className          = @"WYAFlexBoxViewController";
+
     WYAHomeModel * model3 = [[WYAHomeModel alloc] init];
     model3.sectionName    = @"数据展示 Data Display";
-    model3.rows           = @[ item19, item20, item21, item22, item23, item35, item24 ];
+    model3.rows           = @[ item19, item20, item21, item22, item23, item35, item24, item36];
 
     WYAHomeItemModel * item25 = [[WYAHomeItemModel alloc] init];
     item25.rowName            = @"WYAAlert 弹框";

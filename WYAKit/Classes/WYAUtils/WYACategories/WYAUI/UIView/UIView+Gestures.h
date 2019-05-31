@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, WYATapGesturesStyle) {
 };
 
 NS_ASSUME_NONNULL_BEGIN
-
+/// 使用这种方式只能使用单次，如果涉及到多个同一种手势、手势代理请在外部自行添加手势
 @interface UIView (Gestures)
 
 /**

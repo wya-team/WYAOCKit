@@ -98,5 +98,7 @@
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVGKit/SVGKit.h>
-#import <YYText/YYText.h>
+#import <YYKit/YYKit.h>
+#import <YogaKit/UIView+Yoga.h>
+#import <YogaKit/YGLayout.h>
 #endif

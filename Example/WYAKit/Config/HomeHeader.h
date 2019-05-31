@@ -39,4 +39,5 @@
 #import "WYAInputItemCellController.h"
 #import "WYAListViewController.h"
 #import "WYASegmentedController.h"
+#import "WYAFlexBoxViewController.h"
 #endif /* HomeHeader_h */
