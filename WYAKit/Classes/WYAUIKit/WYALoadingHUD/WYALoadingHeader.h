@@ -11,6 +11,6 @@
 #import "WYALoadingHUD.h"
 #import "UIView+WYALoadingAnimate.h"
 #import "UIView+WYACircleLoading.h"
-#import "WYARefreshHeader.h"
+#import "WYAIndicatorRefreshHeader.h"
 
 #endif /* WYALoadingHeader_h */
