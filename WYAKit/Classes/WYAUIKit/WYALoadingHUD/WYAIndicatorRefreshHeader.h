@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYARefreshHeader : MJRefreshHeader
+@interface WYAIndicatorRefreshHeader : MJRefreshHeader
 @property (assign, nonatomic) WYALoadingGraphAnimateStyle animateStyle;
 + (instancetype)headerWithRefreshingTarget:(id)target refreshingAction:(SEL)action animateStyle:(WYALoadingGraphAnimateStyle)animateStyle;
 @end

@@ -8,15 +8,15 @@
 #define HeaderDefaultHeight 54
 #define  IndicatorWidth 20
 #import "NSBundle+MJRefresh.h"
-#import "WYARefreshHeader.h"
+#import "WYAIndicatorRefreshHeader.h"
 #import "UIView+WYACircleLoading.h"
 #import "UIView+WYALoadingAnimate.h"
 
-@interface WYARefreshHeader()
+@interface WYAIndicatorRefreshHeader()
 @property (weak, nonatomic) UIActivityIndicatorView *loadingView;
 @end
 
-@implementation WYARefreshHeader
+@implementation WYAIndicatorRefreshHeader
 
 #pragma mark - 懒加载子控件
 - (UIActivityIndicatorView *)loadingView
@@ -86,7 +86,7 @@
 
 + (instancetype)headerWithRefreshingTarget:(id)target refreshingAction:(SEL)action animateStyle:(WYALoadingGraphAnimateStyle)animateStyle{
     
-    WYARefreshHeader * header = (WYARefreshHeader *)[super headerWithRefreshingTarget:target refreshingAction:action];
+    WYAIndicatorRefreshHeader * header = (WYAIndicatorRefreshHeader *)[super headerWithRefreshingTarget:target refreshingAction:action];
     header.animateStyle = animateStyle;
     return header;
     
