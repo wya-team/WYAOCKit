@@ -109,7 +109,10 @@
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <SVGKit/SVGKit.h>
-#import <YYKit/YYKit.h>
+//#import <YYKit/YYKit.h>
+#import <YYModel/YYModel.h>
+#import <YYText/YYText.h>
+#import <YYImage/YYImage.h>
 #import <YogaKit/UIView+Yoga.h>
 #import <YogaKit/YGLayout.h>
 #endif
