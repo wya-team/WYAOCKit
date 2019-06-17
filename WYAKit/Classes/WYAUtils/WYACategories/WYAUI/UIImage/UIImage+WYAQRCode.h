@@ -1,15 +1,15 @@
 //
-//  WYAQRCodeMakeManager.h
-//  QRCodeDemo
+//  UIImage+WYAQRCode.h
+//  WYAKit
 //
-//  Created by 李世航 on 2018/6/13.
-//  Copyright © 2018年 WeiYiAn. All rights reserved.
+//  Created by 李世航 on 2019/6/3.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface WYAIMGCode : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
+@interface UIImage (WYAQRCode)
 /**
  生成一张普通的二维码
 
@@ -60,5 +60,6 @@
                                      red:(CGFloat)red
                                    green:(CGFloat)green
                                     blue:(CGFloat)blue;
-
 @end
+
+NS_ASSUME_NONNULL_END

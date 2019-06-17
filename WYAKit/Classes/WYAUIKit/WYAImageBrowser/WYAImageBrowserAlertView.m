@@ -85,6 +85,7 @@
     button.alertView = self;
     [button configureLayoutWithBlock:^(YGLayout * _Nonnull layout) {
         layout.isEnabled = YES;
+        layout.top = YGPointValue(1);
         layout.width = YGPointValue(self.frame.size.width);
         layout.height = YGPointValue(44);
     }];

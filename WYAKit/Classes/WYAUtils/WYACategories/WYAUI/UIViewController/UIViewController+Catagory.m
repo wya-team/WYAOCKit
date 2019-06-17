@@ -69,3 +69,18 @@
 }
 
 @end
+
+
+@implementation UIViewController (HotReload)
+
+- (void)injected{
+    [self viewDidLoad];
+    [self viewWillAppear:YES];
+    [self viewDidAppear:YES];
+    [self viewWillLayoutSubviews];
+    [self viewDidLayoutSubviews];
+    [self viewWillDisappear:YES];
+    [self viewDidDisappear:YES];
+}
+
+@end

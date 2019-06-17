@@ -8,75 +8,61 @@
 @protocol WYAZoomingScrollViewDelegate <NSObject>
 
 /**
- *  单击图像时调用
- *
- *  @param zoomingScrollView 图片缩放视图
- *  @param singleTap             用户单击手势
+ 单击图像时调用
+
+ @param zoomingScrollView 图片缩放视图
+ @param singleTap 用户单击手势
  */
 - (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView singleTapDetected:(UITapGestureRecognizer *)singleTap;
 
 @optional
+
 /**
- *  图片加载进度
- *
- *  @param zoomingScrollView 图片缩放视图
- *  @param progress 加载进度 , 0 - 1.0
+ 图片加载进度
+
+ @param zoomingScrollView 图片缩放视图
+ @param progress 加载进度 , 0 - 1.0
  */
 - (void)zoomingScrollView:(WYAZoomingScrollView *)zoomingScrollView imageLoadProgress:(CGFloat)progress;
 
 @end
 
 @interface WYAZoomingScrollView : UIView
-
-/**
- *  zoomingScrollViewdelegate
- */
 @property (nonatomic, weak) id<WYAZoomingScrollViewDelegate> zoomingScrollViewdelegate;
-/**
- *  图片加载进度
- */
+/// 图片加载进度
 @property (nonatomic, assign) CGFloat progress;
-/**
- *  展示的图片
- */
+/// 展示的图片
 @property (nonatomic, strong, readonly) UIImage * currentImage;
-/**
- *  展示图片的UIImageView视图  ,  回缩的动画用
- */
+/// 展示图片的UIImageView视图  ,  回缩的动画用
 @property (nonatomic, weak, readonly) UIImageView * imageView;
 @property (nonatomic, strong, readonly) UIScrollView * scrollview;
-
-/**
- 是否为返回原位，为layoutsubviews添加动画效果
- */
+/// 是否为返回原位，为layoutsubviews添加动画效果
 @property (nonatomic, assign) BOOL isMoveBack;
-
-
-/**
- 是否为返回缩略图位置
- */
+/// 是否为返回缩略图位置
 @property (nonatomic, assign) BOOL isMoveOrigin;
 
-
 /**
- *  显示图片
- *
- *  @param url         图片的高清大图链接
- *  @param placeholder 占位的缩略图 / 或者是高清大图都可以
+ 显示图片
+
+ @param url 图片的高清大图链接
+ @param placeholder 占位的缩略图 / 或者是高清大图都可以
  */
 - (void)setShowHighQualityImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder;
+
 /**
- *  显示图片
- *
- *  @param image 图片
+ 显示图片
+
+ @param image 图片
  */
 - (void)setShowImage:(UIImage *)image;
+
 /**
- *  调整尺寸
+ 调整尺寸
  */
 - (void)setMaxAndMinZoomScales;
+
 /**
- *  重用，清理资源
+ 重用，清理资源
  */
 - (void)prepareForReuse;
 

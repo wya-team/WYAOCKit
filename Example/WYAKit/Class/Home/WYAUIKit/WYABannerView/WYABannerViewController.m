@@ -101,7 +101,6 @@
     banner2.pageControlAliment   = WYABannerViewPageContolAlimentRight;
     banner2.imageURLStringsGroup = imagesURLStrings;
     banner2.titlesGroup          = titles;
-    banner2.pageControlStyle     = WYABannerViewPageContolStyleAnimated;
     [self.view addSubview:banner2];
 }
 

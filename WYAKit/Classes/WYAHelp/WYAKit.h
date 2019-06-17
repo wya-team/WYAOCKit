@@ -11,7 +11,6 @@
 #import "WYAAudioRecoder.h"
 #import "WYACameraViewController.h"
 #import "WYAQRCodeViewController.h"
-#import "WYAIMGCode.h"
 #import "WYADownloaderViewController.h"
 #import "WYADownloader.h"
 #import "WYADownloadModel.h"
@@ -58,17 +57,26 @@
 #import "WYARealmBaseManager.h"
 /****************** UICategory ********************/
 #import "UIControl+category.h"
+
 #import "UIButton+Category.h"
+
 #import "UIColor+Category.h"
+
 #import "UIImage+Catagory.h"
+#import "UIImage+FixSource.h"
+#import "UIImage+WYAQRCode.h"
+
 #import "UILabel+Category.h"
+
 #import "UIMenuItem+Category.h"
 #import "UITableView+CellAnimation.h"
 #import "UITextField+Category.h"
+
 #import "UIView+Gestures.h"
 #import "UIView+WYAAnimation.h"
 #import "UIView+WYALayout.h"
 #import "UIView+WYAToast.h"
+
 #import "UIViewController+Catagory.h"
 #import "UITextView+WYAPlaceHolder.h"
 /***************** FoundationCategory ***************/

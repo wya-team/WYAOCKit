@@ -15,30 +15,15 @@ typedef NS_ENUM(NSUInteger, WYAProgressViewStyle) {
 };
 
 @interface WYAProgressView : UIView
-
-/**
- 背景图片
- */
-@property (nonatomic, strong) UIImage * backgroundImage;
-
-/**
- 背景线的颜色
- */
-@property (nonatomic, strong) UIColor * trackTintColor;
-
-/**
- 填充线的颜色
- */
-@property (nonatomic, strong) UIColor * progressTintColor;
-
-/**
- 线宽
- */
-@property (nonatomic, assign) CGFloat borderWidth;
-
-/**
- 进度（0~1）
- */
+/// 背景图片
+@property (nonatomic, strong) UIImage * backgroundImage UI_APPEARANCE_SELECTOR;
+/// 背景线的颜色
+@property (nonatomic, strong) UIColor * trackTintColor UI_APPEARANCE_SELECTOR;
+/// 填充线的颜色
+@property (nonatomic, strong) UIColor * progressTintColor UI_APPEARANCE_SELECTOR;
+/// 线宽
+@property (nonatomic, assign) CGFloat borderWidth UI_APPEARANCE_SELECTOR;
+/// 进度（0~1）
 @property (nonatomic, assign) CGFloat progress;
 
 - (instancetype)initWithFrame:(CGRect)frame progressViewStyle:(WYAProgressViewStyle)style;

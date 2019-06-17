@@ -77,7 +77,7 @@
 
     [button addCallBackAction:^(UIButton * button) {
         [textField resignFirstResponder];
-        imageV.image = [WYAIMGCode wya_GenerateWithDefaultQRCodeData:textField.text
+        imageV.image = [UIImage wya_GenerateWithDefaultQRCodeData:textField.text
                                                       imageViewWidth:imageV.cmam_width];
     }];
 
@@ -87,7 +87,7 @@
             [UIView wya_showBottomToastWithMessage:@"条形码不能有汉字"];
             return;
         }
-        imageV.image = [WYAIMGCode wya_BarcodeImageWithContent:barTextField.text
+        imageV.image = [UIImage wya_BarcodeImageWithContent:barTextField.text
                                                  codeImageSize:barTextField.cmam_size
                                                            red:100.0
                                                          green:150.0

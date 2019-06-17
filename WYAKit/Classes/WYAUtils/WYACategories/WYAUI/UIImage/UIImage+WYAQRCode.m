@@ -1,15 +1,13 @@
 //
-//  WYAQRCodeMakeManager.h
-//  QRCodeDemo
+//  UIImage+WYAQRCode.m
+//  WYAKit
 //
-//  Created by 李世航 on 2018/6/13.
-//  Copyright © 2018年 WeiYiAn. All rights reserved.
+//  Created by 李世航 on 2019/6/3.
 //
 
-#import "WYAIMGCode.h"
+#import "UIImage+WYAQRCode.h"
 
-@implementation WYAIMGCode
-
+@implementation UIImage (WYAQRCode)
 /**
  *  生成一张普通的二维码
  *
@@ -48,7 +46,7 @@
     size_t height      = CGRectGetHeight(extent) * scale;
     CGColorSpaceRef cs = CGColorSpaceCreateDeviceGray();
     CGContextRef bitmapRef =
-        CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
+    CGBitmapContextCreate(nil, width, height, 8, 0, cs, (CGBitmapInfo)kCGImageAlphaNone);
     CIContext * context    = [CIContext contextWithOptions:nil];
     CGImageRef bitmapImage = [context createCGImage:image fromRect:extent];
     CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);
@@ -184,8 +182,8 @@
     uint32_t * rgbImageBuf        = (uint32_t *)malloc(bytesPerRow * imageHeight);
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
     CGContextRef context =
-        CGBitmapContextCreate(rgbImageBuf, imageWidth, imageHeight, 8, bytesPerRow, colorSpaceRef,
-                              kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
+    CGBitmapContextCreate(rgbImageBuf, imageWidth, imageHeight, 8, bytesPerRow, colorSpaceRef,
+                          kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipLast);
     CGContextDrawImage(context, CGRectMake(0, 0, imageWidth, imageHeight), image.CGImage);
     //遍历像素, 改变像素点颜色
     int pixelNum       = imageWidth * imageHeight;
@@ -203,7 +201,7 @@
     }
     //取出图片
     CGDataProviderRef dataProvider = CGDataProviderCreateWithData(
-        NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
+                                                                  NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
     CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpaceRef,
                                         kCGImageAlphaLast | kCGBitmapByteOrder32Little,
                                         dataProvider, NULL, true, kCGRenderingIntentDefault);
@@ -221,13 +219,13 @@
     CIImage * image     = [self wya_BarcodeImageWithContent:content];
     CGRect integralRect = CGRectIntegral(image.extent);
     CGFloat scale =
-        MIN(size.width / CGRectGetWidth(integralRect), size.height / CGRectGetHeight(integralRect));
+    MIN(size.width / CGRectGetWidth(integralRect), size.height / CGRectGetHeight(integralRect));
 
     size_t width                  = CGRectGetWidth(integralRect) * scale;
     size_t height                 = CGRectGetHeight(integralRect) * scale;
     CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceGray();
     CGContextRef bitmapRef        = CGBitmapContextCreate(nil, width, height, 8, 0, colorSpaceRef,
-                                                   (CGBitmapInfo)kCGImageAlphaNone);
+                                                          (CGBitmapInfo)kCGImageAlphaNone);
     CIContext * context    = [CIContext contextWithOptions:nil];
     CGImageRef bitmapImage = [context createCGImage:image fromRect:integralRect];
     CGContextSetInterpolationQuality(bitmapRef, kCGInterpolationNone);

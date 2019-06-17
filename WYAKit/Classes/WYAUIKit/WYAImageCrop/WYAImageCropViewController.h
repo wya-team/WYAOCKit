@@ -67,27 +67,16 @@
 @interface WYAImageCropViewController : UIViewController
 
 @property (nullable, nonatomic, weak) id<WYAImageCropViewControllerDelegate> delegate;
-
-/**
- 原始图片
- */
+/// 原始图片
 @property (nonnull, nonatomic, readonly) UIImage * image;
-
 @property (nonnull, nonatomic, strong, readonly) WYAImageCropView * cropView;
 @property (nonnull, nonatomic, strong, readonly) WYAImageCropToolBar * toolbar;
 @property (nonatomic, readonly) WYACropViewCroppingStyle croppingStyle;
-
 @property (nullable, nonatomic, strong) void (^onDidFinishCancelled)(BOOL isFinished);
-@property (nullable, nonatomic, strong) void (^onDidCropImageToRect)
-    (CGRect cropRect, NSInteger angle);
-@property (nullable, nonatomic, strong) void (^onDidCropToRect)
-    (UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
-
-/**
- 圆形裁剪器时提供的图片
- */
-@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)
-    (UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropImageToRect)(CGRect cropRect, NSInteger angle);
+@property (nullable, nonatomic, strong) void (^onDidCropToRect)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
+/// 圆形裁剪器时提供的图片
+@property (nullable, nonatomic, strong) void (^onDidCropToCircleImage)(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle);
 
 /**
  初始化

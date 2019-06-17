@@ -2,6 +2,19 @@
 #import "WYAAlertAction.h"
 
 @implementation WYAAlertAction
++ (instancetype)appearance
+{
+    return [WYAAppearance appearanceForClass:[self class]];
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [[[self class] appearance] applyInvocationTo:self];
+    }
+    return self;
+}
 
 + (instancetype)wya_actionWithTitle:(NSString *)title
                             handler:(void (^)(void))handler {

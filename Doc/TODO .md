@@ -34,7 +34,7 @@
 
 - ~~WYABannerView (Carousel)~~
 
-- ~~WYAIMGCode~~
+- ~~WYAIMGCode~~（已加入catagory）
 
 - ~~WYAPageViewController~~
 

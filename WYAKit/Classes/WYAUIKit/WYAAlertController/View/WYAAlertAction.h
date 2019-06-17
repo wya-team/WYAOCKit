@@ -1,15 +1,17 @@
 
 #import <Foundation/Foundation.h>
-
-@interface WYAAlertAction : NSObject
+#import "WYAAppearance.h"
+@interface WYAAlertAction : NSObject<WYAAppearance>
 /// 标题
 @property (nonatomic, copy) NSString * title;
 /// 标题颜色, default is black
-@property (nonatomic, strong) UIColor * textColor;
+@property (nonatomic, strong) UIColor * textColor WYA_APPEARANCE_SELECTOR;
 /// 标题字体, default is 15
-@property (nonatomic, strong) UIFont * textFont;
+@property (nonatomic, strong) UIFont * textFont WYA_APPEARANCE_SELECTOR;
 /// 回调事件
 @property (nonatomic, copy) void (^handler)(void);
+
++ (instancetype)appearance;
 
 /**
  添加按钮

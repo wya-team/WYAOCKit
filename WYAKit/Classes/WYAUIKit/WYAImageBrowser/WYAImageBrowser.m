@@ -180,7 +180,7 @@
     self.saveButton.frame              = CGRectMake(30, self.cmam_height - 70, 50, 25);
     self.indexLabel.bounds             = CGRectMake(0, 0, 80, 30);
     self.indexLabel.cmam_centerX       = self.cmam_width * 0.5;
-    self.indexLabel.cmam_centerY       = 35;
+    self.indexLabel.cmam_centerY       = WYAStatusBarHeight + 15;
     self.indexLabel.layer.cornerRadius = self.indexLabel.cmam_height * 0.5;
 
     self.savaImageTipLabel.layer.cornerRadius = 5;
@@ -648,7 +648,8 @@
     }
 
     if (!self.enablePan) return;
-
+    self.saveButton.hidden = YES;
+    self.indexLabel.hidden = YES;
     if (pan.state == UIGestureRecognizerStateChanged) {
         pan.view.transform = CGAffineTransformTranslate(pan.view.transform, point.x, point.y);
         self.offset        = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
@@ -723,6 +724,10 @@
                                  if (finished) {
                                      [self addZoomingScrollViewDelegate];
                                      [panView addGestureRecognizer:pan];
+                                 }
+                                 self.indexLabel.hidden = NO;
+                                 if (self.browserStyle == WYAImageBrowserStyleIndexLabel) {
+                                     self.saveButton.hidden = NO;
                                  }
                              }];
         }

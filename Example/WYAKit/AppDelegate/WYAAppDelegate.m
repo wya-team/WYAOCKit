@@ -15,7 +15,11 @@
 
 - (BOOL)application:(UIApplication *)application
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
+#if DEBUG
+    [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection10.bundle"] load];
+#endif
+
     [Bugly startWithAppId:@"80bc7e9193"];
     WYAKitInstance * instance        = [WYAKitInstance sharedInstance];
     instance.bannerConfig.autoScroll = YES;
@@ -26,7 +30,8 @@
             @"aa" : @"bb",
         };
     };
-
+    
+    [WYAAlertAction appearance].textColor = [UIColor redColor];
     self.window                 = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [[WHDebugToolManager sharedInstance] toggleWith:DebugToolTypeAll];

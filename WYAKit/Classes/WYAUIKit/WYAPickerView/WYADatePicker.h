@@ -38,43 +38,26 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @interface WYADatePicker : UIView
 
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
-
-/**
- 添加默认选中时间（不传则默认选中当前时间）
- */
+/// 添加默认选中时间（不传则默认选中当前时间）
 @property (nonatomic, strong) NSDate * selectDate;
+/// 样式
 @property (nonatomic, assign) WYADatePickerStyle datePickerStyle;
 
 @property (nonatomic, strong) UIButton * backButton;
 @property (nonatomic, strong) UIButton * sureButton;
 @property (nonatomic, strong) UILabel * titleLabel;
-
-/**
- 是否自动改变title文字
- */
+/// 是否自动改变title文字
 @property (nonatomic, assign) BOOL autoTitleChange;
-
-/**
- 设置pickerView整体字体颜色
- */
-@property (nonatomic, strong) UIColor * pickerItemColor;
-
-/**
- 设置pickerView整体字体大小
- */
-@property (nonatomic, strong) UIFont * pickerItemFont;
-
-@property (nonatomic, assign) NSTextAlignment pickerItemAlignment;
-
-/**
- 设置pickerView高度
- */
-@property (nonatomic, assign) CGFloat pickerHeight;
-
-/**
- 设置pickerView的Item高度
- */
-@property (nonatomic, assign) CGFloat pickerItemHeight;
+/// 设置pickerView整体字体颜色
+@property (nonatomic, strong) UIColor * pickerItemColor UI_APPEARANCE_SELECTOR;
+/// 设置pickerView整体字体大小
+@property (nonatomic, strong) UIFont * pickerItemFont UI_APPEARANCE_SELECTOR;
+/// 设置pickerView整体字体排列方式
+@property (nonatomic, assign) NSTextAlignment pickerItemAlignment UI_APPEARANCE_SELECTOR;
+/// 设置pickerView高度
+@property (nonatomic, assign) CGFloat pickerHeight UI_APPEARANCE_SELECTOR;
+/// 设置pickerView的Item高度
+@property (nonatomic, assign) CGFloat pickerItemHeight UI_APPEARANCE_SELECTOR;
 
 /**
  获取datePicker高度

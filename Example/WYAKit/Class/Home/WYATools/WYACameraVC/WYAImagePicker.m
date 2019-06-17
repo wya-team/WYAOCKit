@@ -331,6 +331,7 @@
                 return cell.imageView;
             }];
         imageBrowser.hidesForSinglePage = NO;
+        imageBrowser.browserStyle = WYAImageBrowserStyleSimple;
     }
 }
 

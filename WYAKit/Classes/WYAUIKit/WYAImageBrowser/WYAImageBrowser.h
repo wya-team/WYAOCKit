@@ -7,35 +7,17 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
-/**
- *  图片浏览器的样式
- */
 typedef NS_ENUM(NSUInteger, WYAImageBrowserStyle) {
-    /**
-     *  长按图片弹出功能组件,底部一个PageControl
-     */
-    WYAImageBrowserStylePageControl = 1,
-    /**
-     * 长按图片弹出功能组件,顶部一个索引UILabel
-     */
+    WYAImageBrowserStylePageControl = 1, // 底部一个PageControl
     WYAImageBrowserStyleIndexLabel = 2,
-    /**
-     * 没有长按图片弹出的功能组件,顶部一个索引UILabel,底部一个保存图片按钮
-     */
-    WYAImageBrowserStyleSimple = 3
+    WYAImageBrowserStyleSimple = 3 // 没有长按图片弹出的功能组件,顶部一个索引UILabel,底部一个保存图片按钮
 };
 
 /**
  *  pageControl的位置
  */
 typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment) {
-    /**
-     * pageControl在右边
-     */
     WYAImageBrowserPageControlAlimentRight = 1,
-    /**
-     *  pageControl 中间
-     */
     WYAImageBrowserPageControlAlimentCenter = 2,
     WYAImageBrowserPageControlAlimentLeft   = 3
 };
@@ -44,13 +26,7 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment) {
  *  pageControl的样式
  */
 typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
-    /**
-     * 系统自带经典样式
-     */
     WYAImageBrowserPageControlStyleClassic = 1,
-    /**
-     *  不显示pagecontrol
-     */
     WYAImageBrowserPageControlStyleNone = 2
 
 };
@@ -114,11 +90,8 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
 @end
 
 typedef UIImage * (^PlaceHoldImageBlock)(WYAImageBrowser * browser, NSInteger index);
-
 typedef NSURL * (^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
-
 typedef ALAsset * (^AssetBlock)(WYAImageBrowser * browser, NSInteger index);
-
 typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteger index);
 
 @interface WYAImageBrowser : UIView
@@ -140,18 +113,18 @@ typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteg
 /// 图片浏览器样式
 @property (nonatomic, assign) WYAImageBrowserStyle browserStyle;
 /// 占位图片,可选(默认是一张灰色的100*100像素图片),当没有实现数据源中placeholderImageForIndex方法时,默认会使用这个占位图片
-@property (nonatomic, strong) UIImage * placeholderImage;
+@property (nonatomic, strong) UIImage * placeholderImage UI_APPEARANCE_SELECTOR;
 
 /// 是否在只有一张图时隐藏pagecontrol，默认为YES
-@property (nonatomic) BOOL hidesForSinglePage;
+@property (nonatomic) BOOL hidesForSinglePage UI_APPEARANCE_SELECTOR;
 /// 当前分页控件小圆标颜色
-@property (nonatomic, strong) UIColor * currentPageDotColor;
+@property (nonatomic, strong) UIColor * currentPageDotColor UI_APPEARANCE_SELECTOR;
 /// 其他分页控件小圆标颜色
-@property (nonatomic, strong) UIColor * pageDotColor;
+@property (nonatomic, strong) UIColor * pageDotColor UI_APPEARANCE_SELECTOR;
 /// 当前分页控件小圆标图片
-@property (nonatomic, strong) UIImage * currentPageDotImage;
+@property (nonatomic, strong) UIImage * currentPageDotImage UI_APPEARANCE_SELECTOR;
 /// 其他分页控件小圆标图片
-@property (nonatomic, strong) UIImage * pageDotImage;
+@property (nonatomic, strong) UIImage * pageDotImage UI_APPEARANCE_SELECTOR;
 
 /**
  快速创建并进入图片浏览器 , 同时传入数据源对象

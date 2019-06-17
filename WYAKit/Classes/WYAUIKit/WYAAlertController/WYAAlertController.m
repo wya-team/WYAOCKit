@@ -16,17 +16,6 @@
     if (self = [super init]) {
         self.transitioningDelegate  = self;
         self.modalPresentationStyle = UIModalPresentationCustom;
-
-        // 灰色半透明背景
-        self.backgroundButton                 = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.backgroundButton.backgroundColor = [UIColor blackColor];
-        self.backgroundButton.alpha           = as_backgroundAlpha;
-        [self.backgroundButton addTarget:self
-                                  action:@selector(dismissBackgroundView:)
-                        forControlEvents:UIControlEventTouchUpInside];
-
-        self.bottomView                 = [[UIView alloc] init];
-        self.bottomView.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -37,21 +26,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // 背景透明
 
     self.view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.backgroundButton];
+    [self.view addSubview:self.bottomView];
+    [self.view addSubview:self.alertView];
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+
     [self.backgroundButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
     }];
 
-    [self.view addSubview:self.bottomView];
     [self.bottomView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.bottom.mas_equalTo(self.view);
         make.height.mas_equalTo(WYABottomHeight);
     }];
-
-    [self.view addSubview:self.alertView];
 
     if (self.alertStyle == WYAAlertStyleSheet || self.alertStyle == WYAAlertStyleCustomSheet) {
         // 设置 alertView 在屏幕底部
@@ -81,7 +73,7 @@
                                                  ((WYAAlertView *)self.alertView).height));
             } else {
                 make.size.mas_equalTo(
-                    CGSizeMake(self.alertView.cmam_width, self.alertView.cmam_height));
+                                      CGSizeMake(self.alertView.cmam_width, self.alertView.cmam_height));
             }
 
         }];
@@ -183,4 +175,28 @@ animationControllerForPresentedController:(UIViewController *)presented
     _dismissStyle = dismissStyle;
 }
 
+#pragma mark - Getter
+- (UIButton *)backgroundButton{
+    if(!_backgroundButton){
+        _backgroundButton = ({
+            UIButton * object                 = [UIButton buttonWithType:UIButtonTypeCustom];
+            object.backgroundColor = [UIColor blackColor];
+            object.alpha           = as_backgroundAlpha;
+            [object addTarget:self action:@selector(dismissBackgroundView:) forControlEvents:UIControlEventTouchUpInside];
+            object;
+       });
+    }
+    return _backgroundButton;
+}
+
+- (UIView *)bottomView{
+    if(!_bottomView){
+        _bottomView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor whiteColor];
+            object;
+       });
+    }
+    return _bottomView;
+}
 @end

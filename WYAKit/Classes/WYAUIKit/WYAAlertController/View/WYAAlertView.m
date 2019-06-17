@@ -139,7 +139,6 @@
 }
 
 #pragma mark - Public Method
-/** 添加 action */
 - (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
     for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
 

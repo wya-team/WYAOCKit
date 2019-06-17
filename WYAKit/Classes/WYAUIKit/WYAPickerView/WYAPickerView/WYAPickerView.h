@@ -49,61 +49,29 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 @property (nonatomic, strong) UIButton * backButton;
 @property (nonatomic, strong) UIButton * sureButton;
 @property (nonatomic, strong) UILabel * titleLabel;
-
-/**
- 是否自动改变title文字
- */
+/// 是否自动改变title文字
 @property (nonatomic, assign) BOOL autoTitleChange;
-
-/**
- pickerView样式（暂不提供使用）
- */
+/// pickerView样式（暂不提供使用）
 @property (nonatomic, assign) WYAPickerViewStyle pickerViewStyle;
-
-/**
- pickerView列样式
- */
+/// pickerView列样式
 @property (nonatomic, assign) WYAPickerViewColumnStyle pickerViewColumnStyle;
-/**
- 设置pickerView整体字体颜色
- */
-@property (nonatomic, strong) UIColor * pickerItemColor;
-
-/**
- 设置pickerView整体字体大小
- */
-@property (nonatomic, strong) UIFont * pickerItemFont;
-
-@property (nonatomic, assign) NSTextAlignment pickerItemAlignment;
-
-/**
- 设置pickerView高度
- */
-@property (nonatomic, assign) CGFloat pickerHeight;
-
-/**
- 设置pickerView的Item高度
- */
-@property (nonatomic, assign) CGFloat pickerItemHeight;
-
-/**
- 标题关键字(需要先指定)
- */
+/// 设置pickerView整体字体颜色
+@property (nonatomic, strong) UIColor * pickerItemColor UI_APPEARANCE_SELECTOR;
+/// 设置pickerView整体字体大小
+@property (nonatomic, strong) UIFont * pickerItemFont UI_APPEARANCE_SELECTOR;
+/// 设置pickerView排列方向
+@property (nonatomic, assign) NSTextAlignment pickerItemAlignment UI_APPEARANCE_SELECTOR;
+/// 设置pickerView高度
+@property (nonatomic, assign) CGFloat pickerHeight UI_APPEARANCE_SELECTOR;
+/// 设置pickerView的Item高度
+@property (nonatomic, assign) CGFloat pickerItemHeight UI_APPEARANCE_SELECTOR;
+/// 标题关键字(需要先指定)
 @property (nonatomic, copy) NSString * titleKeyWords;
-
-/**
- array关键字(需要先指定)
- */
+/// array关键字(需要先指定)
 @property (nonatomic, copy) NSString * arrayKeyWords;
-
-/**
- 返回参数关键字(需要先指定)
- */
+/// 返回参数关键字(需要先指定)
 @property (nonatomic, copy) NSString * paramWords;
-
-/**
- 数据源
- */
+/// 数据源
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
 /**
