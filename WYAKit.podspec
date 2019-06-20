@@ -47,7 +47,7 @@ TODO: Add long description of the pod here.
   s.dependency 'Masonry'
   s.dependency 'FMDB'
   s.dependency 'JQFMDB'
-  #s.dependency 'YYKit'
+#  s.dependency 'YYKit'
   s.dependency 'YYText'
   s.dependency 'YYImage'
   s.dependency 'YYModel'

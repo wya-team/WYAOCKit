@@ -155,4 +155,21 @@
  @return string
  */
 - (NSString *)wya_trimmingWhitespaceAndNewlines;
+
+/**
+ 获取十位时间戳秒
+
+ @return string
+ */
++ (NSString *)getNowTimeTimesSeconds;
+
+/**
+ 生成随机字符串
+
+ @param len 字符串长度
+ @return 返回一个随机字符串
+ */
++ (NSString *)wya_randomStringWithLength:(NSInteger)len;
+
++ (NSDictionary *)wya_breakupUrlStringFetchParams:(NSString *)urlString;
 @end

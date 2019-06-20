@@ -186,4 +186,40 @@
     return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
++ (NSString *)getNowTimeTimesSeconds {
+    // 获取10位时间戳
+    NSDate * dat = [NSDate dateWithTimeIntervalSinceNow:0];
+
+    NSTimeInterval a = [dat timeIntervalSince1970];
+
+    NSString * timeString = [NSString stringWithFormat:@"%0.f", a]; //转为字符型
+    return timeString;
+}
+
++ (NSString *)wya_randomStringWithLength:(NSInteger)len {
+    NSString * letters             = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString * randomString = [NSMutableString stringWithCapacity:len];
+
+    for (NSInteger i = 0; i < len; i++) {
+        [randomString appendFormat:@"%C", [letters characterAtIndex:arc4random_uniform([letters length])]];
+    }
+    return randomString;
+}
+
++ (NSDictionary *)wya_breakupUrlStringFetchParams:(NSString *)urlString{
+    if (!urlString) return nil;
+    NSMutableDictionary * dic = [NSMutableDictionary dictionaryWithCapacity:0];
+    NSArray * arr = [urlString componentsSeparatedByString:@"?"];
+    NSString * paramsString = [arr lastObject];
+    NSArray * keyValues = [paramsString componentsSeparatedByString:@"&"];
+    if (keyValues.count > 0) {
+        for (NSString * string in keyValues) {
+            NSArray * array = [string componentsSeparatedByString:@"="];
+            [dic setObject:[array lastObject] forKey:[array firstObject]];
+        }
+    }
+    NSLog(@"dic==%@",dic);
+    return [dic copy];
+}
+
 @end
