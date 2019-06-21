@@ -171,5 +171,11 @@
  */
 + (NSString *)wya_randomStringWithLength:(NSInteger)len;
 
+/**
+ 获取url后的参数转换为字典
+
+ @param urlString 目标url
+ @return 返回参数
+ */
 + (NSDictionary *)wya_breakupUrlStringFetchParams:(NSString *)urlString;
 @end
