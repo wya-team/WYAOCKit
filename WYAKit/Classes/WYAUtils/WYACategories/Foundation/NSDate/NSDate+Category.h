@@ -209,4 +209,11 @@
  */
 + (NSString *)wya_getNowTimeTimes;
 
+/**
+ 获取十位时间戳秒
+
+ @return string
+ */
++ (NSString *)getNowTimeTimesSeconds;
+
 @end

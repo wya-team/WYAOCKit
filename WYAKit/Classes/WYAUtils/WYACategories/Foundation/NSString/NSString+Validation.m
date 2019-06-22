@@ -6,9 +6,9 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
-#import "NSString+Safe.h"
+#import "NSString+Validation.h"
 
-@implementation NSString (Safe)
+@implementation NSString (Validation)
 - (NSString *)wya_safeSubstringFromIndex:(NSUInteger)from {
     if (from > self.length) {
         return nil;

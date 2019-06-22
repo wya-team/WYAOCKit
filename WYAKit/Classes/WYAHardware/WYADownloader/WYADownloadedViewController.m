@@ -78,7 +78,7 @@ UITableViewDataSource>
     //    double allMemory           = [NSString wya_phoneFreeMemory];
     [WYAClearCache wya_getDivceAvailableSizeBlock:^(NSString * _Nonnull folderSize) {
         WYADownloader * downloader = [WYADownloader sharedDownloader];
-        double size                = [downloader.floder wya_fileSize] / 1024 / 1024;
+        double size                = [UIDevice wya_fileSizeWithPath:downloader.floder] / 1024 / 1024;
 
         NSString * useSize = [NSString stringWithFormat:@"%2.fM", size];
         NSString * string  = [NSString stringWithFormat:@"已下载%@,可用空间%@", useSize, folderSize];

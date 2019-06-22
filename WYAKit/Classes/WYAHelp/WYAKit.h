@@ -79,6 +79,7 @@
 
 #import "UIViewController+Catagory.h"
 #import "UITextView+WYAPlaceHolder.h"
+#import "UIDevice+Category.h"
 /***************** FoundationCategory ***************/
 #import "NSArray+Category.h"
 #import "NSArray+Safe.h"
@@ -98,10 +99,11 @@
 #import "NSString+Category.h"
 #import "NSString+DisplayTime.h"
 #import "NSString+FilePath.h"
-#import "NSString+MD5.h"
+#import "NSString+Encryption.h"
 #import "NSString+Predicate.h"
-#import "NSString+Safe.h"
+#import "NSString+Validation.h"
 #import "NSString+WYAVersionCompare.h"
+#import "NSString+Restructuring.h"
 /*********** 第三方依赖库 ***********/
 #import <AFNetworking/AFNetworking.h>
 #import <fmdb/FMDB.h>

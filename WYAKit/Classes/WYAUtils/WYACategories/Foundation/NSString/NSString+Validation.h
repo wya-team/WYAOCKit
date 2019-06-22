@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSString (Safe)
+@interface NSString (Validation)
 - (NSString *)wya_safeSubstringFromIndex:(NSUInteger)from;
 
 - (NSString *)wya_safeSubstringToIndex:(NSUInteger)to;

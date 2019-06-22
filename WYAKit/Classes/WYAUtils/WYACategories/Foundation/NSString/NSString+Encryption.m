@@ -1,13 +1,16 @@
 //
-//  NSString+MD5.m
-//  WYA_iOS_Scaffold
+//  NSString+Encryption.m
+//  WYAKit
 //
-//  Created by 李俊恒 on 2018/7/6.
-//  Copyright © 2018年 WeiYiAn. All rights reserved.
+//  Created by 李世航 on 2019/6/22.
 //
 
-#import "NSString+MD5.h"
+#import "NSString+Encryption.h"
 #import <CommonCrypto/CommonDigest.h>
+
+@implementation NSString (Encryption)
+
+@end
 
 @implementation NSString (MD5)
 - (NSString *)wya_md5WithString {
@@ -19,7 +22,7 @@
     CC_MD5(value, (CC_LONG)strlen(value), outputBuffer);
 
     NSMutableString * outputString =
-        [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    [[NSMutableString alloc] initWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for (NSInteger count = 0; count < CC_MD5_DIGEST_LENGTH; count++) {
         [outputString appendFormat:@"%02x", outputBuffer[count]];
     }
@@ -32,6 +35,9 @@
 
     return [[self wya_md5WithString] substringWithRange:NSMakeRange(8, 16)];
 }
+@end
+
+@implementation NSString (SHA)
 
 - (NSString *)wya_sha1 {
     if (self == nil || [self length] == 0) { return nil; }

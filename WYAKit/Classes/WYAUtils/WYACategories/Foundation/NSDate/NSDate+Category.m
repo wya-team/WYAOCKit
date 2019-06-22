@@ -584,4 +584,14 @@
 
     return timeSp;
 }
+
++ (NSString *)getNowTimeTimesSeconds {
+    // 获取10位时间戳
+    NSDate * dat = [NSDate dateWithTimeIntervalSinceNow:0];
+
+    NSTimeInterval a = [dat timeIntervalSince1970];
+
+    NSString * timeString = [NSString stringWithFormat:@"%0.f", a]; //转为字符型
+    return timeString;
+}
 @end

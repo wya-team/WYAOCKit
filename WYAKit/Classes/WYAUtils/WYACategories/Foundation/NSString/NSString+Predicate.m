@@ -391,3 +391,42 @@
 }
 
 @end
+
+@implementation NSString (UTF8)
+- (BOOL)wya_isContainChineseInUTF8CodeingFormat {
+    NSUInteger length = [self length];
+    for (NSUInteger i = 0; i < length; i++) {
+        NSRange range        = NSMakeRange(i, 1);
+        NSString * subString = [self substringWithRange:range];
+        const char * cString = [subString UTF8String];
+        if (strlen(cString) == 3) { return YES; }
+    }
+    return NO;
+}
+@end
+
+@implementation NSString (GBK)
+- (BOOL)wya_isContainChineseInGBKCodeingFormat {
+    for (int i = 0; i < self.length; i++) {
+        unichar ch = [self characterAtIndex:i];
+        if (0x4E00 <= ch && ch <= 0x9FA5) { return YES; }
+    }
+    return NO;
+}
+
+- (NSInteger)wya_chineseCountOfStringInGBKCodeingFormat {
+    int ChineseCount = 0;
+
+    if (self.length == 0) { return 0; }
+
+    for (int i = 0; i < self.length; i++) {
+        unichar c = [self characterAtIndex:i];
+
+        if (c >= 0x4E00 && c <= 0x9FA5) {
+            ChineseCount++; //汉字
+        }
+    }
+
+    return ChineseCount;
+}
+@end

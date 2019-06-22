@@ -6,6 +6,10 @@
 //  Copyright © 2018年 WeiYiAn. All rights reserved.
 //
 
+/*
+ *  中文字符在utf-8环境下占3个字节，在gbk环境下占2个字节
+ */
+
 #import <Foundation/Foundation.h>
 
 @interface NSString (Predicate)
@@ -132,6 +136,31 @@
  限制只能输入数字
  */
 - (BOOL)wya_isOnlyNumber;
+@end
+
+@interface NSString (UTF8)
+/**
+ 在utf-8环境下判断字符串是否包含汉字
+
+ @return bool
+ */
+- (BOOL)wya_isContainChineseInUTF8CodeingFormat;
+@end
+
+@interface NSString (GBK)
+/**
+ 在gbk环境下判断字符串是否包含汉字
+
+ @return bool
+ */
+- (BOOL)wya_isContainChineseInGBKCodeingFormat;
+
+/**
+ 在gbk环境下计算字符串有多少个汉字
+
+ @return 汉字个数
+ */
+- (NSInteger)wya_chineseCountOfStringInGBKCodeingFormat;
 @end
 
 /**
