@@ -173,10 +173,10 @@ static char leftNameKey;
 
 @implementation UIButton (Property)
 
-- (UIButton *(^)(UIColor *))setupTextColor{
+- (UIButton *(^)(UIColor *, UIControlState))setupTextColor{
 
-    return ^UIButton *(UIColor *color){
-        [self setTitleColor:color forState:UIControlStateNormal];
+    return ^UIButton *(UIColor *color, UIControlState state){
+        [self setTitleColor:color forState:state];
         return self;
     };
 }
@@ -214,6 +214,13 @@ static char leftNameKey;
     };
 }
 
+- (UIButton *(^)(UIImage *, UIControlState))setupBackgroundImage{
+    return ^UIButton *(UIImage * image, UIControlState state){
+        [self setBackgroundImage:image forState:state];
+        return self;
+    };
+}
+
 - (UIButton *(^)(BOOL))setupSelected{
     return ^UIButton *(BOOL selected){
         self.selected = selected;
@@ -228,9 +235,37 @@ static char leftNameKey;
     };
 }
 
+- (UIButton *(^)(UIControlContentVerticalAlignment))setupVerticalAlignment{
+    return ^UIButton *(UIControlContentVerticalAlignment alignment){
+        [self setContentVerticalAlignment:alignment];
+        return self;
+    };
+}
+
+- (UIButton *(^)(UIEdgeInsets))setupTitleEdgeInsets{
+    return ^UIButton *(UIEdgeInsets edge) {
+        [self setTitleEdgeInsets:edge];
+        return self;
+    };
+}
+
+- (UIButton *(^)(UIEdgeInsets))setupImageEdgeInsets{
+    return ^UIButton *(UIEdgeInsets edge) {
+        [self setImageEdgeInsets:edge];
+        return self;
+    };
+}
+
 - (UIButton *(^)(NSAttributedString *))setupAttributedTitle{
     return ^UIButton *(NSAttributedString * attributedTitle){
         [self setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+        return self;
+    };
+}
+
+- (UIButton *(^)(BOOL))setupUserInteractionEnabled{
+    return ^UIButton *(BOOL enable){
+        self.userInteractionEnabled = enable;
         return self;
     };
 }

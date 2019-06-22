@@ -156,4 +156,18 @@
     };
 }
 
+- (UILabel *(^)(BOOL))setupUserInteractionEnabled{
+    return ^UILabel *(BOOL enable){
+        self.userInteractionEnabled = enable;
+        return self;
+    };
+}
+
+- (UILabel *(^)(UIBaselineAdjustment))setupBaselineAdjustment{
+    return ^UILabel *(UIBaselineAdjustment alignment){
+        self.baselineAdjustment = alignment;
+        return self;
+    };
+}
+
 @end
