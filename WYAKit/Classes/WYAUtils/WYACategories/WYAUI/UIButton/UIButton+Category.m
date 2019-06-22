@@ -170,3 +170,69 @@ static char leftNameKey;
 }
 
 @end
+
+@implementation UIButton (Property)
+
+- (UIButton *(^)(UIColor *))setupTextColor{
+
+    return ^UIButton *(UIColor *color){
+        [self setTitleColor:color forState:UIControlStateNormal];
+        return self;
+    };
+}
+
+- (UIButton *(^)(CGFloat))setupSystemFontSize {
+    return ^UIButton *(CGFloat fontSize){
+        self.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+        return self;
+    };
+}
+
+- (UIButton *(^)(NSString *))setupTitle{
+    return ^UIButton *(NSString *text){
+        [self setTitle:text forState:UIControlStateNormal];
+        return self;
+    };
+}
+
+- (UIButton *(^)(UIColor *))setupBackgroundColor{
+    return ^UIButton *(UIColor *color){
+        self.backgroundColor = color;
+        return self;
+    };
+}
+
+- (UIButton *(^)(NSString *, UIControlState))setupImage{
+
+    return ^UIButton *(NSString *imageName,UIControlState state){
+        NSAssert(imageName.length != 0 , @"imageName is nil");
+
+        UIImage *image = [UIImage imageNamed:imageName];
+        if (image)  [self setImage:image forState:state];
+
+        return self;
+    };
+}
+
+- (UIButton *(^)(BOOL))setupSelected{
+    return ^UIButton *(BOOL selected){
+        self.selected = selected;
+        return self;
+    };
+}
+
+- (UIButton *(^)(UIControlContentHorizontalAlignment))setupHorizontalAlignment{
+    return ^UIButton *(UIControlContentHorizontalAlignment alignment){
+        [self setContentHorizontalAlignment:alignment];
+        return self;
+    };
+}
+
+- (UIButton *(^)(NSAttributedString *))setupAttributedTitle{
+    return ^UIButton *(NSAttributedString * attributedTitle){
+        [self setAttributedTitle:attributedTitle forState:UIControlStateNormal];
+        return self;
+    };
+}
+
+@end

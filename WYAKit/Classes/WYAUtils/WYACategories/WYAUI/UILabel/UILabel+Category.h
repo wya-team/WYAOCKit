@@ -60,3 +60,19 @@
 + (CGFloat)getWidthWithTitle:(NSString *)title font:(UIFont *)font;
 
 @end
+
+@interface UILabel (Property)
+@property (nonatomic,copy)UILabel *(^setupSystemFontSize)(CGFloat fontSize);
+
+@property (nonatomic,copy)UILabel *(^setupTextColor)(UIColor *color);
+
+@property (nonatomic,copy)UILabel *(^setupAlignment)(NSTextAlignment alignment);
+
+@property (nonatomic,copy)UILabel *(^setupText)(NSString *text);
+
+// 行间距
+@property (nonatomic,copy)UILabel*(^setupLineSpace)(CGFloat space);
+
+@property (nonatomic,copy)UILabel*(^setupNumberOfLines)(NSInteger lines);
+
+@end

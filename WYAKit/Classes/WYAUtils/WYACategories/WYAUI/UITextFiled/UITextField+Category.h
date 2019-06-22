@@ -72,3 +72,15 @@
                                  FontSize:(CGFloat)font
                           backGroundColor:(UIColor *)backGroundColor;
 @end
+
+@interface UITextField (Property)
+@property (nonatomic,copy)UITextField *(^setupKeyBoardType)(UIKeyboardType type);
+
+@property (nonatomic,copy)UITextField *(^setupPlaceholder)(NSString *text);
+
+@property (nonatomic,copy)UITextField *(^setupSystemFontSize)(CGFloat fontSize);
+
+@property (nonatomic,copy)UITextField *(^setupBorderStyle)(UITextBorderStyle style);
+
+@property (nonatomic,copy)UITextField *(^setupSecureTextEntry)(BOOL isSecure);
+@end

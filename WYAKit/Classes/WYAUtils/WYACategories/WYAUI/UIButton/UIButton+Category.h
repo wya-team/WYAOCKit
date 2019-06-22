@@ -67,3 +67,22 @@ typedef void (^ButtonActionCallBack)(UIButton * button);
 - (void)wya_setButtonImageLocationBottomWithSpace:(CGFloat)space;
 
 @end
+
+@interface UIButton (Property)
+@property (nonatomic,copy) UIButton *(^setupSystemFontSize)(CGFloat fontSize);
+
+@property (nonatomic,copy) UIButton *(^setupTextColor)(UIColor *color);
+
+@property (nonatomic,copy) UIButton *(^setupTitle)(NSString *text);
+
+@property (nonatomic,copy) UIButton *(^setupBackgroundColor)(UIColor *color);
+
+@property (nonatomic,copy) UIButton *(^setupImage)(NSString * imageName,UIControlState state);
+
+@property (nonatomic,copy) UIButton *(^setupSelected)(BOOL selected);
+
+
+@property (nonatomic,copy) UIButton *(^setupHorizontalAlignment)(UIControlContentHorizontalAlignment alignment);
+
+@property (nonatomic,copy) UIButton *(^setupAttributedTitle)(NSAttributedString *title);
+@end

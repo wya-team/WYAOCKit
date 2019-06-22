@@ -75,3 +75,42 @@
     self.secureTextEntry = YES;
 }
 @end
+
+@implementation UITextField (Property)
+
+- (UITextField *(^)(UIKeyboardType))setupKeyBoardType {
+    return ^UITextField *(UIKeyboardType type){
+        self.keyboardType = type;
+        return self;
+    };
+}
+
+- (UITextField *(^)(NSString *))setupPlaceholder {
+    return ^UITextField *(NSString *text){
+        self.placeholder = text;
+        return self;
+    };
+}
+
+- (UITextField *(^)(CGFloat))setupSystemFontSize {
+    return ^UITextField *(CGFloat fontSize){
+        self.font = [UIFont systemFontOfSize:fontSize];
+        return self;
+    };
+}
+
+- (UITextField *(^)(UITextBorderStyle))setupBorderStyle {
+    return ^UITextField *(UITextBorderStyle style){
+        self.borderStyle = style;
+        return self;
+    };
+}
+
+- (UITextField *(^)(BOOL))setupSecureTextEntry{
+    return ^UITextField *(BOOL isSecure){
+        self.secureTextEntry = isSecure;
+        return self;
+    };
+}
+
+@end
