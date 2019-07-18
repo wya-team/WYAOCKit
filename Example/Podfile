@@ -10,6 +10,7 @@ target 'WYAKit_Example' do
   pod 'WHDebugTool'
   pod 'MLeaksFinder'
   pod 'NetworkEye', '~> 1.0.1'
+  pod 'Bugly'
   target 'WYAKit_Tests' do
     inherit! :search_paths
 

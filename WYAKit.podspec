@@ -61,6 +61,5 @@ TODO: Add long description of the pod here.
   s.dependency 'GPUImage'
   s.dependency 'SSKeychain'
   # 暂时未使用到的
-  s.dependency 'Bugly'
   s.dependency 'YogaKit'
 end
