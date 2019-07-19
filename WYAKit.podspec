@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WYAKit'
-  s.version          = '0.1.37'
+  s.version          = '0.1.38'
   s.summary          = 'WYAKit组件库'
 
 # This description is used to generate tags and improve search results.
@@ -54,7 +54,7 @@ TODO: Add long description of the pod here.
   s.dependency 'SVGKit'
   s.dependency 'MJRefresh'
   s.dependency 'SDWebImage'
-  s.dependency 'Realm'
+  s.dependency 'Realm', '3.15.0'
   s.dependency 'AFNetworking'
   s.dependency 'NTYAmrConverter'
   s.dependency 'AliyunOSSiOS'
