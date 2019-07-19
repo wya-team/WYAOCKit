@@ -29,7 +29,7 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
+  s.swift_version = '5.0'
   s.source_files = 'WYAKit/Classes/**/*.{h,m,pch}'
   
   s.static_framework = true
@@ -61,5 +61,5 @@ TODO: Add long description of the pod here.
   s.dependency 'GPUImage'
   s.dependency 'SSKeychain'
   # 暂时未使用到的
-  s.dependency 'YogaKit'
+  s.dependency 'YogaKit', '~> 1.14.0'
 end
