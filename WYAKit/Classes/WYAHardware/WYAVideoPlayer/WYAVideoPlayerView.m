@@ -37,7 +37,7 @@
 @end
 
 @implementation WYAVideoPlayerView
-
+#pragma mark - LifeCircle
 - (instancetype)init {
     self = [super init];
     if (self) { [self setupUI]; }
@@ -76,7 +76,8 @@
     self.controlView.frame =
         CGRectMake(controlView_X, controlView_Y, controlView_Width, controlView_Height);
 }
-#pragma mark - Private Method -
+
+#pragma mark - Private Method
 - (void)setupUI {
     //    self.isLockScrren = YES;
     self.brightnessView;
@@ -147,108 +148,7 @@
     }
 }
 
-#pragma mark - Setter -
-- (void)setPlayerStatus:(PlayerStatus)playerStatus {
-    _playerStatus = playerStatus;
-    if (playerStatus == PlayerStateBuffering) {
-        self.loadingImageView.hidden = NO;
-    } else {
-        self.loadingImageView.hidden = YES;
-    }
-}
-
-- (void)setVideoItem:(WYAVideoItem *)videoItem {
-    _videoItem = videoItem;
-}
-
-- (void)setPlayerItem:(AVPlayerItem *)playerItem {
-    if (_playerItem) {
-        [_playerItem removeObserver:self forKeyPath:@"status"];
-        [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-        [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
-        [[NSNotificationCenter defaultCenter]
-            removeObserver:self
-                      name:AVPlayerItemDidPlayToEndTimeNotification
-                    object:_playerItem];
-    }
-    _playerItem = playerItem;
-    if (playerItem) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerItemDidReachEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:playerItem];
-        [playerItem addObserver:self
-                     forKeyPath:@"status"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil]; // 监听status属性
-        [playerItem addObserver:self
-                     forKeyPath:@"loadedTimeRanges"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil]; // 监听loadedTimeRanges属性
-        // 缓冲区空了，需要等待数据
-        [playerItem addObserver:self
-                     forKeyPath:@"playbackBufferEmpty"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil];
-        // 缓冲区有足够数据可以播放了
-        [playerItem addObserver:self
-                     forKeyPath:@"playbackLikelyToKeepUp"
-                        options:NSKeyValueObservingOptionNew
-                        context:nil];
-    }
-}
-
-//- (void)setNeedOneClick:(BOOL)needOneClick
-//{
-//    _needOneClick = needOneClick;
-//    self.controlView.oneFingerClick = needOneClick;
-//}
-
-#pragma mark - Getter -
-- (PlayerStatus)status {
-    return self.playerStatus;
-}
-
-- (UIImageView *)previewImageView {
-    if (!_previewImageView) {
-        _previewImageView       = [[UIImageView alloc] init];
-        _previewImageView.image = [UIImage wya_getVideoPreViewImage:self.videoItem.videoUrl];
-    }
-    return _previewImageView;
-}
-
-- (UIImageView *)loadingImageView {
-    if (!_loadingImageView) {
-        _loadingImageView = ({
-            UIImageView * object = [[UIImageView alloc] init];
-            object.image         = [UIImage wya_svgImageName:@"spin_white"
-                                                size:CGSizeMake(30, 30)
-                                           ClassName:NSStringFromClass(self.class)];
-            [object wya_setRotationAnimation:360 time:1 repeatCount:0];
-            object;
-        });
-    }
-    return _loadingImageView;
-}
-
-- (WYAVideoPlayerControlView *)controlView {
-    if (!_controlView) {
-        _controlView                      = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
-        _controlView.videoControlDelegate = self;
-    }
-    return _controlView;
-}
-
-- (WYABrightnessView *)brightnessView {
-    if (!_brightnessView) {
-        _brightnessView       = [WYABrightnessView sharedBrightnessView];
-        _brightnessView.alpha = 0;
-    }
-    return _brightnessView;
-}
-
-#pragma mark - KVO -
+#pragma mark - KVO
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
@@ -299,15 +199,18 @@
     }
 }
 
-#pragma mark NSNotificationCenter
+#pragma mark - NSNotificationCenter
 - (void)playerItemDidReachEnd:(NSNotification *) not{
     [self.controlView playerEnd];
     //    if (self.playerDelegate && [self.playerDelegate respondsToSelector:@selector(videoEnd)]) {
     //        [self.playerDelegate videoEnd];
     //    }
+    if (self.videoItem.autoNeedReplay) {
+        [self seekToTime:0 AutoPlay:YES FastForward:NO HiddenFastView:NO];
+    }
 }
 
-#pragma mark Private Action
+#pragma mark - Private Action
 - (void)configPlayInfo {
     self.playerItem  = [[AVPlayerItem alloc] initWithURL:self.videoItem.videoUrl];
     self.player      = [[AVPlayer alloc] initWithPlayerItem:self.playerItem];
@@ -571,7 +474,7 @@
     }
 }
 
-#pragma mark Public Action
+#pragma mark - Public Action
 - (void)wya_registerPlayerItem:(WYAVideoItem *)item {
     self.videoItem = item;
     [self.playerLayer removeFromSuperlayer];
@@ -599,7 +502,7 @@
     [self exitFullscreen];
 }
 
-#pragma mark VideoControlDelegate
+#pragma mark - VideoControlDelegate
 - (void)videoControl:(UIView *)videoControl backButton:(UIButton *)backButton {
     if (self.isFullScreen == YES) {
         [self exitFullscreen];
@@ -668,6 +571,107 @@
     self.playerLayer = nil;
     self.playerItem  = nil;
     self.player      = nil;
+}
+
+#pragma mark - Setter
+- (void)setPlayerStatus:(PlayerStatus)playerStatus {
+    _playerStatus = playerStatus;
+    if (playerStatus == PlayerStateBuffering) {
+        self.loadingImageView.hidden = NO;
+    } else {
+        self.loadingImageView.hidden = YES;
+    }
+}
+
+- (void)setVideoItem:(WYAVideoItem *)videoItem {
+    _videoItem = videoItem;
+}
+
+- (void)setPlayerItem:(AVPlayerItem *)playerItem {
+    if (_playerItem) {
+        [_playerItem removeObserver:self forKeyPath:@"status"];
+        [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
+        [[NSNotificationCenter defaultCenter]
+         removeObserver:self
+         name:AVPlayerItemDidPlayToEndTimeNotification
+         object:_playerItem];
+    }
+    _playerItem = playerItem;
+    if (playerItem) {
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(playerItemDidReachEnd:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:playerItem];
+        [playerItem addObserver:self
+                     forKeyPath:@"status"
+                        options:NSKeyValueObservingOptionNew
+                        context:nil]; // 监听status属性
+        [playerItem addObserver:self
+                     forKeyPath:@"loadedTimeRanges"
+                        options:NSKeyValueObservingOptionNew
+                        context:nil]; // 监听loadedTimeRanges属性
+        // 缓冲区空了，需要等待数据
+        [playerItem addObserver:self
+                     forKeyPath:@"playbackBufferEmpty"
+                        options:NSKeyValueObservingOptionNew
+                        context:nil];
+        // 缓冲区有足够数据可以播放了
+        [playerItem addObserver:self
+                     forKeyPath:@"playbackLikelyToKeepUp"
+                        options:NSKeyValueObservingOptionNew
+                        context:nil];
+    }
+}
+
+//- (void)setNeedOneClick:(BOOL)needOneClick
+//{
+//    _needOneClick = needOneClick;
+//    self.controlView.oneFingerClick = needOneClick;
+//}
+
+#pragma mark - Getter
+- (PlayerStatus)status {
+    return self.playerStatus;
+}
+
+- (UIImageView *)previewImageView {
+    if (!_previewImageView) {
+        _previewImageView       = [[UIImageView alloc] init];
+        _previewImageView.image = [UIImage wya_getVideoPreViewImage:self.videoItem.videoUrl];
+    }
+    return _previewImageView;
+}
+
+- (UIImageView *)loadingImageView {
+    if (!_loadingImageView) {
+        _loadingImageView = ({
+            UIImageView * object = [[UIImageView alloc] init];
+            object.image         = [UIImage wya_svgImageName:@"spin_white"
+                                                        size:CGSizeMake(30, 30)
+                                                   ClassName:NSStringFromClass(self.class)];
+            [object wya_setRotationAnimation:360 time:1 repeatCount:0];
+            object;
+        });
+    }
+    return _loadingImageView;
+}
+
+- (WYAVideoPlayerControlView *)controlView {
+    if (!_controlView) {
+        _controlView                      = [[WYAVideoPlayerControlView alloc] initWithPlayItem:self.videoItem];
+        _controlView.videoControlDelegate = self;
+    }
+    return _controlView;
+}
+
+- (WYABrightnessView *)brightnessView {
+    if (!_brightnessView) {
+        _brightnessView       = [WYABrightnessView sharedBrightnessView];
+        _brightnessView.alpha = 0;
+    }
+    return _brightnessView;
 }
 
 /*

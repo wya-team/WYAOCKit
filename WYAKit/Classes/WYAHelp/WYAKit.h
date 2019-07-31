@@ -14,7 +14,6 @@
 #import "WYADownloaderViewController.h"
 #import "WYADownloader.h"
 #import "WYADownloadModel.h"
-#import "ZLPhotoBrowser.h"
 #import "WYAVideoPlayerView.h"
 
 #import "WYAPhotoBrowser.h"
@@ -48,8 +47,8 @@
 
 #import "WYACustomPopoverBackgroundView.h"
 #import "WYACustomSearchBar.h"
-#import "WYAImageComposeViewController.h"
-
+#import "WYAPuzzleViewController.h"
+#import "WYAJoiningTogetherViewController.h"
 #import "WYAFloatBallManager.h"
 #import "WYATransitionPop.h"
 #import "WYATransitionPush.h"
@@ -81,6 +80,7 @@
 #import "UIViewController+Catagory.h"
 #import "UITextView+WYAPlaceHolder.h"
 #import "UIDevice+Category.h"
+#import "UIScrollView+Category.h"
 /***************** FoundationCategory ***************/
 #import "NSArray+Category.h"
 #import "NSArray+Safe.h"
@@ -107,7 +107,7 @@
 #import "NSString+Restructuring.h"
 /*********** 第三方依赖库 ***********/
 #import <AFNetworking/AFNetworking.h>
-#import <fmdb/FMDB.h>
+#import "FMDB.h"
 #import <JQFMDB/JQFMDB.h>
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -115,6 +115,6 @@
 #import <YYModel/YYModel.h>
 #import <YYText/YYText.h>
 #import <YYImage/YYImage.h>
-#import <YogaKit/UIView+Yoga.h>
-#import <YogaKit/YGLayout.h>
+//#import <YogaKit/UIView+Yoga.h>
+//#import <YogaKit/YGLayout.h>
 #endif

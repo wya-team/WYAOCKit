@@ -20,5 +20,6 @@
 @property (nonatomic, assign) NSInteger seekTime;
 /// 是否需要自动播放
 @property (nonatomic, assign) BOOL seekToTimeAutoPlay;
-
+/// 是否需要自动重播
+@property (nonatomic, assign) BOOL autoNeedReplay;
 @end

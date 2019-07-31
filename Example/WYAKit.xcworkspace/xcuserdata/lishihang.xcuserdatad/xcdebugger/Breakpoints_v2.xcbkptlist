@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIView/UIView+WYALayout.m"
-            timestampString = "580965453.951654"
+            timestampString = "586233736.806999"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "328"
@@ -36,7 +36,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIView/UIView+WYALayout.m"
-            timestampString = "580965455.223852"
+            timestampString = "586233736.807066"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "341"
@@ -83,13 +83,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAAdaptiveLatticeView/WYAAdaptiveLatticeView.m"
-            timestampString = "582543703.7813931"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAMedia/WYAPhotoAlbum/Controller/WYAPhotoEditVideoViewController.m"
+            timestampString = "585460627.9719239"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-addTitles:"
+            startingLineNumber = "481"
+            endingLineNumber = "481"
+            landmarkName = "-btnDone_click"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -99,13 +99,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAAdaptiveLatticeView/WYAAdaptiveLatticeView.m"
-            timestampString = "582543703.781826"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAMedia/WYAPhotoAlbum/Controller/WYAPhotoBrowserViewController.m"
+            timestampString = "585460627.972055"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
-            landmarkName = "-addTitles:"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "-doneClick"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAHardware/WYAMedia/WYAPhotoBrowser/ViewModel/WYAPhotoBrowserManager.m"
+            timestampString = "585909549.477887"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "396"
+            endingLineNumber = "396"
+            landmarkName = "-requestSelectedImageForAsset:isOriginal:allowSelectGif:completion:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIViewController/UIViewController+Catagory.m"
+            timestampString = "586229428.2287771"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "-injected"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

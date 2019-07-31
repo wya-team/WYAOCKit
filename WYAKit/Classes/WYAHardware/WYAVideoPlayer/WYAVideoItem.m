@@ -15,6 +15,7 @@
     if (self) {
         _seekTime           = 0;
         _seekToTimeAutoPlay = YES;
+        _autoNeedReplay = NO;
     }
     return self;
 }

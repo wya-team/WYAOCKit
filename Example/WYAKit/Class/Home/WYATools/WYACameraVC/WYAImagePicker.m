@@ -11,7 +11,7 @@
 
 #import "WYAImagePicker.h"
 #import "WYAPopVerReadMeViewController.h"
-#import <WYAKit/ZLPhotoActionSheet.h>
+
 #define CameraCell @"WYACameraCell"
 #define EditCameraCell @"WYAEditCameraCell"
 
@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UITextField * textField;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSMutableArray * dataSource;
+@property (nonatomic, strong) UIButton * puzzleButton;
 @property (nonatomic, assign) BOOL allImage;
 
 @end
@@ -32,6 +33,7 @@
 }
 #pragma mark ======= popverPresentVC
 - (void)showPopverPresentVC:(UIButton *)sender {
+    WeakSelf(weakSelf);
     WYAPopVerReadMeViewController * test       = [[WYAPopVerReadMeViewController alloc] init];
     test.preferredContentSize                  = CGSizeMake(180 * SizeAdapter, 130 * SizeAdapter);
     test.dataSource                            = @[ @"WYACamera(相机)", @"WYAPhotoBrowser(相册)", @"WYAImageCrop(裁剪)" ];
@@ -44,19 +46,19 @@
             WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
             vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/"
                            @"WYAHardware/WYACamera/README.md";
-            [self.navigationController pushViewController:vc animated:YES];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 1) {
             // 跳转链接
             WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
             vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/"
                            @"WYAHardware/WYAPhotoBrowser/README.md";
-            [self.navigationController pushViewController:vc animated:YES];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         } else if (indexPath.row == 2) {
             // 跳转链接
             WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
             vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/"
                            @"WYAUIKit/WYAImageCrop/README.md";
-            [self.navigationController pushViewController:vc animated:YES];
+            [weakSelf.navigationController pushViewController:vc animated:YES];
         }
 
     };
@@ -92,6 +94,7 @@
     self.textField.frame     = CGRectMake(textField_X, textField_Y, textField_Width, textField_Height);
 
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.puzzleButton];
 }
 #pragma mark--- Getter
 - (UICollectionView *)collectionView {
@@ -100,10 +103,7 @@
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
             layout.scrollDirection              = UICollectionViewScrollDirectionVertical;
             layout.headerReferenceSize          = CGSizeMake(ScreenWidth, 0 * SizeAdapter);
-            UICollectionView * object           = [[UICollectionView alloc]
-                       initWithFrame:CGRectMake(0, WYATopHeight + 50 * SizeAdapter, ScreenWidth,
-                                                ScreenHeight - WYATopHeight)
-                collectionViewLayout:layout];
+            UICollectionView * object           = [[UICollectionView alloc] initWithFrame:CGRectMake(0, WYATopHeight + 50 * SizeAdapter, ScreenWidth, ScreenHeight - WYATopHeight - 100 * SizeAdapter - WYABottomHeight) collectionViewLayout:layout];
             object.delegate        = self;
             object.dataSource      = self;
             object.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -124,6 +124,40 @@
         });
     }
     return _dataSource;
+}
+
+- (UIButton *)puzzleButton{
+    if(!_puzzleButton){
+        _puzzleButton = ({
+            UIButton *  object = [[UIButton alloc]initWithFrame:CGRectMake( 0, self.collectionView.cmam_bottom, self.view.cmam_width, 50 * SizeAdapter)];
+            [object setTitle:@"拼图" forState:UIControlStateNormal];
+            [object setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            object.titleLabel.font = [UIFont systemFontOfSize:15];
+            [object setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+            WeakSelf(weakSelf);
+            [object addCallBackAction:^(UIButton *button) {
+                WYAPuzzleViewController * vc = [[WYAPuzzleViewController alloc] init];
+                vc.selectIndex                       = 0;
+                vc.title                             = @"拼图制作";
+                vc.menuViewStyle                     = WYAMenuViewStyleDefault;
+                vc.automaticallyCalculatesItemWidths = YES;
+                vc.titleColorSelected                = BLUECOLOR;
+                vc.titleColorNormal                  = BLACKTITLECOLOR;
+                vc.progressColor                     = BLUECOLOR;
+                vc.titleSizeSelected = 16;
+                vc.hidesBottomBarWhenPushed = YES;
+                NSMutableArray * arr = [NSMutableArray arrayWithCapacity:0];
+                for (WYACameraModel * model in weakSelf.dataSource) {
+                    [arr addObject:model.image];
+                }
+                vc.images = arr;
+                [self.navigationController pushViewController:vc animated:YES];
+            }];
+
+            object;
+        });
+    }
+    return _puzzleButton;
 }
 
 #pragma mark - WYAImageBrowserDelegate
@@ -238,6 +272,7 @@
                                                                    textColor:nil
                                                                     textFont:nil
                                                                      handler:^{
+                                                                         StrongSelf(strongSelf);
                                                                          WYACameraViewController * camera =
                                                                              [[WYACameraViewController alloc] initWithType:WYACameraTypeVideo
                                                                                                          cameraOrientation:WYACameraOrientationFront];
@@ -248,11 +283,11 @@
                                                                              WYACameraModel * model = [[WYACameraModel alloc] init];
                                                                              model.image            = photo;
                                                                              model.sourceType       = WYACameraSourceTypeImage;
-                                                                             [self.dataSource insertObject:model atIndex:0];
-                                                                             if ([self.textField.text integerValue] == self.dataSource.count) {
-                                                                                 self.allImage = YES;
+                                                                             [strongSelf.dataSource insertObject:model atIndex:0];
+                                                                             if ([strongSelf.textField.text integerValue] == strongSelf.dataSource.count) {
+                                                                                 strongSelf.allImage = YES;
                                                                              }
-                                                                             [self.collectionView reloadData];
+                                                                             [strongSelf.collectionView reloadData];
                                                                          };
                                                                          camera.takeVideo = ^(NSString * videoPath) {
                                                                              WYACameraModel * model = [[WYACameraModel alloc] init];
@@ -260,11 +295,11 @@
                                                                                  wya_getVideoPreViewImage:[NSURL fileURLWithPath:videoPath]];
                                                                              model.image      = image;
                                                                              model.sourceType = WYACameraSourceTypeVideo;
-                                                                             [self.dataSource insertObject:model atIndex:0];
-                                                                             if ([self.textField.text integerValue] == self.dataSource.count) {
-                                                                                 self.allImage = YES;
+                                                                             [strongSelf.dataSource insertObject:model atIndex:0];
+                                                                             if ([strongSelf.textField.text integerValue] == strongSelf.dataSource.count) {
+                                                                                 strongSelf.allImage = YES;
                                                                              }
-                                                                             [self.collectionView reloadData];
+                                                                             [strongSelf.collectionView reloadData];
                                                                          };
                                                                          [weakSelf presentViewController:camera animated:YES completion:nil];
                                                                      }];
@@ -273,18 +308,14 @@
                                                                   textColor:nil
                                                                    textFont:nil
                                                                     handler:^{
+                                                                        StrongSelf(strongSelf);
                                                                         NSInteger inter =
-                                                                            [self.textField.text integerValue] - self.dataSource.count;
+                                                                            [strongSelf.textField.text integerValue] - strongSelf.dataSource.count;
                                                                         if (inter == 0) { return; }
-//                                                                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                                                                            ZLPhotoActionSheet * sheet = [self getPasWithNumber:inter];
-//                                                                            [sheet showPhotoLibrary];
-//                                                                        });
+
                                                                         WYAPhotoBrowser * photo = [[WYAPhotoBrowser alloc] init];
                                                                         photo.config.maxSelectCount = inter;
                                                                         photo.config.sortAscending = YES;
-                                                                        photo.config.allowEditVideo = NO;
-                                                                        photo.config.allowSelectVideo = NO;
                                                                         photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull medias, NSMutableArray<PHAsset *> * _Nonnull assets) {
                                                                             NSLog(@"images==%@", medias);
                                                                             NSMutableArray * array = [NSMutableArray array];
@@ -294,11 +325,11 @@
                                                                                 model.sourceType       = WYACameraSourceTypeImage;
                                                                                 [array addObject:model];
                                                                             }
-                                                                            [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, medias.count)]];
-                                                                            if ([self.textField.text integerValue] == self.dataSource.count) {
-                                                                                self.allImage = YES;
+                                                                            [strongSelf.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, medias.count)]];
+                                                                            if ([strongSelf.textField.text integerValue] == strongSelf.dataSource.count) {
+                                                                                strongSelf.allImage = YES;
                                                                             }
-                                                                            [self.collectionView reloadData];
+                                                                            [strongSelf.collectionView reloadData];
                                                                         };
                                                                         [weakSelf presentViewController:photo animated:YES completion:nil];
 
@@ -339,92 +370,5 @@
     [self.view endEditing:YES];
 }
 
-- (ZLPhotoActionSheet *)getPasWithNumber:(NSInteger)number {
-    ZLPhotoActionSheet * actionSheet = [[ZLPhotoActionSheet alloc] init];
-
-    actionSheet.configuration.allowSelectGif       = YES;
-    actionSheet.configuration.allowSelectVideo     = YES;
-    actionSheet.configuration.allowSelectLivePhoto = YES;
-    actionSheet.configuration.allowForceTouch      = YES;
-    actionSheet.configuration.allowEditImage       = YES;
-    actionSheet.configuration.allowEditVideo       = YES;
-    actionSheet.configuration.allowMixSelect       = YES;
-    //设置相册内部显示拍照按钮
-    actionSheet.configuration.allowTakePhotoInLibrary = YES;
-    //设置在内部拍照按钮上实时显示相机俘获画面
-    actionSheet.configuration.showCaptureImageOnTakePhotoBtn = YES;
-    //设置照片最大预览数
-    actionSheet.configuration.maxPreviewCount = 20;
-    //设置照片最大选择数
-    actionSheet.configuration.maxSelectCount = number;
-    //设置允许选择的视频最大时长
-    actionSheet.configuration.maxVideoDuration = 120;
-    //设置照片cell弧度
-    actionSheet.configuration.cellCornerRadio = 4;
-    //单选模式是否显示选择按钮
-    //    actionSheet.configuration.showSelectBtn = YES;
-    //是否在选择图片后直接进入编辑界面
-    actionSheet.configuration.editAfterSelectThumbnailImage = YES;
-    //是否保存编辑后的图片
-    //    actionSheet.configuration.saveNewImageAfterEdit = NO;
-    //设置编辑比例
-    //    actionSheet.configuration.clipRatios = @[GetClipRatio(7, 1)];
-    //是否在已选择照片上显示遮罩层
-    actionSheet.configuration.showSelectedMask = YES;
-    //颜色，状态栏样式
-    actionSheet.configuration.selectedMaskColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-    actionSheet.configuration.navBarColor       = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
-    actionSheet.configuration.navTitleColor     = [UIColor blackColor];
-    //    actionSheet.configuration.bottomBtnsNormalTitleColor = kRGB(80, 160, 100);
-    //    actionSheet.configuration.bottomBtnsDisableBgColor = kRGB(190, 30, 90);
-    actionSheet.configuration.bottomViewBgColor = [UIColor whiteColor];
-    actionSheet.configuration.statusBarStyle    = UIStatusBarStyleDefault;
-    //是否允许框架解析图片
-    actionSheet.configuration.shouldAnialysisAsset = YES;
-    //框架语言
-    actionSheet.configuration.languageType = ZLLanguageChineseSimplified;
-    //自定义多语言
-    //    actionSheet.configuration.customLanguageKeyValue = @{@"ZLPhotoBrowserCameraText": @"没错，我就是一个相机"};
-    //自定义图片
-    //    actionSheet.configuration.customImageNames = @[@"zl_navBack"];
-
-    //是否使用系统相机
-    //    actionSheet.configuration.useSystemCamera = YES;
-    //    actionSheet.configuration.sessionPreset = ZLCaptureSessionPreset1920x1080;
-    //    actionSheet.configuration.exportVideoType = ZLExportVideoTypeMp4;
-    //    actionSheet.configuration.allowRecordVideo = NO;
-    //    actionSheet.configuration.maxVideoDuration = 5;
-#pragma mark - required
-    //如果调用的方法没有传sender，则该属性必须提前赋值
-    actionSheet.sender = self;
-    //记录上次选择的图片
-
-    [actionSheet setSelectImageBlock:^(NSArray<UIImage *> * _Nonnull images, NSArray<PHAsset *> * _Nonnull assets, BOOL isOriginal) {
-        NSMutableArray * array = [NSMutableArray array];
-        for (NSObject * image in images) {
-            if ([image isKindOfClass:[UIImage class]]) {
-                WYACameraModel * model = [[WYACameraModel alloc] init];
-                model.image            = (UIImage *)image;
-                model.sourceType       = WYACameraSourceTypeImage;
-                [array addObject:model];
-            }
-        }
-        [self.dataSource insertObjects:array atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, images.count)]];
-        if ([self.textField.text integerValue] == self.dataSource.count) {
-            self.allImage = YES;
-        }
-        [self.collectionView reloadData];
-    }];
-
-    actionSheet.selectImageRequestErrorBlock = ^(NSArray<PHAsset *> * _Nonnull errorAssets, NSArray<NSNumber *> * _Nonnull errorIndex) {
-        NSLog(@"图片解析出错的索引为: %@, 对应assets为: %@", errorIndex, errorAssets);
-    };
-
-    actionSheet.cancleBlock = ^{
-        NSLog(@"取消选择图片");
-    };
-
-    return actionSheet;
-}
 
 @end

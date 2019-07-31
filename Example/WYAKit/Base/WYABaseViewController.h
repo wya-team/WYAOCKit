@@ -138,7 +138,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param animated 是否需要动画
  */
 - (void)wya_pushViewController:(nonnull UIViewController *)viewController animated:(BOOL)animated;
-
 @end
 
 NS_ASSUME_NONNULL_END

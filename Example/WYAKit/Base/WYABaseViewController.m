@@ -82,6 +82,16 @@
     }
     [self.view addSubview:self.navBar];
 }
+
+- (void)injected{
+
+    [self loadView];
+    [self viewDidLoad];
+    [self viewWillAppear:true];
+    [self viewDidAppear:YES];
+    [self viewWillDisappear:YES];
+    [self viewDidDisappear:YES];
+}
 #pragma mark---------- 版本对比
 - (void)wya_versionUpdateAlertView {
     // 获取appStore版本号

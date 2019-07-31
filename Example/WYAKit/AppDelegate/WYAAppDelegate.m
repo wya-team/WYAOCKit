@@ -17,7 +17,7 @@
     didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 #if DEBUG
-    [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection10.bundle"] load];
+    [[NSBundle bundleWithPath:@"/Applications/InjectionIII.app/Contents/Resources/iOSInjection.bundle"] load];
 #endif
 
     [Bugly startWithAppId:@"80bc7e9193"];

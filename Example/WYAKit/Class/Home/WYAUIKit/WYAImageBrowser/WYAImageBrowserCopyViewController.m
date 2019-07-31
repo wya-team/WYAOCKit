@@ -43,14 +43,14 @@
 
                                                                                return imageView;
                                                                            }];
-        WYAAlertButton * alertButton = [[WYAAlertButton alloc]initWithTitle:@"保存" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+        WYAAlertButton * alertButton = [[WYAAlertButton alloc]initWithTitle:@"保存" titleFont:FONT(15) titleColor:[UIColor redColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
 
         }];
-        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
-
-        }];
+//        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+//
+//        }];
         [imageBrowser addAlertSheetButton:alertButton];
-        [imageBrowser addAlertSheetButton:deleteButton];
+//        [imageBrowser addAlertSheetButton:deleteButton];
         imageBrowser.hidesForSinglePage = NO;
         imageBrowser.browserStyle = WYAImageBrowserStyleSimple;
     }];

@@ -33,6 +33,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
 }
+
 #pragma mark ======= 懒加载
 
 - (UITableView *)tableView {
@@ -123,6 +124,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    UIImage * image = [tableView wya_captureScrollView];
     WYAHomeModel * homeModel     = self.dataSource[indexPath.section];
     WYAHomeItemModel * itemModel = homeModel.rows[indexPath.row];
     if (itemModel.className) {
@@ -132,9 +134,26 @@
             [self.navigationController pushViewController:vc animated:YES];
             return;
         } else if ([itemModel.className isEqualToString:@"WYAImageComposeViewController"]) {
-            WYAImageComposeViewController * vc = [[WYAImageComposeViewController alloc] init];
-            vc.hidesBottomBarWhenPushed        = YES;
+            WYAPuzzleViewController * vc = [[WYAPuzzleViewController alloc] init];
+            vc.selectIndex                       = 0;
+            vc.title                             = @"拼图制作";
+            vc.menuViewStyle                     = WYAMenuViewStyleDefault;
+            vc.automaticallyCalculatesItemWidths = YES;
+            vc.titleColorSelected                = BLUECOLOR;
+            vc.titleColorNormal                  = BLACKTITLECOLOR;
+            vc.progressColor                     = BLUECOLOR;
+            vc.titleSizeSelected = 16;
+            vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
+//            NSArray * arr = @[[UIImage imageNamed:@"1"],
+//                              [UIImage imageNamed:@"2"],
+//                              [UIImage imageNamed:@"3"],
+//                              [UIImage imageNamed:@"7"],
+//                              [UIImage imageNamed:@"8"]];
+//            WYAJoiningTogetherViewController * vc = [[WYAJoiningTogetherViewController alloc] init];
+//            vc.images = [arr mutableCopy];
+//            vc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:vc animated:YES];
             return;
         } else if ([itemModel.className isEqualToString:@"WYAFlexBoxViewController"]) {
             WYAFlexBoxViewController * vc = [[WYAFlexBoxViewController alloc] init];
