@@ -41,7 +41,8 @@
     if(!_imgView){
         _imgView = ({
             UIImageView * object = [[UIImageView alloc]init];
-            object.contentMode = UIViewContentModeScaleAspectFit;
+            object.contentMode = UIViewContentModeScaleAspectFill;
+            object.clipsToBounds = YES;
             object;
        });
     }

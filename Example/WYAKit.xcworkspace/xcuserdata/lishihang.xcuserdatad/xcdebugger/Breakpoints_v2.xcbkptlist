@@ -115,22 +115,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAHardware/WYAMedia/WYAPhotoBrowser/ViewModel/WYAPhotoBrowserManager.m"
-            timestampString = "585909549.477887"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "396"
-            endingLineNumber = "396"
-            landmarkName = "-requestSelectedImageForAsset:isOriginal:allowSelectGif:completion:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUtils/WYACategories/WYAUI/UIViewController/UIViewController+Catagory.m"
             timestampString = "586229428.2287771"
             startingColumnNumber = "9223372036854775807"

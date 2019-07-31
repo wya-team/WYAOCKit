@@ -9,6 +9,7 @@
 #import "WYAJoiningTogetherCell.h"
 @interface WYAJoiningTogetherViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView; /// 展示使用的tableView
+@property (nonatomic, strong) NSMutableArray * zoomImageArray; // 缩放后的图片数组
 
 @end
 
@@ -19,6 +20,12 @@
     // Do any additional setup after loading the view.
     [self.view addSubview:self.screenshotsTableView];
     [self.view addSubview:self.tableView];
+    for (UIImage * image in self.images) {
+        CGSize size = image.size;
+        CGFloat height = ScreenWidth * size.height / size.width;
+        UIImage * zoomImage = [UIImage wya_ImageCompressFitSizeScale:image targetSize:CGSizeMake(ScreenWidth, height)];
+        [self.zoomImageArray addObject:zoomImage];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -30,24 +37,24 @@
     [super viewDidLayoutSubviews];
     self.tableView.frame = CGRectMake(0, 0, self.view.cmam_width, self.view.cmam_height);
     CGFloat height = 0.0;
-    for (UIImage * image in self.images) {
+    for (UIImage * image in self.zoomImageArray) {
         height = height + image.size.height;
     }
     self.screenshotsTableView.frame = CGRectMake(0, 0, self.view.cmam_width, height);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.images.count;
+    return self.zoomImageArray.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UIImage * image = self.images[indexPath.row];
+    UIImage * image = self.zoomImageArray[indexPath.row];
     return image.size.height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     WYAJoiningTogetherCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.imgView.image = self.images[indexPath.row];
+    cell.imgView.image = self.zoomImageArray[indexPath.row];
     return cell;
 }
 
@@ -85,5 +92,12 @@
        });
     }
     return _screenshotsTableView;
+}
+
+- (NSMutableArray *)zoomImageArray{
+    if (!_zoomImageArray) {
+        _zoomImageArray = [NSMutableArray array];
+    }
+    return _zoomImageArray;
 }
 @end

@@ -34,9 +34,9 @@
     self.collectionView.frame =
     CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
 
-    CGFloat view_x         = 20;
+    CGFloat view_x         = 40;
     CGFloat view_y         = 80;
-    CGFloat view_width     = self.view.cmam_width - 40;
+    CGFloat view_width     = self.view.cmam_width - 80;
     CGFloat view_height    = self.view.cmam_height - 160;
     CGRect view_rect       = CGRectMake(view_x, view_y, view_width, view_height);
     self.freedomSuperView.frame = view_rect;
@@ -88,6 +88,11 @@
             switch (index) {
                 case 0:
                 {
+                    if (widthPixelImage) {
+                        scale = 1.5;
+                    } else {
+                        scale = 1.2;
+                    }
                     rotating = -0.2;
                     width = self.freedomSuperView.cmam_width / 3;
                     height = width * size.height / size.width;
@@ -97,6 +102,11 @@
                     break;
                 case 1:
                 {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 0.8;
+                    }
                     rotating = 0.2;
                     width = self.freedomSuperView.cmam_width / 3;
                     height = width * size.height / size.width;
@@ -113,6 +123,11 @@
             switch (index) {
                 case 0:
                 {
+                    if (widthPixelImage) {
+                        scale = 1.5;
+                    } else {
+                        scale = 1.2;
+                    }
                     rotating = -0.2;
                     width = self.freedomSuperView.cmam_width / 3;
                     height = width * size.height / size.width;
@@ -122,7 +137,12 @@
                     break;
                 case 1:
                 {
-                    rotating = 0.2;
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = -0.2;
                     width = self.freedomSuperView.cmam_width / 3;
                     height = width * size.height / size.width;
                     x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
@@ -131,7 +151,12 @@
                     break;
                 case 2:
                 {
-                    rotating = -0.2;
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0.2;
                     width = self.freedomSuperView.cmam_width / 3;
                     height = width * size.height / size.width;
                     x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
@@ -143,22 +168,586 @@
             }
             break;
         case 4:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1.5;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + ( self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + ( self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + ( self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 5:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1.5;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + ( self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + ( self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 4:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width - width) / 2;
+                    y = ( self.freedomSuperView.cmam_height - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 6:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 4:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 5:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 7:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 4:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 5:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 6:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width - width) / 2;
+                    y = (self.freedomSuperView.cmam_height - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 8:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 4:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 5:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 6:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height - height) / 2;
+                }
+                    break;
+                case 7:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 2 + (self.freedomSuperView.cmam_width / 2 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         case 9:
-
+            switch (index) {
+                case 0:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 1:
+                {
+                    if (widthPixelImage) {
+                        scale = 0.8;
+                    } else {
+                        scale = 1.2;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 2:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = (self.freedomSuperView.cmam_height / 3 - height) / 2;
+                }
+                    break;
+                case 3:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 4:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 5:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 6:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 7:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                case 8:
+                {
+                    if (widthPixelImage) {
+                        scale = 1;
+                    } else {
+                        scale = 1;
+                    }
+                    rotating = 0;
+                    width = self.freedomSuperView.cmam_width / 3;
+                    height = width * size.height / size.width;
+                    x = self.freedomSuperView.cmam_width / 3 * 2 + (self.freedomSuperView.cmam_width / 3 - width) / 2;
+                    y = self.freedomSuperView.cmam_height / 3 * 2 + (self.freedomSuperView.cmam_height / 3  - height) / 2;
+                }
+                    break;
+                default:
+                    break;
+            }
             break;
         default:
             break;

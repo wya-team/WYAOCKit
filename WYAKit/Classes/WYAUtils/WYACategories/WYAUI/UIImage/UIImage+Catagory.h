@@ -16,7 +16,7 @@
  @param image 图片
  @return 图片
  */
-+ (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image;
++ (UIImage *_Nullable)wya_ImageSizeWithScreenImage:(UIImage *)image;
 
 /**
  裁剪图片
@@ -37,7 +37,7 @@
  @param size 目标大小
  @return image
  */
-+ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size;
++ (UIImage *_Nullable)wya_ImageCompressFitSizeScale:(UIImage *_Nonnull)sourceImage targetSize:(CGSize)size;
 
 @end
 
@@ -50,7 +50,7 @@
  @param className 类名
  @return image
  */
-+ (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className;
++ (UIImage *_Nonnull)loadBundleImage:(NSString *_Nonnull)imageName ClassName:(NSString *_Nonnull)className;
 
 /**
  将颜色转化为图片
@@ -58,7 +58,7 @@
  @param color UIColor对象
  @return Image对象
  */
-+ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color;
++ (UIImage *_Nullable)wya_createImageWithColor:(UIColor * _Nonnull)color;
 
 /**
  根据url获取图片信息
@@ -83,7 +83,7 @@
  @param urlString url
  @return 信息
  */
-+ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString;
++ (NSDictionary *_Nullable)wya_imageInfoWithUrl:(NSString *_Nullable)urlString;
 
 /**
  加载SVG图片
@@ -92,7 +92,7 @@
  @param size 大小
  @return image
  */
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size;
++ (UIImage *_Nullable)wya_svgImageName:(NSString *_Nullable)name size:(CGSize)size;
 
 /**
  加载SVG图片
@@ -102,7 +102,7 @@
  @param className NSStringFromClass(self.class)
  @return image
  */
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className;
++ (UIImage *_Nullable)wya_svgImageName:(NSString *_Nullable)name size:(CGSize)size ClassName:(NSString *_Nullable)className;
 
 /**
  获取视频第一帧图片
@@ -110,10 +110,10 @@
  @param path 视频url
  @return image
  */
-+ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path;
++ (UIImage *_Nullable)wya_getVideoPreViewImage:(NSURL *_Nullable)path;
 
 /// 返回一张可拉伸的图片
-+ (UIImage *)wya_resizeImageNamed:(NSString *)name;
++ (UIImage *_Nullable)wya_resizeImageNamed:(NSString *_Nullable)name;
 
 /**
  颜色生成图片是否需要切圆角
@@ -123,7 +123,7 @@
  @param rate 圆角系数为0不切圆角
  @return 图片
  */
-+ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate;
++ (UIImage *_Nullable)wya_imageWithColor:(UIColor *_Nullable)color size:(CGSize)size rate:(CGFloat)rate;
 
 /**
  使用view生成一张图片
@@ -131,5 +131,5 @@
  @param view view
  @return image
  */
-+ (UIImage *)wya_createViewImage:(UIView *)view;
++ (UIImage *_Nullable)wya_createViewImage:(UIView *_Nullable)view;
 @end
