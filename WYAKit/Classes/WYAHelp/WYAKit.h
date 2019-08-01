@@ -54,6 +54,7 @@
 #import "WYATransitionPush.h"
 
 #import "WYARealmBaseManager.h"
+#import "WYACalendar.h"
 /****************** UICategory ********************/
 #import "UIControl+category.h"
 

@@ -37,6 +37,7 @@
 		2186911C21CBD38100DA6849 /* Cycling_Lambie.svg in Resources */ = {isa = PBXBuildFile; fileRef = 2186911B21CBD38100DA6849 /* Cycling_Lambie.svg */; };
 		2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2186911F21CC980500DA6849 /* WYALoadingViewController.m */; };
 		2186912A21CCC94F00DA6849 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2186912921CCC94F00DA6849 /* SystemConfiguration.framework */; };
+		219B23AD22F17473006A1F43 /* WYACalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 219B23AC22F17473006A1F43 /* WYACalendarViewController.m */; };
 		219F62032254BBBF00584CF5 /* bbb.png in Resources */ = {isa = PBXBuildFile; fileRef = 219F62022254BBBF00584CF5 /* bbb.png */; };
 		21A6C43521BE39F5006DA6D1 /* WYADownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */; };
 		21A6C48121C0AA6C006DA6D1 /* WYADownloadCompleteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A6C48021C0AA6C006DA6D1 /* WYADownloadCompleteCell.m */; };
@@ -182,6 +183,8 @@
 		2186911E21CC980500DA6849 /* WYALoadingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYALoadingViewController.h; sourceTree = "<group>"; };
 		2186911F21CC980500DA6849 /* WYALoadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYALoadingViewController.m; sourceTree = "<group>"; };
 		2186912921CCC94F00DA6849 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		219B23AB22F17473006A1F43 /* WYACalendarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACalendarViewController.h; sourceTree = "<group>"; };
+		219B23AC22F17473006A1F43 /* WYACalendarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACalendarViewController.m; sourceTree = "<group>"; };
 		219F62022254BBBF00584CF5 /* bbb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bbb.png; sourceTree = "<group>"; };
 		21A6C43321BE39F5006DA6D1 /* WYADownloadCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYADownloadCell.h; sourceTree = "<group>"; };
 		21A6C43421BE39F5006DA6D1 /* WYADownloadCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADownloadCell.m; sourceTree = "<group>"; };
@@ -478,6 +481,7 @@
 		21470BF1219ABE880099CB6F /* WYAUIKit */ = {
 			isa = PBXGroup;
 			children = (
+				219B23AA22F17458006A1F43 /* WYACalendar */,
 				215A1253229FB43F008CA47F /* Flexbox */,
 				210F3D05223270C900C0DA27 /* WYAImageBrowser */,
 				2186911D21CC978200DA6849 /* WYALoading */,
@@ -637,6 +641,15 @@
 				2186911F21CC980500DA6849 /* WYALoadingViewController.m */,
 			);
 			path = WYALoading;
+			sourceTree = "<group>";
+		};
+		219B23AA22F17458006A1F43 /* WYACalendar */ = {
+			isa = PBXGroup;
+			children = (
+				219B23AB22F17473006A1F43 /* WYACalendarViewController.h */,
+				219B23AC22F17473006A1F43 /* WYACalendarViewController.m */,
+			);
+			path = WYACalendar;
 			sourceTree = "<group>";
 		};
 		21A72F542227D5E300CD84C3 /* WYAAudio */ = {
@@ -1301,6 +1314,7 @@
 				957F649621C8EEDF0009C044 /* WYAListViewController.m in Sources */,
 				2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */,
 				9527A91E21AD711B00B10579 /* WYAShowNavController.m in Sources */,
+				219B23AD22F17473006A1F43 /* WYACalendarViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 				950B40E421CA3AAE002BC685 /* WYAGridViewController.m in Sources */,
 				954CB76B21A94DD50016C0F5 /* WYATablePageController.m in Sources */,

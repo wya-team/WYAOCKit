@@ -124,9 +124,13 @@
     item36.rowName            = @"FlexBox";
     item36.className          = @"WYAFlexBoxViewController";
 
+    WYAHomeItemModel * item37 = [[WYAHomeItemModel alloc] init];
+    item37.rowName            = @"日历";
+    item37.className          = @"WYACalendarViewController";
+
     WYAHomeModel * model3 = [[WYAHomeModel alloc] init];
     model3.sectionName    = @"数据展示 Data Display";
-    model3.rows           = @[ item19, item20, item21, item22, item23, item35, item24, item36];
+    model3.rows           = @[ item19, item20, item21, item22, item23, item35, item24, item36, item37];
 
     WYAHomeItemModel * item25 = [[WYAHomeItemModel alloc] init];
     item25.rowName            = @"WYAAlert 弹框";
