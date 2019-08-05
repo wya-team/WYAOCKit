@@ -27,7 +27,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.titleLabel.frame = self.frame;
+    self.titleLabel.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
 }
 
 #pragma mark - Lazy

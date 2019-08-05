@@ -88,6 +88,7 @@
 #import "NSArray+Sudoku.h"
 #import "NSAttributedString+Category.h"
 #import "NSDate+Category.h"
+#import "NSDate+ChineseDate.h"
 #import "NSDictionary+Category.h"
 #import "NSDictionary+Safe.h"
 #import "NSMutableArray+Safe.h"

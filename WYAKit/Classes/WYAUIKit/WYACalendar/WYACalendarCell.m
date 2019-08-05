@@ -8,32 +8,104 @@
 #import "WYACalendarCell.h"
 
 @interface WYACalendarCell ()
+@property (nonatomic, strong) CALayer * imageLayer;
+@property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UIView * tagView;
+@property (nonatomic, strong) UIImage * backgroundImage;
 
 @end
 
 @implementation WYACalendarCell
-
+#pragma mark - LifeCircle
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.contentView.backgroundColor = [UIColor whiteColor];
-        [self.contentView addSubview:self.titleLabel];
+        self.contentView.backgroundColor = [UIColor clearColor];
+        [self.contentView wya_addSubViews:@[self.titleLabel, self.tagView]];
     }
     return self;
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.titleLabel.frame = self.contentView.frame;
+    CGFloat titleLabel_x = (self.contentView.cmam_width - 25 * SizeAdapter) / 2;
+    CGFloat titleLabel_y = 5 * SizeAdapter;
+    CGFloat titleLabel_width = 25 * SizeAdapter;
+    CGFloat titleLabel_height = 25 * SizeAdapter;
+    CGRect titleLabel_rect = CGRectMake(titleLabel_x, titleLabel_y,  titleLabel_width, titleLabel_height);
+    self.titleLabel.frame = titleLabel_rect;
+    self.titleLabel.layer.cornerRadius = titleLabel_height / 2;
+
+    CGFloat tagView_x = (self.cmam_width - 5 * SizeAdapter) / 2;
+    CGFloat tagView_y = self.titleLabel.cmam_bottom + 5 * SizeAdapter;
+    CGFloat tagView_width = 5 * SizeAdapter;
+    CGFloat tagView_height = 5 * SizeAdapter;
+    CGRect tagView_rect = CGRectMake(tagView_x, tagView_y,  tagView_width, tagView_height);
+    self.tagView.frame = tagView_rect;
+    self.tagView.layer.cornerRadius = tagView_height / 2;
 }
 
+#pragma mark - Setter
+- (void)setModel:(WYACalendarModel *)model{
+    _model = model;
+    if (model) {
+        if (model.isToday) {
+            if (model.isSelect) {
+                self.titleLabel.backgroundColor = model.selectColor;
+            } else {
+                self.titleLabel.backgroundColor = model.todayColor;
+            }
+            if (model.isSelect) {
+                self.tagView.backgroundColor = model.tagColor;
+            } else {
+                self.tagView.backgroundColor = model.todayTagColor;
+            }
+        } else {
+            if (model.isSelect) {
+                self.titleLabel.backgroundColor = model.selectColor;
+            } else {
+                self.titleLabel.backgroundColor = [UIColor clearColor];
+            }
+            if (model.isSelect) {
+                self.tagView.backgroundColor = model.tagColor;
+            } else {
+                self.tagView.backgroundColor = [UIColor clearColor];
+            }
+        }
+
+
+        self.titleLabel.text = model.text;
+        self.titleLabel.textColor = model.titleColor;
+        self.titleLabel.font = model.titleFont;
+
+
+    }
+}
+
+#pragma mark - Lazy
 - (UILabel *)titleLabel{
     if (!_titleLabel) {
         _titleLabel = [[UILabel alloc]init];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
+        _titleLabel.layer.masksToBounds = YES;
     }
     return _titleLabel;
 }
+
+
+- (UIView *)tagView{
+    if(!_tagView){
+        _tagView = ({
+            UIView * object = [[UIView alloc]init];
+            object.backgroundColor = [UIColor clearColor];
+            object.layer.masksToBounds = YES;
+            object;
+       });
+    }
+    return _tagView;
+}
+
+
 
 @end

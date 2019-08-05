@@ -6,11 +6,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "WYACalendarModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACalendarCell : UICollectionViewCell
-@property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) WYACalendarModel * model;
 @end
 
 NS_ASSUME_NONNULL_END
