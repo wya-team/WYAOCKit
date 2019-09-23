@@ -111,7 +111,7 @@
 #import "NSString+Restructuring.h"
 /*********** 第三方依赖库 ***********/
 #import <AFNetworking/AFNetworking.h>
-#import <FMDB/FMDB.h>
+#import <fmdb/FMDB.h>
 #import <JQFMDB/JQFMDB.h>
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>
