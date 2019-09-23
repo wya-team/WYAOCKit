@@ -195,6 +195,9 @@
             if (![weakSelf.selectedModels containsObject:model]) {
                 [weakSelf.selectedModels addObject:model];
             }
+            if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+                [_imageArray addObject:image];
+            }
         }];
     } else {
 
@@ -203,6 +206,9 @@
         _navRightButton.selected = model.selected;
         if ([self.selectedModels containsObject:model]) {
             [self.selectedModels removeObject:model];
+        }
+        if ([_imageArray containsObject:model.image]) {
+            [_imageArray removeObject:model.image];
         }
     }
 }

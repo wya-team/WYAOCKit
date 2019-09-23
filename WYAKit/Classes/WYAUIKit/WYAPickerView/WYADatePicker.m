@@ -296,12 +296,9 @@ static CGFloat titleHeight      = 44.0;
 /*
  - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row
  forComponent:(NSInteger)component{
- 
- return self.dataSource[row];
+
  }
- 
- 
- 
+
  - (nullable NSAttributedString *)pickerView:(UIPickerView *)pickerView
  attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component NS_AVAILABLE_IOS(6_0)
  __TVOS_PROHIBITED; // attributed title is favored if both methods are implemented
@@ -762,6 +759,10 @@ static CGFloat titleHeight      = 44.0;
 }
 
 #pragma mark - Setter
+- (void)setFrame:(CGRect)frame{
+    [super setFrame:frame];
+    [self.pickView reloadAllComponents];
+}
 - (void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle {
     _datePickerStyle              = datePickerStyle;
     WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
@@ -1055,7 +1056,7 @@ static CGFloat titleHeight      = 44.0;
                                          TextFont:15];
     }
 
-    [self.pickView reloadAllComponents];
+//    [self.pickView reloadAllComponents];
 }
 
 - (void)setPickerHeight:(CGFloat)pickerHeight {
