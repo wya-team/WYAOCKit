@@ -29,6 +29,11 @@
     if (self) {
         self.cameraOrientation = cameraOrientation;
         self.videoPreset = AVCaptureSessionPresetMedium;
+
+        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        // app名称
+        NSString * app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+        self.albumName = app_Name;
     }
     return self;
 }

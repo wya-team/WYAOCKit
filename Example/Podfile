@@ -5,6 +5,14 @@ use_frameworks!
 
 install! 'cocoapods', :deterministic_uuids => false
 
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = "NO"
+    end
+  end
+end
+
 target 'WYAKit_Example' do
   pod 'WYAKit', :path => '../'
   pod 'WHDebugTool'

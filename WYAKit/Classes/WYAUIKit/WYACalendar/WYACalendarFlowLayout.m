@@ -12,6 +12,8 @@
 @property (nonatomic, strong) NSMutableArray * rows;
 @property (nonatomic, strong) NSMutableArray * layoutAttributesArray;
 
+@property (nonatomic, strong) NSMutableDictionary<NSIndexPath*, UICollectionViewLayoutAttributes *> * layoutAttributesDic;
+
 @end
 
 @implementation WYACalendarFlowLayout
@@ -19,11 +21,7 @@
 #pragma mark - LifeCircle
 
 - (void)prepareLayout{
-    [super prepareLayout];
-
-    if (self.section && self.rows.count > 0) {
-        return;
-    }
+    [self.rows removeAllObjects];
     if (self.collectionView.dataSource && [self.collectionView.dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
         self.section = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
     }
@@ -33,91 +31,100 @@
             [self.rows addObject:@(number)];
         }
     }
-    [self updateMoreStyle];
+
 }
 
 - (CGSize)collectionViewContentSize{
-    CGSize size = [super collectionViewContentSize];
-    NSLog(@"size==%@",NSStringFromCGSize(size));
-    return CGSizeMake(self.collectionView.cmam_width * self.section, size.height);
+
+    return CGSizeMake(self.collectionView.cmam_width * self.section, self.collectionView.cmam_height);
 }
 
 - (nullable UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    UICollectionViewLayoutAttributes * attrs = [super layoutAttributesForItemAtIndexPath:indexPath];
-    UICollectionViewLayoutAttributes * attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]) {
+        self.itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
+    }
+    UICollectionViewLayoutAttributes * attrs = self.layoutAttributesDic[indexPath];
+    if (!attrs) {
+        attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
+        attrs.indexPath = indexPath;
+        attrs.size = self.itemSize;
+
+        CGRect frame = ({
+            CGFloat width = self.itemSize.width;
+            CGFloat height = self.itemSize.height;
+            CGRect frame;
+            if (self.calendar.sectionOption == WYACalendarSectionMonth) {
+                CGFloat x, y;
+                NSInteger row = indexPath.item / 7;
+                NSInteger column = indexPath.item % 7;
+                x = column * self.itemSize.width + indexPath.section * self.collectionView.cmam_width;
+                y = row * height;
+                frame = CGRectMake(x, y, width, height);
+            } else if (self.calendar.sectionOption == WYACalendarSectionWeek) {
+                CGFloat x, y;
+                y = 0;
+                x = self.collectionView.cmam_width * indexPath.section + indexPath.item * width;
+                frame = CGRectMake(x, y, width, height);
+            }
+
+            frame;
+        });
+        attrs.frame = frame;
+        self.layoutAttributesDic[indexPath] = attrs;
+    }
 
     return attrs;
 }
 
 - (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect{
-//    NSArray * array = [super layoutAttributesForElementsInRect:rect];
+    NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
+    NSInteger startColumn = ({
+        NSInteger startSection = rect.origin.x/self.collectionView.cmam_width > 0 ?: 0;
+        CGFloat widthDelta = fmodf(CGRectGetMinX(rect), self.collectionView.cmam_width);
+        widthDelta = MIN(MAX(0, widthDelta), self.collectionView.cmam_width);
+        NSInteger countDelta = 0;
+        NSInteger startColumn = startSection*7 + countDelta;
+        startColumn;
+    });
 
-    NSMutableArray * array = [NSMutableArray array];
-    for (UICollectionViewLayoutAttributes * att in self.layoutAttributesArray) {
-        CGFloat x = att.frame.origin.x;
-        CGFloat y = att.frame.origin.y;
-        CGFloat width = att.size.width;
-        CGFloat height = att.size.height;
-        if ((x + width) <= (rect.origin.x + rect.size.width) && (y + height) <= (rect.origin.y + rect.size.height)) {
-            [array addObject:att];
+    NSInteger endColumn = ({
+        NSInteger endColumn;
+        CGFloat section = CGRectGetMaxX(rect)/self.collectionView.cmam_width;
+        CGFloat remainder = fmodf(section, 1);
+
+        if (remainder <= MAX(100*FLT_EPSILON*ABS(remainder), FLT_MIN)) {
+            endColumn = floorf(section)*7 - 1;
+        } else {
+            CGFloat widthDelta = fmodf(CGRectGetMaxX(rect), self.collectionView.cmam_width);
+            widthDelta = MIN(MAX(0, widthDelta), self.collectionView.cmam_width);
+            NSInteger countDelta = 0;
+            endColumn = floorf(section)*7 + countDelta - 1;
+        }
+        endColumn;
+    });
+
+    NSInteger numberOfRows = self.calendar.sectionOption == WYACalendarSectionMonth ? 6 : 1;
+
+    for (NSInteger column = startColumn; column <= endColumn; column++) {
+        for (NSInteger row = 0; row < numberOfRows; row++) {
+            NSInteger section = column / 7;
+            NSInteger item = column % 7 + row * 7;
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
+            UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
+            [array addObject:itemAttributes];
+
         }
     }
     return array;
 }
 
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds{
-    return YES;
-}
+//- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds{
+//    return YES;
+//}
 
 // 设置collectionView最后偏移量
 - (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
-    CGPoint point = [super targetContentOffsetForProposedContentOffset:proposedContentOffset withScrollingVelocity:velocity];
-    NSLog(@"point==%@",NSStringFromCGPoint(point));
-//    if (self.onlyOneRow) {
-//        return point;
-//    }
-//    CGFloat width = self.collectionView.cmam_width * (self.section - 1);
-//    if (proposedContentOffset.x > width) {
-//        return CGPointMake(self.collectionView.cmam_width * (self.section - 1), proposedContentOffset.y);
-//    }
-    return point;
-}
-
-#pragma mark - Private Method
-- (void)updateMoreStyle{
-    UICollectionViewLayoutAttributes * lastAtt;
-    NSInteger itemCount = 0;
-    for (NSInteger i = 0; i<self.section; i++) {
-        NSNumber * number = self.rows[i];
-        NSInteger rowCount = number.integerValue;
-        for (NSInteger j = 0; j<rowCount; j++) {
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:j inSection:i];
-
-            if (self.delegate && [self.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]) {
-                self.itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
-            }
-            UICollectionViewLayoutAttributes * att = [self layoutAttributesForItemAtIndexPath:indexPath];
-            att.indexPath = indexPath;
-            att.size = self.itemSize;
-            CGFloat width = att.size.width;
-            CGFloat height = att.size.height;
-
-            CGFloat x;
-            CGFloat y;
-            NSInteger number = self.collectionView.cmam_width / width;
-
-            NSInteger row = j / number;
-            NSInteger column = j % number;
-
-            CGFloat longwidth = att.indexPath.section * self.collectionView.cmam_width;
-
-            x = longwidth + column * width;
-            y = row * height;
-            att.frame = CGRectMake(x, y, width, height);
-            lastAtt = att;
-            [self.layoutAttributesArray addObject:att];
-        }
-    }
+    return [super targetContentOffsetForProposedContentOffset:proposedContentOffset withScrollingVelocity:velocity];;
 }
 
 #pragma mark - Lazy
@@ -141,114 +148,13 @@
     return _layoutAttributesArray;
 }
 
-
-@end
-
-
-@interface WYACalendarOnlyOneRowLayout ()
-@property(nonatomic, assign) NSInteger section;
-@property (nonatomic, strong) NSMutableArray * rows;
-@property (nonatomic, strong) NSMutableArray * oneRowLayoutAttributesArray;
-@end
-
-@implementation WYACalendarOnlyOneRowLayout
-
-- (void)prepareLayout{
-    [super prepareLayout];
-
-    if (self.section && self.rows.count > 0) {
-        return;
-    }
-    if (self.collectionView.dataSource && [self.collectionView.dataSource respondsToSelector:@selector(numberOfSectionsInCollectionView:)]) {
-        self.section = [self.collectionView.dataSource numberOfSectionsInCollectionView:self.collectionView];
-    }
-    if (self.collectionView.dataSource && [self.collectionView.dataSource respondsToSelector:@selector(collectionView:numberOfItemsInSection:)]) {
-        for (NSInteger i = 0; i<self.section; i++) {
-            NSInteger number = [self.collectionView.dataSource collectionView:self.collectionView numberOfItemsInSection:i];
-            [self.rows addObject:@(number)];
-        }
-    }
-    NSLog(@"section==%d,\nrows==%@",self.section,self.rows);
-    [self updateOneRowStyle];
-}
-
-- (void)updateOneRowStyle{
-    //    for (NSInteger index = 0; index<self.layoutAttributesArray.count; index++) {
-    //        UICollectionViewLayoutAttributes * att = self.layoutAttributesArray[index];
-    //        CGFloat width = att.size.width;
-    //        CGFloat height = att.size.height;
-    //        CGFloat x = index * width;
-    //        CGFloat y = 0;
-    //        att.frame = CGRectMake(x, y, width, height);
-    //    }
-    UICollectionViewLayoutAttributes * lastAtt;
-
-    for (NSInteger i = 0; i<self.section; i++) {
-        NSNumber * number = self.rows[i];
-        NSInteger rowCount = number.integerValue;
-        for (NSInteger j = 0; j< rowCount; j++) {
-            NSIndexPath * indexPath = [NSIndexPath indexPathForRow:j inSection:i];
-            if (self.delegate && [self.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]) {
-                self.itemSize = [self.delegate collectionView:self.collectionView layout:self sizeForItemAtIndexPath:indexPath];
-            }
-            UICollectionViewLayoutAttributes * att = [self layoutAttributesForItemAtIndexPath:indexPath];
-            att.indexPath = indexPath;
-            att.size = self.itemSize;
-            CGFloat width = att.size.width;
-            CGFloat height = att.size.height;
-
-            CGFloat x = lastAtt.frame.origin.x + lastAtt.frame.size.width;
-            CGFloat y = 0;
-
-            att.frame = CGRectMake(x, y, width, height);
-            lastAtt = att;
-            [self.oneRowLayoutAttributesArray addObject:att];
-        }
-    }
-}
-
-- (CGSize)collectionViewContentSize{
-    CGSize size = [super collectionViewContentSize];
-    return CGSizeMake(self.itemSize.width * self.oneRowLayoutAttributesArray.count, size.height);
-}
-
-- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewLayoutAttributes * attrs = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-    return attrs;
-}
-
-- (NSArray<UICollectionViewLayoutAttributes *> *)layoutAttributesForElementsInRect:(CGRect)rect{
-    return self.oneRowLayoutAttributesArray;
-}
-
-- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds{
-    return YES;
-}
-
-- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity{
-    CGPoint point = [super targetContentOffsetForProposedContentOffset:proposedContentOffset withScrollingVelocity:velocity];
-    NSLog(@"point==%@",NSStringFromCGPoint(point));
-    return point;
-}
-
-#pragma mark - Lazy
-- (NSMutableArray *)rows{
-    if(!_rows){
-        _rows = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
+- (NSMutableDictionary<NSIndexPath *,UICollectionViewLayoutAttributes *> *)layoutAttributesDic{
+    if(!_layoutAttributesDic){
+        _layoutAttributesDic = ({
+            NSMutableDictionary * object = [[NSMutableDictionary alloc]init];
             object;
-        });
+       });
     }
-    return _rows;
-}
-
-- (NSMutableArray *)oneRowLayoutAttributesArray{
-    if(!_oneRowLayoutAttributesArray){
-        _oneRowLayoutAttributesArray = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
-            object;
-        });
-    }
-    return _oneRowLayoutAttributesArray;
+    return _layoutAttributesDic;
 }
 @end

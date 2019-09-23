@@ -8,6 +8,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+
 @class WYADatePicker;
 typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
     WYADatePickerStyleDateHourMinuteSecond,     //年月日时分秒
@@ -65,8 +66,6 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
  @return 高度
  */
 - (CGFloat)getPickerViewHeight;
-
-- (instancetype)initWithPickerHeight:(CGFloat)pickH;
 @end
 
 NS_ASSUME_NONNULL_END

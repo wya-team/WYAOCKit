@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, copy) NSString * navTitle;
 
-/**
+/**WYACalendar
  设置导航栏标题字体颜色 默认黑色
  */
 @property (nonatomic, strong) UIColor * navTitleColor;

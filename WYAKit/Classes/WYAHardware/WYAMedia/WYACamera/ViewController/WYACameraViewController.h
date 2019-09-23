@@ -14,13 +14,13 @@ typedef NS_ENUM(NSUInteger, WYACameraType) {
 @property (nonatomic, copy) void (^takePhoto)(UIImage * photo, NSString * imagePath);
 /// 获取拍摄视频
 @property (nonatomic, copy) void (^takeVideo)(NSString * videoPath);
-/// 设置录制时间
+/// 设置录制时间，default is 15s
 @property (nonatomic, assign) CGFloat time;
-/// 录制视频质量
+/// 录制视频质量, default is AVCaptureSessionPresetMedium
 @property (nonatomic, assign) AVCaptureSessionPreset preset;
-/// 是否保存图片或视频至相册
+/// 是否保存图片或视频至相册, default is NO
 @property (nonatomic, assign) BOOL saveAblum;
-/// 相册名
+/// 相册名, default is 项目名
 @property (nonatomic, copy) NSString * albumName;
 
 /**

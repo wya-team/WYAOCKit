@@ -12,9 +12,9 @@ static const CGFloat as_backgroundAlpha = 0.4;
 @interface WYAAlertController : UIViewController <UIAppearanceContainer>
 
 /// alert 视图（外部不要调用）
-@property (nonatomic, strong) UIView * alertView;
+@property (nonatomic, strong) UIView * _Nonnull alertView;
 /// 外部可以设置背景颜色，透明程度，和是否可以相应事件（默认可以响应，如果不需要响应请关闭button的enabled属性）
-@property (nonatomic, strong) UIButton * backgroundButton;
+@property (nonatomic, strong) UIButton * _Nonnull backgroundButton;
 /// present 转场风格
 @property (nonatomic, assign) WYAPopupPresentStyle presentStyle UI_APPEARANCE_SELECTOR;
 /// dismiss 转场风格

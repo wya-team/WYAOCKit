@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UIButton * maxSliderButton; // max 滑块
 @property (nonatomic, assign) CGFloat tatol;
 @property (nonatomic, assign) CGFloat padding;
+@property (nonatomic, assign) CGFloat minValue;
+@property (nonatomic, assign) CGFloat maxValue;
 @end
 
 @implementation WYASlider
@@ -161,6 +163,18 @@
     [self layoutIfNeeded];
 }
 
+- (void)setCurrentMinValue:(CGFloat)currentMinValue{
+    self.minValue = currentMinValue;
+    self.minSliderLine.cmam_width = self.mainSliderLine.cmam_width * currentMinValue;
+    self.minSliderButton.cmam_centerX = self.minSliderLine.cmam_right;
+}
+
+- (void)setCurrentMaxValue:(CGFloat)currentMaxValue{
+    self.maxValue = currentMaxValue;
+    self.maxSliderLine.cmam_width = self.maxSliderLine.cmam_width * currentMaxValue;
+    self.maxSliderButton.cmam_centerX = self.maxSliderLine.cmam_left;
+}
+
 #pragma mark--- Getter
 - (UIView *)minSliderLine {
     if (!_minSliderLine) {
@@ -240,6 +254,14 @@
         _maxButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     return _maxButton;
+}
+
+- (CGFloat)currentMinValue{
+    return self.minValue;
+}
+
+- (CGFloat)currentMaxValue{
+    return self.maxValue;
 }
 
 #pragma mark--- Private Method

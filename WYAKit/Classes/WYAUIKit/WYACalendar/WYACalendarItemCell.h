@@ -9,8 +9,9 @@
 #import "WYACalendarModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@interface WYACalendarCell : UICollectionViewCell
+@interface WYACalendarItemCell : UICollectionViewCell
 @property (nonatomic, strong) WYACalendarModel * model;
+- (void)reloadUI;
 @end
 
 NS_ASSUME_NONNULL_END

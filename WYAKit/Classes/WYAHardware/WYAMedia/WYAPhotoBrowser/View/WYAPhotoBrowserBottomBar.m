@@ -32,8 +32,8 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.previewButton.frame = CGRectMake(15, 0, 45, self.frame.size.height);
-    self.originalButton.frame = CGRectMake((self.cmam_width - 60)/2, 0 , 60, self.cmam_height);
-    self.doneButton.frame = CGRectMake(ScreenWidth - 85, 15, 70, self.frame.size.height - 30);
+    self.originalButton.frame = CGRectMake((self.cmam_width - 60)/2, 0, 60, self.cmam_height);
+    self.doneButton.frame = CGRectMake(ScreenWidth - 95, 10, 80, self.frame.size.height - 20);
 }
 
 #pragma mark - Private Method
@@ -65,7 +65,7 @@
             UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
             [button setTitle:@"原图" forState:UIControlStateNormal];
             [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [button setImage:[UIImage loadBundleImage:@"icon_cameraOriginal_normal"
+            [button setImage:[UIImage loadBundleImage:@"icon_photo_yuan"
                                             ClassName:NSStringFromClass(self.class)]
                     forState:UIControlStateNormal];
             [button setImage:[UIImage loadBundleImage:@"icon_radio_selected"
@@ -91,10 +91,14 @@
         _doneButton = ({
             UIButton * object = [UIButton buttonWithType:UIButtonTypeCustom];
             [object setTitle:@"完成" forState:UIControlStateDisabled];
-            [object setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [object setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [object setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+            [object setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor lightGrayColor]] forState:UIControlStateDisabled];
+            [object setBackgroundImage:[UIImage wya_createImageWithColor:random(133, 198, 234, 1)] forState:UIControlStateNormal];
             object.enabled = NO;
             object.titleLabel.font = FONT(15);
+            object.layer.cornerRadius = 5 * SizeAdapter;
+            object.layer.masksToBounds = YES;
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton *button) {
                 if (weakSelf.doneBlock) { weakSelf.doneBlock(); }

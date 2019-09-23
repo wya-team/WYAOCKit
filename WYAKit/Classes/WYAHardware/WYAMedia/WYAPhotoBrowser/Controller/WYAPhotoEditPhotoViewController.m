@@ -168,6 +168,15 @@
     }
     _imageArray = [NSMutableArray arrayWithCapacity:0];
     _videoAssetArray = [NSMutableArray arrayWithCapacity:0];
+    for (WYAPhotoBrowserModel * model in self.selectedModels) {
+        if (model.selected == YES) {
+            if (model.type == WYAAssetMediaTypeImage) {
+                [_imageArray addObject:model.image];
+            } else if (model.type == WYAAssetMediaTypeVideo) {
+                [_videoAssetArray addObject:model.asset];
+            }
+        }
+    }
 }
 
 #pragma mark - Event
@@ -192,7 +201,7 @@
         model.image = nil;
         model.selected = NO;
         _navRightButton.selected = model.selected;
-        if (![self.selectedModels containsObject:model]) {
+        if ([self.selectedModels containsObject:model]) {
             [self.selectedModels removeObject:model];
         }
     }
@@ -210,13 +219,17 @@
         WYAImageCropViewController * imageCrop = [[WYAImageCropViewController alloc] initWithImage:cell.previewView.imageGifView.image];
         imageCrop.onDidCropToRect = ^(UIImage * _Nonnull image, CGRect cropRect, NSInteger angle) {
             [imageCrop dismissViewControllerAnimated:YES completion:nil];
-
+            if ([_imageArray containsObject:model.image]) {
+                [_imageArray removeObject:model.image];
+            }
             model.image              = image;
             model.selected = YES;
             _navRightButton.selected = model.selected;
+
             if (![weakSelf.selectedModels containsObject:model]) {
                 [weakSelf.selectedModels addObject:model];
             }
+            [_imageArray addObject:image];
             [_collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForItem:index inSection:0]]];
         };
         [self presentViewController:imageCrop animated:YES completion:nil];
@@ -266,13 +279,17 @@
         if (model.type == WYAAssetMediaTypeVideo) {
             [_videoAssetArray addObject:model.asset];
         } else if (model.type == WYAAssetMediaTypeImage) {
-            [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model isOriginal:selectOriginalImage allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
-                BOOL isPreview = [[info objectForKey:PHImageResultIsDegradedKey] boolValue];
-                if (!isPreview) {
-                    model.image = image;
-                    [_imageArray addObject:model.image];
-                }
-            }];
+            if (!model.image) {
+                [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model isOriginal:selectOriginalImage allowSelectGif:[self config].allowSelectGif completion:^(UIImage * image, NSDictionary * info) {
+                    BOOL isPreview = [[info objectForKey:PHImageResultIsDegradedKey] boolValue];
+                    if (!isPreview) {
+                        model.image = image;
+                        [_imageArray addObject:model.image];
+                    }
+                }];
+            }else {
+                [_imageArray addObject:model.image];
+            }
         }
     } else {
         [self.selectedModels removeObject:model];
@@ -371,7 +388,7 @@
 {
     CGPoint offset = _collectionView.contentOffset;
 
-    CGFloat page = offset.x/_collectionView.cmam_width;
+    CGFloat page = offset.x/(_collectionView.cmam_width > 0 ? _collectionView.cmam_width : 1);
     if (ceilf(page) >= self.models.count) {
         return;
     }
@@ -415,7 +432,7 @@
 }
 
 - (WYAPhotoBrowserModel *)photoBrowserModel{
-    NSInteger index              = _collectionView.contentOffset.x / _collectionView.cmam_width;
+    NSInteger index              = _collectionView.contentOffset.x / (_collectionView.cmam_width > 0 ? _collectionView.cmam_width : 1);
     WYAPhotoBrowserModel * model = self.models[index];
     return model;
 }

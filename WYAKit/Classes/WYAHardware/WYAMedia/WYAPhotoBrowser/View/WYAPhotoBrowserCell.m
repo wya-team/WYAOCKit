@@ -148,10 +148,10 @@
     if (!_button) {
         _button = ({
             UIButton * object = [[UIButton alloc] init];
-            [object setImage:[UIImage loadBundleImage:@"icon_radio_normal"
+            [object setImage:[UIImage loadBundleImage:@"zl_btn_unselected"
                                             ClassName:NSStringFromClass([self class])]
                     forState:UIControlStateNormal];
-            [object setImage:[UIImage loadBundleImage:@"icon_radio_selected"
+            [object setImage:[UIImage loadBundleImage:@"zl_btn_selected"
                                             ClassName:NSStringFromClass([self class])]
                     forState:UIControlStateSelected];
             [object addTarget:self

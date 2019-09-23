@@ -17,9 +17,27 @@
         self.titleFont = FONT(15);
         self.selectColor = [UIColor clearColor];
         self.tagColor = [UIColor clearColor];
-        self.isSelect = NO;
     }
     return self;
+}
+
+- (NSString *)text{
+    if (self.day == 0) {
+        return @"";
+    }
+    return [NSString stringWithFormat:@"%d",self.day];
+}
+
+- (NSInteger)year{
+    return [self.date wya_year];
+}
+
+- (NSInteger)month{
+    return [self.date wya_month];
+}
+
+- (NSInteger)day{
+    return [self.date wya_day];
 }
 
 @end

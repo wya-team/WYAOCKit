@@ -54,7 +54,9 @@
 #import "WYATransitionPush.h"
 
 #import "WYARealmBaseManager.h"
-#import "WYACalendar.h"
+#import "WYACalendarView.h"
+#import "WYAWaterMark.h"
+#import "WYAPhotoBrowserManager.h"
 /****************** UICategory ********************/
 #import "UIControl+category.h"
 
@@ -109,7 +111,7 @@
 #import "NSString+Restructuring.h"
 /*********** 第三方依赖库 ***********/
 #import <AFNetworking/AFNetworking.h>
-#import "FMDB.h"
+#import <FMDB/FMDB.h>
 #import <JQFMDB/JQFMDB.h>
 #import <Masonry/Masonry.h>
 #import <SDWebImage/UIImageView+WebCache.h>

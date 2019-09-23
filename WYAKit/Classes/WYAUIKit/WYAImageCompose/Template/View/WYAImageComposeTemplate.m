@@ -11,7 +11,7 @@
 
 @interface WYAImageComposeTemplate ()
 @property (nonatomic, strong) NSArray * templates;
-@property (nonatomic, strong) NSArray * points;
+
 @property (nonatomic, strong) NSArray * images;
 @property (nonatomic, strong) WYAImageClipTemplate * exchangeTemplate;
 @property (nonatomic, assign) BOOL isExchange;
@@ -19,25 +19,23 @@
 
 @implementation WYAImageComposeTemplate
 
-- (instancetype)initWithPoints:(NSArray *)points images:(NSArray *)images {
-    self = [super init];
-    if (self) {
-        self.points     = points;
-        self.images     = images;
-        self.isExchange = NO;
-        for (WYAImageClipTemplate * template in self.templates) {
-            [self addSubview:template];
-        }
-    }
-    return self;
-}
-
 - (void)layoutSubviews {
     [super layoutSubviews];
 
     for (WYAImageClipTemplate * template in self.templates) {
         template.frame = self.bounds;
     }
+}
+
+#pragma mark - Public Method
+- (instancetype)initWithPoints:(NSArray *)points images:(NSArray *)images {
+    self = [super init];
+    if (self) {
+        self.points     = points;
+        self.images     = images;
+        self.isExchange = NO;
+    }
+    return self;
 }
 
 - (void)wya_templatePath {
@@ -108,6 +106,16 @@
 }
 
 #pragma mark ======= Setter
+- (void)setPoints:(NSArray *)points{
+    _points = points;
+    if (points) {
+        for (WYAImageClipTemplate * template in self.templates) {
+            [self addSubview:template];
+        }
+    }
+
+}
+
 - (void)setImages:(NSArray *)images {
     if (images) {
         for (NSInteger index = 0; index < images.count; index++) {
@@ -124,6 +132,7 @@
         NSMutableArray * array = [NSMutableArray array];
         for (id obj in self.points) {
             WYAImageClipTemplate * template = [[WYAImageClipTemplate alloc] init];
+//            template.backgroundColor = randomColor;
             template.panClick               = ^(CGPoint point, WYAImageClipTemplate * _Nonnull view, BOOL panIsChange) {
                 [weakSelf templateAnimationWithView:view point:point panChange:panIsChange];
             };

@@ -8,7 +8,7 @@
 
 #import "WYAHomeViewController.h"
 #import "HomeHeader.h"
-
+#import "WYAPuzzleViewController.h"
 #define HOMEITEMCELL @"WYAHomeItemCell"
 #define HEADERVIEW @"HEADERVIEW"
 

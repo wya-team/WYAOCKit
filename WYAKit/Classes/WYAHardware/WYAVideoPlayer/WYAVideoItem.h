@@ -1,6 +1,5 @@
 //
-//  MyVideoItem.h
-//  VideoDemo
+//  WYAVideoItem.h
 //
 //  Created by 李世航 on 2018/5/28.
 //  Copyright © 2018年 WeiYiAn. All rights reserved.

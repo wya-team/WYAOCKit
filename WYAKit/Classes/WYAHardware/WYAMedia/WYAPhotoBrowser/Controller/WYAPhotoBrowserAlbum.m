@@ -47,6 +47,10 @@
     [self.navigationController pushViewController:photoB animated:NO];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDarkContent;
+}
+
 - (void)dealloc{
     NSLog(@"调用了图片viewcontroll----1");
     self.dataSource = nil;

@@ -109,6 +109,8 @@
             [button
                 setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108DE7"]]
                           forState:UIControlStateNormal];
+            button.layer.cornerRadius = 5 * SizeAdapter;
+            button.layer.masksToBounds = YES;
             WeakSelf(weakSelf);
             [button addCallBackAction:^(UIButton *button) {
                 if (weakSelf.doneBlock) {

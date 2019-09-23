@@ -65,7 +65,7 @@
 /**
  自定义的present动画
  在侧滑界面present另一个界面
- @param controller
+ @param vc
  @param hidden present时抽屉是否隐藏
  */
 - (void)wya_presentViewController:(UIViewController *)vc drewerHidden:(BOOL)hidden;

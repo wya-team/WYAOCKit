@@ -9,11 +9,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class WYACalendar;
-
+@class WYACalendarView;
+@class WYACalendarModel;
 typedef NS_ENUM(NSUInteger, WYACalendarScrollDirection) {
     WYACalendarScrollVertical,
     WYACalendarScrollHorizontal,
+};
+
+
+typedef NS_ENUM(NSUInteger, WYACalendarSectionOption) {
+    WYACalendarSectionMonth,
+    WYACalendarSectionWeek,
 };
 
 @protocol WYACalendarDataSource <NSObject>
@@ -24,7 +30,21 @@ typedef NS_ENUM(NSUInteger, WYACalendarScrollDirection) {
 
  @return 日期数组
  */
-- (NSArray <NSNumber *>*)calendarDateRange;
+//- (NSArray <NSNumber *>*)calendarDateRange;
+
+/**
+ 日期最小的日期
+
+ @return 日期
+ */
+- (NSDate *)calendarMinimumDate;
+
+/**
+ 日期最大的日期
+
+ @return 日期
+ */
+- (NSDate *)calendarMaximumDate;
 
 @optional
 /***********************日历背景图片或者文字两个代理方法只需实现其中一个就可以************************/
@@ -35,7 +55,7 @@ typedef NS_ENUM(NSUInteger, WYACalendarScrollDirection) {
  @param indexPath 区域
  @return 图片
  */
-- (UIImage *)calendarView:(WYACalendar *)calendarView imageWithIndexPath:(NSIndexPath *)indexPath;
+- (UIImage *)calendarView:(WYACalendarView *)calendarView imageWithIndexPath:(NSIndexPath *)indexPath;
 
 /**
  日历背景文字
@@ -44,15 +64,17 @@ typedef NS_ENUM(NSUInteger, WYACalendarScrollDirection) {
  @param indexPath 区域
  @return 富文本
  */
-- (NSMutableAttributedString *)calendarView:(WYACalendar *)calendarView textWithIndexPath:(NSIndexPath *)indexPath;
+- (NSMutableAttributedString *)calendarView:(WYACalendarView *)calendarView textWithIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @protocol WYACalendarDelegate <NSObject>
-
+- (void)calendarView:(WYACalendarView *)calendarView didSelectModel:(WYACalendarModel *)model;
 @end
 
-@interface WYACalendar : UIView
+@interface WYACalendarView : UIView
 @property (nonatomic, weak) id<WYACalendarDataSource> dataSource;
+@property (nonatomic, weak) id<WYACalendarDelegate> delegate;
+@property (nonatomic, assign) WYACalendarSectionOption sectionOption;
 // 日期字体大小
 @property (nonatomic, strong) UIFont * calenderDateTitleFont;
 // 日期字体颜色

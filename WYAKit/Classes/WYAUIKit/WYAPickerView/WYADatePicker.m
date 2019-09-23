@@ -11,8 +11,7 @@
 static CGFloat pickerViewHeight = 220.0;
 static CGFloat titleHeight      = 44.0;
 
-@interface WYADatePicker () <WYAPaginationViewDelegate, UIPickerViewDataSource,
-                             UIPickerViewDelegate>
+@interface WYADatePicker () <WYAPaginationViewDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (nonatomic, strong) WYAPaginationView * titleView;
 @property (nonatomic, strong) UIView * line;
@@ -31,8 +30,8 @@ static CGFloat titleHeight      = 44.0;
 
 @implementation WYADatePicker
 
-- (instancetype)init {
-    self = [super init];
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
     if (self) { [self createUI]; }
     return self;
 }
@@ -59,7 +58,7 @@ static CGFloat titleHeight      = 44.0;
     self.pickView.frame     = CGRectMake(pickView_X, pickView_Y, pickView_Width, pickView_Height);
 }
 
-#pragma mark UIPickerViewDataSource
+#pragma mark - UIPickerViewDataSource
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return [self componentsNumber];
 }
@@ -71,77 +70,63 @@ static CGFloat titleHeight      = 44.0;
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     return [self datePickerItemWidthInComponent:component];
 }
+
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
     return self.pickerItemHeight ? self.pickerItemHeight : 44;
 }
 
-- (UIView *)pickerView:(UIPickerView *)pickerView
-            viewForRow:(NSInteger)row
-          forComponent:(NSInteger)component
-           reusingView:(nullable UIView *)view {
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view {
     UILabel * label = [[UILabel alloc] init];
     switch (self.datePickerStyle) {
         case WYADatePickerStyleDateHourMinuteSecond: {
             label.frame = CGRectMake(0, 0, self.cmam_width / 7,
                                      self.pickerItemHeight ? self.pickerItemHeight : 44);
             if (component == 0) {
-                //                label.backgroundColor = [UIColor redColor];
                 label.text =
                     [NSString stringWithFormat:@"%@年", self.datePickerManager.yearArray[row]];
             } else if (component == 1) {
-                //                label.backgroundColor = [UIColor orangeColor];
                 label.text =
                     [NSString stringWithFormat:@"%@月", self.datePickerManager.monthArray[row]];
             } else if (component == 2) {
-                //                label.backgroundColor = [UIColor yellowColor];
                 label.text =
                     [NSString stringWithFormat:@"%@日", self.datePickerManager.dayArray[row]];
             } else if (component == 3) {
-                //                label.backgroundColor = [UIColor greenColor];
                 label.text =
                     [NSString stringWithFormat:@"%@时", self.datePickerManager.hourArray[row]];
             } else if (component == 4) {
-                //                label.backgroundColor = [UIColor cyanColor];
                 label.text =
                     [NSString stringWithFormat:@"%@分", self.datePickerManager.minuteArray[row]];
             } else {
-                //                label.backgroundColor = [UIColor blueColor];
                 label.text =
                     [NSString stringWithFormat:@"%@秒", self.datePickerManager.secondArray[row]];
             }
 
         } break;
         case WYADatePickerStyleYear: {
-            label.frame = CGRectMake(0, 0, self.cmam_width,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
             label.text = [NSString stringWithFormat:@"%@年", self.datePickerManager.yearArray[row]];
         } break;
         case WYADatePickerStyleMouth: {
-            label.frame = CGRectMake(0, 0, self.cmam_width,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
             label.text =
                 [NSString stringWithFormat:@"%@月", self.datePickerManager.monthArray[row]];
         } break;
         case WYADatePickerStyleHour: {
-            label.frame = CGRectMake(0, 0, self.cmam_width,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
             label.text = [NSString stringWithFormat:@"%@时", self.datePickerManager.hourArray[row]];
         } break;
         case WYADatePickerStyleMinute: {
-            label.frame = CGRectMake(0, 0, self.cmam_width,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
             label.text =
                 [NSString stringWithFormat:@"%@分", self.datePickerManager.minuteArray[row]];
         } break;
         case WYADatePickerStyleSecond: {
-            label.frame = CGRectMake(0, 0, self.cmam_width,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
             label.text =
                 [NSString stringWithFormat:@"%@秒", self.datePickerManager.secondArray[row]];
         } break;
         case WYADatePickerStyleYearAndMonth: {
-            label.frame = CGRectMake(0, 0, self.cmam_width / 2,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width / 2, self.pickerItemHeight ? self.pickerItemHeight : 44);
             if (component == 0) {
                 label.text =
                     [NSString stringWithFormat:@"%@年", self.datePickerManager.yearArray[row]];
@@ -151,8 +136,7 @@ static CGFloat titleHeight      = 44.0;
             }
         } break;
         case WYADatePickerStyleDate: {
-            label.frame = CGRectMake(0, 0, self.cmam_width / 3,
-                                     self.pickerItemHeight ? self.pickerItemHeight : 44);
+            label.frame = CGRectMake(0, 0, self.cmam_width / 3, self.pickerItemHeight ? self.pickerItemHeight : 44);
             if (component == 0) {
                 label.text =
                     [NSString stringWithFormat:@"%@年", self.datePickerManager.yearArray[row]];
@@ -325,10 +309,8 @@ static CGFloat titleHeight      = 44.0;
  
  */
 
-#pragma mark UIPickerViewDelegate
-- (void)pickerView:(UIPickerView *)pickerView
-      didSelectRow:(NSInteger)row
-       inComponent:(NSInteger)component {
+#pragma mark - UIPickerViewDelegate
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     switch (self.datePickerStyle) {
         case WYADatePickerStyleDateHourMinuteSecond: {
             if (component == 0) {
@@ -557,7 +539,7 @@ static CGFloat titleHeight      = 44.0;
     }
 }
 
-#pragma mark--- WYAPaginationViewDelegate
+#pragma mark - WYAPaginationViewDelegate
 - (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button {
     if (self.cmam_viewController) {
         [self.cmam_viewController dismissViewControllerAnimated:YES completion:nil];
@@ -579,7 +561,7 @@ static CGFloat titleHeight      = 44.0;
     }
 }
 
-#pragma mark--- Private Action
+#pragma mark - Private Action
 - (void)createUI {
     self.backgroundColor = [UIColor whiteColor];
     self.autoTitleChange = YES;
@@ -594,38 +576,23 @@ static CGFloat titleHeight      = 44.0;
 
 - (NSInteger)componentsNumber {
     switch (self.datePickerStyle) {
-        case WYADatePickerStyleDateHourMinuteSecond:
-            return 6;
+        case WYADatePickerStyleDateHourMinuteSecond:    return 6;
         case WYADatePickerStyleYear:
         case WYADatePickerStyleMouth:
         case WYADatePickerStyleHour:
         case WYADatePickerStyleMinute:
-        case WYADatePickerStyleSecond:
-            return 1;
-        case WYADatePickerStyleYearAndMonth:
-            return 2;
-        case WYADatePickerStyleDate:
-            return 3;
-        case WYADatePickerStyleDateHour:
-            return 4;
-        case WYADatePickerStyleDateHourMinute:
-            return 5;
-        case WYADatePickerStyleMonthDay:
-            return 2;
-        case WYADatePickerStyleMonthDayHour:
-            return 3;
-        case WYADatePickerStyleMonthDayHourMinute:
-            return 4;
-        case WYADatePickerStyleMonthDayHourMinuteSecond:
-            return 5;
-        case WYADatePickerStyleTime:
-            return 2;
-        case WYADatePickerStyleTimeAndSecond:
-            return 3;
-        case WYADatePickerStyleMinuteAndSecond:
-            return 2;
-        default:
-            return 0;
+        case WYADatePickerStyleSecond:                  return 1;
+        case WYADatePickerStyleYearAndMonth:            return 2;
+        case WYADatePickerStyleDate:                    return 3;
+        case WYADatePickerStyleDateHour:                return 4;
+        case WYADatePickerStyleDateHourMinute:          return 2;
+        case WYADatePickerStyleMonthDayHour:            return 3;
+        case WYADatePickerStyleMonthDayHourMinute:      return 4;
+        case WYADatePickerStyleMonthDayHourMinuteSecond:return 5;
+        case WYADatePickerStyleTime:                    return 2;
+        case WYADatePickerStyleTimeAndSecond:           return 3;
+        case WYADatePickerStyleMinuteAndSecond:         return 2;
+        default:                                        return 0;
     }
 }
 
@@ -766,104 +733,35 @@ static CGFloat titleHeight      = 44.0;
 
 - (CGFloat)datePickerItemWidthInComponent:(NSInteger)component {
     switch (self.datePickerStyle) {
-        case WYADatePickerStyleDateHourMinuteSecond:
-            return self.cmam_width / 7;
+        case WYADatePickerStyleDateHourMinuteSecond:    return self.cmam_width / 7;
         case WYADatePickerStyleYear:
         case WYADatePickerStyleMouth:
         case WYADatePickerStyleHour:
         case WYADatePickerStyleMinute:
-        case WYADatePickerStyleSecond:
-            return self.cmam_width;
-        case WYADatePickerStyleYearAndMonth:
-            return self.cmam_width / 2;
-        case WYADatePickerStyleDate:
-            return self.cmam_width / 3;
-        case WYADatePickerStyleDateHour:
-            return self.cmam_width / 4;
-        case WYADatePickerStyleDateHourMinute:
-            return self.cmam_width / 6;
-        case WYADatePickerStyleMonthDay:
-            return self.cmam_width / 2;
-        case WYADatePickerStyleMonthDayHour:
-            return self.cmam_width / 3;
-        case WYADatePickerStyleMonthDayHourMinute:
-            return self.cmam_width / 4;
-        case WYADatePickerStyleMonthDayHourMinuteSecond:
-            return self.cmam_width / 6;
-        case WYADatePickerStyleTime:
-            return self.cmam_width / 2;
-        case WYADatePickerStyleTimeAndSecond:
-            return self.cmam_width / 3;
-        case WYADatePickerStyleMinuteAndSecond:
-            return self.cmam_width / 2;
-        default:
-            return 0;
+        case WYADatePickerStyleSecond:                  return self.cmam_width;
+        case WYADatePickerStyleYearAndMonth:            return self.cmam_width / 2;
+        case WYADatePickerStyleDate:                    return self.cmam_width / 3;
+        case WYADatePickerStyleDateHour:                return self.cmam_width / 4;
+        case WYADatePickerStyleDateHourMinute:          return self.cmam_width / 6;
+        case WYADatePickerStyleMonthDay:                return self.cmam_width / 2;
+        case WYADatePickerStyleMonthDayHour:            return self.cmam_width / 3;
+        case WYADatePickerStyleMonthDayHourMinute:      return self.cmam_width / 4;
+        case WYADatePickerStyleMonthDayHourMinuteSecond:return self.cmam_width / 6;
+        case WYADatePickerStyleTime:                    return self.cmam_width / 2;
+        case WYADatePickerStyleTimeAndSecond:           return self.cmam_width / 3;
+        case WYADatePickerStyleMinuteAndSecond:         return self.cmam_width / 2;
+        default:                                        return 0;
     }
 }
 
-#pragma mark--- Public Action
-
+#pragma mark - Public Action
 - (CGFloat)getPickerViewHeight {
     [self setNeedsLayout];
     [self layoutIfNeeded];
     return self.titleView.cmam_height + self.pickView.cmam_height + 1;
 }
 
-#pragma mark--- Getter
-- (WYAPaginationView *)titleView {
-    if (!_titleView) {
-        _titleView                 = [[WYAPaginationView alloc] init];
-        _titleView.backgroundColor = [UIColor whiteColor];
-        _titleView.wya_Delegate    = self;
-        [_titleView wya_SetLeftButtonWithTitle:@"取消"
-                                    TitleColor:[UIColor wya_hex:@"#108DE7"]
-                                     TitleFont:15];
-        [_titleView wya_SetRightButtonWithTitle:@"确定"
-                                     TitleColor:[UIColor wya_hex:@"#108DE7"]
-                                      TitleFont:15];
-        [_titleView.leftButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0 / 255.0 green:234.0 / 255.0 blue:234.0 / 255.0 alpha:1]] forState:UIControlStateHighlighted];
-        [_titleView.rightButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0 / 255.0 green:234.0 / 255.0 blue:234.0 / 255.0 alpha:1]] forState:UIControlStateHighlighted];
-
-        _titleView.leftButton.layer.borderWidth  = 0;
-        _titleView.rightButton.layer.borderWidth = 0;
-    }
-    return _titleView;
-}
-
-- (UIView *)line {
-    if (!_line) {
-        _line = ({
-            UIView * object        = [[UIView alloc] init];
-            object.backgroundColor = random(241, 241, 241, 1);
-            object;
-        });
-    }
-    return _line;
-}
-
-- (UIPickerView *)pickView {
-    if (!_pickView) {
-        _pickView                 = [[UIPickerView alloc] init];
-        _pickView.dataSource      = self;
-        _pickView.delegate        = self;
-        _pickView.backgroundColor = [UIColor whiteColor];
-    }
-    return _pickView;
-}
-
-- (UIButton *)backButton {
-    return self.titleView.leftButton;
-}
-
-- (UIButton *)sureButton {
-    return self.titleView.rightButton;
-}
-
-- (UILabel *)titleLabel {
-    return self.titleView.titleLabel;
-}
-
-#pragma mark--- Setter
+#pragma mark - Setter
 - (void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle {
     _datePickerStyle              = datePickerStyle;
     WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
@@ -920,7 +818,7 @@ static CGFloat titleHeight      = 44.0;
                          inComponent:5
                             animated:YES];
             self.yearString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
+            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
             self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
             self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
             self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
@@ -1026,7 +924,7 @@ static CGFloat titleHeight      = 44.0;
                          inComponent:4
                             animated:YES];
             self.yearString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
+            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
             self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
             self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
             self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
@@ -1056,7 +954,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.selectComponents.hour
                          inComponent:2
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
+            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
             self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
             self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
             self.resultString = [NSString
@@ -1075,7 +973,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.selectComponents.minute
                          inComponent:3
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
+            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
             self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
             self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
             self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
@@ -1099,7 +997,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.selectComponents.second
                          inComponent:4
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
+            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
             self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
             self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
             self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
@@ -1162,8 +1060,6 @@ static CGFloat titleHeight      = 44.0;
 
 - (void)setPickerHeight:(CGFloat)pickerHeight {
     _pickerHeight = pickerHeight;
-    //    [self setNeedsLayout];
-    //    [self layoutIfNeeded];
 }
 
 - (void)setPickerItemHeight:(CGFloat)pickerItemHeight {
@@ -1171,12 +1067,58 @@ static CGFloat titleHeight      = 44.0;
     [self.pickView reloadAllComponents];
 }
 
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect {
- // Drawing code
- }
- */
+#pragma mark - Getter
+- (WYAPaginationView *)titleView {
+    if (!_titleView) {
+        _titleView                 = [[WYAPaginationView alloc] init];
+        _titleView.backgroundColor = [UIColor whiteColor];
+        _titleView.wya_Delegate    = self;
+        [_titleView wya_SetLeftButtonWithTitle:@"取消"
+                                    TitleColor:[UIColor wya_hex:@"#108DE7"]
+                                     TitleFont:15];
+        [_titleView wya_SetRightButtonWithTitle:@"确定"
+                                     TitleColor:[UIColor wya_hex:@"#108DE7"]
+                                      TitleFont:15];
+        [_titleView.leftButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0 / 255.0 green:234.0 / 255.0 blue:234.0 / 255.0 alpha:1]] forState:UIControlStateHighlighted];
+        [_titleView.rightButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor colorWithRed:234.0 / 255.0 green:234.0 / 255.0 blue:234.0 / 255.0 alpha:1]] forState:UIControlStateHighlighted];
+
+        _titleView.leftButton.layer.borderWidth  = 0;
+        _titleView.rightButton.layer.borderWidth = 0;
+    }
+    return _titleView;
+}
+
+- (UIView *)line {
+    if (!_line) {
+        _line = ({
+            UIView * object        = [[UIView alloc] init];
+            object.backgroundColor = random(241, 241, 241, 1);
+            object;
+        });
+    }
+    return _line;
+}
+
+- (UIPickerView *)pickView {
+    if (!_pickView) {
+        _pickView                 = [[UIPickerView alloc] init];
+        _pickView.dataSource      = self;
+        _pickView.delegate        = self;
+        _pickView.backgroundColor = [UIColor whiteColor];
+    }
+    return _pickView;
+}
+
+- (UIButton *)backButton {
+    return self.titleView.leftButton;
+}
+
+- (UIButton *)sureButton {
+    return self.titleView.rightButton;
+}
+
+- (UILabel *)titleLabel {
+    return self.titleView.titleLabel;
+}
 
 @end

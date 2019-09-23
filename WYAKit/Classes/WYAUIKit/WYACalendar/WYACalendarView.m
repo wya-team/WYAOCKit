@@ -5,40 +5,43 @@
 //  Created by 李世航 on 2019/7/31.
 //
 
-#import "WYACalendar.h"
-#import "WYACalendarCell.h"
+#import "WYACalendarView.h"
+#import "WYACalendarItemCell.h"
 #import "WYACalendarHeaderView.h"
 #import "WYACalendarFlowLayout.h"
 #import "WYACalendarModel.h"
 #import "WYACalendarBottomView.h"
+#import "NSCalendar+WYACalendar.h"
 
-@interface WYACalendar ()<UICollectionViewDataSource, UICollectionViewDelegate, WYACalendarFlowLayoutDelegate, WYACalendarOnlyOneRowLayoutDelegate>
+
+@interface WYACalendarView ()<UICollectionViewDataSource, UICollectionViewDelegate, WYACalendarFlowLayoutDelegate>
 @property (nonatomic, assign) WYACalendarScrollDirection scrollDirection;
+
 @property (nonatomic, strong) UIView * backgroundView;
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) UIView * dateNoteView;
 @property (nonatomic, strong) WYACalendarBottomView * bottomView;
-
 @property (nonatomic, strong) UIImageView * backgroundImageView;
 @property (nonatomic, strong) UILabel * backgroundLabel;
 
 @property (nonatomic, strong) WYACalendarFlowLayout * flowLayout;
-@property (nonatomic, strong) WYACalendarOnlyOneRowLayout * rowLayout;
 
 @property (nonatomic, strong) NSCalendar * calendar;
+@property (nonatomic, assign) NSInteger calendarSectionNumber;
 
-@property (nonatomic, strong) NSArray * yearArray;
 @property (nonatomic, strong) NSArray * weekdayArray;
-@property (nonatomic, strong) NSMutableArray * calendarModels;
+
+@property (nonatomic, strong) NSMutableArray * selectDates;
+
+@property (nonatomic, strong) NSDate * minDate;
+@property (nonatomic, strong) NSDate * maxDate;
 @end
 
-@implementation WYACalendar
+@implementation WYACalendarView
 {
-    WYACalendarCell * lastCell; // 选中的最后一个cell
-    WYACalendarModel * lastModel;
+    WYACalendarItemCell * lastCell; // 选中的最后一个cell
     CGPoint lastPoint;
 
-    NSInteger calendarSectionNumber; // 有多少个区
     CGFloat collectionChangeHeight;
     CGFloat calendarHeight;
 
@@ -120,104 +123,155 @@
 
 - (void)configDataSource{
 
-    if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarDateRange)]) {
-        self.yearArray = [self.dataSource calendarDateRange];
+//    if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarDateRange)]) {
+//        self.yearArray = [self.dataSource calendarDateRange];
+//    }
+    if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarMinimumDate)]) {
+        self.minDate = [self.dataSource calendarMinimumDate];
+    }
+    if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarMaximumDate)]) {
+        self.maxDate = [self.dataSource calendarMaximumDate];
     }
 
-    calendarSectionNumber = 12 * self.yearArray.count;
-//    self.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
-    self.calendar = [NSCalendar currentCalendar];
+    NSAssert(self.minDate && self.maxDate, @"最大时间和最小时间不能为空");
+    self.sectionOption = WYACalendarSectionMonth;
 
-    NSMutableArray * moreRows = [NSMutableArray array];
-    for (NSInteger i = 0; i< calendarSectionNumber; i++) {
-        NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
-        [moreRows addObject:array];
-    }
-
-    for (NSInteger index=0; index<calendarSectionNumber; index++) {
-        NSInteger yearIndex = index / 12;
-        NSInteger monthIndex = index % 12;
-        NSMutableArray * array = moreRows[index];
-        NSDate * date = [self getFormatterMonthDaysWithYear:[self.yearArray[yearIndex] integerValue] section:monthIndex row:0];
-        NSInteger weekDay = [NSDate wya_weekday:date];
-        if (weekDay == 7) {
-            weekDay = 0;
-        }
-        NSInteger number = [self convertDateToTotalDays:date];
-        NSInteger row = (number + weekDay) / 7;
-        NSInteger column = (number + weekDay) % 7;
-        if (column > 0) {
-            row = row + 1;
-        }
-
-        NSInteger count = row * 7;
-        for (NSInteger j = 0; j<count; j++) {
-            WYACalendarModel * model = [[WYACalendarModel alloc]init];
-            [array addObject:model];
-        }
-    }
-    self.calendarModels = moreRows;
-    [self.collectionView reloadData];
-
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        NSInteger year = [[NSDate date] wya_year];
-//        NSNumber * fristYearNumber = [self.yearArray firstObject];
-//        NSInteger month = [[NSDate date] wya_month];
-//        CGFloat endOffsetX = ((year - fristYearNumber.integerValue) * 12 + (month - 1)) * self.collectionView.cmam_width;
-//        [self.collectionView setContentOffset:CGPointMake(endOffsetX, 0) animated:NO];
-//        self.bottomView.dateLabel.text = [NSString stringWithFormat:@"%d年%d月",[[NSDate date] wya_year], month];
-//
-//        UIImage * image;
-//        if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:imageWithIndexPath:)]) {
-//            image = [self.dataSource calendarView:self imageWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:endOffsetX / self.collectionView.cmam_width]];
-//        }
-//
-//        NSMutableAttributedString * text;
-//        if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:textWithIndexPath:)]) {
-//            text = [self.dataSource calendarView:self textWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:endOffsetX / self.collectionView.cmam_width]];
-//        }
-//        if (image) {
-//            self.backgroundImageView.hidden = NO;
-//            self.backgroundImageView.image = image;
-//        }
-//
-//        if (text) {
-//            self.backgroundLabel.hidden = NO;
-//            self.backgroundLabel.attributedText = text;
-//        }
-//    });
+    self.calendar = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
 
 }
 
-- (void)upSwipeAction:(UISwipeGestureRecognizer *)gesture{
-    if (!lastModel) {
-        return;
+- (void)collectionSetOffset{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            NSInteger minYear = [self.minDate wya_year];
+            NSInteger minMonth = [self.minDate wya_month];
+            NSInteger year = [[NSDate date] wya_year];
+            NSInteger month = [[NSDate date] wya_month];
+            NSInteger offsetPage = 0;
+            for (NSInteger i = minYear; i < year + 1; i++) {
+                if (minYear == year) {
+                    for (NSInteger j = minMonth; j<month + 1; j++) {
+                        offsetPage = offsetPage + 1;
+                    }
+                } else {
+                    if (i == minYear) {
+                        for (NSInteger j = minMonth; j<13; j++) {
+                            offsetPage = offsetPage + 1;
+                        }
+                    } else if (i == year) {
+                        for (NSInteger j = 1; j < month + 1; j++) {
+                            offsetPage = offsetPage + 1;
+                        }
+                    } else {
+                        for (NSInteger j = 1; j < 13; j++) {
+                            offsetPage = offsetPage + 1;
+                        }
+                    }
+                }
+            }
+            CGFloat endOffsetX = (offsetPage - 1) * self.collectionView.cmam_width;
+            [self.collectionView setContentOffset:CGPointMake(endOffsetX, 0) animated:NO];
+            self.bottomView.dateLabel.text = [NSString stringWithFormat:@"%d年%d月",year, month];
+
+            UIImage * image;
+            if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:imageWithIndexPath:)]) {
+                image = [self.dataSource calendarView:self imageWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:endOffsetX / self.collectionView.cmam_width]];
+            }
+
+            NSMutableAttributedString * text;
+            if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:textWithIndexPath:)]) {
+                text = [self.dataSource calendarView:self textWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:endOffsetX / self.collectionView.cmam_width]];
+            }
+            if (image) {
+                self.backgroundImageView.hidden = NO;
+                self.backgroundImageView.image = image;
+            }
+
+            if (text) {
+                self.backgroundLabel.hidden = NO;
+                self.backgroundLabel.attributedText = text;
+            }
+        });
+}
+
+- (NSInteger)collectionSetOffsetWithDate:(NSDate *)date{
+    if (self.sectionOption == WYACalendarSectionMonth) {
+        NSInteger section = [self.calendar components:NSCalendarUnitMonth fromDate:[self.calendar wya_fetchMonthFristDay:self.minDate] toDate:[self.calendar wya_fetchMonthFristDay:date] options:0].month;
+        return section;
+    } else if (self.sectionOption == WYACalendarSectionWeek) {
+        NSInteger section = [self.calendar components:NSCalendarUnitWeekOfYear fromDate:[self.calendar wya_fetchMonthFristDay:self.minDate] toDate:date options:0].weekOfYear;
+        return section;
     }
+    return 0;
+}
+
+- (NSInteger)calendarSectionNumber{
+    if (self.sectionOption == WYACalendarSectionMonth) {
+        NSInteger numberOfMonths = [self.calendar components:NSCalendarUnitMonth fromDate:[self.calendar wya_fetchMonthFristDay:self.minDate] toDate:self.maxDate options:0].month+1;
+        return numberOfMonths;
+    } else if (self.sectionOption == WYACalendarSectionWeek) {
+        NSInteger numberOfWeeks = [self.calendar components:NSCalendarUnitWeekOfYear fromDate:[self.calendar wya_fetchMonthFristDay:self.minDate] toDate:self.maxDate options:0].weekOfYear+1;
+        return numberOfWeeks;
+    } else {
+        return 0;
+    }
+}
+
+- (nullable NSDate *)fs_firstDayOfWeek:(NSDate *)week
+{
+    if (!week) return nil;
+    NSDateComponents *weekdayComponents = [self.calendar components:NSCalendarUnitWeekday fromDate:week];
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.day = - (weekdayComponents.weekday - self.calendar.firstWeekday);
+    components.day = (components.day-7) % 7;
+    NSDate *firstDayOfWeek = [self.calendar dateByAddingComponents:components toDate:week options:0];
+    firstDayOfWeek = [self.calendar dateBySettingHour:0 minute:0 second:0 ofDate:firstDayOfWeek options:0];
+    components.day = NSIntegerMax;
+    return firstDayOfWeek;
+}
+
+- (NSDate *)getDateWithIndexPath:(NSIndexPath *)indexPath{
+    if (self.sectionOption == WYACalendarSectionMonth) {
+        NSDate * monthDate = [self.minDate wya_offsetMonths:indexPath.section];
+        NSDate * lastDate = [self.calendar wya_fetchMonthFristDay:monthDate];
+        NSInteger week = [lastDate wya_weekday];
+        NSDate * dayDate = [lastDate wya_offsetDays:indexPath.item - week];
+        return dayDate;
+    } else if (self.sectionOption == WYACalendarSectionWeek) {
+
+        return [self weekOfFirstday:indexPath];
+    }
+    return nil;
+}
+
+- (NSDate *)weekOfFirstday:(NSIndexPath *)indexPath{
+    NSLog(@"indexPath==%@",indexPath);
+    NSDate * fristDay = [self.calendar wya_fetchMonthFristDay:self.minDate];
+    NSDateComponents *weekdayComponents = [self.calendar components:NSCalendarUnitWeekday fromDate:fristDay];
+    NSDateComponents *components = [[NSDateComponents alloc] init];
+    components.day = - (weekdayComponents.weekday - self.calendar.firstWeekday);
+    components.day = (components.day-7) % 7;
+    NSDate *firstDayOfWeek = [self.calendar dateByAddingComponents:components toDate:fristDay options:0];
+    firstDayOfWeek = [self.calendar dateBySettingHour:0 minute:0 second:0 ofDate:firstDayOfWeek options:0];
+    components.day = NSIntegerMax;
+
+    NSDate * a = [self.calendar dateByAddingUnit:NSCalendarUnitWeekOfYear value:indexPath.section toDate:firstDayOfWeek options:0];
+    NSDate * date = [self.calendar dateByAddingUnit:NSCalendarUnitDay value:indexPath.item toDate:a options:0];
+    return date;
+}
+
+- (void)upSwipeAction:(UISwipeGestureRecognizer *)gesture{
+
     NSLog(@"向上轻扫");
 
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.cmam_height = 60 * SizeAdapter + 88;
     } completion:^(BOOL finished) {
         lastPoint = self.collectionView.contentOffset;
-        [self.collectionView setCollectionViewLayout:self.rowLayout animated:NO completion:^(BOOL finished) {
-            NSInteger lastYear = [lastModel.date wya_year];
-            NSNumber * fristYear = [self.yearArray firstObject];
-
-            NSInteger month = [lastModel.date wya_month] + (lastYear - [fristYear integerValue]) * 12;
-            NSInteger allRow = 0;
-            for (NSInteger i = 0; i<month-1; i++) {
-                NSMutableArray * array = self.calendarModels[i];
-                NSInteger row = array.count / 7;
-                NSInteger column = array.count % 7;
-                if (column > 0) {
-                    row = row + 1;
-                }
-                allRow = allRow + row;
-            }
-            NSInteger currentSection = lastModel.indexPath.item / 7;
-            NSLog(@"row==%d",allRow);
-            [self.collectionView setContentOffset:CGPointMake((allRow + currentSection) * self.collectionView.cmam_width, 0)];
-        }];
+        self.sectionOption = WYACalendarSectionWeek;
+        [self.collectionView reloadData];
+        [self.collectionView.collectionViewLayout invalidateLayout];
+        NSInteger section = [self collectionSetOffsetWithDate:[self.selectDates lastObject]];
+        [self.collectionView setContentOffset:CGPointMake(self.collectionView.cmam_width * section, 0)];
     }];
 
 }
@@ -227,12 +281,11 @@
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionLayoutSubviews|UIViewAnimationOptionBeginFromCurrentState animations:^{
         self.cmam_height = calendarHeight;
     } completion:^(BOOL finished) {
+        self.sectionOption = WYACalendarSectionMonth;
+        [self.collectionView reloadData];
+        [self.collectionView.collectionViewLayout invalidateLayout];
         [self.collectionView setCollectionViewLayout:self.flowLayout animated:NO completion:^(BOOL finished) {
-            [self.collectionView setContentOffset:lastPoint];
-            NSInteger index = self.collectionView.contentOffset.x/self.collectionView.cmam_width;
-            NSInteger yearIndex = index / 12;
-            NSInteger monthindex = index % 12;
-            self.bottomView.dateLabel.text = [NSString stringWithFormat:@"%d年%d月",[self.yearArray[yearIndex] integerValue], monthindex+1];
+            
         }];
     }];
 }
@@ -275,52 +328,39 @@
 
 #pragma mark - UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return self.calendarModels.count;
+    NSInteger month = self.calendarSectionNumber;
+    return month;
+
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSMutableArray * array = self.calendarModels[section];
-    return array.count;
+    if (self.sectionOption == WYACalendarSectionMonth) {
+        return 42;
+    } else if (self.sectionOption == WYACalendarSectionWeek){
+        return 7;
+    }
+    return 0;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYACalendarCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-    NSInteger yearIndex = indexPath.section / 12;
-    NSInteger monthIndex = indexPath.section % 12;
-    NSDate *date = [self getFormatterMonthDaysWithYear:[self.yearArray[yearIndex] integerValue] section:monthIndex row:0];
-    NSInteger weekDay = [NSDate wya_weekday:date];
-    if (weekDay == 7) {
-        weekDay = 0;
-    }
-    WYACalendarModel * model = self.calendarModels[indexPath.section][indexPath.item];
-    NSInteger todayYear = [[NSDate date] wya_year];
-    NSNumber * number = [NSNumber numberWithInteger:todayYear];
-    NSInteger todayYearIndex = [self.yearArray indexOfObject:number];
-    NSInteger todayMonth = [[NSDate date] wya_month];
-    NSInteger today = [[NSDate date] wya_day] + weekDay - 1;
-    if (indexPath.section == todayYearIndex * 12 + todayMonth - 1) {
-        if (indexPath.row == today) {
-            model.isToday = YES;
+    WYACalendarItemCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    WYACalendarModel * model = [[WYACalendarModel alloc] init];
+    model.titleFont = self.calenderDateTitleFont;
+    model.titleColor = self.calenderDateTitleColor;
+    model.todayColor = self.calenderTodayColor;
+    model.todayTagColor = self.calenderTodayTagColor;
+    model.selectColor = self.calenderDateSelectColor;
+    model.tagColor = self.calenderDateTagColor;
+    NSDate * date = [self getDateWithIndexPath:indexPath];
+
+    model.date = date;
+    cell.model = model;
+    for (NSDate * selectDate in self.selectDates) {
+        if ([selectDate wya_isSameDay:date]) {
+            cell.selected = YES;
+            [cell reloadUI];
         }
     }
-
-    NSInteger oneMonthAllDay = [self convertDateToTotalDays:date];
-    if (indexPath.item < weekDay || indexPath.item >= oneMonthAllDay + weekDay) {
-        model.text = @"";
-    } else {
-        model.text = [NSString stringWithFormat:@"%d",indexPath.item - weekDay + 1];
-        model.titleColor = self.calenderDateTitleColor;
-        model.titleFont = self.calenderDateTitleFont;
-        model.backgroundImage = self.calenderDateBackgroundImage;
-        model.todayColor = self.calenderTodayColor;
-        model.todayTagColor = self.calenderTodayTagColor;
-        model.selectColor = self.calenderDateSelectColor;
-        model.tagColor = self.calenderDateTagColor;
-        model.date = date;
-        model.chineseDateText = [NSString stringWithFormat:@"%d",[model.date wya_chineseDay]];
-    }
-    model.indexPath = indexPath;
-    cell.model = model;
     return cell;
 }
 
@@ -341,22 +381,18 @@
 
 #pragma mark - WYACalendarFlowLayoutDelegate
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger yearIndex = indexPath.section / 12;
-    NSInteger monthIndex = indexPath.section % 12;
-    NSDate *date = [self getFormatterMonthDaysWithYear:[self.yearArray[yearIndex] integerValue] section:monthIndex row:0];
-    NSInteger number = [self convertDateToTotalDays:date];
-    NSInteger weekDay = [NSDate wya_weekday:date];
-    number = number + (weekDay == 7 ? 0 : weekDay);
-    NSInteger integer = number / 7;
-    NSInteger remainder = number % 7;
-    if (remainder > 0) {
-        integer = integer + 1;
+    if (self.sectionOption == WYACalendarSectionMonth) {
+        CGFloat width = self.collectionView.cmam_width / 7;
+        CGFloat height = self.collectionView.cmam_height / 6;
+        CGSize size = CGSizeMake(width, height);
+        return size;
+    } else if (self.sectionOption == WYACalendarSectionWeek) {
+        CGFloat width = self.collectionView.cmam_width / 7;
+        CGFloat height = self.collectionView.cmam_height;
+        CGSize size = CGSizeMake(width, height);
+        return size;
     }
-    CGFloat width = self.collectionView.cmam_width / 7;
-    CGFloat height = self.collectionView.cmam_height / integer;
-    CGSize size = CGSizeMake(width, height);
-//    NSLog(@"collectionSize==%@",NSStringFromCGSize(size));
-    return size;
+    return CGSizeZero;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -382,130 +418,38 @@
 //    return CGSizeMake(0.01, 0.01);
 //}
 
-#pragma mark - WYACalendarOnlyOneRowLayoutDelegate
-- (CGSize)collectionView:(UICollectionView *)collectionView rowlayout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger yearIndex = indexPath.section / 12;
-    NSInteger monthIndex = indexPath.section % 12;
-    NSDate *date = [self getFormatterMonthDaysWithYear:[self.yearArray[yearIndex] integerValue] section:monthIndex row:0];
-
-    NSInteger number = [self convertDateToTotalDays:date];
-    NSInteger weekDay = [NSDate wya_weekday:date];
-    number = number + (weekDay == 7 ? 0 : weekDay);
-    NSInteger integer = number / 7;
-    NSInteger remainder = number % 7;
-    if (remainder > 0) {
-        integer = integer + 1;
-    }
-    CGFloat width = self.collectionView.cmam_width / 7;
-    CGFloat height = self.collectionView.cmam_height / integer;
-    CGSize size = CGSizeMake(width, height);
-    //    NSLog(@"collectionSize==%@",NSStringFromCGSize(size));
-    return size;
-}
-
 #pragma mark - UICollectionViewDelegate
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYACalendarCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-    cell.model.selectColor = self.calenderDateSelectColor;
-    cell.model.tagColor = self.calenderDateTagColor;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYACalendarCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
-    cell.model.selectColor = [UIColor clearColor];
-    cell.model.tagColor = [UIColor clearColor];
-}
-
+// 是否可以选中cell
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    WYACalendarItemCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
+    NSDate * date = [self getDateWithIndexPath:indexPath];
+    [self.selectDates addObject:date];
+    cell.selected = YES;
+    [cell reloadUI];
+}
+// 点击当前的cell是否可以被选中
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+//    if (self.canSelectMore) {
+//        return NO;
+//    }
     return YES;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    WYACalendarModel * model = self.calendarModels[indexPath.section][indexPath.row];
-
-    NSInteger weekDay = [NSDate wya_weekday:model.date];
-    if (weekDay < 7) {
-        if (indexPath.item < weekDay) {
-            return;
-        }
-    }
-
-    if (lastModel) {
-        if (lastModel == model) {
-            model.isSelect = NO;
-            lastModel = nil;
-        } else {
-            if (!self.canSelectMore) {
-                lastModel.isSelect = NO;
-                model.isSelect = YES;
-                lastModel = model;
-            } else {
-                model.isSelect = YES;
-                lastModel = model;
-            }
-        }
-    } else {
-        model.isSelect = YES;
-        lastModel = model;
-    }
-
-    [collectionView reloadData];
+// 对之前选中的cell进行反选
+- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+    // 如果allowsMultipleSelection = yes,indexpath为当前点击的cell的indexpath，如果allowsMultipleSelection = no，indexpath为上一个cell的indexpath
+    WYACalendarItemCell * cell = [collectionView cellForItemAtIndexPath:indexPath];
+    cell.selected = NO;
+    NSDate * date = [self getDateWithIndexPath:indexPath];
+    [self.selectDates removeObject:date];
+    [cell reloadUI];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    if (self.collectionView.collectionViewLayout == self.flowLayout) {
-
-        NSInteger index = scrollView.contentOffset.x/scrollView.cmam_width;
-        NSInteger yearIndex = index / 12;
-        NSInteger monthindex = index % 12;
-        self.bottomView.dateLabel.text = [NSString stringWithFormat:@"%d年%d月",[self.yearArray[yearIndex] integerValue], monthindex+1];
-
-        UIImage * image;
-        if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:imageWithIndexPath:)]) {
-            image = [self.dataSource calendarView:self imageWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:index]];
-        }
-
-        NSMutableAttributedString * text;
-        if (self.dataSource && [self.dataSource respondsToSelector:@selector(calendarView:textWithIndexPath:)]) {
-            text = [self.dataSource calendarView:self textWithIndexPath:[NSIndexPath indexPathForItem:0 inSection:index]];
-        }
-        if (image) {
-            self.backgroundImageView.hidden = NO;
-            self.backgroundImageView.image = image;
-        }
-
-        if (text) {
-            self.backgroundLabel.hidden = NO;
-            self.backgroundLabel.attributedText = text;
-        }
-    } else if (self.collectionView.collectionViewLayout == self.rowLayout) {
-        NSInteger offsetX = self.collectionView.contentOffset.x / self.collectionView.cmam_width;
-        NSInteger index = 0;
-        for (NSInteger i=0; i<self.calendarModels.count; i++) {
-            NSMutableArray * array = self.calendarModels[i];
-
-            NSInteger row = array.count / 7;
-            NSInteger column = array.count % 7;
-            if (column > 0) {
-                row = row + 1;
-            }
-            index = index + row;
-            NSInteger yearIndex = i / 12;
-            NSInteger monthIndex = i % 12;
-            if (offsetX < index) {
-                self.bottomView.dateLabel.text = [NSString stringWithFormat:@"%d年%d月",[self.yearArray[yearIndex] integerValue], monthIndex+1];
-                break;
-            }
-        }
-    }
 
 }
 
@@ -552,8 +496,7 @@
 }
 
 - (void)setCanSelectMore:(BOOL)canSelectMore{
-    _canSelectMore = canSelectMore;
-    [self.collectionView reloadData];
+    self.collectionView.allowsMultipleSelection = canSelectMore;
 }
 
 #pragma mark - Lazy
@@ -574,10 +517,11 @@
             }
             object.dataSource = self;
             object.delegate = self;
-            [object registerClass:[WYACalendarCell class] forCellWithReuseIdentifier:@"cell"];
+            [object registerClass:[WYACalendarItemCell class] forCellWithReuseIdentifier:@"cell"];
             [object registerClass:[WYACalendarHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header"];
             object.backgroundColor = [UIColor clearColor];
             object.showsHorizontalScrollIndicator = NO;
+            object.allowsMultipleSelection = NO;
             object;
        });
     }
@@ -647,16 +591,6 @@
     return _weekdayArray;
 }
 
-- (NSMutableArray *)calendarModels{
-    if(!_calendarModels){
-        _calendarModels = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
-            object;
-       });
-    }
-    return _calendarModels;
-}
-
 - (WYACalendarBottomView *)bottomView{
     if(!_bottomView){
         _bottomView = ({
@@ -672,21 +606,20 @@
         _flowLayout = ({
             WYACalendarFlowLayout * object = [[WYACalendarFlowLayout alloc]init];
             object.delegate = self;
+            object.calendar = self;
             object;
        });
     }
     return _flowLayout;
 }
 
-- (WYACalendarOnlyOneRowLayout *)rowLayout{
-    if(!_rowLayout){
-        _rowLayout = ({
-            WYACalendarOnlyOneRowLayout * object = [[WYACalendarOnlyOneRowLayout alloc]init];
-            object.delegate = self;
+- (NSMutableArray *)selectDates{
+    if(!_selectDates){
+        _selectDates = ({
+            NSMutableArray * object = [[NSMutableArray alloc]init];
             object;
        });
     }
-    return _rowLayout;
+    return _selectDates;
 }
-
 @end

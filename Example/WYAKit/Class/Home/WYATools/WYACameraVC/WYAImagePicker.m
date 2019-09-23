@@ -26,6 +26,10 @@
 @end
 
 @implementation WYAImagePicker
+{
+    NSMutableArray * videos;
+}
+
 - (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
     // 查看README文档
     NSLog(@"查看文档");
@@ -318,6 +322,7 @@
                                                                         photo.config.sortAscending = YES;
                                                                         photo.callBackBlock = ^(NSMutableArray<UIImage *> * _Nonnull medias, NSMutableArray<PHAsset *> * _Nonnull assets) {
                                                                             NSLog(@"images==%@", medias);
+                                                                            videos = assets;
                                                                             NSMutableArray * array = [NSMutableArray array];
                                                                             for (UIImage * image in medias) {
                                                                                 WYACameraModel * model = [[WYACameraModel alloc] init];
@@ -331,6 +336,7 @@
                                                                             }
                                                                             [strongSelf.collectionView reloadData];
                                                                         };
+            photo.modalPresentationStyle = UIModalPresentationFullScreen;
                                                                         [weakSelf presentViewController:photo animated:YES completion:nil];
 
                                                                     }];

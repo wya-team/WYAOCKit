@@ -10,9 +10,11 @@
 
 @implementation UITextField (Category)
 - (void)wya_setPlaceholedr:(NSString *)placeholedr color:(UIColor *)color font:(CGFloat)font {
-    self.placeholder = placeholedr;
-    [self setValue:[UIColor wya_hex:@"#cccccc"] forKeyPath:@"_placeholderLabel.textColor"];
-    [self setValue:FONT(font) forKeyPath:@"_placeholderLabel.font"];
+    if (!self.attributedPlaceholder) {
+        NSMutableAttributedString *placeholderString = [[NSMutableAttributedString alloc] initWithString:placeholedr attributes:@{NSForegroundColorAttributeName : color}];
+        [placeholderString addAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:font]} range:NSMakeRange(0, placeholedr.length)];
+        self.attributedPlaceholder = placeholderString;
+    }
 }
 - (void)wya_setLeftViewWithText:(NSString *)text textColor:(UIColor *)color font:(CGFloat)font {
     CGFloat width       = [UILabel getWidthWithTitle:text font:FONT(font)];

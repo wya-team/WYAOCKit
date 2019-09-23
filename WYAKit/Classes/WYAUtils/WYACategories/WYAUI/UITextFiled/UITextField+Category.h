@@ -116,6 +116,7 @@
 @end
 
 @interface UITextField (Action)
+
 - (void)wya_addTextChangeWithEvent:(UIControlEvents)event
                         textHandle:(void (^)(UITextField * text))textHandle;
 @end

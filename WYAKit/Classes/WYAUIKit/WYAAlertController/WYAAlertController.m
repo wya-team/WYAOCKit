@@ -21,7 +21,7 @@
 }
 
 - (void)dealloc {
-    [self.alertView removeFromSuperview];
+//    [self.alertView removeFromSuperview];
 }
 
 - (void)viewDidLoad {

@@ -32,6 +32,19 @@
     [self.navBar wya_addRightNavBarButtonWithNormalTitle:@[@"预览"]];
     self.navBar.delegate = self;
     [self.view addSubview:self.navBar];
+    if (!self.images) {
+        self.images = @[
+                        [UIImage loadBundleImage:@"0" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"1" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"2" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"8" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"4" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"5" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"6" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"7" ClassName:NSStringFromClass(self.class)],
+                        [UIImage loadBundleImage:@"3" ClassName:NSStringFromClass(self.class)],
+                        ];
+    }
 
     self.template.images = self.images;
     self.freedom.images = self.images;

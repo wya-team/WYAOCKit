@@ -48,10 +48,8 @@
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
     if ([self checkPointInSelfWithPoint:point]) {
-        NSLog(@"是");
         return YES;
     }
-    NSLog(@"否");
     return NO;
 }
 

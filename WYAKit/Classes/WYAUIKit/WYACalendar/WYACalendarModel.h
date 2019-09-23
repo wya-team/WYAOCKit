@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYACalendarModel : NSObject
 // 公历显示日期
-@property (nonatomic, copy) NSString * text;
+@property (nonatomic, copy, readonly) NSString * text;
 // 农历显示日期
 @property (nonatomic, copy) NSString * chineseDateText;
 // 日期字体大小
@@ -28,14 +28,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor * selectColor;
 // 日期标记颜色
 @property (nonatomic, strong) UIColor * tagColor;
-// 是否是今天
-@property (nonatomic, assign) BOOL isToday;
-// 当前日期是否被选中
-@property (nonatomic, assign) BOOL isSelect;
+// 日期是否在当前月份中
+@property (nonatomic, assign) BOOL isNowMonth;
 
 @property (nonatomic, strong) NSIndexPath * indexPath;
 
 @property (nonatomic, strong) NSDate * date;
+@property (nonatomic, assign, readonly) NSInteger year;
+@property (nonatomic, assign, readonly) NSInteger month;
+@property (nonatomic, assign, readonly) NSInteger day;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -65,7 +65,10 @@
     [UIView animateWithDuration:0.3
         delay:2
         options:UIViewAnimationOptionAllowUserInteraction
-        animations:^{ label.alpha = 0; }
+        animations:^{
+            label.alpha = 0;
+            view.alpha = 0;
+        }
         completion:^(BOOL finished) {
             [button removeFromSuperview];
         }];
@@ -124,7 +127,10 @@
     [UIView animateWithDuration:0.3
         delay:2
         options:UIViewAnimationOptionAllowUserInteraction
-        animations:^{ label.alpha = 0; }
+        animations:^{
+            label.alpha = 0;
+            view.alpha = 0;
+        }
         completion:^(BOOL finished) {
             [button removeFromSuperview];
         }];

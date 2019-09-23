@@ -38,7 +38,7 @@
 #pragma mark ======= Private Method
 - (AVAudioRecorder *)createAudioRecorderWithUrl:(NSURL *)url {
     NSError * recorderError;
-    AVAudioRecorder * audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:[NTYAmrCoder audioRecorderSettings] error:&recorderError];
+    AVAudioRecorder * audioRecorder = [[AVAudioRecorder alloc] initWithURL:url settings:self.setting error:&recorderError];
     audioRecorder.delegate          = self;
     audioRecorder.meteringEnabled   = YES;
     return audioRecorder;

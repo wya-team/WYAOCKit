@@ -691,30 +691,37 @@ static BOOL _sortAscending;
 
 - (AVMutableVideoComposition *)getVideoComposition:(AVAsset *)asset renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity
 {
-    AVMutableComposition *composition = [AVMutableComposition composition];
-    //视频通道
-    AVMutableCompositionTrack *assetVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    //音频通道
-    AVMutableCompositionTrack *assetAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
-
-    NSError *error = nil;
-    //裁剪时长
-    CMTimeRange timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
-
-    AVAssetTrack *videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo].firstObject;
-    AVAssetTrack *audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio].firstObject;
+    AVAssetTrack *videoTrack;
+    AVAssetTrack *audioTrack;
+    if ([[asset tracksWithMediaType:AVMediaTypeVideo] count] != 0) {
+        videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo][0];
+    }
+    if ([[asset tracksWithMediaType:AVMediaTypeAudio] count] != 0) {
+        audioTrack = [asset tracksWithMediaType:AVMediaTypeAudio][0];
+    }
 
     if (!videoTrack) {
         return nil;
     }
+
+    //裁剪时长
+    CMTimeRange timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
+
+    AVMutableComposition *composition = [AVMutableComposition composition];
+    //视频通道
+    AVMutableCompositionTrack *assetVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    NSError *error = nil;
     [assetVideoTrack insertTimeRange:timeRange ofTrack:videoTrack atTime:kCMTimeZero error:&error];
     NSLog(@"%@", error);
+    //音频通道
+    AVMutableCompositionTrack *assetAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    NSError * audioError;
     if (audioTrack) {
-        [assetAudioTrack insertTimeRange:timeRange ofTrack:audioTrack atTime:kCMTimeZero error:&error];
-        NSLog(@"%@", error);
+        [assetAudioTrack insertTimeRange:timeRange ofTrack:audioTrack atTime:kCMTimeZero error:&audioError];
+        NSLog(@"%@", audioError);
     }
 
-    if (error) {
+    if (error && audioError) {
         return nil;
     }
 
@@ -801,23 +808,19 @@ static BOOL _sortAscending;
 
 - (void)addWatermark:(AVMutableVideoComposition *)videoCom renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity
 {
-    //    CATextLayer *titleLayer = [CATextLayer layer];
-    //    [titleLayer setFont:(__bridge CFTypeRef)[UIFont systemFontOfSize:25].fontName];
-    //    titleLayer.contentsScale = 2;
-    //    [titleLayer setFont:@"HiraKakuProN-W3"];
-    //    titleLayer.fontSize = 70;
-    //    titleLayer.wrapped = YES;
-    //    titleLayer.string = @"just for test";
-    //    titleLayer.masksToBounds = YES;
-    //    titleLayer.foregroundColor = [[UIColor blueColor] CGColor];
-    //    titleLayer.alignmentMode = kCAAlignmentCenter;
-    //    titleLayer.frame = CGRectMake(20, 100, renderSize.width-40, 100);
-    //    titleLayer.backgroundColor = [UIColor whiteColor].CGColor;
+    NSString * text = @"just test";
+
+    CATextLayer *titleLayer = [CATextLayer layer];
+    titleLayer.string = @"AVSE";
+    titleLayer.foregroundColor = [[UIColor whiteColor] CGColor];
+    titleLayer.shadowOpacity = 0.5;
+    titleLayer.alignmentMode = kCAAlignmentCenter;
+    [titleLayer setFrame:CGRectMake(50, 100, 200, 50)];
 
     CALayer *overlayLayer = [CALayer layer];
     overlayLayer.frame = (CGRect){CGPointZero, renderSize};
 
-    //    [overlayLayer addSublayer:titleLayer];
+    [overlayLayer addSublayer:titleLayer];
 
     //水印图片
     if (watermarkImage) {

@@ -5,17 +5,18 @@
 //  Created by 李世航 on 2019/7/31.
 //
 
-#import "WYACalendarCell.h"
+#import "WYACalendarItemCell.h"
 
-@interface WYACalendarCell ()
+@interface WYACalendarItemCell ()
 @property (nonatomic, strong) CALayer * imageLayer;
+@property (nonatomic, strong) UIView * topContainerView;
 @property (nonatomic, strong) UILabel * titleLabel;
 @property (nonatomic, strong) UIView * tagView;
 @property (nonatomic, strong) UIImage * backgroundImage;
 
 @end
 
-@implementation WYACalendarCell
+@implementation WYACalendarItemCell
 #pragma mark - LifeCircle
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -29,6 +30,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    
+
     CGFloat titleLabel_x = (self.contentView.cmam_width - 25 * SizeAdapter) / 2;
     CGFloat titleLabel_y = 5 * SizeAdapter;
     CGFloat titleLabel_width = 25 * SizeAdapter;
@@ -50,37 +53,66 @@
 - (void)setModel:(WYACalendarModel *)model{
     _model = model;
     if (model) {
-        if (model.isToday) {
-            if (model.isSelect) {
+        if ([model.date wya_isToday]) {
+            if (self.isSelected) {
                 self.titleLabel.backgroundColor = model.selectColor;
             } else {
                 self.titleLabel.backgroundColor = model.todayColor;
             }
-            if (model.isSelect) {
+            if (self.isSelected) {
                 self.tagView.backgroundColor = model.tagColor;
             } else {
                 self.tagView.backgroundColor = model.todayTagColor;
             }
         } else {
-            if (model.isSelect) {
+            if (self.isSelected) {
                 self.titleLabel.backgroundColor = model.selectColor;
             } else {
                 self.titleLabel.backgroundColor = [UIColor clearColor];
             }
-            if (model.isSelect) {
+            if (self.isSelected) {
                 self.tagView.backgroundColor = model.tagColor;
             } else {
                 self.tagView.backgroundColor = [UIColor clearColor];
             }
         }
-
-
         self.titleLabel.text = model.text;
-        self.titleLabel.textColor = model.titleColor;
         self.titleLabel.font = model.titleFont;
-
-
+//        if (model.isNowMonth) {
+            self.titleLabel.textColor = model.titleColor;
+//        } else {
+//            self.titleLabel.textColor = [UIColor grayColor];
+//        }
     }
+}
+
+- (void)reloadUI{
+    if ([self.model.date wya_isToday]) {
+        if (self.isSelected) {
+            self.titleLabel.backgroundColor = self.model.selectColor;
+        } else {
+            self.titleLabel.backgroundColor = self.model.todayColor;
+        }
+        if (self.isSelected) {
+            self.tagView.backgroundColor = self.model.tagColor;
+        } else {
+            self.tagView.backgroundColor = self.model.todayTagColor;
+        }
+    } else {
+        if (self.isSelected) {
+            self.titleLabel.backgroundColor = self.model.selectColor;
+        } else {
+            self.titleLabel.backgroundColor = [UIColor clearColor];
+        }
+        if (self.isSelected) {
+            self.tagView.backgroundColor = self.model.tagColor;
+        } else {
+            self.tagView.backgroundColor = [UIColor clearColor];
+        }
+    }
+    self.titleLabel.text = self.model.text;
+    self.titleLabel.font = self.model.titleFont;
+    self.titleLabel.textColor = self.model.titleColor;
 }
 
 #pragma mark - Lazy
@@ -108,4 +140,14 @@
 
 
 
+
+- (UIView *)topContainerView{
+    if(!_topContainerView){
+        _topContainerView = ({
+            UIView * object = [[UIView alloc]init];
+            object;
+       });
+    }
+    return _topContainerView;
+}
 @end
