@@ -29,7 +29,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self setupUI];
+
     [self photoAlbum];
 }
 
@@ -42,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self setupUI];
     WYAPhotoBrowserViewController * photoB = [[WYAPhotoBrowserViewController alloc] init];
     [self.navigationController pushViewController:photoB animated:NO];
 }
