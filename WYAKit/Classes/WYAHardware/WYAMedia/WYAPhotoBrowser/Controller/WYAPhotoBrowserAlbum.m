@@ -25,12 +25,11 @@
 
     //去掉导航栏底部的黑线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
+    [self photoAlbum];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-
-    [self photoAlbum];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

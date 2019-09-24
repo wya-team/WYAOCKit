@@ -59,6 +59,7 @@
             UIImageView * object = [[UIImageView alloc]init];
             object.layer.cornerRadius  = 2.f;
             object.layer.masksToBounds = YES;
+            object.contentMode = UIViewContentModeScaleAspectFill;
             object.image = [UIImage loadBundleImage:@"icon_photo" ClassName:NSStringFromClass(self.class)];
             object;
        });

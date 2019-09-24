@@ -184,6 +184,9 @@
 {
     selectOriginalImage = isSelect;
     WYAPhotoBrowserModel * model = [self photoBrowserModel];
+    if ([_imageArray containsObject:model.image]) {
+        [_imageArray removeObject:model.image];
+    }
     if (isSelect) {
         WeakSelf(weakSelf);
         [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestOriginalImageForAsset:model.asset progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
@@ -207,10 +210,8 @@
         if ([self.selectedModels containsObject:model]) {
             [self.selectedModels removeObject:model];
         }
-        if ([_imageArray containsObject:model.image]) {
-            [_imageArray removeObject:model.image];
-        }
     }
+    [self resetDontBtnState];
 }
 
 - (void)edit

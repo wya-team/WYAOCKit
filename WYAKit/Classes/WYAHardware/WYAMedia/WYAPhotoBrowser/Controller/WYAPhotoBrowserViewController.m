@@ -39,6 +39,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController.navigationBar setTranslucent:YES];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithWhite:0.9 alpha:0.1];
     //去掉导航栏底部的黑线
     self.navigationController.navigationBar.shadowImage = [UIImage new];
 
@@ -359,7 +360,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
         _collectionView.dataSource      = self;
         _collectionView.delegate        = self;
         if (@available(iOS 11, *)) {
-            _collectionView.contentInset = UIEdgeInsetsZero;
+            _collectionView.contentInset = UIEdgeInsetsMake(5, 0, 0, 0);
         } else {
             _collectionView.contentInset = UIEdgeInsetsMake(WYATopHeight, 0, 0, 0);
         }
