@@ -10,7 +10,6 @@
 
 @interface WYAEditCameraCell ()
 
-@property (nonatomic, strong) UIButton * button;
 @end
 
 @implementation WYAEditCameraCell
