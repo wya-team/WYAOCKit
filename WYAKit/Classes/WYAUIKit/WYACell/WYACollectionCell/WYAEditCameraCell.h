@@ -16,7 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYAEditCameraCell : UICollectionViewCell
 @property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UIImage * image;
+@property (nonatomic, strong) UIButton * button;
 @property (nonatomic, copy) void (^editBlock)(void);
+
 @end
 
 NS_ASSUME_NONNULL_END
