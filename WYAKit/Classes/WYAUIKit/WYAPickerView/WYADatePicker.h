@@ -36,11 +36,10 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 
 @protocol WYADatePickerDelegate <NSObject>
 
-@required
+@optional
 - (NSDate *)wya_MinDateWithDatePicker:(WYADatePicker *)datePicker style:(WYADatePickerStyle)style;
 - (NSDate *)wya_MaxDateWithDatePicker:(WYADatePicker *)datePicker style:(WYADatePickerStyle)style;
 
-@optional
 - (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result;
 
 @end
@@ -50,6 +49,8 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
 @property (nonatomic, weak) id<WYADatePickerDelegate> wya_delegate;
 /// 添加默认选中时间（不传则默认选中当前时间）,选中时间必须在最大和最小时间范围之内
 @property (nonatomic, strong) NSDate * selectDate;
+@property (nonatomic, strong) NSDate * minDate;
+@property (nonatomic, strong) NSDate * maxDate;
 /// 样式
 @property (nonatomic, assign, readonly) WYADatePickerStyle datePickerStyle;
 

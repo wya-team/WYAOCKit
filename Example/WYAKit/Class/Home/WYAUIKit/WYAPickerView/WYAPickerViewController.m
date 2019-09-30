@@ -268,6 +268,9 @@
         if (indexPath.row == 0) {
             self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero];
             self.datePicker.pickerItemFont = FONT(15);
+            self.datePicker.minDate = [NSDate wya_dateWithString:@"2018-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
+            self.datePicker.maxDate = [NSDate wya_dateWithString:@"2020-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
+
         } else if (indexPath.row == 1) {
             self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleYear];
         } else if (indexPath.row == 2) {
@@ -316,7 +319,7 @@
             
             self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMinuteAndSecond];
         }
-        self.datePicker.wya_delegate = self;
+//        self.datePicker.wya_delegate = self;
         self.datePicker.pickerHeight = 260;
         self.datePicker.selectDate   = [[[NSDate date] wya_offsetYears:-1] wya_offsetDays:1];
         self.datePicker.bounds =

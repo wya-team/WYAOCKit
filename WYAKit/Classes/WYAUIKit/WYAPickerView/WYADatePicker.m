@@ -25,11 +25,7 @@ static CGFloat titleHeight      = 44.0;
 //@property (nonatomic, copy) NSString * hourString;
 //@property (nonatomic, copy) NSString * minuteString;
 //@property (nonatomic, copy) NSString * secondString;
-/// 最小的日期
-@property (nonatomic, strong) NSDate * minDate;
 
-/// 最大的日期
-@property (nonatomic, strong) NSDate * maxDate;
 
 @end
 
