@@ -300,16 +300,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BD7DA6E1-96F6-484E-9AD3-1966F3476567"
+            uuid = "093BEF55-F3CA-4E96-9E54-2C04E6C39FA7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerManager.m"
+            filePath = "WYAKit/Class/Home/WYAUIKit/WYAPickerView/WYAPickerViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
-            landmarkName = "-minuteArray"
+            startingLineNumber = "574"
+            endingLineNumber = "574"
+            landmarkName = "-wya_ChooseWithDatePicker:ResultString:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

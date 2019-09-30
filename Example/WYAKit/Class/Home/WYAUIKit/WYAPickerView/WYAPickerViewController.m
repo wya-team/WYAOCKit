@@ -319,7 +319,7 @@
             
             self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMinuteAndSecond];
         }
-//        self.datePicker.wya_delegate = self;
+        self.datePicker.wya_delegate = self;
         self.datePicker.pickerHeight = 260;
         self.datePicker.selectDate   = [[[NSDate date] wya_offsetYears:-1] wya_offsetDays:1];
         self.datePicker.bounds =
@@ -571,6 +571,7 @@
 }
 
 - (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result {
+    NSLog(@"result==%@", result);
 }
 
 @end
