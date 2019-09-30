@@ -9,7 +9,7 @@
 #import "WYAPickerViewController.h"
 #import "WYAPopVerReadMeViewController.h"
 
-@interface WYAPickerViewController () <WYAPickerViewDelegate, UITableViewDelegate,
+@interface WYAPickerViewController () <WYAPickerViewDelegate, WYADatePickerDelegate, UITableViewDelegate,
                                        UITableViewDataSource,
                                        UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) UITableView * tableView;
@@ -265,45 +265,60 @@
                                                       AlertStyle:WYAAlertStyleCustomSheet];
         [self presentViewController:self.alert animated:YES completion:nil];
     } else if (indexPath.section == 1) {
-        self.datePicker              = [[WYADatePicker alloc] init];
-        self.datePicker.pickerHeight = 260;
-        self.datePicker.selectDate   = [NSDate wya_begindayOfMonth:[NSDate date]];
         if (indexPath.row == 0) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleDateHourMinuteSecond;
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero];
+            self.datePicker.pickerItemFont = FONT(15);
         } else if (indexPath.row == 1) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleYear;
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleYear];
         } else if (indexPath.row == 2) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMouth;
-        } else if (indexPath.row == 3) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleHour;
-        } else if (indexPath.row == 4) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMinute;
-        } else if (indexPath.row == 5) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleSecond;
-        } else if (indexPath.row == 6) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleYearAndMonth;
-        } else if (indexPath.row == 7) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleDate;
-        } else if (indexPath.row == 8) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleDateHour;
-        } else if (indexPath.row == 9) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleDateHourMinute;
-        } else if (indexPath.row == 10) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDay;
-        } else if (indexPath.row == 11) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHour;
-        } else if (indexPath.row == 12) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinute;
-        } else if (indexPath.row == 13) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMonthDayHourMinuteSecond;
-        } else if (indexPath.row == 14) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleTime;
-        } else if (indexPath.row == 15) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleTimeAndSecond;
-        } else if (indexPath.row == 16) {
-            self.datePicker.datePickerStyle = WYADatePickerStyleMinuteAndSecond;
-        }
 
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMouth];
+        } else if (indexPath.row == 3) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleHour];
+        } else if (indexPath.row == 4) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMinute];
+        } else if (indexPath.row == 5) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleSecond];
+        } else if (indexPath.row == 6) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleYearAndMonth];
+        } else if (indexPath.row == 7) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleDate];
+        } else if (indexPath.row == 8) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleDateHour];
+        } else if (indexPath.row == 9) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleDateHourMinute];
+        } else if (indexPath.row == 10) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMonthDay];
+        } else if (indexPath.row == 11) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMonthDayHour];
+        } else if (indexPath.row == 12) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMonthDayHourMinute];
+        } else if (indexPath.row == 13) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMonthDayHourMinuteSecond];
+        } else if (indexPath.row == 14) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleTime];
+        } else if (indexPath.row == 15) {
+
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleTimeAndSecond];
+        } else if (indexPath.row == 16) {
+            
+            self.datePicker              = [[WYADatePicker alloc] initWithFrame:CGRectZero style:WYADatePickerStyleMinuteAndSecond];
+        }
+        self.datePicker.wya_delegate = self;
+        self.datePicker.pickerHeight = 260;
+        self.datePicker.selectDate   = [[[NSDate date] wya_offsetYears:-1] wya_offsetDays:1];
         self.datePicker.bounds =
             CGRectMake(0, 0, self.view.frame.size.width, [self.datePicker getPickerViewHeight]);
         WYAAlertController * dateAlert = [WYAAlertController wya_alertWithCustomView:self.datePicker
@@ -327,7 +342,227 @@
         //        pickerView.viewController = alert;
     }
 }
+- (NSDate *)wya_MinDateWithDatePicker:(WYADatePicker *)datePicker style:(WYADatePickerStyle)style{
+    switch (style) {
+        case WYADatePickerStyleDateHourMinuteSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleYear:
+            {
+                // 最好是个完整的时间
+                NSDate * date = [NSDate wya_dateWithString:@"2018" format:@"yyyy"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMouth:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01" format:@"yyyy-MM"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleHour:
+            {   // 最好是个完整的时间
+                NSDate * date = [NSDate wya_dateWithString:@"2019-09-30 01" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMinute:
+            {
+                // 最好是个完整的时间
+                NSDate * date = [NSDate wya_dateWithString:@"2019-09-30 01:01" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2019-09-30 01:59:01" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleYearAndMonth:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01" format:@"yyyy-MM"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDate:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05" format:@"yyyy-MM-dd"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDateHour:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDateHourMinute:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08:08" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDay:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05" format:@"yyyy-MM-dd"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHour:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHourMinute:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08:08" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHourMinuteSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08:08:08" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleTime:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 08:08" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleTimeAndSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 08:08:08" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMinuteAndSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 09:08:55" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        default:
+            break;
+    }
+    return nil;
 
+}
+- (NSDate *)wya_MaxDateWithDatePicker:(WYADatePicker *)datePicker style:(WYADatePickerStyle)style{
+    switch (style) {
+        case WYADatePickerStyleDateHourMinuteSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleYear:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2020" format:@"yyyy"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMouth:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-12" format:@"yyyy-MM"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleHour:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2019-9-30 24" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMinute:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2019-09-30 01:59" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2019-09-30 01:59:59" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleYearAndMonth:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2020-01" format:@"yyyy-MM"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDate:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2020-01-05" format:@"yyyy-MM-dd"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDateHour:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-06-05 08" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleDateHourMinute:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-06-05 08:08" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDay:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-02" format:@"yyyy-MM-dd"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHour:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 23" format:@"yyyy-MM-dd HH"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHourMinute:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08:55" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMonthDayHourMinuteSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-01-05 08:08:55" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleTime:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 23:08" format:@"yyyy-MM-dd HH:mm"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleTimeAndSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 23:23:23" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        case WYADatePickerStyleMinuteAndSecond:
+            {
+                NSDate * date = [NSDate wya_dateWithString:@"2018-10-01 09:55:55" format:@"yyyy-MM-dd HH:mm:ss"];
+                return date;
+            }
+            break;
+        default:
+            break;
+    }
+    return nil;
+}
 - (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result {
     NSLog(@"result==%@", result);
 }

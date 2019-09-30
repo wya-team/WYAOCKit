@@ -24,6 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSDateComponents * selectComponents;
 @property (nonatomic, strong) NSDate * selectDate;
+
+/// 获取当前选中日期在选择器上对应的选择行数
+@property (nonatomic, assign) NSInteger yearRow;
+@property (nonatomic, assign) NSInteger monthRow;
+@property (nonatomic, assign) NSInteger dayRow;
+@property (nonatomic, assign) NSInteger hourRow;
+@property (nonatomic, assign) NSInteger minuteRow;
+@property (nonatomic, assign) NSInteger secondRow;
 @end
 
 NS_ASSUME_NONNULL_END

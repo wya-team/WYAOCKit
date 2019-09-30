@@ -19,20 +19,33 @@ static CGFloat titleHeight      = 44.0;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, copy) NSString * resultString;
 @property (nonatomic, strong) NSDate * nowDate;
-@property (nonatomic, copy) NSString * yearString;
-@property (nonatomic, copy) NSString * mouthString;
-@property (nonatomic, copy) NSString * dayString;
-@property (nonatomic, copy) NSString * hourString;
-@property (nonatomic, copy) NSString * minuteString;
-@property (nonatomic, copy) NSString * secondString;
+//@property (nonatomic, copy) NSString * yearString;
+//@property (nonatomic, copy) NSString * mouthString;
+//@property (nonatomic, copy) NSString * dayString;
+//@property (nonatomic, copy) NSString * hourString;
+//@property (nonatomic, copy) NSString * minuteString;
+//@property (nonatomic, copy) NSString * secondString;
+/// 最小的日期
+@property (nonatomic, strong) NSDate * minDate;
+
+/// 最大的日期
+@property (nonatomic, strong) NSDate * maxDate;
 
 @end
 
 @implementation WYADatePicker
 
 - (instancetype)initWithFrame:(CGRect)frame {
+
+    return [self initWithFrame:frame style:WYADatePickerStyleDateHourMinuteSecond];
+}
+
+- (instancetype)initWithFrame:(CGRect)frame style:(WYADatePickerStyle)style{
     self = [super initWithFrame:frame];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+        _datePickerStyle = style;
+    }
     return self;
 }
 
@@ -100,7 +113,6 @@ static CGFloat titleHeight      = 44.0;
                 label.text =
                     [NSString stringWithFormat:@"%@秒", self.datePickerManager.secondArray[row]];
             }
-
         } break;
         case WYADatePickerStyleYear: {
             label.frame = CGRectMake(0, 0, self.cmam_width, self.pickerItemHeight ? self.pickerItemHeight : 44);
@@ -293,238 +305,479 @@ static CGFloat titleHeight      = 44.0;
     return label;
 }
 
-/*
- - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row
- forComponent:(NSInteger)component{
-
- }
-
- - (nullable NSAttributedString *)pickerView:(UIPickerView *)pickerView
- attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component NS_AVAILABLE_IOS(6_0)
- __TVOS_PROHIBITED; // attributed title is favored if both methods are implemented
- 
- 
- */
-
 #pragma mark - UIPickerViewDelegate
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     switch (self.datePickerStyle) {
         case WYADatePickerStyleDateHourMinuteSecond: {
             if (component == 0) {
-                self.datePickerManager.selectYear =
-                    [self.datePickerManager.yearArray[row] integerValue];
-                self.datePickerManager.selectMonth = [self.datePickerManager.monthArray[
-                    [pickerView selectedRowInComponent:component + 1]] integerValue];
-                [self.pickView reloadComponent:2];
-                self.yearString = self.datePickerManager.yearArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+                dateComponent.month = [self.datePickerManager.monthArray[0] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+                [self.pickView selectRow:0 inComponent:5 animated:YES];
             } else if (component == 1) {
-                self.datePickerManager.selectYear = [self.datePickerManager.yearArray[
-                    [pickerView selectedRowInComponent:component - 1]] integerValue];
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
                 [self.pickView reloadComponent:2];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView reloadComponent:5];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+                [self.pickView selectRow:0 inComponent:5 animated:YES];
             } else if (component == 2) {
-                self.dayString = self.datePickerManager.dayArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView reloadComponent:5];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+                [self.pickView selectRow:0 inComponent:5 animated:YES];
             } else if (component == 3) {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:4];
+                [self.pickView reloadComponent:5];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+                [self.pickView selectRow:0 inComponent:5 animated:YES];
             } else if (component == 4) {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:5];
+                [self.pickView selectRow:0 inComponent:5 animated:YES];
             } else {
-                self.secondString = self.datePickerManager.secondArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.second = [self.datePickerManager.secondArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@:%@:%@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString, self.minuteString,
-                                           self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d:%d",
+                                 self.datePickerManager.selectComponents.year,
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute,
+                                 self.datePickerManager.selectComponents.second];
             NSLog(@"string==%@", self.resultString);
         } break;
         case WYADatePickerStyleYear: {
-            self.resultString = self.datePickerManager.yearArray[row];
+
+            NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+            dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+            self.datePickerManager.selectComponents = dateComponent;
+            self.resultString = [NSString stringWithFormat:@"%d",self.datePickerManager.selectComponents.year];
         } break;
         case WYADatePickerStyleMouth: {
-            self.resultString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+            NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+            dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+            self.datePickerManager.selectComponents = dateComponent;
+            self.resultString = [NSString stringWithFormat:@"%d",self.datePickerManager.selectComponents.month];
         } break;
         case WYADatePickerStyleHour: {
-            self.resultString = self.datePickerManager.hourArray[row];
+            NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+            dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+            self.datePickerManager.selectComponents = dateComponent;
+            self.resultString = [NSString stringWithFormat:@"%d",self.datePickerManager.selectComponents.hour];
         } break;
         case WYADatePickerStyleMinute: {
-            self.resultString = self.datePickerManager.minuteArray[row];
+            NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+            dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+            self.datePickerManager.selectComponents = dateComponent;
+            self.resultString = [NSString stringWithFormat:@"%d",self.datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleSecond: {
-            self.resultString = self.datePickerManager.secondArray[row];
+            NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+            dateComponent.second = [self.datePickerManager.secondArray[row] integerValue];
+            self.datePickerManager.selectComponents = dateComponent;
+            self.resultString = [NSString stringWithFormat:@"%d",self.datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleYearAndMonth: {
             if (component == 0) {
-                self.yearString = self.datePickerManager.yearArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+                dateComponent.month = [self.datePickerManager.monthArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:1];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
             } else {
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@", self.yearString, self.mouthString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
+                                 self.datePickerManager.selectComponents.year,
+                                 self.datePickerManager.selectComponents.month];
         } break;
         case WYADatePickerStyleDate: {
             if (component == 0) {
-                self.datePickerManager.selectYear =
-                    [self.datePickerManager.yearArray[row] integerValue];
-                self.datePickerManager.selectMonth = [self.datePickerManager.monthArray[
-                    [pickerView selectedRowInComponent:component + 1]] integerValue];
-                [self.pickView reloadComponent:2];
-                self.yearString = self.datePickerManager.yearArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+                dateComponent.month = [self.datePickerManager.monthArray[0] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+
             } else if (component == 1) {
-                self.datePickerManager.selectYear = [self.datePickerManager.yearArray[
-                    [pickerView selectedRowInComponent:component - 1]] integerValue];
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
                 [self.pickView reloadComponent:2];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+
             } else {
-                self.dayString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.dayArray[row] integerValue]];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString = [NSString
-                stringWithFormat:@"%@-%@-%@", self.yearString, self.mouthString, self.dayString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d",
+                                 self.datePickerManager.selectComponents.year,
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day];
         } break;
         case WYADatePickerStyleDateHour: {
             if (component == 0) {
-                self.datePickerManager.selectYear =
-                    [self.datePickerManager.yearArray[row] integerValue];
-                self.datePickerManager.selectMonth = [self.datePickerManager.monthArray[
-                    [pickerView selectedRowInComponent:component + 1]] integerValue];
-                [self.pickView reloadComponent:2];
-                self.yearString = self.datePickerManager.yearArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+                dateComponent.month = [self.datePickerManager.monthArray[0] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+
             } else if (component == 1) {
-                self.datePickerManager.selectYear = [self.datePickerManager.yearArray[
-                    [pickerView selectedRowInComponent:component - 1]] integerValue];
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
                 [self.pickView reloadComponent:2];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                [self.pickView reloadComponent:3];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+
             } else if (component == 2) {
-                self.dayString = self.datePickerManager.dayArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:3];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+
             } else {
-                self.hourString = self.datePickerManager.hourArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d",
+                                 self.datePickerManager.selectComponents.year,
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour];
         } break;
         case WYADatePickerStyleDateHourMinute: {
             if (component == 0) {
-                self.datePickerManager.selectYear =
-                    [self.datePickerManager.yearArray[row] integerValue];
-                self.datePickerManager.selectMonth = [self.datePickerManager.monthArray[
-                    [pickerView selectedRowInComponent:component + 1]] integerValue];
-                [self.pickView reloadComponent:2];
-                self.yearString = self.datePickerManager.yearArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.year = [self.datePickerManager.yearArray[row] integerValue];
+                dateComponent.month = [self.datePickerManager.monthArray[0] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+
             } else if (component == 1) {
-                self.datePickerManager.selectYear = [self.datePickerManager.yearArray[
-                    [pickerView selectedRowInComponent:component - 1]] integerValue];
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
                 [self.pickView reloadComponent:2];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+
             } else if (component == 2) {
-                self.dayString = self.datePickerManager.dayArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+
             } else if (component == 3) {
-                self.hourString = self.datePickerManager.hourArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
+
             } else {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@:%@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d",
+                                 self.datePickerManager.selectComponents.year,
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute];
             NSLog(@"string==%@", self.resultString);
         } break;
         case WYADatePickerStyleMonthDay: {
             if (component == 0) {
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
-                [self.pickView reloadComponent:1];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+
             } else {
-                self.dayString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.dayArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@", self.mouthString, self.dayString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day];
         } break;
         case WYADatePickerStyleMonthDayHour: {
             if (component == 0) {
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
-                [self.pickView reloadComponent:1];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
             } else if (component == 1) {
-                self.dayString = self.datePickerManager.dayArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:2];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
             } else {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString = [NSString
-                stringWithFormat:@"%@-%@ %@", self.mouthString, self.dayString, self.hourString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d",
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour];
         } break;
         case WYADatePickerStyleMonthDayHourMinute: {
             if (component == 0) {
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
-                [self.pickView reloadComponent:1];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
             } else if (component == 1) {
-                self.dayString = self.datePickerManager.dayArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:2];
+                [self.pickView reloadComponent:3];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
             } else if (component == 2) {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:3];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
             } else {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@ %@:%@", self.mouthString, self.dayString,
-                                           self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d:%d",
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleMonthDayHourMinuteSecond: {
             if (component == 0) {
-                self.datePickerManager.selectMonth =
-                    [self.datePickerManager.monthArray[row] integerValue];
-                [self.pickView reloadComponent:1];
-                self.mouthString = [NSString stringWithFormat:@"%02ld", [self.datePickerManager.monthArray[row] integerValue]];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.month = [self.datePickerManager.monthArray[row] integerValue];
+                dateComponent.day = [self.datePickerManager.dayArray[0] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
             } else if (component == 1) {
-                self.dayString = self.datePickerManager.dayArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.day = [self.datePickerManager.dayArray[row] integerValue];
+                dateComponent.hour = [self.datePickerManager.hourArray[0] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:2];
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
             } else if (component == 2) {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:3];
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:3 animated:YES];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
             } else if (component == 3) {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:4];
+                [self.pickView selectRow:0 inComponent:4 animated:YES];
             } else {
-                self.secondString = self.datePickerManager.secondArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.second = [self.datePickerManager.secondArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@ %@:%@:%@", self.mouthString, self.dayString,
-                                           self.hourString, self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d:%d:%d",
+                                 self.datePickerManager.selectComponents.month,
+                                 self.datePickerManager.selectComponents.day,
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute,
+                                 self.datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleTime: {
             if (component == 0) {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
             } else if (component == 1) {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@:%@", self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleTimeAndSecond: {
             if (component == 0) {
-                self.hourString = self.datePickerManager.hourArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.hour = [self.datePickerManager.hourArray[row] integerValue];
+                dateComponent.minute = [self.datePickerManager.minuteArray[0] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
             } else if (component == 1) {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadComponent:2];
+                [self.pickView selectRow:0 inComponent:2 animated:YES];
             } else {
-                self.secondString = self.datePickerManager.secondArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.second = [self.datePickerManager.secondArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString = [NSString stringWithFormat:@"%@:%@:%@", self.hourString,
-                                                           self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d:%d",
+                                 self.datePickerManager.selectComponents.hour,
+                                 self.datePickerManager.selectComponents.minute,
+                                 self.datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleMinuteAndSecond: {
             if (component == 0) {
-                self.minuteString = self.datePickerManager.minuteArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.minute = [self.datePickerManager.minuteArray[row] integerValue];
+                dateComponent.second = [self.datePickerManager.secondArray[0] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
+                [self.pickView reloadAllComponents];
+                [self.pickView selectRow:0 inComponent:1 animated:YES];
             } else {
-                self.secondString = self.datePickerManager.secondArray[row];
+                NSDateComponents * dateComponent = self.datePickerManager.selectComponents;
+                dateComponent.second = [self.datePickerManager.secondArray[row] integerValue];
+                self.datePickerManager.selectComponents = dateComponent;
             }
-            self.resultString =
-                [NSString stringWithFormat:@"%@:%@", self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
+                                 self.datePickerManager.selectComponents.minute,
+                                 self.datePickerManager.selectComponents.second];
         } break;
         default:
             break;
@@ -582,7 +835,8 @@ static CGFloat titleHeight      = 44.0;
         case WYADatePickerStyleYearAndMonth:            return 2;
         case WYADatePickerStyleDate:                    return 3;
         case WYADatePickerStyleDateHour:                return 4;
-        case WYADatePickerStyleDateHourMinute:          return 2;
+        case WYADatePickerStyleDateHourMinute:          return 5;
+        case WYADatePickerStyleMonthDay:                return 2;
         case WYADatePickerStyleMonthDayHour:            return 3;
         case WYADatePickerStyleMonthDayHourMinute:      return 4;
         case WYADatePickerStyleMonthDayHourMinuteSecond:return 5;
@@ -763,13 +1017,6 @@ static CGFloat titleHeight      = 44.0;
     [super setFrame:frame];
     [self.pickView reloadAllComponents];
 }
-- (void)setDatePickerStyle:(WYADatePickerStyle)datePickerStyle {
-    _datePickerStyle              = datePickerStyle;
-    WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
-    datePicker.selectDate         = self.selectDate;
-    self.datePickerManager        = datePicker;
-    [self.pickView reloadAllComponents];
-}
 
 - (void)setAutoTitleChange:(BOOL)autoTitleChange {
     _autoTitleChange = autoTitleChange;
@@ -800,43 +1047,40 @@ static CGFloat titleHeight      = 44.0;
           datePickerManager.selectComponents.minute, datePickerManager.selectComponents.second);
     switch (self.datePickerStyle) {
         case WYADatePickerStyleDateHourMinuteSecond: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:2
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:3
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:4
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.second
+            [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:5
                             animated:YES];
-            self.yearString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.secondString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.second];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@:%@:%@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString, self.minuteString,
-                                           self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d:%d",
+                                 datePickerManager.selectComponents.year,
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute,
+                                 datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleYear: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
             self.resultString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
         } break;
         case WYADatePickerStyleMouth: {
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:0
                             animated:YES];
             self.resultString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
@@ -857,195 +1101,180 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.selectComponents.second
                          inComponent:0
                             animated:YES];
-            self.resultString = [@(datePickerManager.selectComponents.second) stringValue];
+            self.resultString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleYearAndMonth: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            self.yearString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@", self.yearString, self.mouthString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
+                                 datePickerManager.selectComponents.year,
+                                 datePickerManager.selectComponents.month];
         } break;
         case WYADatePickerStyleDate: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:2
                             animated:YES];
-            self.yearString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.resultString = [NSString
-                stringWithFormat:@"%@-%@-%@", self.yearString, self.mouthString, self.dayString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d",
+                                 datePickerManager.selectComponents.year,
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day];
         } break;
         case WYADatePickerStyleDateHour: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:2
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:3
                             animated:YES];
-            self.yearString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d",
+                                 datePickerManager.selectComponents.year,
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour];
         } break;
         case WYADatePickerStyleDateHourMinute: {
-            [self.pickView selectRow:datePickerManager.selectComponents.year - 1
+            [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:2
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:3
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:4
                             animated:YES];
-            self.yearString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@-%@ %@:%@", self.yearString, self.mouthString,
-                                           self.dayString, self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d",
+                                 datePickerManager.selectComponents.year,
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleMonthDay: {
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:1
                             animated:YES];
-            self.mouthString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@", self.mouthString, self.dayString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day];
         } break;
         case WYADatePickerStyleMonthDayHour: {
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:2
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.resultString = [NSString
-                stringWithFormat:@"%@-%@ %@", self.mouthString, self.dayString, self.hourString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d",
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour];
         } break;
         case WYADatePickerStyleMonthDayHourMinute: {
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:2
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:3
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@ %@:%@", self.mouthString, self.dayString,
-                                           self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d:%d",
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleMonthDayHourMinuteSecond: {
-            [self.pickView selectRow:datePickerManager.selectComponents.month - 1
+            [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.day - 1
+            [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:2
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:3
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.second
+            [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:4
                             animated:YES];
-            self.mouthString  = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.month];
-            self.dayString    = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.day];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.secondString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.second];
-            self.resultString =
-                [NSString stringWithFormat:@"%@-%@ %@:%@:%@", self.mouthString, self.dayString,
-                                           self.hourString, self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d:%d:%d",
+                                 datePickerManager.selectComponents.month,
+                                 datePickerManager.selectComponents.day,
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute,
+                                 datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleTime: {
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:1
                             animated:YES];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.resultString =
-                [NSString stringWithFormat:@"%@:%@", self.hourString, self.minuteString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute];
         } break;
         case WYADatePickerStyleTimeAndSecond: {
-            [self.pickView selectRow:datePickerManager.selectComponents.hour
+            [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:1
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.second
+            [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:2
                             animated:YES];
-            self.hourString   = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.hour];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.secondString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.second];
-            self.resultString = [NSString stringWithFormat:@"%@:%@:%@", self.hourString,
-                                                           self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d:%d",
+                                 datePickerManager.selectComponents.hour,
+                                 datePickerManager.selectComponents.minute,
+                                 datePickerManager.selectComponents.second];
         } break;
         case WYADatePickerStyleMinuteAndSecond: {
-            [self.pickView selectRow:datePickerManager.selectComponents.minute
+            [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:0
                             animated:YES];
-            [self.pickView selectRow:datePickerManager.selectComponents.second
+            [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:1
                             animated:YES];
-            self.minuteString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.minute];
-            self.secondString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.second];
-            self.resultString =
-                [NSString stringWithFormat:@"%@:%@", self.minuteString, self.secondString];
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
+                                 datePickerManager.selectComponents.minute,
+                                 datePickerManager.selectComponents.second];
         } break;
         default:
             break;
@@ -1066,6 +1295,22 @@ static CGFloat titleHeight      = 44.0;
 - (void)setPickerItemHeight:(CGFloat)pickerItemHeight {
     _pickerItemHeight = pickerItemHeight;
     [self.pickView reloadAllComponents];
+}
+
+- (void)setSelectDate:(NSDate *)selectDate{
+    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_MinDateWithDatePicker:style:)]) {
+            self.minDate = [self.wya_delegate wya_MinDateWithDatePicker:self style:_datePickerStyle];
+        }
+
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_MaxDateWithDatePicker:style:)]) {
+            self.maxDate = [self.wya_delegate wya_MaxDateWithDatePicker:self style:_datePickerStyle];
+        }
+
+        WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
+        datePicker.selectDate         = selectDate;
+        datePicker.minimumDate = self.minDate;
+        datePicker.maximumDate = self.maxDate;
+        self.datePickerManager        = datePicker;
 }
 
 #pragma mark - Getter
