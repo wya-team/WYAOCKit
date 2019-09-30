@@ -1061,7 +1061,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:5
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%d-%02d-%02d %02d:%02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d:%d",
                                  datePickerManager.selectComponents.year,
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
@@ -1073,7 +1073,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.yearRow
                          inComponent:0
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%ld", datePickerManager.selectComponents.year];
+            self.resultString = [NSString stringWithFormat:@"%02ld", datePickerManager.selectComponents.year];
         } break;
         case WYADatePickerStyleMouth: {
             [self.pickView selectRow:datePickerManager.monthRow
@@ -1106,7 +1106,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.monthRow
                          inComponent:1
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%d-%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
                                  datePickerManager.selectComponents.year,
                                  datePickerManager.selectComponents.month];
         } break;
@@ -1120,7 +1120,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:2
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%d-%02d-%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d",
                                  datePickerManager.selectComponents.year,
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day];
@@ -1138,7 +1138,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:3
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%d-%02d-%02d %02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d",
                                  datePickerManager.selectComponents.year,
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
@@ -1160,7 +1160,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:4
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%d-%02d-%02d %02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d",
                                  datePickerManager.selectComponents.year,
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
@@ -1174,7 +1174,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.dayRow
                          inComponent:1
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d-%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d",
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day];
         } break;
@@ -1188,7 +1188,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.hourRow
                          inComponent:2
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d-%02d %02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d",
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
                                  datePickerManager.selectComponents.hour];
@@ -1206,7 +1206,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:3
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d-%02d %02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d-%d %d:%d:%d",
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
                                  datePickerManager.selectComponents.hour,
@@ -1228,7 +1228,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:4
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d-%02d %02d:%02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d-%d %d:%d:%d",
                                  datePickerManager.selectComponents.month,
                                  datePickerManager.selectComponents.day,
                                  datePickerManager.selectComponents.hour,
@@ -1242,7 +1242,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.minuteRow
                          inComponent:1
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
                                  datePickerManager.selectComponents.hour,
                                  datePickerManager.selectComponents.minute];
         } break;
@@ -1256,7 +1256,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:2
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d:%02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d:%d:%d",
                                  datePickerManager.selectComponents.hour,
                                  datePickerManager.selectComponents.minute,
                                  datePickerManager.selectComponents.second];
@@ -1268,7 +1268,7 @@ static CGFloat titleHeight      = 44.0;
             [self.pickView selectRow:datePickerManager.secondRow
                          inComponent:1
                             animated:YES];
-            self.resultString = [NSString stringWithFormat:@"%02d:%02d",
+            self.resultString = [NSString stringWithFormat:@"%d:%d",
                                  datePickerManager.selectComponents.minute,
                                  datePickerManager.selectComponents.second];
         } break;
