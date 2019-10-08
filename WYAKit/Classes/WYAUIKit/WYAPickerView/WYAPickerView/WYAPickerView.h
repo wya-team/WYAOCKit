@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 /// pickerView样式（暂不提供使用）
 @property (nonatomic, assign) WYAPickerViewStyle pickerViewStyle;
 /// pickerView列样式
-@property (nonatomic, assign) WYAPickerViewColumnStyle pickerViewColumnStyle;
+@property (nonatomic, assign, readonly) WYAPickerViewColumnStyle pickerViewColumnStyle;
 /// 设置pickerView整体字体颜色
 @property (nonatomic, strong) UIColor * pickerItemColor UI_APPEARANCE_SELECTOR;
 /// 设置pickerView整体字体大小
@@ -69,8 +69,10 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 @property (nonatomic, copy) NSString * titleKeyWords;
 /// array关键字(需要先指定)
 @property (nonatomic, copy) NSString * arrayKeyWords;
-/// 返回参数关键字(需要先指定)
+/// 其它参数关键字(需要先指定)
 @property (nonatomic, copy) NSString * paramWords;
+/// 默认选中的数据
+@property (nonatomic, strong) NSArray * selectValues;
 /// 数据源
 @property (nonatomic, strong) NSMutableArray * dataArray;
 
@@ -80,6 +82,11 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
  @return 高度
  */
 - (CGFloat)wya_GetPickerViewHeight;
+
+/// 初始化方式
+/// @param frame frame
+/// @param style 样式类型
+- (instancetype)initWithFrame:(CGRect)frame style:(WYAPickerViewColumnStyle)style;
 
 @end
 

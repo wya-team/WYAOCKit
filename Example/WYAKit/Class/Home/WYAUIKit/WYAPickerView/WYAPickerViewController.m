@@ -172,23 +172,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if (indexPath.section == 0) {
-        self.pickerView                  = [[WYAPickerView alloc] init];
-        self.pickerView.delegate         = self;
-        self.pickerView.titleKeyWords    = @"title";
-        self.pickerView.arrayKeyWords    = @"array";
-        self.pickerView.pickerHeight     = 220;
-        self.pickerView.pickerItemHeight = 44;
-        self.pickerView.titleLabel.text  = @"sd";
-        self.pickerView.autoTitleChange  = NO;
+
         //        self.pickerView.titleLabel.text = @"测试";
         //        self.pickerView.autoTitleChange = NO;
         //        self.pickerView.backButton.titleLabel.font = FONT(10);
         //        pickerView.pickerViewStyle = WYAPickerViewStyleSystem;
         if (indexPath.row == 0) {
-            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleSingle;
-            self.pickerView.dataArray             = [@[ @"A", @"B", @"C" ] mutableCopy];
+            self.pickerView                  = [[WYAPickerView alloc] initWithFrame:CGRectZero];
+            self.pickerView.delegate         = self;
+            self.pickerView.titleKeyWords    = @"title";
+            self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.pickerHeight     = 220;
+            self.pickerView.pickerItemHeight = 44;
+            self.pickerView.titleLabel.text  = @"sd";
+            self.pickerView.autoTitleChange  = NO;
+            self.pickerView.selectValues = @[@"B"];
+            self.pickerView.dataArray             = [@[ @{@"title": @"A"}, @{@"title": @"B"}, @{@"title": @"C"} ] mutableCopy];
         } else if (indexPath.row == 1) {
-            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleDouble;
+            self.pickerView                  = [[WYAPickerView alloc] initWithFrame:CGRectZero style:WYAPickerViewColumnStyleDouble];
+            self.pickerView.delegate         = self;
+            self.pickerView.titleKeyWords    = @"title";
+            self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.pickerHeight     = 220;
+            self.pickerView.pickerItemHeight = 44;
+            self.pickerView.titleLabel.text  = @"sd";
+            self.pickerView.autoTitleChange  = NO;
+            self.pickerView.selectValues = @[@"B",@"bc"];
             self.pickerView.dataArray             = [@[
                 @{
                     @"title" : @"A",
@@ -223,35 +232,58 @@
             ] mutableCopy];
 
         } else {
-            self.pickerView.pickerViewColumnStyle = WYAPickerViewColumnStyleThree;
+            self.pickerView                  = [[WYAPickerView alloc] initWithFrame:CGRectZero style:WYAPickerViewColumnStyleThree];
+            self.pickerView.delegate         = self;
+            self.pickerView.titleKeyWords    = @"title";
+            self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.pickerHeight     = 220;
+            self.pickerView.pickerItemHeight = 44;
+            self.pickerView.titleLabel.text  = @"sd";
+            self.pickerView.autoTitleChange  = NO;
+            self.pickerView.selectValues = @[@"生鲜",@"时令生鲜",@"板栗"];
             self.pickerView.dataArray             = [@[
                 @{
-                    @"title" : @"A",
+                    @"title" : @"男装",
                     @"array" : @[
                         @{
-                           @"title" : @"aa",
-                           @"array" : @[ @{@"title" : @"aaa", @"array" : @[]} ],
+                           @"title" : @"短外套",
+                           @"array" : @[
+                                @{@"title" : @"夹克", @"array" : @[]},
+                                @{@"title" : @"休闲", @"array" : @[]},
+                                @{@"title" : @"学院风", @"array" : @[]}, ],
                         },
                         @{
-                           @"title" : @"ab",
-                           @"array" : @[ @{@"title" : @"abb", @"array" : @[]} ],
+                           @"title" : @"休闲长裤",
+                           @"array" : @[
+                                   @{@"title" : @"修身", @"array" : @[]},
+                                   @{@"title" : @"牛仔", @"array" : @[]},
+                                   @{@"title" : @"九分裤", @"array" : @[]}, ],
                         },
                         @{
-                           @"title" : @"ac",
-                           @"array" : @[ @{@"title" : @"acc", @"array" : @[]} ],
+                           @"title" : @"衬衫",
+                           @"array" : @[
+                                   @{@"title" : @"修身", @"array" : @[]},
+                                   @{@"title" : @"九分", @"array" : @[]},
+                                   @{@"title" : @"圆领", @"array" : @[]}, ],
                         }
                     ]
                 },
                 @{
-                    @"title" : @"B",
+                    @"title" : @"生鲜",
                     @"array" : @[
                         @{
-                           @"title" : @"bb",
-                           @"array" : @[ @{@"title" : @"bbb", @"array" : @[]} ],
+                           @"title" : @"水果",
+                           @"array" : @[
+                                   @{@"title" : @"火龙果", @"array" : @[]},
+                                   @{@"title" : @"青提", @"array" : @[]},
+                                   @{@"title" : @"蜜柚", @"array" : @[]}, ],
                         },
                         @{
-                           @"title" : @"bc",
-                           @"array" : @[ @{@"title" : @"bbc", @"array" : @[]} ],
+                           @"title" : @"时令生鲜",
+                           @"array" : @[
+                                   @{@"title" : @"大闸蟹", @"array" : @[]},
+                                   @{@"title" : @"板栗", @"array" : @[]},
+                                   @{@"title" : @"蜜薯", @"array" : @[]},],
                         }
                     ]
                 }
