@@ -461,7 +461,7 @@
     switch (style) {
         case WYADatePickerStyleDateHourMinuteSecond:
             {
-                NSDate * date = [NSDate wya_dateWithString:@"2018-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
+                NSDate * date = [NSDate wya_dateWithString:@"2020-09-29 10:10:10" format:@"yyyy-MM-dd HH:mm:ss"];
                 return date;
             }
             break;
