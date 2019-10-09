@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, WYADateCompare) {
+    WYADateCompareGreater,
+    WYADateCompareSame,
+    WYADateCompareLess,
+};
+
 @interface NSDate (Category)
 /**
  * 根据日期返回字符串
@@ -216,4 +222,8 @@
  */
 + (NSString *)getNowTimeTimesSeconds;
 
+/// self与传入的时间比较
+/// @param date 传入时间
+/// @return 比较的大小
+- (WYADateCompare)wya_dateCompareWithDate:(NSDate *)date;
 @end

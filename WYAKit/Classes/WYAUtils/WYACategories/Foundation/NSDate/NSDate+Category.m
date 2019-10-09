@@ -594,4 +594,15 @@
     NSString * timeString = [NSString stringWithFormat:@"%0.f", a]; //转为字符型
     return timeString;
 }
+
+- (WYADateCompare)wya_dateCompareWithDate:(NSDate *)date{
+    NSComparisonResult result = [self compare:date];
+    if (result == NSOrderedAscending) {
+        return WYADateCompareLess;
+    } else if (result == NSOrderedDescending) {
+        return WYADateCompareGreater;
+    } else {
+        return WYADateCompareSame;
+    }
+}
 @end
