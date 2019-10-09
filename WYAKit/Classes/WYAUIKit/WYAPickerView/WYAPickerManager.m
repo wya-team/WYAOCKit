@@ -103,15 +103,12 @@
 }
 
 - (NSMutableArray *)yearArray {
-    if (!_yearArray) {
-        NSInteger index        = self.maximumComponents.year - self.minimumComponents.year;
-        NSMutableArray * years = [NSMutableArray arrayWithCapacity:index];
-        for (NSInteger i = self.minimumComponents.year; i <= self.maximumComponents.year; i++) {
-            [years addObject:[@(i) stringValue]];
-        }
-        _yearArray = years;
+    NSInteger index        = self.maximumComponents.year - self.minimumComponents.year;
+    NSMutableArray * years = [NSMutableArray arrayWithCapacity:index];
+    for (NSInteger i = self.minimumComponents.year; i <= self.maximumComponents.year; i++) {
+        [years addObject:[@(i) stringValue]];
     }
-    return _yearArray;
+    return years;
 }
 
 - (NSMutableArray *)monthArray {
