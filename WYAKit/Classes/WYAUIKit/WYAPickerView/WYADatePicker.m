@@ -1302,6 +1302,7 @@ static CGFloat titleHeight      = 44.0;
     self.datePickerOtherManager.selectDate         = selectDate;
     self.datePickerOtherManager.minimumDate = self.minDate;
     self.datePickerOtherManager.maximumDate = self.maxDate;
+    [self.pickView reloadAllComponents];
     self.datePickerManager        = self.datePickerOtherManager;
 
 }
