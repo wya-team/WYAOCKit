@@ -16,7 +16,6 @@ static CGFloat titleHeight      = 44.0;
 @property (nonatomic, strong) WYAPaginationView * titleView;
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) WYAPickerManager * datePickerManager;
-@property (nonatomic, strong) WYAPickerManager * datePickerOtherManager;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, copy) NSString * resultString;
 
@@ -1299,11 +1298,11 @@ static CGFloat titleHeight      = 44.0;
     WYADateCompare otherResult = [selectDate wya_dateCompareWithDate:self.maxDate];
     NSAssert(result != WYADateCompareLess && otherResult != WYADateCompareGreater, @"选中的时间不在最大时间和最小时间范围内");
 
-
-    self.datePickerOtherManager.selectDate         = selectDate;
-    self.datePickerOtherManager.minimumDate = self.minDate;
-    self.datePickerOtherManager.maximumDate = self.maxDate;
-    self.datePickerManager        = self.datePickerOtherManager;
+    WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
+    datePicker.selectDate         = selectDate;
+    datePicker.minimumDate = self.minDate;
+    datePicker.maximumDate = self.maxDate;
+    self.datePickerManager        = datePicker;
 }
 
 #pragma mark - Getter
@@ -1360,14 +1359,4 @@ static CGFloat titleHeight      = 44.0;
     return self.titleView.titleLabel;
 }
 
-
-- (WYAPickerManager *)datePickerOtherManager{
-    if(!_datePickerOtherManager){
-        _datePickerOtherManager = ({
-            WYAPickerManager * object = [[WYAPickerManager alloc]init];
-            object;
-       });
-    }
-    return _datePickerOtherManager;
-}
 @end
