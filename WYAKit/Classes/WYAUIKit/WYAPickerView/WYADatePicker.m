@@ -16,9 +16,16 @@ static CGFloat titleHeight      = 44.0;
 @property (nonatomic, strong) WYAPaginationView * titleView;
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) WYAPickerManager * datePickerManager;
-@property (nonatomic, strong) WYAPickerManager * datePickerOtherManager;
 @property (nonatomic, strong) UIPickerView * pickView;
 @property (nonatomic, copy) NSString * resultString;
+@property (nonatomic, strong) NSDate * nowDate;
+//@property (nonatomic, copy) NSString * yearString;
+//@property (nonatomic, copy) NSString * mouthString;
+//@property (nonatomic, copy) NSString * dayString;
+//@property (nonatomic, copy) NSString * hourString;
+//@property (nonatomic, copy) NSString * minuteString;
+//@property (nonatomic, copy) NSString * secondString;
+
 
 @end
 
@@ -1289,21 +1296,17 @@ static CGFloat titleHeight      = 44.0;
 - (void)setSelectDate:(NSDate *)selectDate{
     if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_MinDateWithDatePicker:style:)]) {
             self.minDate = [self.wya_delegate wya_MinDateWithDatePicker:self style:_datePickerStyle];
-    }
+        }
 
-    if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_MaxDateWithDatePicker:style:)]) {
-        self.maxDate = [self.wya_delegate wya_MaxDateWithDatePicker:self style:_datePickerStyle];
-    }
+        if (self.wya_delegate && [self.wya_delegate respondsToSelector:@selector(wya_MaxDateWithDatePicker:style:)]) {
+            self.maxDate = [self.wya_delegate wya_MaxDateWithDatePicker:self style:_datePickerStyle];
+        }
 
-    WYADateCompare result = [selectDate wya_dateCompareWithDate:self.minDate];
-    WYADateCompare otherResult = [selectDate wya_dateCompareWithDate:self.maxDate];
-    NSAssert(result != WYADateCompareLess && otherResult != WYADateCompareGreater, @"选中的时间不在最大时间和最小时间范围内");
-
-
-    self.datePickerOtherManager.selectDate         = selectDate;
-    self.datePickerOtherManager.minimumDate = self.minDate;
-    self.datePickerOtherManager.maximumDate = self.maxDate;
-    self.datePickerManager        = self.datePickerOtherManager;
+        WYAPickerManager * datePicker = [[WYAPickerManager alloc] init];
+        datePicker.selectDate         = selectDate;
+        datePicker.minimumDate = self.minDate;
+        datePicker.maximumDate = self.maxDate;
+        self.datePickerManager        = datePicker;
 }
 
 #pragma mark - Getter
@@ -1360,14 +1363,4 @@ static CGFloat titleHeight      = 44.0;
     return self.titleView.titleLabel;
 }
 
-
-- (WYAPickerManager *)datePickerOtherManager{
-    if(!_datePickerOtherManager){
-        _datePickerOtherManager = ({
-            WYAPickerManager * object = [[WYAPickerManager alloc]init];
-            object;
-       });
-    }
-    return _datePickerOtherManager;
-}
 @end
