@@ -503,7 +503,7 @@ static CGFloat titleHeight = 44.0;
                         *stop = YES;
                     }
                 }];
-                self.selectValues = [self.selectValues componentsJoinedByString:@"-"];
+                self.resultString = [self.selectValues componentsJoinedByString:@"-"];
             } else {
 
 
@@ -555,13 +555,5 @@ static CGFloat titleHeight = 44.0;
     _pickerItemAlignment = pickerItemAlignment;
     [self.pickView reloadAllComponents];
 }
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect {
- // Drawing code
- }
- */
 
 @end
