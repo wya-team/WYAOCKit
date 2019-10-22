@@ -266,134 +266,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "CB437EA3-7380-424A-8B18-4B2121A7B35A"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "448"
-            endingLineNumber = "448"
-            landmarkName = "-setDataArray:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CB437EA3-7380-424A-8B18-4B2121A7B35A - dc23786de5e92b88"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WYAPickerView setDataArray:]"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "944">
-               </Location>
-               <Location
-                  uuid = "CB437EA3-7380-424A-8B18-4B2121A7B35A - d7e13bc1d0f1aadd"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__30-[WYAPickerView setDataArray:]_block_invoke.202"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "448"
-                  endingLineNumber = "448"
-                  offsetFromSymbolStart = "15">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0CB155A0-1826-4144-826E-E4C688BDA50C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "451"
-            endingLineNumber = "451"
-            landmarkName = "-setDataArray:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8FBAAB7E-0550-4496-9CD6-7015728310D4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "459"
-            endingLineNumber = "459"
-            landmarkName = "-setDataArray:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E05DB1E6-A6BD-439C-AFB4-C23FF8880A33"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
-            landmarkName = "-setDataArray:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E05DB1E6-A6BD-439C-AFB4-C23FF8880A33 - dc23786de5e92b88"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[WYAPickerView setDataArray:]"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "457"
-                  endingLineNumber = "457"
-                  offsetFromSymbolStart = "1074">
-               </Location>
-               <Location
-                  uuid = "E05DB1E6-A6BD-439C-AFB4-C23FF8880A33 - d7e13bc1d0f9aade"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__30-[WYAPickerView setDataArray:]_block_invoke.203"
-                  moduleName = "WYAKit_Example"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/lishihang/Desktop/GitProject/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93%E5%BC%80%E5%8F%91/WYAKit/WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "457"
-                  endingLineNumber = "457"
-                  offsetFromSymbolStart = "15">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "CB17B91A-395B-4629-8706-D8CA722F0A2B"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -410,16 +282,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E56AC2F5-8EC9-455D-9BBB-249A0EEA92EF"
+            uuid = "0B8B99D4-B4EB-46F1-9E46-61CAC316795A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "308"
-            endingLineNumber = "308"
-            landmarkName = "-wya_rightActionWithPaginationView:button:"
+            startingLineNumber = "521"
+            endingLineNumber = "521"
+            landmarkName = "-setDataArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9E524E7C-2363-49D8-808D-65EDB329547E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
+            landmarkName = "-setDataArray:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0CE3AB46-D4F1-4393-B707-AE02062944DD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../WYAKit/Classes/WYAUIKit/WYAPickerView/WYAPickerView/WYAPickerView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "540"
+            endingLineNumber = "540"
+            landmarkName = "-setDataArray:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -182,17 +182,19 @@
             self.pickerView.delegate         = self;
             self.pickerView.titleKeyWords    = @"title";
             self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.paramWords = @"index";
             self.pickerView.pickerHeight     = 220;
             self.pickerView.pickerItemHeight = 44;
             self.pickerView.titleLabel.text  = @"sd";
             self.pickerView.autoTitleChange  = NO;
             self.pickerView.selectValues = @[@"B"];
-            self.pickerView.dataArray             = [@[ @{@"title": @"A"}, @{@"title": @"B"}, @{@"title": @"C"} ] mutableCopy];
+            self.pickerView.dataArray             = [@[ @{@"title": @"A",@"index":@"1"}, @{@"title": @"B",@"index":@"2"}, @{@"title": @"C",@"index":@"3"} ] mutableCopy];
         } else if (indexPath.row == 1) {
             self.pickerView                  = [[WYAPickerView alloc] initWithFrame:CGRectZero style:WYAPickerViewColumnStyleDouble];
             self.pickerView.delegate         = self;
             self.pickerView.titleKeyWords    = @"title";
             self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.paramWords = @"index";
             self.pickerView.pickerHeight     = 220;
             self.pickerView.pickerItemHeight = 44;
             self.pickerView.titleLabel.text  = @"sd";
@@ -201,30 +203,37 @@
             self.pickerView.dataArray             = [@[
                 @{
                     @"title" : @"A",
+                    @"index":@"6",
                     @"array" : @[
                         @{
                            @"title" : @"aa",
+                           @"index":@"1",
                            @"array" : @[],
                         },
                         @{
                            @"title" : @"ab",
+                           @"index":@"2",
                            @"array" : @[],
                         },
                         @{
                            @"title" : @"ac",
+                           @"index":@"3",
                            @"array" : @[],
                         }
                     ]
                 },
                 @{
                     @"title" : @"B",
+                    @"index":@"7",
                     @"array" : @[
                         @{
                            @"title" : @"bb",
+                           @"index":@"4",
                            @"array" : @[],
                         },
                         @{
                            @"title" : @"bc",
+                           @"index":@"5",
                            @"array" : @[],
                         }
                     ]
@@ -236,6 +245,7 @@
             self.pickerView.delegate         = self;
             self.pickerView.titleKeyWords    = @"title";
             self.pickerView.arrayKeyWords    = @"array";
+            self.pickerView.paramWords = @"index";
             self.pickerView.pickerHeight     = 220;
             self.pickerView.pickerItemHeight = 44;
             self.pickerView.titleLabel.text  = @"sd";
@@ -244,46 +254,53 @@
             self.pickerView.dataArray             = [@[
                 @{
                     @"title" : @"男装",
+                    @"index":@"0",
                     @"array" : @[
                         @{
                            @"title" : @"短外套",
+                           @"index":@"01",
                            @"array" : @[
-                                @{@"title" : @"夹克", @"array" : @[]},
-                                @{@"title" : @"休闲", @"array" : @[]},
-                                @{@"title" : @"学院风", @"array" : @[]}, ],
+                                @{@"title" : @"夹克", @"array" : @[],@"index":@"001",},
+                                @{@"title" : @"休闲", @"array" : @[],@"index":@"002",},
+                                @{@"title" : @"学院风", @"array" : @[],@"index":@"003",}, ],
                         },
                         @{
                            @"title" : @"休闲长裤",
+                           @"index":@"02",
                            @"array" : @[
-                                   @{@"title" : @"修身", @"array" : @[]},
-                                   @{@"title" : @"牛仔", @"array" : @[]},
-                                   @{@"title" : @"九分裤", @"array" : @[]}, ],
+                                   @{@"title" : @"修身", @"array" : @[],@"index":@"021",},
+                                   @{@"title" : @"牛仔", @"array" : @[],@"index":@"022",},
+                                   @{@"title" : @"九分裤", @"array" : @[],@"index":@"023",}, ],
                         },
                         @{
                            @"title" : @"衬衫",
+                           @"index":@"03",
                            @"array" : @[
-                                   @{@"title" : @"修身", @"array" : @[]},
-                                   @{@"title" : @"九分", @"array" : @[]},
-                                   @{@"title" : @"圆领", @"array" : @[]}, ],
+                                   @{@"title" : @"修身", @"array" : @[],@"index":@"031",},
+                                   @{@"title" : @"九分", @"array" : @[],@"index":@"032",},
+                                   @{@"title" : @"圆领", @"array" : @[],@"index":@"033",}, ],
                         }
                     ]
                 },
                 @{
                     @"title" : @"生鲜",
+                    @"index":@"1",
                     @"array" : @[
                         @{
                            @"title" : @"水果",
+                           @"index":@"11",
                            @"array" : @[
-                                   @{@"title" : @"火龙果", @"array" : @[]},
-                                   @{@"title" : @"青提", @"array" : @[]},
-                                   @{@"title" : @"蜜柚", @"array" : @[]}, ],
+                                   @{@"title" : @"火龙果", @"array" : @[],@"index":@"111",},
+                                   @{@"title" : @"青提", @"array" : @[],@"index":@"112",},
+                                   @{@"title" : @"蜜柚", @"array" : @[],@"index":@"113",}, ],
                         },
                         @{
                            @"title" : @"时令生鲜",
+                           @"index":@"12",
                            @"array" : @[
-                                   @{@"title" : @"大闸蟹", @"array" : @[]},
-                                   @{@"title" : @"板栗", @"array" : @[]},
-                                   @{@"title" : @"蜜薯", @"array" : @[]},],
+                                   @{@"title" : @"大闸蟹", @"array" : @[],@"index":@"121",},
+                                   @{@"title" : @"板栗", @"array" : @[],@"index":@"122",},
+                                   @{@"title" : @"蜜薯", @"array" : @[],@"index":@"123",},],
                         }
                     ]
                 }
@@ -600,6 +617,10 @@
 }
 - (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultString:(NSString *)result {
     NSLog(@"result==%@", result);
+}
+
+- (void)wya_ChooseWithPickerView:(WYAPickerView *)pickerView ResultValues:(NSString *)result{
+    NSLog(@"result==%@",result);
 }
 
 - (void)wya_ChooseWithDatePicker:(WYADatePicker *)datePicker ResultString:(NSString *)result {

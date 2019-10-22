@@ -220,6 +220,12 @@ static CGFloat titleHeight = 44.0;
                 _two                   = 0;
 
             } else {
+                if (a == nil) {
+                    NSInteger firstRow = [self.pickView selectedRowInComponent:0];
+                    NSDictionary * dic = self.provinces[firstRow];
+                    a                  = dic[self.titleKeyWords];
+                    _one = firstRow;
+                }
                 NSDictionary * dic = self.citys[row];
                 b                  = dic[self.titleKeyWords];
                 _two               = row;
@@ -246,6 +252,12 @@ static CGFloat titleHeight = 44.0;
                 _three                 = 0;
 
             } else if (component == 1) {
+                if (a == nil) {
+                    NSInteger firstRow = [self.pickView selectedRowInComponent:0];
+                    NSDictionary * dic = self.provinces[firstRow];
+                    a                  = dic[self.titleKeyWords];
+                    _one = firstRow;
+                }
                 NSDictionary * dic = self.citys[row];
                 self.areas         = dic[self.arrayKeyWords];
                 b                  = dic[self.titleKeyWords];
@@ -258,6 +270,19 @@ static CGFloat titleHeight = 44.0;
                 _three                 = 0;
 
             } else {
+                if (a == nil && b == nil) {
+
+                    NSInteger firstRow = [self.pickView selectedRowInComponent:0];
+                    NSDictionary * dic = self.provinces[firstRow];
+                    a                  = dic[self.titleKeyWords];
+                    NSArray * arr = dic[self.arrayKeyWords];
+                    _one = firstRow;
+
+                    NSInteger secondRow = [self.pickView selectedRowInComponent:1];
+                    NSDictionary * nextDic = arr[secondRow];
+                    b = nextDic[self.titleKeyWords];
+                    _two = secondRow;
+                }
                 NSDictionary * areaDic = self.areas[row];
                 c                      = areaDic[self.titleKeyWords];
                 _three                 = row;
@@ -307,16 +332,10 @@ static CGFloat titleHeight = 44.0;
 
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
-        if (self.resultValues == nil) {
-            self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords], self.areas[_three][self.paramWords]];
-        }
         [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
     }
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultValues:)]) {
-        if (self.resultValues == nil) {
-            self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", self.provinces[_one][self.paramWords], self.citys[_two][self.paramWords], self.areas[_three][self.paramWords]];
-        }
         [self.delegate wya_ChooseWithPickerView:self ResultValues:self.resultValues];
     }
 
@@ -427,62 +446,79 @@ static CGFloat titleHeight = 44.0;
     _dataArray = dataArray;
     if (dataArray) {
         if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleSingle) {
+            self.provinces         = dataArray;
             if (self.selectValues) {
                 [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
+                        self.resultValues = dic[self.paramWords];
                         [self.pickView reloadComponent:0];
                         [self.pickView selectRow:idx inComponent:0 animated:YES];
                         *stop = YES;
                     }
                 }];
                 self.resultString = [NSString stringWithFormat:@"%@",self.selectValues.firstObject];
+
             } else {
-                self.resultString = [self.dataArray firstObject][self.titleKeyWords];
+                NSDictionary * dic = [self.dataArray firstObject];
+                self.resultString = dic[self.titleKeyWords];
             }
 
         } else if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleDouble) {
             self.provinces         = dataArray;
             if (self.selectValues) {
-
+                __block id paramsOne;
+                __block id paramsTwo;
                 [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:0 animated:YES];
-                        self.citys = dataArray[idx][self.arrayKeyWords];
+                        NSDictionary * dic = dataArray[idx];
+                        self.citys = dic[self.arrayKeyWords];
+                        paramsOne = dic[self.paramWords];
                         *stop = YES;
                     }
                 }];
                 [self.citys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.lastObject]) {
+                        paramsTwo = dic[self.paramWords];
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:1 animated:YES];
                         *stop = YES;
                     }
                 }];
                 self.resultString = [self.selectValues componentsJoinedByString:@"-"];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@",paramsOne,paramsTwo];
             } else {
                 NSDictionary * dic     = [self.provinces firstObject];
                 NSString * str         = dic[self.titleKeyWords];
                 a                      = str;
+                NSString * paramsOne = dic[self.paramWords];
                 self.citys             = dic[self.arrayKeyWords];
                 NSDictionary * cityDic = [self.citys firstObject];
                 NSString * str1        = cityDic[self.titleKeyWords];
+                NSString * paramsTwo = cityDic[self.paramWords];
                 b                      = str1;
                 self.resultString      = [NSString stringWithFormat:@"%@-%@", str, str1];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@",paramsOne,paramsTwo];
             }
 
         } else {
             self.provinces = dataArray;
             if (self.selectValues) {
+                __block id paramsOne;
+                __block id paramsTwo;
+                __block id paramsThree;
                 [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:0 animated:YES];
-                        self.citys = dataArray[idx][self.arrayKeyWords];
+                        NSDictionary * dic = dataArray[idx];
+                        self.citys = dic[self.arrayKeyWords];
+                        paramsOne = dic[self.paramWords];
                         *stop = YES;
                     }
                 }];
@@ -492,6 +528,7 @@ static CGFloat titleHeight = 44.0;
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:1 animated:YES];
                         self.areas = self.citys[idx][self.arrayKeyWords];
+                        paramsTwo = dic[self.paramWords];
                         *stop = YES;
                     }
                 }];
@@ -500,25 +537,31 @@ static CGFloat titleHeight = 44.0;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues[2]]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:2 animated:YES];
+                        paramsThree = dic[self.paramWords];
                         *stop = YES;
                     }
                 }];
                 self.resultString = [self.selectValues componentsJoinedByString:@"-"];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@-%@",paramsOne,paramsTwo,paramsThree];
             } else {
 
 
                 NSDictionary * dic     = [self.provinces firstObject];
                 NSString * str         = dic[self.titleKeyWords];
+                NSString * paramsOne = dic[self.paramWords];
                 a                      = str;
                 self.citys             = dic[self.arrayKeyWords];
                 NSDictionary * cityDic = [self.citys firstObject];
                 NSString * str1        = cityDic[self.titleKeyWords];
+                NSString * paramsTwo = cityDic[self.paramWords];
                 b                      = str1;
                 self.areas             = cityDic[self.arrayKeyWords];
                 NSDictionary * areaDic = [self.areas firstObject];
                 NSString * str2        = areaDic[self.titleKeyWords];
+                NSString * paramsThree = areaDic[self.paramWords];
                 c                      = str2;
                 self.resultString      = [NSString stringWithFormat:@"%@-%@-%@", a, b, c];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@-%@",paramsOne,paramsTwo,paramsThree];
             }
 
         }

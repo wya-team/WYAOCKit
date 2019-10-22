@@ -72,9 +72,9 @@ typedef NS_ENUM(NSInteger, WYAPickerViewColumnStyle) {
 /// 其它参数关键字(需要先指定)
 @property (nonatomic, copy) NSString * paramWords;
 /// 默认选中的数据
-@property (nonatomic, strong) NSArray * selectValues;
+@property (nonatomic, strong) NSArray<NSString *> * selectValues;
 /// 数据源
-@property (nonatomic, strong) NSMutableArray * dataArray;
+@property (nonatomic, strong) NSMutableArray<NSDictionary *> * dataArray;
 
 /**
  获取pickerView高度
