@@ -462,6 +462,7 @@ static CGFloat titleHeight = 44.0;
             } else {
                 NSDictionary * dic = [self.dataArray firstObject];
                 self.resultString = dic[self.titleKeyWords];
+                self.resultValues = dic[self.paramWords];
             }
 
         } else if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleDouble) {
