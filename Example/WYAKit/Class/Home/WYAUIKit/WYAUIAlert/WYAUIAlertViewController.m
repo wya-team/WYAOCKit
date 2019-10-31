@@ -118,7 +118,7 @@
             alert.backgroundButton.enabled = NO;
             // 创建 action
             WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"知道了" handler:^{
-
+                
             }];
             [alert wya_addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];

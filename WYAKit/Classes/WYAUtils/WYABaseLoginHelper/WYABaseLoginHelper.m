@@ -32,8 +32,11 @@
     [self checkAccount:account serviceName:WYALoginKeychain resultBlock:block];
 }
 
-// 检测当前账号是否已有秘钥存储在钥匙串中
-+ (void)checkAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block{
++ (BOOL)checkLoginAccount:(NSString *)account{
+    return [self checkLoginAccount:account serviceName:WYALoginKeychain];
+}
+
++ (BOOL)checkLoginAccount:(NSString *)account serviceName:(NSString *)serviceName{
     NSArray * accounts = [SSKeychain accountsForService:serviceName];
     BOOL isExist = NO;
     for (NSDictionary * dic in accounts) {
@@ -43,10 +46,18 @@
             break;
         }
     }
-    if (isExist) {
+    return isExist;
+}
+
+// 检测当前账号是否已有秘钥存储在钥匙串中
++ (void)checkAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block{
+    
+    if ([self checkLoginAccount:account serviceName:serviceName]) {
         [self verifyFingerPrintWithAccount:account serviceName:serviceName resultBlock:block];
     }
 }
+
+
 
 // 验证指纹
 + (void)verifyFingerPrintWithAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block{

@@ -61,22 +61,46 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  */
 + (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account;
 
+/**
+检测当前账号是否存储在登录钥匙串中
+
+@param account 账号
+@param serviceName 钥匙串名
+*/
++ (BOOL)checkLoginAccount:(NSString *)account;
 
 /**
- 检测当前账号是否存储在登录钥匙串中
+检测当前账号是否存储在登录钥匙串中
+
+@param account 账号
+@param serviceName 钥匙串名
+*/
++ (BOOL)checkLoginAccount:(NSString *)account serviceName:(NSString *)serviceName;
+
+/**
+ 检测当前账号是否存储在登录钥匙串中，如果存在直接验证指纹
 
  @param account 账号
- @param block 钥匙串名
+ @param block 指纹验证结果
  */
 + (void)checkLoginAccount:(NSString *)account resultBlock:(TouchIDVerifyResultBlock)block;
 
 /**
- 检测当前账号是否存储在该钥匙串中
+ 检测当前账号是否存储在该钥匙串中，如果存在直接验证指纹
 
  @param account 账号
  @param serviceName 钥匙串名
  */
 + (void)checkAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block;
+
+
+/**
+ 验证触控ID或面容ID
+
+@param account 账号
+@param serviceName 钥匙串名
+*/
++ (void)verifyFingerPrintWithAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block;
 
 @end
 
