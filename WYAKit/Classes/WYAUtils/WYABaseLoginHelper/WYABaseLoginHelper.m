@@ -12,6 +12,10 @@
 
 @implementation WYABaseLoginHelper
 
++ (NSArray<NSDictionary<NSString *, id> *> *)accountsForService:(NSString *)serviceName error:(NSError *__autoreleasing *)error __attribute__((swift_error(none))){
+    return [SSKeychain accountsForService:serviceName error:error];
+}
+
 + (BOOL)setLoginPassword:(NSString *)password account:(NSString *)account{
     return [self setPassword:password ForService:WYALoginKeychain account:account];
 }
@@ -68,7 +72,6 @@
         [self verifyFingerPrintWithAccount:account serviceName:serviceName resultBlock:block];
     }
 }
-
 
 // 验证指纹
 + (void)verifyFingerPrintWithAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block{

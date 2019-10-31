@@ -106,6 +106,12 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
 */
 + (void)verifyFingerPrintWithAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block;
 
+
+/// 返回所有已存储的钥匙串
+/// @param serviceName 钥匙串名
+/// @param error 错误信息
++ (NSArray<NSDictionary<NSString *, id> *> *)accountsForService:(NSString *)serviceName error:(NSError *__autoreleasing *)error __attribute__((swift_error(none)));
+
 @end
 
 NS_ASSUME_NONNULL_END
