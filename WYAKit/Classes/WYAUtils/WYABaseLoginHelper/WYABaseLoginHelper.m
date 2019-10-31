@@ -36,6 +36,18 @@
     return [self checkLoginAccount:account serviceName:WYALoginKeychain];
 }
 
++ (BOOL)verifyEnableFingerPrint{
+    LAContext *context = [[LAContext alloc] init];
+    context.localizedFallbackTitle = @"";// 右侧按钮名称
+    NSError *error = nil;
+    if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {
+        return YES;
+    }
+    else{
+        return NO;
+    }
+}
+
 + (BOOL)checkLoginAccount:(NSString *)account serviceName:(NSString *)serviceName{
     NSArray * accounts = [SSKeychain accountsForService:serviceName];
     BOOL isExist = NO;
@@ -56,7 +68,6 @@
         [self verifyFingerPrintWithAccount:account serviceName:serviceName resultBlock:block];
     }
 }
-
 
 
 // 验证指纹

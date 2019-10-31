@@ -61,6 +61,10 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  */
 + (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account;
 
+
+/// 验证是否支持touchID
++ (BOOL)verifyEnableFingerPrint;
+
 /**
 检测当前账号是否存储在登录钥匙串中
 
