@@ -39,7 +39,7 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  @param account 账号
  @return 删除是否成功
  */
-+ (BOOL)deleteLoginPasswordForaccount:(NSString *)account;
++ (BOOL)deleteLoginPasswordForAccount:(NSString *)account;
 
 /**
  添加账号密码至钥匙串

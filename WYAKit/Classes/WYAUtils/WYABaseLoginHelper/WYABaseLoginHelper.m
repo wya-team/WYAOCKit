@@ -20,7 +20,7 @@
     return [self setPassword:password ForService:WYALoginKeychain account:account];
 }
 
-+ (BOOL)deleteLoginPasswordForaccount:(NSString *)account{
++ (BOOL)deleteLoginPasswordForAccount:(NSString *)account{
     return [self deletePasswordForService:WYALoginKeychain account:account];
 }
 
