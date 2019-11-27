@@ -17,7 +17,8 @@
 }
 
 + (instancetype)wya_actionWithTitle:(NSString *)title
-                            handler:(void (^)(void))handler {
+                            handler:(void (^)(void))handler
+{
     WYAAlertAction * action = [[WYAAlertAction alloc] init];
     action.title            = title;
     action.handler          = handler;
@@ -28,8 +29,8 @@
 
 + (instancetype)wya_actionWithTitle:(NSString *)title
                           textColor:(UIColor *)textColor
-                            handler:(void (^)(void))handler {
-
+                            handler:(void (^)(void))handler
+{
     WYAAlertAction * action = [[WYAAlertAction alloc] init];
     action.title            = title;
     action.handler          = handler;
@@ -45,7 +46,8 @@
 + (instancetype)wya_actionWithTitle:(NSString *)title
                           textColor:(UIColor *)textColor
                            textFont:(UIFont *)textFont
-                            handler:(void (^)(void))handler {
+                            handler:(void (^)(void))handler
+{
     WYAAlertAction * action = [[WYAAlertAction alloc] init];
     action.title            = title;
     action.handler          = handler;

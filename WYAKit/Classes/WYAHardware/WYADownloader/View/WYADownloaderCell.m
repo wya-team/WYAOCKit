@@ -14,7 +14,8 @@
 @implementation WYADownloaderCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.placeholderButton];
@@ -24,7 +25,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat placeholderButton_X      = 16 * SizeAdapter;
@@ -40,19 +42,20 @@
                                CGRectGetMaxX(self.placeholderButton.frame) - 20 * SizeAdapter;
     CGFloat titleLabel_Height = 50 * SizeAdapter;
     self.titleLabel.frame =
-        CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
+    CGRectMake(titleLabel_X, titleLabel_Y, titleLabel_Width, titleLabel_Height);
 
     CGFloat fileNumberLabel_X = CGRectGetMaxX(self.placeholderButton.frame) + 10 * SizeAdapter;
     CGFloat fileNumberLabel_Y = self.contentView.cmam_height - 35 * SizeAdapter;
     CGFloat fileNumberLabel_Width =
-        self.contentView.cmam_width - self.placeholderButton.cmam_right - 20 * SizeAdapter;
+    self.contentView.cmam_width - self.placeholderButton.cmam_right - 20 * SizeAdapter;
     CGFloat fileNumberLabel_Height = 15 * SizeAdapter;
     self.fileNumberLabel.frame     = CGRectMake(fileNumberLabel_X, fileNumberLabel_Y,
                                             fileNumberLabel_Width, fileNumberLabel_Height);
 }
 
 #pragma mark - Getter -
-- (UIButton *)placeholderButton {
+- (UIButton *)placeholderButton
+{
     if (!_placeholderButton) {
         _placeholderButton = ({
             UIButton * button          = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -67,7 +70,8 @@
     return _placeholderButton;
 }
 
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -78,7 +82,8 @@
     return _titleLabel;
 }
 
-- (UILabel *)fileNumberLabel {
+- (UILabel *)fileNumberLabel
+{
     if (!_fileNumberLabel) {
         _fileNumberLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -89,12 +94,14 @@
     return _fileNumberLabel;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

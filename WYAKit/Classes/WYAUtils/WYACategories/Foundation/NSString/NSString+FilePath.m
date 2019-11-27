@@ -10,39 +10,46 @@
 
 @implementation NSString (FilePath)
 
-+ (NSString *)wya_homePath {
++ (NSString *)wya_homePath
+{
     return NSHomeDirectory();
 }
 
-+ (NSString *)wya_appPath {
++ (NSString *)wya_appPath
+{
     NSArray * paths =
-        NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES);
+    NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES);
     return [paths wya_safeObjectAtIndex:0];
 }
 
-+ (NSString *)wya_docPath {
++ (NSString *)wya_docPath
+{
     NSArray * paths =
-        NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths wya_safeObjectAtIndex:0];
 }
 
-+ (NSString *)wya_libPrefPath {
++ (NSString *)wya_libPrefPath
+{
     NSArray * paths =
-        NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Preferences"];
 }
 
-+ (NSString *)wya_libCachePath {
++ (NSString *)wya_libCachePath
+{
     NSArray * paths =
-        NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     return [[paths wya_safeObjectAtIndex:0] stringByAppendingFormat:@"/Caches"];
 }
 
-+ (NSString *)wya_tmpPath {
++ (NSString *)wya_tmpPath
+{
     return [NSHomeDirectory() stringByAppendingFormat:@"/tmp"];
 }
 
-+ (BOOL)wya_IsDirectory:(NSString *)filePath {
++ (BOOL)wya_IsDirectory:(NSString *)filePath
+{
     BOOL isDirectory = NO;
     [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
     return isDirectory;

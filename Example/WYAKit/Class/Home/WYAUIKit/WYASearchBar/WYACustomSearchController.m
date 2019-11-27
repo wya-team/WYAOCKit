@@ -20,7 +20,8 @@
 @end
 
 @implementation WYACustomSearchController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -30,7 +31,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -49,11 +51,12 @@
 }
 #pragma mark ======= getter
 
-- (UILabel *)titleLabel1 {
+- (UILabel *)titleLabel1
+{
     if (!_titleLabel1) {
         _titleLabel1 = ({
             UILabel * object = [[UILabel alloc]
-                initWithFrame:CGRectMake(10, WYATopHeight + 10, ScreenWidth - 20, 30)];
+            initWithFrame:CGRectMake(10, WYATopHeight + 10, ScreenWidth - 20, 30)];
             object.text      = @"  Normal";
             object.textColor = GRAYTITLECOLOR;
             object.font      = FONT(15);
@@ -62,12 +65,13 @@
     }
     return _titleLabel1;
 }
-- (WYACustomSearchBar *)customSearchBar1 {
+- (WYACustomSearchBar *)customSearchBar1
+{
     if (!_customSearchBar1) {
         _customSearchBar1 = ({
             WYACustomSearchBar * object = [[WYACustomSearchBar alloc]
-                initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel1.frame) + 10,
-                                         ScreenWidth - 20, 32)];
+            initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel1.frame) + 10,
+                                     ScreenWidth - 20, 32)];
             object.delegate          = self;
             object.placeholderString = @"搜索";
             object.tintColor         = BLUECOLOR;
@@ -77,12 +81,13 @@
     return _customSearchBar1;
 }
 
-- (UILabel *)titleLabel2 {
+- (UILabel *)titleLabel2
+{
     if (!_titleLabel2) {
         _titleLabel2 = ({
             UILabel * object = [[UILabel alloc]
-                initWithFrame:CGRectMake(10, CGRectGetMaxY(self.customSearchBar1.frame) + 10,
-                                         ScreenWidth - 20, 30)];
+            initWithFrame:CGRectMake(10, CGRectGetMaxY(self.customSearchBar1.frame) + 10,
+                                     ScreenWidth - 20, 30)];
             object.text      = @"  AutoFocus when enter page";
             object.textColor = GRAYTITLECOLOR;
             object.font      = FONT(15);
@@ -91,12 +96,13 @@
     }
     return _titleLabel2;
 }
-- (WYACustomSearchBar *)customSearchBar2 {
+- (WYACustomSearchBar *)customSearchBar2
+{
     if (!_customSearchBar2) {
         _customSearchBar2 = ({
             WYACustomSearchBar * object = [[WYACustomSearchBar alloc]
-                initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel2.frame) + 10,
-                                         ScreenWidth - 20, 32)];
+            initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel2.frame) + 10,
+                                     ScreenWidth - 20, 32)];
             object.delegate          = self;
             object.placeholderString = @"自动获取光标";
             object.tintColor         = BLUECOLOR;
@@ -106,12 +112,13 @@
     return _customSearchBar2;
 }
 
-- (UILabel *)titleLabel3 {
+- (UILabel *)titleLabel3
+{
     if (!_titleLabel3) {
         _titleLabel3 = ({
             UILabel * object = [[UILabel alloc]
-                initWithFrame:CGRectMake(10, CGRectGetMaxY(self.customSearchBar2.frame) + 10,
-                                         ScreenWidth - 20, 30)];
+            initWithFrame:CGRectMake(10, CGRectGetMaxY(self.customSearchBar2.frame) + 10,
+                                     ScreenWidth - 20, 30)];
             object.text      = @"  Focus by operation";
             object.textColor = GRAYTITLECOLOR;
             object.font      = FONT(15);
@@ -120,12 +127,13 @@
     }
     return _titleLabel3;
 }
-- (WYACustomSearchBar *)customSearchBar3 {
+- (WYACustomSearchBar *)customSearchBar3
+{
     if (!_customSearchBar3) {
         _customSearchBar3 = ({
             WYACustomSearchBar * object = [[WYACustomSearchBar alloc]
-                initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel3.frame) + 10,
-                                         ScreenWidth - 20, 32)];
+            initWithFrame:CGRectMake(10, CGRectGetMaxY(self.titleLabel3.frame) + 10,
+                                     ScreenWidth - 20, 32)];
             object.delegate          = self;
             object.placeholderString = @"手动获取光标";
             object.tintColor         = BLUECOLOR;
@@ -135,12 +143,13 @@
     return _customSearchBar3;
 }
 
-- (UIButton *)button {
+- (UIButton *)button
+{
     if (!_button) {
         _button = ({
             UIButton * object = [[UIButton alloc]
-                initWithFrame:CGRectMake(20, CGRectGetMaxY(self.customSearchBar3.frame) + 20,
-                                         ScreenWidth - 40, 36)];
+            initWithFrame:CGRectMake(20, CGRectGetMaxY(self.customSearchBar3.frame) + 20,
+                                     ScreenWidth - 40, 36)];
             [object setTitle:@"click to focus" forState:UIControlStateNormal];
             [object setTitleColor:BLACKTITLECOLOR forState:UIControlStateNormal];
             object.titleLabel.font     = FONT(14);
@@ -150,21 +159,25 @@
             object.layer.borderWidth   = 0.5;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(buttonCilcked:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(buttonCilcked:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _button;
 }
-- (void)layoutNormalCustomSearchBar:(WYACustomSearchBar *)searchBar {
+- (void)layoutNormalCustomSearchBar:(WYACustomSearchBar *)searchBar
+{
 }
-- (void)layoutEditCustomSearchBar:(WYACustomSearchBar *)searchBar {
+- (void)layoutEditCustomSearchBar:(WYACustomSearchBar *)searchBar
+{
 }
-- (void)layoutCancleSearchBar:(WYACustomSearchBar *)searchBar {
+- (void)layoutCancleSearchBar:(WYACustomSearchBar *)searchBar
+{
 }
 #pragma mark ======= UISearchBarDelegate
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar {
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
     if (searchBar == self.customSearchBar1) {
         [self.customSearchBar1 setShowsCancelButton:YES animated:YES];
         [self.customSearchBar2 setShowsCancelButton:NO animated:YES];
@@ -201,7 +214,7 @@
             [self.customSearchBar3 setShowsCancelButton:YES animated:YES];
 
             [self.customSearchBar3
-                    wya_shouldBeginEditingState]; // 自定义方法将图标位置改变移动到左侧
+             wya_shouldBeginEditingState]; // 自定义方法将图标位置改变移动到左侧
 
             [self.customSearchBar2 setShowsCancelButton:NO animated:YES];
             [self.customSearchBar1 setShowsCancelButton:NO animated:YES];
@@ -218,71 +231,76 @@
         return self.isEdit;
     }
 }
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
     if (searchBar == self.customSearchBar1) {
         [self.customSearchBar1 resignFirstResponder];
         [self.customSearchBar1
-                wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     } else if (searchBar == self.customSearchBar2) {
         [self.customSearchBar2 resignFirstResponder];
         [self.customSearchBar2
-                wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     } else {
         [self.customSearchBar3 resignFirstResponder];
         [self.customSearchBar3
-                wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据是否有内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     }
 }
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
     if (searchBar == self.customSearchBar1) {
         [self.customSearchBar1 resignFirstResponder];
         [self.customSearchBar1
-                wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
         return YES;
     } else if (searchBar == self.customSearchBar2) {
         [self.customSearchBar2 resignFirstResponder];
         [self.customSearchBar2
-                wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
         return YES;
     } else {
         [self.customSearchBar3 resignFirstResponder];
         [self.customSearchBar3
-                wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_searchButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
         return YES;
     }
 }
-- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
     if (searchBar == self.customSearchBar1) {
         [self.customSearchBar1 setShowsCancelButton:NO animated:YES];
         [self.customSearchBar1 resignFirstResponder];
         [self.customSearchBar1
-                wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     } else if (searchBar == self.customSearchBar2) {
         [self.customSearchBar2 setShowsCancelButton:NO animated:YES];
         [self.customSearchBar2 resignFirstResponder];
         [self.customSearchBar2
-                wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     } else {
         [self.customSearchBar3 setShowsCancelButton:NO animated:YES];
         [self.customSearchBar3 resignFirstResponder];
         [self.customSearchBar3
-                wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
+         wya_cancleButtonClickedState]; // 自定义方法将图标根据内容移动到合适位置（没有内容移动到居中，否则在最左侧）
         self.isEdit = NO;
     }
 }
 
-- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
+{
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.customSearchBar1 setShowsCancelButton:NO animated:YES];
     [self.customSearchBar2 setShowsCancelButton:NO animated:YES];
     [self.customSearchBar3 setShowsCancelButton:NO animated:YES];
@@ -300,7 +318,8 @@
 }
 
 #pragma mark ======= action
-- (void)buttonCilcked:(UIButton *)sender {
+- (void)buttonCilcked:(UIButton *)sender
+{
     self.isEdit = YES;
     [self.customSearchBar3 becomeFirstResponder];
 }

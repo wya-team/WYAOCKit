@@ -14,12 +14,12 @@
 @property (nonatomic, strong) CAShapeLayer * animationLayer;
 @end
 
-@implementation WYAImageClipTemplate
-{
+@implementation WYAImageClipTemplate {
     NSMutableArray * _xArray;
     NSMutableArray * _yArray;
 }
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -32,13 +32,14 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     if (_xArray && _yArray) {
-        CGFloat minWidth = [(NSNumber *)[_xArray valueForKeyPath:@"@min.floatValue"] floatValue];
-        CGFloat maxWidth = [(NSNumber *)[_xArray valueForKeyPath:@"@max.floatValue"] floatValue];
-        CGFloat minHeight = [(NSNumber *)[_yArray valueForKeyPath:@"@min.floatValue"] floatValue];
-        CGFloat maxHeight = [(NSNumber *)[_yArray valueForKeyPath:@"@max.floatValue"] floatValue];
+        CGFloat minWidth        = [(NSNumber *)[_xArray valueForKeyPath:@"@min.floatValue"] floatValue];
+        CGFloat maxWidth        = [(NSNumber *)[_xArray valueForKeyPath:@"@max.floatValue"] floatValue];
+        CGFloat minHeight       = [(NSNumber *)[_yArray valueForKeyPath:@"@min.floatValue"] floatValue];
+        CGFloat maxHeight       = [(NSNumber *)[_yArray valueForKeyPath:@"@max.floatValue"] floatValue];
         self.composeView.center = CGPointMake((maxWidth - minWidth) / 2 + minWidth, (maxHeight - minHeight) / 2 + minHeight);
         self.composeView.bounds = CGRectMake(0, 0, maxWidth - minWidth, maxHeight - minHeight);
     } else {
@@ -46,7 +47,8 @@
     }
 }
 
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event {
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
     if ([self checkPointInSelfWithPoint:point]) {
         return YES;
     }
@@ -54,7 +56,8 @@
 }
 
 #pragma mark ======= Public Method
-- (void)addCoverLayerWithPoints:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath {
+- (void)addCoverLayerWithPoints:(NSArray *)points isTemplatePath:(BOOL)isTemplatePath
+{
     self.composeView.hidden = isTemplatePath;
     self.points             = points;
 
@@ -95,10 +98,10 @@
         CGPathCloseSubpath(pathRef);
         self.pathRef = pathRef;
     }
-
 }
 
-- (void)wya_templateAddAnimationPath {
+- (void)wya_templateAddAnimationPath
+{
     UIBezierPath * path      = [UIBezierPath bezierPath];
     path.usesEvenOddFillRule = YES;
     for (NSInteger index = 0; index < self.points.count; index++) {
@@ -140,7 +143,8 @@
     self.haveAnimationShapeLayer = YES;
 }
 
-- (void)wya_templateRemoveAnimationPath {
+- (void)wya_templateRemoveAnimationPath
+{
     if (self.animationLayer) {
         [self.animationLayer removeAnimationForKey:@"linePhase"];
         [self.animationLayer removeFromSuperlayer];
@@ -150,8 +154,8 @@
 }
 
 #pragma mark ======= Private Method
-- (void)panClick:(UIPanGestureRecognizer *)gesture {
-
+- (void)panClick:(UIPanGestureRecognizer *)gesture
+{
     WYAImageClipTemplate * piece = (WYAImageClipTemplate *)[gesture view];
     CGPoint point                = [gesture locationInView:piece];
     if ([gesture state] == UIGestureRecognizerStateBegan || [gesture state] == UIGestureRecognizerStateChanged) {
@@ -173,7 +177,8 @@
     }
 }
 
-- (BOOL)checkPointInSelfWithPoint:(CGPoint)point {
+- (BOOL)checkPointInSelfWithPoint:(CGPoint)point
+{
     CGMutablePathRef pathRef = CGPathCreateMutable();
     for (NSInteger index = 0; index < self.points.count; index++) {
         NSDictionary * dic = self.points[index];
@@ -191,23 +196,25 @@
     return NO;
 }
 
-- (void)findMinWidth{
-
+- (void)findMinWidth
+{
 }
 
-- (void)findMaxWidth{
-
+- (void)findMaxWidth
+{
 }
 
 #pragma mark ======= Setter
-- (void)setImage:(UIImage *)image {
+- (void)setImage:(UIImage *)image
+{
     _image = image;
     if (image) {
         self.composeView.image = image;
     }
 }
 
-- (void)setPoints:(NSArray *)points{
+- (void)setPoints:(NSArray *)points
+{
     _points = points;
     _xArray = [NSMutableArray array];
     _yArray = [NSMutableArray array];
@@ -218,11 +225,13 @@
 }
 
 #pragma mark ======= Getter
-- (NSArray *)templatePoints {
+- (NSArray *)templatePoints
+{
     return [self.points copy];
 }
 
-- (WYAImageComposeView *)composeView {
+- (WYAImageComposeView *)composeView
+{
     if (!_composeView) {
         _composeView = ({
             WYAImageComposeView * object = [[WYAImageComposeView alloc] init];

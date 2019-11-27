@@ -14,16 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAPhotoPreviewCell : UICollectionViewCell
 
-
 @property (nonatomic, assign) BOOL showGif;
 @property (nonatomic, assign) BOOL showLivePhoto;
 
-@property (nonatomic, strong) WYAPreviewView *previewView;
-@property (nonatomic, strong) WYAPhotoBrowserModel *model;
-@property (nonatomic, copy)   void (^singleTapCallBack)(void);
-@property (nonatomic, copy)   void (^longPressCallBack)(void);
+@property (nonatomic, strong) WYAPreviewView * previewView;
+@property (nonatomic, strong) WYAPhotoBrowserModel * model;
+@property (nonatomic, copy) void (^singleTapCallBack)(void);
+@property (nonatomic, copy) void (^longPressCallBack)(void);
 @property (nonatomic, assign) BOOL willDisplaying;
-
 
 /**
  重置缩放比例
@@ -37,7 +35,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 @class WYAPreviewImageAndGif, WYAPreviewLivePhoto, WYAPreviewVideo, WYAPreviewNetVideo;
 
 //预览大图，image、gif、livephoto、video
@@ -46,13 +43,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL showGif;
 @property (nonatomic, assign) BOOL showLivePhoto;
 
-@property (nonatomic, strong) WYAPreviewImageAndGif *imageGifView;
-@property (nonatomic, strong) WYAPreviewLivePhoto *livePhotoView;
-@property (nonatomic, strong) WYAPreviewVideo *videoView;
-@property (nonatomic, strong) WYAPreviewNetVideo *netVideoView;
-@property (nonatomic, strong) WYAPhotoBrowserModel *model;
-@property (nonatomic, copy)   void (^singleTapCallBack)(void);
-@property (nonatomic, copy)   void (^longPressCallBack)(void);
+@property (nonatomic, strong) WYAPreviewImageAndGif * imageGifView;
+@property (nonatomic, strong) WYAPreviewLivePhoto * livePhotoView;
+@property (nonatomic, strong) WYAPreviewVideo * videoView;
+@property (nonatomic, strong) WYAPreviewNetVideo * netVideoView;
+@property (nonatomic, strong) WYAPhotoBrowserModel * model;
+@property (nonatomic, copy) void (^singleTapCallBack)(void);
+@property (nonatomic, copy) void (^longPressCallBack)(void);
 
 /**
  界面每次即将显示时，重置scrollview缩放状态
@@ -75,16 +72,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 //---------------base preview---------------
 @interface WYABasePreviewView : UIView
 
-@property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic, strong) WYAProgressView *indicator;
-@property (nonatomic, strong) PHAsset *asset;
+@property (nonatomic, strong) UIImageView * imageView;
+@property (nonatomic, strong) WYAProgressView * indicator;
+@property (nonatomic, strong) PHAsset * asset;
 @property (nonatomic, assign) PHImageRequestID imageRequestID;
-@property (nonatomic, strong) UITapGestureRecognizer *singleTap;
-@property (nonatomic, copy)   void (^singleTapCallBack)(void);
+@property (nonatomic, strong) UITapGestureRecognizer * singleTap;
+@property (nonatomic, copy) void (^singleTapCallBack)(void);
 
 - (void)placeSubviews;
 - (void)controllerScrollViewDidScroll;
@@ -103,12 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
 //---------------image、gif、net image---------------
 @interface WYAPreviewImageAndGif : WYABasePreviewView
 
-@property (nonatomic, strong) UIView *containerView;
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGesture;
+@property (nonatomic, strong) UIView * containerView;
+@property (nonatomic, strong) UIScrollView * scrollView;
+@property (nonatomic, strong) UILongPressGestureRecognizer * longPressGesture;
 @property (nonatomic, assign) BOOL loadOK;
 
-@property (nonatomic, copy)   void (^longPressCallBack)(void);
+@property (nonatomic, copy) void (^longPressCallBack)(void);
 
 - (void)loadGifImage:(PHAsset *)asset;
 - (void)loadImage:(id)obj;
@@ -118,23 +114,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 //---------------livephoto---------------
 @interface WYAPreviewLivePhoto : WYABasePreviewView
 
-@property (nonatomic, strong) PHLivePhotoView *lpView;
+@property (nonatomic, strong) PHLivePhotoView * lpView;
 
 - (void)loadLivePhoto:(PHAsset *)asset;
 
 @end
 
-
 //---------------video---------------
 @interface WYAPreviewVideo : WYABasePreviewView
 
-@property (nonatomic, strong) AVPlayerLayer *playLayer;
-@property (nonatomic, strong) UILabel *icloudLoadFailedLabel;
-@property (nonatomic, strong) UIButton *playBtn;
+@property (nonatomic, strong) AVPlayerLayer * playLayer;
+@property (nonatomic, strong) UILabel * icloudLoadFailedLabel;
+@property (nonatomic, strong) UIButton * playBtn;
 
 - (void)loadVideo:(PHAsset *)asset;
 
@@ -144,12 +138,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-
 //---------------net video---------------
 @interface WYAPreviewNetVideo : WYABasePreviewView
 
-@property (nonatomic, strong) AVPlayerLayer *playLayer;
-@property (nonatomic, strong) UIButton *playBtn;
+@property (nonatomic, strong) AVPlayerLayer * playLayer;
+@property (nonatomic, strong) UIButton * playBtn;
 
 - (void)loadNetVideo:(NSURL *)url;
 

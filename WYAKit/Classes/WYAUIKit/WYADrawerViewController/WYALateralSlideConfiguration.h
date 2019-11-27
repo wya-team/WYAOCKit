@@ -2,7 +2,6 @@
 //  WYALateralSlideConfiguration.h
 //  ViewControllerTransition
 
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 

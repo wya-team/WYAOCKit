@@ -16,7 +16,8 @@
 
 @implementation WYALoadingViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -31,10 +32,10 @@
     CGFloat systemLabel_Width  = 100;
     CGFloat systemLabel_Height = 20;
     systemLabel.frame =
-        CGRectMake(systemLabel_X, systemLabel_Y, systemLabel_Width, systemLabel_Height);
+    CGRectMake(systemLabel_X, systemLabel_Y, systemLabel_Width, systemLabel_Height);
 
     UIActivityIndicatorView * systemView = [[UIActivityIndicatorView alloc]
-        initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self.view addSubview:systemView];
     [systemView startAnimating];
     CGFloat systemView_X      = (ScreenWidth - 50) / 2;
@@ -54,11 +55,11 @@
     CGFloat customLabel_Width  = 100;
     CGFloat customLabel_Height = 20;
     customLabel.frame =
-        CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
+    CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
 
     UIImage * image =
-        [UIImage wya_svgImageName:@"spin"
-                             size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)];
+    [UIImage wya_svgImageName:@"spin"
+                         size:CGSizeMake(30 * SizeAdapter, 30 * SizeAdapter)];
     UIImageView * imageV = [[UIImageView alloc] initWithImage:image];
     [self.view addSubview:imageV];
     [imageV wya_setRotationAnimation:360 time:1 repeatCount:0];
@@ -68,26 +69,24 @@
     CGFloat imageV_Width  = 30 * SizeAdapter;
     CGFloat imageV_Height = 30 * SizeAdapter;
     imageV.frame          = CGRectMake(imageV_X, imageV_Y, imageV_Width, imageV_Height);
-    
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         UIView * bgView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 200, ScreenWidth, 200)];
         [self.view addSubview:bgView];
         [WYALoadingHUD showInView:bgView];
     });
-    
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [WYALoadingHUD hide];
-//    });
+
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [WYALoadingHUD hide];
+    //    });
 
     [self.view drawWordAnimationWithText:@"WYA"];
-
 }
 
-- (void)viewWillDisappear:(BOOL)animated{
-    
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     [WYALoadingHUD hide];
-    
 }
 
 /*

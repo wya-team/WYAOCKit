@@ -9,9 +9,10 @@
 
 @implementation NSCalendar (WYACalendar)
 
-- (NSDate *)wya_fetchMonthFristDay:(NSDate *)date{
-    NSDateComponents * components = [self components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour fromDate:date];
-    components.day = 1;
+- (NSDate *)wya_fetchMonthFristDay:(NSDate *)date
+{
+    NSDateComponents * components = [self components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour fromDate:date];
+    components.day                = 1;
     return [self dateFromComponents:components];
 }
 

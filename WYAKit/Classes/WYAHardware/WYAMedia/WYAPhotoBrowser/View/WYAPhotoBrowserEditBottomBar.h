@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIButton * centerButton;
 @property (nonatomic, strong) UIButton * doneButton;
 
-@property (nonatomic, copy) void(^editBlock)(void);
-@property (nonatomic, copy) void(^originalBlock)(BOOL select);
-@property (nonatomic, copy) void(^doneBlock)(void);
+@property (nonatomic, copy) void (^editBlock)(void);
+@property (nonatomic, copy) void (^originalBlock)(BOOL select);
+@property (nonatomic, copy) void (^doneBlock)(void);
 @end
 
 NS_ASSUME_NONNULL_END

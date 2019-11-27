@@ -17,11 +17,11 @@ typedef NS_ENUM(NSUInteger, WYASystemPermisionType) {
 };
 
 /// 允许情况下的回调
-typedef void(^AuthorizedBlock)(void);
+typedef void (^AuthorizedBlock)(void);
 /// 当前情况下的不允许回调
-typedef void(^nowNotAllowBlock)(void);
+typedef void (^nowNotAllowBlock)(void);
 /// 从未允许时的回调
-typedef void(^neverNotAllowBlock)(void);
+typedef void (^neverNotAllowBlock)(void);
 
 @interface WYASystemPermissions : NSObject
 

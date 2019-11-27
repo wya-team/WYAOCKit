@@ -11,21 +11,21 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
-
 @interface WYAPhotoBrowserModel : NSObject
 /// 资源
 @property (nonatomic, strong) PHAsset * asset;
 /// asset类型
 @property (nonatomic, assign) WYAAssetMediaType type;
 /// 视频时长
-@property (nonatomic, copy) NSString *duration;
+@property (nonatomic, copy) NSString * duration;
+
+@property (nonatomic, assign) NSInteger videoLength;
 /// 是否被选择
 @property (nonatomic, assign) BOOL selected;
 /// 网络/本地 图片url
-@property (nonatomic, strong) NSURL *url ;
+@property (nonatomic, strong) NSURL * url;
 /// 图片
-@property (nonatomic, strong) UIImage *image;
+@property (nonatomic, strong) UIImage * image;
 
 @property (nonatomic, assign) BOOL needCover;
 
@@ -40,15 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface WYAPhotoBrowserAlbumModel : NSObject
-@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString * title;
 @property (nonatomic, assign) NSInteger count;
 @property (nonatomic, assign) BOOL isCameraRoll;
-@property (nonatomic, strong) PHFetchResult *result;
+@property (nonatomic, strong) PHFetchResult * result;
 //相册第一张图asset对象
-@property (nonatomic, strong) PHAsset *headImageAsset;
+@property (nonatomic, strong) PHAsset * headImageAsset;
 
-@property (nonatomic, strong) NSArray<WYAPhotoBrowserModel *> *models;
-@property (nonatomic, strong) NSArray *selectedModels;
+@property (nonatomic, strong) NSArray<WYAPhotoBrowserModel *> * models;
+@property (nonatomic, strong) NSArray * selectedModels;
 //待用
 @property (nonatomic, assign) NSUInteger selectedCount;
 

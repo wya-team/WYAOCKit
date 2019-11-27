@@ -40,7 +40,8 @@ static CGFloat titleHeight = 44.0;
     NSString * c;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     return [self initWithFrame:frame style:WYAPickerViewColumnStyleSingle];
 }
 
@@ -54,7 +55,8 @@ static CGFloat titleHeight = 44.0;
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat titleView_X      = 0;
@@ -77,7 +79,8 @@ static CGFloat titleHeight = 44.0;
 }
 
 #pragma mark UIPickerViewDataSource
-- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle:
             return 1;
@@ -91,7 +94,8 @@ static CGFloat titleHeight = 44.0;
     return 0;
 }
 
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle:
             return self.dataArray.count;
@@ -117,7 +121,8 @@ static CGFloat titleHeight = 44.0;
     }
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
+- (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component
+{
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle:
             return self.cmam_width;
@@ -130,14 +135,16 @@ static CGFloat titleHeight = 44.0;
     }
 }
 
-- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
     return self.pickerItemHeight ? self.pickerItemHeight : 44;
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView
             viewForRow:(NSInteger)row
           forComponent:(NSInteger)component
-           reusingView:(nullable UIView *)view {
+           reusingView:(nullable UIView *)view
+{
     UILabel * label = [[UILabel alloc] init];
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle: {
@@ -195,7 +202,8 @@ static CGFloat titleHeight = 44.0;
 #pragma mark UIPickerViewDelegate
 - (void)pickerView:(UIPickerView *)pickerView
       didSelectRow:(NSInteger)row
-       inComponent:(NSInteger)component {
+       inComponent:(NSInteger)component
+{
     switch (self.pickerViewColumnStyle) {
         case WYAPickerViewColumnStyleSingle:
             if (self.titleKeyWords) {
@@ -224,7 +232,7 @@ static CGFloat titleHeight = 44.0;
                     NSInteger firstRow = [self.pickView selectedRowInComponent:0];
                     NSDictionary * dic = self.provinces[firstRow];
                     a                  = dic[self.titleKeyWords];
-                    _one = firstRow;
+                    _one               = firstRow;
                 }
                 NSDictionary * dic = self.citys[row];
                 b                  = dic[self.titleKeyWords];
@@ -256,7 +264,7 @@ static CGFloat titleHeight = 44.0;
                     NSInteger firstRow = [self.pickView selectedRowInComponent:0];
                     NSDictionary * dic = self.provinces[firstRow];
                     a                  = dic[self.titleKeyWords];
-                    _one = firstRow;
+                    _one               = firstRow;
                 }
                 NSDictionary * dic = self.citys[row];
                 self.areas         = dic[self.arrayKeyWords];
@@ -271,17 +279,16 @@ static CGFloat titleHeight = 44.0;
 
             } else {
                 if (a == nil && b == nil) {
-
                     NSInteger firstRow = [self.pickView selectedRowInComponent:0];
                     NSDictionary * dic = self.provinces[firstRow];
                     a                  = dic[self.titleKeyWords];
-                    NSArray * arr = dic[self.arrayKeyWords];
-                    _one = firstRow;
+                    NSArray * arr      = dic[self.arrayKeyWords];
+                    _one               = firstRow;
 
-                    NSInteger secondRow = [self.pickView selectedRowInComponent:1];
+                    NSInteger secondRow    = [self.pickView selectedRowInComponent:1];
                     NSDictionary * nextDic = arr[secondRow];
-                    b = nextDic[self.titleKeyWords];
-                    _two = secondRow;
+                    b                      = nextDic[self.titleKeyWords];
+                    _two                   = secondRow;
                 }
                 NSDictionary * areaDic = self.areas[row];
                 c                      = areaDic[self.titleKeyWords];
@@ -320,7 +327,8 @@ static CGFloat titleHeight = 44.0;
 #pragma mark--- WYACustomPickerViewDelegate
 
 #pragma mark--- WYAPaginationViewDelegate
-- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button {
+- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button
+{
     if (self.cmam_parentController) {
         [self.cmam_parentController dismissViewControllerAnimated:YES completion:nil];
     } else {
@@ -328,8 +336,8 @@ static CGFloat titleHeight = 44.0;
     }
 }
 
-- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button {
-
+- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button
+{
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_ChooseWithPickerView:ResultString:)]) {
         [self.delegate wya_ChooseWithPickerView:self ResultString:self.resultString];
@@ -347,7 +355,8 @@ static CGFloat titleHeight = 44.0;
 }
 
 #pragma mark--- Private Action
-- (void)createUI {
+- (void)createUI
+{
     self.backgroundColor = [UIColor whiteColor];
 
     [self addSubview:self.titleView];
@@ -364,7 +373,8 @@ static CGFloat titleHeight = 44.0;
 }
 #pragma mark--- Public Action
 
-- (CGFloat)wya_GetPickerViewHeight {
+- (CGFloat)wya_GetPickerViewHeight
+{
     [self setNeedsLayout];
     [self layoutIfNeeded];
     if (self.pickerViewStyle == WYAPickerViewStyleSystem) {
@@ -375,7 +385,8 @@ static CGFloat titleHeight = 44.0;
 }
 
 #pragma mark--- Getter
-- (WYAPaginationView *)titleView {
+- (WYAPaginationView *)titleView
+{
     if (!_titleView) {
         _titleView                 = [[WYAPaginationView alloc] init];
         _titleView.backgroundColor = [UIColor whiteColor];
@@ -395,7 +406,8 @@ static CGFloat titleHeight = 44.0;
     return _titleView;
 }
 
-- (UIView *)line {
+- (UIView *)line
+{
     if (!_line) {
         _line = ({
             UIView * object        = [[UIView alloc] init];
@@ -406,7 +418,8 @@ static CGFloat titleHeight = 44.0;
     return _line;
 }
 
-- (UIPickerView *)pickView {
+- (UIPickerView *)pickView
+{
     if (!_pickView) {
         _pickView                 = [[UIPickerView alloc] init];
         _pickView.delegate        = self;
@@ -415,7 +428,8 @@ static CGFloat titleHeight = 44.0;
     return _pickView;
 }
 
-- (WYACustomPickerView *)customPicker {
+- (WYACustomPickerView *)customPicker
+{
     if (!_customPicker) {
         _customPicker                = [[WYACustomPickerView alloc] init];
         _customPicker.wya_dataSource = self;
@@ -424,31 +438,36 @@ static CGFloat titleHeight = 44.0;
     return _customPicker;
 }
 
-- (UIButton *)backButton {
+- (UIButton *)backButton
+{
     return self.titleView.leftButton;
 }
 
-- (UIButton *)sureButton {
+- (UIButton *)sureButton
+{
     return self.titleView.rightButton;
 }
 
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     return self.titleView.titleLabel;
 }
 
 #pragma mark--- Setter
-- (void)setAutoTitleChange:(BOOL)autoTitleChange {
+- (void)setAutoTitleChange:(BOOL)autoTitleChange
+{
     _autoTitleChange = autoTitleChange;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setDataArray:(NSMutableArray *)dataArray {
+- (void)setDataArray:(NSMutableArray *)dataArray
+{
     _dataArray = dataArray;
     if (dataArray) {
         if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleSingle) {
-            self.provinces         = dataArray;
+            self.provinces = dataArray;
             if (self.selectValues) {
-                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [dataArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
                         self.resultValues = dic[self.paramWords];
@@ -457,31 +476,31 @@ static CGFloat titleHeight = 44.0;
                         *stop = YES;
                     }
                 }];
-                self.resultString = [NSString stringWithFormat:@"%@",self.selectValues.firstObject];
+                self.resultString = [NSString stringWithFormat:@"%@", self.selectValues.firstObject];
 
             } else {
                 NSDictionary * dic = [self.dataArray firstObject];
-                self.resultString = dic[self.titleKeyWords];
-                self.resultValues = dic[self.paramWords];
+                self.resultString  = dic[self.titleKeyWords];
+                self.resultValues  = dic[self.paramWords];
             }
 
         } else if (self.pickerViewColumnStyle == WYAPickerViewColumnStyleDouble) {
-            self.provinces         = dataArray;
+            self.provinces = dataArray;
             if (self.selectValues) {
                 __block id paramsOne;
                 __block id paramsTwo;
-                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [dataArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:0 animated:YES];
                         NSDictionary * dic = dataArray[idx];
-                        self.citys = dic[self.arrayKeyWords];
-                        paramsOne = dic[self.paramWords];
-                        *stop = YES;
+                        self.citys         = dic[self.arrayKeyWords];
+                        paramsOne          = dic[self.paramWords];
+                        *stop              = YES;
                     }
                 }];
-                [self.citys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [self.citys enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.lastObject]) {
                         paramsTwo = dic[self.paramWords];
@@ -491,19 +510,19 @@ static CGFloat titleHeight = 44.0;
                     }
                 }];
                 self.resultString = [self.selectValues componentsJoinedByString:@"-"];
-                self.resultValues = [NSString stringWithFormat:@"%@-%@",paramsOne,paramsTwo];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@", paramsOne, paramsTwo];
             } else {
                 NSDictionary * dic     = [self.provinces firstObject];
                 NSString * str         = dic[self.titleKeyWords];
                 a                      = str;
-                NSString * paramsOne = dic[self.paramWords];
+                NSString * paramsOne   = dic[self.paramWords];
                 self.citys             = dic[self.arrayKeyWords];
                 NSDictionary * cityDic = [self.citys firstObject];
                 NSString * str1        = cityDic[self.titleKeyWords];
-                NSString * paramsTwo = cityDic[self.paramWords];
+                NSString * paramsTwo   = cityDic[self.paramWords];
                 b                      = str1;
                 self.resultString      = [NSString stringWithFormat:@"%@-%@", str, str1];
-                self.resultValues = [NSString stringWithFormat:@"%@-%@",paramsOne,paramsTwo];
+                self.resultValues      = [NSString stringWithFormat:@"%@-%@", paramsOne, paramsTwo];
             }
 
         } else {
@@ -512,49 +531,47 @@ static CGFloat titleHeight = 44.0;
                 __block id paramsOne;
                 __block id paramsTwo;
                 __block id paramsThree;
-                [dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [dataArray enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues.firstObject]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:0 animated:YES];
                         NSDictionary * dic = dataArray[idx];
-                        self.citys = dic[self.arrayKeyWords];
-                        paramsOne = dic[self.paramWords];
-                        *stop = YES;
+                        self.citys         = dic[self.arrayKeyWords];
+                        paramsOne          = dic[self.paramWords];
+                        *stop              = YES;
                     }
                 }];
-                [self.citys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [self.citys enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues[1]]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:1 animated:YES];
                         self.areas = self.citys[idx][self.arrayKeyWords];
-                        paramsTwo = dic[self.paramWords];
-                        *stop = YES;
+                        paramsTwo  = dic[self.paramWords];
+                        *stop      = YES;
                     }
                 }];
-                [self.areas enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [self.areas enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     NSDictionary * dic = (NSDictionary *)obj;
                     if ([dic[self.titleKeyWords] isEqual:self.selectValues[2]]) {
                         [self.pickView reloadAllComponents];
                         [self.pickView selectRow:idx inComponent:2 animated:YES];
                         paramsThree = dic[self.paramWords];
-                        *stop = YES;
+                        *stop       = YES;
                     }
                 }];
                 self.resultString = [self.selectValues componentsJoinedByString:@"-"];
-                self.resultValues = [NSString stringWithFormat:@"%@-%@-%@",paramsOne,paramsTwo,paramsThree];
+                self.resultValues = [NSString stringWithFormat:@"%@-%@-%@", paramsOne, paramsTwo, paramsThree];
             } else {
-
-
                 NSDictionary * dic     = [self.provinces firstObject];
                 NSString * str         = dic[self.titleKeyWords];
-                NSString * paramsOne = dic[self.paramWords];
+                NSString * paramsOne   = dic[self.paramWords];
                 a                      = str;
                 self.citys             = dic[self.arrayKeyWords];
                 NSDictionary * cityDic = [self.citys firstObject];
                 NSString * str1        = cityDic[self.titleKeyWords];
-                NSString * paramsTwo = cityDic[self.paramWords];
+                NSString * paramsTwo   = cityDic[self.paramWords];
                 b                      = str1;
                 self.areas             = cityDic[self.arrayKeyWords];
                 NSDictionary * areaDic = [self.areas firstObject];
@@ -562,9 +579,8 @@ static CGFloat titleHeight = 44.0;
                 NSString * paramsThree = areaDic[self.paramWords];
                 c                      = str2;
                 self.resultString      = [NSString stringWithFormat:@"%@-%@-%@", a, b, c];
-                self.resultValues = [NSString stringWithFormat:@"%@-%@-%@",paramsOne,paramsTwo,paramsThree];
+                self.resultValues      = [NSString stringWithFormat:@"%@-%@-%@", paramsOne, paramsTwo, paramsThree];
             }
-
         }
         if (self.autoTitleChange) {
             [self.titleView wya_SetTitleLabelWithText:self.resultString
@@ -574,28 +590,33 @@ static CGFloat titleHeight = 44.0;
     }
 }
 
-- (void)setPickerHeight:(CGFloat)pickerHeight {
+- (void)setPickerHeight:(CGFloat)pickerHeight
+{
     _pickerHeight = pickerHeight;
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
 
-- (void)setPickerItemHeight:(CGFloat)pickerItemHeight {
+- (void)setPickerItemHeight:(CGFloat)pickerItemHeight
+{
     _pickerItemHeight = pickerItemHeight;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemColor:(UIColor *)pickerItemColor {
+- (void)setPickerItemColor:(UIColor *)pickerItemColor
+{
     _pickerItemColor = pickerItemColor;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemFont:(UIFont *)pickerItemFont {
+- (void)setPickerItemFont:(UIFont *)pickerItemFont
+{
     _pickerItemFont = pickerItemFont;
     [self.pickView reloadAllComponents];
 }
 
-- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment {
+- (void)setPickerItemAlignment:(NSTextAlignment)pickerItemAlignment
+{
     _pickerItemAlignment = pickerItemAlignment;
     [self.pickView reloadAllComponents];
 }

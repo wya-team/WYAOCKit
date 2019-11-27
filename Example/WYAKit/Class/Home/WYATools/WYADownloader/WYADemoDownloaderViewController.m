@@ -21,7 +21,8 @@
 @end
 
 @implementation WYADemoDownloaderViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -30,7 +31,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -84,11 +86,13 @@
 }
 
 #pragma mark - UITableViewDataSource  -
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (section == 0) {
         return self.downloader.downloadingArray.count;
     } else {
@@ -97,16 +101,17 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath.section == 0) {
         WYADownloadCell * cell =
-            [tableView dequeueReusableCellWithIdentifier:@"cell"
-                                            forIndexPath:indexPath];
+        [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                        forIndexPath:indexPath];
         return cell;
     } else {
         WYADownloadCompleteCell * cell =
-            [tableView dequeueReusableCellWithIdentifier:@"completeCell"
-                                            forIndexPath:indexPath];
+        [tableView dequeueReusableCellWithIdentifier:@"completeCell"
+                                        forIndexPath:indexPath];
         return cell;
     }
 }
@@ -114,7 +119,8 @@
 #pragma mark - UITableViewDelegate  -
 - (void)tableView:(UITableView *)tableView
   willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath {
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath.section == 0) {
         WYADownloadCell * downloadCell = (WYADownloadCell *)cell;
         downloadCell.model             = self.downloader.downloadingArray[indexPath.row];
@@ -127,7 +133,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (nullable NSString *)tableView:(UITableView *)tableView
-         titleForHeaderInSection:(NSInteger)section {
+         titleForHeaderInSection:(NSInteger)section
+{
     if (section == 0) {
         return self.downloader.downloadingArray.count > 0 ? @"下载中" : @"";
     } else {
@@ -135,26 +142,34 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) { return YES; }
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        return YES;
+    }
     return NO;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) { return 60 * SizeAdapter; }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return 60 * SizeAdapter;
+    }
     return 80 * SizeAdapter;
 }
 
 // 定义编辑样式
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView
-           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+           editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return UITableViewCellEditingStyleDelete;
 }
 
 // 进入编辑模式，按下出现的编辑按钮后,进行删除操作
 - (void)tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+ forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         if (indexPath.section == 1) {
             WYADownloadCompleteCell * cell = [tableView cellForRowAtIndexPath:indexPath];
@@ -167,7 +182,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 
 // 修改编辑按钮文字
 - (NSString *)tableView:(UITableView *)tableView
-    titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return @"删除";
 }
 
@@ -175,7 +191,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
-                       context:(void *)context {
+                       context:(void *)context
+{
     if ([keyPath isEqualToString:WYADownloaderDownloadArrayObserveKeyPath] ||
         [keyPath isEqualToString:WYADownloaderCompleteArrayObserveKeyPath]) {
         if ([[NSThread currentThread] isMainThread]) {
@@ -187,7 +204,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 #pragma mark - Getter -
-- (WYADownloader *)downloader {
+- (WYADownloader *)downloader
+{
     if (!_downloader) {
         _downloader = ({
             WYADownloader * object      = [WYADownloader sharedDownloader];
@@ -210,7 +228,8 @@ navigation
 */
 
 #pragma mark - Getter -
-- (NSMutableArray *)models {
+- (NSMutableArray *)models
+{
     if (!_models) {
         _models = ({
             NSMutableArray * object  = [[NSMutableArray alloc] init];
@@ -238,7 +257,8 @@ navigation
     return _models;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self.downloader removeObserver:self forKeyPath:WYADownloaderDownloadArrayObserveKeyPath];
     [self.downloader removeObserver:self forKeyPath:WYADownloaderCompleteArrayObserveKeyPath];
 }

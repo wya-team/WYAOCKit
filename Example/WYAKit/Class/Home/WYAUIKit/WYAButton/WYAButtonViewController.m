@@ -14,7 +14,8 @@
 
 @implementation WYAButtonViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -49,11 +50,11 @@
     animationButton.titleLabel.font = FONT(15);
     [animationButton setImage:animation forState:UIControlStateNormal];
     [animationButton
-        setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]]
-                  forState:UIControlStateNormal];
+    setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor wya_hex:@"#108ee9"]]
+              forState:UIControlStateNormal];
     [animationButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [animationButton
-        setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width + 5 * SizeAdapter, 0, 0)];
+    setTitleEdgeInsets:UIEdgeInsetsMake(0, animation.size.width + 5 * SizeAdapter, 0, 0)];
     [animationButton addCallBackAction:^(UIButton * button){
 
     }];
@@ -130,7 +131,7 @@
                              forState:UIControlStateNormal];
     [loadingButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
     [loadingButton
-        setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width + 5 * SizeAdapter, 0, 0)];
+    setTitleEdgeInsets:UIEdgeInsetsMake(0, loading.size.width + 5 * SizeAdapter, 0, 0)];
     [loadingButton addCallBackAction:^(UIButton * button){
 
     }];
@@ -144,7 +145,7 @@
     CGFloat loadingButton_Width  = ScreenWidth - 20 * SizeAdapter;
     CGFloat loadingButton_Height = 44 * SizeAdapter;
     loadingButton.frame =
-        CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
+    CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
 
     UIButton * button4 = [UIButton buttonWithType:UIButtonTypeCustom];
     [button4 setTitle:@"点击" forState:UIControlStateNormal];

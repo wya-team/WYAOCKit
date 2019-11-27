@@ -9,15 +9,22 @@
 #import "NSString+WYAVersionCompare.h"
 
 @implementation NSString (WYAVersionCompare)
-+ (NSInteger)wya_compareVersion:(NSString *)v1 to:(NSString *)v2 {
++ (NSInteger)wya_compareVersion:(NSString *)v1 to:(NSString *)v2
+{
     // 都为空，相等，返回0
-    if (!v1 && !v2) { return 0; }
+    if (!v1 && !v2) {
+        return 0;
+    }
 
     // v1为空，v2不为空，返回-1
-    if (!v1 && v2) { return -1; }
+    if (!v1 && v2) {
+        return -1;
+    }
 
     // v2为空，v1不为空，返回1
-    if (v1 && !v2) { return 1; }
+    if (v1 && !v2) {
+        return 1;
+    }
 
     // 获取版本号字段
     NSArray * v1Array = [v1 componentsSeparatedByString:@"."];

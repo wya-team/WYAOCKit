@@ -20,7 +20,8 @@
 
 @implementation WYAPaginationViewController
 
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -29,7 +30,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.index      = 0;
@@ -41,7 +43,8 @@
     [self configUI];
 }
 
-- (void)configUI {
+- (void)configUI
+{
     UILabel * label = [[UILabel alloc] init];
     label.text      = @"基本";
     label.textColor = random(51, 51, 51, 1);
@@ -60,7 +63,7 @@
     CGFloat pagination_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat pagination_Height = 44 * SizeAdapter;
     self.pagination.frame =
-        CGRectMake(pagination_X, pagination_Y, pagination_Width, pagination_Height);
+    CGRectMake(pagination_X, pagination_Y, pagination_Width, pagination_Height);
     [self changeNumber];
 
     UILabel * label1 = [[UILabel alloc] init];
@@ -103,8 +106,8 @@
     CGFloat hiddentextPagination_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat hiddentextPagination_Height = 44 * SizeAdapter;
     self.hiddentextPagination.frame =
-        CGRectMake(hiddentextPagination_X, hiddentextPagination_Y, hiddentextPagination_Width,
-                   hiddentextPagination_Height);
+    CGRectMake(hiddentextPagination_X, hiddentextPagination_Y, hiddentextPagination_Width,
+               hiddentextPagination_Height);
 
     UILabel * label3 = [[UILabel alloc] init];
     label3.text      = @"只有数字";
@@ -124,7 +127,7 @@
     CGFloat textPagination_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat textPagination_Height = 44 * SizeAdapter;
     self.textPagination.frame =
-        CGRectMake(textPagination_X, textPagination_Y, textPagination_Width, textPagination_Height);
+    CGRectMake(textPagination_X, textPagination_Y, textPagination_Width, textPagination_Height);
     self.textPagination.titleLabel.text = @"0/5";
 
     UILabel * label4 = [[UILabel alloc] init];
@@ -145,14 +148,15 @@
     CGFloat pageControl_Width  = 100;
     CGFloat pageControl_Height = 30;
     self.pageControl.frame =
-        CGRectMake(pageControl_X, pageControl_Y, pageControl_Width, pageControl_Height);
+    CGRectMake(pageControl_X, pageControl_Y, pageControl_Width, pageControl_Height);
 }
 
 #pragma mark - WYAPaginationViewDelegate  -
 /**
  左按钮点击事件
  */
-- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button {
+- (void)wya_leftActionWithPaginationView:(UIView *)view button:(UIButton *)button
+{
     if (view == self.pagination) {
         if (self.index < 1) {
             return;
@@ -181,7 +185,8 @@
 /**
  右按钮点击事件
  */
-- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button {
+- (void)wya_rightActionWithPaginationView:(UIView *)view button:(UIButton *)button
+{
     if (view == self.pagination) {
         if (self.index > 9) {
             return;
@@ -207,7 +212,8 @@
     }
 }
 
-- (void)changeNumber {
+- (void)changeNumber
+{
     NSString * string                = [NSString stringWithFormat:@"%ld/10", (long)self.index];
     NSMutableAttributedString * text = [[NSMutableAttributedString alloc] initWithString:string];
     [text addAttribute:NSForegroundColorAttributeName
@@ -216,18 +222,20 @@
     self.pagination.titleLabel.attributedText = text;
 }
 
-- (void)changeImageNumber {
+- (void)changeImageNumber
+{
     NSString * string                = [NSString stringWithFormat:@"%ld/5", (long)self.imageIndex];
     NSMutableAttributedString * text = [[NSMutableAttributedString alloc] initWithString:string];
     [text addAttribute:NSForegroundColorAttributeName
                  value:random(58, 149, 226, 1)
                  range:[string rangeOfString:[NSString
-                                                 stringWithFormat:@"%ld", (long)self.imageIndex]]];
+                                             stringWithFormat:@"%ld", (long)self.imageIndex]]];
     self.imagepagination.titleLabel.attributedText = text;
 }
 
 #pragma mark - Getter -
-- (WYAPaginationView *)pagination {
+- (WYAPaginationView *)pagination
+{
     if (!_pagination) {
         _pagination = ({
             WYAPaginationView * object           = [[WYAPaginationView alloc] init];
@@ -243,7 +251,8 @@
     return _pagination;
 }
 
-- (WYAPaginationView *)imagepagination {
+- (WYAPaginationView *)imagepagination
+{
     if (!_imagepagination) {
         _imagepagination = ({
             WYAPaginationView * object           = [[WYAPaginationView alloc] init];
@@ -261,7 +270,8 @@
     return _imagepagination;
 }
 
-- (WYAPaginationView *)textPagination {
+- (WYAPaginationView *)textPagination
+{
     if (!_textPagination) {
         _textPagination = ({
             WYAPaginationView * object           = [[WYAPaginationView alloc] init];
@@ -276,7 +286,8 @@
     return _textPagination;
 }
 
-- (WYAPaginationView *)hiddentextPagination {
+- (WYAPaginationView *)hiddentextPagination
+{
     if (!_hiddentextPagination) {
         _hiddentextPagination = ({
             WYAPaginationView * object           = [[WYAPaginationView alloc] init];
@@ -290,7 +301,8 @@
     return _hiddentextPagination;
 }
 
-- (UIPageControl *)pageControl {
+- (UIPageControl *)pageControl
+{
     if (!_pageControl) {
         _pageControl = ({
             UIPageControl * object               = [[UIPageControl alloc] init];

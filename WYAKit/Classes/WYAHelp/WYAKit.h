@@ -119,6 +119,8 @@
 #import <YYModel/YYModel.h>
 #import <YYText/YYText.h>
 #import <YYImage/YYImage.h>
+#import <SDWebImage/FLAnimatedImageView+WebCache.h>
+//#import <SDWebImageFLPlugin/SDWebImageFLPlugin.h>
 //#import <YogaKit/UIView+Yoga.h>
 //#import <YogaKit/YGLayout.h>
 #endif

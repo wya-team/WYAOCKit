@@ -24,7 +24,8 @@
 
 @implementation WYAAlertSheetView
 
-- (_Nonnull instancetype)initWithTitle:(NSString *)title message:(NSString *)message {
+- (_Nonnull instancetype)initWithTitle:(NSString *)title message:(NSString *)message
+{
     self = [super init];
     if (self) {
         self.labelPadding = 30 * SizeAdapter;
@@ -43,7 +44,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -58,7 +60,7 @@
     [self.buttonView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.right.mas_equalTo(self.containerView);
         make.bottom.mas_equalTo(self.cancelButton.mas_top)
-            .with.offset(self.buttons.count > 0 ? -5 : 0);
+        .with.offset(self.buttons.count > 0 ? -5 : 0);
         make.height.mas_equalTo(self.buttons.count * 50 * SizeAdapter).priorityHigh();
     }];
 
@@ -109,8 +111,11 @@
 }
 
 #pragma mark ======= Public Method
-- (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
-    for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
+{
+    for (UIView * view in self.buttonView.subviews) {
+        [view removeFromSuperview];
+    }
 
     // 添加到 action 数组
     [self.actions addObject:action];
@@ -139,33 +144,44 @@
     [self layoutIfNeeded];
 }
 
-- (void)wya_addCornerRadiusWithNumber:(CGFloat)number {
+- (void)wya_addCornerRadiusWithNumber:(CGFloat)number
+{
     [self layoutIfNeeded];
     [self.containerView addRoundedCorners:UIRectCornerTopLeft | UIRectCornerTopRight withRadii:CGSizeMake(number, number) viewRect:self.containerView.bounds];
 }
 
 /** 点击按钮事件 */
-- (void)actionButtonDidClicked:(UIButton *)sender {
+- (void)actionButtonDidClicked:(UIButton *)sender
+{
     // 点击button后自动dismiss
-    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
+    if (_controller) {
+        [_controller dismissViewControllerAnimated:YES completion:nil];
+    }
 
     // 根据 tag 取到 handler
     void (^handler)(void) = self.actions[sender.tag].handler;
-    if (handler) { handler(); }
+    if (handler) {
+        handler();
+    }
 }
 
-- (void)cancelClick {
+- (void)cancelClick
+{
     // 点击button后自动dismiss
-    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
+    if (_controller) {
+        [_controller dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 #pragma mark - Getter
-- (CGFloat)height {
+- (CGFloat)height
+{
     [self layoutIfNeeded];
     return self.containerView.cmam_height;
 }
 
-- (UIView *)containerView {
+- (UIView *)containerView
+{
     if (!_containerView) {
         _containerView = ({
             UIView * object        = [[UIView alloc] init];
@@ -176,7 +192,8 @@
     return _containerView;
 }
 
-- (UIButton *)cancelButton {
+- (UIButton *)cancelButton
+{
     if (!_cancelButton) {
         _cancelButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -191,7 +208,8 @@
     return _cancelButton;
 }
 
-- (UIView *)titleView {
+- (UIView *)titleView
+{
     if (!_titleView) {
         _titleView = ({
             UIView * object        = [[UIView alloc] init];
@@ -202,22 +220,24 @@
     return _titleView;
 }
 
-- (UIView *)buttonView {
+- (UIView *)buttonView
+{
     if (!_buttonView) {
         _buttonView = ({
             UIView * object = [[UIView alloc] init];
             object.backgroundColor =
-                [UIColor colorWithRed:203.0 / 255.0
-                                green:203.0 / 255.0
-                                 blue:203.0 / 255.0
-                                alpha:1];
+            [UIColor colorWithRed:203.0 / 255.0
+                            green:203.0 / 255.0
+                             blue:203.0 / 255.0
+                            alpha:1];
             object;
         });
     }
     return _buttonView;
 }
 
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object       = [[UILabel alloc] init];
@@ -232,7 +252,8 @@
     return _titleLabel;
 }
 
-- (UILabel *)messageLabel {
+- (UILabel *)messageLabel
+{
     if (!_messageLabel) {
         _messageLabel = ({
             UILabel * object       = [[UILabel alloc] init];
@@ -247,7 +268,8 @@
     return _messageLabel;
 }
 
-- (NSMutableArray *)buttons {
+- (NSMutableArray *)buttons
+{
     if (!_buttons) {
         _buttons = ({
             NSMutableArray * object = [[NSMutableArray alloc] init];
@@ -257,8 +279,11 @@
     return _buttons;
 }
 
-- (NSMutableArray<WYAAlertAction *> *)actions {
-    if (!_actions) { _actions = [NSMutableArray arrayWithCapacity:0]; }
+- (NSMutableArray<WYAAlertAction *> *)actions
+{
+    if (!_actions) {
+        _actions = [NSMutableArray arrayWithCapacity:0];
+    }
     return _actions;
 }
 

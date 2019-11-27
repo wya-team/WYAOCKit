@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAAdaptiveLatticeView : UIView
-@property (nonatomic, copy) void(^updateFrame)(WYAAdaptiveLatticeView * view, CGRect rect);
+@property (nonatomic, copy) void (^updateFrame)(WYAAdaptiveLatticeView * view, CGRect rect);
 - (void)addTitles:(NSArray *)titles;
 @end
 

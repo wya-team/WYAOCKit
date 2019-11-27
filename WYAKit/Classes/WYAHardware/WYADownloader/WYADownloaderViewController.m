@@ -17,7 +17,7 @@
 #import "WYAProgressView.h"
 
 @interface WYADownloaderViewController () <WYANavBarDelegate, UITableViewDelegate,
-UITableViewDataSource>
+                                           UITableViewDataSource>
 @property (nonatomic, strong) WYANavBar * customNavBar;
 @property (nonatomic, strong) UILabel * cacheLabel;
 @property (nonatomic, strong) WYAProgressView * cacheProgressView;
@@ -27,11 +27,13 @@ UITableViewDataSource>
 
 @implementation WYADownloaderViewController
 #pragma mark ======= LifeCircle
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     [self.view addSubview:self.customNavBar];
@@ -41,7 +43,8 @@ UITableViewDataSource>
     [self setupCacheLabel];
 }
 
-- (void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
 
     CGFloat customNavBar_X      = 0;
@@ -66,13 +69,15 @@ UITableViewDataSource>
     self.tableView.frame = CGRectMake(tableView_X, tableView_Y, tableView_Width, tableView_Height);
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 #pragma mark ======= Private Method
-- (void)setupCacheLabel {
+- (void)setupCacheLabel
+{
     //    double allMemory           = [NSString wya_phoneFreeMemory];
     [WYAClearCache wya_getDivceAvailableSizeBlock:^(NSString * _Nonnull folderSize) {
         WYADownloader * downloader = [WYADownloader sharedDownloader];
@@ -95,21 +100,25 @@ UITableViewDataSource>
 }
 
 #pragma mark - WYANavBarDelegate  -
-- (void)wya_goBackPressed:(UIButton *)sender {
+- (void)wya_goBackPressed:(UIButton *)sender
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - UITableViewDataSource  -
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 2;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYADownloaderCell * cell =
     [tableView dequeueReusableCellWithIdentifier:@"cell"
                                     forIndexPath:indexPath];
@@ -117,38 +126,44 @@ UITableViewDataSource>
         cell.titleLabel.text = @"下载中";
         cell.fileNumberLabel.text =
         [NSString stringWithFormat:@"当前%d个任务正在下载",
-         [WYADownloader sharedDownloader].downloadingArray.count];
+                                   [WYADownloader sharedDownloader].downloadingArray.count];
     } else {
         cell.titleLabel.text      = @"已完成";
         cell.fileNumberLabel.text = [NSString
-                                     stringWithFormat:@"已下载%d个文件",
-                                     [WYADownloader sharedDownloader].downloadCompleteArray.count];
+        stringWithFormat:@"已下载%d个文件",
+                         [WYADownloader sharedDownloader].downloadCompleteArray.count];
     }
     return cell;
 }
 
 #pragma mark - UITableViewDelegate  -
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 90 * SizeAdapter;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 0.01;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 0.01;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         WYADownloadingViewController * vc = [[WYADownloadingViewController alloc] init];
@@ -164,7 +179,8 @@ UITableViewDataSource>
 }
 
 #pragma mark - Getter -
-- (UILabel *)cacheLabel {
+- (UILabel *)cacheLabel
+{
     if (!_cacheLabel) {
         _cacheLabel = ({
             UILabel * object       = [[UILabel alloc] init];
@@ -176,7 +192,8 @@ UITableViewDataSource>
     return _cacheLabel;
 }
 
-- (WYAProgressView *)cacheProgressView {
+- (WYAProgressView *)cacheProgressView
+{
     if (!_cacheProgressView) {
         _cacheProgressView = ({
             CGFloat cacheLabel_X      = 0;
@@ -196,7 +213,8 @@ UITableViewDataSource>
     return _cacheProgressView;
 }
 
-- (UITableView *)tableView {
+- (UITableView *)tableView
+{
     if (!_tableView) {
         _tableView = ({
             UITableView * object =
@@ -211,7 +229,8 @@ UITableViewDataSource>
     return _tableView;
 }
 
-- (WYANavBar *)customNavBar {
+- (WYANavBar *)customNavBar
+{
     if (!_customNavBar) {
         _customNavBar = ({
             WYANavBar * object = [[WYANavBar alloc] init];

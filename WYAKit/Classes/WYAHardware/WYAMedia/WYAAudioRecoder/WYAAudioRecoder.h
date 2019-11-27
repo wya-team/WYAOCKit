@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param url 音频路径
  @param volume 声音大小
+ @param speed 播放速度
  @param numberOfLoops 播放次数
  @param currentTime 开始位置
  @param error 错误
@@ -76,6 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)wya_startPlayAudioWithUrl:(NSURL *)url
                            volume:(CGFloat)volume
+                            speed:(CGFloat)speed
                     numberOfLoops:(NSInteger)numberOfLoops
                       currentTime:(NSTimeInterval)currentTime
                             error:(NSError *)error;

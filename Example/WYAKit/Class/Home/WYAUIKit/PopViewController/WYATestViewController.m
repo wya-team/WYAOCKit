@@ -14,20 +14,22 @@
 @end
 
 @implementation WYATestViewController
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     self.view.superview.clipsToBounds = NO;
     self.view.layer.cornerRadius      = 3.f;
     self.view.layer.masksToBounds     = YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //    self.view.backgroundColor = [UIColor whiteColor];
 
     self.tableView =
-        [[UITableView alloc] initWithFrame:self.view.frame
-                                     style:UITableViewStylePlain];
+    [[UITableView alloc] initWithFrame:self.view.frame
+                                 style:UITableViewStylePlain];
     self.tableView.delegate      = self;
     self.tableView.dataSource    = self;
     self.tableView.scrollEnabled = NO;
@@ -36,15 +38,17 @@
     [self.view addSubview:self.tableView];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAPopCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cell"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                    forIndexPath:indexPath];
     if (indexPath.row == 0) {
         cell.title     = @"Scan";
         cell.imageName = @"iocn_saoyisao";
@@ -55,17 +59,23 @@
         cell.title     = @"Help";
         cell.imageName = @"icon_help";
     }
-    if (indexPath.row == 2) { cell.line.hidden = YES; }
+    if (indexPath.row == 2) {
+        cell.line.hidden = YES;
+    }
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 44 * SizeAdapter;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.popCallback) { self.popCallback(indexPath); }
+    if (self.popCallback) {
+        self.popCallback(indexPath);
+    }
 }
 
 /*

@@ -13,30 +13,34 @@
 {
     self = [super init];
     if (self) {
-        self.titleColor = [UIColor blackColor];
-        self.titleFont = FONT(15);
+        self.titleColor  = [UIColor blackColor];
+        self.titleFont   = FONT(15);
         self.selectColor = [UIColor clearColor];
-        self.tagColor = [UIColor clearColor];
+        self.tagColor    = [UIColor clearColor];
     }
     return self;
 }
 
-- (NSString *)text{
+- (NSString *)text
+{
     if (self.day == 0) {
         return @"";
     }
-    return [NSString stringWithFormat:@"%d",self.day];
+    return [NSString stringWithFormat:@"%d", self.day];
 }
 
-- (NSInteger)year{
+- (NSInteger)year
+{
     return [self.date wya_year];
 }
 
-- (NSInteger)month{
+- (NSInteger)month
+{
     return [self.date wya_month];
 }
 
-- (NSInteger)day{
+- (NSInteger)day
+{
     return [self.date wya_day];
 }
 

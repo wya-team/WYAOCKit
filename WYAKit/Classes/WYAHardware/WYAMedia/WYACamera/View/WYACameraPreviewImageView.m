@@ -15,19 +15,26 @@
 
 @implementation WYACameraPreviewImageView
 #pragma mark ======= LifeCircle
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { [self setup]; }
+    if (self) {
+        [self setup];
+    }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) { [self setup]; }
+    if (self) {
+        [self setup];
+    }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.editButton mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -52,14 +59,16 @@
 }
 
 #pragma mark - Private Method -
-- (void)setup {
+- (void)setup
+{
     [self addSubview:self.cancelButton];
     [self addSubview:self.editButton];
     [self addSubview:self.finishButton];
 }
 
 #pragma mark - Getter -
-- (UIButton *)cancelButton {
+- (UIButton *)cancelButton
+{
     if (!_cancelButton) {
         _cancelButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -67,7 +76,9 @@
                                             ClassName:NSStringFromClass([self class])]
                     forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton * button) {
-                if (self.cancelHandle) { self.cancelHandle(); }
+                if (self.cancelHandle) {
+                    self.cancelHandle();
+                }
             }];
             object;
         });
@@ -75,7 +86,8 @@
     return _cancelButton;
 }
 
-- (UIButton *)finishButton {
+- (UIButton *)finishButton
+{
     if (!_finishButton) {
         _finishButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -83,7 +95,9 @@
                                             ClassName:NSStringFromClass([self class])]
                     forState:UIControlStateNormal];
             [object addCallBackAction:^(UIButton * button) {
-                if (self.finishHandle) { self.finishHandle(self.image); }
+                if (self.finishHandle) {
+                    self.finishHandle(self.image);
+                }
             }];
             object;
         });
@@ -91,7 +105,8 @@
     return _finishButton;
 }
 
-- (UIButton *)editButton {
+- (UIButton *)editButton
+{
     if (!_editButton) {
         _editButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -101,7 +116,9 @@
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton * button) {
                 StrongSelf(strongSelf);
-                if (strongSelf.editHandle) { strongSelf.editHandle(strongSelf.image); }
+                if (strongSelf.editHandle) {
+                    strongSelf.editHandle(strongSelf.image);
+                }
             }];
             object;
         });

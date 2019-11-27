@@ -15,7 +15,7 @@
 
 @property (nonatomic, weak) PHCachingImageManager * cachingManager;
 
-+(instancetype)sharedPhotoBrowserManager;
++ (instancetype)sharedPhotoBrowserManager;
 
 /**
  设置是否升序排列
@@ -42,8 +42,6 @@
                                                            allowSelectGif:(BOOL)allowSelectGif
                                                      allowSelectLivePhoto:(BOOL)allowSelectLivePhoto;
 
-
-
 /**
  获取相机胶卷相册列表对象
 
@@ -54,8 +52,6 @@
 - (WYAPhotoBrowserAlbumModel *)getCameraRollAlbumList:(BOOL)allowSelectVideo
                                      allowSelectImage:(BOOL)allowSelectImage;
 
-
-
 /**
  block 获取相机胶卷相册列表对象
 
@@ -65,8 +61,7 @@
  */
 - (void)getCameraRollAlbumList:(BOOL)allowSelectVideo
               allowSelectImage:(BOOL)allowSelectImage
-                      complete:(void (^)(WYAPhotoBrowserAlbumModel *album))complete;
-
+                      complete:(void (^)(WYAPhotoBrowserAlbumModel * album))complete;
 
 /**
  获取用户所有相册列表
@@ -78,7 +73,6 @@
 - (void)getPhotoAblumList:(BOOL)allowSelectVideo
          allowSelectImage:(BOOL)allowSelectImage
                  complete:(void (^)(NSArray<WYAPhotoBrowserAlbumModel *> *))complete;
-
 
 /**
  将result中对象转换成WYAPhotoBrowserModel
@@ -96,7 +90,6 @@
                                        allowSelectGif:(BOOL)allowSelectGif
                                  allowSelectLivePhoto:(BOOL)allowSelectLivePhoto;
 
-
 /**
  获取选中的图片
 
@@ -110,7 +103,6 @@
                       allowSelectGif:(BOOL)allowSelectGif
                           completion:(void (^)(UIImage *, NSDictionary *))completion;
 
-
 /**
  获取原图data，转换gif图
 
@@ -119,38 +111,38 @@
  @param completion 完成回调
  */
 - (void)requestOriginalImageDataForAsset:(PHAsset *)asset
-                         progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
-                              completion:(void (^)(NSData *, NSDictionary *))completion;
+                         progressHandler:(void (^_Nullable)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler
+                              completion:(void (^_Nullable)(NSData *, NSDictionary *))completion;
 
 /**
  * @brief 获取原图
  */
 - (void)requestOriginalImageForAsset:(PHAsset *)asset
-                     progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
+                     progressHandler:(void (^_Nullable)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler
                           completion:(void (^)(UIImage *, NSDictionary *))completion;
 
 /**
  * @brief 根据传入size获取图片
  */
 - (PHImageRequestID)requestImageForAsset:(PHAsset *)asset
-                                    size:(CGSize)size progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
+                                    size:(CGSize)size
+                         progressHandler:(void (^_Nullable)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler
                               completion:(void (^)(UIImage *, NSDictionary *))completion;
-
 
 /**
  * @brief 获取live photo
  */
 - (void)requestLivePhotoForAsset:(PHAsset *)asset
-                      completion:(void (^)(PHLivePhoto *livePhoto, NSDictionary *info))completion;
+                      completion:(void (^)(PHLivePhoto * livePhoto, NSDictionary * info))completion;
 
 /**
  * @brief 获取视频
  */
 - (void)requestVideoForAsset:(PHAsset *)asset
-                  completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
+                  completion:(void (^)(AVPlayerItem * item, NSDictionary * info))completion;
 - (void)requestVideoForAsset:(PHAsset *)asset
-             progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler
-                  completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion;
+             progressHandler:(void (^)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler
+                  completion:(void (^)(AVPlayerItem * item, NSDictionary * info))completion;
 
 - (void)startCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;
 - (void)stopCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size;
@@ -163,15 +155,14 @@
 
  @param size 图片size
  */
-- (void)analysisEverySecondsImageForAsset:(PHAsset *)asset interval:(NSTimeInterval)interval size:(CGSize)size complete:(void (^)(AVAsset *avAsset, NSArray<UIImage *> *images))complete;
+- (void)analysisEverySecondsImageForAsset:(PHAsset *)asset interval:(NSTimeInterval)interval size:(CGSize)size complete:(void (^)(AVAsset * avAsset, NSArray<UIImage *> * images))complete;
 
 /**
  导出编辑的片段视频并保存到相册
 
  @param range 需要到处的视频间隔
  */
-- (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type complete:(void (^)(BOOL isSuc, PHAsset *asset))complete;
-
+- (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type complete:(void (^)(BOOL isSuc, PHAsset * asset))complete;
 
 /**
  导出视频，视频压缩设置默认为 AVAssetExportPresetMediumQuality
@@ -179,7 +170,7 @@
  @param asset 需要导出视频的asset
  @param type 视频导出格式
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 /**
  导出视频
@@ -188,8 +179,7 @@
  @param type 视频导出格式
  @param presetName 视频压缩设置
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
-
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 /**
  导出指定尺寸的视频，视频区域为以视频中心为中点（视频质量未压缩）
@@ -198,7 +188,7 @@
  @param type 视频导出格式
  @param renderSize 指定的尺寸大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 #pragma mark - 导出视频加水印、粒子效果
 /**
@@ -213,8 +203,7 @@
  @param location 水印位置
  @param imageSize 水印大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
-
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 /**
  导出全尺寸视频，并添加水印（支持设置压缩系数）
@@ -226,8 +215,7 @@
  @param location 水印位置
  @param imageSize 水印大小
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
-
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 /**
  给视频加粒子特效，目前仅支持粒子从屏幕上方向下发射，e.g.:下雪特效，需传入一张雪花图片。
@@ -239,8 +227,7 @@
  @param birthRate 粒子每秒创建数量（建议30~50）
  @param velocity 粒子扩散速度
  */
-- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *exportFilePath, NSError *error))complete;
-
+- (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString * exportFilePath, NSError * error))complete;
 
 /**
  获取保存视频的路径

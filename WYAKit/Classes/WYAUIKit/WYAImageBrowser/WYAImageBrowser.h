@@ -9,15 +9,14 @@
 
 typedef NS_ENUM(NSUInteger, WYAImageBrowserStyle) {
     WYAImageBrowserStylePageControl = 1, // 底部一个PageControl
-    WYAImageBrowserStyleIndexLabel = 2,
-    WYAImageBrowserStyleSimple = 3 // 没有长按图片弹出的功能组件,顶部一个索引UILabel,底部一个保存图片按钮
+    WYAImageBrowserStyleSimple      = 2 // 没有长按图片弹出的功能组件,顶部一个索引UILabel,底部一个保存图片按钮
 };
 
 /**
  *  pageControl的位置
  */
 typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment) {
-    WYAImageBrowserPageControlAlimentRight = 1,
+    WYAImageBrowserPageControlAlimentRight  = 1,
     WYAImageBrowserPageControlAlimentCenter = 2,
     WYAImageBrowserPageControlAlimentLeft   = 3
 };
@@ -27,7 +26,7 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlAliment) {
  */
 typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
     WYAImageBrowserPageControlStyleClassic = 1,
-    WYAImageBrowserPageControlStyleNone = 2
+    WYAImageBrowserPageControlStyleNone    = 2
 
 };
 

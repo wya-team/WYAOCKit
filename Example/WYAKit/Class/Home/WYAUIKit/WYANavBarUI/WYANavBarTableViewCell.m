@@ -15,13 +15,15 @@
 @implementation WYANavBarTableViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.contentLabel];
     }
     return self;
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.contentLabel mas_makeConstraints:^(MASConstraintMaker * make) {
         make.top.equalTo(self.contentView.mas_top).offset(5);
@@ -31,7 +33,8 @@
     }];
 }
 
-- (UILabel *)contentLabel {
+- (UILabel *)contentLabel
+{
     if (!_contentLabel) {
         _contentLabel = ({
             UILabel * object           = [[UILabel alloc] init];
@@ -45,7 +48,8 @@
     }
     return _contentLabel;
 }
-- (void)setTitleString:(NSString *)titleString {
+- (void)setTitleString:(NSString *)titleString
+{
     _titleString           = titleString;
     self.contentLabel.text = titleString;
 }

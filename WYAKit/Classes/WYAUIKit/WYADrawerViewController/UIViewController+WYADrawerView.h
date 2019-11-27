@@ -38,7 +38,7 @@
  */
 - (void)wya_registerShowIntractiveWithEdgeGesture:(BOOL)openEdgeGesture
                      transitionDirectionAutoBlock:(void (^)(WYADrawerTransitionDirection direction))
-                                                      transitionDirectionAutoBlock;
+                                                  transitionDirectionAutoBlock;
 
 /**
  自定义的push动画

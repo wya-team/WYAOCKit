@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_DownloadTaskWithModel:(WYADownloadModel *)model
                      ResultHandle:
-                         (void (^)(WYADownloadModel * resultModel, NSString * result))handle;
+                     (void (^)(WYADownloadModel * resultModel, NSString * result))handle;
 
 /**
  暂停下载
@@ -90,6 +90,6 @@ NS_ASSUME_NONNULL_BEGIN
 FOUNDATION_EXPORT NSString * const WYADownloaderDownloadArrayObserveKeyPath; //监测下载队列的变化
 
 FOUNDATION_EXPORT NSString * const
-    WYADownloaderCompleteArrayObserveKeyPath; //监测下载完成队列的变化
+WYADownloaderCompleteArrayObserveKeyPath; //监测下载完成队列的变化
 
 NS_ASSUME_NONNULL_END

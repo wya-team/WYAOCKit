@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIView (WYALoadingAnimate)<CAAnimationDelegate>
+@interface UIView (WYALoadingAnimate) <CAAnimationDelegate>
 
 //隐藏loading
 - (void)hideWYALoading;
@@ -87,7 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
  @param endColor 文字路径描绘后的颜色
  */
 - (void)drawWordAnimationWithSize:(CGSize)size text:(NSString *)text font:(UIFont *)font startColor:(UIColor *)startColor endColor:(UIColor *)endColor position:(WYALoadingPosition)position;
-
 
 @end
 

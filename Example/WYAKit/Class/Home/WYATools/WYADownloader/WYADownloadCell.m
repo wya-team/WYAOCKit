@@ -19,7 +19,8 @@
 @implementation WYADownloadCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.speedLabel];
@@ -30,7 +31,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.button mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
@@ -59,7 +61,8 @@
     }];
 }
 
-- (void)buttonClick {
+- (void)buttonClick
+{
     WYADownloader * download = [WYADownloader sharedDownloader];
     switch (self.model.downloadState) {
         case WYADownloadStateDownloading: {
@@ -74,7 +77,8 @@
     }
 }
 
-- (void)setModel:(WYADownloadModel *)model {
+- (void)setModel:(WYADownloadModel *)model
+{
     if (_model) {
         [_model removeObserver:self forKeyPath:@"progress"];
         [_model removeObserver:self forKeyPath:@"downloadState"];
@@ -101,7 +105,8 @@
     [self configButton:model.downloadState];
 }
 
-- (void)configButton:(WYADownloadState)state {
+- (void)configButton:(WYADownloadState)state
+{
     switch (state) {
         case WYADownloadStateNormal:
             [self.button setTitle:@"下载" forState:UIControlStateNormal];
@@ -131,7 +136,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
-                       context:(void *)context {
+                       context:(void *)context
+{
     if ([keyPath isEqualToString:@"progress"]) {
         CGFloat progress = [change[@"new"] floatValue];
         //        NSLog(@"progress.currentThred==%@",[NSThread currentThread]);
@@ -154,18 +160,21 @@
     }
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
-- (UIProgressView *)progressView {
+- (UIProgressView *)progressView
+{
     if (!_progressView) {
         _progressView = ({
             UIProgressView * object  = [[UIProgressView alloc] init];
@@ -178,7 +187,8 @@
     return _progressView;
 }
 
-- (UIButton *)button {
+- (UIButton *)button
+{
     if (!_button) {
         _button = ({
             UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -186,8 +196,8 @@
             button.titleLabel.font = FONT(15);
             [button setBackgroundColor:[UIColor redColor]];
             [button addTarget:self
-                          action:@selector(buttonClick)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(buttonClick)
+             forControlEvents:UIControlEventTouchUpInside];
             button.layer.cornerRadius  = 5 * SizeAdapter;
             button.layer.masksToBounds = YES;
             button;
@@ -196,7 +206,8 @@
     return _button;
 }
 
-- (UIButton *)suspendButton {
+- (UIButton *)suspendButton
+{
     if (!_suspendButton) {
         _suspendButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -206,7 +217,8 @@
     return _suspendButton;
 }
 
-- (UILabel *)speedLabel {
+- (UILabel *)speedLabel
+{
     if (!_speedLabel) {
         _speedLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -218,7 +230,8 @@
     return _speedLabel;
 }
 
-- (UILabel *)downloadNameLabel {
+- (UILabel *)downloadNameLabel
+{
     if (!_downloadNameLabel) {
         _downloadNameLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -230,7 +243,8 @@
     return _downloadNameLabel;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self.model removeObserver:self forKeyPath:@"progress"];
     [self.model removeObserver:self forKeyPath:@"downloadState"];
     [self.model removeObserver:self forKeyPath:@"speed"];

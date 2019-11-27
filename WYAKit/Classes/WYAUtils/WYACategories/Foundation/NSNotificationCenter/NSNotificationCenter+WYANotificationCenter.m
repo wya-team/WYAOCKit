@@ -13,7 +13,8 @@
 
 - (void)wya_addObserverWithName:(NSString *)name
                          object:(id)object
-                       selector:(void (^)(NSNotification *))sel {
+                       selector:(void (^)(NSNotification *))sel
+{
     objc_setAssociatedObject(self, @"notifition", sel, OBJC_ASSOCIATION_COPY_NONATOMIC);
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedNotice:)
@@ -21,9 +22,12 @@
                                                object:object];
 }
 
-- (void)receivedNotice:(NSNotification *) not{
+- (void)receivedNotice:(NSNotification *) not
+{
     void (^sel)(NSNotification * n) = objc_getAssociatedObject(self, @"notifition");
-    if (sel) { sel(not); }
+    if (sel) {
+        sel(not);
+    }
 }
 
 @end

@@ -13,7 +13,8 @@
                 iconNamed:(NSString *)iconNamed
               titleString:(NSString *)titleString
               rightString:(NSString *)rightString
-          arrowImageNamed:(NSString *)arrowImageNamed {
+          arrowImageNamed:(NSString *)arrowImageNamed
+{
     WYAListModel * model  = [[WYAListModel alloc] init];
     model.type            = type;
     model.iconNamed       = iconNamed;
@@ -31,7 +32,8 @@
               titleString:(NSString *)titleString
            subTitleString:(NSString *)subTitleString
               rightString:(NSString *)rightString
-          arrowImageNamed:(NSString *)arrowImageNamed {
+          arrowImageNamed:(NSString *)arrowImageNamed
+{
     WYATwoRowListModel * model = [[WYATwoRowListModel alloc] init];
     model.type                 = type;
     model.iconNamed            = iconNamed;
@@ -49,7 +51,8 @@
               titleString:(nonnull NSString *)titleString
                rightImage:(NSString * _Nullable)rightImage
               rightString:(NSString * _Nullable)rightString
-          arrowImageNamed:(nonnull NSString *)arrowImageNamed {
+          arrowImageNamed:(nonnull NSString *)arrowImageNamed
+{
     WYATextListModel * model = [[WYATextListModel alloc] init];
     model.type               = type;
     model.titleString        = titleString;
@@ -65,7 +68,8 @@
 + (instancetype)modelWith:(NSInteger)type
                 iconNamed:(NSString *)iconNamed
               titleString:(NSString *)titleString
-          arrowImageNamed:(NSString *)arrowImageNamed {
+          arrowImageNamed:(NSString *)arrowImageNamed
+{
     WYAListCellModel * model = [[WYAListCellModel alloc] init];
     model.type               = type;
     model.iconImageNamed     = iconNamed;

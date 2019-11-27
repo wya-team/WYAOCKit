@@ -23,25 +23,28 @@ static void * NoticeBar = &NoticeBar;
 }
 
 #pragma mark ======= LifeCircle
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     return [self initWithFrame:frame scrollDirection:WYANoticeBarScrollDirectionLeft];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
-              scrollDirection:(WYANoticeBarScrollDirection)scrollDirection {
+              scrollDirection:(WYANoticeBarScrollDirection)scrollDirection
+{
     self = [super initWithFrame:frame];
     if (self) {
-        self.direction     = scrollDirection;
-        self.showTextFont  = 15;
-        self.verticalSpeed = 2;
+        self.direction       = scrollDirection;
+        self.showTextFont    = 15;
+        self.verticalSpeed   = 2;
         self.horizontalSpeed = 0.01;
-        self.showTextColor = [UIColor blackColor];
+        self.showTextColor   = [UIColor blackColor];
         [self createUI];
     }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat noticeButton_x      = 0;
@@ -68,18 +71,21 @@ static void * NoticeBar = &NoticeBar;
     self.scrollView.frame    = titleView_rect;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self wya_stop];
     [self.scrollView removeObserver:self forKeyPath:@"contentOffset" context:NoticeBar];
 }
 
 #pragma mark ======= Public Method
-- (void)wya_start {
+- (void)wya_start
+{
     CGFloat time = 0;
     if (self.direction == WYANoticeBarScrollDirectionLeft) {
         time = self.horizontalSpeed;
     } else {
-        time = self.verticalSpeed;;
+        time = self.verticalSpeed;
+        ;
     }
     if (_autoRun == YES) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:time target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
@@ -88,7 +94,8 @@ static void * NoticeBar = &NoticeBar;
     }
 }
 
-- (void)wya_stop {
+- (void)wya_stop
+{
     if (_timer && [_timer isValid]) {
         [_timer setFireDate:[NSDate distantFuture]];
     }
@@ -99,7 +106,8 @@ static void * NoticeBar = &NoticeBar;
 }
 
 #pragma mark--- Private Method
-- (void)createUI {
+- (void)createUI
+{
     self.layer.masksToBounds = YES;
 
     [self addSubview:self.noticeButton];
@@ -110,8 +118,8 @@ static void * NoticeBar = &NoticeBar;
     self.noticeBackgroundColor = [UIColor whiteColor];
 }
 
-- (void)resertUI {
-
+- (void)resertUI
+{
     for (UIView * view in self.scrollView.subviews) {
         [view removeFromSuperview];
     }
@@ -147,7 +155,7 @@ static void * NoticeBar = &NoticeBar;
             [self.scrollView addSubview:label];
             view = label;
         }
-        if (self.textArray.count>1) {
+        if (self.textArray.count > 1) {
             _autoRun = YES;
         } else {
             _autoRun = NO;
@@ -160,7 +168,8 @@ static void * NoticeBar = &NoticeBar;
     }
 }
 
-- (void)timerAction {
+- (void)timerAction
+{
     switch (self.direction) {
         case WYANoticeBarScrollDirectionLeft:
             [self.scrollView setContentOffset:CGPointMake(self.scrollView.contentOffset.x + 1, 0) animated:NO];
@@ -180,7 +189,8 @@ static void * NoticeBar = &NoticeBar;
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
-                       context:(void *)context {
+                       context:(void *)context
+{
     if ([keyPath isEqualToString:@"contentOffset"] && context == NoticeBar) {
         if (self.direction == WYANoticeBarScrollDirectionLeft) {
             NSValue * newvalue = change[NSKeyValueChangeNewKey];
@@ -208,7 +218,8 @@ static void * NoticeBar = &NoticeBar;
 }
 
 #pragma mark--- Setter
-- (void)setShowText:(NSString *)showText {
+- (void)setShowText:(NSString *)showText
+{
     _showText = showText;
     if (showText) {
         [self wya_stop];
@@ -217,7 +228,8 @@ static void * NoticeBar = &NoticeBar;
     }
 }
 
-- (void)setShowNoticeButton:(BOOL)showNoticeButton {
+- (void)setShowNoticeButton:(BOOL)showNoticeButton
+{
     _showNoticeButton = showNoticeButton;
     if (showNoticeButton == NO) {
         self.noticeButton.hidden = YES;
@@ -228,11 +240,13 @@ static void * NoticeBar = &NoticeBar;
     [self layoutIfNeeded];
 }
 
-- (void)setNoticeButtonCanTouch:(BOOL)noticeButtonCanTouch{
+- (void)setNoticeButtonCanTouch:(BOOL)noticeButtonCanTouch
+{
     self.noticeButton.userInteractionEnabled = noticeButtonCanTouch;
 }
 
-- (void)setShowRightButton:(BOOL)showRightButton {
+- (void)setShowRightButton:(BOOL)showRightButton
+{
     _showRightButton = showRightButton;
     if (showRightButton == NO) {
         self.rightButton.hidden = YES;
@@ -243,33 +257,40 @@ static void * NoticeBar = &NoticeBar;
     [self layoutIfNeeded];
 }
 
-- (void)setRightButtonCanTouch:(BOOL)rightButtonCanTouch{
+- (void)setRightButtonCanTouch:(BOOL)rightButtonCanTouch
+{
     self.rightButton.userInteractionEnabled = rightButtonCanTouch;
 }
 
-- (void)setShowTextColor:(UIColor *)showTextColor {
+- (void)setShowTextColor:(UIColor *)showTextColor
+{
     _showTextColor = showTextColor;
 }
 
-- (void)setShowTextFont:(CGFloat)showTextFont {
+- (void)setShowTextFont:(CGFloat)showTextFont
+{
     _showTextFont = showTextFont;
 }
 
-- (void)setNoticeButtonImage:(UIImage *)noticeButtonImage {
+- (void)setNoticeButtonImage:(UIImage *)noticeButtonImage
+{
     [self.noticeButton setImage:noticeButtonImage forState:UIControlStateNormal];
 }
 
-- (void)setRightButtonImage:(UIImage *)rightButtonImage {
+- (void)setRightButtonImage:(UIImage *)rightButtonImage
+{
     [self.rightButton setImage:rightButtonImage forState:UIControlStateNormal];
 }
 
-- (void)setNoticeBackgroundColor:(UIColor *)noticeBackgroundColor {
+- (void)setNoticeBackgroundColor:(UIColor *)noticeBackgroundColor
+{
     self.scrollView.backgroundColor = noticeBackgroundColor;
     [self.noticeButton setBackgroundColor:noticeBackgroundColor];
     [self.rightButton setBackgroundColor:noticeBackgroundColor];
 }
 
-- (void)setTextArray:(NSArray *)textArray {
+- (void)setTextArray:(NSArray *)textArray
+{
     _textArray = textArray;
     if (textArray) {
         [self wya_stop];
@@ -278,22 +299,27 @@ static void * NoticeBar = &NoticeBar;
     }
 }
 
-- (void)setHorizontalSpeed:(CGFloat)horizontalSpeed{
+- (void)setHorizontalSpeed:(CGFloat)horizontalSpeed
+{
     _horizontalSpeed = horizontalSpeed;
 }
 
-- (void)setVerticalSpeed:(CGFloat)verticalSpeed{
+- (void)setVerticalSpeed:(CGFloat)verticalSpeed
+{
     _verticalSpeed = verticalSpeed;
 }
 
 #pragma mark ======= Getter
-- (UIButton *)noticeButton {
+- (UIButton *)noticeButton
+{
     if (!_noticeButton) {
         _noticeButton = ({
             WeakSelf(weakSelf);
             UIButton * object = [[UIButton alloc] init];
             [object addCallBackAction:^(UIButton * button) {
-                if (weakSelf.leftButtonHandle) { weakSelf.leftButtonHandle(); }
+                if (weakSelf.leftButtonHandle) {
+                    weakSelf.leftButtonHandle();
+                }
             }];
             object;
         });
@@ -301,13 +327,16 @@ static void * NoticeBar = &NoticeBar;
     return _noticeButton;
 }
 
-- (UIButton *)rightButton {
+- (UIButton *)rightButton
+{
     if (!_rightButton) {
         _rightButton = ({
             WeakSelf(weakSelf);
             UIButton * object = [[UIButton alloc] init];
             [object addCallBackAction:^(UIButton * button) {
-                if (weakSelf.rightButtonHandle) { weakSelf.rightButtonHandle(); }
+                if (weakSelf.rightButtonHandle) {
+                    weakSelf.rightButtonHandle();
+                }
             }];
             object;
         });
@@ -315,7 +344,8 @@ static void * NoticeBar = &NoticeBar;
     return _rightButton;
 }
 
-- (UIScrollView *)scrollView {
+- (UIScrollView *)scrollView
+{
     if (!_scrollView) {
         _scrollView = ({
             UIScrollView * object = [[UIScrollView alloc] init];

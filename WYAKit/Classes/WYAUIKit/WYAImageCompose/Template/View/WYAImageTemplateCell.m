@@ -13,7 +13,8 @@
 
 @implementation WYAImageTemplateCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.imageView = [[UIImageView alloc] init];
@@ -22,7 +23,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     CGFloat imageView_x      = 5;
     CGFloat imageView_y      = 5;
@@ -32,7 +34,8 @@
     self.imageView.frame     = imageView_rect;
 }
 
-- (void)setImage:(UIImage *)image {
+- (void)setImage:(UIImage *)image
+{
     if (image) {
         self.imageView.image = image;
     }

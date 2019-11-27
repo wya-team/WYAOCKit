@@ -14,7 +14,8 @@
 
 @implementation WYACardViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navTitle = @"WYACard";

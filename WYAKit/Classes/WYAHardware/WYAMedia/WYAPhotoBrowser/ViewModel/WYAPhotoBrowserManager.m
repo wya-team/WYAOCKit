@@ -12,11 +12,12 @@ static BOOL _sortAscending;
 
 @implementation WYAPhotoBrowserManager
 
-+(instancetype)sharedPhotoBrowserManager{
++ (instancetype)sharedPhotoBrowserManager
+{
     static WYAPhotoBrowserManager * manager;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        manager = [[WYAPhotoBrowserManager alloc]init];
+        manager = [[WYAPhotoBrowserManager alloc] init];
         //        manager.cachingManager = [[PHCachingImageManager alloc]init];
         //        manager.cachingManager.allowsCachingHighQualityImages = NO;
     });
@@ -46,35 +47,38 @@ static BOOL _sortAscending;
     } else if (status == PHAuthorizationStatusRestricted) {
         if (completion) completion(NO, nil);
     } else {
-        __block PHObjectPlaceholder *placeholderAsset=nil;
+        __block PHObjectPlaceholder * placeholderAsset = nil;
         [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-            PHAssetChangeRequest *newAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
-            placeholderAsset = newAssetRequest.placeholderForCreatedAsset;
-        } completionHandler:^(BOOL success, NSError * _Nullable error) {
+            PHAssetChangeRequest * newAssetRequest = [PHAssetChangeRequest creationRequestForAssetFromVideoAtFileURL:url];
+            placeholderAsset                       = newAssetRequest.placeholderForCreatedAsset;
+        }
+        completionHandler:^(BOOL success, NSError * _Nullable error) {
             if (!success) {
                 if (completion) completion(NO, nil);
                 return;
             }
-            PHAsset *asset = [self getAssetFromlocalIdentifier:placeholderAsset.localIdentifier];
-            PHAssetCollection *desCollection = [self getDestinationCollection];
+            PHAsset * asset                   = [self getAssetFromlocalIdentifier:placeholderAsset.localIdentifier];
+            PHAssetCollection * desCollection = [self getDestinationCollection];
             if (!desCollection) completion(NO, nil);
 
             [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                [[PHAssetCollectionChangeRequest changeRequestForAssetCollection:desCollection] addAssets:@[asset]];
-            } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                [[PHAssetCollectionChangeRequest changeRequestForAssetCollection:desCollection] addAssets:@[ asset ]];
+            }
+            completionHandler:^(BOOL success, NSError * _Nullable error) {
                 if (completion) completion(success, asset);
             }];
         }];
     }
 }
 
-- (PHAsset *)getAssetFromlocalIdentifier:(NSString *)localIdentifier{
-    if(localIdentifier == nil){
+- (PHAsset *)getAssetFromlocalIdentifier:(NSString *)localIdentifier
+{
+    if (localIdentifier == nil) {
         NSLog(@"Cannot get asset from localID because it is nil");
         return nil;
     }
-    PHFetchResult *result = [PHAsset fetchAssetsWithLocalIdentifiers:@[localIdentifier] options:nil];
-    if(result.count){
+    PHFetchResult * result = [PHAsset fetchAssetsWithLocalIdentifiers:@[ localIdentifier ] options:nil];
+    if (result.count) {
         return result[0];
     }
     return nil;
@@ -84,15 +88,15 @@ static BOOL _sortAscending;
 - (PHAssetCollection *)getDestinationCollection
 {
     //找是否已经创建自定义相册
-    PHFetchResult<PHAssetCollection *> *collectionResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    for (PHAssetCollection *collection in collectionResult) {
+    PHFetchResult<PHAssetCollection *> * collectionResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    for (PHAssetCollection * collection in collectionResult) {
         if ([collection.localizedTitle isEqualToString:kAPPName]) {
             return collection;
         }
     }
     //新建自定义相册
-    __block NSString *collectionId = nil;
-    NSError *error = nil;
+    __block NSString * collectionId = nil;
+    NSError * error                 = nil;
     [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
         collectionId = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:kAPPName].placeholderForCreatedAssetCollection.localIdentifier;
     } error:&error];
@@ -100,36 +104,36 @@ static BOOL _sortAscending;
         NSLog(@"创建相册：%@失败", kAPPName);
         return nil;
     }
-    return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[collectionId] options:nil].lastObject;
+    return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[ collectionId ] options:nil].lastObject;
 }
 
 #pragma mark - 获取资源
 - (NSArray<WYAPhotoBrowserModel *> *)getAllAssetInPhotoAlbumWithAscending:(BOOL)ascending limitCount:(NSInteger)limit allowSelectVideo:(BOOL)allowSelectVideo allowSelectImage:(BOOL)allowSelectImage allowSelectGif:(BOOL)allowSelectGif allowSelectLivePhoto:(BOOL)allowSelectLivePhoto
 {
-    PHFetchOptions *option = [[PHFetchOptions alloc] init];
+    PHFetchOptions * option = [[PHFetchOptions alloc] init];
     //ascending 为YES时，按照照片的创建时间升序排列;为NO时，则降序排列
-    if (!ascending) option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:ascending]];
-    PHFetchResult *result = [PHAsset fetchAssetsWithOptions:option];
+    if (!ascending) option.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:ascending] ];
+    PHFetchResult * result                 = [PHAsset fetchAssetsWithOptions:option];
 
     return [self getPhotoInResult:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage allowSelectGif:allowSelectGif allowSelectLivePhoto:allowSelectLivePhoto limitCount:limit];
 }
 
 - (WYAPhotoBrowserAlbumModel *)getCameraRollAlbumList:(BOOL)allowSelectVideo allowSelectImage:(BOOL)allowSelectImage
 {
-    PHFetchOptions *option = [[PHFetchOptions alloc] init];
-    if (!allowSelectVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    if (!allowSelectImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",PHAssetMediaTypeVideo];
-    if (!self.sortAscending) option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscending]];
+    PHFetchOptions * option                         = [[PHFetchOptions alloc] init];
+    if (!allowSelectVideo) option.predicate         = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    if (!allowSelectImage) option.predicate         = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+    if (!self.sortAscending) option.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscending] ];
 
-    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    PHFetchResult * smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
 
-    __block WYAPhotoBrowserAlbumModel *m;
-    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *  _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
+    __block WYAPhotoBrowserAlbumModel * m;
+    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
         //获取相册内asset result
         if (collection.assetCollectionSubtype == 209) {
-            PHFetchResult<PHAsset *> *result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-            m = [self getAlbumModeWithTitle:[self getCollectionTitle:collection] result:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage];
-            m.isCameraRoll = YES;
+            PHFetchResult<PHAsset *> * result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+            m                                 = [self getAlbumModeWithTitle:[self getCollectionTitle:collection] result:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage];
+            m.isCameraRoll                    = YES;
         }
     }];
     return m;
@@ -148,18 +152,18 @@ static BOOL _sortAscending;
         if (complete) complete(nil);
         return;
     }
-    PHFetchOptions *option = [[PHFetchOptions alloc] init];
-    if (!allowSelectVideo) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
-    if (!allowSelectImage) option.predicate = [NSPredicate predicateWithFormat:@"mediaType == %ld",PHAssetMediaTypeVideo];
-    if (!self.sortAscending) option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscending]];
+    PHFetchOptions * option                         = [[PHFetchOptions alloc] init];
+    if (!allowSelectVideo) option.predicate         = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeImage];
+    if (!allowSelectImage) option.predicate         = [NSPredicate predicateWithFormat:@"mediaType == %ld", PHAssetMediaTypeVideo];
+    if (!self.sortAscending) option.sortDescriptors = @[ [NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:self.sortAscending] ];
 
     //获取所有智能相册
-    PHFetchResult *smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    PHFetchResult *streamAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
-    PHFetchResult *userAlbums = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
-    PHFetchResult *syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
-    PHFetchResult *sharedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumCloudShared options:nil];
-    NSArray *arrAllAlbums = @[smartAlbums, streamAlbums, userAlbums, syncedAlbums, sharedAlbums];
+    PHFetchResult * smartAlbums  = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
+    PHFetchResult * streamAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumMyPhotoStream options:nil];
+    PHFetchResult * userAlbums   = [PHCollectionList fetchTopLevelUserCollectionsWithOptions:nil];
+    PHFetchResult * syncedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumSyncedAlbum options:nil];
+    PHFetchResult * sharedAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumCloudShared options:nil];
+    NSArray * arrAllAlbums       = @[ smartAlbums, streamAlbums, userAlbums, syncedAlbums, sharedAlbums ];
     /**
      PHAssetCollectionSubtypeAlbumRegular         = 2,///
      PHAssetCollectionSubtypeAlbumSyncedEvent     = 3,////
@@ -191,24 +195,24 @@ static BOOL _sortAscending;
      // Used for fetching, if you don't care about the exact subtype
      PHAssetCollectionSubtypeAny = NSIntegerMax /////所有类型
      */
-    NSMutableArray<WYAPhotoBrowserAlbumModel *> *arrAlbum = [NSMutableArray array];
-    for (PHFetchResult<PHAssetCollection *> *album in arrAllAlbums) {
-        [album enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL *stop) {
+    NSMutableArray<WYAPhotoBrowserAlbumModel *> * arrAlbum = [NSMutableArray array];
+    for (PHFetchResult<PHAssetCollection *> * album in arrAllAlbums) {
+        [album enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * stop) {
             //过滤PHCollectionList对象
             if (![collection isKindOfClass:PHAssetCollection.class]) return;
             //过滤最近删除和已隐藏
             if (collection.assetCollectionSubtype > 215 ||
                 collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumAllHidden) return;
             //获取相册内asset result
-            PHFetchResult<PHAsset *> *result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
+            PHFetchResult<PHAsset *> * result = [PHAsset fetchAssetsInAssetCollection:collection options:option];
             if (!result.count) return;
 
-            NSString *title = [self getCollectionTitle:collection];
+            NSString * title = [self getCollectionTitle:collection];
 
             if (collection.assetCollectionSubtype == PHAssetCollectionSubtypeSmartAlbumUserLibrary) {
                 //所有照片
-                WYAPhotoBrowserAlbumModel *m = [self getAlbumModeWithTitle:title result:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage];
-                m.isCameraRoll = YES;
+                WYAPhotoBrowserAlbumModel * m = [self getAlbumModeWithTitle:title result:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage];
+                m.isCameraRoll                = YES;
                 [arrAlbum insertObject:m atIndex:0];
             } else {
                 [arrAlbum addObject:[self getAlbumModeWithTitle:title result:result allowSelectVideo:allowSelectVideo allowSelectImage:allowSelectImage]];
@@ -226,7 +230,7 @@ static BOOL _sortAscending;
         return collection.localizedTitle;
     }
 
-    NSString *title = nil;
+    NSString * title = nil;
 
     switch (collection.assetCollectionSubtype) {
         case PHAssetCollectionSubtypeSmartAlbumUserLibrary:
@@ -277,16 +281,16 @@ static BOOL _sortAscending;
         }
     }
 
-    return title?:collection.localizedTitle;
+    return title ?: collection.localizedTitle;
 }
 
 //获取相册列表model
 - (WYAPhotoBrowserAlbumModel *)getAlbumModeWithTitle:(NSString *)title result:(PHFetchResult<PHAsset *> *)result allowSelectVideo:(BOOL)allowSelectVideo allowSelectImage:(BOOL)allowSelectImage
 {
-    WYAPhotoBrowserAlbumModel *model = [[WYAPhotoBrowserAlbumModel alloc] init];
-    model.title = title;
-    model.count = result.count;
-    model.result = result;
+    WYAPhotoBrowserAlbumModel * model = [[WYAPhotoBrowserAlbumModel alloc] init];
+    model.title                       = title;
+    model.count                       = result.count;
+    model.result                      = result;
     if (self.sortAscending) {
         model.headImageAsset = result.lastObject;
     } else {
@@ -306,8 +310,8 @@ static BOOL _sortAscending;
 
 - (NSArray<WYAPhotoBrowserModel *> *)getPhotoInResult:(PHFetchResult<PHAsset *> *)result allowSelectVideo:(BOOL)allowSelectVideo allowSelectImage:(BOOL)allowSelectImage allowSelectGif:(BOOL)allowSelectGif allowSelectLivePhoto:(BOOL)allowSelectLivePhoto limitCount:(NSInteger)limit
 {
-    NSMutableArray<WYAPhotoBrowserModel *> *arrModel = [NSMutableArray array];
-    __block NSInteger count = 1;
+    NSMutableArray<WYAPhotoBrowserModel *> * arrModel = [NSMutableArray array];
+    __block NSInteger count                           = 1;
     [result enumerateObjectsUsingBlock:^(PHAsset * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         WYAAssetMediaType type = [self transformAssetType:obj];
 
@@ -320,7 +324,7 @@ static BOOL _sortAscending;
             *stop = YES;
         }
 
-        NSString *duration = [self getDuration:obj];
+        NSString * duration = [self getDuration:obj];
 
         [arrModel addObject:[WYAPhotoBrowserModel modelWithAsset:obj type:type duration:duration]];
         count++;
@@ -337,7 +341,7 @@ static BOOL _sortAscending;
         case PHAssetMediaTypeVideo:
             return WYAAssetMediaTypeVideo;
         case PHAssetMediaTypeImage:
-            if ([[asset valueForKey:@"filename"] hasSuffix:@"GIF"])return WYAAssetMediaTypeGif;
+            if ([[asset valueForKey:@"filename"] hasSuffix:@"GIF"]) return WYAAssetMediaTypeGif;
 
             if (asset.mediaSubtypes == PHAssetMediaSubtypePhotoLive || asset.mediaSubtypes == 10) return WYAAssetMediaTypeLivePhoto;
 
@@ -367,44 +371,48 @@ static BOOL _sortAscending;
     }
 }
 
-- (void)requestOriginalImageDataForAsset:(PHAsset *)asset progressHandler:(void (^ _Nullable)(double, NSError *, BOOL *, NSDictionary *))progressHandler completion:(void (^)(NSData *, NSDictionary *))completion
+- (void)requestOriginalImageDataForAsset:(PHAsset *)asset progressHandler:(void (^_Nullable)(double, NSError *, BOOL *, NSDictionary *))progressHandler completion:(void (^)(NSData *, NSDictionary *))completion
 {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-    option.networkAccessAllowed = YES;
-    option.resizeMode = PHImageRequestOptionsResizeModeFast;
-    option.progressHandler = progressHandler;
-    [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-        if (downloadFinined && imageData) {
-            if (completion) completion(imageData, info);
-        }
-    }];
+    PHImageRequestOptions * option = [[PHImageRequestOptions alloc] init];
+    option.networkAccessAllowed    = YES;
+    option.resizeMode              = PHImageRequestOptionsResizeModeFast;
+    option.progressHandler         = progressHandler;
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset
+                                                      options:option
+                                                resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                                                    BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
+                                                    if (downloadFinined && imageData) {
+                                                        if (completion) completion(imageData, info);
+                                                    }
+                                                }];
 }
 
 - (void)requestSelectedImageForAsset:(WYAPhotoBrowserModel *)model isOriginal:(BOOL)isOriginal allowSelectGif:(BOOL)allowSelectGif completion:(void (^)(UIImage *, NSDictionary *))completion
 {
     if (model.type == WYAAssetMediaTypeGif && allowSelectGif) {
-        [self requestOriginalImageDataForAsset:model.asset progressHandler:nil completion:^(NSData *data, NSDictionary *info) {
-            if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
-                UIImage *image = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] transformToGifImageWithData:data];
-                if (completion) {
-                    completion(image, info);
-                }
-            }
-        }];
+        [self requestOriginalImageDataForAsset:model.asset
+                               progressHandler:nil
+                                    completion:^(NSData * data, NSDictionary * info) {
+                                        if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+                                            UIImage * image = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] transformToGifImageWithData:data];
+                                            if (completion) {
+                                                completion(image, info);
+                                            }
+                                        }
+                                    }];
     } else {
         if (isOriginal) {
             [self requestOriginalImageForAsset:model.asset progressHandler:nil completion:completion];
         } else {
             CGFloat scale = 2;
             CGFloat width = MIN(ScreenWidth, 500);
-            CGSize size = CGSizeMake(width*scale, width*scale*model.asset.pixelHeight/model.asset.pixelWidth);
+            CGSize size   = CGSizeMake(width * scale, width * scale * model.asset.pixelHeight / model.asset.pixelWidth);
             [self requestImageForAsset:model.asset size:size progressHandler:nil completion:completion];
         }
     }
 }
 
-- (void)requestOriginalImageForAsset:(PHAsset *)asset progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion
+- (void)requestOriginalImageForAsset:(PHAsset *)asset progressHandler:(void (^_Nullable)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion
 {
     //    CGFloat scale = 4;
     //    CGFloat width = MIN(kViewWidth, kMaxImageWidth);
@@ -413,55 +421,61 @@ static BOOL _sortAscending;
     [self requestImageForAsset:asset size:CGSizeMake(asset.pixelWidth, asset.pixelHeight) resizeMode:PHImageRequestOptionsResizeModeNone progressHandler:progressHandler completion:completion];
 }
 
-- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)size progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(UIImage *image, NSDictionary *info))completion
+- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)size progressHandler:(void (^)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler completion:(void (^)(UIImage * image, NSDictionary * info))completion
 {
     return [self requestImageForAsset:asset size:size resizeMode:PHImageRequestOptionsResizeModeFast progressHandler:progressHandler completion:completion];
 }
 
-- (void)requestLivePhotoForAsset:(PHAsset *)asset completion:(void (^)(PHLivePhoto *livePhoto, NSDictionary *info))completion
+- (void)requestLivePhotoForAsset:(PHAsset *)asset completion:(void (^)(PHLivePhoto * livePhoto, NSDictionary * info))completion
 {
-    PHLivePhotoRequestOptions *option = [[PHLivePhotoRequestOptions alloc] init];
-    option.version = PHImageRequestOptionsVersionCurrent;
-    option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
-    option.networkAccessAllowed = YES;
+    PHLivePhotoRequestOptions * option = [[PHLivePhotoRequestOptions alloc] init];
+    option.version                     = PHImageRequestOptionsVersionCurrent;
+    option.deliveryMode                = PHImageRequestOptionsDeliveryModeOpportunistic;
+    option.networkAccessAllowed        = YES;
 
-    [[PHCachingImageManager defaultManager] requestLivePhotoForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(PHLivePhoto * _Nullable livePhoto, NSDictionary * _Nullable info) {
-        if (completion) completion(livePhoto, info);
-    }];
+    [[PHCachingImageManager defaultManager] requestLivePhotoForAsset:asset
+                                                          targetSize:PHImageManagerMaximumSize
+                                                         contentMode:PHImageContentModeAspectFit
+                                                             options:option
+                                                       resultHandler:^(PHLivePhoto * _Nullable livePhoto, NSDictionary * _Nullable info) {
+                                                           if (completion) completion(livePhoto, info);
+                                                       }];
 }
 
-- (void)requestVideoForAsset:(PHAsset *)asset completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion
+- (void)requestVideoForAsset:(PHAsset *)asset completion:(void (^)(AVPlayerItem * item, NSDictionary * info))completion
 {
     [self requestVideoForAsset:asset progressHandler:nil completion:completion];
 }
 
-- (void)requestVideoForAsset:(PHAsset *)asset progressHandler:(void (^)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(AVPlayerItem *item, NSDictionary *info))completion
+- (void)requestVideoForAsset:(PHAsset *)asset progressHandler:(void (^)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler completion:(void (^)(AVPlayerItem * item, NSDictionary * info))completion
 {
-    PHVideoRequestOptions *option = [[PHVideoRequestOptions alloc] init];
-    option.networkAccessAllowed = YES;
-    option.progressHandler = ^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+    PHVideoRequestOptions * option = [[PHVideoRequestOptions alloc] init];
+    option.networkAccessAllowed    = YES;
+    option.progressHandler         = ^(double progress, NSError * error, BOOL * stop, NSDictionary * info) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (progressHandler) {
                 progressHandler(progress, error, stop, info);
             }
         });
     };
-    [[PHCachingImageManager defaultManager] requestPlayerItemForVideo:asset options:option resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
-        if (completion) completion(playerItem, info);
-    }];
+    [[PHCachingImageManager defaultManager] requestPlayerItemForVideo:asset
+                                                              options:option
+                                                        resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+                                                            if (completion) completion(playerItem, info);
+                                                        }];
 }
 
 #pragma mark ====== 获取asset对应的图片
-- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)size resizeMode:(PHImageRequestOptionsResizeMode)resizeMode progressHandler:(void (^ _Nullable)(double progress, NSError *error, BOOL *stop, NSDictionary *info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion
+- (PHImageRequestID)requestImageForAsset:(PHAsset *)asset size:(CGSize)size resizeMode:(PHImageRequestOptionsResizeMode)resizeMode progressHandler:(void (^_Nullable)(double progress, NSError * error, BOOL * stop, NSDictionary * info))progressHandler completion:(void (^)(UIImage *, NSDictionary *))completion
 {
-    PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
+    PHImageRequestOptions * option = [[PHImageRequestOptions alloc] init];
     /**
      resizeMode：对请求的图像怎样缩放。有三种选择：None，默认加载方式；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
      deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
      这个属性只有在 synchronous 为 true 时有效。
      */
 
-    option.resizeMode = resizeMode;//控制照片尺寸
+    option.resizeMode = resizeMode; //控制照片尺寸
     //    option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
     option.networkAccessAllowed = YES;
 
@@ -475,14 +489,18 @@ static BOOL _sortAscending;
      PHImageErrorKey：如果没有图像，字典内的错误信息
      */
 
-    return [[PHCachingImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFill options:option resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
-        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey];
-        //不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
-        // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
-        if (downloadFinined && completion) {
-            completion(image, info);
-        }
-    }];
+    return [[PHCachingImageManager defaultManager] requestImageForAsset:asset
+                                                             targetSize:size
+                                                            contentMode:PHImageContentModeAspectFill
+                                                                options:option
+                                                          resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+                                                              BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey];
+                                                              //不要该判断，即如果该图片在iCloud上时候，会先显示一张模糊的预览图，待加载完毕后会显示高清图
+                                                              // && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue]
+                                                              if (downloadFinined && completion) {
+                                                                  completion(image, info);
+                                                              }
+                                                          }];
     //    return [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
     //        BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey];
     //        if (downloadFinined && completion) {
@@ -492,17 +510,20 @@ static BOOL _sortAscending;
     //    }];
 }
 
-- (void)startCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size{
+- (void)startCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size
+{
     PHCachingImageManager * manager = [WYAPhotoBrowserManager sharedPhotoBrowserManager].cachingManager;
     [manager startCachingImagesForAssets:array targetSize:size contentMode:PHImageContentModeAspectFill options:nil];
 }
 
-- (void)stopCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size{
+- (void)stopCacheAssetWithArray:(NSMutableArray<PHAsset *> *)array size:(CGSize)size
+{
     PHCachingImageManager * manager = [WYAPhotoBrowserManager sharedPhotoBrowserManager].cachingManager;
     [manager stopCachingImagesForAssets:array targetSize:size contentMode:PHImageContentModeAspectFill options:nil];
 }
 
-- (void)stopAllCacheAsset{
+- (void)stopAllCacheAsset
+{
     PHCachingImageManager * manager = [WYAPhotoBrowserManager sharedPhotoBrowserManager].cachingManager;
     [manager stopCachingImagesForAllAssets];
 }
@@ -510,78 +531,93 @@ static BOOL _sortAscending;
 #pragma mark - 编辑、导出视频相关
 - (void)analysisEverySecondsImageForAsset:(PHAsset *)asset interval:(NSTimeInterval)interval size:(CGSize)size complete:(void (^)(AVAsset *, NSArray<UIImage *> *))complete
 {
-    PHVideoRequestOptions* options = [[PHVideoRequestOptions alloc] init];
-    options.version = PHVideoRequestOptionsVersionOriginal;
-    options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
-    options.networkAccessAllowed = YES;
-    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-        [self analysisAVAsset:asset interval:interval size:size complete:complete];
-    }];
+    PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
+    options.version                 = PHVideoRequestOptionsVersionOriginal;
+    options.deliveryMode            = PHVideoRequestOptionsDeliveryModeAutomatic;
+    options.networkAccessAllowed    = YES;
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset
+                                                    options:options
+                                              resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                  [self analysisAVAsset:asset interval:interval size:size complete:complete];
+                                              }];
 }
 
 - (void)analysisAVAsset:(AVAsset *)asset interval:(NSTimeInterval)interval size:(CGSize)size complete:(void (^)(AVAsset *, NSArray<UIImage *> *))complete
 {
     long duration = round(asset.duration.value) / asset.duration.timescale;
 
-    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:asset];
-    generator.maximumSize = size;
+    AVAssetImageGenerator * generator        = [[AVAssetImageGenerator alloc] initWithAsset:asset];
+    generator.maximumSize                    = size;
     generator.appliesPreferredTrackTransform = YES;
-    generator.requestedTimeToleranceBefore = kCMTimeZero;
-    generator.requestedTimeToleranceAfter = kCMTimeZero;
+    generator.requestedTimeToleranceBefore   = kCMTimeZero;
+    generator.requestedTimeToleranceAfter    = kCMTimeZero;
 
     //每秒的第一帧
-    NSMutableArray *arr = [NSMutableArray array];
+    NSMutableArray * arr = [NSMutableArray array];
     for (float i = 0; i < duration; i += interval) {
         /*
          CMTimeMake(a,b) a当前第几帧, b每秒钟多少帧
          */
         //这里加上0.35 是为了避免解析0s图片必定失败的问题
-        CMTime time = CMTimeMake((i+0.35) * asset.duration.timescale, asset.duration.timescale);
-        NSValue *value = [NSValue valueWithCMTime:time];
+        CMTime time     = CMTimeMake((i + 0.35) * asset.duration.timescale, asset.duration.timescale);
+        NSValue * value = [NSValue valueWithCMTime:time];
         [arr addObject:value];
     }
 
-    NSMutableArray *arrImages = [NSMutableArray array];
+    NSMutableArray * arrImages = [NSMutableArray array];
 
     __block long count = 0;
-    [generator generateCGImagesAsynchronouslyForTimes:arr completionHandler:^(CMTime requestedTime, CGImageRef  _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
-        switch (result) {
-            case AVAssetImageGeneratorSucceeded:
-                [arrImages addObject:[UIImage imageWithCGImage:image]];
-                break;
-            case AVAssetImageGeneratorFailed:
-                NSLog(@"第%ld秒图片解析失败", count);
-                break;
-            case AVAssetImageGeneratorCancelled:
-                NSLog(@"取消解析视频图片");
-                break;
-        }
+    [generator generateCGImagesAsynchronouslyForTimes:arr
+                                    completionHandler:^(CMTime requestedTime, CGImageRef _Nullable image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError * _Nullable error) {
+                                        switch (result) {
+                                            case AVAssetImageGeneratorSucceeded:
+                                                [arrImages addObject:[UIImage imageWithCGImage:image]];
+                                                break;
+                                            case AVAssetImageGeneratorFailed:
+                                                NSLog(@"第%ld秒图片解析失败", count);
+                                                break;
+                                            case AVAssetImageGeneratorCancelled:
+                                                NSLog(@"取消解析视频图片");
+                                                break;
+                                        }
 
-        count++;
+                                        count++;
 
-        if (count == arr.count && complete) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                complete(asset, arrImages);
-            });
-        }
-    }];
+                                        if (count == arr.count && complete) {
+                                            dispatch_async(dispatch_get_main_queue(), ^{
+                                                complete(asset, arrImages);
+                                            });
+                                        }
+                                    }];
 }
 
 - (void)exportEditVideoForAsset:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type complete:(void (^)(BOOL, PHAsset *))complete
 {
-    [self export:asset range:range type:type presetName:AVAssetExportPresetPassthrough renderSize:CGSizeZero watermarkImage:nil watermarkLocation:WYAWatermarkLocationCenter imageSize:CGSizeZero effectImage:nil birthRate:0 velocity:0 complete:^(NSString *exportFilePath, NSError *error) {
-        if (!error) {
-            [self saveVideoToAblum:[NSURL fileURLWithPath:exportFilePath] completion:^(BOOL isSuc, PHAsset *asset) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (complete) complete(isSuc, asset);
-                });
-            }];
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (complete) complete(NO, nil);
-            });
-        }
-    }];
+    [self export:asset
+                range:range
+                 type:type
+           presetName:AVAssetExportPresetPassthrough
+           renderSize:CGSizeZero
+       watermarkImage:nil
+    watermarkLocation:WYAWatermarkLocationCenter
+            imageSize:CGSizeZero
+          effectImage:nil
+            birthRate:0
+             velocity:0
+             complete:^(NSString * exportFilePath, NSError * error) {
+                 if (!error) {
+                     [self saveVideoToAblum:[NSURL fileURLWithPath:exportFilePath]
+                                 completion:^(BOOL isSuc, PHAsset * asset) {
+                                     dispatch_async(dispatch_get_main_queue(), ^{
+                                         if (complete) complete(isSuc, asset);
+                                     });
+                                 }];
+                 } else {
+                     dispatch_async(dispatch_get_main_queue(), ^{
+                         if (complete) complete(NO, nil);
+                     });
+                 }
+             }];
 }
 
 - (void)exportVideoForAsset:(PHAsset *)asset type:(WYAExportVideoType)type complete:(void (^)(NSString *, NSError *))complete
@@ -616,43 +652,56 @@ static BOOL _sortAscending;
 }
 
 //privite
-- (void)export:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *, NSError *))complete
+- (void) export:(PHAsset *)asset type:(WYAExportVideoType)type presetName:(NSString *)presetName renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *, NSError *))complete
 {
     if (asset.mediaType != PHAssetMediaTypeVideo) {
-        if (complete) complete(nil, [NSError errorWithDomain:@"导出失败" code:-1 userInfo:@{@"message": @"导出对象不是视频对象"}]);
+        if (complete) complete(nil, [NSError errorWithDomain:@"导出失败" code:-1 userInfo:@{ @"message" : @"导出对象不是视频对象" }]);
         return;
     }
 
-    PHVideoRequestOptions* options = [[PHVideoRequestOptions alloc] init];
-    options.version = PHVideoRequestOptionsVersionOriginal;
-    options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
-    options.networkAccessAllowed = YES;
-    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
-        [self export:asset range:CMTimeRangeMake(kCMTimeZero, kCMTimePositiveInfinity) type:type presetName:presetName renderSize:renderSize watermarkImage:watermarkImage watermarkLocation:location imageSize:imageSize effectImage:effectImage birthRate:birthRate velocity:velocity complete:^(NSString *exportFilePath, NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (complete) complete(exportFilePath, error);
-            });
-        }];
-    }];
+    PHVideoRequestOptions * options = [[PHVideoRequestOptions alloc] init];
+    options.version                 = PHVideoRequestOptionsVersionOriginal;
+    options.deliveryMode            = PHVideoRequestOptionsDeliveryModeAutomatic;
+    options.networkAccessAllowed    = YES;
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset
+                                                    options:options
+                                              resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+                                                  [self export:asset
+                                                              range:CMTimeRangeMake(kCMTimeZero, kCMTimePositiveInfinity)
+                                                               type:type
+                                                         presetName:presetName
+                                                         renderSize:renderSize
+                                                     watermarkImage:watermarkImage
+                                                  watermarkLocation:location
+                                                          imageSize:imageSize
+                                                        effectImage:effectImage
+                                                          birthRate:birthRate
+                                                           velocity:velocity
+                                                           complete:^(NSString * exportFilePath, NSError * error) {
+                                                               dispatch_async(dispatch_get_main_queue(), ^{
+                                                                   if (complete) complete(exportFilePath, error);
+                                                               });
+                                                           }];
+                                              }];
 }
 
-- (void)export:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type presetName:(NSString *)presetName renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString *exportFilePath, NSError *error))complete
+- (void) export:(AVAsset *)asset range:(CMTimeRange)range type:(WYAExportVideoType)type presetName:(NSString *)presetName renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity complete:(void (^)(NSString * exportFilePath, NSError * error))complete
 {
-    NSString *exportFilePath = [self getVideoExportFilePath:type];
+    NSString * exportFilePath = [self getVideoExportFilePath:type];
 
-    AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:asset presetName:presetName];
+    AVAssetExportSession * exportSession = [[AVAssetExportSession alloc] initWithAsset:asset presetName:presetName];
 
-    NSURL *exportFileUrl = [NSURL fileURLWithPath:exportFilePath];
+    NSURL * exportFileUrl = [NSURL fileURLWithPath:exportFilePath];
 
-    exportSession.outputURL = exportFileUrl;
+    exportSession.outputURL      = exportFileUrl;
     exportSession.outputFileType = (type == WYAExportVideoTypeMov ? AVFileTypeQuickTimeMovie : AVFileTypeMPEG4);
-    exportSession.timeRange = range;
+    exportSession.timeRange      = range;
     //        exportSession.shouldOptimizeForNetworkUse = YES;
     if (!CGSizeEqualToSize(renderSize, CGSizeZero)) {
-        AVMutableVideoComposition *com = [self getVideoComposition:asset renderSize:renderSize watermarkImage:watermarkImage watermarkLocation:location imageSize:imageSize effectImage:effectImage birthRate:birthRate velocity:velocity];
+        AVMutableVideoComposition * com = [self getVideoComposition:asset renderSize:renderSize watermarkImage:watermarkImage watermarkLocation:location imageSize:imageSize effectImage:effectImage birthRate:birthRate velocity:velocity];
         if (!com) {
             if (complete) {
-                complete(nil, [NSError errorWithDomain:@"视频裁剪导出失败" code:-1 userInfo:@{@"message": @"视频对象格式可能有错误，没有检测到视频通道"}]);
+                complete(nil, [NSError errorWithDomain:@"视频裁剪导出失败" code:-1 userInfo:@{ @"message" : @"视频对象格式可能有错误，没有检测到视频通道" }]);
             }
             return;
         }
@@ -669,11 +718,10 @@ static BOOL _sortAscending;
                 NSLog(@"Export canceled");
                 break;
 
-            case AVAssetExportSessionStatusCompleted:{
+            case AVAssetExportSessionStatusCompleted: {
                 NSLog(@"Export completed");
                 suc = YES;
-            }
-                break;
+            } break;
 
             default:
                 NSLog(@"Export other");
@@ -681,7 +729,7 @@ static BOOL _sortAscending;
         }
 
         if (complete) {
-            complete(suc?exportFilePath:nil, suc?nil:exportSession.error);
+            complete(suc ? exportFilePath : nil, suc ? nil : exportSession.error);
             if (!suc) {
                 [exportSession cancelExport];
             }
@@ -691,8 +739,8 @@ static BOOL _sortAscending;
 
 - (AVMutableVideoComposition *)getVideoComposition:(AVAsset *)asset renderSize:(CGSize)renderSize watermarkImage:(UIImage *)watermarkImage watermarkLocation:(WYAWatermarkLocation)location imageSize:(CGSize)imageSize effectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity
 {
-    AVAssetTrack *videoTrack;
-    AVAssetTrack *audioTrack;
+    AVAssetTrack * videoTrack;
+    AVAssetTrack * audioTrack;
     if ([[asset tracksWithMediaType:AVMediaTypeVideo] count] != 0) {
         videoTrack = [asset tracksWithMediaType:AVMediaTypeVideo][0];
     }
@@ -707,14 +755,14 @@ static BOOL _sortAscending;
     //裁剪时长
     CMTimeRange timeRange = CMTimeRangeMake(kCMTimeZero, asset.duration);
 
-    AVMutableComposition *composition = [AVMutableComposition composition];
+    AVMutableComposition * composition = [AVMutableComposition composition];
     //视频通道
-    AVMutableCompositionTrack *assetVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
-    NSError *error = nil;
+    AVMutableCompositionTrack * assetVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID:kCMPersistentTrackID_Invalid];
+    NSError * error                             = nil;
     [assetVideoTrack insertTimeRange:timeRange ofTrack:videoTrack atTime:kCMTimeZero error:&error];
     NSLog(@"%@", error);
     //音频通道
-    AVMutableCompositionTrack *assetAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
+    AVMutableCompositionTrack * assetAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID:kCMPersistentTrackID_Invalid];
     NSError * audioError;
     if (audioTrack) {
         [assetAudioTrack insertTimeRange:timeRange ofTrack:audioTrack atTime:kCMTimeZero error:&audioError];
@@ -725,63 +773,63 @@ static BOOL _sortAscending;
         return nil;
     }
 
-    AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-    instruction.timeRange = CMTimeRangeMake(kCMTimeZero, composition.duration);
+    AVMutableVideoCompositionInstruction * instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
+    instruction.timeRange                              = CMTimeRangeMake(kCMTimeZero, composition.duration);
 
     //处理视频旋转
-    AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
+    AVMutableVideoCompositionLayerInstruction * layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:videoTrack];
     [layerInstruction setOpacity:0.0 atTime:assetVideoTrack.timeRange.duration];
     //视频旋转，获取视频旋转角度，然后旋转对应角度，保持视频方向正确
-    CGFloat degree = [self getVideoDegree:videoTrack];
+    CGFloat degree     = [self getVideoDegree:videoTrack];
     CGSize naturalSize = assetVideoTrack.naturalSize;
 
-    CGAffineTransform mixedTransform =  CGAffineTransformIdentity;
+    CGAffineTransform mixedTransform = CGAffineTransformIdentity;
     //处理renderSize，不能大于视频宽高
-    CGFloat videoWidth = (degree==0 || degree==M_PI) ? naturalSize.width : naturalSize.height;
-    CGFloat videoHeight = (degree==0 || degree==M_PI) ? naturalSize.height : naturalSize.width;
-    CGSize cropSize = CGSizeMake(MIN(videoWidth, renderSize.width), MIN(videoHeight, renderSize.height));
+    CGFloat videoWidth  = (degree == 0 || degree == M_PI) ? naturalSize.width : naturalSize.height;
+    CGFloat videoHeight = (degree == 0 || degree == M_PI) ? naturalSize.height : naturalSize.width;
+    CGSize cropSize     = CGSizeMake(MIN(videoWidth, renderSize.width), MIN(videoHeight, renderSize.height));
     CGFloat x, y;
     if (degree == M_PI_2) {
         //顺时针 90°
-        CGAffineTransform t = CGAffineTransformMakeTranslation(naturalSize.height,.0);
+        CGAffineTransform t  = CGAffineTransformMakeTranslation(naturalSize.height, .0);
         CGAffineTransform t1 = CGAffineTransformRotate(t, M_PI_2);
         //x为正向下 y为正向左
-        x = -(videoHeight-cropSize.height)/2;
-        y = (videoWidth-cropSize.width)/2;
+        x              = -(videoHeight - cropSize.height) / 2;
+        y              = (videoWidth - cropSize.width) / 2;
         mixedTransform = CGAffineTransformTranslate(t1, x, y);
     } else if (degree == M_PI) {
         //顺时针 180°
-        CGAffineTransform t = CGAffineTransformMakeTranslation(naturalSize.width, naturalSize.height);
+        CGAffineTransform t  = CGAffineTransformMakeTranslation(naturalSize.width, naturalSize.height);
         CGAffineTransform t1 = CGAffineTransformRotate(t, M_PI);
         //x为正向左 y为正向上
-        x = (videoWidth-cropSize.width)/2;
-        y = (videoHeight-cropSize.height)/2;
+        x              = (videoWidth - cropSize.width) / 2;
+        y              = (videoHeight - cropSize.height) / 2;
         mixedTransform = CGAffineTransformTranslate(t1, x, y);
     } else if (degree == (M_PI_2 * 3)) {
         //顺时针 270°
-        CGAffineTransform t = CGAffineTransformMakeTranslation(.0, naturalSize.width);
-        CGAffineTransform t1 = CGAffineTransformRotate(t, M_PI_2*3);
+        CGAffineTransform t  = CGAffineTransformMakeTranslation(.0, naturalSize.width);
+        CGAffineTransform t1 = CGAffineTransformRotate(t, M_PI_2 * 3);
         //x为正向上 y为正向右
-        x = (videoHeight-cropSize.height)/2;
-        y = -(videoWidth-cropSize.width)/2;
+        x              = (videoHeight - cropSize.height) / 2;
+        y              = -(videoWidth - cropSize.width) / 2;
         mixedTransform = CGAffineTransformTranslate(t1, x, y);
     } else {
         //x为正向右 y为正向下
-        x = -(videoWidth-cropSize.width)/2;
-        y = -(videoHeight-cropSize.height)/2;
+        x              = -(videoWidth - cropSize.width) / 2;
+        y              = -(videoHeight - cropSize.height) / 2;
         mixedTransform = CGAffineTransformMakeTranslation(x, y);
     }
 
     [layerInstruction setTransform:mixedTransform atTime:kCMTimeZero];
 
     //管理所有需要处理的视频
-    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
-    videoComposition.frameDuration = CMTimeMake(1, 30);
-    videoComposition.renderScale = 1;
-    videoComposition.renderSize = cropSize;
+    AVMutableVideoComposition * videoComposition = [AVMutableVideoComposition videoComposition];
+    videoComposition.frameDuration               = CMTimeMake(1, 30);
+    videoComposition.renderScale                 = 1;
+    videoComposition.renderSize                  = cropSize;
 
-    instruction.layerInstructions = @[layerInstruction];
-    videoComposition.instructions = @[instruction];
+    instruction.layerInstructions = @[ layerInstruction ];
+    videoComposition.instructions = @[ instruction ];
 
     //添加水印
     if (watermarkImage || effectImage) {
@@ -810,38 +858,38 @@ static BOOL _sortAscending;
 {
     NSString * text = @"just test";
 
-    CATextLayer *titleLayer = [CATextLayer layer];
-    titleLayer.string = @"AVSE";
+    CATextLayer * titleLayer   = [CATextLayer layer];
+    titleLayer.string          = @"AVSE";
     titleLayer.foregroundColor = [[UIColor whiteColor] CGColor];
-    titleLayer.shadowOpacity = 0.5;
-    titleLayer.alignmentMode = kCAAlignmentCenter;
+    titleLayer.shadowOpacity   = 0.5;
+    titleLayer.alignmentMode   = kCAAlignmentCenter;
     [titleLayer setFrame:CGRectMake(50, 100, 200, 50)];
 
-    CALayer *overlayLayer = [CALayer layer];
-    overlayLayer.frame = (CGRect){CGPointZero, renderSize};
+    CALayer * overlayLayer = [CALayer layer];
+    overlayLayer.frame     = (CGRect){CGPointZero, renderSize};
 
     [overlayLayer addSublayer:titleLayer];
 
     //水印图片
     if (watermarkImage) {
-        CALayer *imageLayer = [CALayer layer];
-        imageLayer.contents = (id)watermarkImage.CGImage;
+        CALayer * imageLayer = [CALayer layer];
+        imageLayer.contents  = (id)watermarkImage.CGImage;
         //坐标起点为左下角，向右为x正，向上为y正
         switch (location) {
             case WYAWatermarkLocationTopLeft:
-                imageLayer.frame = CGRectMake(10, renderSize.height-imageSize.height-10, imageSize.width, imageSize.height);
+                imageLayer.frame = CGRectMake(10, renderSize.height - imageSize.height - 10, imageSize.width, imageSize.height);
                 break;
             case WYAWatermarkLocationTopRight:
-                imageLayer.frame = CGRectMake(renderSize.width-imageSize.width-10, renderSize.height-imageSize.height-10, imageSize.width, imageSize.height);
+                imageLayer.frame = CGRectMake(renderSize.width - imageSize.width - 10, renderSize.height - imageSize.height - 10, imageSize.width, imageSize.height);
                 break;
             case WYAWatermarkLocationBottomLeft:
                 imageLayer.frame = CGRectMake(10, 10, imageSize.width, imageSize.height);
                 break;
             case WYAWatermarkLocationBottomRight:
-                imageLayer.frame = CGRectMake(renderSize.width-imageSize.width-10, 10, imageSize.width, imageSize.height);
+                imageLayer.frame = CGRectMake(renderSize.width - imageSize.width - 10, 10, imageSize.width, imageSize.height);
                 break;
             case WYAWatermarkLocationCenter:
-                imageLayer.frame = CGRectMake((renderSize.width-imageSize.width)/2, (renderSize.height-imageSize.height)/2, imageSize.width, imageSize.height);
+                imageLayer.frame = CGRectMake((renderSize.width - imageSize.width) / 2, (renderSize.height - imageSize.height) / 2, imageSize.width, imageSize.height);
                 break;
         }
 
@@ -850,15 +898,15 @@ static BOOL _sortAscending;
 
     //粒子特效
     if (effectImage) {
-        CAEmitterLayer *effectLayer = [self getEmitterLayerWithEffectImage:effectImage birthRate:birthRate velocity:velocity emitterSize:renderSize];
+        CAEmitterLayer * effectLayer = [self getEmitterLayerWithEffectImage:effectImage birthRate:birthRate velocity:velocity emitterSize:renderSize];
         [overlayLayer addSublayer:effectLayer];
     }
 
-    CALayer *parentLayer = [CALayer layer];
-    CALayer *videoLayer = [CALayer layer];
+    CALayer * parentLayer       = [CALayer layer];
+    CALayer * videoLayer        = [CALayer layer];
     parentLayer.backgroundColor = [UIColor clearColor].CGColor;
-    parentLayer.frame = (CGRect){CGPointZero, renderSize};
-    videoLayer.frame = (CGRect){CGPointZero, renderSize};
+    parentLayer.frame           = (CGRect){CGPointZero, renderSize};
+    videoLayer.frame            = (CGRect){CGPointZero, renderSize};
     [parentLayer addSublayer:videoLayer];
     [parentLayer addSublayer:overlayLayer];
 
@@ -867,11 +915,11 @@ static BOOL _sortAscending;
 
 - (CAEmitterLayer *)getEmitterLayerWithEffectImage:(UIImage *)effectImage birthRate:(NSInteger)birthRate velocity:(CGFloat)velocity emitterSize:(CGSize)emitterSize
 {
-    CAEmitterLayer *emitterLayer = [CAEmitterLayer layer];
+    CAEmitterLayer * emitterLayer = [CAEmitterLayer layer];
 
     //发射模式
-    emitterLayer.renderMode = kCAEmitterLayerSurface;
-    emitterLayer.emitterPosition = CGPointMake(emitterSize.width/2, emitterSize.height);
+    emitterLayer.renderMode      = kCAEmitterLayerSurface;
+    emitterLayer.emitterPosition = CGPointMake(emitterSize.width / 2, emitterSize.height);
     //发射源的形状
     emitterLayer.emitterShape = kCAEmitterLayerLine;
     //发射源的尺寸大小
@@ -879,8 +927,8 @@ static BOOL _sortAscending;
     //    emitterLayer.emitterDepth = 0.5;
 
     //create a particle template
-    CAEmitterCell *cell = [[CAEmitterCell alloc] init];
-    cell.contents = (__bridge id)effectImage.CGImage;
+    CAEmitterCell * cell = [[CAEmitterCell alloc] init];
+    cell.contents        = (__bridge id)effectImage.CGImage;
     //每秒创建的粒子个数
     cell.birthRate = birthRate;
     //每个粒子的存在时间
@@ -895,10 +943,10 @@ static BOOL _sortAscending;
     //粒子y方向的加速度分量
     cell.yAcceleration = 10;
     //粒子的扩散角度，设置成2*M_PI则会从360°向外扩散
-    cell.emissionRange = 0.5*M_PI;
-    cell.spinRange = 0.25*M_PI;
+    cell.emissionRange = 0.5 * M_PI;
+    cell.spinRange     = 0.25 * M_PI;
     //粒子起始缩放比例
-    cell.scale = 0.2;
+    cell.scale      = 0.2;
     cell.scaleRange = 0.2f;
     //粒子缩放从0~0.5的速度
     //    cell.scaleSpeed = 0.5;
@@ -922,28 +970,28 @@ static BOOL _sortAscending;
     //    movedMask.position = self.containerView.center;
     //    emitterLayer.mask    = movedMask;
 
-    emitterLayer.emitterCells = @[cell];
+    emitterLayer.emitterCells = @[ cell ];
 
     return emitterLayer;
 }
 
 - (NSString *)getVideoExportFilePath:(WYAExportVideoType)type
 {
-    NSString *format = (type == WYAExportVideoTypeMov ? @"mov" : @"mp4");
+    NSString * format = (type == WYAExportVideoTypeMov ? @"mov" : @"mp4");
 
-    NSString *exportFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", [self getUniqueStrByUUID], format]];
+    NSString * exportFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", [self getUniqueStrByUUID], format]];
 
     return exportFilePath;
 }
 
 - (NSString *)getUniqueStrByUUID
 {
-    CFUUIDRef uuidObj = CFUUIDCreate(nil);//create a new UUID
+    CFUUIDRef uuidObj = CFUUIDCreate(nil); //create a new UUID
 
     //get the string representation of the UUID
     CFStringRef uuidString = CFUUIDCreateString(nil, uuidObj);
 
-    NSString *str = [NSString stringWithString:(__bridge NSString *)uuidString];
+    NSString * str = [NSString stringWithString:(__bridge NSString *)uuidString];
 
     CFRelease(uuidObj);
     CFRelease(uuidString);
@@ -956,7 +1004,8 @@ static BOOL _sortAscending;
     return [self sd_animatedGIFWithData:data];
 }
 
-- (UIImage *)sd_animatedGIFWithData:(NSData *)data {
+- (UIImage *)sd_animatedGIFWithData:(NSData *)data
+{
     if (!data) {
         return nil;
     }
@@ -965,12 +1014,12 @@ static BOOL _sortAscending;
 
     size_t count = CGImageSourceGetCount(source);
 
-    UIImage *animatedImage;
+    UIImage * animatedImage;
 
     if (count <= 1) {
         animatedImage = [[UIImage alloc] initWithData:data];
     } else {
-        NSMutableArray *images = [NSMutableArray array];
+        NSMutableArray * images = [NSMutableArray array];
 
         NSTimeInterval duration = 0.0f;
 
@@ -996,18 +1045,18 @@ static BOOL _sortAscending;
     return animatedImage;
 }
 
-- (float)sd_frameDurationAtIndex:(NSUInteger)index source:(CGImageSourceRef)source {
-    float frameDuration = 0.1f;
+- (float)sd_frameDurationAtIndex:(NSUInteger)index source:(CGImageSourceRef)source
+{
+    float frameDuration               = 0.1f;
     CFDictionaryRef cfFrameProperties = CGImageSourceCopyPropertiesAtIndex(source, index, nil);
-    NSDictionary *frameProperties = (__bridge NSDictionary *)cfFrameProperties;
-    NSDictionary *gifProperties = frameProperties[(NSString *)kCGImagePropertyGIFDictionary];
+    NSDictionary * frameProperties    = (__bridge NSDictionary *)cfFrameProperties;
+    NSDictionary * gifProperties      = frameProperties[(NSString *)kCGImagePropertyGIFDictionary];
 
-    NSNumber *delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
+    NSNumber * delayTimeUnclampedProp = gifProperties[(NSString *)kCGImagePropertyGIFUnclampedDelayTime];
     if (delayTimeUnclampedProp) {
         frameDuration = [delayTimeUnclampedProp floatValue];
     } else {
-
-        NSNumber *delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
+        NSNumber * delayTimeProp = gifProperties[(NSString *)kCGImagePropertyGIFDelayTime];
         if (delayTimeProp) {
             frameDuration = [delayTimeProp floatValue];
         }
@@ -1032,19 +1081,21 @@ static BOOL _sortAscending;
     if (@available(iOS 10.0, *)) {
         // https://stackoverflow.com/questions/31966571/check-given-phasset-is-icloud-asset
         // 这个api虽然是9.0出的，但是9.0会全部返回NO，未知原因，暂时先改为10.0
-        NSArray *resourceArray = [PHAssetResource assetResourcesForAsset:asset];
+        NSArray * resourceArray = [PHAssetResource assetResourcesForAsset:asset];
         for (id obj in resourceArray) {
             result = [[obj valueForKey:@"locallyAvailable"] boolValue];
             if (result) break;
         }
     } else {
-        PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-        option.networkAccessAllowed = NO;
-        option.synchronous = YES;
+        PHImageRequestOptions * option = [[PHImageRequestOptions alloc] init];
+        option.networkAccessAllowed    = NO;
+        option.synchronous             = YES;
 
-        [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
-            result = imageData ? YES : NO;
-        }];
+        [[PHCachingImageManager defaultManager] requestImageDataForAsset:asset
+                                                                 options:option
+                                                           resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                                                               result = imageData ? YES : NO;
+                                                           }];
     }
     return result;
 }

@@ -18,7 +18,8 @@
 @implementation WYAUploader
 
 #pragma mark ======= Public Method
-+ (instancetype)sharedUpload {
++ (instancetype)sharedUpload
+{
     static WYAUploader * loader;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -28,34 +29,36 @@
     return loader;
 }
 
-- (void)wya_uploadFile {
+- (void)wya_uploadFile
+{
     NSLog(@"url==%@", self.uploadModel.uploadUrl);
     [WYAUploader getWithUrl:self.uploadModel.uploadUrl
-        Params:nil
-        Success:^(NSDictionary * _Nonnull dic) {
-            NSMutableDictionary * resultDic = [dic[@"data"] mutableCopy];
-            NSDictionary * dataDic          = self.uploadModel.uploadBefore();
+    Params:nil
+    Success:^(NSDictionary * _Nonnull dic) {
+        NSMutableDictionary * resultDic = [dic[@"data"] mutableCopy];
+        NSDictionary * dataDic          = self.uploadModel.uploadBefore();
 
-            if (dataDic) {
-                [resultDic addEntriesFromDictionary:dataDic];
-            }
-
-            [self uploadALiYunWithDataDic:resultDic AfterCallback:self.uploadModel.uploadAfter];
-
+        if (dataDic) {
+            [resultDic addEntriesFromDictionary:dataDic];
         }
-        Fail:^(NSString * _Nonnull err) {
-            self.uploadModel.uploadAfter(NO,
-                                         @[
-                                            @{
-                                                @"status" : @"0",
-                                                @"msg" : @"上传失败,参数获取错误",
-                                                @"data" : [NSNull null]
-                                            }, ]);
-        }];
+
+        [self uploadALiYunWithDataDic:resultDic AfterCallback:self.uploadModel.uploadAfter];
+
+    }
+    Fail:^(NSString * _Nonnull err) {
+        self.uploadModel.uploadAfter(NO,
+                                     @[
+                                        @{
+                                            @"status" : @"0",
+                                            @"msg" : @"上传失败,参数获取错误",
+                                            @"data" : [NSNull null]
+                                        }, ]);
+    }];
 }
 
 - (void)uploadALiYunWithDataDic:(NSDictionary *)dataDic
-                  AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after {
+                  AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after
+{
     id<OSSCredentialProvider> credential = [[OSSPlainTextAKSKPairCredentialProvider alloc] initWithPlainTextAccessKey:dataDic[@"OSSAccessKeyId"] secretKey:dataDic[@"accessKeySecret"]];
     self.client                          = [[OSSClient alloc] initWithEndpoint:dataDic[@"host"] credentialProvider:credential];
 
@@ -75,7 +78,8 @@
 }
 
 - (void)uploadImageWithDataDic:(NSDictionary *)dataDic
-                 AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after {
+                 AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after
+{
     NSMutableArray * array            = [NSMutableArray array];
     NSOperationQueue * queue          = [[NSOperationQueue alloc] init];
     queue.maxConcurrentOperationCount = self.uploadModel.imageArray.count;
@@ -143,7 +147,8 @@
     }
 }
 
-- (NSData *)dataWithImage:(UIImage *)image {
+- (NSData *)dataWithImage:(UIImage *)image
+{
     switch (self.uploadModel.imageType) {
         case WYAUploadImageTypePNG:
             return UIImagePNGRepresentation(image);
@@ -155,7 +160,8 @@
 }
 
 - (void)uploadVideoWithDataDic:(NSDictionary *)dataDic
-                 AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after {
+                 AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after
+{
     NSMutableArray * array            = [NSMutableArray array];
     NSOperationQueue * queue          = [[NSOperationQueue alloc] init];
     queue.maxConcurrentOperationCount = self.uploadModel.videoDataArray.count;
@@ -216,7 +222,8 @@
 }
 
 - (void)uploadFileWithDataDic:(NSDictionary *)dataDic
-                AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after {
+                AfterCallback:(void (^)(BOOL isfinish, NSMutableArray * resultArray))after
+{
     NSMutableArray * array            = [NSMutableArray array];
     NSOperationQueue * queue          = [[NSOperationQueue alloc] init];
     queue.maxConcurrentOperationCount = self.uploadModel.fileDataArray.count;
@@ -280,34 +287,37 @@
 + (void)getWithUrl:(NSString *)urlString
             Params:(NSMutableDictionary *)params
            Success:(void (^)(NSDictionary * dic))success
-              Fail:(void (^)(NSString * err))fail {
+              Fail:(void (^)(NSString * err))fail
+{
     AFHTTPSessionManager * manager = [self AFManager];
 
     [manager GET:urlString
-        parameters:params
-        progress:^(NSProgress * _Nonnull downloadProgress) {
+    parameters:params
+    progress:^(NSProgress * _Nonnull downloadProgress) {
 
-        }
-        success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
+    }
+    success:^(NSURLSessionDataTask * _Nonnull task, id _Nullable responseObject) {
 
-            NSDictionary * jsonObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            success(jsonObj);
+        NSDictionary * jsonObj = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        success(jsonObj);
 
-        }
-        failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    }
+    failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
 
-            fail(error.localizedDescription);
+        fail(error.localizedDescription);
 
-        }];
+    }];
 }
 
 #pragma mark ======= Setter
-- (void)setUploadModel:(WYAUploadModel *)uploadModel {
+- (void)setUploadModel:(WYAUploadModel *)uploadModel
+{
     _model = uploadModel;
 }
 
 #pragma mark ======= Getter
-+ (AFHTTPSessionManager *)AFManager {
++ (AFHTTPSessionManager *)AFManager
+{
     AFHTTPSessionManager * manager                    = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval         = 6;
     manager.requestSerializer                         = [AFHTTPRequestSerializer serializer];
@@ -316,7 +326,8 @@
     return manager;
 }
 
-- (WYAUploadModel *)uploadModel {
+- (WYAUploadModel *)uploadModel
+{
     if (_model) {
         return _model;
     }

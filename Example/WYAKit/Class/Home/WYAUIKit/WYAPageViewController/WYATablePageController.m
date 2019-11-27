@@ -18,7 +18,8 @@
 
 @implementation WYATablePageController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.headerView            = self.headerImageView;
     self.customNavBar          = [[WYANavBar alloc] init];
@@ -30,18 +31,22 @@
     [self.view addSubview:self.customNavBar];
 }
 
-- (void)wya_goBackPressed:(UIButton *)sender {
+- (void)wya_goBackPressed:(UIButton *)sender
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu {
+- (NSInteger)wya_numberOfTitlesInMenuView:(WYAMenuView *)menu
+{
     return 4;
 }
 - (NSInteger)wya_numbersOfChildControllersInPageController:
-    (WYAPageTableViewController *)pageController {
+(WYAPageTableViewController *)pageController
+{
     return 4;
 }
 - (NSString *)wya_pageController:(WYAPageTableViewController *)pageController
-                    titleAtIndex:(NSInteger)index {
+                    titleAtIndex:(NSInteger)index
+{
     switch (index % 4) {
         case 0:
             return @"item1";
@@ -56,7 +61,8 @@
 }
 
 - (UIViewController *)wya_pageController:(WYAPageTableViewController *)pageController
-                   viewControllerAtIndex:(NSInteger)index {
+                   viewControllerAtIndex:(NSInteger)index
+{
     switch (index % 4) {
         case 0: {
             WYAOneTableViewController * vc = [[WYAOneTableViewController alloc] init];
@@ -82,21 +88,25 @@
     return [[UIViewController alloc] init];
 }
 
-- (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index {
+- (CGFloat)wya_menuView:(WYAMenuView *)menu widthForItemAtIndex:(NSInteger)index
+{
     CGFloat tempW = [UILabel getWidthWithTitle:[self.titles wya_safeObjectAtIndex:index] font:FONT(15)];
     return tempW;
 }
 - (CGRect)wya_pageController:(WYAPageTableViewController *)pageController
-   preferredFrameForMenuView:(WYAMenuView *)menuView {
+   preferredFrameForMenuView:(WYAMenuView *)menuView
+{
     return CGRectMake(0, CGRectGetMaxY(self.headerImageView.frame), ScreenWidth, WYANavBarHeight);
 }
 
 - (CGRect)wya_pageController:(WYAPageTableViewController *)pageController
-   preferredFrameContentView:(WYAPageScrollView *)contentView {
+   preferredFrameContentView:(WYAPageScrollView *)contentView
+{
     return CGRectMake(0, 0, ScreenWidth,
                       ScreenHeight - WYATopHeight - WYANavBarHeight - WYABottomHeight);
 }
-- (UIImageView *)headerImageView {
+- (UIImageView *)headerImageView
+{
     if (!_headerImageView) {
         _headerImageView = ({
             UIImageView * object   = [[UIImageView alloc] init];

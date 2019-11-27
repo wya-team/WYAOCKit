@@ -22,7 +22,8 @@
 - (instancetype)initWithTitle:(NSString *)tabBarTitle
                     className:(NSString *)className
               normalImageName:(NSString *)normalImageName
-            selectedImageName:(NSString *)selectedImageName {
+            selectedImageName:(NSString *)selectedImageName
+{
     if (self = [super init]) {
         _className         = className;
         _tabBarTitle       = tabBarTitle;
@@ -35,20 +36,23 @@
 + (instancetype)modelWithTitle:(NSString *)tabBarTitle
                      className:(NSString *)className
                normalImageName:(NSString *)normalImageName
-             selectedImageName:(NSString *)selectedImageName {
+             selectedImageName:(NSString *)selectedImageName
+{
     return [[self alloc] initWithTitle:tabBarTitle
                              className:className
                        normalImageName:normalImageName
                      selectedImageName:selectedImageName];
 }
 
-- (UIImage *)normalImage {
+- (UIImage *)normalImage
+{
     return [[UIImage imageNamed:self.normalImageName]
-        imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
-- (UIImage *)selectedImage {
+- (UIImage *)selectedImage
+{
     return [[UIImage imageNamed:self.selectedImageName]
-        imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 @end

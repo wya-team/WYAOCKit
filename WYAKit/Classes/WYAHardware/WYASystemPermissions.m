@@ -36,7 +36,8 @@
 
 + (void)wya_checkPhotoAlbumPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
                                nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
-                             neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
+                             neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock
+{
     PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
     if (status == PHAuthorizationStatusNotDetermined) {
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -59,20 +60,21 @@
 
 + (void)wya_checkVideoPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
                           nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
+                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock
+{
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo]; //相机权限
     if (status == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice
-            requestAccessForMediaType:AVMediaTypeVideo
-                    completionHandler:^(BOOL granted) {
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            if (granted) {
-                                authorizedBlock();
-                            } else {
-                                nowNotAllowBlock();
-                            }
-                        });
-                    }];
+        requestAccessForMediaType:AVMediaTypeVideo
+                completionHandler:^(BOOL granted) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (granted) {
+                            authorizedBlock();
+                        } else {
+                            nowNotAllowBlock();
+                        }
+                    });
+                }];
     } else if (status == AVAuthorizationStatusAuthorized) {
         authorizedBlock();
     } else if (status == AVAuthorizationStatusDenied) {
@@ -82,7 +84,8 @@
 
 + (void)wya_checkAudioPermissionsWithAuthorizedBlock:(AuthorizedBlock)authorizedBlock
                           nowNotAllowAuthorizedBlock:(nowNotAllowBlock)nowNotAllowBlock
-                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock {
+                        neverNotAllowAuthorizedBlock:(neverNotAllowBlock)neverNotAllowBlock
+{
     AVAuthorizationStatus status = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeAudio];
     if (status == AVAuthorizationStatusNotDetermined) {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeAudio
@@ -113,7 +116,6 @@
                                completionHandler:^(BOOL granted, NSError * _Nullable error) {
                                    dispatch_async(dispatch_get_main_queue(), ^{
                                        if (error) {
-
                                        }
                                        if (granted) {
                                            authorizedBlock();

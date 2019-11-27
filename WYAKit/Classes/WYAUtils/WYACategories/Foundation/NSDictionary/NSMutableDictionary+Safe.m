@@ -9,7 +9,8 @@
 #import "NSMutableDictionary+Safe.h"
 
 @implementation NSMutableDictionary (Safe)
-- (void)wya_safeSetObject:(id)aObj forKey:(id<NSCopying>)aKey {
+- (void)wya_safeSetObject:(id)aObj forKey:(id<NSCopying>)aKey
+{
     if (aObj && ![aObj isKindOfClass:[NSNull class]] && aKey) {
         [self setObject:aObj forKey:aKey];
     } else {
@@ -17,7 +18,8 @@
     }
 }
 
-- (id)wya_safeObjectForKey:(id<NSCopying>)aKey {
+- (id)wya_safeObjectForKey:(id<NSCopying>)aKey
+{
     if (aKey != nil) {
         return [self objectForKey:aKey];
     } else {

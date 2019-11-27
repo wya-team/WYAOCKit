@@ -9,25 +9,29 @@
 
 @implementation WYAPhotoBrowserAlbumModel
 
-
 @end
 
 @implementation WYAPhotoBrowserModel
 
 + (instancetype)modelWithAsset:(PHAsset *)asset type:(WYAAssetMediaType)type duration:(NSString *)duration
 {
-    WYAPhotoBrowserModel *model = [[WYAPhotoBrowserModel alloc] init];
-    model.asset = asset;
-    model.type = type;
-    model.duration = duration;
-    model.selected = NO;
+    WYAPhotoBrowserModel * model = [[WYAPhotoBrowserModel alloc] init];
+    model.asset                  = asset;
+    model.type                   = type;
+    model.duration               = duration;
+    model.selected               = NO;
     return model;
 }
 
-- (void)setSelected:(BOOL)selected{
+- (NSInteger)videoLength{
+    NSInteger length = (NSInteger)round(self.asset.duration);
+    return length;
+}
+
+- (void)setSelected:(BOOL)selected
+{
     _selected = selected;
     if (selected) {
-        
     }
 }
 @end

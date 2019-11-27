@@ -14,41 +14,52 @@
     __weak CADisplayLink * _link;
 }
 // 进度条速度引述 不能小于等于0
-- (CGFloat)speedFactor {
-    if (_speedFactor <= 0) { _speedFactor = 15.0; }
+- (CGFloat)speedFactor
+{
+    if (_speedFactor <= 0) {
+        _speedFactor = 15.0;
+    }
     return _speedFactor;
 }
-- (void)wya_setProgressWithOutAnimate:(CGFloat)progress {
+- (void)wya_setProgressWithOutAnimate:(CGFloat)progress
+{
     if (self.progress == progress) return;
     _progress = progress;
     [self setNeedsDisplay]; // 调用drawRect方法，拿到UIGraphicsGetCurrentContext开始画画
 }
-- (void)setNaughty:(BOOL)naughty {
+- (void)setNaughty:(BOOL)naughty
+{
     _naughty = naughty;
     [self setNeedsDisplay];
 }
-- (void)setCornerRadius:(CGFloat)cornerRadius {
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
     _cornerRadius = cornerRadius;
     [self setNeedsDisplay];
 }
-- (void)wya_moveToPostion:(NSInteger)pos {
+- (void)wya_moveToPostion:(NSInteger)pos
+{
     // 获取绝对值
     _gap  = fabs(self.progress - pos);
     _sign = self.progress > pos ? -1 : 1;
     _step = _gap / self.speedFactor;
-    if (_link) { [_link invalidate]; }
+    if (_link) {
+        [_link invalidate];
+    }
     CADisplayLink * link =
-        [CADisplayLink displayLinkWithTarget:self
-                                    selector:@selector(wya_progressChanged)];
+    [CADisplayLink displayLinkWithTarget:self
+                                selector:@selector(wya_progressChanged)];
     [link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
     _link = link;
 }
-- (void)setProgress:(CGFloat)progress {
+- (void)setProgress:(CGFloat)progress
+{
     if (self.progress == progress) return;
     _progress = progress;
     [self setNeedsDisplay];
 }
-- (void)wya_progressChanged {
+- (void)wya_progressChanged
+{
     if (_gap > 0.000001) {
         _gap -= _step;
         if (_gap < 0.0) {
@@ -62,7 +73,8 @@
         _link = nil;
     }
 }
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect
+{
     // Drawing Code
     [super drawRect:rect];
     CGContextRef ctx     = UIGraphicsGetCurrentContext();
@@ -110,8 +122,8 @@
     }
 
     UIBezierPath * path = [UIBezierPath
-        bezierPathWithRoundedRect:CGRectMake(startX, lineWidth / 2.0, width, height - lineWidth)
-                     cornerRadius:self.cornerRadius];
+    bezierPathWithRoundedRect:CGRectMake(startX, lineWidth / 2.0, width, height - lineWidth)
+                 cornerRadius:self.cornerRadius];
     CGContextAddPath(ctx, path.CGPath);
 
     if (self.hollow) {
@@ -127,9 +139,9 @@
         CGFloat startX = CGRectGetMinX([self.itemFrames.firstObject CGRectValue]);
         CGFloat endX   = CGRectGetMaxX([self.itemFrames.lastObject CGRectValue]);
         UIBezierPath * path =
-            [UIBezierPath bezierPathWithRoundedRect:CGRectMake(startX, lineWidth / 2.0,
-                                                               (endX - startX), height - lineWidth)
-                                       cornerRadius:self.cornerRadius];
+        [UIBezierPath bezierPathWithRoundedRect:CGRectMake(startX, lineWidth / 2.0,
+                                                           (endX - startX), height - lineWidth)
+                                   cornerRadius:self.cornerRadius];
         CGContextSetLineWidth(ctx, lineWidth);
         CGContextAddPath(ctx, path.CGPath);
 

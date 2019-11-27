@@ -14,7 +14,8 @@
 @end
 
 @implementation WYASliderViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -22,7 +23,8 @@
                    @"WYASlidder/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
@@ -105,7 +107,7 @@
     CGFloat doubleLabel_Width  = ScreenWidth - 20;
     CGFloat doubleLabel_Height = 20 * SizeAdapter;
     doubleLabel.frame =
-        CGRectMake(doubleLabel_X, doubleLabel_Y, doubleLabel_Width, doubleLabel_Height);
+    CGRectMake(doubleLabel_X, doubleLabel_Y, doubleLabel_Width, doubleLabel_Height);
 
     self.slider3               = [[WYASlider alloc] init];
     self.slider3.sliderStyle   = WYASliderStyleDouble;
@@ -124,7 +126,8 @@
 }
 
 #pragma mark - WYASliderDelegate  -
-- (void)wya_slider:(WYASlider *)slider MinValueChange:(CGFloat)value {
+- (void)wya_slider:(WYASlider *)slider MinValueChange:(CGFloat)value
+{
     if (self.slider1 == slider) {
         self.slider1.maxText = [NSString stringWithFormat:@"%.2f", value];
     } else if (self.slider3 == slider) {
@@ -132,7 +135,8 @@
     }
 }
 
-- (void)wya_slider:(WYASlider *)slider MaxValueChange:(CGFloat)value {
+- (void)wya_slider:(WYASlider *)slider MaxValueChange:(CGFloat)value
+{
     if (self.slider3 == slider) {
         self.slider3.maxText = [NSString stringWithFormat:@"%.2f", 1.0 - value];
     }

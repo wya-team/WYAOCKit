@@ -21,7 +21,8 @@
 
 - (instancetype)initWithTransitionType:(WYADrawerTransitiontype)transitionType
                          animationType:(WYADrawerAnimationType)animationType
-                         configuration:(WYALateralSlideConfiguration *)configuration {
+                         configuration:(WYALateralSlideConfiguration *)configuration
+{
     if (self = [super init]) {
         _TransitionType = transitionType;
         _animationType  = animationType;
@@ -33,25 +34,31 @@
 
 + (instancetype)transitionWithType:(WYADrawerTransitiontype)transitionType
                      animationType:(WYADrawerAnimationType)animationType
-                     configuration:(WYALateralSlideConfiguration *)configuration {
+                     configuration:(WYALateralSlideConfiguration *)configuration
+{
     return [[self alloc] initWithTransitionType:transitionType
                                   animationType:animationType
                                   configuration:configuration];
 }
 
-- (void)setupHiddenAnimationDelayTime {
+- (void)setupHiddenAnimationDelayTime
+{
     _hiddenDelayTime = 0;
-    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) { _hiddenDelayTime = 0.03; }
+    if ([UIDevice currentDevice].systemVersion.floatValue >= 11.0) {
+        _hiddenDelayTime = 0.03;
+    }
 }
 
 #pragma mark - UIViewControllerAnimatedTransitioning
 - (NSTimeInterval)transitionDuration:
-    (nullable id<UIViewControllerContextTransitioning>)transitionContext {
+(nullable id<UIViewControllerContextTransitioning>)transitionContext
+{
     return _TransitionType == WYADrawerTransitiontypeShow ? self.configuration.showAnimDuration
                                                           : self.configuration.HiddenAnimDuration;
 }
 
-- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     switch (_TransitionType) {
         case WYADrawerTransitiontypeShow:
             [self animationViewShow:transitionContext];
@@ -65,7 +72,8 @@
 }
 
 #pragma mark - private methods
-- (void)animationViewShow:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)animationViewShow:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     if (_animationType == WYADrawerAnimationTypeDefault) {
         [self defaultAnimationWithContext:transitionContext];
     } else if (_animationType == WYADrawerAnimationTypeMask) {
@@ -74,17 +82,20 @@
     }
 }
 
-- (void)animationViewHidden:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)animationViewHidden:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     UIViewController * fromVC =
-        [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController * toVC =
-        [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 
     WYAMaskView * maskView = [WYAMaskView shareInstance];
     // 导航控制器的navigationBar在导航栏先隐藏后显示的情况下会被删除，所以过滤掉导航控制器
     if (![toVC isKindOfClass:[UINavigationController class]]) {
         for (UIView * view in toVC.view.subviews) {
-            if (![maskView.toViewSubViews containsObject:view]) { [view removeFromSuperview]; }
+            if (![maskView.toViewSubViews containsObject:view]) {
+                [view removeFromSuperview];
+            }
         }
     }
 
@@ -94,37 +105,38 @@
         backImageView = containerView.subviews.firstObject;
 
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext]
-        delay:_hiddenDelayTime
-        options:UIViewKeyframeAnimationOptionCalculationModeLinear
-        animations:^{
+    delay:_hiddenDelayTime
+    options:UIViewKeyframeAnimationOptionCalculationModeLinear
+    animations:^{
 
-            [UIView addKeyframeWithRelativeStartTime:0
-                                    relativeDuration:1.0
-                                          animations:^{
-                                              toVC.view.transform   = CGAffineTransformIdentity;
-                                              fromVC.view.transform = CGAffineTransformIdentity;
-                                              maskView.alpha        = 0;
-                                              backImageView.transform =
-                                                  CGAffineTransformMakeScale(1.4, 1.4);
-                                          }];
+        [UIView addKeyframeWithRelativeStartTime:0
+                                relativeDuration:1.0
+                                      animations:^{
+                                          toVC.view.transform   = CGAffineTransformIdentity;
+                                          fromVC.view.transform = CGAffineTransformIdentity;
+                                          maskView.alpha        = 0;
+                                          backImageView.transform =
+                                          CGAffineTransformMakeScale(1.4, 1.4);
+                                      }];
 
+    }
+    completion:^(BOOL finished) {
+        if (![transitionContext transitionWasCancelled]) {
+            maskView.toViewSubViews = nil;
+            [WYAMaskView releaseInstance];
+            [backImageView removeFromSuperview];
         }
-        completion:^(BOOL finished) {
-            if (![transitionContext transitionWasCancelled]) {
-                maskView.toViewSubViews = nil;
-                [WYAMaskView releaseInstance];
-                [backImageView removeFromSuperview];
-            }
-            [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
 
-        }];
+    }];
 }
 
-- (void)defaultAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)defaultAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     UIViewController * fromVC =
-        [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController * toVC =
-        [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 
     WYAMaskView * maskView = [WYAMaskView shareInstance];
     maskView.frame         = fromVC.view.bounds;
@@ -137,7 +149,7 @@
         imageV.image     = self.configuration.backImage;
         imageV.transform = CGAffineTransformMakeScale(1.4, 1.4);
         imageV.autoresizingMask =
-            UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     }
     [containerView addSubview:imageV];
 
@@ -149,62 +161,63 @@
         ret = -1;
     }
     toVC.view.frame =
-        CGRectMake(x, 0, CGRectGetWidth(containerView.frame), CGRectGetHeight(containerView.frame));
+    CGRectMake(x, 0, CGRectGetWidth(containerView.frame), CGRectGetHeight(containerView.frame));
     [containerView addSubview:toVC.view];
     [containerView addSubview:fromVC.view];
     // 计算缩放后需要平移的距离
     CGFloat translationX = width - (ScreenWidth * (1 - self.configuration.scaleY) / 2);
     CGAffineTransform t1 =
-        CGAffineTransformMakeScale(self.configuration.scaleY, self.configuration.scaleY);
+    CGAffineTransformMakeScale(self.configuration.scaleY, self.configuration.scaleY);
     CGAffineTransform t2              = CGAffineTransformMakeTranslation(ret * translationX, 0);
     CGAffineTransform fromVCTransform = CGAffineTransformConcat(t1, t2);
     CGAffineTransform toVCTransform;
     if (self.configuration.direction == WYADrawerTransitionFromRight) {
         toVCTransform = CGAffineTransformMakeTranslation(
-            ret * (x - CGRectGetWidth(containerView.frame) + width), 0);
+        ret * (x - CGRectGetWidth(containerView.frame) + width), 0);
     } else {
         toVCTransform = CGAffineTransformMakeTranslation(ret * width / 2, 0);
     }
 
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext]
-        delay:0
-        options:0
-        animations:^{
+    delay:0
+    options:0
+    animations:^{
 
-            [UIView addKeyframeWithRelativeStartTime:0.0
-                                    relativeDuration:1.0
-                                          animations:^{
+        [UIView addKeyframeWithRelativeStartTime:0.0
+                                relativeDuration:1.0
+                                      animations:^{
 
-                                              fromVC.view.transform = fromVCTransform;
-                                              toVC.view.transform   = toVCTransform;
-                                              imageV.transform      = CGAffineTransformIdentity;
-                                              maskView.alpha        = self.configuration.maskAlpha;
+                                          fromVC.view.transform = fromVCTransform;
+                                          toVC.view.transform   = toVCTransform;
+                                          imageV.transform      = CGAffineTransformIdentity;
+                                          maskView.alpha        = self.configuration.maskAlpha;
 
-                                          }];
+                                      }];
 
-        }
-        completion:^(BOOL finished) {
-            if (![transitionContext transitionWasCancelled]) {
-                maskView.userInteractionEnabled = YES;
-                // 导航控制器的navigationbar可能是先隐藏再显示，这里会不在fromVC.view.subviews，上面移除时会有问题
-                if (![toVC isKindOfClass:[UINavigationController class]]) {
-                    maskView.toViewSubViews = fromVC.view.subviews;
-                }
-                [transitionContext completeTransition:YES];
-                [containerView addSubview:fromVC.view];
-            } else {
-                [imageV removeFromSuperview];
-                [WYAMaskView releaseInstance];
-                [transitionContext completeTransition:NO];
+    }
+    completion:^(BOOL finished) {
+        if (![transitionContext transitionWasCancelled]) {
+            maskView.userInteractionEnabled = YES;
+            // 导航控制器的navigationbar可能是先隐藏再显示，这里会不在fromVC.view.subviews，上面移除时会有问题
+            if (![toVC isKindOfClass:[UINavigationController class]]) {
+                maskView.toViewSubViews = fromVC.view.subviews;
             }
-        }];
+            [transitionContext completeTransition:YES];
+            [containerView addSubview:fromVC.view];
+        } else {
+            [imageV removeFromSuperview];
+            [WYAMaskView releaseInstance];
+            [transitionContext completeTransition:NO];
+        }
+    }];
 }
 
-- (void)maskAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)maskAnimationWithContext:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     UIViewController * fromVC =
-        [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController * toVC =
-        [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
 
     WYAMaskView * maskView = [WYAMaskView shareInstance];
     maskView.frame         = fromVC.view.bounds;
@@ -227,34 +240,35 @@
     CGAffineTransform toVCTransiform = CGAffineTransformMakeTranslation(ret * width, 0);
 
     [UIView animateKeyframesWithDuration:[self transitionDuration:transitionContext]
-        delay:0
-        options:0
-        animations:^{
+    delay:0
+    options:0
+    animations:^{
 
-            [UIView addKeyframeWithRelativeStartTime:0.0
-                                    relativeDuration:1.0
-                                          animations:^{
-                                              toVC.view.transform = toVCTransiform;
-                                              maskView.alpha      = self.configuration.maskAlpha;
-                                          }];
+        [UIView addKeyframeWithRelativeStartTime:0.0
+                                relativeDuration:1.0
+                                      animations:^{
+                                          toVC.view.transform = toVCTransiform;
+                                          maskView.alpha      = self.configuration.maskAlpha;
+                                      }];
 
+    }
+    completion:^(BOOL finished) {
+
+        if (![transitionContext transitionWasCancelled]) {
+            [transitionContext completeTransition:YES];
+            maskView.toViewSubViews = fromVC.view.subviews;
+            [containerView addSubview:fromVC.view];
+            [containerView bringSubviewToFront:toVC.view];
+            maskView.userInteractionEnabled = YES;
+        } else {
+            [WYAMaskView releaseInstance];
+            [transitionContext completeTransition:NO];
         }
-        completion:^(BOOL finished) {
-
-            if (![transitionContext transitionWasCancelled]) {
-                [transitionContext completeTransition:YES];
-                maskView.toViewSubViews = fromVC.view.subviews;
-                [containerView addSubview:fromVC.view];
-                [containerView bringSubviewToFront:toVC.view];
-                maskView.userInteractionEnabled = YES;
-            } else {
-                [WYAMaskView releaseInstance];
-                [transitionContext completeTransition:NO];
-            }
-        }];
+    }];
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     //    NSLog(@"%s",__func__);
 }
 
@@ -264,22 +278,26 @@
 
 static WYAMaskView * wya_shareInstance = nil;
 static dispatch_once_t wya_onceToken;
-+ (instancetype)shareInstance {
++ (instancetype)shareInstance
+{
     dispatch_once(&wya_onceToken, ^{ wya_shareInstance = [[WYAMaskView alloc] init]; });
     return wya_shareInstance;
 }
 
-+ (void)releaseInstance {
++ (void)releaseInstance
+{
     [wya_shareInstance removeFromSuperview];
     wya_onceToken     = 0;
     wya_shareInstance = nil;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     //    NSLog(@"mask dealloc");
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor blackColor];
         self.alpha           = 0;
@@ -287,31 +305,34 @@ static dispatch_once_t wya_onceToken;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
         UITapGestureRecognizer * tap =
-            [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                    action:@selector(singleTap)];
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(singleTap)];
         tap.numberOfTapsRequired = 1;
         [self addGestureRecognizer:tap];
 
         UIPanGestureRecognizer * pan =
-            [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                    action:@selector(handleGesture:)];
+        [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(handleGesture:)];
         [self addGestureRecognizer:pan];
     }
     return self;
 }
 
-- (void)singleTap {
+- (void)singleTap
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlideTapNoticationKey
                                                         object:self];
 }
 
-- (void)handleGesture:(UIPanGestureRecognizer *)pan {
+- (void)handleGesture:(UIPanGestureRecognizer *)pan
+{
     [[NSNotificationCenter defaultCenter] postNotificationName:WYALateralSlidePanNoticationKey
                                                         object:pan];
 }
 
 // 屏蔽掉touchesbegin的响应链
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
 }
 @end
 

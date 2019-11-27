@@ -25,7 +25,8 @@
 
 @implementation WYAOptionMenu
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.menuStyle = WYAOptionMenuStyleTable;
@@ -34,7 +35,8 @@
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame optionMenuStyle:(WYAOptionMenuStyle)optionMenuStyle {
+- (instancetype)initWithFrame:(CGRect)frame optionMenuStyle:(WYAOptionMenuStyle)optionMenuStyle
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.menuStyle = optionMenuStyle;
@@ -43,7 +45,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.leftTableView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.top.bottom.mas_equalTo(self);
@@ -66,7 +69,8 @@
 }
 
 #pragma mark--- Setter
-- (void)setMenuStyle:(WYAOptionMenuStyle)menuStyle {
+- (void)setMenuStyle:(WYAOptionMenuStyle)menuStyle
+{
     _menuStyle = menuStyle;
     if (menuStyle == WYAOptionMenuStyleTable) {
         [self.collectionView removeFromSuperview];
@@ -77,7 +81,8 @@
     }
 }
 
-- (void)setTitleArray:(NSMutableArray<WYAOptionMenuModel *> *)titleArray {
+- (void)setTitleArray:(NSMutableArray<WYAOptionMenuModel *> *)titleArray
+{
     _titleArray = titleArray;
     if (titleArray) {
         [self.leftTableView reloadData];
@@ -89,13 +94,15 @@
     }
 }
 
-- (void)setLeftTableProportion:(CGFloat)leftTableProportion {
+- (void)setLeftTableProportion:(CGFloat)leftTableProportion
+{
     _leftTableProportion = leftTableProportion;
     [self layoutIfNeeded];
 }
 
 #pragma mark--- Getter
-- (UITableView *)leftTableView {
+- (UITableView *)leftTableView
+{
     if (!_leftTableView) {
         _leftTableView                 = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _leftTableView.delegate        = self;
@@ -107,11 +114,12 @@
     return _leftTableView;
 }
 
-- (UITableView *)rightTableView {
+- (UITableView *)rightTableView
+{
     if (!_rightTableView) {
         _rightTableView =
-            [[UITableView alloc] initWithFrame:CGRectZero
-                                         style:UITableViewStylePlain];
+        [[UITableView alloc] initWithFrame:CGRectZero
+                                     style:UITableViewStylePlain];
         _rightTableView.delegate   = self;
         _rightTableView.dataSource = self;
         [_rightTableView registerClass:[WYAOptionMenuSecondLevelCell class]
@@ -122,12 +130,13 @@
     return _rightTableView;
 }
 
-- (UICollectionView *)collectionView {
+- (UICollectionView *)collectionView
+{
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
         _collectionView =
-            [[UICollectionView alloc] initWithFrame:CGRectZero
-                               collectionViewLayout:layout];
+        [[UICollectionView alloc] initWithFrame:CGRectZero
+                           collectionViewLayout:layout];
         _collectionView.dataSource      = self;
         _collectionView.delegate        = self;
         _collectionView.backgroundColor = [UIColor whiteColor];
@@ -138,7 +147,8 @@
 }
 
 #pragma mark--- Private Method
-- (void)createUI {
+- (void)createUI
+{
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.leftTableView];
     if (self.menuStyle == WYAOptionMenuStyleTable) {
@@ -151,7 +161,8 @@
 }
 
 #pragma mark - UITableViewDataSource -
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (tableView == self.leftTableView) {
         return self.titleArray.count;
     } else {
@@ -161,17 +172,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     if (tableView == self.leftTableView) {
         WYAOptionMenuCell * cell =
-            [tableView dequeueReusableCellWithIdentifier:@"menu"
-                                            forIndexPath:indexPath];
+        [tableView dequeueReusableCellWithIdentifier:@"menu"
+                                        forIndexPath:indexPath];
         cell.model = self.titleArray[indexPath.row];
         return cell;
     } else {
         WYAOptionMenuSecondLevelCell * cell =
-            [tableView dequeueReusableCellWithIdentifier:@"secondLevel"
-                                            forIndexPath:indexPath];
+        [tableView dequeueReusableCellWithIdentifier:@"secondLevel"
+                                        forIndexPath:indexPath];
         WYAOptionMenuModel * model = self.titleArray[self.currentRow];
         cell.model                 = model.secondLevelModels[indexPath.row];
         return cell;
@@ -179,27 +191,33 @@
 }
 
 #pragma mark - UITableViewDelegate -
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 0.1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 44 * SizeAdapter;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 0.1;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     if (tableView == self.leftTableView) {
@@ -217,7 +235,9 @@
     } else {
         WYAOptionMenuModel * model         = self.titleArray[self.currentRow];
         WYAOptionMenuSecondLevelModel * mo = model.secondLevelModels[indexPath.row];
-        if (mo.enableCell) { return; }
+        if (mo.enableCell) {
+            return;
+        }
         mo.select = !mo.select;
         if (self.wya_delegate &&
             [self.wya_delegate respondsToSelector:@selector(wya_optionMenu:rightViewDidSelectedItem:)]) {
@@ -229,16 +249,18 @@
 
 #pragma mark - UICollectionViewDataSource  -
 - (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+     numberOfItemsInSection:(NSInteger)section
+{
     WYAOptionMenuModel * model = self.titleArray[self.currentRow];
     return model.secondLevelModels.count;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAOptionMenuCollectionCell * cell =
-        [collectionView dequeueReusableCellWithReuseIdentifier:@"cell"
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableCellWithReuseIdentifier:@"cell"
+                                              forIndexPath:indexPath];
     WYAOptionMenuModel * model = self.titleArray[self.currentRow];
     cell.model                 = model.secondLevelModels[indexPath.row];
     return cell;
@@ -247,7 +269,8 @@
 #pragma mark - UICollectionViewDelegate  -
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     CGFloat width = collectionView.cmam_width / 3;
     return CGSizeMake(width, width);
 }
@@ -255,26 +278,30 @@
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section {
+        insetForSectionAtIndex:(NSInteger)section
+{
     return UIEdgeInsetsMake(0 * SizeAdapter, 0 * SizeAdapter, 0 * SizeAdapter, 0 * SizeAdapter);
 }
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                      layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+                                  layout:(UICollectionViewLayout *)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
     return 0 * SizeAdapter;
 }
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                 layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+                             layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
     return 5 * SizeAdapter;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     if (self.wya_delegate &&
         [self.wya_delegate respondsToSelector:@selector(wya_optionMenu:rightViewDidSelectedItem:)]) {
         [self.wya_delegate wya_optionMenu:self rightViewDidSelectedItem:indexPath];

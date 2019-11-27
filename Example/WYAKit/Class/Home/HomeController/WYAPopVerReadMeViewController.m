@@ -14,13 +14,15 @@
 @end
 
 @implementation WYAPopVerReadMeViewController
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.view.superview.clipsToBounds = NO;
     self.view.layer.cornerRadius      = 3.f;
     self.view.layer.masksToBounds     = YES;
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.tableView                 = [[UITableView alloc] initWithFrame:self.view.frame];
     self.tableView.scrollEnabled   = NO;
@@ -31,27 +33,33 @@
     [self.view addSubview:self.tableView];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cellID"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cellID"
+                                    forIndexPath:indexPath];
     cell.textLabel.text = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
     cell.textLabel.font = FONT(14);
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 44 * SizeAdapter;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (self.pushCallback) { self.pushCallback(indexPath); }
+    if (self.pushCallback) {
+        self.pushCallback(indexPath);
+    }
 }
 
 @end

@@ -10,12 +10,14 @@
 
 @implementation WYAVideoItem
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
+        _videoStyle = WYAVideoStyleSingle;
         _seekTime           = 0;
         _seekToTimeAutoPlay = YES;
-        _autoNeedReplay = NO;
+        _autoNeedReplay     = NO;
     }
     return self;
 }

@@ -15,7 +15,8 @@
 
 @implementation WYADownloadBar
 #pragma mark - LifeCircle -
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         [self addSubview:self.selectButton];
@@ -25,7 +26,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat selectButton_X      = 0;
@@ -50,7 +52,8 @@
 }
 
 #pragma mark - Setter -
-- (void)setArrayCount:(NSUInteger)arrayCount {
+- (void)setArrayCount:(NSUInteger)arrayCount
+{
     if (arrayCount > 0) {
         [self.deleteButton setTitle:[NSString stringWithFormat:@"删除(%d)", arrayCount]
                            forState:UIControlStateNormal];
@@ -61,12 +64,14 @@
     }
 }
 
-- (void)setAllSelect:(BOOL)allSelect {
+- (void)setAllSelect:(BOOL)allSelect
+{
     self.selectButton.selected = allSelect;
 }
 
 #pragma mark - Getter -
-- (UIButton *)selectButton {
+- (UIButton *)selectButton
+{
     if (!_selectButton) {
         _selectButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -77,7 +82,9 @@
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton * button) {
                 button.selected = !button.selected;
-                if (weakSelf.selectCallback) { weakSelf.selectCallback(weakSelf, button.selected); }
+                if (weakSelf.selectCallback) {
+                    weakSelf.selectCallback(weakSelf, button.selected);
+                }
             }];
             object;
         });
@@ -85,7 +92,8 @@
     return _selectButton;
 }
 
-- (UIButton *)deleteButton {
+- (UIButton *)deleteButton
+{
     if (!_deleteButton) {
         _deleteButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -94,7 +102,9 @@
             object.titleLabel.font = FONT(15);
             WeakSelf(weakSelf);
             [object addCallBackAction:^(UIButton * button) {
-                if (weakSelf.deleteCallback) { weakSelf.deleteCallback(weakSelf); }
+                if (weakSelf.deleteCallback) {
+                    weakSelf.deleteCallback(weakSelf);
+                }
             }];
             object;
         });
@@ -102,7 +112,8 @@
     return _deleteButton;
 }
 
-- (UIView *)line {
+- (UIView *)line
+{
     if (!_line) {
         _line = ({
             UIView * object        = [[UIView alloc] init];

@@ -18,6 +18,9 @@
 		210F3D08223270FD00C0DA27 /* WYAImageBrowserCopyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 210F3D07223270FD00C0DA27 /* WYAImageBrowserCopyViewController.m */; };
 		21185D6221CE2FA400946CBD /* WYADemoCameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */; };
 		2138D0C921C9E2B100B6C3AF /* WYACardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */; };
+		213D8A1E2385388300866FC0 /* WYASingleVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D8A1D2385388300866FC0 /* WYASingleVideoViewController.m */; };
+		213D8A2123853AB700866FC0 /* WYATableVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D8A2023853AB700866FC0 /* WYATableVideoViewController.m */; };
+		213D8A2423853BC600866FC0 /* WYAVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 213D8A2323853BC600866FC0 /* WYAVideoCell.m */; };
 		21438438222E6710004D742E /* WYAUploadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21438437222E6710004D742E /* WYAUploadViewController.m */; };
 		2143843B222E7294004D742E /* aaa.png in Resources */ = {isa = PBXBuildFile; fileRef = 2143843A222E7294004D742E /* aaa.png */; };
 		21470BFD219ABE9F0099CB6F /* WYATextViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21470BFC219ABE9F0099CB6F /* WYATextViewController.m */; };
@@ -46,10 +49,12 @@
 		21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8732121A3A67C007F2921 /* WYAOptionMenuViewController.m */; };
 		21A8735221A3E1F0007F2921 /* WYASliderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735121A3E1F0007F2921 /* WYASliderViewController.m */; };
 		21A8735F21A4F502007F2921 /* WYANoticeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A8735E21A4F502007F2921 /* WYANoticeViewController.m */; };
+		21A993D7237FA93F00396231 /* WYAAudioSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21A993D6237FA93F00396231 /* WYAAudioSettingViewController.m */; };
 		21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */; };
 		21DAB4F721D0AE2100E43594 /* WYADemoDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */; };
 		21DAB53321D46BA600E43594 /* spin_white.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB53121D46BA600E43594 /* spin_white.svg */; };
 		21DAB53421D46BA600E43594 /* spin.svg in Resources */ = {isa = PBXBuildFile; fileRef = 21DAB53221D46BA600E43594 /* spin.svg */; };
+		21EFECDB238675800073C857 /* WYACustomVideoControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 21EFECDA238675800073C857 /* WYACustomVideoControlView.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -148,6 +153,12 @@
 		21185D6121CE2FA400946CBD /* WYADemoCameraViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoCameraViewController.m; sourceTree = "<group>"; };
 		2138D0C721C9E2B100B6C3AF /* WYACardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACardViewController.h; sourceTree = "<group>"; };
 		2138D0C821C9E2B100B6C3AF /* WYACardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACardViewController.m; sourceTree = "<group>"; };
+		213D8A1C2385388300866FC0 /* WYASingleVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYASingleVideoViewController.h; sourceTree = "<group>"; };
+		213D8A1D2385388300866FC0 /* WYASingleVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASingleVideoViewController.m; sourceTree = "<group>"; };
+		213D8A1F23853AB700866FC0 /* WYATableVideoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYATableVideoViewController.h; sourceTree = "<group>"; };
+		213D8A2023853AB700866FC0 /* WYATableVideoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYATableVideoViewController.m; sourceTree = "<group>"; };
+		213D8A2223853BC600866FC0 /* WYAVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAVideoCell.h; sourceTree = "<group>"; };
+		213D8A2323853BC600866FC0 /* WYAVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAVideoCell.m; sourceTree = "<group>"; };
 		21438436222E6710004D742E /* WYAUploadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAUploadViewController.h; sourceTree = "<group>"; };
 		21438437222E6710004D742E /* WYAUploadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAUploadViewController.m; sourceTree = "<group>"; };
 		2143843A222E7294004D742E /* aaa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aaa.png; sourceTree = "<group>"; };
@@ -200,6 +211,8 @@
 		21A8735121A3E1F0007F2921 /* WYASliderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYASliderViewController.m; sourceTree = "<group>"; };
 		21A8735D21A4F502007F2921 /* WYANoticeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYANoticeViewController.h; sourceTree = "<group>"; };
 		21A8735E21A4F502007F2921 /* WYANoticeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYANoticeViewController.m; sourceTree = "<group>"; };
+		21A993D5237FA93E00396231 /* WYAAudioSettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYAAudioSettingViewController.h; sourceTree = "<group>"; };
+		21A993D6237FA93F00396231 /* WYAAudioSettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYAAudioSettingViewController.m; sourceTree = "<group>"; };
 		21DA3BC621AE6FE10084FCEC /* WYABannerHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYABannerHeaderView.h; sourceTree = "<group>"; };
 		21DA3BC721AE6FE10084FCEC /* WYABannerHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYABannerHeaderView.m; sourceTree = "<group>"; };
 		21DA3BC921AE8E210084FCEC /* HomeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomeHeader.h; sourceTree = "<group>"; };
@@ -207,6 +220,8 @@
 		21DAB4F621D0AE2100E43594 /* WYADemoDrawerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYADemoDrawerViewController.m; sourceTree = "<group>"; };
 		21DAB53121D46BA600E43594 /* spin_white.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin_white.svg; sourceTree = "<group>"; };
 		21DAB53221D46BA600E43594 /* spin.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = spin.svg; sourceTree = "<group>"; };
+		21EFECD9238675800073C857 /* WYACustomVideoControlView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WYACustomVideoControlView.h; sourceTree = "<group>"; };
+		21EFECDA238675800073C857 /* WYACustomVideoControlView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WYACustomVideoControlView.m; sourceTree = "<group>"; };
 		488F603DD58B4E549F4FA9E2 /* Pods-WYAKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WYAKit_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-WYAKit_Tests/Pods-WYAKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* WYAKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WYAKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -474,6 +489,14 @@
 			children = (
 				21470C1F219ABFB10099CB6F /* WYAVideoPlayerViewController.h */,
 				21470C20219ABFB10099CB6F /* WYAVideoPlayerViewController.m */,
+				213D8A1C2385388300866FC0 /* WYASingleVideoViewController.h */,
+				213D8A1D2385388300866FC0 /* WYASingleVideoViewController.m */,
+				213D8A1F23853AB700866FC0 /* WYATableVideoViewController.h */,
+				213D8A2023853AB700866FC0 /* WYATableVideoViewController.m */,
+				213D8A2223853BC600866FC0 /* WYAVideoCell.h */,
+				213D8A2323853BC600866FC0 /* WYAVideoCell.m */,
+				21EFECD9238675800073C857 /* WYACustomVideoControlView.h */,
+				21EFECDA238675800073C857 /* WYACustomVideoControlView.m */,
 			);
 			path = WYAVideoPlayer;
 			sourceTree = "<group>";
@@ -657,6 +680,8 @@
 			children = (
 				21A72F552227D60700CD84C3 /* WYAAudioViewController.h */,
 				21A72F562227D60700CD84C3 /* WYAAudioViewController.m */,
+				21A993D5237FA93E00396231 /* WYAAudioSettingViewController.h */,
+				21A993D6237FA93F00396231 /* WYAAudioSettingViewController.m */,
 			);
 			path = WYAAudio;
 			sourceTree = "<group>";
@@ -1172,6 +1197,7 @@
 				"${BUILT_PRODUCTS_DIR}/AliyunOSSiOS/AliyunOSSiOS.framework",
 				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
 				"${BUILT_PRODUCTS_DIR}/FBRetainCycleDetector/FBRetainCycleDetector.framework",
+				"${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework",
 				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
 				"${BUILT_PRODUCTS_DIR}/GPUImage/GPUImage.framework",
 				"${BUILT_PRODUCTS_DIR}/JQFMDB/JQFMDB.framework",
@@ -1195,6 +1221,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunOSSiOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBRetainCycleDetector.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLAnimatedImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GPUImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JQFMDB.framework",
@@ -1226,11 +1253,13 @@
 				"${PODS_ROOT}/Target Support Files/Pods-WYAKit_Example/Pods-WYAKit_Example-resources.sh",
 				"${PODS_ROOT}/../../WYAKit/Assets/Pusab.ttf",
 				"${PODS_CONFIGURATION_BUILD_DIR}/WYAKit/WYAKit.bundle",
+				"${PODS_ROOT}/ZFPlayer/ZFPlayer/Classes/ControlView/ZFPlayer.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Pusab.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WYAKit.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ZFPlayer.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1283,6 +1312,7 @@
 				950B40F321CA5258002BC685 /* RootControllerModel.m in Sources */,
 				9563FEAC21B7AEEE00DA82D7 /* WYARealmSectionView.m in Sources */,
 				954CB76821A94DC30016C0F5 /* WYATwoTableViewController.m in Sources */,
+				21EFECDB238675800073C857 /* WYACustomVideoControlView.m in Sources */,
 				9563FEA621B760B100DA82D7 /* WYARealmHeaderView.m in Sources */,
 				210E9F7D21AD406600BFE994 /* WYACellTableViewController.m in Sources */,
 				9578498B21B11942001E19DC /* WYAListOneCell.m in Sources */,
@@ -1304,10 +1334,12 @@
 				21A8732221A3A67C007F2921 /* WYAOptionMenuViewController.m in Sources */,
 				957F649221C88D930009C044 /* WYANavBarViewController.m in Sources */,
 				2186912021CC980500DA6849 /* WYALoadingViewController.m in Sources */,
+				21A993D7237FA93F00396231 /* WYAAudioSettingViewController.m in Sources */,
 				9578498521B11074001E19DC /* WYAListModel.m in Sources */,
 				21470CAC219E94630099CB6F /* WYATestViewController.m in Sources */,
 				9531B84221D31F420037E190 /* WYACustomSearchController.m in Sources */,
 				95369EAE21CE1F2400D0DDA5 /* WYANoBorderCell.m in Sources */,
+				213D8A2423853BC600866FC0 /* WYAVideoCell.m in Sources */,
 				95369EAB21CE1F0200D0DDA5 /* WYAAdjustCell.m in Sources */,
 				21A72F572227D60700CD84C3 /* WYAAudioViewController.m in Sources */,
 				210C72F221C7C5F100196F07 /* WYAHomeHeaderView.m in Sources */,
@@ -1338,6 +1370,7 @@
 				210C72FF21C7DF6500196F07 /* WYAPopCell.m in Sources */,
 				21DA3BC821AE6FE10084FCEC /* WYABannerHeaderView.m in Sources */,
 				21470CA9219E93D30099CB6F /* WYAPopViewController.m in Sources */,
+				213D8A2123853AB700866FC0 /* WYATableVideoViewController.m in Sources */,
 				21470C21219ABFB10099CB6F /* WYAVideoPlayerViewController.m in Sources */,
 				953CD92D21E0518600C50453 /* WYAClearCacheController.m in Sources */,
 				95CBE19221E2E5DD005A1955 /* WYANavBarTableViewCell.m in Sources */,
@@ -1345,6 +1378,7 @@
 				210E9F6521A93D2300BFE994 /* WYAImagePicker.m in Sources */,
 				950B40F621CA7B52002BC685 /* WYAReadMeViewController.m in Sources */,
 				2177893321D4A24B00B02487 /* WYADemoDrawerRightViewController.m in Sources */,
+				213D8A1E2385388300866FC0 /* WYASingleVideoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

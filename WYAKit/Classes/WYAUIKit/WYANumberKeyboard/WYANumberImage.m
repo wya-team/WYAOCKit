@@ -14,14 +14,16 @@
 ;
 
 @implementation WYANumberImage
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.deleteButton];
         [self addSubview:self.sureButton];
     }
     return self;
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.deleteButton mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.right.top.mas_equalTo(self);
@@ -32,7 +34,8 @@
         make.height.mas_equalTo(100);
     }];
 }
-- (UIButton *)deleteButton {
+- (UIButton *)deleteButton
+{
     if (!_deleteButton) {
         _deleteButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -44,19 +47,20 @@
             object.layer.masksToBounds = YES;
             // button长按事件
             UILongPressGestureRecognizer * longPress =
-                [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                              action:@selector(deleteBtnLong:)];
+            [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                          action:@selector(deleteBtnLong:)];
             [object addGestureRecognizer:longPress];
             [object addTarget:self
-                          action:@selector(deleteButtonClicked:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(deleteButtonClicked:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _deleteButton;
 }
 
-- (UIButton *)sureButton {
+- (UIButton *)sureButton
+{
     if (!_sureButton) {
         _sureButton = ({
             UIButton * object          = [[UIButton alloc] init];
@@ -68,25 +72,28 @@
             [object setTitleColor:[UIColor wya_hex:@"#FFFFFF"] forState:UIControlStateNormal];
             object.backgroundColor = [UIColor wya_hex:@"#108DE7"];
             [object addTarget:self
-                          action:@selector(sureButtonClicked:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(sureButtonClicked:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _sureButton;
 }
 #pragma mark ======= action
-- (void)deleteButtonClicked:(UIButton *)sender {
+- (void)deleteButtonClicked:(UIButton *)sender
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_deletePressed:)]) {
         [self.delegate wya_deletePressed:@"删除"];
     }
 }
-- (void)deleteBtnLong:(UIGestureRecognizer *)gestureRecognizer {
+- (void)deleteBtnLong:(UIGestureRecognizer *)gestureRecognizer
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_deletePressed:)]) {
         [self.delegate wya_deletePressed:@"删除"];
     }
 }
-- (void)sureButtonClicked:(UIButton *)sender {
+- (void)sureButtonClicked:(UIButton *)sender
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_surePressed:)]) {
         [self.delegate wya_surePressed:@"确定"];
     }

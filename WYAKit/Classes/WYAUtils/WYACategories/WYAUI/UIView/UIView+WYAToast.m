@@ -10,11 +10,13 @@
 
 @implementation UIView (WYAToast)
 
-+ (void)wya_showBottomToastWithMessage:(NSString *)message {
++ (void)wya_showBottomToastWithMessage:(NSString *)message
+{
     [self wya_showBottomToastWithMessage:message bgViewUserInteractionUse:NO];
 }
 
-+ (void)wya_showBottomToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
++ (void)wya_showBottomToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use
+{
     UIView * tagView = [Window viewWithTag:17858629000];
     if (tagView) {
         [tagView removeFromSuperview];
@@ -22,30 +24,32 @@
     UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
-    button.tag = 17858629000;
+    button.tag                    = 17858629000;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
-    UIView * view = [[UIView alloc]init];
-    view.backgroundColor = random(77, 77, 77, 1);
+    UIView * view            = [[UIView alloc] init];
+    view.backgroundColor     = random(77, 77, 77, 1);
     view.layer.cornerRadius  = 5 * SizeAdapter;
     view.layer.masksToBounds = YES;
     [button addSubview:view];
 
-    UILabel * label           = [[UILabel alloc] init];
-    label.font                = FONT(15);
-    label.text                = message;
-    label.textColor           = [UIColor whiteColor];
-    label.textAlignment       = NSTextAlignmentCenter;
-    label.numberOfLines       = 0;
+    UILabel * label     = [[UILabel alloc] init];
+    label.font          = FONT(15);
+    label.text          = message;
+    label.textColor     = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
     [view addSubview:label];
 
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
+    if (width > ScreenWidth / 2) {
+        width = ScreenWidth / 2;
+    }
     CGFloat height =
-        [UILabel getHeightByWidth:width
-                            title:message
-                             font:label.font];
+    [UILabel getHeightByWidth:width
+                        title:message
+                         font:label.font];
 
     [view mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
@@ -63,22 +67,24 @@
     }];
 
     [UIView animateWithDuration:0.3
-        delay:2
-        options:UIViewAnimationOptionAllowUserInteraction
-        animations:^{
-            label.alpha = 0;
-            view.alpha = 0;
-        }
-        completion:^(BOOL finished) {
-            [button removeFromSuperview];
-        }];
+    delay:2
+    options:UIViewAnimationOptionAllowUserInteraction
+    animations:^{
+        label.alpha = 0;
+        view.alpha  = 0;
+    }
+    completion:^(BOOL finished) {
+        [button removeFromSuperview];
+    }];
 }
 
-+ (void)wya_showCenterToastWithMessage:(NSString *)message {
++ (void)wya_showCenterToastWithMessage:(NSString *)message
+{
     [self wya_showCenterToastWithMessage:message bgViewUserInteractionUse:NO];
 }
 
-+ (void)wya_showCenterToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use {
++ (void)wya_showCenterToastWithMessage:(NSString *)message bgViewUserInteractionUse:(BOOL)use
+{
     UIView * tagView = [Window viewWithTag:17858629000];
     if (tagView) {
         [tagView removeFromSuperview];
@@ -86,30 +92,32 @@
     UIButton * button             = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame                  = Window.bounds;
     button.userInteractionEnabled = use;
-    button.tag = 17858629000;
+    button.tag                    = 17858629000;
     [button addCallBackAction:^(UIButton * button) { [button removeFromSuperview]; }];
     [Window addSubview:button];
 
-    UIView * view = [[UIView alloc]init];
+    UIView * view            = [[UIView alloc] init];
     view.backgroundColor     = random(77, 77, 77, 1);
     view.layer.cornerRadius  = 5 * SizeAdapter;
     view.layer.masksToBounds = YES;
     [button addSubview:view];
 
-    UILabel * label           = [[UILabel alloc] init];
-    label.font                = [UIFont systemFontOfSize:15 * SizeAdapter];
-    label.text                = message;
-    label.textColor           = [UIColor whiteColor];
-    label.textAlignment       = NSTextAlignmentCenter;
-    label.numberOfLines       = 0;
+    UILabel * label     = [[UILabel alloc] init];
+    label.font          = [UIFont systemFontOfSize:15 * SizeAdapter];
+    label.text          = message;
+    label.textColor     = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.numberOfLines = 0;
     [view addSubview:label];
 
     CGFloat width = [UILabel getWidthWithTitle:message font:label.font];
-    if (width > ScreenWidth / 2) { width = ScreenWidth / 2; }
+    if (width > ScreenWidth / 2) {
+        width = ScreenWidth / 2;
+    }
     CGFloat height =
-        [UILabel getHeightByWidth:width
-                            title:message
-                             font:label.font];
+    [UILabel getHeightByWidth:width
+                        title:message
+                         font:label.font];
     [view mas_makeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(Window.mas_centerX);
         make.centerY.mas_equalTo(Window.mas_centerY);
@@ -125,22 +133,23 @@
     }];
 
     [UIView animateWithDuration:0.3
-        delay:2
-        options:UIViewAnimationOptionAllowUserInteraction
-        animations:^{
-            label.alpha = 0;
-            view.alpha = 0;
-        }
-        completion:^(BOOL finished) {
-            [button removeFromSuperview];
-        }];
+    delay:2
+    options:UIViewAnimationOptionAllowUserInteraction
+    animations:^{
+        label.alpha = 0;
+        view.alpha  = 0;
+    }
+    completion:^(BOOL finished) {
+        [button removeFromSuperview];
+    }];
 }
 
 + (void)wya_showToastImage:(NSString *)imageString
               autoRotation:(BOOL)autoRotation
                  ImageType:(WYAToastImageType)imageType
       sourceInWYAKitBundle:(BOOL)isSource
-               autoDismiss:(BOOL)autoDismiss {
+               autoDismiss:(BOOL)autoDismiss
+{
     [UIView wya_toastWithMessage:@""
                      imageString:imageString
                     autoRotation:autoRotation
@@ -150,7 +159,8 @@
         bgViewUserInteractionUse:NO];
 }
 
-+ (void)wya_successToastWithMessage:(NSString *)message {
++ (void)wya_successToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message
                      imageString:@"icon_succesful"
                     autoRotation:NO
@@ -160,7 +170,8 @@
         bgViewUserInteractionUse:NO];
 }
 
-+ (void)wya_failToastWithMessage:(NSString *)message {
++ (void)wya_failToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message
                      imageString:@"icon_fail"
                     autoRotation:NO
@@ -170,7 +181,8 @@
         bgViewUserInteractionUse:NO];
 }
 
-+ (void)wya_warningToastWithMessage:(NSString *)message {
++ (void)wya_warningToastWithMessage:(NSString *)message
+{
     [UIView wya_toastWithMessage:message
                      imageString:@"icon_waring"
                     autoRotation:NO
@@ -186,7 +198,8 @@
                    imageType:(WYAToastImageType)imageType
         sourceInWYAKitBundle:(BOOL)isSource
                  autoDismiss:(BOOL)autoDismiss
-    bgViewUserInteractionUse:(BOOL)use {
+    bgViewUserInteractionUse:(BOOL)use
+{
     UIButton * button;
     if (autoDismiss) {
         button                        = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -217,7 +230,9 @@
                 image = [UIImage imageNamed:imageString];
             }
             iview = [[UIImageView alloc] initWithImage:image];
-            if (autoRotation) { [iview wya_setRotationAnimation:360 time:1 repeatCount:0]; }
+            if (autoRotation) {
+                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
+            }
         } break;
         case WYAToastImageTypeJPEG: {
             UIImage * image;
@@ -234,8 +249,8 @@
             UIImage * image;
             if (isSource) {
                 NSString * bundlePath =
-                    [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")]
-                            .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
+                [[NSBundle bundleForClass:NSClassFromString(@"WYAAlertController")]
+                 .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
                 NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
                 SVGKImage * svgImage       = [SVGKImage imageNamed:imageString inBundle:resource_bundle];
                 image                      = svgImage.UIImage;
@@ -246,7 +261,9 @@
             }
             //            iview = [[SVGKFastImageView alloc] initWithSVGKImage:image];
             iview = [[UIImageView alloc] initWithImage:image];
-            if (autoRotation) { [iview wya_setRotationAnimation:360 time:1 repeatCount:0]; }
+            if (autoRotation) {
+                [iview wya_setRotationAnimation:360 time:1 repeatCount:0];
+            }
         } break;
         case WYAToastImageTypeGIF: {
             NSLog(@"%d", isSource);
@@ -275,7 +292,9 @@
         label.numberOfLines = 1;
     }
     CGFloat height = [UILabel getHeightByWidth:90 * SizeAdapter title:label.text font:label.font];
-    if (message.length < 1) { height = 0; }
+    if (message.length < 1) {
+        height = 0;
+    }
     CGFloat hei = 50 * SizeAdapter + height;
 
     CGFloat view_X      = (ScreenWidth - 100 * SizeAdapter) / 2;
@@ -298,16 +317,17 @@
 
     if (autoDismiss) {
         [UIView animateWithDuration:0.3
-            delay:2
-            options:UIViewAnimationOptionAllowUserInteraction
-            animations:^{ view.alpha = 0; }
-            completion:^(BOOL finished) { [button removeFromSuperview]; }];
+        delay:2
+        options:UIViewAnimationOptionAllowUserInteraction
+        animations:^{ view.alpha = 0; }
+        completion:^(BOOL finished) { [button removeFromSuperview]; }];
     } else {
         Window.userInteractionEnabled = NO;
     }
 }
 
-+ (void)wya_dismissToast {
++ (void)wya_dismissToast
+{
     UIView * view = (UIView *)[Window viewWithTag:1080];
     [view removeFromSuperview];
     Window.userInteractionEnabled = YES;

@@ -13,7 +13,8 @@
 @end
 
 @implementation WYAToastViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -21,7 +22,8 @@
                    @"WYACategories/WYAUI/UIView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navTitle = @"UIView+WYAToast";
@@ -31,7 +33,8 @@
     [self configUI];
 }
 
-- (void)configUI {
+- (void)configUI
+{
     UILabel * label = [[UILabel alloc] init];
     label.text      = @"基本";
     label.textColor = random(51, 51, 51, 1);
@@ -58,7 +61,7 @@
     CGFloat centerButton_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat centerButton_Height = 44 * SizeAdapter;
     centerButton.frame =
-        CGRectMake(centerButton_X, centerButton_Y, centerButton_Width, centerButton_Height);
+    CGRectMake(centerButton_X, centerButton_Y, centerButton_Width, centerButton_Height);
 
     UIButton * bottomButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [bottomButton setTitle:@"文字(底部位置)" forState:UIControlStateNormal];
@@ -75,7 +78,7 @@
     CGFloat bottomButton_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat bottomButton_Height = 44 * SizeAdapter;
     bottomButton.frame =
-        CGRectMake(bottomButton_X, bottomButton_Y, bottomButton_Width, bottomButton_Height);
+    CGRectMake(bottomButton_X, bottomButton_Y, bottomButton_Width, bottomButton_Height);
 
     UIButton * customIconButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [customIconButton setTitle:@"自定义图标" forState:UIControlStateNormal];
@@ -105,7 +108,7 @@
     [successIconButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]]
                                  forState:UIControlStateNormal];
     [successIconButton
-        addCallBackAction:^(UIButton * button) { [UIView wya_successToastWithMessage:@"成功"]; }];
+    addCallBackAction:^(UIButton * button) { [UIView wya_successToastWithMessage:@"成功"]; }];
     [self.view addSubview:successIconButton];
     CGFloat successIconButton_X      = 20 * SizeAdapter;
     CGFloat successIconButton_Y      = CGRectGetMaxY(customIconButton.frame) + 10 * SizeAdapter;
@@ -121,14 +124,14 @@
     [failIconButton setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor whiteColor]]
                               forState:UIControlStateNormal];
     [failIconButton
-        addCallBackAction:^(UIButton * button) { [UIView wya_failToastWithMessage:@"失败"]; }];
+    addCallBackAction:^(UIButton * button) { [UIView wya_failToastWithMessage:@"失败"]; }];
     [self.view addSubview:failIconButton];
     CGFloat failIconButton_X      = 20 * SizeAdapter;
     CGFloat failIconButton_Y      = CGRectGetMaxY(successIconButton.frame) + 10 * SizeAdapter;
     CGFloat failIconButton_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat failIconButton_Height = 44 * SizeAdapter;
     failIconButton.frame =
-        CGRectMake(failIconButton_X, failIconButton_Y, failIconButton_Width, failIconButton_Height);
+    CGRectMake(failIconButton_X, failIconButton_Y, failIconButton_Width, failIconButton_Height);
 
     UIButton * netFailButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [netFailButton setTitle:@"网络失败" forState:UIControlStateNormal];
@@ -145,7 +148,7 @@
     CGFloat netFailButton_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat netFailButton_Height = 44 * SizeAdapter;
     netFailButton.frame =
-        CGRectMake(netFailButton_X, netFailButton_Y, netFailButton_Width, netFailButton_Height);
+    CGRectMake(netFailButton_X, netFailButton_Y, netFailButton_Width, netFailButton_Height);
 
     UIButton * loadingButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [loadingButton setTitle:@"loading" forState:UIControlStateNormal];
@@ -170,7 +173,7 @@
     CGFloat loadingButton_Width  = ScreenWidth - 40 * SizeAdapter;
     CGFloat loadingButton_Height = 44 * SizeAdapter;
     loadingButton.frame =
-        CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
+    CGRectMake(loadingButton_X, loadingButton_Y, loadingButton_Width, loadingButton_Height);
 }
 
 /*

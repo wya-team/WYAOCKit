@@ -14,6 +14,6 @@
 @property (nonatomic, strong) UIButton * doneButton;
 
 @property (nonatomic, copy) void (^previewBlock)(void);
-@property (nonatomic, copy) void(^originalBlock)(BOOL select);
+@property (nonatomic, copy) void (^originalBlock)(BOOL select);
 @property (nonatomic, copy) void (^doneBlock)(void);
 @end

@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAAlertButton;
+
 @interface WYAImageBrowserAlertView : UIView
 
 - (void)addAlertButton:(WYAAlertButton *)button;
@@ -23,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
                    titleColor:(UIColor *)titleColor
                         image:(UIImage *)image
               backgroundImage:(UIImage *)backgroundImage
-                   clickBlock:(void(^)(WYAAlertButton *))block;
+                   clickBlock:(void (^)(WYAAlertButton *))block;
 @end
 
 NS_ASSUME_NONNULL_END

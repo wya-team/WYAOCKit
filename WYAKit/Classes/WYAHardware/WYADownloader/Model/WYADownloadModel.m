@@ -17,14 +17,18 @@
     NSNumber * startTime;
 }
 #pragma mark - LifeCircle -
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { _downloadState = WYADownloadStateDownloading; }
+    if (self) {
+        _downloadState = WYADownloadStateDownloading;
+    }
     return self;
 }
 
 #pragma mark - Public Method -
-- (void)startDownloadWithSession:(NSURLSession *)session {
+- (void)startDownloadWithSession:(NSURLSession *)session
+{
     NSAssert(self.urlString, @"下载地址不能为空");
     // 字符串解码
     NSString * urlS = [self.urlString stringByRemovingPercentEncoding];
@@ -48,7 +52,9 @@
                 self.imageData = UIImagePNGRepresentation(image);
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     self.videoImg = image;
-                    if (self.imageCallback) { self.imageCallback(image); }
+                    if (self.imageCallback) {
+                        self.imageCallback(image);
+                    }
                 });
             });
         } else {
@@ -74,7 +80,8 @@
     });
 }
 
-- (void)suspendDownload {
+- (void)suspendDownload
+{
     self.downloadState = WYADownloadStateSuspend;
 
     [self.downloadTask cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
@@ -82,14 +89,16 @@
     }];
 }
 
-- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data {
+- (void)keepDownloadWithSession:(NSURLSession *)session ResumeData:(NSData *)data
+{
     self.downloadState = WYADownloadStateDownloading;
 
     self.downloadTask = [session downloadTaskWithResumeData:self.downloadData];
     [self.downloadTask resume];
 }
 
-- (void)giveupDownload {
+- (void)giveupDownload
+{
     self.downloadState = WYADownloadStateFail;
 
     [self.downloadTask cancel];
@@ -97,7 +106,8 @@
 
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
                             handle:
-(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle {
+                            (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle
+{
     //    NSFileManager * fileManager = [NSFileManager defaultManager];
     //    NSError * fileError;
     //    BOOL isfile = [fileManager moveItemAtURL:oldUrl toURL:[NSURL
@@ -110,7 +120,9 @@
 
     NSData * data = [NSData dataWithContentsOfURL:oldUrl];
     BOOL isfile   = [data writeToFile:self.localPath atomically:YES];
-    if (!isfile) { handle(self, @"数据有误，请重新下载"); }
+    if (!isfile) {
+        handle(self, @"数据有误，请重新下载");
+    }
     NSLog(@"file=dsd=%d", isfile);
 
     dispatch_sync(dispatch_get_main_queue(), ^{
@@ -124,16 +136,17 @@
 
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
-                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
+                   totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
     dispatch_async(dispatch_get_main_queue(), ^{
         self.progress = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
         if (totalBytesExpectedToWrite > 1024 * 1024 * 1024) {
             self.fileSize =
             [NSString stringWithFormat:@"%2.fGB", (double)totalBytesExpectedToWrite /
-             (1024 * 1024 * 1024)];
+                                                  (1024 * 1024 * 1024)];
         } else if (totalBytesExpectedToWrite > 1024 * 1024) {
             self.fileSize = [NSString
-                             stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / (1024 * 1024)];
+            stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / (1024 * 1024)];
         } else if (totalBytesExpectedToWrite > 1024) {
             self.fileSize =
             [NSString stringWithFormat:@"%2.fMB", (double)totalBytesExpectedToWrite / 1024];
@@ -160,21 +173,26 @@
         } else {
             self->startTime = @(CFAbsoluteTimeGetCurrent());
         }
-        if (self.downloadState == WYADownloadStateSuspend) { self.speed = @"0KB/s"; }
+        if (self.downloadState == WYADownloadStateSuspend) {
+            self.speed = @"0KB/s";
+        }
     });
 }
 
 #pragma mark - Setter -
-- (void)setLocalPath:(NSString *)localPath {
+- (void)setLocalPath:(NSString *)localPath
+{
     _localPath = localPath;
 }
 
 #pragma mark - Getter -
-- (UIImage *)videoImage {
+- (UIImage *)videoImage
+{
     return [UIImage imageWithData:self.imageData];
 }
 
-- (NSString *)destinationPath {
+- (NSString *)destinationPath
+{
     return self.localPath;
 }
 

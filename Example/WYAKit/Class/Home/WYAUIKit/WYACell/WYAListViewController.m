@@ -26,44 +26,48 @@
 
 @implementation WYAListViewController
 #pragma mark ======= Life Cycle
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.view addSubview:self.tableView];
 }
 #pragma mark ======= UITableViewDelegate,UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return self.dataSource.count;
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return [[self.dataSource wya_safeObjectAtIndex:section] count];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSInteger section = indexPath.section;
     switch (section) {
         case 0: {
             WYAListOneCell * cell = [tableView dequeueReusableCellWithIdentifier:ONECELLID];
             cell.model            = [[self.dataSource wya_safeObjectAtIndex:section]
-                wya_safeObjectAtIndex:indexPath.row];
+            wya_safeObjectAtIndex:indexPath.row];
             return cell;
         } break;
         case 1: {
             WYAListTwoCell * cell = [tableView dequeueReusableCellWithIdentifier:TWOCELLId];
             cell.model            = [[self.dataSource wya_safeObjectAtIndex:section]
-                wya_safeObjectAtIndex:indexPath.row];
+            wya_safeObjectAtIndex:indexPath.row];
             return cell;
         } break;
         case 2: {
             WYAListThreeCell * cell  = [tableView dequeueReusableCellWithIdentifier:THREECELLID];
             WYATextListModel * model = [[self.dataSource wya_safeObjectAtIndex:section]
-                wya_safeObjectAtIndex:indexPath.row];
+            wya_safeObjectAtIndex:indexPath.row];
             cell.model = model;
             return cell;
         } break;
         case 3: {
             WYAListFourCell * cell   = [tableView dequeueReusableCellWithIdentifier:FOURCELLID];
             WYAListCellModel * model = [[self.dataSource wya_safeObjectAtIndex:section]
-                wya_safeObjectAtIndex:indexPath.row];
+            wya_safeObjectAtIndex:indexPath.row];
             cell.model = model;
             return cell;
         } break;
@@ -72,33 +76,40 @@
     }
     return nil;
 }
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     UILabel * label =
-        [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30 * SizeAdapter)];
+    [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30 * SizeAdapter)];
     label.backgroundColor = [UIColor groupTableViewBackgroundColor];
     label.font            = FONT(16);
     label.textColor       = [UIColor grayColor];
     label.text            = [self.sectionArray wya_safeObjectAtIndex:section];
     return label;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 1) { return 65 * SizeAdapter; }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 1) {
+        return 65 * SizeAdapter;
+    }
     return 44 * SizeAdapter;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 30 * SizeAdapter;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 #pragma mark ======= getter
-- (UITableView *)tableView {
+- (UITableView *)tableView
+{
     if (!_tableView) {
         _tableView = ({
             UITableView * object = [[UITableView alloc]
-                initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
-                        style:UITableViewStylePlain];
+            initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+                    style:UITableViewStylePlain];
             object.tableFooterView = [[UIView alloc] init];
             [object registerClass:[WYAListOneCell class] forCellReuseIdentifier:ONECELLID];
             [object registerClass:[WYAListTwoCell class] forCellReuseIdentifier:TWOCELLId];
@@ -112,7 +123,8 @@
     return _tableView;
 }
 
-- (NSArray *)dataSource {
+- (NSArray *)dataSource
+{
     if (!_dataSource) {
         _dataSource = ({
             NSArray * object = @[
@@ -127,7 +139,8 @@
     return _dataSource;
 }
 
-- (NSArray *)createModelOneArray {
+- (NSArray *)createModelOneArray
+{
     NSMutableArray * array = [NSMutableArray array];
 
     WYAListModel * model1 = [WYAListModel modelWith:0
@@ -159,7 +172,8 @@
     return [array copy];
 }
 
-- (NSArray *)createModelTwoArray {
+- (NSArray *)createModelTwoArray
+{
     NSMutableArray * array      = [NSMutableArray array];
     WYATwoRowListModel * model1 = [WYATwoRowListModel modelWith:1
                                                       iconNamed:nil
@@ -179,7 +193,8 @@
     return [array copy];
 }
 
-- (NSArray *)createModelThreeArray {
+- (NSArray *)createModelThreeArray
+{
     NSMutableArray * array = [NSMutableArray array];
 
     WYATextListModel * model1 = [WYATextListModel modelWith:0
@@ -199,7 +214,8 @@
     return [array copy];
 }
 
-- (NSArray *)createModelfourArray {
+- (NSArray *)createModelfourArray
+{
     NSMutableArray * array    = [NSMutableArray array];
     WYAListCellModel * model1 = [WYAListCellModel modelWith:0
                                                   iconNamed:nil
@@ -234,7 +250,8 @@
     return [array copy];
 }
 
-- (NSArray *)sectionArray {
+- (NSArray *)sectionArray
+{
     if (!_sectionArray) {
         _sectionArray = ({
             NSArray * object = @[ @"    单行列表", @"    双行列表", @"    说明内容", @"    编辑" ];

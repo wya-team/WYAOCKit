@@ -18,13 +18,14 @@
 @property (nonatomic, strong) UILabel * videoLabel;
 @property (nonatomic, strong) UIView * cellPreview;
 
-@property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, copy) NSString * identifier;
 @property (nonatomic, assign) PHImageRequestID imageRequestID;
 @end
 
 @implementation WYAPhotoBrowserCell
 #pragma mark ======= LifeCircle
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.contentView.backgroundColor = [UIColor redColor];
@@ -39,7 +40,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat imageV_X      = CGRectGetMinX(self.contentView.frame);
@@ -59,72 +61,79 @@
     CGFloat videoPreview_Width  = self.contentView.cmam_width;
     CGFloat videoPreview_Height = self.contentView.cmam_height * 0.3;
     self.videoPreview.frame =
-        CGRectMake(videoPreview_X, videoPreview_Y, videoPreview_Width, videoPreview_Height);
+    CGRectMake(videoPreview_X, videoPreview_Y, videoPreview_Width, videoPreview_Height);
 
     CGFloat videoImageView_X      = 10 * SizeAdapter;
     CGFloat videoImageView_Y      = self.videoPreview.cmam_height / 4;
     CGFloat videoImageView_Width  = self.videoPreview.cmam_height / 2;
     CGFloat videoImageView_Height = self.videoPreview.cmam_height / 2;
     self.videoImageView.frame =
-        CGRectMake(videoImageView_X, videoImageView_Y, videoImageView_Width, videoImageView_Height);
+    CGRectMake(videoImageView_X, videoImageView_Y, videoImageView_Width, videoImageView_Height);
 
     CGFloat videoLabel_X = CGRectGetMaxX(self.videoImageView.frame);
     CGFloat videoLabel_Y = 0;
     CGFloat videoLabel_Width =
-        self.videoPreview.cmam_width - CGRectGetMaxX(self.videoImageView.frame);
+    self.videoPreview.cmam_width - CGRectGetMaxX(self.videoImageView.frame);
     CGFloat videoLabel_Height = self.videoPreview.cmam_height;
     self.videoLabel.frame =
-        CGRectMake(videoLabel_X, videoLabel_Y, videoLabel_Width, videoLabel_Height);
+    CGRectMake(videoLabel_X, videoLabel_Y, videoLabel_Width, videoLabel_Height);
 
     self.cellPreview.frame = self.contentView.frame;
 }
 
 #pragma mark - Private Method -
-- (void)buttonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
+- (void)buttonClick:(UIButton *)sender
+{
+    sender.selected     = !sender.selected;
     self.model.selected = sender.selected;
-    if (self.selectImage) { self.selectImage(self.model, sender.selected); }
+    if (self.selectImage) {
+        self.selectImage(self.model, sender.selected);
+    }
 }
 
 #pragma mark - Public Method -
 
 #pragma mark - Setter -
-- (void)setModel:(WYAPhotoBrowserModel *)model {
+- (void)setModel:(WYAPhotoBrowserModel *)model
+{
     _model = model;
     if (model) {
         if (model.needCover) {
-            self.cellPreview.hidden = NO;
+            self.cellPreview.hidden            = NO;
             self.button.userInteractionEnabled = NO;
         } else {
-            self.cellPreview.hidden = YES;
+            self.cellPreview.hidden            = YES;
             self.button.userInteractionEnabled = YES;
         }
         self.button.selected = model.selected;
         CGSize size;
-        size.width = self.cmam_width * 1.7;
+        size.width  = self.cmam_width * 1.7;
         size.height = self.cmam_height * 1.7;
 
         WeakSelf(weakSelf);
         if (model.asset && self.imageRequestID >= PHInvalidImageRequestID) {
             [[PHCachingImageManager defaultManager] cancelImageRequest:self.imageRequestID];
         }
-        self.identifier = model.asset.localIdentifier;
-        self.imageV.image = nil;
-        self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.asset size:size progressHandler:nil completion:^(UIImage *image, NSDictionary *info) {
-            StrongSelf(strongSelf);
+        self.identifier     = model.asset.localIdentifier;
+        self.imageV.image   = nil;
+        self.imageRequestID = [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestImageForAsset:model.asset
+                                                                                                  size:size
+                                                                                       progressHandler:nil
+                                                                                            completion:^(UIImage * image, NSDictionary * info) {
+                                                                                                StrongSelf(strongSelf);
 
-            if ([strongSelf.identifier isEqualToString:model.asset.localIdentifier]) {
-                strongSelf.imageV.image = image;
-            }
+                                                                                                if ([strongSelf.identifier isEqualToString:model.asset.localIdentifier]) {
+                                                                                                    strongSelf.imageV.image = image;
+                                                                                                }
 
-            if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
-                strongSelf.imageRequestID = -1;
-            }
-        }];
+                                                                                                if (![[info objectForKey:PHImageResultIsDegradedKey] boolValue]) {
+                                                                                                    strongSelf.imageRequestID = -1;
+                                                                                                }
+                                                                                            }];
 
         if (model.type == WYAAssetMediaTypeVideo || model.type == WYAAssetMediaTypeNetVideo) {
             self.videoPreview.hidden = NO;
-            self.videoLabel.text = model.duration;
+            self.videoLabel.text     = model.duration;
         } else {
             self.videoPreview.hidden = YES;
         }
@@ -132,7 +141,8 @@
 }
 
 #pragma mark - Getter -
-- (UIImageView *)imageV {
+- (UIImageView *)imageV
+{
     if (!_imageV) {
         _imageV = ({
             UIImageView * object       = [[UIImageView alloc] init];
@@ -144,7 +154,8 @@
     return _imageV;
 }
 
-- (UIButton *)button {
+- (UIButton *)button
+{
     if (!_button) {
         _button = ({
             UIButton * object = [[UIButton alloc] init];
@@ -155,8 +166,8 @@
                                             ClassName:NSStringFromClass([self class])]
                     forState:UIControlStateSelected];
             [object addTarget:self
-                          action:@selector(buttonClick:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(buttonClick:)
+             forControlEvents:UIControlEventTouchUpInside];
             object.imageView.contentMode       = UIViewContentModeScaleAspectFill;
             object.adjustsImageWhenHighlighted = NO;
             object;
@@ -165,7 +176,8 @@
     return _button;
 }
 
-- (UIView *)videoPreview {
+- (UIView *)videoPreview
+{
     if (!_videoPreview) {
         _videoPreview = ({
             UIView * object        = [[UIView alloc] init];
@@ -177,20 +189,22 @@
     return _videoPreview;
 }
 
-- (UIImageView *)videoImageView {
+- (UIImageView *)videoImageView
+{
     if (!_videoImageView) {
         _videoImageView = ({
             UIImageView * object = [[UIImageView alloc] init];
             object.image =
-                [UIImage loadBundleImage:@"video"
-                               ClassName:NSStringFromClass(self.class)];
+            [UIImage loadBundleImage:@"video"
+                           ClassName:NSStringFromClass(self.class)];
             object;
         });
     }
     return _videoImageView;
 }
 
-- (UILabel *)videoLabel {
+- (UILabel *)videoLabel
+{
     if (!_videoLabel) {
         _videoLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -203,7 +217,8 @@
     return _videoLabel;
 }
 
-- (UIView *)cellPreview {
+- (UIView *)cellPreview
+{
     if (!_cellPreview) {
         _cellPreview = ({
             UIView * object               = [[UIView alloc] init];

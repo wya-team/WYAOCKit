@@ -8,7 +8,8 @@
 #import "NSObject+WYAFloatBall.h"
 
 @implementation NSObject (WYAFloatBall)
-- (UIViewController *)wya_floatBallCurrentViewController {
+- (UIViewController *)wya_floatBallCurrentViewController
+{
     UIViewController * vc = [UIApplication sharedApplication].keyWindow.rootViewController;
     while (1) {
         if ([vc isKindOfClass:[UITabBarController class]]) {
@@ -26,11 +27,13 @@
     return vc;
 }
 
-- (UITabBarController *)wya_floatBallCurrentTabBarController {
+- (UITabBarController *)wya_floatBallCurrentTabBarController
+{
     return [self wya_floatBallCurrentViewController].tabBarController;
 }
 
-- (UINavigationController *)wya_floatBallCurrentNavigationController {
+- (UINavigationController *)wya_floatBallCurrentNavigationController
+{
     return [self wya_floatBallCurrentViewController].navigationController;
 }
 @end

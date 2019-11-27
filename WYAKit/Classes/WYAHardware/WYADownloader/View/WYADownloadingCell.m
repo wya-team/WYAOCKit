@@ -20,13 +20,15 @@
 
 @implementation WYADownloadingCell
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self.contentView addSubview:self.editButton];
@@ -40,7 +42,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat editButton_X      = 16 * SizeAdapter;
@@ -48,13 +51,13 @@
     CGFloat editButton_Width  = 30 * SizeAdapter;
     CGFloat editButton_Height = 30 * SizeAdapter;
     self.editButton.frame =
-        CGRectMake(editButton_X, editButton_Y, editButton_Width, editButton_Height);
+    CGRectMake(editButton_X, editButton_Y, editButton_Width, editButton_Height);
 
     CGFloat bgView_X     = self.isEdit ? CGRectGetMaxX(self.editButton.frame) : 0;
     CGFloat bgView_Y     = 0;
     CGFloat bgView_Width = self.isEdit
-                               ? self.contentView.cmam_width - CGRectGetMaxX(self.editButton.frame)
-                               : self.contentView.cmam_width;
+                           ? self.contentView.cmam_width - CGRectGetMaxX(self.editButton.frame)
+                           : self.contentView.cmam_width;
     CGFloat bgView_Height = self.contentView.cmam_height;
     self.bgView.frame     = CGRectMake(bgView_X, bgView_Y, bgView_Width, bgView_Height);
 
@@ -68,7 +71,7 @@
     CGFloat downloadNameLabel_X = CGRectGetMaxX(self.placeholderButton.frame) + 10 * SizeAdapter;
     CGFloat downloadNameLabel_Y = 5;
     CGFloat downloadNameLabel_Width =
-        self.bgView.cmam_width - CGRectGetMaxX(self.placeholderButton.frame) - 20 * SizeAdapter;
+    self.bgView.cmam_width - CGRectGetMaxX(self.placeholderButton.frame) - 20 * SizeAdapter;
     CGFloat downloadNameLabel_Height = 30;
     self.downloadNameLabel.frame     = CGRectMake(downloadNameLabel_X, downloadNameLabel_Y,
                                               downloadNameLabel_Width, downloadNameLabel_Height);
@@ -76,10 +79,10 @@
     CGFloat speedLabel_X = CGRectGetMaxX(self.placeholderButton.frame) + 10 * SizeAdapter;
     CGFloat speedLabel_Y = CGRectGetMaxY(self.downloadNameLabel.frame) + 10;
     CGFloat speedLabel_Width =
-        self.bgView.cmam_width - self.placeholderButton.cmam_right - 70 * SizeAdapter;
+    self.bgView.cmam_width - self.placeholderButton.cmam_right - 70 * SizeAdapter;
     CGFloat speedLabel_Height = 15;
     self.speedLabel.frame =
-        CGRectMake(speedLabel_X, speedLabel_Y, speedLabel_Width, speedLabel_Height);
+    CGRectMake(speedLabel_X, speedLabel_Y, speedLabel_Width, speedLabel_Height);
 
     CGFloat downloadStateLabel_X      = CGRectGetMaxX(self.downloadNameLabel.frame) - 50 * SizeAdapter;
     CGFloat downloadStateLabel_Y      = self.speedLabel.cmam_top;
@@ -91,19 +94,21 @@
     CGFloat progressView_X = CGRectGetMaxX(self.placeholderButton.frame) + 10 * SizeAdapter;
     CGFloat progressView_Y = CGRectGetMaxY(self.speedLabel.frame) + 5;
     CGFloat progressView_Width =
-        self.bgView.cmam_width - CGRectGetMaxX(self.placeholderButton.frame) - 20 * SizeAdapter;
+    self.bgView.cmam_width - CGRectGetMaxX(self.placeholderButton.frame) - 20 * SizeAdapter;
     CGFloat progressView_Height = 5;
     self.progressView.frame =
-        CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
+    CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self.model removeObserver:self forKeyPath:@"progress"];
     [self.model removeObserver:self forKeyPath:@"downloadState"];
     [self.model removeObserver:self forKeyPath:@"speed"];
@@ -111,7 +116,8 @@
 }
 
 #pragma mark - Private Method -
-- (void)configDownload:(NSString *)speed {
+- (void)configDownload:(NSString *)speed
+{
     if ([speed isEqualToString:@"0KB/s"] && self.model.downloadState == WYADownloadStateSuspend) {
         self.speedLabel.text = @"已暂停";
     } else {
@@ -120,7 +126,8 @@
 }
 
 #pragma mark - Setter -
-- (void)setModel:(WYADownloadModel *)model {
+- (void)setModel:(WYADownloadModel *)model
+{
     if (_model) {
         [_model removeObserver:self forKeyPath:@"progress"];
         [_model removeObserver:self forKeyPath:@"downloadState"];
@@ -158,18 +165,23 @@
     }
 }
 
-- (void)setIsEdit:(BOOL)isEdit {
+- (void)setIsEdit:(BOOL)isEdit
+{
     _isEdit                = isEdit;
     self.editButton.hidden = !_isEdit;
     [self layoutIfNeeded];
 }
 
-- (void)setIsAllSelect:(BOOL)isAllSelect {
-    if (self.isEdit) { self.editButton.selected = isAllSelect; }
+- (void)setIsAllSelect:(BOOL)isAllSelect
+{
+    if (self.isEdit) {
+        self.editButton.selected = isAllSelect;
+    }
 }
 
 #pragma mark - Getter -
-- (UIProgressView *)progressView {
+- (UIProgressView *)progressView
+{
     if (!_progressView) {
         _progressView = ({
             UIProgressView * object  = [[UIProgressView alloc] init];
@@ -181,7 +193,8 @@
     return _progressView;
 }
 
-- (UIButton *)placeholderButton {
+- (UIButton *)placeholderButton
+{
     if (!_placeholderButton) {
         _placeholderButton = ({
             UIButton * button          = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -194,7 +207,8 @@
     return _placeholderButton;
 }
 
-- (UILabel *)speedLabel {
+- (UILabel *)speedLabel
+{
     if (!_speedLabel) {
         _speedLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -205,7 +219,8 @@
     return _speedLabel;
 }
 
-- (UILabel *)downloadNameLabel {
+- (UILabel *)downloadNameLabel
+{
     if (!_downloadNameLabel) {
         _downloadNameLabel = ({
             UILabel * object = [[UILabel alloc] init];
@@ -216,7 +231,8 @@
     return _downloadNameLabel;
 }
 
-- (UILabel *)downloadStateLabel {
+- (UILabel *)downloadStateLabel
+{
     if (!_downloadStateLabel) {
         _downloadStateLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -228,7 +244,8 @@
     return _downloadStateLabel;
 }
 
-- (UIButton *)editButton {
+- (UIButton *)editButton
+{
     if (!_editButton) {
         _editButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -251,7 +268,8 @@
     return _editButton;
 }
 
-- (UIView *)bgView {
+- (UIView *)bgView
+{
     if (!_bgView) {
         _bgView = ({
             UIView * object = [[UIView alloc] init];
@@ -265,7 +283,8 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
-                       context:(void *)context {
+                       context:(void *)context
+{
     if ([keyPath isEqualToString:@"progress"]) {
         CGFloat progress           = [change[@"new"] floatValue];
         self.progressView.progress = progress;

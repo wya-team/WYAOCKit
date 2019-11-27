@@ -23,7 +23,8 @@
 @synthesize arrowDirection = _arrowDirection; //箭头位置
 @synthesize arrowOffset    = _arrowOffset;    //箭头偏移
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         NSLog(@"%@", NSStringFromCGRect(frame));
         //创建箭头
@@ -35,7 +36,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     self.layer.shadowOpacity = 0.0f;
 
@@ -82,7 +84,8 @@
 }
 
 //绘制箭头图片
-- (UIImage *)drawArrowImage:(CGSize)size {
+- (UIImage *)drawArrowImage:(CGSize)size
+{
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     [[UIColor clearColor] setFill];
@@ -136,7 +139,9 @@
     CGContextAddPath(ctx, arrowPath);
     CGPathRelease(arrowPath);
     NSString * str = [[NSUserDefaults standardUserDefaults] objectForKey:WYAARROWBACKGROUNDCOLOR];
-    if (str.length <= 0) { str = @"#FFFFFF"; }
+    if (str.length <= 0) {
+        str = @"#FFFFFF";
+    }
     UIColor * fillColor = [UIColor wya_hex:str];
     CGContextSetFillColorWithColor(ctx, fillColor.CGColor);
     CGContextDrawPath(ctx, kCGPathFill);
@@ -148,22 +153,26 @@
 }
 
 //箭头底部宽度
-+ (CGFloat)arrowBase {
++ (CGFloat)arrowBase
+{
     return HArrowBase;
 }
 
 //内容视图的偏移
-+ (UIEdgeInsets)contentViewInsets {
++ (UIEdgeInsets)contentViewInsets
+{
     return UIEdgeInsetsMake(HArrowInsets, HArrowInsets, HArrowInsets, HArrowInsets);
 }
 
 //箭头高度
-+ (CGFloat)arrowHeight {
++ (CGFloat)arrowHeight
+{
     return HArrowHeight;
 }
 
 //是否使用默认的内置阴影和圆角
-+ (BOOL)wantsDefaultContentAppearance {
++ (BOOL)wantsDefaultContentAppearance
+{
     return NO;
 }
 
@@ -171,10 +180,12 @@
 
 @implementation WYAArrowBackgroundColorConfig
 
-+ (void)wya_arrowBackgroundColorString:(NSString *)colorString {
++ (void)wya_arrowBackgroundColorString:(NSString *)colorString
+{
     [[NSUserDefaults standardUserDefaults] setObject:colorString forKey:WYAARROWBACKGROUNDCOLOR];
 }
-+ (void)wya_arrowBackgroundColor:(UIColor *)arrowColor {
++ (void)wya_arrowBackgroundColor:(UIColor *)arrowColor
+{
     NSString * colorString = [UIColor wya_toStrByUIColor:arrowColor];
     [[NSUserDefaults standardUserDefaults] setObject:colorString forKey:WYAARROWBACKGROUNDCOLOR];
 }

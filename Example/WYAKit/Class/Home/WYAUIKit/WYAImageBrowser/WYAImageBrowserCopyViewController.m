@@ -15,45 +15,52 @@
 
 @implementation WYAImageBrowserCopyViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    UIImageView * imageView = [[UIImageView alloc]init];
-    imageView.center = self.view.center;
-    imageView.bounds = CGRectMake(0, 0, 100, 100);
-    imageView.image = [UIImage imageNamed:@"2"];
+    UIImageView * imageView          = [[UIImageView alloc] init];
+    imageView.center                 = self.view.center;
+    imageView.bounds                 = CGRectMake(0, 0, 100, 100);
+    imageView.image                  = [UIImage imageNamed:@"2"];
     imageView.userInteractionEnabled = YES;
     [self.view addSubview:imageView];
 
-    [imageView wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
-        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:0
-                                                                                     imageCount:1
-                                                                                     datasource:nil
-                                                                            placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
-                                                                                return imageView.image;
-                                                                            }
-                                                                       HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
-                                                                           return nil;
-                                                                       }
-                                                                                     AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
-                                                                                         return nil;
-                                                                                     }
-                                                                           SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
+    [imageView wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle
+                                    TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
+                                        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:0
+                                        imageCount:1
+                                        datasource:nil
+                                        placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
+                                            return imageView.image;
+                                        }
+                                        HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
+                                            return nil;
+                                        }
+                                        AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
+                                            return nil;
+                                        }
+                                        SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
 
-                                                                               return imageView;
-                                                                           }];
-        WYAAlertButton * alertButton = [[WYAAlertButton alloc]initWithTitle:@"保存" titleFont:FONT(15) titleColor:[UIColor redColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+                                            return imageView;
+                                        }];
+                                        WYAAlertButton * alertButton = [[WYAAlertButton alloc] initWithTitle:@"保存"
+                                                                                                   titleFont:FONT(15)
+                                                                                                  titleColor:[UIColor redColor]
+                                                                                                       image:nil
+                                                                                             backgroundImage:nil
+                                                                                                  clickBlock:^(WYAAlertButton * _Nonnull button){
 
-        }];
-//        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
-//
-//        }];
-        [imageBrowser addAlertSheetButton:alertButton];
-//        [imageBrowser addAlertSheetButton:deleteButton];
-        imageBrowser.hidesForSinglePage = NO;
-        imageBrowser.browserStyle = WYAImageBrowserStyleSimple;
-    }];
+                                                                                                  }];
+                                        //        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+                                        //
+                                        //        }];
+                                        [imageBrowser addAlertSheetButton:alertButton];
+                                        //        [imageBrowser addAlertSheetButton:deleteButton];
+                                        imageBrowser.hidesForSinglePage = NO;
+                                        imageBrowser.browserStyle       = WYAImageBrowserStyleSimple;
+                                    }];
 
     self.view.backgroundColor = [UIColor redColor];
 }

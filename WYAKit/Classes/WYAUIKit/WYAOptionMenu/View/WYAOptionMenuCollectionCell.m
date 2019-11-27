@@ -15,7 +15,8 @@
 
 @implementation WYAOptionMenuCollectionCell
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.imageView                 = [[UIImageView alloc] init];
@@ -32,7 +33,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.imageView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -47,9 +49,12 @@
     }];
 }
 
-- (void)setModel:(WYAOptionMenuSecondLevelModel *)model {
+- (void)setModel:(WYAOptionMenuSecondLevelModel *)model
+{
     _model = model;
-    if (model) { self.titleLabel.text = model.title; }
+    if (model) {
+        self.titleLabel.text = model.title;
+    }
 }
 
 @end

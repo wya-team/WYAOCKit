@@ -21,7 +21,8 @@
 @implementation WYANavBarViewController
 #pragma mark ======= Life Cycle
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.navTitle = @"WYANavBar";
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -30,7 +31,8 @@
 
 #pragma mark ======= action
 
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -39,21 +41,26 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)wya_goBack {
+- (void)wya_goBack
+{
     [super wya_goBack];
 }
 
-- (void)wya_customLeftBarButtonItemPressed:(UIButton *)sender {
-    if ((sender.tag - 1000) == 0) { [self.navigationController popViewControllerAnimated:YES]; }
+- (void)wya_customLeftBarButtonItemPressed:(UIButton *)sender
+{
+    if ((sender.tag - 1000) == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 #pragma mark ======= getter
 
-- (UITableView *)tableView {
+- (UITableView *)tableView
+{
     if (!_tableView) {
         _tableView = ({
             UITableView * object = [[UITableView alloc]
-                initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
-                        style:UITableViewStylePlain];
+            initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+                    style:UITableViewStylePlain];
             object.delegate      = self;
             object.dataSource    = self;
             object.scrollEnabled = NO;
@@ -66,7 +73,8 @@
     }
     return _tableView;
 }
-- (NSArray *)dataSource {
+- (NSArray *)dataSource
+{
     if (!_dataSource) {
         _dataSource = ({
             NSArray * object = @[
@@ -86,7 +94,8 @@
     return _dataSource;
 }
 
-- (UIButton *)tempRightButton1 {
+- (UIButton *)tempRightButton1
+{
     if (!_tempRightButton1) {
         _tempRightButton1 = ({
             UIButton * object = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
@@ -100,21 +109,23 @@
     return _tempRightButton1;
 }
 
-- (UIButton *)tempRightButton2 {
+- (UIButton *)tempRightButton2
+{
     if (!_tempRightButton2) {
         _tempRightButton2 = ({
             UIButton * object = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
             [object setImage:[UIImage imageNamed:@"icon_help"] forState:UIControlStateNormal];
             [object addTarget:self
-                          action:@selector(wya_customrRightBarButtonItemPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(wya_customrRightBarButtonItemPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _tempRightButton2;
 }
 
-- (UIButton *)tempLeftButton1 {
+- (UIButton *)tempLeftButton1
+{
     if (!_tempLeftButton1) {
         _tempLeftButton1 = ({
             UIButton * object = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
@@ -123,22 +134,23 @@
             [object setTitleColor:GRAYTITLECOLOR forState:UIControlStateHighlighted];
             object.titleLabel.font = FONT(16);
             [object addTarget:self
-                          action:@selector(wya_goBack)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(wya_goBack)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _tempLeftButton1;
 }
 
-- (UIButton *)tempLeftButton2 {
+- (UIButton *)tempLeftButton2
+{
     if (!_tempLeftButton2) {
         _tempLeftButton2 = ({
             UIButton * object = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 36, 36)];
             [object setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
             [object addTarget:self
-                          action:@selector(wya_goBack)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(wya_goBack)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
@@ -146,23 +158,27 @@
 }
 
 #pragma mark ======= UITableViewDataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.dataSource.count;
 }
 #pragma mark ======= UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYANavBarTableViewCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cellID"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cellID"
+                                    forIndexPath:indexPath];
     cell.backgroundColor = BGCOLOR;
     cell.titleString     = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
     return cell;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 60;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSInteger index = indexPath.row;
     switch (index) {

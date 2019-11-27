@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)wya_AddLongPressGestureWithDuration:(NSTimeInterval)duration
                                      Handle:
-                                         (void (^)(UILongPressGestureRecognizer * gesture))handle;
+                                     (void (^)(UILongPressGestureRecognizer * gesture))handle;
 
 /**
  添加平移手势

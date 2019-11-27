@@ -10,14 +10,17 @@
 
 #import "WYADownloaderViewController.h"
 
-@interface WYAVideoPlayerViewController () <WYAVideoPlayerDelegate>
-@property (nonatomic, strong) WYAVideoPlayerView * playView;
-@property (nonatomic, assign) BOOL isFullScreen;
+@interface WYAVideoPlayerViewController () <UITableViewDelegate,UITableViewDataSource>
+
+@property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) NSArray * dataSource;
+@property (nonatomic, strong) NSArray * viewControllers;
 @end
 
 @implementation WYAVideoPlayerViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -25,95 +28,71 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navTitle             = @"WYAVideoPlayerView";
 
-    float hei           = 9.0 / 16.0 * ScreenWidth;
-    CGRect frame        = CGRectMake(0, WYATopHeight, ScreenWidth, hei);
-    WYAVideoItem * item = [[WYAVideoItem alloc] init];
-    item.videoUrl = [NSURL URLWithString:@"https://video.pc6.com/v/1810/pyqxxjc3.mp4"];
-    item.superView          = self.view;
-    item.rect               = frame;
-    item.seekTime           = 10;
-    item.seekToTimeAutoPlay = YES;
-    item.autoNeedReplay = YES;
-    self.playView                = [[WYAVideoPlayerView alloc] init];
-    self.playView.playerDelegate = self;
-    self.playView.frame          = frame;
-    [self.view addSubview:self.playView];
-
-    [self.playView wya_registerPlayerItem:item];
-
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:@"下载这个视频" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    button.titleLabel.font = FONT(15);
-    [button setBackgroundImage:[UIImage wya_createImageWithColor:[UIColor redColor]]
-                      forState:UIControlStateNormal];
-    [button addCallBackAction:^(UIButton * button) {
-
-        WYADownloadModel * model1  = [[WYADownloadModel alloc] init];
-        model1.urlString           = @"https://video.pc6.com/v/1810/pyqxxjc3.mp4";
-        model1.title               = @"下载测试内容";
-        WYADownloader * downloader = [WYADownloader sharedDownloader];
-        [downloader wya_DownloadTaskWithModel:model1
-                                 ResultHandle:^(WYADownloadModel * _Nonnull resultModel,
-                                                NSString * _Nonnull result) {
-                                     [UIView wya_showBottomToastWithMessage:result];
-                                 }];
-    }];
-    [self.view addSubview:button];
-    CGFloat button_X      = (ScreenWidth - 200 * SizeAdapter) / 2;
-    CGFloat button_Y      = CGRectGetMaxY(self.playView.frame) + 50 * SizeAdapter;
-    CGFloat button_Width  = 200 * SizeAdapter;
-    CGFloat button_Height = 50 * SizeAdapter;
-    button.frame          = CGRectMake(button_X, button_Y, button_Width, button_Height);
+    [self.view addSubview:self.tableView];
+    
 }
 
-- (void)dealloc {
-    NSLog(@"销毁");
-    [self.playView wya_resetPlayer];
-    [self.playView removeFromSuperview];
-}
 
-#pragma mark - Super Method  -
-- (BOOL)prefersStatusBarHidden {
-    return NO;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    if (self.isFullScreen) {
-        return UIStatusBarStyleLightContent;
-    } else {
-        return UIStatusBarStyleDefault;
-    }
-}
-
-- (BOOL)shouldAutorotate {
-    return NO;
-}
-
-#pragma mark - VideoPlayerDelegate -
-- (void)wya_playerView:(UIView *)playerView isfullScreen:(BOOL)fullScreen {
-    self.isFullScreen = fullScreen;
-    [self setNeedsStatusBarAppearanceUpdate];
-    if (fullScreen) {
-        self.view.backgroundColor = [UIColor blackColor];
-    } else {
-        self.view.backgroundColor = [UIColor whiteColor];
-    }
-}
-
-#pragma mark - NavBarAction  -
-- (void)wya_goBack {
-    [super wya_goBack];
-    [self.playView wya_resetPlayer];
-}
-
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/"
                    @"WYAVideoPlayer/README.md";
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark - UITableViewDelegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.dataSource.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *identifier = @"cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = self.dataSource[indexPath.row];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    Class class = NSClassFromString(self.viewControllers[indexPath.row]);
+    [self.navigationController pushViewController:[[class alloc] init] animated:YES];
+}
+
+#pragma mark - Lazy
+- (UITableView *)tableView{
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, WYATopHeight, self.view.cmam_width, self.view.cmam_height - WYATopHeight) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+
+    }
+    return _tableView;
+}
+
+- (NSArray *)dataSource{
+    if (!_dataSource) {
+        _dataSource = @[@"单个视频",
+                        @"在table中的视频"];
+    }
+    return _dataSource;
+}
+
+- (NSArray *)viewControllers{
+    if (!_viewControllers) {
+        _viewControllers = @[@"WYASingleVideoViewController",
+                             @"WYATableVideoViewController"];
+    }
+    return _viewControllers;
 }
 
 /*

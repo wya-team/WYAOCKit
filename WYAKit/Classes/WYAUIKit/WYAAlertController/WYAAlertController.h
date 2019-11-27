@@ -8,7 +8,6 @@ static const CGFloat as_backgroundAlpha = 0.4;
 
 @class WYAPopupView;
 
-
 @interface WYAAlertController : UIViewController <UIAppearanceContainer>
 
 /// alert 视图（外部不要调用）

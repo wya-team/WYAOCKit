@@ -19,7 +19,8 @@
 @end
 
 @implementation WYARealmHeaderView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.insterTableButton];
 
@@ -29,7 +30,8 @@
     }
     return self;
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.insterTableButton mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.equalTo(self.mas_left).offset(LEFTSPACE);
@@ -57,7 +59,8 @@
     }];
 }
 #pragma mark ======= Action
-- (void)insterButtonPressed:(UIButton *)sender {
+- (void)insterButtonPressed:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.selected) {
         sender.backgroundColor                 = [UIColor redColor];
@@ -73,7 +76,8 @@
         [self.delegate wya_headerViewInsterButton:sender];
     }
 }
-- (void)deletetButtonPressed:(UIButton *)sender {
+- (void)deletetButtonPressed:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.selected) {
         sender.backgroundColor                 = [UIColor redColor];
@@ -89,7 +93,8 @@
         [self.delegate wya_headerViewDeleteButton:sender];
     }
 }
-- (void)updateButtonPressed:(UIButton *)sender {
+- (void)updateButtonPressed:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.selected) {
         sender.backgroundColor                 = [UIColor redColor];
@@ -105,7 +110,8 @@
         [self.delegate wya_headerViewUpdateButton:sender];
     }
 }
-- (void)lookButtonPressed:(UIButton *)sender {
+- (void)lookButtonPressed:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (sender.selected) {
         sender.backgroundColor                 = [UIColor redColor];
@@ -121,7 +127,8 @@
     }
 }
 #pragma mark ======= getter
-- (UIButton *)insterTableButton {
+- (UIButton *)insterTableButton
+{
     if (!_insterTableButton) {
         _insterTableButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -132,15 +139,16 @@
             object.selected            = YES;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(insterButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(insterButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _insterTableButton;
 }
 
-- (UIButton *)deleteTableButton {
+- (UIButton *)deleteTableButton
+{
     if (!_deleteTableButton) {
         _deleteTableButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -150,15 +158,16 @@
             object.layer.cornerRadius  = 8 * SizeAdapter;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(deletetButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(deletetButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _deleteTableButton;
 }
 
-- (UIButton *)updateButton {
+- (UIButton *)updateButton
+{
     if (!_updateButton) {
         _updateButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -168,15 +177,16 @@
             object.layer.cornerRadius  = 8 * SizeAdapter;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(updateButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(updateButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _updateButton;
 }
 
-- (UIButton *)lookButton {
+- (UIButton *)lookButton
+{
     if (!_lookButton) {
         _lookButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -186,8 +196,8 @@
             object.layer.cornerRadius  = 8 * SizeAdapter;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(lookButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(lookButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }

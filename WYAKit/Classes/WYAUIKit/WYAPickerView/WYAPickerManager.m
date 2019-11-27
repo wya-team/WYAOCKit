@@ -19,7 +19,8 @@
 
 @implementation WYAPickerManager
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.selectComponents = [self.calendar components:self.unitFlags fromDate:[NSDate date]];
@@ -27,24 +28,28 @@
     return self;
 }
 
-- (void)setMinimumDate:(NSDate *)minimumDate {
+- (void)setMinimumDate:(NSDate *)minimumDate
+{
     _minimumDate           = minimumDate;
     self.minimumComponents = [self.calendar components:self.unitFlags fromDate:minimumDate];
 }
 
-- (void)setMaximumDate:(NSDate *)maximumDate {
+- (void)setMaximumDate:(NSDate *)maximumDate
+{
     _maximumDate           = maximumDate;
     self.maximumComponents = [self.calendar components:self.unitFlags fromDate:maximumDate];
 }
 
-- (void)setSelectDate:(NSDate *)selectDate {
+- (void)setSelectDate:(NSDate *)selectDate
+{
     if (selectDate) {
         self.selectComponents = [self.calendar components:self.unitFlags fromDate:selectDate];
     }
 }
 
 #pragma mark - Getter
-- (NSCalendar *)calendar {
+- (NSCalendar *)calendar
+{
     if (!_calendar) {
         _calendar = [NSCalendar currentCalendar];
         //        _calendar.timeZone = self.timeZone;
@@ -52,7 +57,8 @@
     }
     return _calendar;
 }
-- (NSCalendarUnit)unitFlags {
+- (NSCalendarUnit)unitFlags
+{
     if (!_unitFlags) {
         _unitFlags = NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay |
                      NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond |
@@ -61,13 +67,14 @@
     return _unitFlags;
 }
 
-- (NSDateComponents *)minimumComponents {
+- (NSDateComponents *)minimumComponents
+{
     if (self.minimumDate) {
         _minimumComponents = [self.calendar components:self.unitFlags fromDate:self.minimumDate];
     } else {
         _minimumComponents =
-            [self.calendar components:self.unitFlags
-                             fromDate:[NSDate distantPast]];
+        [self.calendar components:self.unitFlags
+                         fromDate:[NSDate distantPast]];
         _minimumComponents.day    = 1;
         _minimumComponents.month  = 1;
         _minimumComponents.hour   = 0;
@@ -77,13 +84,14 @@
     return _minimumComponents;
 }
 
-- (NSDateComponents *)maximumComponents {
+- (NSDateComponents *)maximumComponents
+{
     if (self.maximumDate) {
         _maximumComponents = [self.calendar components:self.unitFlags fromDate:self.maximumDate];
     } else {
         _maximumComponents =
-            [self.calendar components:self.unitFlags
-                             fromDate:[NSDate distantFuture]];
+        [self.calendar components:self.unitFlags
+                         fromDate:[NSDate distantFuture]];
         NSInteger day = [self howManyDaysWithMonthInThisYear:self.currentComponents.year
                                                    withMonth:self.currentComponents.month];
         _maximumComponents.day    = day;
@@ -95,14 +103,16 @@
     return _maximumComponents;
 }
 
-- (NSDateComponents *)currentComponents {
+- (NSDateComponents *)currentComponents
+{
     if (!_currentComponents) {
         _currentComponents = [self.calendar components:self.unitFlags fromDate:[NSDate date]];
     }
     return _currentComponents;
 }
 
-- (NSMutableArray *)yearArray {
+- (NSMutableArray *)yearArray
+{
     NSInteger index        = self.maximumComponents.year - self.minimumComponents.year;
     NSMutableArray * years = [NSMutableArray arrayWithCapacity:index];
     for (NSInteger i = self.minimumComponents.year; i <= self.maximumComponents.year; i++) {
@@ -111,24 +121,24 @@
     return years;
 }
 
-- (NSMutableArray *)monthArray {
-    
+- (NSMutableArray *)monthArray
+{
     NSInteger minimum = 1;
     NSInteger maximum = 12;
     //        if (_setDate == nil && self.maximumComponents.year <= self.currentComponents.year)
     //        {
     //            maximum = self.maximumComponents.month;
     //        }
-//    if (self.selectYear) {
-//        if (self.selectYear == self.minimumComponents.year) {
-//            minimum = self.minimumComponents.month;
-//        }
-//        if (self.selectYear == self.maximumComponents.year) {
-//            maximum = self.maximumComponents.month;
-//        }
-//    } else {
-//
-//    }
+    //    if (self.selectYear) {
+    //        if (self.selectYear == self.minimumComponents.year) {
+    //            minimum = self.minimumComponents.month;
+    //        }
+    //        if (self.selectYear == self.maximumComponents.year) {
+    //            maximum = self.maximumComponents.month;
+    //        }
+    //    } else {
+    //
+    //    }
     if (self.minimumComponents.year == self.maximumComponents.year) {
         minimum = self.minimumComponents.month;
         maximum = self.maximumComponents.month;
@@ -142,19 +152,22 @@
     }
 
     NSMutableArray * months = [NSMutableArray array];
-    for (NSUInteger i = minimum; i <= maximum; i++) { [months addObject:[@(i) stringValue]]; }
-    _monthArray       = months;
+    for (NSUInteger i = minimum; i <= maximum; i++) {
+        [months addObject:[@(i) stringValue]];
+    }
+    _monthArray = months;
     return _monthArray;
 }
 
-- (NSMutableArray *)dayArray {
+- (NSMutableArray *)dayArray
+{
     NSInteger minDay, maxDay;
-//    if (self.selectYear && self.selectMonth) {
-//
-//    } else{
-//        minDay = 1;
-//        maxDay = [self howManyDaysWithMonthInThisYear:self.selectComponents.year withMonth:self.selectComponents.month];
-//    }
+    //    if (self.selectYear && self.selectMonth) {
+    //
+    //    } else{
+    //        minDay = 1;
+    //        maxDay = [self howManyDaysWithMonthInThisYear:self.selectComponents.year withMonth:self.selectComponents.month];
+    //    }
     if (self.minimumComponents.year == self.maximumComponents.year &&
         self.minimumComponents.month == self.maximumComponents.month) {
         minDay = self.minimumComponents.day;
@@ -178,14 +191,17 @@
 
     NSMutableArray * days = [NSMutableArray array];
 
-    for (NSUInteger i = minDay; i <= maxDay; i++) { [days addObject:[@(i) stringValue]]; }
-    _dayArray         = days;
+    for (NSUInteger i = minDay; i <= maxDay; i++) {
+        [days addObject:[@(i) stringValue]];
+    }
+    _dayArray = days;
     return _dayArray;
 }
 
-- (NSMutableArray *)hourArray {
-    NSInteger minimum      = 0;
-    NSInteger maximum      = 23;
+- (NSMutableArray *)hourArray
+{
+    NSInteger minimum = 0;
+    NSInteger maximum = 23;
     if (self.minimumComponents.year == self.maximumComponents.year &&
         self.minimumComponents.month == self.maximumComponents.month &&
         self.minimumComponents.day == self.maximumComponents.day) {
@@ -198,20 +214,23 @@
             minimum = self.minimumComponents.hour;
         } else if (self.selectComponents.year == self.maximumComponents.year &&
                    self.selectComponents.month == self.maximumComponents.month &&
-                   self.selectComponents.day == self.maximumComponents.day){
+                   self.selectComponents.day == self.maximumComponents.day) {
             maximum = self.maximumComponents.hour;
         }
     }
 
     NSInteger index        = maximum - minimum;
     NSMutableArray * hours = [NSMutableArray array];
-    for (NSUInteger i = minimum; i <= maximum; i++) { [hours addObject:[@(i) stringValue]]; }
+    for (NSUInteger i = minimum; i <= maximum; i++) {
+        [hours addObject:[@(i) stringValue]];
+    }
     return hours;
 }
 
-- (NSMutableArray *)minuteArray {
-    NSInteger minimum        = 0;
-    NSInteger maximum        = 59;
+- (NSMutableArray *)minuteArray
+{
+    NSInteger minimum = 0;
+    NSInteger maximum = 59;
     if (self.minimumComponents.year == self.maximumComponents.year &&
         self.minimumComponents.month == self.maximumComponents.month &&
         self.minimumComponents.day == self.maximumComponents.day &&
@@ -227,19 +246,22 @@
         } else if (self.selectComponents.year == self.maximumComponents.year &&
                    self.selectComponents.month == self.maximumComponents.month &&
                    self.selectComponents.day == self.maximumComponents.day &&
-                   self.selectComponents.hour == self.maximumComponents.hour){
+                   self.selectComponents.hour == self.maximumComponents.hour) {
             maximum = self.maximumComponents.minute;
         }
     }
     NSInteger index          = maximum - minimum;
     NSMutableArray * minutes = [NSMutableArray array];
-    for (NSUInteger i = minimum; i <= maximum; i++) { [minutes addObject:[@(i) stringValue]]; }
+    for (NSUInteger i = minimum; i <= maximum; i++) {
+        [minutes addObject:[@(i) stringValue]];
+    }
     return minutes;
 }
 
-- (NSMutableArray *)secondArray {
-    NSInteger minimum        = 0;
-    NSInteger maximum        = 59;
+- (NSMutableArray *)secondArray
+{
+    NSInteger minimum = 0;
+    NSInteger maximum = 59;
     if (self.minimumComponents.year == self.maximumComponents.year &&
         self.minimumComponents.month == self.maximumComponents.month &&
         self.minimumComponents.day == self.maximumComponents.day &&
@@ -258,21 +280,25 @@
                    self.selectComponents.month == self.maximumComponents.month &&
                    self.selectComponents.day == self.maximumComponents.day &&
                    self.selectComponents.hour == self.maximumComponents.hour &&
-                   self.selectComponents.minute == self.maximumComponents.minute){
+                   self.selectComponents.minute == self.maximumComponents.minute) {
             maximum = self.maximumComponents.second;
         }
     }
     NSInteger index          = maximum - minimum;
     NSMutableArray * seconds = [NSMutableArray array];
-    for (NSUInteger i = minimum; i <= maximum; i++) { [seconds addObject:[@(i) stringValue]]; }
+    for (NSUInteger i = minimum; i <= maximum; i++) {
+        [seconds addObject:[@(i) stringValue]];
+    }
     return seconds;
 }
 
-- (NSInteger)yearRow{
+- (NSInteger)yearRow
+{
     return self.selectComponents.year - self.minimumComponents.year;
 }
 
-- (NSInteger)monthRow{
+- (NSInteger)monthRow
+{
     if (self.selectComponents.year == self.minimumComponents.year) {
         return self.selectComponents.month - self.minimumComponents.month;
     } else {
@@ -280,7 +306,8 @@
     }
 }
 
-- (NSInteger)dayRow{
+- (NSInteger)dayRow
+{
     if (self.selectComponents.year == self.minimumComponents.year &&
         self.selectComponents.month == self.minimumComponents.month) {
         return self.selectComponents.day - self.minimumComponents.day;
@@ -289,7 +316,8 @@
     }
 }
 
-- (NSInteger)hourRow{
+- (NSInteger)hourRow
+{
     if (self.selectComponents.year == self.minimumComponents.year &&
         self.selectComponents.month == self.minimumComponents.month &&
         self.selectComponents.day == self.minimumComponents.day) {
@@ -299,7 +327,8 @@
     }
 }
 
-- (NSInteger)minuteRow{
+- (NSInteger)minuteRow
+{
     if (self.selectComponents.year == self.minimumComponents.year &&
         self.selectComponents.month == self.minimumComponents.month &&
         self.selectComponents.day == self.minimumComponents.day &&
@@ -310,7 +339,8 @@
     }
 }
 
-- (NSInteger)secondRow{
+- (NSInteger)secondRow
+{
     if (self.selectComponents.year == self.minimumComponents.year &&
         self.selectComponents.month == self.minimumComponents.month &&
         self.selectComponents.day == self.minimumComponents.day &&
@@ -323,7 +353,8 @@
 }
 
 #pragma mark--- Private Method
-- (NSInteger)howManyDaysWithMonthInThisYear:(NSInteger)year withMonth:(NSInteger)month {
+- (NSInteger)howManyDaysWithMonthInThisYear:(NSInteger)year withMonth:(NSInteger)month
+{
     if ((month == 1) || (month == 3) || (month == 5) || (month == 7) || (month == 8) ||
         (month == 10) || (month == 12))
         return 31;

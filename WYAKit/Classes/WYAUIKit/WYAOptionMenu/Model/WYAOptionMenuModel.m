@@ -9,9 +9,11 @@
 
 @implementation WYAOptionMenuSecondLevelModel
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) {}
+    if (self) {
+    }
     return self;
 }
 
@@ -19,9 +21,11 @@
 
 @implementation WYAOptionMenuModel
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) {}
+    if (self) {
+    }
     return self;
 }
 

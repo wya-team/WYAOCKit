@@ -10,7 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAWaterMark : NSObject
-- (void)AVsaveVideoPath:(NSURL*)videoPath WithWaterImg:(UIImage*)img WithCoverImage:(UIImage*)coverImg WithQustion:(NSString*)question WithFileName:(NSString*)fileName;
+- (void)AVsaveVideoPath:(NSURL *)videoPath WithWaterImg:(UIImage *)img WithCoverImage:(UIImage *)coverImg WithQustion:(NSString *)question WithFileName:(NSString *)fileName;
 @end
 
 NS_ASSUME_NONNULL_END

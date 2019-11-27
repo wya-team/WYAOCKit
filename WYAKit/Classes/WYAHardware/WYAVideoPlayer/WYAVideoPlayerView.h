@@ -39,18 +39,11 @@ typedef NS_ENUM(NSInteger, PlayerStatus) {
 @property (nonatomic, weak) id<WYAVideoPlayerDelegate> playerDelegate;
 /// 获取视频当前的状态
 @property (nonatomic, assign, readonly) PlayerStatus status;
-
+@property (nonatomic, strong) WYAVideoItem * videoItem;
 /**
  是否需要单击手势（用来触发控制栏的）
  */
 //@property (nonatomic, assign) BOOL needOneClick;
-
-/**
- 注册播放视频需要的信息
-
- @param item WYAVideoItem
- */
-- (void)wya_registerPlayerItem:(WYAVideoItem *)item;
 
 /**
  重置需要重新配置播放信息（pop时需调用此方法，关闭视频）

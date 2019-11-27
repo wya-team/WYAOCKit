@@ -19,6 +19,9 @@ target 'WYAKit_Example' do
   pod 'MLeaksFinder'
   pod 'NetworkEye', '~> 1.0.1'
   pod 'Bugly'
+  pod 'ZFPlayer', '~> 3.0'
+  pod 'ZFPlayer/ControlView', '~> 3.0'
+  pod 'ZFPlayer/AVPlayer', '~> 3.0'
   target 'WYAKit_Tests' do
     inherit! :search_paths
 

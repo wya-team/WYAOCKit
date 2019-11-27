@@ -10,10 +10,11 @@
 #import <CoreText/CoreText.h>
 
 @implementation NSAttributedString (Category)
-- (CGFloat)wya_heightWithContainWidth:(CGFloat)width {
+- (CGFloat)wya_heightWithContainWidth:(CGFloat)width
+{
     int total_height = 0;
     CTFramesetterRef framesetter =
-        CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self);
+    CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self);
     CGRect drawingRect    = CGRectMake(0, 0, width, 100000);
     CGMutablePathRef path = CGPathCreateMutable();
     CGPathAddRect(path, NULL, drawingRect);

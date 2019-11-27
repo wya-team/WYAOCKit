@@ -41,6 +41,8 @@
 /// 是否为返回缩略图位置
 @property (nonatomic, assign) BOOL isMoveOrigin;
 
+- (UIImage *)getReloadImageWithUrl:(NSURL *)url;
+
 /**
  显示图片
 

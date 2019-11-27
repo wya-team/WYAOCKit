@@ -28,12 +28,14 @@
 
 @implementation WYAGridViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self.view addSubview:self.collectionView];
 }
 #pragma mark ======= 懒加载
-- (UICollectionView *)collectionView {
+- (UICollectionView *)collectionView
+{
     if (!_collectionView) {
         _collectionView = ({
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
@@ -43,9 +45,9 @@
             layout.minimumLineSpacing           = 0;
             layout.minimumInteritemSpacing      = 0;
             UICollectionView * object =
-                [[UICollectionView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth,
-                                                                   ScreenHeight - WYATopHeight)
-                                   collectionViewLayout:layout];
+            [[UICollectionView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth,
+                                                               ScreenHeight - WYATopHeight)
+                               collectionViewLayout:layout];
             object.delegate        = self;
             object.dataSource      = self;
             object.backgroundColor = BGCOLOR;
@@ -54,8 +56,8 @@
             [object registerClass:[WYANoBorderCell class] forCellWithReuseIdentifier:NOBORDERCELL];
             [object registerClass:[WYALeftIconCell class] forCellWithReuseIdentifier:LEFTICONCELL];
             [object registerClass:[WYAGridHeaderView class]
-                forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                       withReuseIdentifier:HEADERVIEW];
+            forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                   withReuseIdentifier:HEADERVIEW];
             object;
         });
     }
@@ -63,8 +65,11 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) { return CGSizeMake(ScreenWidth / 4, 100); }
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.section == 0) {
+        return CGSizeMake(ScreenWidth / 4, 100);
+    }
     if (indexPath.section == 1) {
         return CGSizeMake(ScreenWidth / 4, 130);
     } else if (indexPath.section == 2) {
@@ -73,7 +78,8 @@
         return CGSizeMake(ScreenWidth / 2, 40);
     }
 }
-- (NSArray *)dataSource {
+- (NSArray *)dataSource
+{
     if (!_dataSource) {
         _dataSource = ({
             NSArray * object = @[
@@ -96,19 +102,24 @@
 
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
-    if (section != 3) { return self.dataSource.count; }
+     numberOfItemsInSection:(NSInteger)section
+{
+    if (section != 3) {
+        return self.dataSource.count;
+    }
     return 4;
 }
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return self.titleArray.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     if (indexPath.section == 0) {
         WYAGridItemCell * cell =
-            [collectionView dequeueReusableCellWithReuseIdentifier:GRIDCELL
-                                                      forIndexPath:indexPath];
+        [collectionView dequeueReusableCellWithReuseIdentifier:GRIDCELL
+                                                  forIndexPath:indexPath];
         cell.titleString = [self.dataSource wya_safeObjectAtIndex:indexPath.row];
         return cell;
     } else if (indexPath.section == 1) {
@@ -130,16 +141,18 @@
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath {
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
     WYAGridHeaderView * view =
-        [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                           withReuseIdentifier:HEADERVIEW
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                       withReuseIdentifier:HEADERVIEW
+                                              forIndexPath:indexPath];
     view.title = [self.titleArray wya_safeObjectAtIndex:indexPath.section];
     return view;
 }
 
-- (NSArray *)titleArray {
+- (NSArray *)titleArray
+{
     if (!_titleArray) {
         _titleArray = ({
             NSArray * object = @[

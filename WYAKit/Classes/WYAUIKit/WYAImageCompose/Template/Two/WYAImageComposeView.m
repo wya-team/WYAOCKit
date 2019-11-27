@@ -9,7 +9,8 @@
 
 @implementation WYAImageComposeView
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
     if (self) {
         self.userInteractionEnabled = YES;
@@ -24,17 +25,18 @@
 }
 
 #pragma mark - Setter
-- (void)setNeedPan:(BOOL)needPan{
+- (void)setNeedPan:(BOOL)needPan
+{
     if (needPan) {
         UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panClick:)];
         [self addGestureRecognizer:pan];
-    } 
+    }
 }
-- (void)panClick:(UIPanGestureRecognizer *)gesture {
-
+- (void)panClick:(UIPanGestureRecognizer *)gesture
+{
     UIView * piece = [gesture view];
     [piece.superview bringSubviewToFront:piece];
-    
+
     if ([gesture state] == UIGestureRecognizerStateBegan || [gesture state] == UIGestureRecognizerStateChanged) {
         if (self.panClick) {
             CGPoint point = [gesture locationInView:piece];
@@ -49,12 +51,14 @@
     }
 }
 
-- (void)rotationAction:(UIRotationGestureRecognizer *)gesture {
+- (void)rotationAction:(UIRotationGestureRecognizer *)gesture
+{
     self.transform   = CGAffineTransformRotate(self.transform, gesture.rotation);
     gesture.rotation = 0;
 }
 
-- (void)pinchAction:(UIPinchGestureRecognizer *)gesture {
+- (void)pinchAction:(UIPinchGestureRecognizer *)gesture
+{
     self.transform = CGAffineTransformScale(self.transform, gesture.scale, gesture.scale);
     gesture.scale  = 1.0f;
 }

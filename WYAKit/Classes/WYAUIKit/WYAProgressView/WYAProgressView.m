@@ -17,7 +17,7 @@
 @property (nonatomic, strong) CAAnimation * lastPointAnimation;
 //角度相关
 @property (nonatomic, assign)
-    CGFloat startAngle;                            /**<起点角度。角度从水平右侧开始为0，顺时针为增加角度。直接传度数 如-90 */
+CGFloat startAngle;                                /**<起点角度。角度从水平右侧开始为0，顺时针为增加角度。直接传度数 如-90 */
 @property (nonatomic, assign) CGFloat reduceAngle; /**<减少的角度 直接传度数 如30*/
 @property (nonatomic, assign) CGFloat duration;    /**<动画时长*/
 
@@ -46,7 +46,8 @@
 //    return self;
 //}
 
-- (instancetype)initWithFrame:(CGRect)frame progressViewStyle:(WYAProgressViewStyle)style {
+- (instancetype)initWithFrame:(CGRect)frame progressViewStyle:(WYAProgressViewStyle)style
+{
     if (self = [super initWithFrame:frame]) {
         self.style = style;
         [self initialization];
@@ -54,7 +55,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     if (self.style == WYAProgressViewStyleStraight) {
         CGFloat bgImageView_X      = 0;
@@ -62,21 +64,22 @@
         CGFloat bgImageView_Width  = self.cmam_width * self.progress;
         CGFloat bgImageView_Height = self.cmam_height;
         self.bgImageView.frame =
-            CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
+        CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
     } else if (self.style == WYAProgressViewStyleCircle) {
         CGFloat bgImageView_X      = self.borderWidth;
         CGFloat bgImageView_Y      = self.borderWidth;
         CGFloat bgImageView_Width  = self.cmam_width - self.borderWidth * 2;
         CGFloat bgImageView_Height = self.cmam_width - self.borderWidth * 2;
         self.bgImageView.frame =
-            CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
+        CGRectMake(bgImageView_X, bgImageView_Y, bgImageView_Width, bgImageView_Height);
 
         self.bgImageView.layer.cornerRadius = (self.cmam_width - self.borderWidth * 2) / 2;
     }
 }
 
 #pragma mark - Private Method -
-- (void)initialization {
+- (void)initialization
+{
     self.backgroundColor = [UIColor whiteColor];
     _trackTintColor      = [UIColor lightGrayColor];
     _progressTintColor   = [UIColor wya_hex:@"#108DE7"];
@@ -96,7 +99,8 @@
 }
 
 #pragma mark - Public Method -
-- (void)wya_setProgress:(CGFloat)progress Animation:(BOOL)animation {
+- (void)wya_setProgress:(CGFloat)progress Animation:(BOOL)animation
+{
     if (animation) {
         [self startAnimation:progress];
     } else {
@@ -105,7 +109,8 @@
 }
 
 #pragma mark - Getter -
-- (CAShapeLayer *)backLayer {
+- (CAShapeLayer *)backLayer
+{
     if (!_backLayer) {
         _backLayer             = [CAShapeLayer layer];
         _backLayer.frame       = CGRectMake(0, 0, self.cmam_width, self.cmam_width);
@@ -120,7 +125,8 @@
     return _backLayer;
 }
 
-- (CAShapeLayer *)progressLayer {
+- (CAShapeLayer *)progressLayer
+{
     if (!_progressLayer) {
         _progressLayer       = [CAShapeLayer layer];
         _progressLayer.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_width);
@@ -137,7 +143,8 @@
     return _progressLayer;
 }
 
-- (UIImageView *)bgImageView {
+- (UIImageView *)bgImageView
+{
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] init];
         if (self.style == WYAProgressViewStyleStraight) {
@@ -150,7 +157,8 @@
 }
 
 #pragma mark - Setter -
-- (void)setStartAngle:(CGFloat)startAngle {
+- (void)setStartAngle:(CGFloat)startAngle
+{
     if (_startAngle != WYACircleDegreeToRadian(startAngle)) {
         _startAngle = WYACircleDegreeToRadian(startAngle);
 
@@ -168,9 +176,12 @@
     }
 }
 
-- (void)setReduceAngle:(CGFloat)reduceAngle {
+- (void)setReduceAngle:(CGFloat)reduceAngle
+{
     if (_reduceAngle != WYACircleDegreeToRadian(reduceAngle)) {
-        if (reduceAngle >= 360) { return; }
+        if (reduceAngle >= 360) {
+            return;
+        }
         _reduceAngle = WYACircleDegreeToRadian(reduceAngle);
 
         if (_backLayer) {
@@ -186,33 +197,43 @@
     }
 }
 
-- (void)setBackGroundImage:(UIImage *)backGroundImage {
-    if (backGroundImage) { self.bgImageView.image = backGroundImage; }
+- (void)setBackGroundImage:(UIImage *)backGroundImage
+{
+    if (backGroundImage) {
+        self.bgImageView.image = backGroundImage;
+    }
 }
 
-- (void)setTrackTintColor:(UIColor *)trackTintColor {
+- (void)setTrackTintColor:(UIColor *)trackTintColor
+{
     if (_trackTintColor != trackTintColor) {
         _trackTintColor = trackTintColor;
         if (self.style == WYAProgressViewStyleStraight) {
             self.backgroundColor = _trackTintColor;
         } else if (self.style == WYAProgressViewStyleCircle) {
-            if (_backLayer) { _backLayer.strokeColor = _trackTintColor.CGColor; }
+            if (_backLayer) {
+                _backLayer.strokeColor = _trackTintColor.CGColor;
+            }
         }
     }
 }
 
-- (void)setProgressTintColor:(UIColor *)progressTintColor {
+- (void)setProgressTintColor:(UIColor *)progressTintColor
+{
     if (_progressTintColor != progressTintColor) {
         _progressTintColor = progressTintColor;
         if (self.style == WYAProgressViewStyleStraight) {
             self.bgImageView.backgroundColor = _progressTintColor;
         } else if (self.style == WYAProgressViewStyleCircle) {
-            if (_progressLayer) { _progressLayer.strokeColor = _progressTintColor.CGColor; }
+            if (_progressLayer) {
+                _progressLayer.strokeColor = _progressTintColor.CGColor;
+            }
         }
     }
 }
 
-- (void)setBorderWidth:(CGFloat)borderWidth {
+- (void)setBorderWidth:(CGFloat)borderWidth
+{
     if (_borderWidth != borderWidth) {
         _borderWidth = borderWidth;
 
@@ -236,16 +257,25 @@
     [self layoutIfNeeded];
 }
 
-- (void)setProgress:(CGFloat)progress {
+- (void)setProgress:(CGFloat)progress
+{
     _progress = progress;
-    if (_progress < 0) { _progress = 0; }
-    if (_progress > 1) { _progress = 1; }
+    if (_progress < 0) {
+        _progress = 0;
+    }
+    if (_progress > 1) {
+        _progress = 1;
+    }
 
     if (self.style == WYAProgressViewStyleCircle) {
         //准备好显示
-        if (!self.backLayer.superlayer) { [self.layer addSublayer:self.backLayer]; }
+        if (!self.backLayer.superlayer) {
+            [self.layer addSublayer:self.backLayer];
+        }
 
-        if (!self.progressLayer.superlayer) { [self.layer addSublayer:self.progressLayer]; }
+        if (!self.progressLayer.superlayer) {
+            [self.layer addSublayer:self.progressLayer];
+        }
         self.progressLayer.strokeEnd = _progress;
     } else if (self.style == WYAProgressViewStyleStraight) {
         [self setNeedsLayout];
@@ -253,12 +283,13 @@
     }
 }
 
-- (void)startAnimation:(CGFloat)prog {
+- (void)startAnimation:(CGFloat)prog
+{
     //线条动画
     CABasicAnimation * pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     pathAnimation.duration           = _duration;
     pathAnimation.timingFunction =
-        [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     pathAnimation.fromValue           = [NSNumber numberWithFloat:_lastProgress];
     pathAnimation.toValue             = [NSNumber numberWithFloat:prog];
     pathAnimation.fillMode            = kCAFillModeForwards;
@@ -269,16 +300,17 @@
 }
 
 //刷新最新路径
-- (UIBezierPath *)getNewBezierPath {
+- (UIBezierPath *)getNewBezierPath
+{
     if (self.style == WYAProgressViewStyleStraight) {
         return [UIBezierPath bezierPath];
     } else if (self.style == WYAProgressViewStyleCircle) {
         return [UIBezierPath
-            bezierPathWithArcCenter:CGPointMake(self.cmam_width / 2.0, self.cmam_width / 2.0)
-                             radius:_radius
-                         startAngle:_startAngle
-                           endAngle:(2 * M_PI - _reduceAngle + _startAngle)
-                          clockwise:YES];
+        bezierPathWithArcCenter:CGPointMake(self.cmam_width / 2.0, self.cmam_width / 2.0)
+                         radius:_radius
+                     startAngle:_startAngle
+                       endAngle:(2 * M_PI - _reduceAngle + _startAngle)
+                      clockwise:YES];
     } else {
         return nil;
     }

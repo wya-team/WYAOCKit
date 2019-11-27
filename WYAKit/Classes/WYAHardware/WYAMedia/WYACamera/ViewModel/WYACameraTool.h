@@ -8,7 +8,7 @@ typedef NS_ENUM(NSUInteger, WYACameraOrientation) {
     WYACameraOrientationFront, //前置摄像头
 };
 
-typedef void(^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * imagePath, NSString * videoPath);
+typedef void (^SaveMediaBlock)(BOOL isSuccess, NSString * result, NSString * imagePath, NSString * videoPath);
 
 @interface WYACameraTool : NSObject
 /// 拍摄模式, 默认AVCaptureSessionPresetMedium

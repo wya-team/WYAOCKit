@@ -18,12 +18,13 @@
 
 @implementation WYACellTableViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.tableView = [[UITableView alloc]
-        initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
-                style:UITableViewStyleGrouped];
+    initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+            style:UITableViewStyleGrouped];
     self.tableView.delegate   = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -36,40 +37,48 @@
 }
 
 #pragma mark--- UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.flag ? 10 : 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell * cell =
-        [tableView dequeueReusableCellWithIdentifier:@"cell"
-                                        forIndexPath:indexPath];
+    [tableView dequeueReusableCellWithIdentifier:@"cell"
+                                    forIndexPath:indexPath];
     cell.textLabel.text = @"这是文本内容";
     return cell;
 }
 #pragma mark--- UITableViewDelegate
 - (void)tableView:(UITableView *)tableView
   willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath {
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 30;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 100;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 44;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     UIView * view        = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.cmam_width, 30)];
     view.backgroundColor = [UIColor whiteColor];
     UIButton * button    = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -83,22 +92,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [button setEnlargeEdgeWithTop:10 right:10 bottom:10 left:10];
     [view addSubview:button];
     UITextField * titleTextField = [[UITextField alloc]
-        initWithFrame:CGRectMake(16 * SizeAdapter, 0, self.tableView.cmam_width - 50 * SizeAdapter,
-                                 30)];
+    initWithFrame:CGRectMake(16 * SizeAdapter, 0, self.tableView.cmam_width - 50 * SizeAdapter,
+                             30)];
     titleTextField.placeholder = @"aaa";
     [view addSubview:titleTextField];
 
     UIView * line =
-        [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, self.tableView.cmam_width, 0.5)];
+    [[UIView alloc] initWithFrame:CGRectMake(0, 29.5, self.tableView.cmam_width, 0.5)];
     line.backgroundColor = random(233, 233, 233, 1);
     [view addSubview:line];
     return view;
 }
-- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
     UIView * view        = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.cmam_width, 30)];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     WYACard * card =
-        [[WYACard alloc] initWithFrame:CGRectMake(10, 5, self.tableView.cmam_width - 20, 90)];
+    [[WYACard alloc] initWithFrame:CGRectMake(10, 5, self.tableView.cmam_width - 20, 90)];
     card.layer.cornerRadius  = 4.f;
     card.layer.masksToBounds = YES;
     [view addSubview:card];

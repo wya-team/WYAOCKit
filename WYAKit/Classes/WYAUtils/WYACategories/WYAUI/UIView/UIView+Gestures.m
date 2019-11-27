@@ -11,10 +11,11 @@
 @implementation UIView (Gestures)
 
 - (void)wya_AddTapGesturesWithTapStyle:(WYATapGesturesStyle)tapStyle
-                             TapHandle:(void (^)(UITapGestureRecognizer * gesture))handle {
+                             TapHandle:(void (^)(UITapGestureRecognizer * gesture))handle
+{
     UITapGestureRecognizer * tap =
-        [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(tapAction:)];
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(tapAction:)];
     //设置点按次数
     switch (tapStyle) {
         case WYATapGesturesStyleSingle:
@@ -38,14 +39,17 @@
 
     UITapGestureRecognizer * oneTap = objc_getAssociatedObject(self, @"tapOne");
     UITapGestureRecognizer * twoTap = objc_getAssociatedObject(self, @"tapTwo");
-    if (oneTap && twoTap) { [oneTap requireGestureRecognizerToFail:twoTap]; }
+    if (oneTap && twoTap) {
+        [oneTap requireGestureRecognizerToFail:twoTap];
+    }
 }
 
-- (void)tapAction:(UITapGestureRecognizer *)gesture {
+- (void)tapAction:(UITapGestureRecognizer *)gesture
+{
     void (^handleOne)(UITapGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"tapOneHandle");
+    objc_getAssociatedObject(self, @"tapOneHandle");
     void (^handleTwo)(UITapGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"tapTwoHandle");
+    objc_getAssociatedObject(self, @"tapTwoHandle");
     UITapGestureRecognizer * oneTap = objc_getAssociatedObject(self, @"tapOne");
     UITapGestureRecognizer * twoTap = objc_getAssociatedObject(self, @"tapTwo");
     if (gesture == oneTap && handleOne) {
@@ -60,39 +64,44 @@
 
 - (void)wya_AddLongPressGestureWithDuration:(NSTimeInterval)duration
                                      Handle:
-                                         (void (^)(UILongPressGestureRecognizer * gesture))handle {
+                                     (void (^)(UILongPressGestureRecognizer * gesture))handle
+{
     UILongPressGestureRecognizer * longPress =
-        [[UILongPressGestureRecognizer alloc] initWithTarget:self
-                                                      action:@selector(longPreAction:)];
+    [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                  action:@selector(longPreAction:)];
     longPress.minimumPressDuration = duration;
     [self addGestureRecognizer:longPress];
     objc_setAssociatedObject(self, @"longPressHandle", handle, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (void)longPreAction:(UILongPressGestureRecognizer *)gesture {
+- (void)longPreAction:(UILongPressGestureRecognizer *)gesture
+{
     void (^handle)(UILongPressGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"longPressHandle");
+    objc_getAssociatedObject(self, @"longPressHandle");
     handle(gesture);
 }
 
-- (void)wya_AddPanGestureWithHandle:(void (^)(UIPanGestureRecognizer * gesture))handle {
+- (void)wya_AddPanGestureWithHandle:(void (^)(UIPanGestureRecognizer * gesture))handle
+{
     UIPanGestureRecognizer * pan =
-        [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(panAction:)];
+    [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(panAction:)];
     [self addGestureRecognizer:pan];
     objc_setAssociatedObject(self, @"panHandle", handle, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (void)panAction:(UIPanGestureRecognizer *)gesture {
+- (void)panAction:(UIPanGestureRecognizer *)gesture
+{
     void (^handle)(UIPanGestureRecognizer * gesture) = objc_getAssociatedObject(self, @"panHandle");
     handle(gesture);
 }
 
 - (void)wya_AddSwipeGestureWithSwipeDirection:(UISwipeGestureRecognizerDirection)direction
-                                  SwipeHandle:(void (^)(UISwipeGestureRecognizer * gesture))handle {
+                                  SwipeHandle:(void (^)(UISwipeGestureRecognizer * gesture))handle
+{
     UISwipeGestureRecognizer * swipe =
-        [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                  action:@selector(swipeAction:)];
+    [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                              action:@selector(swipeAction:)];
     switch (direction) {
         case UISwipeGestureRecognizerDirectionUp:
             objc_setAssociatedObject(self, @"swipeUp", swipe, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -120,15 +129,16 @@
     [self addGestureRecognizer:swipe];
 }
 
-- (void)swipeAction:(UISwipeGestureRecognizer *)gesture {
+- (void)swipeAction:(UISwipeGestureRecognizer *)gesture
+{
     void (^swipeUpHandle)(UISwipeGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"swipeUpHandle");
+    objc_getAssociatedObject(self, @"swipeUpHandle");
     void (^swipeDownHandle)(UISwipeGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"swipeDownHandle");
+    objc_getAssociatedObject(self, @"swipeDownHandle");
     void (^swipeLeftHandle)(UISwipeGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"swipeLeftHandle");
+    objc_getAssociatedObject(self, @"swipeLeftHandle");
     void (^swipeRightHandle)(UISwipeGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"swipeRightHandle");
+    objc_getAssociatedObject(self, @"swipeRightHandle");
     UISwipeGestureRecognizer * swipeUp    = objc_getAssociatedObject(self, @"swipeUp");
     UISwipeGestureRecognizer * swipeDown  = objc_getAssociatedObject(self, @"swipeDown");
     UISwipeGestureRecognizer * swipeLeft  = objc_getAssociatedObject(self, @"swipeLeft");
@@ -144,31 +154,35 @@
     }
 }
 
-- (void)wya_AddRotationGestureWithHandle:(void (^)(UIRotationGestureRecognizer * gesture))handle {
+- (void)wya_AddRotationGestureWithHandle:(void (^)(UIRotationGestureRecognizer * gesture))handle
+{
     UIRotationGestureRecognizer * rotation =
-        [[UIRotationGestureRecognizer alloc] initWithTarget:self
-                                                     action:@selector(rotationAction:)];
+    [[UIRotationGestureRecognizer alloc] initWithTarget:self
+                                                 action:@selector(rotationAction:)];
     [self addGestureRecognizer:rotation];
     objc_setAssociatedObject(self, @"rotationHandle", handle, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (void)rotationAction:(UIRotationGestureRecognizer *)gesture {
+- (void)rotationAction:(UIRotationGestureRecognizer *)gesture
+{
     void (^handle)(UIRotationGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"rotationHandle");
+    objc_getAssociatedObject(self, @"rotationHandle");
     handle(gesture);
 }
 
-- (void)wya_AddPinchGestureWithHandle:(void (^)(UIPinchGestureRecognizer * gesture))handle {
+- (void)wya_AddPinchGestureWithHandle:(void (^)(UIPinchGestureRecognizer * gesture))handle
+{
     UIPinchGestureRecognizer * pinch =
-        [[UIPinchGestureRecognizer alloc] initWithTarget:self
-                                                  action:@selector(pinchAction:)];
+    [[UIPinchGestureRecognizer alloc] initWithTarget:self
+                                              action:@selector(pinchAction:)];
     [self addGestureRecognizer:pinch];
     objc_setAssociatedObject(self, @"pinchHandle", handle, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
-- (void)pinchAction:(UIPinchGestureRecognizer *)gesture {
+- (void)pinchAction:(UIPinchGestureRecognizer *)gesture
+{
     void (^handle)(UIPinchGestureRecognizer * gesture) =
-        objc_getAssociatedObject(self, @"pinchHandle");
+    objc_getAssociatedObject(self, @"pinchHandle");
     handle(gesture);
 }
 @end

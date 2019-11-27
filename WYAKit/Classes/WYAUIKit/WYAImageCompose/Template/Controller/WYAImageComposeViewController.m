@@ -14,7 +14,8 @@
 #import "WYAImageComposeTemplate.h"
 #import "WYAImageComposeTemplatePoints.h"
 #import <objc/runtime.h>
-@interface WYAImageComposeViewController () <UICollectionViewDelegate, UICollectionViewDataSource,WYASliderDelegate>
+
+@interface WYAImageComposeViewController () <UICollectionViewDelegate, UICollectionViewDataSource, WYASliderDelegate>
 @property (nonatomic, strong) UICollectionView * collectionView;
 @property (nonatomic, strong) NSArray * dataSource;
 @property (nonatomic, strong) WYAImageComposeTemplate * superImageComposeTemplateView;
@@ -23,17 +24,18 @@
 @property (nonatomic, strong) NSArray * selectors;
 @end
 
-@implementation WYAImageComposeViewController
-{
+@implementation WYAImageComposeViewController {
     NSIndexPath * lastIndexPath;
 }
 #pragma mark - LifeCircle
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = YES;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -43,8 +45,8 @@
     [self.view addSubview:self.collectionView];
 }
 
-- (void)injected{
-
+- (void)injected
+{
     [self loadView];
     [self viewDidLoad];
     [self viewWillAppear:true];
@@ -53,22 +55,21 @@
     [self viewDidDisappear:YES];
 }
 
-- (void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
 
-
-    CGFloat label_X      = 10;
-    CGFloat label_Y      = 20 * SizeAdapter;
-    CGFloat label_Width  = ScreenWidth - 20;
-    CGFloat label_Height = 20 * SizeAdapter;
+    CGFloat label_X        = 10;
+    CGFloat label_Y        = 20 * SizeAdapter;
+    CGFloat label_Width    = ScreenWidth - 20;
+    CGFloat label_Height   = 20 * SizeAdapter;
     self.sliderLabel.frame = CGRectMake(label_X, label_Y, label_Width, label_Height);
-
 
     CGFloat slider_X      = 30;
     CGFloat slider_Y      = CGRectGetMaxY(self.sliderLabel.frame) + 20 * SizeAdapter;
     CGFloat slider_Width  = self.view.frame.size.width - 60;
     CGFloat slider_Height = 30;
-    self.slider.frame          = CGRectMake(slider_X, slider_Y, slider_Width, slider_Height);
+    self.slider.frame     = CGRectMake(slider_X, slider_Y, slider_Width, slider_Height);
 
     CGFloat collectionView_X      = 0;
     CGFloat collectionView_Y      = self.view.cmam_height - 49;
@@ -77,64 +78,70 @@
     self.collectionView.frame =
     CGRectMake(collectionView_X, collectionView_Y, collectionView_Width, collectionView_Height);
 
-    CGFloat view_x         = 0;
-    CGFloat view_y         = (self.view.cmam_height - self.view.cmam_width) / 2;
-    CGFloat view_width     = ScreenWidth;
-    CGFloat view_height    = ScreenWidth;
-    CGRect view_rect       = CGRectMake(view_x, view_y, view_width, view_height);
+    CGFloat view_x               = 0;
+    CGFloat view_y               = (self.view.cmam_height - self.view.cmam_width) / 2;
+    CGFloat view_width           = ScreenWidth;
+    CGFloat view_height          = ScreenWidth;
+    CGRect view_rect             = CGRectMake(view_x, view_y, view_width, view_height);
     self.templateSuperView.frame = view_rect;
 }
 
 #pragma mark - Private Method
-- (WYAImageComposeTemplate *)templatePathWithPoints:(NSArray *)points images:(NSArray *)images {
+- (WYAImageComposeTemplate *)templatePathWithPoints:(NSArray *)points images:(NSArray *)images
+{
     WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc] initWithPoints:points images:images];
     template.frame                     = CGRectMake(0, 0, self.templateSuperView.cmam_width, self.templateSuperView.cmam_height);
     [template wya_templatePath];
     return template;
 }
 
-- (WYAImageComposeTemplate *)templateViewWithPoints:(NSArray *)points images:(NSArray *)images {
+- (WYAImageComposeTemplate *)templateViewWithPoints:(NSArray *)points images:(NSArray *)images
+{
     WYAImageComposeTemplate * template = [[WYAImageComposeTemplate alloc] initWithPoints:points images:images];
     template.frame                     = CGRectMake(0, 0, ScreenWidth, self.templateSuperView.cmam_size.height);
     [template wya_templateView];
     return template;
 }
 
-- (UIImage *)templateImageWithView:(WYAImageComposeTemplate *) template {
+- (UIImage *)templateImageWithView:(WYAImageComposeTemplate *) template
+{
     return [UIImage wya_createViewImage:template];
 }
 
 #pragma mark - WYASliderDelegate
-- (void)wya_slider:(WYASlider *)slider MinValueChange:(CGFloat)value{
-    NSLog(@"最小的值==%f",value);
+- (void)wya_slider:(WYASlider *)slider MinValueChange:(CGFloat)value
+{
+    NSLog(@"最小的值==%f", value);
     NSString * string = self.selectors[lastIndexPath.section][lastIndexPath.item];
 
-    NSArray * arr = [WYAImageComposeTemplatePoints performSelector:NSSelectorFromString(string) withObject:NSStringFromCGSize(self.templateSuperView.cmam_size) withObject:[NSNumber numberWithFloat:value * 20]];
+    NSArray * arr                             = [WYAImageComposeTemplatePoints performSelector:NSSelectorFromString(string) withObject:NSStringFromCGSize(self.templateSuperView.cmam_size) withObject:[NSNumber numberWithFloat:value * 20]];
     self.superImageComposeTemplateView.points = arr;
     [self.superImageComposeTemplateView wya_templateView];
-
-
 }
 
-- (void)wya_slider:(WYASlider *)slider MaxValueChange:(CGFloat)value{
-    NSLog(@"最大的值==%f",value);
+- (void)wya_slider:(WYASlider *)slider MaxValueChange:(CGFloat)value
+{
+    NSLog(@"最大的值==%f", value);
 }
 
 #pragma mark--- UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return self.dataSource.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+     numberOfItemsInSection:(NSInteger)section
+{
     return [self.dataSource[section] count];
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAImageTemplateCell * cell =
-        [collectionView dequeueReusableCellWithReuseIdentifier:@"template"
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableCellWithReuseIdentifier:@"template"
+                                              forIndexPath:indexPath];
 
     cell.image = self.dataSource[indexPath.section][indexPath.item];
     return cell;
@@ -142,50 +149,53 @@
 
 - (void)collectionView:(UICollectionView *)collectionView
        willDisplayCell:(UICollectionViewCell *)cell
-    forItemAtIndexPath:(NSIndexPath *)indexPath {
+    forItemAtIndexPath:(NSIndexPath *)indexPath
+{
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     return CGSizeMake(49, 49);
 }
 
 //设置每个item的UIEdgeInsets
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section {
+        insetForSectionAtIndex:(NSInteger)section
+{
     return UIEdgeInsetsMake(0 * SizeAdapter, 5, 0 * SizeAdapter, 5);
 }
 
 //设置每个item水平间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                      layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
+                                  layout:(UICollectionViewLayout *)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
     return 0 * SizeAdapter;
 }
 
 //设置每个item垂直间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView
-                                 layout:(UICollectionViewLayout *)collectionViewLayout
-    minimumLineSpacingForSectionAtIndex:(NSInteger)section {
+                             layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
     return 5;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
-    lastIndexPath = indexPath;
+    lastIndexPath               = indexPath;
     self.slider.currentMinValue = 0.0;
     if (self.superImageComposeTemplateView) {
         [self.superImageComposeTemplateView removeFromSuperview];
         self.superImageComposeTemplateView = nil;
     }
     if (indexPath.section == 0) {
-
         if (indexPath.item == 0) {
-
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfOneWithTemplateSize:self.templateSuperView.cmam_size margin:0] images:[self.images wya_safeSubarrayWithRange:NSMakeRange(0, indexPath.section + 1)]];
             [self.templateSuperView addSubview:template];
             self.superImageComposeTemplateView = template;
@@ -195,7 +205,6 @@
             self.superImageComposeTemplateView = template;
         }
     } else if (indexPath.section == 1) {
-
         if (indexPath.item == 0) {
             WYAImageComposeTemplate * template = [self templateViewWithPoints:[WYAImageComposeTemplatePoints templateOneOfTwoWithTemplateSize:self.templateSuperView.cmam_size margin:0] images:[self.images wya_safeSubarrayWithRange:NSMakeRange(0, indexPath.section + 1)]];
             [self.templateSuperView addSubview:template];
@@ -632,11 +641,12 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath {
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
     UICollectionReusableView * view =
-        [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                           withReuseIdentifier:@"header"
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                       withReuseIdentifier:@"header"
+                                              forIndexPath:indexPath];
     UIView * vi = [view viewWithTag:1];
     if (vi) {
         [vi removeFromSuperview];
@@ -655,7 +665,8 @@
 
 #pragma mark ======= Getter
 
-- (UICollectionView *)collectionView {
+- (UICollectionView *)collectionView
+{
     if (!_collectionView) {
         UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection              = UICollectionViewScrollDirectionHorizontal;
@@ -678,7 +689,8 @@
     return _collectionView;
 }
 
-- (NSArray *)dataSource {
+- (NSArray *)dataSource
+{
     if (_dataSource == nil) {
         _dataSource = @[
             @[
@@ -810,7 +822,8 @@
     return _dataSource;
 }
 
-- (UIView *)templateSuperView {
+- (UIView *)templateSuperView
+{
     if (!_templateSuperView) {
         _templateSuperView = ({
 
@@ -822,164 +835,167 @@
     return _templateSuperView;
 }
 
-- (UILabel *)sliderLabel{
-    if(!_sliderLabel){
+- (UILabel *)sliderLabel
+{
+    if (!_sliderLabel) {
         _sliderLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object = [[UILabel alloc] init];
             object.text      = @"间距";
             object.textColor = random(51, 51, 51, 1);
             object.font      = FONT(15);
             object;
-       });
+        });
     }
     return _sliderLabel;
 }
 
-- (WYASlider *)slider{
-    if(!_slider){
+- (WYASlider *)slider
+{
+    if (!_slider) {
         _slider = ({
-            WYASlider * object = [[WYASlider alloc]init];
+            WYASlider * object   = [[WYASlider alloc] init];
             object.showNoteLabel = NO;
             object.mainTintColor = [UIColor wya_hex:@"#DEDEDE"];
             object.minTintColor  = [UIColor wya_hex:@"#108DE7"];
-            object.delegate = self;
+            object.delegate      = self;
             object;
-       });
+        });
     }
     return _slider;
 }
 
-- (NSArray *)selectors{
-    if(!_selectors){
+- (NSArray *)selectors
+{
+    if (!_selectors) {
         _selectors = ({
             NSArray * object = @[
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfOneWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfOneWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfTwoWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfTwoWithTemplateSizeString:marginNumber:))
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourteenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFifteenOfThreeWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourteenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFifteenOfFourWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixteenOfFourWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfFiveWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourteenOfFiveWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfSixWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfSixWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfSevenWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfSevenWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfEightWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfEightWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 @[
-                                     NSStringFromSelector(@selector(templateOneOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwoOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThreeOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFourOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateFiveOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSixOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateSevenOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateEightOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateNineOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTenOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateElevenOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateTwelveOfNineWithTemplateSizeString:marginNumber:)),
-                                     NSStringFromSelector(@selector(templateThirteenOfNineWithTemplateSizeString:marginNumber:)),
-                                     ],
-                                 ];
+                @[
+                   NSStringFromSelector(@selector(templateOneOfOneWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfOneWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfTwoWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfTwoWithTemplateSizeString:marginNumber:))
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourteenOfThreeWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFifteenOfThreeWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourteenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFifteenOfFourWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixteenOfFourWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfFiveWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourteenOfFiveWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfSixWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfSixWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfSevenWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfSevenWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfEightWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfEightWithTemplateSizeString:marginNumber:)),
+                ],
+                @[
+                   NSStringFromSelector(@selector(templateOneOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwoOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThreeOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFourOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateFiveOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSixOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateSevenOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateEightOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateNineOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTenOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateElevenOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateTwelveOfNineWithTemplateSizeString:marginNumber:)),
+                   NSStringFromSelector(@selector(templateThirteenOfNineWithTemplateSizeString:marginNumber:)),
+                ],
+            ];
             object;
-       });
+        });
     }
     return _selectors;
 }

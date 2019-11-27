@@ -16,7 +16,8 @@
 
 @implementation WYAFloatAreaView
 #pragma mark ======= LifeCircle
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8];
         self.title           = @"拖动到此 开启浮窗";
@@ -26,7 +27,8 @@
     }
     return self;
 }
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect
+{
     [super drawRect:rect];
     self.radius_0 = self.highlight ? 20 : 18;
     self.radius_1 = self.highlight ? 12 : 10;
@@ -63,7 +65,8 @@
 }
 
 #pragma mark ======= setter
-- (void)setHighlight:(BOOL)highlight {
+- (void)setHighlight:(BOOL)highlight
+{
     _highlight = highlight;
     [self setNeedsDisplay];
     if (highlight) {
@@ -71,7 +74,8 @@
         [impactLight impactOccurred];
     }
 }
-- (void)setStyle:(WYAFloatAreaViewStyle)style {
+- (void)setStyle:(WYAFloatAreaViewStyle)style
+{
     _style = style;
     if (style == WYAFloatAreaViewStyle_default) {
         self.backgroundColor = [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8];

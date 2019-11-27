@@ -34,12 +34,16 @@
 @implementation WYASegmentedControl
 #pragma mark ======= Life Cycle
 
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) { [self setDefaultValue]; }
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self = [super initWithFrame:frame]) {
+        [self setDefaultValue];
+    }
     return self;
 }
 #pragma mark ======= setter
-- (void)setItemsFont:(CGFloat)itemsFont {
+- (void)setItemsFont:(CGFloat)itemsFont
+{
     _itemsFont = itemsFont;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
@@ -48,13 +52,15 @@
         }
     }
 }
-- (void)setCornerRadius:(CGFloat)cornerRadius {
+- (void)setCornerRadius:(CGFloat)cornerRadius
+{
     _cornerRadius            = cornerRadius;
     self.layer.cornerRadius  = _cornerRadius;
     self.layer.masksToBounds = YES;
 }
 
-- (void)setSelectedSegmentIndex:(NSInteger)selectedSegmentIndex {
+- (void)setSelectedSegmentIndex:(NSInteger)selectedSegmentIndex
+{
     if (selectedSegmentIndex != self.selectTag) {
         UIButton * tempButton = [self viewWithTag:self.selectTag + SEGMENTEDBASEITEMSTAG];
 
@@ -67,7 +73,8 @@
     }
 }
 
-- (void)setBorderColor:(UIColor *)borderColor {
+- (void)setBorderColor:(UIColor *)borderColor
+{
     _borderColor           = borderColor;
     self.layer.borderColor = _borderColor.CGColor;
     for (UIView * tempView in self.subviews) {
@@ -78,7 +85,8 @@
     }
 }
 
-- (void)setItemNormalColor:(UIColor *)itemNormalColor {
+- (void)setItemNormalColor:(UIColor *)itemNormalColor
+{
     _itemNormalColor = itemNormalColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
@@ -90,7 +98,8 @@
     }
 }
 
-- (void)setItemSelectColor:(UIColor *)itemSelectColor {
+- (void)setItemSelectColor:(UIColor *)itemSelectColor
+{
     _itemSelectColor = itemSelectColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
@@ -101,7 +110,8 @@
     }
 }
 
-- (void)setItemHighlightedColor:(UIColor *)itemHighlightedColor {
+- (void)setItemHighlightedColor:(UIColor *)itemHighlightedColor
+{
     _itemHighlightedColor = itemHighlightedColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
@@ -110,7 +120,8 @@
         }
     }
 }
-- (void)setItemsIsEnable:(BOOL)itemsIsEnable {
+- (void)setItemsIsEnable:(BOOL)itemsIsEnable
+{
     _itemsIsEnable              = itemsIsEnable;
     self.backgroundColor        = [UIColor whiteColor];
     self.userInteractionEnabled = _itemsIsEnable;
@@ -118,7 +129,8 @@
 }
 #pragma mark ======= private method
 // 设置默认值
-- (void)setDefaultValue {
+- (void)setDefaultValue
+{
     self.cornerRadius         = 8 * SizeAdapter;
     self.selectTag            = 0;
     self.borderColor          = [UIColor wya_hex:@"#108DE7"];
@@ -129,7 +141,8 @@
 }
 
 // 标题按钮
-- (void)addItemsWithTitleArray:(NSArray *)array {
+- (void)addItemsWithTitleArray:(NSArray *)array
+{
     CGFloat width  = self.frame.size.width / array.count;
     CGFloat height = self.frame.size.height;
 
@@ -152,7 +165,9 @@
         [itemsButton wya_setBackgroundColor:self.itemNormalColor
                                    forState:UIControlStateHighlighted];
         itemsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-        if (i == self.selectTag) { itemsButton.selected = YES; }
+        if (i == self.selectTag) {
+            itemsButton.selected = YES;
+        }
         [self addSubview:itemsButton];
         [itemsButton addTarget:self
                         action:@selector(itemClicked:)
@@ -161,7 +176,8 @@
 }
 
 // 图片按钮
-- (void)addItemsWithNormalImgsArray:(NSArray *)normalArray selectedArray:(NSArray *)selectedArray {
+- (void)addItemsWithNormalImgsArray:(NSArray *)normalArray selectedArray:(NSArray *)selectedArray
+{
     CGFloat width  = self.frame.size.width / (normalArray.count);
     CGFloat height = self.frame.size.height;
 
@@ -176,7 +192,9 @@
         itemsButton.layer.borderColor = self.borderColor.CGColor;
         itemsButton.layer.borderWidth = 0.5;
         itemsButton.titleLabel.font   = FONT(self.itemsFont);
-        if (i == self.selectTag) { itemsButton.selected = YES; }
+        if (i == self.selectTag) {
+            itemsButton.selected = YES;
+        }
         [self addSubview:itemsButton];
         [itemsButton addTarget:self
                         action:@selector(itemClicked:)
@@ -185,7 +203,8 @@
 }
 #pragma mark ======= methods
 + (instancetype)wya_initWithFrame:(CGRect)frame
-                  itemsTitleArray:(NSArray<NSString *> *)itemsTitleArray {
+                  itemsTitleArray:(NSArray<NSString *> *)itemsTitleArray
+{
     WYASegmentedControl * segmentedControl = [[WYASegmentedControl alloc] initWithFrame:frame];
     segmentedControl.itemsTitleArray       = itemsTitleArray;
     segmentedControl.layer.borderColor     = segmentedControl.borderColor.CGColor;
@@ -198,7 +217,8 @@
 
 + (instancetype)wya_initWithFrame:(CGRect)frame
                 imagesNormalArray:(NSArray<NSString *> *)imagesNormalArray
-               imagesSelectlArray:(NSArray<NSString *> *)imagesSelectlArray {
+               imagesSelectlArray:(NSArray<NSString *> *)imagesSelectlArray
+{
     WYASegmentedControl * segmentedControl = [[WYASegmentedControl alloc] initWithFrame:frame];
     segmentedControl.imagesNormalArray     = imagesNormalArray;
     segmentedControl.imagesSelectlArray    = imagesSelectlArray;
@@ -212,7 +232,8 @@
 }
 
 #pragma mark ======= action
-- (void)itemClicked:(UIButton *)sender {
+- (void)itemClicked:(UIButton *)sender
+{
     NSInteger tag = sender.tag - SEGMENTEDBASEITEMSTAG;
 
     if (tag != self.selectTag) {

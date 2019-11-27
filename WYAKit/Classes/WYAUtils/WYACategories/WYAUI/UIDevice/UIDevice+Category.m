@@ -10,15 +10,19 @@
 #include <sys/param.h>
 
 @implementation UIDevice (Category)
-+ (double)wya_phoneFreeMemory {
++ (double)wya_phoneFreeMemory
+{
     //可用大小
     struct statfs buf;
     long long freespace = -1;
-    if (statfs("/var", &buf) >= 0) { freespace = (long long)(buf.f_bsize * buf.f_bfree); }
+    if (statfs("/var", &buf) >= 0) {
+        freespace = (long long)(buf.f_bsize * buf.f_bfree);
+    }
     return (double)freespace / 1024 / 1024 / 1024;
 }
 
-+ (unsigned long long)wya_fileSizeWithPath:(NSString *)path {
++ (unsigned long long)wya_fileSizeWithPath:(NSString *)path
+{
     // 总大小
     unsigned long long size = 0;
     //    NSString *sizeText = nil;

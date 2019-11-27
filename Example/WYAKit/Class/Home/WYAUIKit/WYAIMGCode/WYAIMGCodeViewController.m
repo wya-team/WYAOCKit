@@ -13,7 +13,8 @@
 @end
 
 @implementation WYAIMGCodeViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -21,7 +22,8 @@
                    @"WYAIMGCode/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -56,7 +58,7 @@
     CGFloat barTextField_Width  = ScreenWidth - 20;
     CGFloat barTextField_Height = 40 * SizeAdapter;
     barTextField.frame =
-        CGRectMake(barTextField_X, barTextField_Y, barTextField_Width, barTextField_Height);
+    CGRectMake(barTextField_X, barTextField_Y, barTextField_Width, barTextField_Height);
 
     UIButton * barButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [barButton setTitle:@"生成条形码" forState:UIControlStateNormal];
@@ -78,7 +80,7 @@
     [button addCallBackAction:^(UIButton * button) {
         [textField resignFirstResponder];
         imageV.image = [UIImage wya_GenerateWithDefaultQRCodeData:textField.text
-                                                      imageViewWidth:imageV.cmam_width];
+                                                   imageViewWidth:imageV.cmam_width];
     }];
 
     [barButton addCallBackAction:^(UIButton * button) {
@@ -88,10 +90,10 @@
             return;
         }
         imageV.image = [UIImage wya_BarcodeImageWithContent:barTextField.text
-                                                 codeImageSize:barTextField.cmam_size
-                                                           red:100.0
-                                                         green:150.0
-                                                          blue:200.0];
+                                              codeImageSize:barTextField.cmam_size
+                                                        red:100.0
+                                                      green:150.0
+                                                       blue:200.0];
     }];
 }
 

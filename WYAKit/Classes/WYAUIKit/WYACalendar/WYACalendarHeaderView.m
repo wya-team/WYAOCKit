@@ -25,15 +25,17 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     self.titleLabel.frame = CGRectMake(0, 0, self.cmam_width, self.cmam_height);
 }
 
 #pragma mark - Lazy
-- (UILabel *)titleLabel{
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
-        _titleLabel = [[UILabel alloc]init];
+        _titleLabel               = [[UILabel alloc] init];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
     }
     return _titleLabel;

@@ -29,7 +29,8 @@
 
 @implementation WYAVideoPlayerControlView
 
-- (instancetype)initWithPlayItem:(WYAVideoItem *)item {
+- (instancetype)initWithPlayItem:(WYAVideoItem *)item
+{
     self = [super init];
     if (self) {
         self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
@@ -72,7 +73,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.backButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(10);
@@ -140,7 +142,8 @@
 }
 
 #pragma mark - Getter -
-- (UIButton *)backButton {
+- (UIButton *)backButton
+{
     if (!_backButton) {
         _backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_backButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
@@ -173,7 +176,8 @@
 //    return _downloadButton;
 //}
 
-- (UIImageView *)bottomImageView {
+- (UIImageView *)bottomImageView
+{
     if (!_bottomImageView) {
         _bottomImageView                        = [[UIImageView alloc] init];
         _bottomImageView.userInteractionEnabled = YES;
@@ -182,15 +186,16 @@
     return _bottomImageView;
 }
 
-- (UIButton *)playButton {
+- (UIButton *)playButton
+{
     if (!_playButton) {
         _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_playButton
-            setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)]
-            forState:UIControlStateNormal];
+        setImage:[UIImage loadBundleImage:@"icon_begin" ClassName:NSStringFromClass(self.class)]
+        forState:UIControlStateNormal];
         [_playButton
-            setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)]
-            forState:UIControlStateSelected];
+        setImage:[UIImage loadBundleImage:@"icon_pause" ClassName:NSStringFromClass(self.class)]
+        forState:UIControlStateSelected];
         _playButton.selected = NO;
         [_playButton addTarget:self
                         action:@selector(playButtonClick:)
@@ -199,7 +204,8 @@
     return _playButton;
 }
 
-- (UILabel *)currentProgressLabel {
+- (UILabel *)currentProgressLabel
+{
     if (!_currentProgressLabel) {
         _currentProgressLabel               = [[UILabel alloc] init];
         _currentProgressLabel.textColor     = [UIColor whiteColor];
@@ -210,7 +216,8 @@
     return _currentProgressLabel;
 }
 
-- (UILabel *)allProgressLabel {
+- (UILabel *)allProgressLabel
+{
     if (!_allProgressLabel) {
         _allProgressLabel               = [[UILabel alloc] init];
         _allProgressLabel.textColor     = [UIColor whiteColor];
@@ -221,7 +228,8 @@
     return _allProgressLabel;
 }
 
-- (WYAVideoSlider *)slider {
+- (WYAVideoSlider *)slider
+{
     if (!_slider) {
         _slider          = [[WYAVideoSlider alloc] init];
         _slider.delegate = self;
@@ -229,7 +237,8 @@
     return _slider;
 }
 
-- (UIButton *)zoomButton {
+- (UIButton *)zoomButton
+{
     if (!_zoomButton) {
         _zoomButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_zoomButton setImage:[UIImage loadBundleImage:@"icon_enlarge"
@@ -245,7 +254,8 @@
     return _zoomButton;
 }
 
-- (WYAVideoFastView *)fastView {
+- (WYAVideoFastView *)fastView
+{
     if (!_fastView) {
         _fastView                     = [[WYAVideoFastView alloc] init];
         _fastView.hidden              = YES;
@@ -255,7 +265,8 @@
     return _fastView;
 }
 
-- (WYAVideoNetWorkView *)networkView {
+- (WYAVideoNetWorkView *)networkView
+{
     if (!_networkView) {
         _networkView = ({
             WYAVideoNetWorkView * object = [[WYAVideoNetWorkView alloc] init];
@@ -264,7 +275,7 @@
                 weakSelf.bottomImageView.hidden = NO;
                 if (weakSelf.videoControlDelegate &&
                     [weakSelf.videoControlDelegate
-                        respondsToSelector:@selector(videoControlRetry:)]) {
+                    respondsToSelector:@selector(videoControlRetry:)]) {
                     [weakSelf.videoControlDelegate videoControlRetry:weakSelf];
                 }
             };
@@ -272,7 +283,7 @@
                 weakSelf.bottomImageView.hidden = NO;
                 if (weakSelf.videoControlDelegate &&
                     [weakSelf.videoControlDelegate
-                        respondsToSelector:@selector(videoControlGoOn:)]) {
+                    respondsToSelector:@selector(videoControlGoOn:)]) {
                     [weakSelf.videoControlDelegate videoControlGoOn:weakSelf];
                 }
             };
@@ -283,43 +294,50 @@
 }
 
 #pragma mark - Setter -
-- (void)setOneFingerClick:(BOOL)oneFingerClick {
+- (void)setOneFingerClick:(BOOL)oneFingerClick
+{
     _oneFingerClick = oneFingerClick;
     if (oneFingerClick) {
         self.oneFingerTap =
-            [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                    action:@selector(showBottomControl)];
+        [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                action:@selector(showBottomControl)];
 
         [self addGestureRecognizer:self.oneFingerTap];
     } else {
-        if (self.oneFingerTap) { [self removeGestureRecognizer:self.oneFingerTap]; }
+        if (self.oneFingerTap) {
+            [self removeGestureRecognizer:self.oneFingerTap];
+        }
     }
 }
 
 #pragma mark - Private Method -
 
-- (void)backClick:(UIButton *)sender {
+- (void)backClick:(UIButton *)sender
+{
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:backButton:)]) {
         [self.videoControlDelegate videoControl:self backButton:sender];
     }
 }
 
-- (void)likeClick:(UIButton *)sender {
+- (void)likeClick:(UIButton *)sender
+{
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:likeButton:)]) {
         [self.videoControlDelegate videoControl:self likeButton:sender];
     }
 }
 
-- (void)downloadClick:(UIButton *)sender {
+- (void)downloadClick:(UIButton *)sender
+{
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:downloadButton:)]) {
         [self.videoControlDelegate videoControl:self downloadButton:sender];
     }
 }
 
-- (void)playButtonClick:(UIButton *)sender {
+- (void)playButtonClick:(UIButton *)sender
+{
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:PlayButton:)]) {
         [self.videoControlDelegate videoControl:self PlayButton:sender];
@@ -327,7 +345,8 @@
     sender.selected = !sender.selected;
 }
 
-- (void)wya_SliderStartRun {
+- (void)wya_SliderStartRun
+{
     self.playButton.selected = NO;
     [self cancelAutoFadeOutControlView];
     if (self.videoControlDelegate &&
@@ -336,14 +355,16 @@
     }
 }
 
-- (void)wya_SliderRunningWithValue:(CGFloat)value {
+- (void)wya_SliderRunningWithValue:(CGFloat)value
+{
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:SlideChange:)]) {
         [self.videoControlDelegate videoControl:self SlideChange:self.slider];
     }
 }
 
-- (void)wya_SliderEndRun {
+- (void)wya_SliderEndRun
+{
     self.playButton.selected = YES;
     [self hiddenBottomControl];
     if (self.videoControlDelegate &&
@@ -352,7 +373,8 @@
     }
 }
 
-- (void)zoomClick:(UIButton *)sender {
+- (void)zoomClick:(UIButton *)sender
+{
     sender.selected = !sender.selected;
     if (self.videoControlDelegate &&
         [self.videoControlDelegate respondsToSelector:@selector(videoControl:zoomButton:)]) {
@@ -360,40 +382,45 @@
     }
 }
 
-- (void)showBottomControl {
+- (void)showBottomControl
+{
     [self cancelAutoFadeOutControlView];
     [UIView animateWithDuration:0.5
-        animations:^{
-            self.bottomImageView.alpha = 1;
-            //        self.bottomImageView.hidden = NO;
-        }
-        completion:^(BOOL finished) { [self autoFadeOutControlView]; }];
+    animations:^{
+        self.bottomImageView.alpha = 1;
+        //        self.bottomImageView.hidden = NO;
+    }
+    completion:^(BOOL finished) { [self autoFadeOutControlView]; }];
 }
 
-- (void)hiddenBottomControl {
+- (void)hiddenBottomControl
+{
     [self cancelAutoFadeOutControlView];
     [UIView animateWithDuration:2
-        animations:^{ self.bottomImageView.alpha = 0; }
-        completion:^(BOOL finished){
+    animations:^{ self.bottomImageView.alpha = 0; }
+    completion:^(BOOL finished){
 
-        }];
+    }];
 }
 
-- (void)autoFadeOutControlView {
+- (void)autoFadeOutControlView
+{
     [NSObject cancelPreviousPerformRequestsWithTarget:self
                                              selector:@selector(hiddenBottomControl)
                                                object:nil];
     [self performSelector:@selector(hiddenBottomControl) withObject:nil afterDelay:2];
 }
 
-- (void)cancelAutoFadeOutControlView {
+- (void)cancelAutoFadeOutControlView
+{
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
 #pragma mark - Public Method -
 - (void)getCurrentTime:(NSInteger)currentTime
              TotalTime:(NSInteger)totalTime
-            SlideValue:(CGFloat)slideValue {
+            SlideValue:(CGFloat)slideValue
+{
     // 当前时长进度progress
     NSInteger proMin = currentTime / 60; //当前秒
     NSInteger proSec = currentTime % 60; //当前分钟
@@ -413,7 +440,8 @@
 - (void)getDragTime:(NSInteger)dragTime
            AutoPlay:(BOOL)autoPlay
         FastForward:(BOOL)fastForward
-     HiddenFastView:(BOOL)hiddenFastView {
+     HiddenFastView:(BOOL)hiddenFastView
+{
     if (autoPlay == YES) {
         self.playButton.selected = YES;
     } else {
@@ -429,27 +457,31 @@
     self.fastView.hidden           = hiddenFastView;
     self.fastView.isSpeed          = fastForward;
     NSString * string =
-        [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
+    [NSString stringWithFormat:@"%@/%@", currentTime, self.allProgressLabel.text];
     self.fastView.text   = string;
     CGFloat draggedValue = (CGFloat)dragTime / self.allTime;
     self.fastView.number = draggedValue;
 }
 
-- (void)playerEnd {
+- (void)playerEnd
+{
     self.playButton.selected = NO;
 }
 
-- (void)resetVideoPlayControl {
+- (void)resetVideoPlayControl
+{
     self.playButton.selected       = NO;
     self.currentProgressLabel.text = @"00:00";
     self.allProgressLabel.text     = @"00:00";
 }
 
-- (void)wya_playerSetProgress:(CGFloat)progress {
+- (void)wya_playerSetProgress:(CGFloat)progress
+{
     self.slider.bufferValue = progress;
 }
 
-- (void)playFail {
+- (void)playFail
+{
     self.networkView.hidden = NO;
 }
 /*

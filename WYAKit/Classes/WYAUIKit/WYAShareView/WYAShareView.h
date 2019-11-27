@@ -19,8 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
  @param indexPath indexPath
  */
 - (void)wya_shareView:(WYAShareView *)shareView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-                   itemTitle:(NSString *)title;
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+               itemTitle:(NSString *)title;
 @end
 
 @interface WYAShareView : UIView

@@ -17,19 +17,26 @@
 
 @implementation WYAVideoFastView
 #pragma mark - LifeCircle -
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { [self setup]; }
+    if (self) {
+        [self setup];
+    }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) { [self setup]; }
+    if (self) {
+        [self setup];
+    }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.progressLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerX.mas_equalTo(self.mas_centerX);
@@ -54,7 +61,8 @@
 }
 
 #pragma mark - Private Method -
-- (void)setup {
+- (void)setup
+{
     self.backgroundColor = [UIColor blackColor];
     [self addSubview:self.imageView];
     [self addSubview:self.progressLabel];
@@ -62,7 +70,8 @@
 }
 
 #pragma mark - Setter -
-- (void)setIsSpeed:(BOOL)isSpeed {
+- (void)setIsSpeed:(BOOL)isSpeed
+{
     if (isSpeed) {
         //快进
         self.imageView.image =
@@ -75,7 +84,8 @@
     }
 }
 
-- (void)setText:(NSString *)text {
+- (void)setText:(NSString *)text
+{
     self.progressLabel.text = text;
     NSArray * array         = [text componentsSeparatedByString:@"/"];
     NSMutableAttributedString * textAttributed =
@@ -86,12 +96,14 @@
     self.progressLabel.attributedText = textAttributed;
 }
 
-- (void)setNumber:(CGFloat)number {
+- (void)setNumber:(CGFloat)number
+{
     self.progressView.progress = number;
 }
 
 #pragma mark - Getter -
-- (UIImageView *)imageView {
+- (UIImageView *)imageView
+{
     if (!_imageView) {
         _imageView = ({
             UIImageView * object = [[UIImageView alloc] init];
@@ -102,7 +114,8 @@
     return _imageView;
 }
 
-- (UILabel *)progressLabel {
+- (UILabel *)progressLabel
+{
     if (!_progressLabel) {
         _progressLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -115,7 +128,8 @@
     return _progressLabel;
 }
 
-- (UIProgressView *)progressView {
+- (UIProgressView *)progressView
+{
     if (!_progressView) {
         _progressView = ({
             UIProgressView * object  = [[UIProgressView alloc] init];

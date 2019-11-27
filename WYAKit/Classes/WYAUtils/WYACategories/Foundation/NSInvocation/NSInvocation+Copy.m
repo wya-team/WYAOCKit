@@ -66,9 +66,9 @@
 
 @end
 
-static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *encodingType) {
-
-    NSString *encoding = [NSString stringWithUTF8String:encodingType];
+static inline BOOL mz_areObjCTypesEqual(NSString * argmuentType, const char * encodingType)
+{
+    NSString * encoding = [NSString stringWithUTF8String:encodingType];
     return [[argmuentType mz_stringByRemovingMethodEnodingQualifiers] isEqualToString:[encoding mz_stringByRemovingMethodEnodingQualifiers]];
 }
 
@@ -78,7 +78,7 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
 
 - (id)copy
 {
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:self.methodSignature];
+    NSInvocation * invocation    = [NSInvocation invocationWithMethodSignature:self.methodSignature];
     NSUInteger numberOfArguments = [[self methodSignature] numberOfArguments];
 
     [invocation setTarget:self.target];
@@ -86,9 +86,9 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
 
     if (numberOfArguments > 2) {
         for (int i = 0; i < (numberOfArguments - 2); i++) {
-            NSInteger index = i+2;
+            NSInteger index = i + 2;
 
-            NSString *argumentType = [NSString stringWithUTF8String:[self.methodSignature getArgumentTypeAtIndex:index]];
+            NSString * argumentType = [NSString stringWithUTF8String:[self.methodSignature getArgumentTypeAtIndex:index]];
 
             if (mz_areObjCTypesEqual(argumentType, @encode(char))) {
                 char arg;
@@ -155,7 +155,7 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else if (mz_areObjCTypesEqual(argumentType, @encode(char *))) {
-                char *arg;
+                char * arg;
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else if (mz_areObjCTypesEqual(argumentType, @encode(NSRange))) {
@@ -181,7 +181,7 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
             } else if ([argumentType mz_isFirstCharacterEqual:@"^"]) {
                 // generic pointer, including function pointers
 
-                void *arg;
+                void * arg;
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else if ([argumentType mz_isFirstCharacterEqual:@"@"]) {
@@ -191,13 +191,12 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
                 [self getArgument:&arg atIndex:index];
                 [invocation setArgument:&arg atIndex:index];
             } else {
-
-                const char *argumentType = [self.methodSignature getArgumentTypeAtIndex:index];
+                const char * argumentType = [self.methodSignature getArgumentTypeAtIndex:index];
 
                 NSUInteger argumentLength;
                 NSGetSizeAndAlignment(argumentType, &argumentLength, NULL);
 
-                void *buffer = malloc(argumentLength);
+                void * buffer = malloc(argumentLength);
 
                 if (buffer) {
                     [self getArgument:buffer atIndex:index];
@@ -206,7 +205,6 @@ static inline BOOL mz_areObjCTypesEqual(NSString *argmuentType, const char *enco
                     free(buffer);
                 }
             }
-
         }
     }
 

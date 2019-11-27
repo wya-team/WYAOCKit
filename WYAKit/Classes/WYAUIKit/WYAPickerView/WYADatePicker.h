@@ -16,7 +16,7 @@ typedef NS_ENUM(NSInteger, WYADatePickerStyle) {
      *  例如selectDate传入时间格式为2019-09-30，但选择的日期模式为<月日>,则前置时间为2019，在设置最大和最小的年份时应该把年份设置为和selectDate的年份保持一致
      */
     WYADatePickerStyleDateHourMinuteSecond,     //年月日时分秒
-    WYADatePickerStyleYear,                     //年 
+    WYADatePickerStyleYear,                     //年
     WYADatePickerStyleMouth,                    //月 (必须和selectDate前置时间一致)
     WYADatePickerStyleHour,                     //时 (必须和selectDate前置时间一致)
     WYADatePickerStyleMinute,                   //分 (必须和selectDate前置时间一致)

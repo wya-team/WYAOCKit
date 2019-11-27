@@ -13,7 +13,8 @@
 @end
 
 @implementation WYABannerViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -21,7 +22,8 @@
                    @"WYABannerView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -32,7 +34,8 @@
     [self configUI];
 }
 
-- (void)configUI {
+- (void)configUI
+{
     UILabel * label = [[UILabel alloc] init];
     label.text      = @"加载本地图片，时间2s";
     label.textColor = random(51, 51, 51, 1);
@@ -80,7 +83,7 @@
     CGFloat netBannerView_Width  = ScreenWidth;
     CGFloat netBannerView_Height = 200 * SizeAdapter;
     CGRect rect2 =
-        CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
+    CGRectMake(netBannerView_X, netBannerView_Y, netBannerView_Width, netBannerView_Height);
 
     NSArray * imagesURLStrings = @[
         @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/"

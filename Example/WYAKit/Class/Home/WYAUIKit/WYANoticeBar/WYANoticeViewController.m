@@ -16,7 +16,8 @@
 @end
 
 @implementation WYANoticeViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -24,7 +25,8 @@
                    @"WYANoticeBar/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
@@ -44,8 +46,8 @@
     label.frame          = CGRectMake(label_X, label_Y, label_Width, label_Height);
 
     self.bar = [[WYANoticeBar alloc]
-        initWithFrame:CGRectMake(10 * SizeAdapter, CGRectGetMaxY(label.frame) + 20 * SizeAdapter,
-                                 self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
+    initWithFrame:CGRectMake(10 * SizeAdapter, CGRectGetMaxY(label.frame) + 20 * SizeAdapter,
+                             self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar.showNoticeButton      = YES;
     self.bar.noticeButtonImage     = [UIImage imageNamed:@"icon_voiceorange"];
     self.bar.showRightButton       = YES;
@@ -56,8 +58,8 @@
     [self.view addSubview:self.bar];
 
     self.bar1 = [[WYANoticeBar alloc]
-        initWithFrame:CGRectMake(10 * SizeAdapter, CGRectGetMaxY(self.bar.frame) + 20 * SizeAdapter,
-                                 self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
+    initWithFrame:CGRectMake(10 * SizeAdapter, CGRectGetMaxY(self.bar.frame) + 20 * SizeAdapter,
+                             self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar1.showNoticeButton      = YES;
     self.bar1.noticeButtonImage     = [UIImage imageNamed:@"icon_voiceorange"];
     self.bar1.showTextColor         = REDCOLOR;
@@ -66,9 +68,9 @@
     [self.view addSubview:self.bar1];
 
     self.bar2 = [[WYANoticeBar alloc]
-        initWithFrame:CGRectMake(10 * SizeAdapter,
-                                 CGRectGetMaxY(self.bar1.frame) + 20 * SizeAdapter,
-                                 self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
+    initWithFrame:CGRectMake(10 * SizeAdapter,
+                             CGRectGetMaxY(self.bar1.frame) + 20 * SizeAdapter,
+                             self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar2.showRightButton       = YES;
     self.bar2.rightButtonImage      = [UIImage imageNamed:@"icon_cancel_notice"];
     self.bar2.showTextColor         = REDCOLOR;
@@ -79,9 +81,9 @@
     [self.view addSubview:self.bar2];
 
     self.bar3 = [[WYANoticeBar alloc]
-        initWithFrame:CGRectMake(10 * SizeAdapter,
-                                 CGRectGetMaxY(self.bar2.frame) + 20 * SizeAdapter,
-                                 self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
+    initWithFrame:CGRectMake(10 * SizeAdapter,
+                             CGRectGetMaxY(self.bar2.frame) + 20 * SizeAdapter,
+                             self.view.frame.size.width - 20 * SizeAdapter, 44 * SizeAdapter)];
     self.bar3.showTextColor         = REDCOLOR;
     self.bar3.noticeBackgroundColor = random(253, 253, 240, 1);
     self.bar3.showText              = @"ABCDEFG HIJKLMN OPQ RST UVW XYZ 123 456 789 0";
@@ -93,8 +95,8 @@
     CGFloat flipLabel_Height = 30;
     CGRect rect              = CGRectMake(flipLabel_X, flipLabel_Y, flipLabel_Width, flipLabel_Height);
     WYANoticeBar * flipNoticeBar =
-        [[WYANoticeBar alloc] initWithFrame:rect
-                            scrollDirection:WYANoticeBarScrollDirectionTop];
+    [[WYANoticeBar alloc] initWithFrame:rect
+                        scrollDirection:WYANoticeBarScrollDirectionTop];
     flipNoticeBar.showTextColor         = REDCOLOR;
     flipNoticeBar.noticeBackgroundColor = random(253, 253, 240, 1);
     flipNoticeBar.textArray             = @[ @"哈哈", @"呵呵", @"好嗨哦" ];
@@ -130,7 +132,8 @@
     });
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     [self.bar wya_stop];
     [self.bar1 wya_stop];

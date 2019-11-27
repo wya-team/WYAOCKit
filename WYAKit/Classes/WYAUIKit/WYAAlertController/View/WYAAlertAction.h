@@ -1,7 +1,8 @@
 
 #import <Foundation/Foundation.h>
 #import "WYAAppearance.h"
-@interface WYAAlertAction : NSObject<WYAAppearance>
+
+@interface WYAAlertAction : NSObject <WYAAppearance>
 /// 标题
 @property (nonatomic, copy) NSString * title;
 /// 标题颜色, default is black

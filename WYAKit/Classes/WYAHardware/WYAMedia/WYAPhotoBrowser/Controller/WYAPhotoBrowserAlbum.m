@@ -11,6 +11,7 @@
 #import "WYAPhotoBrowserViewController.h"
 #import <Photos/Photos.h>
 #import "WYAPhotoBrowserModel.h"
+
 @interface WYAPhotoBrowserAlbum () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * table;
@@ -20,7 +21,8 @@
 
 @implementation WYAPhotoBrowserAlbum
 #pragma mark ======= LifeCircle
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
 
     //去掉导航栏底部的黑线
@@ -28,37 +30,43 @@
     [self photoAlbum];
 }
 
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     [self.navigationController.navigationBar setBackgroundImage:nil
                                                   forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:nil];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self setupUI];
     WYAPhotoBrowserViewController * photoB = [[WYAPhotoBrowserViewController alloc] init];
     [self.navigationController pushViewController:photoB animated:NO];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleDarkContent;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     NSLog(@"调用了图片viewcontroll----1");
     self.dataSource = nil;
 }
 
 #pragma mark ======= UI
--(void)setupUI{
-    self.title                 = @"照片";
-    self.view.backgroundColor  = [UIColor colorWithWhite:0.2 alpha:0.5];
+- (void)setupUI
+{
+    self.title                = @"照片";
+    self.view.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.5];
 
     [self.view addSubview:self.table];
 
@@ -76,62 +84,71 @@
 }
 
 #pragma mark ======= Private Method
-- (void)photoAlbum {
+- (void)photoAlbum
+{
     WeakSelf(weakSelf);
-    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoAblumList:[self config].allowSelectVideo allowSelectImage:[self config].allowSelectImage complete:^(NSArray<WYAPhotoBrowserAlbumModel *> * arr) {
-        StrongSelf(strongSelf);
-        strongSelf.dataSource = arr;
-        [strongSelf.table reloadData];
-    }];
+    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] getPhotoAblumList:[self config].allowSelectVideo
+                                                         allowSelectImage:[self config].allowSelectImage
+                                                                 complete:^(NSArray<WYAPhotoBrowserAlbumModel *> * arr) {
+                                                                     StrongSelf(strongSelf);
+                                                                     strongSelf.dataSource = arr;
+                                                                     [strongSelf.table reloadData];
+                                                                 }];
 }
 
 #pragma mark ======= UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.dataSource.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAPhotoBrowserAlbumCell * cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.model = self.dataSource[indexPath.row];
+    cell.model                      = self.dataSource[indexPath.row];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
     WYAPhotoBrowserViewController * vc = [[WYAPhotoBrowserViewController alloc] init];
-    vc.album                     = self.dataSource[indexPath.row];
+    vc.album                           = self.dataSource[indexPath.row];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark ======= Getter
-- (NSMutableArray *)dataSource{
-    if(!_dataSource){
+- (NSMutableArray *)dataSource
+{
+    if (!_dataSource) {
         _dataSource = ({
-            NSMutableArray * object = [[NSMutableArray alloc]init];
+            NSMutableArray * object = [[NSMutableArray alloc] init];
             object;
-       });
+        });
     }
     return _dataSource;
 }
 
-- (UITableView *)table{
-    if(!_table){
+- (UITableView *)table
+{
+    if (!_table) {
         _table = ({
-            UITableView * object       = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
+            UITableView * object   = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStylePlain];
             object.dataSource      = self;
             object.delegate        = self;
             object.backgroundColor = [UIColor whiteColor];
             object.rowHeight       = 60 * SizeAdapter;
             [object registerClass:[WYAPhotoBrowserAlbumCell class] forCellReuseIdentifier:@"cell"];
             object;
-       });
+        });
     }
     return _table;
 }
 
-- (WYAPhotoBrowserConfig *)config{
+- (WYAPhotoBrowserConfig *)config
+{
     WYAPhotoBrowser * photoBrowser = (WYAPhotoBrowser *)self.navigationController;
     return photoBrowser.config;
 }

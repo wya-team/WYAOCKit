@@ -13,25 +13,33 @@
 
 @implementation WYAPaginationView
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+    }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+    }
     return self;
 }
 
-- (void)createUI {
+- (void)createUI
+{
     [self addSubview:self.leftButton];
     [self addSubview:self.rightButton];
     [self addSubview:self.titleLabel];
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.leftButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.top.bottom.mas_equalTo(self);
@@ -53,7 +61,8 @@
 }
 
 #pragma mark--- Getter
-- (UIButton *)leftButton {
+- (UIButton *)leftButton
+{
     if (!_leftButton) {
         _leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_leftButton setTitle:@"上一页" forState:UIControlStateNormal];
@@ -76,7 +85,8 @@
     return _leftButton;
 }
 
-- (UIButton *)rightButton {
+- (UIButton *)rightButton
+{
     if (!_rightButton) {
         _rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_rightButton setTitle:@"下一页" forState:UIControlStateNormal];
@@ -99,7 +109,8 @@
     return _rightButton;
 }
 
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
         _titleLabel               = [[UILabel alloc] init];
         _titleLabel.textColor     = random(51, 51, 51, 1);
@@ -111,18 +122,20 @@
 }
 
 #pragma mark--- Private Method
-- (void)leftButtonClick {
+- (void)leftButtonClick
+{
     if (self.wya_Delegate &&
         [self.wya_Delegate
-            respondsToSelector:@selector(wya_leftActionWithPaginationView:button:)]) {
+        respondsToSelector:@selector(wya_leftActionWithPaginationView:button:)]) {
         [self.wya_Delegate wya_leftActionWithPaginationView:self button:self.leftButton];
     }
 }
 
-- (void)rightButtonClick {
+- (void)rightButtonClick
+{
     if (self.wya_Delegate &&
         [self.wya_Delegate
-            respondsToSelector:@selector(wya_rightActionWithPaginationView:button:)]) {
+        respondsToSelector:@selector(wya_rightActionWithPaginationView:button:)]) {
         [self.wya_Delegate wya_rightActionWithPaginationView:self button:self.rightButton];
     }
 }
@@ -130,7 +143,8 @@
 #pragma mark--- Public Method
 - (void)wya_SetLeftButtonWithTitle:(NSString *)title
                         TitleColor:(UIColor *)titleColor
-                         TitleFont:(CGFloat)titleFont {
+                         TitleFont:(CGFloat)titleFont
+{
     [self.leftButton setTitle:title forState:UIControlStateNormal];
     [self.leftButton setTitleColor:titleColor forState:UIControlStateNormal];
     self.leftButton.titleLabel.font = FONT(titleFont);
@@ -138,7 +152,8 @@
 
 - (void)wya_SetRightButtonWithTitle:(NSString *)title
                          TitleColor:(UIColor *)titleColor
-                          TitleFont:(CGFloat)titleFont {
+                          TitleFont:(CGFloat)titleFont
+{
     [self.rightButton setTitle:title forState:UIControlStateNormal];
     [self.rightButton setTitleColor:titleColor forState:UIControlStateNormal];
     self.rightButton.titleLabel.font = FONT(titleFont);
@@ -146,7 +161,8 @@
 
 - (void)wya_SetTitleLabelWithText:(NSString *)text
                         TextColor:(UIColor *)textColor
-                         TextFont:(CGFloat)textFont {
+                         TextFont:(CGFloat)textFont
+{
     self.titleLabel.text      = text;
     self.titleLabel.textColor = textColor;
     self.titleLabel.font      = FONT(textFont);

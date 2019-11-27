@@ -20,59 +20,68 @@
 
 @implementation WYACameraTool
 #pragma mark - LifeCircle
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithCameraOrientation:WYACameraOrientationBack];
 }
 
-- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation {
+- (instancetype)initWithCameraOrientation:(WYACameraOrientation)cameraOrientation
+{
     self = [super init];
     if (self) {
         self.cameraOrientation = cameraOrientation;
-        self.videoPreset = AVCaptureSessionPresetMedium;
+        self.videoPreset       = AVCaptureSessionPresetMedium;
 
-        NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        NSDictionary * infoDictionary = [[NSBundle mainBundle] infoDictionary];
         // app名称
         NSString * app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
-        self.albumName = app_Name;
+        self.albumName      = app_Name;
     }
     return self;
 }
 
 #pragma mark - Public Method
 //启动录制功能
-- (void)startRecordFunction {
+- (void)startRecordFunction
+{
     [self.captureSession startRunning];
 }
 
 //关闭录制功能
-- (void)stopRecordFunction {
+- (void)stopRecordFunction
+{
     if (self.captureSession) [self.captureSession stopRunning];
 }
 
 //开始录制
-- (void)startCapture {
+- (void)startCapture
+{
     if (self.captureMovieFileOutput.isRecording) return;
 
     NSString * outputFilePath = [[self getVideoPathCache]
-                                 stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
+    stringByAppendingPathComponent:[self getVideoNameWithType:@"mp4"]];
     _videoPath = outputFilePath;
     NSLog(@"save path is :%@", outputFilePath);
     NSURL * fileUrl = [NSURL fileURLWithPath:outputFilePath];
     AVCaptureConnection * connect =
     [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
-    if (self.device.position == AVCaptureDevicePositionFront) { [connect setVideoMirrored:YES]; }
+    if (self.device.position == AVCaptureDevicePositionFront) {
+        [connect setVideoMirrored:YES];
+    }
     //设置录制视频流输出的路径
     [self.captureMovieFileOutput startRecordingToOutputFileURL:fileUrl recordingDelegate:self];
 }
 
 //停止录制
-- (void)stopCapture {
+- (void)stopCapture
+{
     if ([self.captureMovieFileOutput isRecording]) {
         [self.captureMovieFileOutput stopRecording]; //停止录制
     }
 }
 
-- (void)openFlash {
+- (void)openFlash
+{
     [self.captureSession beginConfiguration];
     AVCaptureDevice * backCamera = [self backCamera];
     if (backCamera.flashMode == AVCaptureFlashModeOff) {
@@ -85,7 +94,8 @@
     [self startRecordFunction];
 }
 
-- (void)closeFlash {
+- (void)closeFlash
+{
     [self.captureSession beginConfiguration];
     AVCaptureDevice * backCamera = [self backCamera];
     if (backCamera.flashMode == AVCaptureFlashModeOn) {
@@ -99,7 +109,8 @@
 }
 
 //开启手电筒
-- (void)openFlashLight {
+- (void)openFlashLight
+{
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
     //[self stopRecordFunction];
     [self.captureSession beginConfiguration];
@@ -116,7 +127,8 @@
 }
 
 //关闭手电筒
-- (void)closeFlashLight {
+- (void)closeFlashLight
+{
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
     // [self stopRecordFunction];
     [self.captureSession beginConfiguration];
@@ -133,7 +145,8 @@
 }
 
 //切换前后置摄像头
-- (void)changeCameraInputDeviceisFront:(BOOL)isFront {
+- (void)changeCameraInputDeviceisFront:(BOOL)isFront
+{
     //改变会话的配置前一定要先开启配置，配置完成后提交配置改变
     [self stopRecordFunction];
     [self.captureSession beginConfiguration];
@@ -155,33 +168,39 @@
     [self startRecordFunction];
 }
 
-- (void)startTakingPhoto:(void (^)(UIImage * image))image {
+- (void)startTakingPhoto:(void (^)(UIImage * image))image
+{
     AVCaptureConnection * videoConnection =
     [self.imageOutPut connectionWithMediaType:AVMediaTypeVideo];
-    if (videoConnection == nil) { return; }
+    if (videoConnection == nil) {
+        return;
+    }
 
     if (self.device.position == AVCaptureDevicePositionFront) {
         [videoConnection setVideoMirrored:YES];
     }
 
     [self.imageOutPut
-     captureStillImageAsynchronouslyFromConnection:
-     videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer,
-                                         NSError * error) {
+    captureStillImageAsynchronouslyFromConnection:
+    videoConnection completionHandler:^(CMSampleBufferRef imageDataSampleBuffer,
+                                        NSError * error) {
 
-         if (imageDataSampleBuffer == nil) { return; }
+        if (imageDataSampleBuffer == nil) {
+            return;
+        }
 
-         NSData * imageData = [AVCaptureStillImageOutput
-                               jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
-         UIImage * imagee = [UIImage imageWithData:imageData];
-         image(imagee);
-         if (self.saveAblum) {
-             [self savePhtotsWithImage:imagee videoUrl:nil callBack:self.saveMediaBlock];
-         }
-     }];
+        NSData * imageData = [AVCaptureStillImageOutput
+        jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+        UIImage * imagee = [UIImage imageWithData:imageData];
+        image(imagee);
+        if (self.saveAblum) {
+            [self savePhtotsWithImage:imagee videoUrl:nil callBack:self.saveMediaBlock];
+        }
+    }];
 }
 
-- (NSString *)getVideoPathCache {
+- (NSString *)getVideoPathCache
+{
     NSString * videoCache       = [NSTemporaryDirectory() stringByAppendingPathComponent:@"videos"];
     BOOL isDir                  = NO;
     NSFileManager * fileManager = [NSFileManager defaultManager];
@@ -201,7 +220,8 @@
  */
 - (void)savePhtotsWithImage:(UIImage *)image
                    videoUrl:(NSURL *)videoUrl
-                   callBack:(SaveMediaBlock)callback {
+                   callBack:(SaveMediaBlock)callback
+{
     self.saveMediaBlock = callback;
     // 获取当前的授权状态
     PHAuthorizationStatus lastStatus = [PHPhotoLibrary authorizationStatus];
@@ -232,7 +252,8 @@
 
 #pragma mark - Private Method
 #pragma mark ======= Video
-- (NSString *)getVideoNameWithType:(NSString *)fileType {
+- (NSString *)getVideoNameWithType:(NSString *)fileType
+{
     NSTimeInterval now          = [[NSDate date] timeIntervalSince1970];
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HHmmss"];
@@ -244,8 +265,8 @@
 }
 
 #pragma mark ======= Save Image And Video
-- (void)saveImageToCustomAblumWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
-
+- (void)saveImageToCustomAblumWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl
+{
     PHFetchResult<PHAsset *> * assets = [self synchronousSaveImageWithPhotosWithImage:image videoUrl:videoUrl];
     if (assets == nil) {
         self.saveMediaBlock(NO, @"保存失败", nil, nil);
@@ -276,7 +297,6 @@
         return;
     }
 
-
     PHAsset * asset = [assets firstObject];
     if (asset.mediaType == PHAssetMediaTypeImage) {
         PHImageRequestOptions * opi = [[PHImageRequestOptions alloc] init];
@@ -299,14 +319,15 @@
                           resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
                               AVURLAsset * urlAsset = (AVURLAsset *)asset;
 
-                              NSURL * url      = urlAsset.URL;
+                              NSURL * url     = urlAsset.URL;
                               NSString * path = [url absoluteString];
                               self.saveMediaBlock(YES, @"保存成功", nil, path);
                           }];
     }
 }
 
-- (PHFetchResult<PHAsset *> *)synchronousSaveImageWithPhotosWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl {
+- (PHFetchResult<PHAsset *> *)synchronousSaveImageWithPhotosWithImage:(UIImage *)image videoUrl:(NSURL *)videoUrl
+{
     __block NSString * createdAssetId = nil;
 
     // 添加图片到【相机胶卷】
@@ -327,8 +348,8 @@
     return [PHAsset fetchAssetsWithLocalIdentifiers:@[ createdAssetId ] options:nil];
 }
 
-- (PHAssetCollection *)getAssetCollectionWithAppNameAndCreateCollection {
-
+- (PHAssetCollection *)getAssetCollectionWithAppNameAndCreateCollection
+{
     // 获得所有的自定义相册
     PHFetchResult<PHAssetCollection *> * collections = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     for (PHAssetCollection * collection in collections) {
@@ -347,22 +368,22 @@
     } error:&error];
 
     if (error) {
-
         return nil;
     } else {
-
         // 创建完毕后再取出相册
         return [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[ createdCollectionId ] options:nil].firstObject;
     }
 }
 
 #pragma mark - AVCaptureFileOutputRecordingDelegate
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections {
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didStartRecordingToOutputFileAtURL:(NSURL *)fileURL fromConnections:(NSArray *)connections
+{
     NSLog(@"开始录制...");
     NSLog(@"connect==%@", connections);
 }
 
-- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error {
+- (void)captureOutput:(AVCaptureFileOutput *)captureOutput didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray *)connections error:(NSError *)error
+{
     NSLog(@"视频录制完成.");
     //    //视频录入完成之后在后台将视频存储到相
     //    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -379,7 +400,8 @@
 }
 
 #pragma mark ======= Setter
-- (void)setVideoPreset:(AVCaptureSessionPreset)videoPreset {
+- (void)setVideoPreset:(AVCaptureSessionPreset)videoPreset
+{
     if ([self.captureSession canSetSessionPreset:videoPreset]) {
         [self.captureSession setSessionPreset:videoPreset];
     }
@@ -387,7 +409,8 @@
 
 #pragma mark ======= Getter
 //捕获到的视频呈现的layer
-- (AVCaptureVideoPreviewLayer *)previewLayer {
+- (AVCaptureVideoPreviewLayer *)previewLayer
+{
     if (_previewLayer == nil) {
         //通过AVCaptureSession初始化
         AVCaptureVideoPreviewLayer * preview =
@@ -400,7 +423,8 @@
 }
 
 //捕获视频的会话
-- (AVCaptureSession *)captureSession {
+- (AVCaptureSession *)captureSession
+{
     if (_captureSession == nil) {
         _captureSession = [[AVCaptureSession alloc] init];
 
@@ -439,54 +463,68 @@
 }
 
 //后置摄像头输入
-- (AVCaptureDeviceInput *)backCameraInput {
+- (AVCaptureDeviceInput *)backCameraInput
+{
     if (_backCameraInput == nil) {
         NSError * error;
         _backCameraInput =
         [[AVCaptureDeviceInput alloc] initWithDevice:[self backCamera]
                                                error:&error];
-        if (error) { NSLog(@"获取后置摄像头失败~%d", [self isAvailableWithCamera]); }
+        if (error) {
+            NSLog(@"获取后置摄像头失败~%d", [self isAvailableWithCamera]);
+        }
     }
     return _backCameraInput;
 }
 
 //前置摄像头输入
-- (AVCaptureDeviceInput *)frontCameraInput {
+- (AVCaptureDeviceInput *)frontCameraInput
+{
     if (_frontCameraInput == nil) {
         NSError * error;
         _frontCameraInput =
         [[AVCaptureDeviceInput alloc] initWithDevice:[self frontCamera]
                                                error:&error];
-        if (error) { NSLog(@"获取前置摄像头失败~"); }
+        if (error) {
+            NSLog(@"获取前置摄像头失败~");
+        }
     }
     return _frontCameraInput;
 }
 
 //麦克风输入
-- (AVCaptureDeviceInput *)audioMicInput {
+- (AVCaptureDeviceInput *)audioMicInput
+{
     if (_audioMicInput == nil) {
         AVCaptureDevice * mic = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio];
         NSError * error;
         _audioMicInput = [AVCaptureDeviceInput deviceInputWithDevice:mic error:&error];
-        if (error) { NSLog(@"获取麦克风失败~%d", [self isAvailableWithMic]); }
+        if (error) {
+            NSLog(@"获取麦克风失败~%d", [self isAvailableWithMic]);
+        }
     }
     return _audioMicInput;
 }
 //初始化设备输出对象，用于获得输出数据
-- (AVCaptureMovieFileOutput *)captureMovieFileOutput {
+- (AVCaptureMovieFileOutput *)captureMovieFileOutput
+{
     if (_captureMovieFileOutput == nil) {
         _captureMovieFileOutput = [[AVCaptureMovieFileOutput alloc] init];
     }
     return _captureMovieFileOutput;
 }
 
-- (AVCaptureStillImageOutput *)imageOutPut {
-    if (!_imageOutPut) { _imageOutPut = [[AVCaptureStillImageOutput alloc] init]; }
+- (AVCaptureStillImageOutput *)imageOutPut
+{
+    if (!_imageOutPut) {
+        _imageOutPut = [[AVCaptureStillImageOutput alloc] init];
+    }
     return _imageOutPut;
 }
 
 //视频连接
-- (AVCaptureConnection *)videoConnection {
+- (AVCaptureConnection *)videoConnection
+{
     _videoConnection = [self.captureMovieFileOutput connectionWithMediaType:AVMediaTypeVideo];
     if ([_videoConnection isVideoStabilizationSupported]) {
         _videoConnection.preferredVideoStabilizationMode = AVCaptureVideoStabilizationModeAuto;
@@ -495,24 +533,29 @@
 }
 
 //返回前置摄像头
-- (AVCaptureDevice *)frontCamera {
+- (AVCaptureDevice *)frontCamera
+{
     self.device = [self cameraWithPosition:AVCaptureDevicePositionFront];
     return self.device;
 }
 
 //返回后置摄像头
-- (AVCaptureDevice *)backCamera {
+- (AVCaptureDevice *)backCamera
+{
     self.device = [self cameraWithPosition:AVCaptureDevicePositionBack];
     return self.device;
 }
 
 //用来返回是前置摄像头还是后置摄像头
-- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position {
+- (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position
+{
     //返回和视频录制相关的所有默认设备
     NSArray * devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     //遍历这些设备返回跟position相关的设备
     for (AVCaptureDevice * device in devices) {
-        if ([device position] == position) { return device; }
+        if ([device position] == position) {
+            return device;
+        }
     }
     return nil;
 }
@@ -520,14 +563,17 @@
 
 @implementation WYACameraTool (Authorization)
 
-- (BOOL)isAvailableWithCamera {
+- (BOOL)isAvailableWithCamera
+{
     return [self isAvailableWithDeviveMediaType:AVMediaTypeVideo];
 }
-- (BOOL)isAvailableWithMic {
+- (BOOL)isAvailableWithMic
+{
     return [self isAvailableWithDeviveMediaType:AVMediaTypeAudio];
 }
 
-- (BOOL)isAvailableWithDeviveMediaType:(NSString *)mediaType {
+- (BOOL)isAvailableWithDeviveMediaType:(NSString *)mediaType
+{
     AVAuthorizationStatus status =
     [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (status == ALAuthorizationStatusDenied || status == ALAuthorizationStatusRestricted)

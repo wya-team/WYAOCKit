@@ -17,7 +17,8 @@
 @end
 
 @implementation WYAClearCacheController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -25,7 +26,8 @@
                    @"WYAClearCache/README.md";
     [self wya_pushViewController:vc animated:YES];
 }
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     // 获取缓存
     [WYAClearCache wya_defaultCachesFolderSizeBlock:^(NSString * folderSize) {
@@ -33,7 +35,8 @@
         self.contentLabel.text = folderSize;
     }];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -42,12 +45,13 @@
 }
 
 #pragma mark ======= getter
-- (UIView *)bgView {
+- (UIView *)bgView
+{
     if (!_bgView) {
         _bgView = ({
             UIView * object = [[UIView alloc]
-                initWithFrame:CGRectMake(10 * SizeAdapter, WYATopHeight + 10 * SizeAdapter,
-                                         ScreenWidth - 20 * SizeAdapter, 150 * SizeAdapter)];
+            initWithFrame:CGRectMake(10 * SizeAdapter, WYATopHeight + 10 * SizeAdapter,
+                                     ScreenWidth - 20 * SizeAdapter, 150 * SizeAdapter)];
             object.layer.cornerRadius  = 7 * SizeAdapter;
             object.layer.masksToBounds = YES;
             object.backgroundColor     = WHITECOLOR;
@@ -87,7 +91,8 @@
     return _bgView;
 }
 
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
         _titleLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -101,7 +106,8 @@
     return _titleLabel;
 }
 
-- (UIButton *)cleaButton {
+- (UIButton *)cleaButton
+{
     if (!_cleaButton) {
         _cleaButton = ({
             UIButton * object      = [[UIButton alloc] init];
@@ -114,15 +120,16 @@
             object.layer.cornerRadius  = 5 * SizeAdapter;
             object.layer.masksToBounds = YES;
             [object addTarget:self
-                          action:@selector(btnclicked:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(btnclicked:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _cleaButton;
 }
 
-- (UILabel *)contentLabel {
+- (UILabel *)contentLabel
+{
     if (!_contentLabel) {
         _contentLabel = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -135,7 +142,8 @@
     return _contentLabel;
 }
 
-- (UIView *)lineView {
+- (UIView *)lineView
+{
     if (!_lineView) {
         _lineView = ({
             UIView * object        = [[UIView alloc] init];
@@ -146,15 +154,17 @@
     return _lineView;
 }
 #pragma mark ======= Action
-- (void)btnclicked:(UIButton *)sender {
+- (void)btnclicked:(UIButton *)sender
+{
     [self showAlertWith:self.contentLabel.text];
 }
 // 缓存弹框提示
-- (void)showAlertWith:(NSString *)size {
+- (void)showAlertWith:(NSString *)size
+{
     WYAAlertController * alert = [WYAAlertController
-        wya_alertWithTitle:@"清理缓存"
-                   Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
-          AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+    wya_alertWithTitle:@"清理缓存"
+               Message:[NSString stringWithFormat:@"当前缓存%@，是否清理", size]
+      AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
     alert.backgroundButton.enabled = NO;
     // 创建 action
     WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"清理"
@@ -164,11 +174,11 @@
                                                                      [WYAClearCache wya_clearCachesClearStatusBlock:^(BOOL status) {
                                                                          NSLog(@"清理成功");
                                                                          [WYAClearCache wya_defaultCachesFolderSizeBlock:^(
-                                                                                            NSString * folderSize) {
+                                                                                        NSString * folderSize) {
                                                                              [UIView
-                                                                                 wya_showBottomToastWithMessage:
-                                                                                     [NSString stringWithFormat:@"清理成功，当前缓存%@",
-                                                                                                                folderSize]];
+                                                                             wya_showBottomToastWithMessage:
+                                                                             [NSString stringWithFormat:@"清理成功，当前缓存%@",
+                                                                                                        folderSize]];
                                                                              self.contentLabel.text = folderSize;
                                                                          }];
                                                                      }];

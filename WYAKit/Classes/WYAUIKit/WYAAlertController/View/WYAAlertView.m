@@ -5,25 +5,26 @@
 @interface WYAAlertView () <UITextFieldDelegate>
 
 @property (nonatomic, strong) NSMutableArray<WYAAlertAction *> * actions; // 保存事件的数组
-@property (nonatomic, strong) NSMutableArray<UIButton *> * buttons; // 保存按钮的数组
-@property (nonatomic, strong) UIView * containerView; // scrollView 外层容器视图
-@property (nonatomic, strong) UIView * buttonView; // 滚动视图
-@property (nonatomic, strong) UILabel * titleLabel; // 标题
-@property (nonatomic, strong) UILabel * messageLabel;  // 消息
+@property (nonatomic, strong) NSMutableArray<UIButton *> * buttons;       // 保存按钮的数组
+@property (nonatomic, strong) UIView * containerView;                     // scrollView 外层容器视图
+@property (nonatomic, strong) UIView * buttonView;                        // 滚动视图
+@property (nonatomic, strong) UILabel * titleLabel;                       // 标题
+@property (nonatomic, strong) UILabel * messageLabel;                     // 消息
 @property (nonatomic, strong) UIView * textFieldView;
 @property (nonatomic, strong) UIView * line;
 @property (nonatomic, strong) UIImage * whiteImage; // 按钮白色背景
-@property (nonatomic, strong) UIImage * grayImage; // 按钮灰色背景
+@property (nonatomic, strong) UIImage * grayImage;  // 按钮灰色背景
 
 @property (nonatomic, assign) CGFloat containerPadding; // containerView与屏幕之间的差值
-@property (nonatomic, assign) CGFloat labelPadding; // label与containerView之间的差值
+@property (nonatomic, assign) CGFloat labelPadding;     // label与containerView之间的差值
 @property (nonatomic, assign) CGFloat textFieldPadding; // textField与containerView之间的差值
 @end
 
 @implementation WYAAlertView
 #pragma mark - LifeCircle
 - (_Nonnull instancetype)initWithTitle:(NSString * _Nullable)title
-                               message:(NSString * _Nullable)message {
+                               message:(NSString * _Nullable)message
+{
     self = [super init];
     if (self) {
         self.containerPadding = 100 * SizeAdapter;
@@ -41,14 +42,15 @@
         [self.containerView addSubview:self.messageLabel];
         [self.containerView addSubview:self.textFieldView];
         [self.containerView addSubview:self.line];
-        self.titleLabel.text            = title;
-        self.messageLabel.text          = message;
+        self.titleLabel.text   = title;
+        self.messageLabel.text = message;
     };
 
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.containerView mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -66,7 +68,9 @@
             make.top.mas_equalTo(self.containerView.mas_top).with.offset(15 * SizeAdapter);
 
             CGFloat titleHeight = [UILabel getHeightByWidth:ScreenWidth - self.containerPadding -
-                                   self.labelPadding title:self.titleLabel.text font:self.titleLabel.font];
+                                                            self.labelPadding
+                                                      title:self.titleLabel.text
+                                                       font:self.titleLabel.font];
             make.height.mas_equalTo(titleHeight);
 
         } else {
@@ -85,7 +89,9 @@
                 make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(15 * SizeAdapter);
             }
             CGFloat titleHeight = [UILabel getHeightByWidth:ScreenWidth - self.containerPadding -
-                                   self.labelPadding title:self.messageLabel.text font:self.messageLabel.font];
+                                                            self.labelPadding
+                                                      title:self.messageLabel.text
+                                                       font:self.messageLabel.font];
             make.height.mas_equalTo(titleHeight);
         } else {
             make.top.mas_equalTo(self.titleLabel.mas_bottom).with.offset(0 * SizeAdapter);
@@ -139,8 +145,11 @@
 }
 
 #pragma mark - Public Method
-- (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
-    for (UIView * view in self.buttonView.subviews) { [view removeFromSuperview]; }
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
+{
+    for (UIView * view in self.buttonView.subviews) {
+        [view removeFromSuperview];
+    }
 
     // 添加到 action 数组
     [self.actions addObject:action];
@@ -167,7 +176,8 @@
     [self layoutIfNeeded];
 }
 
-- (void)wya_addTextField:(UITextField *)textField {
+- (void)wya_addTextField:(UITextField *)textField
+{
     [self.textFieldView addSubview:textField];
     [textField mas_makeConstraints:^(MASConstraintMaker * make) {
         make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
@@ -177,26 +187,32 @@
 }
 
 #pragma mark - Event
-- (void)actionButtonDidClicked:(UIButton *)sender {
-
-    if (_controller) { [_controller dismissViewControllerAnimated:YES completion:nil]; }
+- (void)actionButtonDidClicked:(UIButton *)sender
+{
+    if (_controller) {
+        [_controller dismissViewControllerAnimated:YES completion:nil];
+    }
 
     // 根据 tag 取到 handler
     void (^handler)(void) = self.actions[sender.tag].handler;
-    if (handler) { handler(); }
+    if (handler) {
+        handler();
+    }
 }
 
 #pragma mark - Setter
-- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle {
+- (void)setLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
+{
     _layoutStyle = layoutStyle;
     [self layoutIfNeeded];
 }
 
 #pragma mark - Getter
-- (UIView *)containerView{
-    if(!_containerView){
+- (UIView *)containerView
+{
+    if (!_containerView) {
         _containerView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = [UIColor whiteColor];
             object;
         });
@@ -204,10 +220,11 @@
     return _containerView;
 }
 
-- (UIView *)buttonView{
-    if(!_buttonView){
+- (UIView *)buttonView
+{
+    if (!_buttonView) {
         _buttonView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = random(203, 203, 203, 1);
             object;
         });
@@ -215,10 +232,11 @@
     return _buttonView;
 }
 
-- (UILabel *)titleLabel{
-    if(!_titleLabel){
+- (UILabel *)titleLabel
+{
+    if (!_titleLabel) {
         _titleLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object     = [[UILabel alloc] init];
             object.textAlignment = NSTextAlignmentCenter;
             object.numberOfLines = 0;
             object.font          = FONT(17);
@@ -229,10 +247,11 @@
     return _titleLabel;
 }
 
-- (UILabel *)messageLabel{
-    if(!_messageLabel){
+- (UILabel *)messageLabel
+{
+    if (!_messageLabel) {
         _messageLabel = ({
-            UILabel * object = [[UILabel alloc]init];
+            UILabel * object     = [[UILabel alloc] init];
             object.textAlignment = NSTextAlignmentCenter;
             object.numberOfLines = 0;
             object.font          = FONT(13);
@@ -243,56 +262,68 @@
     return _messageLabel;
 }
 
-- (UIView *)textFieldView{
-    if(!_textFieldView){
+- (UIView *)textFieldView
+{
+    if (!_textFieldView) {
         _textFieldView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object = [[UIView alloc] init];
             object;
         });
     }
     return _textFieldView;
 }
 
-- (UIView *)line{
-    if(!_line){
+- (UIView *)line
+{
+    if (!_line) {
         _line = ({
-            UIView * object = [[UIView alloc]init];
-            object.backgroundColor       = random(203, 203, 203, 1);
+            UIView * object        = [[UIView alloc] init];
+            object.backgroundColor = random(203, 203, 203, 1);
             object;
         });
     }
     return _line;
 }
 
-- (NSMutableArray<UIButton *> *)buttons {
-    if (!_buttons) { _buttons = [NSMutableArray array]; }
+- (NSMutableArray<UIButton *> *)buttons
+{
+    if (!_buttons) {
+        _buttons = [NSMutableArray array];
+    }
     return _buttons;
 }
 
-- (NSMutableArray<WYAAlertAction *> *)actions {
-    if (!_actions) { _actions = [NSMutableArray array]; }
+- (NSMutableArray<WYAAlertAction *> *)actions
+{
+    if (!_actions) {
+        _actions = [NSMutableArray array];
+    }
     return _actions;
 }
 
-- (UIImage *)whiteImage {
+- (UIImage *)whiteImage
+{
     if (!_whiteImage) {
         _whiteImage = [UIImage loadBundleImage:@"white" ClassName:NSStringFromClass([self class])];
     }
     return _whiteImage;
 }
 
-- (UIImage *)grayImage {
+- (UIImage *)grayImage
+{
     if (!_grayImage) {
         _grayImage = [UIImage loadBundleImage:@"gray" ClassName:NSStringFromClass([self class])];
     }
     return _grayImage;
 }
 
-- (CGFloat)width {
+- (CGFloat)width
+{
     return ScreenWidth - self.containerPadding;
 }
 
-- (CGFloat)height {
+- (CGFloat)height
+{
     [self layoutIfNeeded];
     return self.containerView.cmam_height;
 }

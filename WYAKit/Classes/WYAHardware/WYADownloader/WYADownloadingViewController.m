@@ -14,7 +14,7 @@
 #import "WYAProgressView.h"
 
 @interface WYADownloadingViewController () <WYANavBarDelegate, UITableViewDelegate,
-UITableViewDataSource>
+                                            UITableViewDataSource>
 @property (nonatomic, strong) WYADownloader * downloader;
 @property (nonatomic, strong) WYANavBar * customNavBar;
 @property (nonatomic, strong) UILabel * cacheLabel;
@@ -31,7 +31,8 @@ UITableViewDataSource>
 
 @implementation WYADownloadingViewController
 #pragma mark - LifeCircle -
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     [self.view addSubview:self.customNavBar];
@@ -46,7 +47,8 @@ UITableViewDataSource>
                          context:nil];
 }
 
-- (void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
 
     CGFloat customNavBar_X      = 0;
@@ -72,7 +74,8 @@ UITableViewDataSource>
 }
 
 #pragma mark - Private Method -
-- (void)setupCacheLabel {
+- (void)setupCacheLabel
+{
     //    double allMemory           = [NSString wya_phoneFreeMemory];
     [WYAClearCache wya_getDivceAvailableSizeBlock:^(NSString * _Nonnull folderSize) {
         WYADownloader * downloader = [WYADownloader sharedDownloader];
@@ -94,7 +97,8 @@ UITableViewDataSource>
     //    self.cacheProgressView.progress = (size / 1024) / allMemory;
 }
 
-- (void)downloadBarShow {
+- (void)downloadBarShow
+{
     [UIView animateWithDuration:0.5
                      animations:^{
                          CGFloat downloadBar_X      = self.downloadBar.cmam_left;
@@ -102,11 +106,12 @@ UITableViewDataSource>
                          CGFloat downloadBar_Width  = self.downloadBar.cmam_width;
                          CGFloat downloadBar_Height = self.downloadBar.cmam_height;
                          self.downloadBar.frame     = CGRectMake(downloadBar_X, downloadBar_Y,
-                                                                 downloadBar_Width, downloadBar_Height);
+                                                             downloadBar_Width, downloadBar_Height);
                      }];
 }
 
-- (void)downloadBarHidden {
+- (void)downloadBarHidden
+{
     [UIView animateWithDuration:0.5
                      animations:^{
                          CGFloat downloadBar_X      = self.downloadBar.cmam_left;
@@ -114,11 +119,12 @@ UITableViewDataSource>
                          CGFloat downloadBar_Width  = self.downloadBar.cmam_width;
                          CGFloat downloadBar_Height = self.downloadBar.cmam_height;
                          self.downloadBar.frame     = CGRectMake(downloadBar_X, downloadBar_Y,
-                                                                 downloadBar_Width, downloadBar_Height);
+                                                             downloadBar_Width, downloadBar_Height);
                      }];
 }
 
-- (void)setBottomBar {
+- (void)setBottomBar
+{
     if (self.downloader.downloadingArray.count == 0) {
         self.downloadBar.allSelect  = NO;
         self.downloadBar.arrayCount = 0;
@@ -134,7 +140,9 @@ UITableViewDataSource>
         if (diffentModel.count > 0) {
             NSMutableArray * arrayCopy = [self.array mutableCopy];
             for (WYADownloadModel * model in arrayCopy) {
-                if ([diffentModel containsObject:model]) { [self.array removeObject:model]; }
+                if ([diffentModel containsObject:model]) {
+                    [self.array removeObject:model];
+                }
             }
             self.downloadBar.arrayCount = self.array.count;
         }
@@ -142,11 +150,13 @@ UITableViewDataSource>
 }
 
 #pragma mark - WYANavBarDelegate  -
-- (void)wya_goBackPressed:(UIButton *)sender {
+- (void)wya_goBackPressed:(UIButton *)sender
+{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)wya_rightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_rightBarButtonItemPressed:(UIButton *)sender
+{
     self.navBarRightButton = sender;
     sender.selected        = !sender.selected;
     if (sender.selected) {
@@ -164,33 +174,41 @@ UITableViewDataSource>
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary<NSKeyValueChangeKey, id> *)change
-                       context:(void *)context {
+                       context:(void *)context
+{
     if ([keyPath isEqualToString:WYADownloaderDownloadArrayObserveKeyPath]) {
         if ([NSThread mainThread]) {
             [self setBottomBar];
             [self.tableView reloadData];
-            if (self.loadCacheCallback) { self.loadCacheCallback(); }
+            if (self.loadCacheCallback) {
+                self.loadCacheCallback();
+            }
         } else {
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [self setBottomBar];
                 [self.tableView reloadData];
-                if (self.loadCacheCallback) { self.loadCacheCallback(); }
+                if (self.loadCacheCallback) {
+                    self.loadCacheCallback();
+                }
             });
         }
     }
 }
 
 #pragma mark - UITableViewDataSource  -
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return self.downloader.downloadingArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYADownloadingCell * cell =
     [tableView dequeueReusableCellWithIdentifier:@"cell"
                                     forIndexPath:indexPath];
@@ -200,7 +218,8 @@ UITableViewDataSource>
 #pragma mark - UITableViewDelegate  -
 - (void)tableView:(UITableView *)tableView
   willDisplayCell:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath {
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     WYADownloadingCell * downloadCell = (WYADownloadingCell *)cell;
     downloadCell.isEdit               = self.isEdit;
     downloadCell.model                = self.downloader.downloadingArray[indexPath.row];
@@ -218,27 +237,33 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     };
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 70;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 0.01;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 0.01;
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+- (nullable UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
     return [[UIView alloc] init];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     WYADownloader * downloader = [WYADownloader sharedDownloader];
     WYADownloadingCell * cell  = [tableView cellForRowAtIndexPath:indexPath];
@@ -255,13 +280,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 #pragma mark - Setter -
-- (void)setIsEdit:(BOOL)isEdit {
+- (void)setIsEdit:(BOOL)isEdit
+{
     _isEdit = isEdit;
     NSLog(@"isEdit==%d", isEdit);
 }
 
 #pragma mark - Getter -
-- (UILabel *)cacheLabel {
+- (UILabel *)cacheLabel
+{
     if (!_cacheLabel) {
         _cacheLabel = ({
             UILabel * object       = [[UILabel alloc] init];
@@ -273,7 +300,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _cacheLabel;
 }
 
-- (WYAProgressView *)cacheProgressView {
+- (WYAProgressView *)cacheProgressView
+{
     if (!_cacheProgressView) {
         _cacheProgressView = ({
             CGFloat cacheLabel_X      = 0;
@@ -293,7 +321,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _cacheProgressView;
 }
 
-- (WYANavBar *)customNavBar {
+- (WYANavBar *)customNavBar
+{
     if (!_customNavBar) {
         _customNavBar = ({
             WYANavBar * object = [[WYANavBar alloc] init];
@@ -307,7 +336,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _customNavBar;
 }
 
-- (UITableView *)tableView {
+- (UITableView *)tableView
+{
     if (!_tableView) {
         _tableView = ({
             UITableView * object =
@@ -322,7 +352,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _tableView;
 }
 
-- (WYADownloadBar *)downloadBar {
+- (WYADownloadBar *)downloadBar
+{
     if (!_downloadBar) {
         _downloadBar = ({
             WYADownloadBar * object    = [[WYADownloadBar alloc] init];
@@ -362,7 +393,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _downloadBar;
 }
 
-- (WYADownloader *)downloader {
+- (WYADownloader *)downloader
+{
     if (!_downloader) {
         _downloader = ({
             WYADownloader * object = [WYADownloader sharedDownloader];
@@ -372,7 +404,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _downloader;
 }
 
-- (NSMutableArray<WYADownloadModel *> *)array {
+- (NSMutableArray<WYADownloadModel *> *)array
+{
     if (!_array) {
         _array = ({
             NSMutableArray * object = [[NSMutableArray alloc] init];
@@ -382,7 +415,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     return _array;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [self.downloader removeObserver:self forKeyPath:WYADownloaderDownloadArrayObserveKeyPath];
 }
 

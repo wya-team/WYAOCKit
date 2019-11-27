@@ -10,10 +10,11 @@
 @implementation WYAPageScrollView
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-    shouldRequireFailureOfGestureRecognizer:(nonnull UIGestureRecognizer *)otherGestureRecognizer {
+shouldRequireFailureOfGestureRecognizer:(nonnull UIGestureRecognizer *)otherGestureRecognizer
+{
 #pragma mark ======= UITableViewCell删除手势
     if ([NSStringFromClass(otherGestureRecognizer.view.class)
-            isEqualToString:@"UITableViewWrapperView"] &&
+        isEqualToString:@"UITableViewWrapperView"] &&
         [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]) {
         return YES;
     }

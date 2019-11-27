@@ -15,8 +15,8 @@ typedef enum {
 } WYABannerViewViewPageContolAliment;
 
 typedef enum {
-    WYABannerViewPageContolStyleClassic,  // 系统自带经典样式
-    WYABannerViewPageContolStyleNone      // 不显示pagecontrol
+    WYABannerViewPageContolStyleClassic, // 系统自带经典样式
+    WYABannerViewPageContolStyleNone     // 不显示pagecontrol
 } WYABannerViewPageContolStyle;
 
 typedef NS_ENUM(NSUInteger, WYABannerViewCellStyle) {

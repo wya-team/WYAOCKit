@@ -141,8 +141,8 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
 @end
 
 @interface WYAPageController
-    : UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate,
-                        WYAPageControllerDelegate, WYAPageControllerDataSource>
+: UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate,
+                    WYAPageControllerDelegate, WYAPageControllerDataSource>
 
 @property (nonatomic, weak) id<WYAPageControllerDelegate> delegate;
 @property (nonatomic, weak) id<WYAPageControllerDataSource> dataSource;
@@ -263,7 +263,7 @@ extern NSString * const WYAControllerDidFullyDisplayedNotification;
  * 替换为 scrollView 或者在Controller.view 上添加了一个和自身 bounds 一样的 scrollView 也是OK的
  */
 @property (nonatomic, assign) BOOL rememberLocation __deprecated_msg(
-    "Because of the cache policy,this property can abondon now.");
+"Because of the cache policy,this property can abondon now.");
 
 /**
  缓存机制，默认无限制（如果收到内存警告，会自动切换）

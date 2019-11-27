@@ -16,7 +16,8 @@
 @implementation WYAInputItemTwoCell
 #pragma mark ======= Life Cycle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self addSubview:self.textFiled];
         [self addSubview:self.leftButton];
@@ -26,10 +27,12 @@
     }
     return self;
 }
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.textFiled resignFirstResponder];
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.leftButton mas_makeConstraints:^(MASConstraintMaker * make) {
@@ -57,7 +60,8 @@
 }
 #pragma mark ======= setter
 
-- (void)setModel:(WYAInputItemModel *)model {
+- (void)setModel:(WYAInputItemModel *)model
+{
     [self.leftButton setTitle:model.titleString forState:UIControlStateNormal];
     self.textFiled.placeholder = model.TextFiledText;
     [self.rightButton setTitle:model.instructionsString forState:UIControlStateNormal];
@@ -65,7 +69,8 @@
     [self layoutIfNeeded];
 }
 #pragma mark ======= getter
-- (UITextField *)textFiled {
+- (UITextField *)textFiled
+{
     if (!_textFiled) {
         _textFiled = ({
             UITextField * object = [[UITextField alloc] init];
@@ -79,7 +84,8 @@
     return _textFiled;
 }
 
-- (UIButton *)leftButton {
+- (UIButton *)leftButton
+{
     if (!_leftButton) {
         _leftButton = ({
             UIButton * object = [[UIButton alloc] init];
@@ -92,19 +98,21 @@
     return _leftButton;
 }
 
-- (UIButton *)arrowButton {
+- (UIButton *)arrowButton
+{
     if (!_arrowButton) {
         _arrowButton = ({
             UIButton * object = [[UIButton alloc] init];
             [object addTarget:self
-                          action:@selector(arrowButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(arrowButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _arrowButton;
 }
-- (UIButton *)rightButton {
+- (UIButton *)rightButton
+{
     if (!_rightButton) {
         _rightButton = ({
             UIButton * object                 = [[UIButton alloc] init];
@@ -112,27 +120,30 @@
             [object setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
             object.titleLabel.font = FONT(14);
             [object addTarget:self
-                          action:@selector(rightButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(rightButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object;
         });
     }
     return _rightButton;
 }
 #pragma mark ======= UITextFieldDelegate
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
     return _isEditor;
 }
 - (BOOL)textField:(UITextField *)textField
-    shouldChangeCharactersInRange:(NSRange)range
-                replacementString:(NSString *)string {
+shouldChangeCharactersInRange:(NSRange)range
+            replacementString:(NSString *)string
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:
                                                                   textFiledChangeingValue:)]) {
         [self.delegate wya_inputItemTwoCell:self textFiledChangeingValue:textField.text];
     }
     return YES;
 }
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
     [self.textFiled resignFirstResponder];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:
@@ -140,7 +151,8 @@
         [self.delegate wya_inputItemTwoCell:self textFiledDidEndEditing:textField.text];
     }
 }
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [self.textFiled resignFirstResponder];
     if (self.delegate &&
         [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:textFiledShouldReturn:)]) {
@@ -149,7 +161,8 @@
     return YES;
 }
 #pragma mark ======= Event
-- (void)rightButtonPressed:(UIButton *)sender {
+- (void)rightButtonPressed:(UIButton *)sender
+{
     [self.textFiled resignFirstResponder];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:
@@ -157,7 +170,8 @@
         [self.delegate wya_inputItemTwoCell:self rightButtonDidSelected:sender];
     }
 }
-- (void)arrowButtonPressed:(UIButton *)sender {
+- (void)arrowButtonPressed:(UIButton *)sender
+{
     [self.textFiled resignFirstResponder];
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(wya_inputItemTwoCell:

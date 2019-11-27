@@ -13,38 +13,43 @@
 
 @implementation WYAJoiningTogetherCell
 #pragma mark - LifeCircle
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self.contentView addSubview:self.imgView];
     }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     self.imgView.frame = self.contentView.frame;
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
 
 #pragma mark - Lazy
-- (UIImageView *)imgView{
-    if(!_imgView){
+- (UIImageView *)imgView
+{
+    if (!_imgView) {
         _imgView = ({
-            UIImageView * object = [[UIImageView alloc]init];
-            object.contentMode = UIViewContentModeScaleAspectFill;
+            UIImageView * object = [[UIImageView alloc] init];
+            object.contentMode   = UIViewContentModeScaleAspectFill;
             object.clipsToBounds = YES;
             object;
-       });
+        });
     }
     return _imgView;
 }

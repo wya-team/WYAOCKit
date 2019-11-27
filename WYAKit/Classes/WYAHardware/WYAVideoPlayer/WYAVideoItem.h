@@ -8,7 +8,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSInteger, WYAVideoStyle) {
+    WYAVideoStyleSingle, // 在控制器中只有一个视频的
+    WYAVideoStyleCell, // 在tableView和collectionView中使用
+};
+
 @interface WYAVideoItem : NSObject
+@property (nonatomic, assign) WYAVideoStyle videoStyle;
 /// 视频url（必传属性）
 @property (nonatomic, strong) NSURL * videoUrl;
 /// 父视图（必传属性）

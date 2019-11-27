@@ -19,7 +19,8 @@
 @end
 
 @implementation WYAUIAlertViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -27,38 +28,39 @@
                    @"WYAAlert/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
 
     self.tableView = [[UITableView alloc]
-        initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
-                style:UITableViewStylePlain];
+    initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, ScreenHeight - WYATopHeight)
+            style:UITableViewStylePlain];
     self.tableView.delegate   = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
     self.navTitle = @"WYAAlertController";
 
     self.systemAlertTitleArray =
-        @[ @"只有一个按钮",
-           @"默认样式",
-           @"加输入框的alert",
-           @"没有标题的alert",
-           @"有标题的alert" ];
+    @[ @"只有一个按钮",
+       @"默认样式",
+       @"加输入框的alert",
+       @"没有标题的alert",
+       @"有标题的alert" ];
     self.systemSheetTitleArray = @[ @"只有取消", @"多个选项", @"有标题的多个选项" ];
     self.customAlertTitleArray = @[ @"自定义alert" ];
     self.customSheetTitleArray = @[ @"自定义alertSheet", @"分享" ];
 }
 
-
-
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 4;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     if (section == 0) {
         return self.systemAlertTitleArray.count;
     } else if (section == 1) {
@@ -70,7 +72,8 @@
     }
 }
 - (nullable NSString *)tableView:(UITableView *)tableView
-         titleForHeaderInSection:(NSInteger)section {
+         titleForHeaderInSection:(NSInteger)section
+{
     if (section == 0) {
         return @"WYAAlertStyleDefalut";
     } else if (section == 1) {
@@ -83,10 +86,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell * cell =
-        [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                               reuseIdentifier:nil];
+    [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                           reuseIdentifier:nil];
     if (indexPath.section == 0) {
         cell.textLabel.text = self.systemAlertTitleArray[indexPath.row];
     } else if (indexPath.section == 1) {
@@ -99,34 +103,38 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
     return 44;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
     return 20;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertWithTitle:@"Welcome"
-                                               Message:nil
-                                      AlertLayoutStyle:WYAAlertLayoutStyleVertical];
+            [WYAAlertController wya_alertWithTitle:@"Welcome"
+                                           Message:nil
+                                  AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             // 创建 action
-            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"知道了" handler:^{
-                
-            }];
+            WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"知道了"
+                                                                         handler:^{
+
+                                                                         }];
             [alert wya_addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 1) {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertWithTitle:@"提示"
-                                               Message:@"取消后你所填写的内容将无法恢复，确认取消?"
-                                      AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+            [WYAAlertController wya_alertWithTitle:@"提示"
+                                           Message:@"取消后你所填写的内容将无法恢复，确认取消?"
+                                  AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleBounce;
             alert.dismissStyle             = WYAPopupDismissStyleShrink;
@@ -159,9 +167,9 @@
             tf.leftView            = view;
             tf.leftViewMode        = UITextFieldViewModeAlways;
             WYAAlertController * alert =
-                [WYAAlertController wya_alertWithTitle:@"操作失败"
-                                               Message:@"账号或密码不一致，请重试"
-                                      AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
+            [WYAAlertController wya_alertWithTitle:@"操作失败"
+                                           Message:@"账号或密码不一致，请重试"
+                                  AlertLayoutStyle:WYAAlertLayoutStyleHorizontal];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleExpandHorizontal;
             alert.dismissStyle             = WYAPopupDismissStyleContractHorizontal;
@@ -187,9 +195,9 @@
 
         } else if (indexPath.row == 3) {
             WYAAlertController * alert = [WYAAlertController
-                wya_alertWithTitle:@""
-                           Message:@"辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
-                  AlertLayoutStyle:WYAAlertLayoutStyleVertical];
+            wya_alertWithTitle:@""
+                       Message:@"辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
+              AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleExpandVertical;
             alert.dismissStyle             = WYAPopupDismissStyleContractVertical;
@@ -221,14 +229,14 @@
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 4) {
             WYAAlertController * alert = [WYAAlertController
-                wya_alertWithTitle:@"标题文字"
-                           Message:@"辅"
-                                   @"助"
-                                   @"说"
-                                   @"明"
-                                   @"文"
-                                   @"字辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
-                  AlertLayoutStyle:WYAAlertLayoutStyleVertical];
+            wya_alertWithTitle:@"标题文字"
+                       Message:@"辅"
+                               @"助"
+                               @"说"
+                               @"明"
+                               @"文"
+                               @"字辅助说明文字辅助说明文字辅助说明文字辅助说明文字"
+              AlertLayoutStyle:WYAAlertLayoutStyleVertical];
             alert.backgroundButton.enabled = NO;
             alert.presentStyle             = WYAPopupPresentStyleSlideDown;
             alert.dismissStyle             = WYAPopupDismissStyleSlideDown;
@@ -260,15 +268,15 @@
     } else if (indexPath.section == 1) {
         if (indexPath.row == 0) {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertSheetWithTitle:@""
-                                                    Message:@""
-                                     AlertSheetCornerRadius:0];
+            [WYAAlertController wya_alertSheetWithTitle:@""
+                                                Message:@""
+                                 AlertSheetCornerRadius:0];
             [self presentViewController:alert animated:YES completion:nil];
         } else if (indexPath.row == 1) {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertSheetWithTitle:@""
-                                                    Message:@""
-                                     AlertSheetCornerRadius:8];
+            [WYAAlertController wya_alertSheetWithTitle:@""
+                                                Message:@""
+                                 AlertSheetCornerRadius:8];
             WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一(警示项)"
                                                                        textColor:[UIColor redColor]
                                                                         textFont:nil
@@ -293,9 +301,9 @@
             [self presentViewController:alert animated:YES completion:nil];
         } else {
             WYAAlertController * alert =
-                [WYAAlertController wya_alertSheetWithTitle:@"标题文字"
-                                                    Message:@"详细信息"
-                                     AlertSheetCornerRadius:0];
+            [WYAAlertController wya_alertSheetWithTitle:@"标题文字"
+                                                Message:@"详细信息"
+                                 AlertSheetCornerRadius:0];
 
             WYAAlertAction * defaultAction = [WYAAlertAction wya_actionWithTitle:@"选项一"
                                                                        textColor:nil
@@ -326,8 +334,8 @@
         view.backgroundColor = [UIColor whiteColor];
         view.bounds          = CGRectMake(0, 0, ScreenWidth - 50 * SizeAdapter, 100);
         WYAAlertController * alert =
-            [WYAAlertController wya_alertWithCustomView:view
-                                             AlertStyle:WYAAlertStyleCustomAlert];
+        [WYAAlertController wya_alertWithCustomView:view
+                                         AlertStyle:WYAAlertStyleCustomAlert];
         [self presentViewController:alert animated:YES completion:nil];
     } else {
         if (indexPath.row == 0) {
@@ -335,8 +343,8 @@
             view.backgroundColor = [UIColor whiteColor];
             view.bounds          = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 100);
             WYAAlertController * alert =
-                [WYAAlertController wya_alertWithCustomView:view
-                                                 AlertStyle:WYAAlertStyleCustomSheet];
+            [WYAAlertController wya_alertWithCustomView:view
+                                             AlertStyle:WYAAlertStyleCustomSheet];
             [self presentViewController:alert animated:YES completion:nil];
         } else {
             [self.shareView wya_showShareViewWithController:self];
@@ -452,7 +460,8 @@ navigation
  }
  */
 
-- (WYAShareView *)shareView {
+- (WYAShareView *)shareView
+{
     if (!_shareView) {
         _shareView = ({
             WYAShareView * object = [[WYAShareView alloc] init];
@@ -467,8 +476,9 @@ navigation
     return _shareView;
 }
 - (void)wya_shareView:(WYAShareView *)shareView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-                   itemTitle:(NSString *)title {
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+               itemTitle:(NSString *)title
+{
     [UIView wya_showCenterToastWithMessage:title];
 }
 @end

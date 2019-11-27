@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param isPass 是否验证通过
  */
-typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
+typedef void (^TouchIDVerifyResultBlock)(BOOL isPass, NSString * password);
 
 @interface WYABaseLoginHelper : NSObject
 
@@ -22,7 +22,6 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
 @property (nonatomic, copy) NSString * curService;
 
 @property (nonatomic, copy) TouchIDVerifyResultBlock resultBlock;
-
 
 /**
  添加账号密码至登录钥匙串
@@ -51,7 +50,6 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  */
 + (BOOL)setPassword:(NSString *)password ForService:(NSString *)serviceName account:(NSString *)account;
 
-
 /**
  从钥匙串中删除账号密码
 
@@ -60,7 +58,6 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  @return 删除是否成功
  */
 + (BOOL)deletePasswordForService:(NSString *)serviceName account:(NSString *)account;
-
 
 /// 验证是否支持touchID
 + (BOOL)verifyEnableFingerPrint;
@@ -97,7 +94,6 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
  */
 + (void)checkAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block;
 
-
 /**
  验证触控ID或面容ID
 
@@ -106,11 +102,10 @@ typedef void(^TouchIDVerifyResultBlock)(BOOL isPass,NSString *password);
 */
 + (void)verifyFingerPrintWithAccount:(NSString *)account serviceName:(NSString *)serviceName resultBlock:(TouchIDVerifyResultBlock)block;
 
-
 /// 返回所有已存储的钥匙串
 /// @param serviceName 钥匙串名
 /// @param error 错误信息
-+ (NSArray<NSDictionary<NSString *, id> *> *)accountsForService:(NSString *)serviceName error:(NSError *__autoreleasing *)error __attribute__((swift_error(none)));
++ (NSArray<NSDictionary<NSString *, id> *> *)accountsForService:(NSString *)serviceName error:(NSError * __autoreleasing *)error __attribute__((swift_error(none)));
 
 @end
 

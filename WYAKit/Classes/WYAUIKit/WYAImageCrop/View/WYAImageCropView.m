@@ -38,55 +38,55 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
 /* Views */
 @property (nonatomic, strong)
-    UIImageView * backgroundImageView; /* The main image view, placed within the scroll view */
+UIImageView * backgroundImageView; /* The main image view, placed within the scroll view */
 @property (nonatomic, strong)
-    UIView * backgroundContainerView; /* A view which contains the background image
+UIView * backgroundContainerView; /* A view which contains the background image
                                          view, to separate its transforms from the
                                          scroll view. */
 @property (nonatomic, strong, readwrite) UIView * foregroundContainerView;
 @property (nonatomic, strong) UIImageView *
-    foregroundImageView; /* A copy of the background image view, placed over the dimming views */
+foregroundImageView; /* A copy of the background image view, placed over the dimming views */
 @property (nonatomic, strong) WYAImageCropScrollView *
-    scrollView; /* The scroll view in charge of panning/zooming the image. */
+scrollView; /* The scroll view in charge of panning/zooming the image. */
 @property (nonatomic, strong) UIView *
-    overlayView; /* A semi-transparent grey view, overlaid on top of the background image */
+overlayView; /* A semi-transparent grey view, overlaid on top of the background image */
 @property (nonatomic, strong)
-    UIView * translucencyView; /* A blur view that is made visible when the user isn't interacting
+UIView * translucencyView; /* A blur view that is made visible when the user isn't interacting
                                   with the crop view */
 @property (nonatomic, strong)
-    id translucencyEffect; /* The dark blur visual effect applied to the visual effect view. */
+id translucencyEffect; /* The dark blur visual effect applied to the visual effect view. */
 @property (nonatomic, strong, readwrite) WYAImageCropPhotoFramesView *
-    gridOverlayView; /* A grid view overlaid on top of the foreground image view's container. */
+gridOverlayView; /* A grid view overlaid on top of the foreground image view's container. */
 @property (nonatomic, strong) CAShapeLayer *
-    circularMaskLayer; /* Managing the clipping of the foreground container into a circle */
+circularMaskLayer; /* Managing the clipping of the foreground container into a circle */
 
 /* Gesture Recognizers */
 @property (nonatomic, strong)
-    UIPanGestureRecognizer * gridPanGestureRecognizer; /* The gesture recognizer in charge of
+UIPanGestureRecognizer * gridPanGestureRecognizer; /* The gesture recognizer in charge of
                                                           controlling the resizing of the crop view
                                                           */
 
 /* Crop box handling */
 @property (nonatomic, assign)
-    BOOL applyInitialCroppedImageFrame; /* No by default, when setting
+BOOL applyInitialCroppedImageFrame; /* No by default, when setting
                                            initialCroppedImageFrame this will be set
                                            to YES, and set back to NO after first
                                            application - so it's only done once */
 @property (nonatomic, assign) WYACropViewOverlayEdge
-    tappedEdge; /* The edge region that the user tapped on, to resize the cropping region */
+tappedEdge; /* The edge region that the user tapped on, to resize the cropping region */
 @property (nonatomic, assign)
-    CGRect cropOriginFrame; /* When resizing, this is the original frame of the crop box. */
+CGRect cropOriginFrame; /* When resizing, this is the original frame of the crop box. */
 @property (nonatomic, assign)
-    CGPoint panOriginPoint;                                   /* The initial touch point of the pan gesture recognizer */
+CGPoint panOriginPoint;                                       /* The initial touch point of the pan gesture recognizer */
 @property (nonatomic, assign, readwrite) CGRect cropBoxFrame; /* The frame, in relation to to this
                                                                  view where the grid, and crop
                                                                  container view are aligned */
 @property (nonatomic, strong) NSTimer *
-    resetTimer; /* The timer used to reset the view after the user stops interacting with it */
+resetTimer; /* The timer used to reset the view after the user stops interacting with it */
 @property (nonatomic, assign)
-    BOOL editing; /* Used to denote the active state of the user manipulating the content */
+BOOL editing; /* Used to denote the active state of the user manipulating the content */
 @property (nonatomic, assign)
-    BOOL disableForgroundMatching; /* At times during animation, disable matching the forground
+BOOL disableForgroundMatching; /* At times during animation, disable matching the forground
                                       image view to the background */
 
 /* Pre-screen-rotation state information */
@@ -99,29 +99,29 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                                                          frame that the scroll view is allowed to
                                                          use */
 @property (nonatomic, readonly)
-    CGSize imageSize; /* Given the current rotation of the image, the size of the image */
+CGSize imageSize; /* Given the current rotation of the image, the size of the image */
 @property (nonatomic, readonly)
-    BOOL hasAspectRatio; /* True if an aspect ratio was explicitly applied to this crop view */
+BOOL hasAspectRatio; /* True if an aspect ratio was explicitly applied to this crop view */
 
 /* 90-degree rotation state data */
 @property (nonatomic, assign)
-    CGSize cropBoxLastEditedSize; /* When performing 90-degree rotations, remember what our last
+CGSize cropBoxLastEditedSize; /* When performing 90-degree rotations, remember what our last
                                      manual size was to use that as a base */
 @property (nonatomic, assign) NSInteger
-    cropBoxLastEditedAngle; /* Remember which angle we were at when we saved the editing size */
+cropBoxLastEditedAngle; /* Remember which angle we were at when we saved the editing size */
 @property (nonatomic, assign)
-    CGFloat cropBoxLastEditedZoomScale; /* Remember the zoom size when we last edited */
+CGFloat cropBoxLastEditedZoomScale; /* Remember the zoom size when we last edited */
 @property (nonatomic, assign)
-    CGFloat cropBoxLastEditedMinZoomScale; /* Remember the minimum size when we last edited. */
+CGFloat cropBoxLastEditedMinZoomScale; /* Remember the minimum size when we last edited. */
 @property (nonatomic, assign)
-    BOOL rotateAnimationInProgress; /* Disallow any input while the rotation animation is playing */
+BOOL rotateAnimationInProgress; /* Disallow any input while the rotation animation is playing */
 
 /* Reset state data */
 @property (nonatomic, assign) CGSize originalCropBoxSize; /* Save the original crop box size so we
                                                              can tell when the content has been
                                                              edited */
 @property (nonatomic, assign)
-    CGPoint originalContentOffset; /* Save the original content offset so we can tell if it's been
+CGPoint originalContentOffset; /* Save the original content offset so we can tell if it's been
                                       scrolled. */
 @property (nonatomic, assign, readwrite) BOOL canBeReset;
 
@@ -142,11 +142,13 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
 @implementation WYAImageCropView
 
-- (instancetype)initWithImage:(UIImage *)image {
+- (instancetype)initWithImage:(UIImage *)image
+{
     return [self initWithCroppingStyle:WYACropViewCroppingStyleDefault image:image];
 }
 
-- (instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(UIImage *)image {
+- (instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(UIImage *)image
+{
     if (self = [super init]) {
         _image         = image;
         _croppingStyle = style;
@@ -156,7 +158,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     return self;
 }
 
-- (void)setup {
+- (void)setup
+{
     __weak typeof(self) weakSelf = self;
 
     BOOL circularMode = (self.croppingStyle == WYACropViewCroppingStyleCircular);
@@ -180,13 +183,13 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
      iOS 8,
      we'll need to manually check the system version to ensure that it's available. */
     self.dynamicBlurEffect =
-        ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] !=
-         NSOrderedAscending);
+    ([[[UIDevice currentDevice] systemVersion] compare:@"9.0" options:NSNumericSearch] !=
+     NSOrderedAscending);
 
     // Scroll View properties
     self.scrollView = [[WYAImageCropScrollView alloc] initWithFrame:self.bounds];
     self.scrollView.autoresizingMask =
-        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.scrollView.alwaysBounceHorizontal         = YES;
     self.scrollView.alwaysBounceVertical           = YES;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -214,7 +217,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     // Grey transparent overlay view
     self.overlayView = [[UIView alloc] initWithFrame:self.bounds];
     self.overlayView.autoresizingMask =
-        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.overlayView.backgroundColor        = [self.backgroundColor colorWithAlphaComponent:0.35f];
     self.overlayView.hidden                 = NO;
     self.overlayView.userInteractionEnabled = NO;
@@ -234,7 +237,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     self.translucencyView.hidden                 = NO;
     self.translucencyView.userInteractionEnabled = NO;
     self.translucencyView.autoresizingMask =
-        UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self addSubview:self.translucencyView];
 
     // The forground container that holds the foreground image view
@@ -256,8 +259,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     // The following setup isn't needed during circular cropping
     if (circularMode) {
         UIBezierPath * circlePath =
-            [UIBezierPath bezierPathWithOvalInRect:(CGRect){0, 0, kTOCropViewCircularPathRadius,
-                                                            kTOCropViewCircularPathRadius}];
+        [UIBezierPath bezierPathWithOvalInRect:(CGRect){0, 0, kTOCropViewCircularPathRadius,
+                                                        kTOCropViewCircularPathRadius}];
         self.circularMaskLayer                  = [[CAShapeLayer alloc] init];
         self.circularMaskLayer.path             = circlePath.CGPath;
         self.foregroundContainerView.layer.mask = self.circularMaskLayer;
@@ -267,25 +270,28 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     // The white grid overlay view
     self.gridOverlayView =
-        [[WYAImageCropPhotoFramesView alloc] initWithFrame:self.foregroundContainerView.frame];
+    [[WYAImageCropPhotoFramesView alloc] initWithFrame:self.foregroundContainerView.frame];
     self.gridOverlayView.userInteractionEnabled = NO;
     self.gridOverlayView.gridHidden             = YES;
     [self addSubview:self.gridOverlayView];
 
     // The pan controller to recognize gestures meant to resize the grid view
     self.gridPanGestureRecognizer =
-        [[UIPanGestureRecognizer alloc] initWithTarget:self
-                                                action:@selector(gridPanGestureRecognized:)];
+    [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(gridPanGestureRecognized:)];
     self.gridPanGestureRecognizer.delegate = self;
     [self.scrollView.panGestureRecognizer
-        requireGestureRecognizerToFail:self.gridPanGestureRecognizer];
+    requireGestureRecognizerToFail:self.gridPanGestureRecognizer];
     [self addGestureRecognizer:self.gridPanGestureRecognizer];
 }
 
 #pragma mark - View Layout -
-- (void)performInitialSetup {
+- (void)performInitialSetup
+{
     // Calling this more than once is potentially destructive
-    if (self.initialSetupPerformed) { return; }
+    if (self.initialSetupPerformed) {
+        return;
+    }
 
     // Disable from calling again
     self.initialSetupPerformed = YES;
@@ -315,7 +321,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self checkForCanReset];
 }
 
-- (void)layoutInitialImage {
+- (void)layoutInitialImage
+{
     CGSize imageSize            = self.imageSize;
     self.scrollView.contentSize = imageSize;
 
@@ -327,20 +334,20 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     // Work out the size of the image to fit into the content bounds
     scale =
-        MIN(CGRectGetWidth(bounds) / imageSize.width, CGRectGetHeight(bounds) / imageSize.height);
+    MIN(CGRectGetWidth(bounds) / imageSize.width, CGRectGetHeight(bounds) / imageSize.height);
     CGSize scaledImageSize =
-        (CGSize){floorf(imageSize.width * scale), floorf(imageSize.height * scale)};
+    (CGSize){floorf(imageSize.width * scale), floorf(imageSize.height * scale)};
 
     // If an aspect ratio was pre-applied to the crop view, use that to work out the minimum scale
     // the image needs to be to fit
     CGSize cropBoxSize = CGSizeZero;
     if (self.hasAspectRatio) {
         CGFloat ratioScale =
-            (self.aspectRatio.width /
-             self.aspectRatio.height); // Work out the size of the width in relation to height
+        (self.aspectRatio.width /
+         self.aspectRatio.height); // Work out the size of the width in relation to height
         CGSize fullSizeRatio = (CGSize){boundsSize.height * ratioScale, boundsSize.height};
         CGFloat fitScale =
-            MIN(boundsSize.width / fullSizeRatio.width, boundsSize.height / fullSizeRatio.height);
+        MIN(boundsSize.width / fullSizeRatio.width, boundsSize.height / fullSizeRatio.height);
         cropBoxSize = (CGSize){fullSizeRatio.width * fitScale, fullSizeRatio.height * fitScale};
 
         scale = MAX(cropBoxSize.width / imageSize.width, cropBoxSize.height / imageSize.height);
@@ -387,13 +394,15 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self matchForegroundToBackground];
 }
 
-- (void)prepareforRotation {
+- (void)prepareforRotation
+{
     self.rotationContentOffset = self.scrollView.contentOffset;
     self.rotationContentSize   = self.scrollView.contentSize;
     self.rotationBoundFrame    = self.contentBounds;
 }
 
-- (void)performRelayoutForRotation {
+- (void)performRelayoutForRotation
+{
     CGRect cropFrame    = self.cropBoxFrame;
     CGRect contentFrame = self.contentBounds;
 
@@ -406,16 +415,16 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     cropFrame.size.width  = floorf(cropFrame.size.width * scale);
     cropFrame.size.height = floorf(cropFrame.size.height * scale);
     cropFrame.origin.x =
-        floorf(contentFrame.origin.x + ((contentFrame.size.width - cropFrame.size.width) * 0.5f));
+    floorf(contentFrame.origin.x + ((contentFrame.size.width - cropFrame.size.width) * 0.5f));
     cropFrame.origin.y =
-        floorf(contentFrame.origin.y + ((contentFrame.size.height - cropFrame.size.height) * 0.5f));
+    floorf(contentFrame.origin.y + ((contentFrame.size.height - cropFrame.size.height) * 0.5f));
     self.cropBoxFrame = cropFrame;
 
     [self captureStateForImageRotation];
 
     // Work out the center point of the content before we rotated
     CGPoint oldMidPoint =
-        (CGPoint){CGRectGetMidX(self.rotationBoundFrame), CGRectGetMidY(self.rotationBoundFrame)};
+    (CGPoint){CGRectGetMidX(self.rotationBoundFrame), CGRectGetMidY(self.rotationBoundFrame)};
     CGPoint contentCenter = (CGPoint){self.rotationContentOffset.x + oldMidPoint.x,
                                       self.rotationContentOffset.y + oldMidPoint.y};
 
@@ -426,7 +435,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     // Work out the new content offset by applying the normalized values to the new layout
     CGPoint newMidPoint =
-        (CGPoint){CGRectGetMidX(self.contentBounds), CGRectGetMidY(self.contentBounds)};
+    (CGPoint){CGRectGetMidX(self.contentBounds), CGRectGetMidY(self.contentBounds)};
 
     CGPoint translatedContentOffset = CGPointZero;
     translatedContentOffset.x       = self.scrollView.contentSize.width * normalizedCenter.x;
@@ -454,17 +463,19 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self matchForegroundToBackground];
 }
 
-- (void)matchForegroundToBackground {
+- (void)matchForegroundToBackground
+{
     if (self.disableForgroundMatching) return;
 
     // We can't simply match the frames since if the images are rotated, the frame property becomes
     // unusable
     self.foregroundImageView.frame =
-        [self.backgroundContainerView.superview convertRect:self.backgroundContainerView.frame
-                                                     toView:self.foregroundContainerView];
+    [self.backgroundContainerView.superview convertRect:self.backgroundContainerView.frame
+                                                 toView:self.foregroundContainerView];
 }
 
-- (void)updateCropBoxFrameWithGesturePoint:(CGPoint)point {
+- (void)updateCropBoxFrameWithGesturePoint:(CGPoint)point
+{
     CGRect frame        = self.cropBoxFrame;
     CGRect originFrame  = self.cropOriginFrame;
     CGRect contentFrame = self.contentBounds;
@@ -493,7 +504,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                 aspectHorizontal = YES;
                 xDelta           = MAX(xDelta, 0);
                 CGPoint scaleOrigin =
-                    (CGPoint){CGRectGetMaxX(originFrame), CGRectGetMidY(originFrame)};
+                (CGPoint){CGRectGetMaxX(originFrame), CGRectGetMidY(originFrame)};
                 frame.size.height = frame.size.width / aspectRatio;
                 frame.origin.y    = scaleOrigin.y - (frame.size.height * 0.5f);
             }
@@ -512,7 +523,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
             if (self.aspectRatioLockEnabled) {
                 aspectHorizontal = YES;
                 CGPoint scaleOrigin =
-                    (CGPoint){CGRectGetMinX(originFrame), CGRectGetMidY(originFrame)};
+                (CGPoint){CGRectGetMinX(originFrame), CGRectGetMidY(originFrame)};
                 frame.size.height = frame.size.width / aspectRatio;
                 frame.origin.y    = scaleOrigin.y - (frame.size.height * 0.5f);
                 frame.size.width  = originFrame.size.width + xDelta;
@@ -531,7 +542,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
             if (self.aspectRatioLockEnabled) {
                 aspectVertical = YES;
                 CGPoint scaleOrigin =
-                    (CGPoint){CGRectGetMidX(originFrame), CGRectGetMinY(originFrame)};
+                (CGPoint){CGRectGetMidX(originFrame), CGRectGetMinY(originFrame)};
                 frame.size.width  = frame.size.height * aspectRatio;
                 frame.origin.x    = scaleOrigin.x - (frame.size.width * 0.5f);
                 frame.size.height = originFrame.size.height + yDelta;
@@ -551,7 +562,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                 aspectVertical = YES;
                 yDelta         = MAX(0, yDelta);
                 CGPoint scaleOrigin =
-                    (CGPoint){CGRectGetMidX(originFrame), CGRectGetMaxY(originFrame)};
+                (CGPoint){CGRectGetMidX(originFrame), CGRectGetMaxY(originFrame)};
                 frame.size.width  = frame.size.height * aspectRatio;
                 frame.origin.x    = scaleOrigin.x - (frame.size.width * 0.5f);
                 frame.origin.y    = originFrame.origin.y + yDelta;
@@ -584,9 +595,9 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                 frame.size.width  = ceilf(CGRectGetWidth(originFrame) * scale);
                 frame.size.height = ceilf(CGRectGetHeight(originFrame) * scale);
                 frame.origin.x =
-                    originFrame.origin.x + (CGRectGetWidth(originFrame) - frame.size.width);
+                originFrame.origin.x + (CGRectGetWidth(originFrame) - frame.size.width);
                 frame.origin.y =
-                    originFrame.origin.y + (CGRectGetHeight(originFrame) - frame.size.height);
+                originFrame.origin.y + (CGRectGetHeight(originFrame) - frame.size.height);
 
                 aspectVertical   = YES;
                 aspectHorizontal = YES;
@@ -621,7 +632,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                 frame.size.width  = ceilf(CGRectGetWidth(originFrame) * scale);
                 frame.size.height = ceilf(CGRectGetHeight(originFrame) * scale);
                 frame.origin.y =
-                    originFrame.origin.y + (CGRectGetHeight(originFrame) - frame.size.height);
+                originFrame.origin.y + (CGRectGetHeight(originFrame) - frame.size.height);
 
                 aspectVertical   = YES;
                 aspectHorizontal = YES;
@@ -754,11 +765,14 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self checkForCanReset];
 }
 
-- (void)resetLayoutToDefaultAnimated:(BOOL)animated {
+- (void)resetLayoutToDefaultAnimated:(BOOL)animated
+{
     // If resetting the crop view includes resetting the aspect ratio,
     // reset it to zero here. But set the ivar directly since there's no point
     // in performing the relayout calculations right before a reset.
-    if (self.hasAspectRatio && self.resetAspectRatioEnabled) { _aspectRatio = CGSizeZero; }
+    if (self.hasAspectRatio && self.resetAspectRatioEnabled) {
+        _aspectRatio = CGSizeZero;
+    }
 
     if (animated == NO || self.angle != 0) {
         // Reset all of the rotation transforms
@@ -799,40 +813,42 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     // Perform an animation of the image zooming back out to its original size
     dispatch_after(
-        dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01f * NSEC_PER_SEC)),
-        dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.5f
-                delay:0.0f
-                usingSpringWithDamping:1.0f
-                initialSpringVelocity:1.0f
-                options:UIViewAnimationOptionBeginFromCurrentState
-                animations:^{ [self layoutInitialImage]; }
-                completion:^(BOOL complete) { [self setSimpleRenderMode:NO animated:YES]; }];
-        });
+    dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01f * NSEC_PER_SEC)),
+    dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.5f
+        delay:0.0f
+        usingSpringWithDamping:1.0f
+        initialSpringVelocity:1.0f
+        options:UIViewAnimationOptionBeginFromCurrentState
+        animations:^{ [self layoutInitialImage]; }
+        completion:^(BOOL complete) { [self setSimpleRenderMode:NO animated:YES]; }];
+    });
 }
 
-- (void)toggleTranslucencyViewVisible:(BOOL)visible {
+- (void)toggleTranslucencyViewVisible:(BOOL)visible
+{
     if (self.dynamicBlurEffect == NO) {
         self.translucencyView.alpha = visible ? 1.0f : 0.0f;
     } else {
         [(UIVisualEffectView *)self.translucencyView
-            setEffect:visible ? self.translucencyEffect : nil];
+        setEffect:visible ? self.translucencyEffect : nil];
     }
 }
 
-- (void)updateToImageCropFrame:(CGRect)imageCropframe {
+- (void)updateToImageCropFrame:(CGRect)imageCropframe
+{
     // Convert the image crop frame's size from image space to the screen space
     CGFloat minimumSize = self.scrollView.minimumZoomScale;
     CGPoint scaledOffset =
-        (CGPoint){imageCropframe.origin.x * minimumSize, imageCropframe.origin.y * minimumSize};
+    (CGPoint){imageCropframe.origin.x * minimumSize, imageCropframe.origin.y * minimumSize};
     CGSize scaledCropSize =
-        (CGSize){imageCropframe.size.width * minimumSize, imageCropframe.size.height * minimumSize};
+    (CGSize){imageCropframe.size.width * minimumSize, imageCropframe.size.height * minimumSize};
 
     // Work out the scale necessary to upscale the crop size to fit the content bounds of the crop
     // bound
     CGRect bounds = self.contentBounds;
     CGFloat scale =
-        MIN(bounds.size.width / scaledCropSize.width, bounds.size.height / scaledCropSize.height);
+    MIN(bounds.size.width / scaledCropSize.width, bounds.size.height / scaledCropSize.height);
 
     // Zoom into the scroll view to the appropriate size
     self.scrollView.zoomScale = self.scrollView.minimumZoomScale * scale;
@@ -854,7 +870,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 }
 
 #pragma mark - Gesture Recognizer -
-- (void)gridPanGestureRecognized:(UIPanGestureRecognizer *)recognizer {
+- (void)gridPanGestureRecognized:(UIPanGestureRecognizer *)recognizer
+{
     CGPoint point = [recognizer locationInView:self];
 
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -864,12 +881,15 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
         self.tappedEdge      = [self cropEdgeForPoint:self.panOriginPoint];
     }
 
-    if (recognizer.state == UIGestureRecognizerStateEnded) { [self startResetTimer]; }
+    if (recognizer.state == UIGestureRecognizerStateEnded) {
+        [self startResetTimer];
+    }
 
     [self updateCropBoxFrameWithGesturePoint:point];
 }
 
-- (void)longPressGestureRecognized:(UILongPressGestureRecognizer *)recognizer {
+- (void)longPressGestureRecognized:(UILongPressGestureRecognizer *)recognizer
+{
     if (recognizer.state == UIGestureRecognizerStateBegan)
         [self.gridOverlayView setGridHidden:NO animated:YES];
 
@@ -877,7 +897,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
         [self.gridOverlayView setGridHidden:YES animated:YES];
 }
 
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
     if (gestureRecognizer != self.gridPanGestureRecognizer) return YES;
 
     CGPoint tapPoint = [gestureRecognizer locationInView:self];
@@ -893,13 +914,17 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
-       shouldReceiveTouch:(UITouch *)touch {
-    if (self.gridPanGestureRecognizer.state == UIGestureRecognizerStateChanged) { return NO; }
+       shouldReceiveTouch:(UITouch *)touch
+{
+    if (self.gridPanGestureRecognizer.state == UIGestureRecognizerStateChanged) {
+        return NO;
+    }
     return YES;
 }
 
 #pragma mark - Timer -
-- (void)startResetTimer {
+- (void)startResetTimer
+{
     if (self.resetTimer) return;
 
     self.resetTimer = [NSTimer scheduledTimerWithTimeInterval:self.cropAdjustingDelay
@@ -909,18 +934,21 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                                                       repeats:NO];
 }
 
-- (void)timerTriggered {
+- (void)timerTriggered
+{
     [self setEditing:NO resetCropBox:YES animated:YES];
     [self.resetTimer invalidate];
     self.resetTimer = nil;
 }
 
-- (void)cancelResetTimer {
+- (void)cancelResetTimer
+{
     [self.resetTimer invalidate];
     self.resetTimer = nil;
 }
 
-- (WYACropViewOverlayEdge)cropEdgeForPoint:(CGPoint)point {
+- (WYACropViewOverlayEdge)cropEdgeForPoint:(CGPoint)point
+{
     CGRect frame = self.cropBoxFrame;
 
     // account for padding around the box
@@ -962,35 +990,42 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
 #pragma mark - Scroll View Delegate -
 
-- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
     return self.backgroundContainerView;
 }
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
     [self matchForegroundToBackground];
 }
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
     [self startEditing];
     self.canBeReset = YES;
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
     [self startEditing];
     self.canBeReset = YES;
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
     [self startResetTimer];
     [self checkForCanReset];
 }
 
 - (void)scrollViewDidEndZooming:(UIScrollView *)scrollView
                        withView:(UIView *)view
-                        atScale:(CGFloat)scale {
+                        atScale:(CGFloat)scale
+{
     [self startResetTimer];
     [self checkForCanReset];
 }
 
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
     if (scrollView.isTracking) {
         self.cropBoxLastEditedZoomScale    = scrollView.zoomScale;
         self.cropBoxLastEditedMinZoomScale = scrollView.minimumZoomScale;
@@ -999,24 +1034,33 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self matchForegroundToBackground];
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
     if (!decelerate) [self startResetTimer];
 }
 
 #pragma mark - Accessors -
 
-- (void)setCropBoxResizeEnabled:(BOOL)panResizeEnabled {
+- (void)setCropBoxResizeEnabled:(BOOL)panResizeEnabled
+{
     _cropBoxResizeEnabled                 = panResizeEnabled;
     self.gridPanGestureRecognizer.enabled = _cropBoxResizeEnabled;
 }
 
-- (void)setCropBoxFrame:(CGRect)cropBoxFrame {
-    if (CGRectEqualToRect(cropBoxFrame, _cropBoxFrame)) { return; }
+- (void)setCropBoxFrame:(CGRect)cropBoxFrame
+{
+    if (CGRectEqualToRect(cropBoxFrame, _cropBoxFrame)) {
+        return;
+    }
 
     // Upon init, sometimes the box size is still 0 (or NaN), which can result in CALayer issues
     CGSize frameSize = cropBoxFrame.size;
-    if (frameSize.width < FLT_EPSILON || frameSize.height < FLT_EPSILON) { return; }
-    if (isnan(frameSize.width) || isnan(frameSize.height)) { return; }
+    if (frameSize.width < FLT_EPSILON || frameSize.height < FLT_EPSILON) {
+        return;
+    }
+    if (isnan(frameSize.width) || isnan(frameSize.height)) {
+        return;
+    }
 
     // clamp the cropping region to the inset boundaries of the screen
     CGRect contentFrame   = self.contentBounds;
@@ -1047,26 +1091,26 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     _cropBoxFrame = cropBoxFrame;
 
     self.foregroundContainerView.frame =
-        _cropBoxFrame;                          // set the clipping view to match the new rect
+    _cropBoxFrame;                              // set the clipping view to match the new rect
     self.gridOverlayView.frame = _cropBoxFrame; // set the new overlay view to match the same region
 
     // If the mask layer is present, adjust its transform to fit the new container view size
     if (self.circularMaskLayer) {
         CGFloat scale = _cropBoxFrame.size.width / kTOCropViewCircularPathRadius;
         self.circularMaskLayer.transform =
-            CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0f);
+        CATransform3DScale(CATransform3DIdentity, scale, scale, 1.0f);
     }
 
     // reset the scroll view insets to match the region of the new crop rect
     self.scrollView.contentInset =
-        (UIEdgeInsets){CGRectGetMinY(_cropBoxFrame), CGRectGetMinX(_cropBoxFrame),
-                       CGRectGetMaxY(self.bounds) - CGRectGetMaxY(_cropBoxFrame),
-                       CGRectGetMaxX(self.bounds) - CGRectGetMaxX(_cropBoxFrame)};
+    (UIEdgeInsets){CGRectGetMinY(_cropBoxFrame), CGRectGetMinX(_cropBoxFrame),
+                   CGRectGetMaxY(self.bounds) - CGRectGetMaxY(_cropBoxFrame),
+                   CGRectGetMaxX(self.bounds) - CGRectGetMaxX(_cropBoxFrame)};
 
     // if necessary, work out the new minimum size of the scroll view so it fills the crop box
     CGSize imageSize = self.backgroundContainerView.bounds.size;
     CGFloat scale =
-        MAX(cropBoxFrame.size.height / imageSize.height, cropBoxFrame.size.width / imageSize.width);
+    MAX(cropBoxFrame.size.height / imageSize.height, cropBoxFrame.size.width / imageSize.width);
     self.scrollView.minimumZoomScale = scale;
 
     // make sure content isn't smaller than the crop box
@@ -1081,20 +1125,24 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self matchForegroundToBackground]; // re-align the background content to match
 }
 
-- (void)setEditing:(BOOL)editing {
+- (void)setEditing:(BOOL)editing
+{
     [self setEditing:editing resetCropBox:NO animated:NO];
 }
 
-- (void)setSimpleRenderMode:(BOOL)simpleMode {
+- (void)setSimpleRenderMode:(BOOL)simpleMode
+{
     [self setSimpleRenderMode:simpleMode animated:NO];
 }
 
-- (BOOL)cropBoxAspectRatioIsPortrait {
+- (BOOL)cropBoxAspectRatioIsPortrait
+{
     CGRect cropFrame = self.cropBoxFrame;
     return CGRectGetWidth(cropFrame) < CGRectGetHeight(cropFrame);
 }
 
-- (CGRect)imageCropFrame {
+- (CGRect)imageCropFrame
+{
     CGSize imageSize        = self.imageSize;
     CGSize contentSize      = self.scrollView.contentSize;
     CGRect cropBoxFrame     = self.cropBoxFrame;
@@ -1106,7 +1154,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     // Calculate the normalized origin
     frame.origin.x =
-        floorf((floorf(contentOffset.x) + edgeInsets.left) * (imageSize.width / contentSize.width));
+    floorf((floorf(contentOffset.x) + edgeInsets.left) * (imageSize.width / contentSize.width));
     frame.origin.x = MAX(0, frame.origin.x);
 
     frame.origin.y = floorf((floorf(contentOffset.y) + edgeInsets.top) *
@@ -1129,7 +1177,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     return frame;
 }
 
-- (void)setImageCropFrame:(CGRect)imageCropFrame {
+- (void)setImageCropFrame:(CGRect)imageCropFrame
+{
     if (!self.initialSetupPerformed) {
         self.restoreImageCropFrame = imageCropFrame;
         return;
@@ -1138,11 +1187,13 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     [self updateToImageCropFrame:imageCropFrame];
 }
 
-- (void)setCroppingViewsHidden:(BOOL)hidden {
+- (void)setCroppingViewsHidden:(BOOL)hidden
+{
     [self setCroppingViewsHidden:hidden animated:NO];
 }
 
-- (void)setCroppingViewsHidden:(BOOL)hidden animated:(BOOL)animated {
+- (void)setCroppingViewsHidden:(BOOL)hidden animated:(BOOL)animated
+{
     if (_croppingViewsHidden == hidden) return;
 
     _croppingViewsHidden = hidden;
@@ -1169,7 +1220,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                      }];
 }
 
-- (void)setBackgroundImageViewHidden:(BOOL)hidden animated:(BOOL)animated {
+- (void)setBackgroundImageViewHidden:(BOOL)hidden animated:(BOOL)animated
+{
     if (animated == NO) {
         self.backgroundImageView.hidden = hidden;
         return;
@@ -1181,17 +1233,21 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     self.backgroundImageView.hidden = NO;
     self.backgroundImageView.alpha  = beforeAlpha;
     [UIView animateWithDuration:0.5f
-        animations:^{ self.backgroundImageView.alpha = toAlpha; }
-        completion:^(BOOL complete) {
-            if (hidden) { self.backgroundImageView.hidden = YES; }
-        }];
+    animations:^{ self.backgroundImageView.alpha = toAlpha; }
+    completion:^(BOOL complete) {
+        if (hidden) {
+            self.backgroundImageView.hidden = YES;
+        }
+    }];
 }
 
-- (void)setGridOverlayHidden:(BOOL)gridOverlayHidden {
+- (void)setGridOverlayHidden:(BOOL)gridOverlayHidden
+{
     [self setGridOverlayHidden:_gridOverlayHidden animated:NO];
 }
 
-- (void)setGridOverlayHidden:(BOOL)gridOverlayHidden animated:(BOOL)animated {
+- (void)setGridOverlayHidden:(BOOL)gridOverlayHidden animated:(BOOL)animated
+{
     _gridOverlayHidden         = gridOverlayHidden;
     self.gridOverlayView.alpha = gridOverlayHidden ? 1.0f : 0.0f;
 
@@ -1199,7 +1255,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                      animations:^{ self.gridOverlayView.alpha = gridOverlayHidden ? 0.0f : 1.0f; }];
 }
 
-- (CGRect)imageViewFrame {
+- (CGRect)imageViewFrame
+{
     CGRect frame   = CGRectZero;
     frame.origin.x = -self.scrollView.contentOffset.x;
     frame.origin.y = -self.scrollView.contentOffset.y;
@@ -1207,8 +1264,11 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     return frame;
 }
 
-- (void)setCanBeReset:(BOOL)canReset {
-    if (canReset == _canBeReset) { return; }
+- (void)setCanBeReset:(BOOL)canReset
+{
+    if (canReset == _canBeReset) {
+        return;
+    }
 
     _canBeReset = canReset;
 
@@ -1221,11 +1281,14 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     }
 }
 
-- (void)setAngle:(NSInteger)angle {
+- (void)setAngle:(NSInteger)angle
+{
     // The initial layout would not have been performed yet.
     // Save the value and it will be applied when it has
     NSInteger newAngle = angle;
-    if (angle % 90 != 0) { newAngle = 0; }
+    if (angle % 90 != 0) {
+        newAngle = 0;
+    }
 
     if (!self.initialSetupPerformed) {
         self.restoreAngle = newAngle;
@@ -1246,12 +1309,14 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 }
 
 #pragma mark - Editing Mode -
-- (void)startEditing {
+- (void)startEditing
+{
     [self cancelResetTimer];
     [self setEditing:YES resetCropBox:NO animated:YES];
 }
 
-- (void)setEditing:(BOOL)editing resetCropBox:(BOOL)resetCropbox animated:(BOOL)animated {
+- (void)setEditing:(BOOL)editing resetCropBox:(BOOL)resetCropbox animated:(BOOL)animated
+{
     if (editing == _editing) return;
 
     _editing = editing;
@@ -1272,7 +1337,9 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     CGFloat duration = editing ? 0.05f : 0.35f;
     CGFloat delay    = editing ? 0.0f : 0.35f;
 
-    if (self.croppingStyle == WYACropViewCroppingStyleCircular) { delay = 0.0f; }
+    if (self.croppingStyle == WYACropViewCroppingStyleCircular) {
+        delay = 0.0f;
+    }
 
     [UIView animateKeyframesWithDuration:duration
                                    delay:delay
@@ -1281,14 +1348,17 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                               completion:nil];
 }
 
-- (void)moveCroppedContentToCenterAnimated:(BOOL)animated {
+- (void)moveCroppedContentToCenterAnimated:(BOOL)animated
+{
     if (self.internalLayoutDisabled) return;
 
     CGRect contentRect = self.contentBounds;
     CGRect cropFrame   = self.cropBoxFrame;
 
     // Ensure we only proceed after the crop frame has been setup for the first time
-    if (cropFrame.size.width < FLT_EPSILON || cropFrame.size.height < FLT_EPSILON) { return; }
+    if (cropFrame.size.width < FLT_EPSILON || cropFrame.size.height < FLT_EPSILON) {
+        return;
+    }
 
     // The scale we need to scale up the crop box to fit full screen
     CGFloat scale = MIN(CGRectGetWidth(contentRect) / CGRectGetWidth(cropFrame),
@@ -1300,9 +1370,9 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     cropFrame.size.width  = ceilf(cropFrame.size.width * scale);
     cropFrame.size.height = ceilf(cropFrame.size.height * scale);
     cropFrame.origin.x =
-        contentRect.origin.x + ceilf((contentRect.size.width - cropFrame.size.width) * 0.5f);
+    contentRect.origin.x + ceilf((contentRect.size.width - cropFrame.size.width) * 0.5f);
     cropFrame.origin.y =
-        contentRect.origin.y + ceilf((contentRect.size.height - cropFrame.size.height) * 0.5f);
+    contentRect.origin.y + ceilf((contentRect.size.height - cropFrame.size.height) * 0.5f);
 
     // Work out the point on the scroll content that the focusPoint is aiming at
     CGPoint contentTargetPoint = CGPointZero;
@@ -1340,7 +1410,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
             if (scale < 1.0f - FLT_EPSILON || scale > 1.0f + FLT_EPSILON) {
                 strongSelf.scrollView.zoomScale *= scale;
                 strongSelf.scrollView.zoomScale =
-                    MIN(strongSelf.scrollView.maximumZoomScale, strongSelf.scrollView.zoomScale);
+                MIN(strongSelf.scrollView.maximumZoomScale, strongSelf.scrollView.zoomScale);
             }
 
             // If it turns out the zoom operation would have exceeded the minizum zoom scale, don't
@@ -1382,7 +1452,8 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                    });
 }
 
-- (void)setSimpleRenderMode:(BOOL)simpleMode animated:(BOOL)animated {
+- (void)setSimpleRenderMode:(BOOL)simpleMode animated:(BOOL)animated
+{
     if (simpleMode == _simpleRenderMode) return;
 
     _simpleRenderMode = simpleMode;
@@ -1399,15 +1470,19 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                      animations:^{ [self toggleTranslucencyViewVisible:!simpleMode]; }];
 }
 
-- (void)setAspectRatio:(CGSize)aspectRatio {
+- (void)setAspectRatio:(CGSize)aspectRatio
+{
     [self setAspectRatio:aspectRatio animated:NO];
 }
 
-- (void)setAspectRatio:(CGSize)aspectRatio animated:(BOOL)animated {
+- (void)setAspectRatio:(CGSize)aspectRatio animated:(BOOL)animated
+{
     _aspectRatio = aspectRatio;
 
     // Will be executed automatically when added to a super view
-    if (!self.initialSetupPerformed) { return; }
+    if (!self.initialSetupPerformed) {
+        return;
+    }
 
     // Passing in an empty size will revert back to the image aspect ratio
     if (aspectRatio.width < FLT_EPSILON && aspectRatio.height < FLT_EPSILON) {
@@ -1427,15 +1502,15 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     BOOL zoomOut = NO;
     if (cropBoxIsPortrait) {
         CGFloat newWidth =
-            floorf(cropBoxFrame.size.height * (aspectRatio.width / aspectRatio.height));
+        floorf(cropBoxFrame.size.height * (aspectRatio.width / aspectRatio.height));
         CGFloat delta           = cropBoxFrame.size.width - newWidth;
         cropBoxFrame.size.width = newWidth;
         offset.x += (delta * 0.5f);
 
         if (delta < FLT_EPSILON) {
             cropBoxFrame.origin.x =
-                self.contentBounds
-                    .origin.x; // set to 0 to avoid accidental clamping by the crop frame sanitizer
+            self.contentBounds
+            .origin.x; // set to 0 to avoid accidental clamping by the crop frame sanitizer
         }
 
         // If the aspect ratio causes the new width to extend
@@ -1458,12 +1533,14 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
         }
     } else {
         CGFloat newHeight =
-            floorf(cropBoxFrame.size.width * (aspectRatio.height / aspectRatio.width));
+        floorf(cropBoxFrame.size.width * (aspectRatio.height / aspectRatio.width));
         CGFloat delta            = cropBoxFrame.size.height - newHeight;
         cropBoxFrame.size.height = newHeight;
         offset.y += (delta * 0.5f);
 
-        if (delta < FLT_EPSILON) { cropBoxFrame.origin.y = self.contentBounds.origin.y; }
+        if (delta < FLT_EPSILON) {
+            cropBoxFrame.origin.y = self.contentBounds.origin.y;
+        }
 
         // If the aspect ratio causes the new height to extend
         // beyond the content width, we'll need to zoom the image out
@@ -1492,7 +1569,9 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
         self.scrollView.contentOffset = offset;
         self.cropBoxFrame             = cropBoxFrame;
 
-        if (zoomOut) { self.scrollView.zoomScale = self.scrollView.minimumZoomScale; }
+        if (zoomOut) {
+            self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
+        }
 
         [self moveCroppedContentToCenterAnimated:NO];
         [self checkForCanReset];
@@ -1512,11 +1591,13 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                      completion:nil];
 }
 
-- (void)rotateImageNinetyDegreesAnimated:(BOOL)animated {
+- (void)rotateImageNinetyDegreesAnimated:(BOOL)animated
+{
     [self rotateImageNinetyDegreesAnimated:animated clockwise:NO];
 }
 
-- (void)rotateImageNinetyDegreesAnimated:(BOOL)animated clockwise:(BOOL)clockwise {
+- (void)rotateImageNinetyDegreesAnimated:(BOOL)animated clockwise:(BOOL)clockwise
+{
     // Only allow one rotation animation at a time
     if (self.rotateAnimationInProgress) return;
 
@@ -1532,7 +1613,9 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     // Work out the new angle, and wrap around once we exceed 360s
     NSInteger newAngle = self.angle;
     newAngle           = clockwise ? newAngle + 90 : newAngle - 90;
-    if (newAngle <= -360 || newAngle >= 360) { newAngle = 0; }
+    if (newAngle <= -360 || newAngle >= 360) {
+        newAngle = 0;
+    }
 
     _angle = newAngle;
 
@@ -1594,7 +1677,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 
     newCropFrame.origin.x = floorf(CGRectGetMidX(contentBounds) - (newCropFrame.size.width * 0.5f));
     newCropFrame.origin.y =
-        floorf(CGRectGetMidY(contentBounds) - (newCropFrame.size.height * 0.5f));
+    floorf(CGRectGetMidY(contentBounds) - (newCropFrame.size.height * 0.5f));
 
     // If we're animated, generate a snapshot view that we'll animate in place of the real view
     UIView * snapshotView = nil;
@@ -1609,7 +1692,7 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     // Flip the width/height of the container view so it matches the rotated image view's size
     CGSize containerSize = self.backgroundContainerView.frame.size;
     self.backgroundContainerView.frame =
-        (CGRect){CGPointZero, {containerSize.height, containerSize.width}};
+    (CGRect){CGPointZero, {containerSize.height, containerSize.width}};
     self.backgroundImageView.frame = (CGRect){CGPointZero, self.backgroundImageView.frame.size};
 
     // Rotate the foreground image view to match
@@ -1646,10 +1729,10 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
     offset.x         = MAX(-self.scrollView.contentInset.left, offset.x);
     offset.y         = MAX(-self.scrollView.contentInset.top, offset.y);
     offset.x         = MIN(self.scrollView.contentSize.width -
-                       (newCropFrame.size.width - self.scrollView.contentInset.right),
+                   (newCropFrame.size.width - self.scrollView.contentInset.right),
                    offset.x);
     offset.y = MIN(self.scrollView.contentSize.height -
-                       (newCropFrame.size.height - self.scrollView.contentInset.bottom),
+                   (newCropFrame.size.height - self.scrollView.contentInset.bottom),
                    offset.y);
 
     // if the scroll view's new scale is 1 and the new offset is equal to the old, will not trigger
@@ -1673,65 +1756,67 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
         self.gridOverlayView.hidden         = YES;
 
         [UIView animateWithDuration:0.45f
-            delay:0.0f
-            usingSpringWithDamping:1.0f
-            initialSpringVelocity:0.8f
-            options:UIViewAnimationOptionBeginFromCurrentState
+        delay:0.0f
+        usingSpringWithDamping:1.0f
+        initialSpringVelocity:0.8f
+        options:UIViewAnimationOptionBeginFromCurrentState
+        animations:^{
+            CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity,
+                                                                  clockwise ? M_PI_2 : -M_PI_2);
+            transform              = CGAffineTransformScale(transform, scale, scale);
+            snapshotView.transform = transform;
+        }
+        completion:^(BOOL complete) {
+            self.backgroundContainerView.hidden = NO;
+            self.foregroundContainerView.hidden = NO;
+            self.translucencyView.hidden        = NO;
+            self.gridOverlayView.hidden         = NO;
+
+            self.backgroundContainerView.alpha = 0.0f;
+            self.gridOverlayView.alpha         = 0.0f;
+
+            self.translucencyView.alpha = 1.0f;
+
+            [UIView animateWithDuration:0.45f
             animations:^{
-                CGAffineTransform transform = CGAffineTransformRotate(CGAffineTransformIdentity,
-                                                                      clockwise ? M_PI_2 : -M_PI_2);
-                transform              = CGAffineTransformScale(transform, scale, scale);
-                snapshotView.transform = transform;
+                snapshotView.alpha                 = 0.0f;
+                self.backgroundContainerView.alpha = 1.0f;
+                self.gridOverlayView.alpha         = 1.0f;
             }
             completion:^(BOOL complete) {
-                self.backgroundContainerView.hidden = NO;
-                self.foregroundContainerView.hidden = NO;
-                self.translucencyView.hidden        = NO;
-                self.gridOverlayView.hidden         = NO;
+                self.rotateAnimationInProgress = NO;
+                [snapshotView removeFromSuperview];
 
-                self.backgroundContainerView.alpha = 0.0f;
-                self.gridOverlayView.alpha         = 0.0f;
+                // If the aspect ratio lock is not enabled, allow a swap
+                // If the aspect ratio lock is on, allow a aspect ratio swap
+                // only if the allowDimensionSwap option is specified.
+                BOOL aspectRatioCanSwapDimensions =
+                !self.aspectRatioLockEnabled ||
+                (self.aspectRatioLockEnabled &&
+                 self.aspectRatioLockDimensionSwapEnabled);
 
-                self.translucencyView.alpha = 1.0f;
-
-                [UIView animateWithDuration:0.45f
-                    animations:^{
-                        snapshotView.alpha                 = 0.0f;
-                        self.backgroundContainerView.alpha = 1.0f;
-                        self.gridOverlayView.alpha         = 1.0f;
-                    }
-                    completion:^(BOOL complete) {
-                        self.rotateAnimationInProgress = NO;
-                        [snapshotView removeFromSuperview];
-
-                        // If the aspect ratio lock is not enabled, allow a swap
-                        // If the aspect ratio lock is on, allow a aspect ratio swap
-                        // only if the allowDimensionSwap option is specified.
-                        BOOL aspectRatioCanSwapDimensions =
-                            !self.aspectRatioLockEnabled ||
-                            (self.aspectRatioLockEnabled &&
-                             self.aspectRatioLockDimensionSwapEnabled);
-
-                        if (!aspectRatioCanSwapDimensions) {
-                            // This will animate the aspect ratio back to the desired locked ratio
-                            // after the image is rotated.
-                            [self setAspectRatio:self.aspectRatio animated:animated];
-                        }
-                    }];
+                if (!aspectRatioCanSwapDimensions) {
+                    // This will animate the aspect ratio back to the desired locked ratio
+                    // after the image is rotated.
+                    [self setAspectRatio:self.aspectRatio animated:animated];
+                }
             }];
+        }];
     }
 
     [self checkForCanReset];
 }
 
-- (void)captureStateForImageRotation {
+- (void)captureStateForImageRotation
+{
     self.cropBoxLastEditedSize         = self.cropBoxFrame.size;
     self.cropBoxLastEditedZoomScale    = self.scrollView.zoomScale;
     self.cropBoxLastEditedMinZoomScale = self.scrollView.minimumZoomScale;
 }
 
 #pragma mark - Resettable State -
-- (void)checkForCanReset {
+- (void)checkForCanReset
+{
     BOOL canReset = NO;
 
     if (self.angle != 0) { // Image has been rotated
@@ -1740,15 +1825,15 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
                self.scrollView.minimumZoomScale + FLT_EPSILON) { // image has been zoomed in
         canReset = YES;
     } else if ((NSInteger)floorf(self.cropBoxFrame.size.width) !=
-                   (NSInteger)floorf(self.originalCropBoxSize.width) ||
+               (NSInteger)floorf(self.originalCropBoxSize.width) ||
                (NSInteger)floorf(self.cropBoxFrame.size.height) !=
-                   (NSInteger)floorf(
-                       self.originalCropBoxSize.height)) { // crop box has been changed
+               (NSInteger)floorf(
+               self.originalCropBoxSize.height)) { // crop box has been changed
         canReset = YES;
     } else if ((NSInteger)floorf(self.scrollView.contentOffset.x) !=
-                   (NSInteger)floorf(self.originalContentOffset.x) ||
+               (NSInteger)floorf(self.originalContentOffset.x) ||
                (NSInteger)floorf(self.scrollView.contentOffset.y) !=
-                   (NSInteger)floorf(self.originalContentOffset.y)) {
+               (NSInteger)floorf(self.originalContentOffset.y)) {
         canReset = YES;
     }
 
@@ -1756,27 +1841,30 @@ typedef NS_ENUM(NSInteger, WYACropViewOverlayEdge) {
 }
 
 #pragma mark - Convienience Methods -
-- (CGRect)contentBounds {
+- (CGRect)contentBounds
+{
     CGRect contentRect   = CGRectZero;
     contentRect.origin.x = self.cropViewPadding + self.cropRegionInsets.left;
     contentRect.origin.y = self.cropViewPadding + self.cropRegionInsets.top;
     contentRect.size.width =
-        CGRectGetWidth(self.bounds) -
-        ((self.cropViewPadding * 2) + self.cropRegionInsets.left + self.cropRegionInsets.right);
+    CGRectGetWidth(self.bounds) -
+    ((self.cropViewPadding * 2) + self.cropRegionInsets.left + self.cropRegionInsets.right);
     contentRect.size.height =
-        CGRectGetHeight(self.bounds) -
-        ((self.cropViewPadding * 2) + self.cropRegionInsets.top + self.cropRegionInsets.bottom);
+    CGRectGetHeight(self.bounds) -
+    ((self.cropViewPadding * 2) + self.cropRegionInsets.top + self.cropRegionInsets.bottom);
     return contentRect;
 }
 
-- (CGSize)imageSize {
+- (CGSize)imageSize
+{
     if (self.angle == -90 || self.angle == -270 || self.angle == 90 || self.angle == 270)
         return (CGSize){self.image.size.height, self.image.size.width};
 
     return (CGSize){self.image.size.width, self.image.size.height};
 }
 
-- (BOOL)hasAspectRatio {
+- (BOOL)hasAspectRatio
+{
     return (self.aspectRatio.width > FLT_EPSILON && self.aspectRatio.height > FLT_EPSILON);
 }
 

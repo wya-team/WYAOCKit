@@ -70,7 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSString *)wya_randomStringWithLength:(NSInteger)len;
 
-
 @end
 
 @interface NSString (RestructuringUrl)

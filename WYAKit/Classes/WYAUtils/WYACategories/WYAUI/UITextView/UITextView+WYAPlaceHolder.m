@@ -11,7 +11,8 @@ static const void * wya_placeHolderKey;
 
 @implementation UITextView (WYAPlaceHolder)
 
-+ (void)load {
++ (void)load
+{
     [super load];
     method_exchangeImplementations(class_getInstanceMethod(self.class, NSSelectorFromString(@"layoutSubviews")),
                                    class_getInstanceMethod(self.class, @selector(wyaPlaceHolder_swizzling_layoutSubviews)));
@@ -22,12 +23,14 @@ static const void * wya_placeHolderKey;
 }
 
 #pragma mark - swizzled
-- (void)wyaPlaceHolder_swizzled_dealloc {
+- (void)wyaPlaceHolder_swizzled_dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self wyaPlaceHolder_swizzled_dealloc];
 }
 
-- (void)wyaPlaceHolder_swizzling_layoutSubviews {
+- (void)wyaPlaceHolder_swizzling_layoutSubviews
+{
     if (self.wya_placeHolder) {
         UIEdgeInsets textContainerInset = self.textContainerInset;
         CGFloat lineFragmentPadding     = self.textContainer.lineFragmentPadding;
@@ -40,7 +43,8 @@ static const void * wya_placeHolderKey;
     [self wyaPlaceHolder_swizzling_layoutSubviews];
 }
 
-- (void)wyaPlaceHolder_swizzled_setText:(NSString *)text {
+- (void)wyaPlaceHolder_swizzled_setText:(NSString *)text
+{
     [self wyaPlaceHolder_swizzled_setText:text];
     if (self.wya_placeHolder) {
         [self updatePlaceHolder];
@@ -48,33 +52,40 @@ static const void * wya_placeHolderKey;
 }
 
 #pragma mark - associated
-- (NSString *)wya_placeHolder {
+- (NSString *)wya_placeHolder
+{
     return objc_getAssociatedObject(self, &wya_placeHolderKey);
 }
 
-- (void)setWya_placeHolder:(NSString *)wya_placeHolder {
+- (void)setWya_placeHolder:(NSString *)wya_placeHolder
+{
     objc_setAssociatedObject(self, &wya_placeHolderKey, wya_placeHolder, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     [self updatePlaceHolder];
 }
 
-- (UIColor *)wya_placeHolderColor {
+- (UIColor *)wya_placeHolderColor
+{
     return self.wya_placeHolderLabel.textColor;
 }
 
-- (void)setWya_placeHolderColor:(UIColor *)wya_placeHolderColor {
+- (void)setWya_placeHolderColor:(UIColor *)wya_placeHolderColor
+{
     self.wya_placeHolderLabel.textColor = wya_placeHolderColor;
 }
 
-- (NSString *)placeholder {
+- (NSString *)placeholder
+{
     return self.wya_placeHolder;
 }
 
-- (void)setPlaceholder:(NSString *)placeholder {
+- (void)setPlaceholder:(NSString *)placeholder
+{
     self.wya_placeHolder = placeholder;
 }
 
 #pragma mark - update
-- (void)updatePlaceHolder {
+- (void)updatePlaceHolder
+{
     if (self.text.length) {
         [self.wya_placeHolderLabel removeFromSuperview];
         return;
@@ -86,7 +97,8 @@ static const void * wya_placeHolderKey;
 }
 
 #pragma mark - lazzing
-- (UILabel *)wya_placeHolderLabel {
+- (UILabel *)wya_placeHolderLabel
+{
     UILabel * placeHolderLab = objc_getAssociatedObject(self, @selector(wya_placeHolderLabel));
     if (!placeHolderLab) {
         placeHolderLab               = [[UILabel alloc] init];
@@ -98,7 +110,8 @@ static const void * wya_placeHolderKey;
     return placeHolderLab;
 }
 
-- (UIFont *)cacutDefaultFont {
+- (UIFont *)cacutDefaultFont
+{
     static UIFont * font = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

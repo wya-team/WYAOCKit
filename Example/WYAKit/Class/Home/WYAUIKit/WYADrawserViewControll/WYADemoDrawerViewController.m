@@ -17,20 +17,23 @@
 
 @implementation WYADemoDrawerViewController
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
 }
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -38,7 +41,8 @@
                    @"WYADrawerViewController/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -97,7 +101,7 @@
                                [weakSelf wya_showDefaultDrawerViewController:weakSelf.leftVC];
                            } else if (direction == WYADrawerTransitionFromRight) { // 右侧滑出
                                WYALateralSlideConfiguration * conf =
-                                   [WYALateralSlideConfiguration defaultConfiguration];
+                               [WYALateralSlideConfiguration defaultConfiguration];
                                conf.direction          = WYADrawerTransitionFromRight; // 从右边滑出
                                conf.finishPercent      = 0.2f;
                                conf.showAnimDuration   = 0.2;
@@ -113,22 +117,24 @@
 
 #pragma mark - Getter -
 
-- (WYADemoDrawerLeftViewController *)leftVC {
+- (WYADemoDrawerLeftViewController *)leftVC
+{
     if (!_leftVC) {
         _leftVC = ({
             WYADemoDrawerLeftViewController * object =
-                [[WYADemoDrawerLeftViewController alloc] init];
+            [[WYADemoDrawerLeftViewController alloc] init];
             object;
         });
     }
     return _leftVC;
 }
 
-- (WYADemoDrawerRightViewController *)rightVC {
+- (WYADemoDrawerRightViewController *)rightVC
+{
     if (!_rightVC) {
         _rightVC = ({
             WYADemoDrawerRightViewController * object =
-                [[WYADemoDrawerRightViewController alloc] init];
+            [[WYADemoDrawerRightViewController alloc] init];
             object;
         });
     }

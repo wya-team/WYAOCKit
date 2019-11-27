@@ -31,10 +31,12 @@
 
 @implementation WYAFloatBallManager
 #pragma mark ======= Public Method
-+ (instancetype)shared {
++ (instancetype)shared
+{
     return [[self alloc] init];
 }
-+ (instancetype)allocWithZone:(struct _NSZone *)zone {
++ (instancetype)allocWithZone:(struct _NSZone *)zone
+{
     static WYAFloatBallManager * instance;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -46,7 +48,8 @@
     return instance;
 }
 
-+ (void)wya_addFloatVcS:(NSArray<NSString *> *)vcClass {
++ (void)wya_addFloatVcS:(NSArray<NSString *> *)vcClass
+{
     [vcClass enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (![[WYAFloatBallManager shared].floatVcClass containsObject:obj]) {
             [[WYAFloatBallManager shared].floatVcClass wya_safeAddObject:obj];
@@ -55,7 +58,8 @@
 }
 
 // 展示悬浮窗
-- (void)wya_showBallBtnWith:(UIViewController *)fromVC {
+- (void)wya_showBallBtnWith:(UIViewController *)fromVC
+{
     self.tempFloatViewController = fromVC;
     if ([self.floatVcClass containsObject:NSStringFromClass([fromVC class])]) {
         self.floatViewController = self.tempFloatViewController;
@@ -68,7 +72,8 @@
 }
 
 // 移除悬浮窗
-- (void)wya_removeBallBtn {
+- (void)wya_removeBallBtn
+{
     self.tempFloatViewController = nil;
     self.floatViewController     = nil;
     [self.floatBall removeFromSuperview];
@@ -84,7 +89,8 @@
 //    return NO;
 //}
 #pragma mark ======= Action
-- (BOOL)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer {
+- (BOOL)beginScreenEdgePanBack:(UIGestureRecognizer *)gestureRecognizer
+{
     NSArray * vcArray = [self wya_floatBallCurrentViewController].navigationController.viewControllers;
     if (vcArray.count < 2) {
         return NO;
@@ -98,26 +104,27 @@
     return YES;
 }
 
-- (void)panBack:(CADisplayLink *)link {
+- (void)panBack:(CADisplayLink *)link
+{
     if (self.floatViewController && self.tempFloatViewController == self.floatViewController) {
         [UIView animateWithDuration:0.5
-            animations:^{
-                self.floatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
-            }
-            completion:^(BOOL finished) {
-                [self.floatArea removeFromSuperview];
-                self.floatArea = nil;
-                [self.link invalidate];
-                self.link = nil;
-                if (self.showFloatBall) {
-                    self.floatViewController = self.tempFloatViewController;
-                    if ([self haveIconImage]) {
-                        self.floatBall.iconImageView.image = [self getFloatBallIconImage];
-                    }
-                    self.floatBall.alpha = 1;
-                    [Window addSubview:self.floatBall];
+        animations:^{
+            self.floatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
+        }
+        completion:^(BOOL finished) {
+            [self.floatArea removeFromSuperview];
+            self.floatArea = nil;
+            [self.link invalidate];
+            self.link = nil;
+            if (self.showFloatBall) {
+                self.floatViewController = self.tempFloatViewController;
+                if ([self haveIconImage]) {
+                    self.floatBall.iconImageView.image = [self getFloatBallIconImage];
                 }
-            }];
+                self.floatBall.alpha = 1;
+                [Window addSubview:self.floatBall];
+            }
+        }];
     } else {
         if (self.edgePan.state == UIGestureRecognizerStateChanged) {
             CGPoint tPoint       = [self.edgePan translationInView:Window];
@@ -145,28 +152,29 @@
             }
         } else if (self.edgePan.state == UIGestureRecognizerStatePossible) {
             [UIView animateWithDuration:0.5
-                animations:^{
-                    self.floatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
-                }
-                completion:^(BOOL finished) {
-                    [self.floatArea removeFromSuperview];
-                    self.floatArea = nil;
-                    [self.link invalidate];
-                    self.link = nil;
-                    if (self.showFloatBall) {
-                        self.floatViewController = self.tempFloatViewController;
-                        if ([self haveIconImage]) {
-                            self.floatBall.iconImageView.image = [self getFloatBallIconImage];
-                        }
-                        self.floatBall.alpha = 1;
-                        [Window addSubview:self.floatBall];
+            animations:^{
+                self.floatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
+            }
+            completion:^(BOOL finished) {
+                [self.floatArea removeFromSuperview];
+                self.floatArea = nil;
+                [self.link invalidate];
+                self.link = nil;
+                if (self.showFloatBall) {
+                    self.floatViewController = self.tempFloatViewController;
+                    if ([self haveIconImage]) {
+                        self.floatBall.iconImageView.image = [self getFloatBallIconImage];
                     }
-                }];
+                    self.floatBall.alpha = 1;
+                    [Window addSubview:self.floatBall];
+                }
+            }];
         }
     }
 }
 
-- (UIImage *)getFloatBallIconImage {
+- (UIImage *)getFloatBallIconImage
+{
     UIImage * tempIconImage    = [self.floatViewController valueForKey:@"hk_iconImage"];
     UIImage * defaultIconImage = [UIImage loadBundleImage:@"float_Ball_default"
                                                 ClassName:NSStringFromClass([self class])];
@@ -175,11 +183,13 @@
 
 #pragma mark ======= WYAFloatBallDelegate
 
-- (void)floatBallDidClick:(WYAFloatBall *)floatBall {
+- (void)floatBallDidClick:(WYAFloatBall *)floatBall
+{
     [[self wya_floatBallCurrentNavigationController] pushViewController:self.floatViewController animated:YES];
 }
 
-- (void)floatBallBeginMove:(WYAFloatBall *)floatBall {
+- (void)floatBallBeginMove:(WYAFloatBall *)floatBall
+{
     if (!_cancelFloatArea) {
         [Window insertSubview:self.cancelFloatArea atIndex:1];
         [UIView animateWithDuration:0.5
@@ -199,8 +209,8 @@
     }
 }
 
-- (void)floatBallEndMove:(WYAFloatBall *)floatBall {
-
+- (void)floatBallEndMove:(WYAFloatBall *)floatBall
+{
     if (self.cancelFloatArea.highlight) {
         self.tempFloatViewController = nil;
         self.floatViewController     = nil;
@@ -209,13 +219,13 @@
     }
 
     [UIView animateWithDuration:0.5
-        animations:^{
-            self.cancelFloatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
-        }
-        completion:^(BOOL finished) {
-            [self.cancelFloatArea removeFromSuperview];
-            self.cancelFloatArea = nil;
-        }];
+    animations:^{
+        self.cancelFloatArea.frame = CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR);
+    }
+    completion:^(BOOL finished) {
+        [self.cancelFloatArea removeFromSuperview];
+        self.cancelFloatArea = nil;
+    }];
 }
 
 #pragma UINavigationControllerDelegate
@@ -257,7 +267,8 @@
 //    }
 //}
 #pragma mark ======= Private Method
-- (BOOL)haveIconImage {
+- (BOOL)haveIconImage
+{
     BOOL have             = NO;
     unsigned int outCount = 0;
     Ivar * ivars          = class_copyIvarList([self.floatViewController class], &outCount);
@@ -274,21 +285,24 @@
 }
 #pragma mark - Setter
 
-- (void)setShowFloatBall:(BOOL)showFloatBall {
+- (void)setShowFloatBall:(BOOL)showFloatBall
+{
     _showFloatBall           = showFloatBall;
     self.floatArea.highlight = showFloatBall;
 }
 
 #pragma mark - Lazy
 
-- (CADisplayLink *)link {
+- (CADisplayLink *)link
+{
     if (!_link) {
         _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(panBack:)];
     }
     return _link;
 }
 
-- (WYAFloatAreaView *)floatArea {
+- (WYAFloatAreaView *)floatArea
+{
     if (!_floatArea) {
         _floatArea       = [[WYAFloatAreaView alloc] initWithFrame:CGRectMake(ScreenWidth + KFloatMargin, ScreenHeight + KFloatMargin, KFloatAreaR, KFloatAreaR)];
         _floatArea.style = WYAFloatAreaViewStyle_default;
@@ -296,7 +310,8 @@
     return _floatArea;
 }
 
-- (WYAFloatAreaView *)cancelFloatArea {
+- (WYAFloatAreaView *)cancelFloatArea
+{
     if (!_cancelFloatArea) {
         _cancelFloatArea = [[WYAFloatAreaView alloc] initWithFrame:CGRectMake(ScreenWidth, ScreenHeight, KFloatAreaR, KFloatAreaR)];
         ;
@@ -305,7 +320,8 @@
     return _cancelFloatArea;
 }
 
-- (WYAFloatBall *)floatBall {
+- (WYAFloatBall *)floatBall
+{
     if (!_floatBall) {
         _floatBall          = [[WYAFloatBall alloc] initWithFrame:CGRectMake(ScreenWidth - KBallSizeR - 15, ScreenHeight / 3, KBallSizeR, KBallSizeR)];
         _floatBall.delegate = self;
@@ -313,11 +329,13 @@
     return _floatBall;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
+- (id)copyWithZone:(NSZone *)zone
+{
     return [WYAFloatBallManager shared];
 }
 
-- (id)mutableCopyWithZone:(NSZone *)zone {
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
     return [WYAFloatBallManager shared];
 }
 @end

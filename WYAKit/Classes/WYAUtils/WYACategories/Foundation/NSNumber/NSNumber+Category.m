@@ -10,7 +10,8 @@
 
 @implementation NSNumber (Category)
 
-- (NSString *)wya_romanNumeral {
+- (NSString *)wya_romanNumeral
+{
     NSInteger n = [self integerValue];
 
     NSArray * numerals = [NSArray arrayWithObjects:@"M", @"CM", @"D", @"CD", @"C", @"XC", @"L",
@@ -31,7 +32,8 @@
 }
 
 #pragma mark - round, ceil, floor
-- (NSNumber *)wya_doRoundWithDigit:(NSUInteger)digit {
+- (NSNumber *)wya_doRoundWithDigit:(NSUInteger)digit
+{
     NSNumber * result             = nil;
     NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
     [formatter setRoundingMode:NSNumberFormatterRoundHalfUp];
@@ -41,7 +43,8 @@
     return result;
 }
 
-- (NSNumber *)wya_doCeilWithDigit:(NSUInteger)digit {
+- (NSNumber *)wya_doCeilWithDigit:(NSUInteger)digit
+{
     NSNumber * result             = nil;
     NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
     [formatter setRoundingMode:NSNumberFormatterRoundCeiling];
@@ -50,7 +53,8 @@
     return result;
 }
 
-- (NSNumber *)wya_doFloorWithDigit:(NSUInteger)digit {
+- (NSNumber *)wya_doFloorWithDigit:(NSUInteger)digit
+{
     NSNumber * result             = nil;
     NSNumberFormatter * formatter = [[NSNumberFormatter alloc] init];
     [formatter setRoundingMode:NSNumberFormatterRoundFloor];

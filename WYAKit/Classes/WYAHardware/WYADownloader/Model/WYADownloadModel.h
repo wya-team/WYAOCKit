@@ -34,7 +34,6 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 /// 下载状态
 @property (nonatomic, assign) WYADownloadState downloadState;
 
-
 /// 下载任务
 @property (nonatomic, strong) NSURLSessionDownloadTask * downloadTask;
 /// 下载保存数据
@@ -46,7 +45,6 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 
 @property (nonatomic, copy) void (^imageCallback)(UIImage * image);
 
-
 //以下方法请勿调用
 - (void)startDownloadWithSession:(NSURLSession *)session;
 - (void)suspendDownload;
@@ -54,7 +52,7 @@ typedef NS_ENUM(NSInteger, WYADownloadState) {
 - (void)giveupDownload;
 - (void)moveLocationPathWithOldUrl:(NSURL *)oldUrl
                             handle:
-(void (^)(WYADownloadModel * manager, NSString * errorInfo))handle;
+                            (void (^)(WYADownloadModel * manager, NSString * errorInfo))handle;
 - (void)readDownloadProgressWithdidWriteData:(int64_t)bytesWritten
                            totalBytesWritten:(int64_t)totalBytesWritten
                    totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite;

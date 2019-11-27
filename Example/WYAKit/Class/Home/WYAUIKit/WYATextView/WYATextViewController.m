@@ -13,7 +13,8 @@
 @end
 
 @implementation WYATextViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -22,7 +23,8 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
@@ -30,7 +32,7 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 
     WYATextView * textView = [[WYATextView alloc]
-        initWithFrame:CGRectMake(10, 100, self.view.frame.size.width - 20, 100)];
+    initWithFrame:CGRectMake(10, 100, self.view.frame.size.width - 20, 100)];
 
     textView.placeHoldString     = @"占位文字";
     textView.placeHoldColor      = [UIColor grayColor];
@@ -44,8 +46,8 @@
     [self.view addSubview:textView];
 
     WYATextView * textView1 =
-        [[WYATextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame) + 20,
-                                                      self.view.frame.size.width - 20, 100)];
+    [[WYATextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(textView.frame) + 20,
+                                                  self.view.frame.size.width - 20, 100)];
     textView1.placeHoldString     = @"占位文字";
     textView1.placeHoldColor      = [UIColor grayColor];
     textView1.textViewWordsCount  = 1000;
@@ -57,7 +59,8 @@
     [self.view addSubview:textView1];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.view endEditing:YES];
 }
 

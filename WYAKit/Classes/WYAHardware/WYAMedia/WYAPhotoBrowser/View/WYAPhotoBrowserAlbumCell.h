@@ -9,6 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @class WYAPhotoBrowserAlbumModel;
+
 @interface WYAPhotoBrowserAlbumCell : UITableViewCell
 
 @property (nonatomic, strong) WYAPhotoBrowserAlbumModel * model;

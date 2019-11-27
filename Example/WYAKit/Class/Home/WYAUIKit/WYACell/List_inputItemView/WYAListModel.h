@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYAListCellModel : NSObject
 @property (nonatomic, assign)
-    NSInteger type; // 0左侧无图 右侧有图，1左侧有图右侧无图，2右侧左侧都有图
+NSInteger type; // 0左侧无图 右侧有图，1左侧有图右侧无图，2右侧左侧都有图
 @property (nonatomic, copy) NSString * iconImageNamed;
 @property (nonatomic, copy) NSString * titleString;
 @property (nonatomic, copy) NSString * arrowImageNamed;

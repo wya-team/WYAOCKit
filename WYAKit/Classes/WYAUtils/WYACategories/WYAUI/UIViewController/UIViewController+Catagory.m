@@ -51,29 +51,33 @@
 //}
 
 //页面如果要修改statusBar请重写以下两个方法
-- (BOOL)prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden
+{
     return NO;
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
     return UIStatusBarStyleDefault;
 }
 
 //设置页面支持手机方向，如果想要修改请重写以下两个方法
-- (BOOL)shouldAutorotate {
+- (BOOL)shouldAutorotate
+{
     return NO;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
     return UIInterfaceOrientationMaskPortrait;
 }
 
 @end
 
-
 @implementation UIViewController (HotReload)
 
-- (void)injected{
+- (void)injected
+{
     [self viewDidLoad];
     [self viewWillAppear:YES];
     [self viewDidAppear:YES];

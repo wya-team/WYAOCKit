@@ -19,7 +19,8 @@
 @end
 
 @implementation WYARealmSectionView
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:frame]) {
         [self addSubview:self.name];
         [self addSubview:self.age];
@@ -32,7 +33,8 @@
     }
     return self;
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     CGFloat margin = 0 * SizeAdapter;
     CGFloat width  = (ScreenWidth) / 7;
@@ -83,7 +85,8 @@
 
 #pragma mark ======= getter
 
-- (UILabel *)name {
+- (UILabel *)name
+{
     if (!_name) {
         _name = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -99,7 +102,8 @@
     return _name;
 }
 
-- (UILabel *)age {
+- (UILabel *)age
+{
     if (!_age) {
         _age = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -115,7 +119,8 @@
     return _age;
 }
 
-- (UILabel *)height {
+- (UILabel *)height
+{
     if (!_height) {
         _height = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -131,7 +136,8 @@
     return _height;
 }
 
-- (UILabel *)weight {
+- (UILabel *)weight
+{
     if (!_weight) {
         _weight = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -147,7 +153,8 @@
     return _weight;
 }
 
-- (UILabel *)score {
+- (UILabel *)score
+{
     if (!_score) {
         _score = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -163,7 +170,8 @@
     return _score;
 }
 
-- (UILabel *)grade {
+- (UILabel *)grade
+{
     if (!_grade) {
         _grade = ({
             UILabel * object     = [[UILabel alloc] init];
@@ -179,7 +187,8 @@
     return _grade;
 }
 
-- (UILabel *)studentId {
+- (UILabel *)studentId
+{
     if (!_studentId) {
         _studentId = ({
             UILabel * object                 = [[UILabel alloc] init];

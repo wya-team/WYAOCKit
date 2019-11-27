@@ -16,7 +16,6 @@ typedef NS_ENUM(NSUInteger, WYACalendarScrollDirection) {
     WYACalendarScrollHorizontal,
 };
 
-
 typedef NS_ENUM(NSUInteger, WYACalendarSectionOption) {
     WYACalendarSectionMonth,
     WYACalendarSectionWeek,

@@ -20,14 +20,16 @@
 
 @implementation WYAShareView
 #pragma mark ======= Life Cycle
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     if (self = [super initWithFrame:CGRectMake(0, 0, ScreenWidth, 270 * SizeAdapter)]) {
         [self addSubview:self.collectionView];
         self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
-- (instancetype)init {
+- (instancetype)init
+{
     if (self = [super init]) {
         self.frame = CGRectMake(0, 0, ScreenWidth, 270 * SizeAdapter);
         [self addSubview:self.collectionView];
@@ -35,43 +37,50 @@
     }
     return self;
 }
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker * make) {
         make.left.top.right.bottom.mas_equalTo(self);
     }];
 }
 #pragma mark ======= public methods
-- (void)wya_showShareViewWithController:(UIViewController *)controller {
+- (void)wya_showShareViewWithController:(UIViewController *)controller
+{
     self.alert =
-        [WYAAlertController wya_alertWithCustomView:self
-                                         AlertStyle:WYAAlertStyleCustomSheet];
+    [WYAAlertController wya_alertWithCustomView:self
+                                     AlertStyle:WYAAlertStyleCustomSheet];
     [controller presentViewController:self.alert animated:YES completion:nil];
 }
 
-- (void)setDataArray:(NSArray<NSArray *> *)dataArray {
+- (void)setDataArray:(NSArray<NSArray *> *)dataArray
+{
     _dataArray = dataArray;
     [self.collectionView reloadData];
 }
 #pragma mark ======= Action
-- (void)cancleButtonPressed:(UIButton *)sender {
+- (void)cancleButtonPressed:(UIButton *)sender
+{
     NSLog(@"按钮标题------%@", sender.titleLabel.text);
     [self.cmam_viewController dismissViewControllerAnimated:YES completion:nil];
 }
 #pragma mark ======= UICollectionViewDelegateFlowLayout
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
-        insetForSectionAtIndex:(NSInteger)section {
+        insetForSectionAtIndex:(NSInteger)section
+{
     return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
-  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     return CGSizeMake(ScreenWidth / 5, 110 * SizeAdapter);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView
-                             layout:(UICollectionViewLayout *)collectionViewLayout
-    referenceSizeForFooterInSection:(NSInteger)section {
+                         layout:(UICollectionViewLayout *)collectionViewLayout
+referenceSizeForFooterInSection:(NSInteger)section
+{
     if (section == 0) {
         return CGSizeMake(ScreenWidth, 1);
     } else if (section == 1) {
@@ -81,29 +90,33 @@
 }
 #pragma mark ======= UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView
-     numberOfItemsInSection:(NSInteger)section {
+     numberOfItemsInSection:(NSInteger)section
+{
     return [[self.dataArray wya_safeObjectAtIndex:section] count];
 }
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
     return self.dataArray.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
-                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     WYAShareViewItem * cell =
-        [collectionView dequeueReusableCellWithReuseIdentifier:SHARECELL
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableCellWithReuseIdentifier:SHARECELL
+                                              forIndexPath:indexPath];
     cell.titleString = [[self.dataArray wya_safeObjectAtIndex:indexPath.section]
-        wya_safeObjectAtIndex:indexPath.row];
+    wya_safeObjectAtIndex:indexPath.row];
 
     return cell;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath {
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
     UICollectionReusableView * view =
-        [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-                                           withReuseIdentifier:FOOTER
-                                                  forIndexPath:indexPath];
+    [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+                                       withReuseIdentifier:FOOTER
+                                              forIndexPath:indexPath];
     if (indexPath.section == 0) {
         view.backgroundColor = [UIColor groupTableViewBackgroundColor];
         return view;
@@ -116,18 +129,20 @@
 }
 #pragma mark ======= UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView
-    didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     NSString * title = [[self.dataArray wya_safeObjectAtIndex:indexPath.section]
-        wya_safeObjectAtIndex:indexPath.row];
+    wya_safeObjectAtIndex:indexPath.row];
     if (self.delegate &&
         [self.delegate
-            respondsToSelector:@selector(wya_shareView:didSelectItemAtIndexPath:itemTitle:)]) {
+        respondsToSelector:@selector(wya_shareView:didSelectItemAtIndexPath:itemTitle:)]) {
         [self.delegate wya_shareView:self didSelectItemAtIndexPath:indexPath itemTitle:title];
     }
     NSLog(@"indexPath.row%ld-------title%@", (long)indexPath.row, title);
 }
 #pragma mark ======= getter
-- (UICollectionView *)collectionView {
+- (UICollectionView *)collectionView
+{
     if (!_collectionView) {
         _collectionView = ({
             UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
@@ -135,33 +150,34 @@
             layout.minimumLineSpacing           = 0;
             layout.minimumInteritemSpacing      = 0;
             UICollectionView * object =
-                [[UICollectionView alloc] initWithFrame:CGRectZero
-                                   collectionViewLayout:layout];
+            [[UICollectionView alloc] initWithFrame:CGRectZero
+                               collectionViewLayout:layout];
             object.delegate        = self;
             object.dataSource      = self;
             object.scrollEnabled   = NO;
             object.backgroundColor = [UIColor wya_hex:@"#F6F5FA"];
             [object registerClass:[WYAShareViewItem class] forCellWithReuseIdentifier:SHARECELL];
             [object registerClass:[UICollectionReusableView class]
-                forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
-                       withReuseIdentifier:FOOTER];
+            forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+                   withReuseIdentifier:FOOTER];
             object;
         });
     }
     return _collectionView;
 }
 
-- (UIButton *)cancleButton {
+- (UIButton *)cancleButton
+{
     if (!_cancleButton) {
         _cancleButton = ({
             UIButton * object =
-                [[UIButton alloc] initWithFrame:CGRectMake(0, 5 * SizeAdapter, ScreenWidth, 49)];
+            [[UIButton alloc] initWithFrame:CGRectMake(0, 5 * SizeAdapter, ScreenWidth, 49)];
             [object setTitle:@"取消" forState:UIControlStateNormal];
             object.backgroundColor = [UIColor whiteColor];
             [object setTitleColor:[UIColor blackColor] forState:0];
             [object addTarget:self
-                          action:@selector(cancleButtonPressed:)
-                forControlEvents:UIControlEventTouchUpInside];
+                       action:@selector(cancleButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
             object.titleLabel.font = FONT(18);
             object;
         });

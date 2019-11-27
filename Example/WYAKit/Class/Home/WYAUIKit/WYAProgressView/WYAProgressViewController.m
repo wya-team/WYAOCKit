@@ -13,7 +13,8 @@
 @end
 
 @implementation WYAProgressViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     // 查看README文档
     NSLog(@"查看文档");
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
@@ -21,7 +22,8 @@
                    @"WYAProgressView/README.md";
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -49,7 +51,7 @@
     CGFloat progressView_Width  = ScreenWidth - 20;
     CGFloat progressView_Height = 20;
     progressView.frame =
-        CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
+    CGRectMake(progressView_X, progressView_Y, progressView_Width, progressView_Height);
 
     UILabel * customLabel = [[UILabel alloc] init];
     customLabel.text      = @"自定义圆环进度条";
@@ -61,7 +63,7 @@
     CGFloat customLabel_Width  = ScreenWidth - 20;
     CGFloat customLabel_Height = 44 * SizeAdapter;
     customLabel.frame =
-        CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
+    CGRectMake(customLabel_X, customLabel_Y, customLabel_Width, customLabel_Height);
 
     CGFloat progressV_X      = (ScreenWidth - 200) / 2;
     CGFloat progressV_Y      = CGRectGetMaxY(customLabel.frame);
@@ -69,8 +71,8 @@
     CGFloat progressV_Height = 200;
     CGRect rect              = CGRectMake(progressV_X, progressV_Y, progressV_Width, progressV_Height);
     WYAProgressView * progressV =
-        [[WYAProgressView alloc] initWithFrame:rect
-                             progressViewStyle:WYAProgressViewStyleCircle];
+    [[WYAProgressView alloc] initWithFrame:rect
+                         progressViewStyle:WYAProgressViewStyleCircle];
     progressV.borderWidth = 2;
     [self.view addSubview:progressV];
 

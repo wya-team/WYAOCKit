@@ -18,15 +18,16 @@
 
 @implementation WYAImageCropToolBar
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor blackColor];
 
         self.rotatingButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [self.rotatingButton
-            setImage:[UIImage loadBundleImage:@"xuanzhuan" ClassName:NSStringFromClass(self.class)]
-            forState:UIControlStateNormal];
+        setImage:[UIImage loadBundleImage:@"xuanzhuan" ClassName:NSStringFromClass(self.class)]
+        forState:UIControlStateNormal];
         [self.rotatingButton addTarget:self
                                 action:@selector(rotatingClick)
                       forControlEvents:UIControlEventTouchUpInside];
@@ -66,7 +67,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.rotatingButton mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.left.mas_equalTo(self.mas_left).with.offset(16 * SizeAdapter);
@@ -100,25 +102,29 @@
 }
 
 #pragma mark--- Private Method
-- (void)rotatingClick {
+- (void)rotatingClick
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(rotatingAction)]) {
         [self.delegate rotatingAction];
     }
 }
 
-- (void)cancelClick {
+- (void)cancelClick
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(cancelAction)]) {
         [self.delegate cancelAction];
     }
 }
 
-- (void)doneClick {
+- (void)doneClick
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(doneAction)]) {
         [self.delegate doneAction];
     }
 }
 
-- (void)originalClick {
+- (void)originalClick
+{
     if (self.delegate && [self.delegate respondsToSelector:@selector(originalAction)]) {
         [self.delegate originalAction];
     }

@@ -9,7 +9,8 @@
 #import "NSArray+Safe.h"
 
 @implementation NSArray (Safe)
-+ (instancetype)wya_safeArrayWithObject:(id)object {
++ (instancetype)wya_safeArrayWithObject:(id)object
+{
     if (object == nil) {
         return [self array];
     } else {
@@ -17,7 +18,8 @@
     }
 }
 
-- (id)wya_safeObjectAtIndex:(NSUInteger)index {
+- (id)wya_safeObjectAtIndex:(NSUInteger)index
+{
     if (index >= self.count) {
         return nil;
     } else {
@@ -25,7 +27,8 @@
     }
 }
 
-- (NSUInteger)wya_safeIndexOfObject:(id)anObject {
+- (NSUInteger)wya_safeIndexOfObject:(id)anObject
+{
     if (anObject == nil) {
         return NSNotFound;
     } else {
@@ -33,7 +36,8 @@
     }
 }
 
-- (NSArray *)wya_safeSubarrayWithRange:(NSRange)range {
+- (NSArray *)wya_safeSubarrayWithRange:(NSRange)range
+{
     NSUInteger location = range.location;
     NSUInteger length   = range.length;
     if (location + length > self.count) {

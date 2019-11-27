@@ -12,7 +12,8 @@
 
 @implementation WYAAlertController
 #pragma mark - LifeCircle
-- (instancetype)init {
+- (instancetype)init
+{
     if (self = [super init]) {
         self.transitioningDelegate  = self;
         self.modalPresentationStyle = UIModalPresentationCustom;
@@ -20,11 +21,13 @@
     return self;
 }
 
-- (void)dealloc {
-//    [self.alertView removeFromSuperview];
+- (void)dealloc
+{
+    //    [self.alertView removeFromSuperview];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor clearColor];
@@ -33,7 +36,8 @@
     [self.view addSubview:self.alertView];
 }
 
-- (void)viewDidLayoutSubviews{
+- (void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
 
     [self.backgroundButton mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -73,7 +77,7 @@
                                                  ((WYAAlertView *)self.alertView).height));
             } else {
                 make.size.mas_equalTo(
-                                      CGSizeMake(self.alertView.cmam_width, self.alertView.cmam_height));
+                CGSizeMake(self.alertView.cmam_width, self.alertView.cmam_height));
             }
 
         }];
@@ -84,7 +88,8 @@
 /** 默认转场初始化 */
 + (_Nonnull instancetype)wya_alertWithTitle:(NSString * _Nullable)title
                                     Message:(NSString * _Nullable)message
-                           AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle {
+                           AlertLayoutStyle:(WYAAlertLayoutStyle)layoutStyle
+{
     WYAAlertController * alertController                      = [[WYAAlertController alloc] init];
     alertController.alertStyle                                = WYAAlertStyleDefalut;
     alertController.alertView                                 = [[WYAAlertView alloc] initWithTitle:title message:message];
@@ -97,7 +102,8 @@
 
 + (_Nonnull instancetype)wya_alertSheetWithTitle:(NSString * _Nullable)title
                                          Message:(NSString * _Nullable)message
-                          AlertSheetCornerRadius:(CGFloat)cornerRadius {
+                          AlertSheetCornerRadius:(CGFloat)cornerRadius
+{
     WYAAlertController * alertController = [[WYAAlertController alloc] init];
     alertController.alertStyle           = WYAAlertStyleSheet;
     alertController.alertView            = [[WYAAlertSheetView alloc] initWithTitle:title message:message];
@@ -110,7 +116,8 @@
 }
 
 + (_Nonnull instancetype)wya_alertWithCustomView:(UIView *)view
-                                      AlertStyle:(WYAAlertStyle)alertStyle {
+                                      AlertStyle:(WYAAlertStyle)alertStyle
+{
     WYAAlertController * alertController = [[WYAAlertController alloc] init];
     alertController.alertStyle           = alertStyle;
     alertController.alertView            = view;
@@ -125,7 +132,8 @@
     return alertController;
 }
 
-- (void)wya_addAction:(WYAAlertAction * _Nonnull)action {
+- (void)wya_addAction:(WYAAlertAction * _Nonnull)action
+{
     if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
         [(WYAAlertView *)self.alertView wya_addAction:action];
     } else if ([self.alertView isMemberOfClass:[WYAAlertSheetView class]]) {
@@ -133,18 +141,23 @@
     }
 }
 
-- (void)wya_addActions:(NSArray<WYAAlertAction *> * _Nonnull)actions {
-    for (WYAAlertAction * action in actions) { [self wya_addAction:action]; }
+- (void)wya_addActions:(NSArray<WYAAlertAction *> * _Nonnull)actions
+{
+    for (WYAAlertAction * action in actions) {
+        [self wya_addAction:action];
+    }
 }
 
-- (void)wya_addTextField:(UITextField *)textField {
+- (void)wya_addTextField:(UITextField *)textField
+{
     if ([self.alertView isMemberOfClass:[WYAAlertView class]]) {
         [(WYAAlertView *)self.alertView wya_addTextField:textField];
     }
 }
 
 #pragma mark - Private Method
-- (void)dismissBackgroundView:(UIButton *)button {
+- (void)dismissBackgroundView:(UIButton *)button
+{
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -152,7 +165,8 @@
 - (id<UIViewControllerAnimatedTransitioning>)
 animationControllerForPresentedController:(UIViewController *)presented
                      presentingController:(UIViewController *)presenting
-                         sourceController:(UIViewController *)source {
+                         sourceController:(UIViewController *)source
+{
     WYAPopupPresentAnimator * animator = [[WYAPopupPresentAnimator alloc] init];
     animator.presentStyle              = self.presentStyle;
     return animator;
@@ -160,42 +174,47 @@ animationControllerForPresentedController:(UIViewController *)presented
 
 /** 返回Dismiss动画 */
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:
-    (UIViewController *)dismissed {
+(UIViewController *)dismissed
+{
     WYAPopupDismissAnimator * animator = [[WYAPopupDismissAnimator alloc] init];
     animator.dismissStyle              = self.dismissStyle;
     return animator;
 }
 
 #pragma mark - Setter
-- (void)setPresentStyle:(WYAPopupPresentStyle)presentStyle {
+- (void)setPresentStyle:(WYAPopupPresentStyle)presentStyle
+{
     _presentStyle = presentStyle;
 }
 
-- (void)setDismissStyle:(WYAPopupDismissStyle)dismissStyle {
+- (void)setDismissStyle:(WYAPopupDismissStyle)dismissStyle
+{
     _dismissStyle = dismissStyle;
 }
 
 #pragma mark - Getter
-- (UIButton *)backgroundButton{
-    if(!_backgroundButton){
+- (UIButton *)backgroundButton
+{
+    if (!_backgroundButton) {
         _backgroundButton = ({
-            UIButton * object                 = [UIButton buttonWithType:UIButtonTypeCustom];
+            UIButton * object      = [UIButton buttonWithType:UIButtonTypeCustom];
             object.backgroundColor = [UIColor blackColor];
             object.alpha           = as_backgroundAlpha;
             [object addTarget:self action:@selector(dismissBackgroundView:) forControlEvents:UIControlEventTouchUpInside];
             object;
-       });
+        });
     }
     return _backgroundButton;
 }
 
-- (UIView *)bottomView{
-    if(!_bottomView){
+- (UIView *)bottomView
+{
+    if (!_bottomView) {
         _bottomView = ({
-            UIView * object = [[UIView alloc]init];
+            UIView * object        = [[UIView alloc] init];
             object.backgroundColor = [UIColor whiteColor];
             object;
-       });
+        });
     }
     return _bottomView;
 }

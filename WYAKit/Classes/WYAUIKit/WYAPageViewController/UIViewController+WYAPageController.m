@@ -9,7 +9,8 @@
 #import "WYAPageController.h"
 
 @implementation UIViewController (WYAPageController)
-- (WYAPageController *)wya_PageController {
+- (WYAPageController *)wya_PageController
+{
     UIViewController * parentViewController = self.parentViewController;
     while (parentViewController) {
         if ([parentViewController isKindOfClass:[WYAPageController class]]) {

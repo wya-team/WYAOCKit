@@ -8,6 +8,7 @@
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserAlbum.h"
 #import "WYAPhotoBrowserManager.h"
+
 @interface WYAPhotoBrowser ()
 
 @end
@@ -24,17 +25,20 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
 
--(void)viewDidDisappear:(BOOL)animated{
+- (void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
-//    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopAllCacheAsset];
+    //    [[WYAPhotoBrowserManager sharedPhotoBrowserManager] stopAllCacheAsset];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     NSLog(@"调用了图片viewcontroll----0");
 }
 

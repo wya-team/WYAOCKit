@@ -19,7 +19,8 @@
 
 @implementation CustomLayer
 
-- (CGFloat)zPosition {
+- (CGFloat)zPosition
+{
     return 0;
 }
 
@@ -28,7 +29,8 @@
 
 @implementation WYABannerHeaderView
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         //        view.images =
@@ -41,7 +43,8 @@
 }
 
 #ifdef __IPHONE_11_0
-+ (Class)layerClass {
++ (Class)layerClass
+{
     return [CustomLayer class];
 }
 #endif

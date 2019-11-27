@@ -16,7 +16,8 @@
 @implementation WYADownloadCompleteCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style
-              reuseIdentifier:(NSString *)reuseIdentifier {
+              reuseIdentifier:(NSString *)reuseIdentifier
+{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.imgView                     = [[UIImageView alloc] init];
@@ -33,7 +34,8 @@
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
     [self.imgView mas_remakeConstraints:^(MASConstraintMaker * make) {
         make.centerY.mas_equalTo(self.contentView.mas_centerY);
@@ -49,15 +51,18 @@
     }];
 }
 
-- (void)setTitle:(NSString *)title {
+- (void)setTitle:(NSString *)title
+{
     self.titleLabel.text = title;
 }
 
-- (void)setImage:(UIImage *)image {
+- (void)setImage:(UIImage *)image
+{
     self.imgView.image = image;
 }
 
-- (void)setModel:(WYADownloadModel *)model {
+- (void)setModel:(WYADownloadModel *)model
+{
     _model = model;
     if (model) {
         self.titleLabel.text         = model.destinationPath.lastPathComponent;
@@ -65,12 +70,14 @@
     }
 }
 
-- (void)awakeFromNib {
+- (void)awakeFromNib
+{
     [super awakeFromNib];
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state

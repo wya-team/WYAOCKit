@@ -10,7 +10,8 @@
 #import <objc/runtime.h>
 
 @implementation NSObject (Swizzle)
-+ (void)overrideInstanceMethod:(SEL)origSelector withInstanceMethod:(SEL)newSelector {
++ (void)overrideInstanceMethod:(SEL)origSelector withInstanceMethod:(SEL)newSelector
+{
     Class class = [self class];
 
     Method originalMethod = class_getInstanceMethod(class, origSelector);
@@ -28,8 +29,8 @@
     }
 
     BOOL didAddMethod =
-        class_addMethod(class, origSelector, method_getImplementation(overrideMethod),
-                        method_getTypeEncoding(overrideMethod));
+    class_addMethod(class, origSelector, method_getImplementation(overrideMethod),
+                    method_getTypeEncoding(overrideMethod));
     if (didAddMethod) {
         class_replaceMethod(class, newSelector, method_getImplementation(originalMethod),
                             method_getTypeEncoding(originalMethod));
@@ -38,15 +39,16 @@
     }
 }
 
-+ (void)overrideClassMethod:(SEL)origSelector withClassMethod:(SEL)newSelector {
++ (void)overrideClassMethod:(SEL)origSelector withClassMethod:(SEL)newSelector
+{
     Class class = [self class];
 
     Method originalMethod = class_getClassMethod(class, origSelector);
     Method overrideMethod = class_getClassMethod(class, newSelector);
 
     BOOL didAddMethod =
-        class_addMethod(class, origSelector, method_getImplementation(overrideMethod),
-                        method_getTypeEncoding(overrideMethod));
+    class_addMethod(class, origSelector, method_getImplementation(overrideMethod),
+                    method_getTypeEncoding(overrideMethod));
     if (didAddMethod) {
         class_replaceMethod(class, newSelector, method_getImplementation(originalMethod),
                             method_getTypeEncoding(originalMethod));
@@ -55,15 +57,16 @@
     }
 }
 
-+ (void)exchangeInstanceMethod:(SEL)origSelector withInstanceMethod:(SEL)newSelector {
++ (void)exchangeInstanceMethod:(SEL)origSelector withInstanceMethod:(SEL)newSelector
+{
     Class class = [self class];
 
     Method originalMethod = class_getInstanceMethod(class, origSelector);
     Method swizzledMethod = class_getInstanceMethod(class, newSelector);
 
     BOOL didAddMethod =
-        class_addMethod(class, origSelector, method_getImplementation(swizzledMethod),
-                        method_getTypeEncoding(swizzledMethod));
+    class_addMethod(class, origSelector, method_getImplementation(swizzledMethod),
+                    method_getTypeEncoding(swizzledMethod));
     if (didAddMethod) {
         class_replaceMethod(class, newSelector, method_getImplementation(originalMethod),
                             method_getTypeEncoding(originalMethod));
@@ -72,15 +75,16 @@
     }
 }
 
-+ (void)exchangeClassMethod:(SEL)origSelector withClassMethod:(SEL)newSelector {
++ (void)exchangeClassMethod:(SEL)origSelector withClassMethod:(SEL)newSelector
+{
     Class class = [self class];
 
     Method originalMethod = class_getClassMethod(class, origSelector);
     Method swizzledMethod = class_getClassMethod(class, newSelector);
 
     BOOL didAddMethod =
-        class_addMethod(class, origSelector, method_getImplementation(swizzledMethod),
-                        method_getTypeEncoding(swizzledMethod));
+    class_addMethod(class, origSelector, method_getImplementation(swizzledMethod),
+                    method_getTypeEncoding(swizzledMethod));
     if (didAddMethod) {
         class_replaceMethod(class, newSelector, method_getImplementation(originalMethod),
                             method_getTypeEncoding(originalMethod));
@@ -89,7 +93,8 @@
     }
 }
 
-NSString * checkString(id str) {
+NSString * checkString(id str)
+{
     NSString * tmpStr = [NSString stringWithFormat:@"%@", str];
     if ([str isKindOfClass:[NSNull class]] || [tmpStr isEqualToString:@"(null)"] ||
         [tmpStr isEqualToString:@"<null>"]) {
@@ -97,14 +102,20 @@ NSString * checkString(id str) {
     }
     return tmpStr;
 }
-NSArray * checkArray(id arr) {
+NSArray * checkArray(id arr)
+{
     NSArray * tmpArr = arr;
-    if ([arr isKindOfClass:[NSNull class]]) { tmpArr = @[]; }
+    if ([arr isKindOfClass:[NSNull class]]) {
+        tmpArr = @[];
+    }
     return tmpArr;
 }
-NSString * checkNumber(id str) {
+NSString * checkNumber(id str)
+{
     NSString * tmpStr = [NSString stringWithFormat:@"%@", str];
-    if ([str isKindOfClass:[NSNull class]] || ![str floatValue]) { tmpStr = @"0"; }
+    if ([str isKindOfClass:[NSNull class]] || ![str floatValue]) {
+        tmpStr = @"0";
+    }
     //去掉数字中的","
     NSMutableString * newStr = [NSMutableString stringWithString:tmpStr];
     for (int i = 0; i < newStr.length; i++) {

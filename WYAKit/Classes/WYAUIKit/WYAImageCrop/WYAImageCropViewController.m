@@ -52,7 +52,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 
 @implementation WYAImageCropViewController
 #pragma mark - LifeCircle
-- (instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(UIImage *)image {
+- (instancetype)initWithCroppingStyle:(WYACropViewCroppingStyle)style image:(UIImage *)image
+{
     NSParameterAssert(image);
 
     self = [super init];
@@ -72,11 +73,13 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     return self;
 }
 
-- (instancetype)initWithImage:(UIImage *)image {
+- (instancetype)initWithImage:(UIImage *)image
+{
     return [self initWithCroppingStyle:WYACropViewCroppingStyleDefault image:image];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
 
     self.transitioningDelegate = self;
@@ -86,7 +89,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     self.toolbar.frame  = [self frameForToolbarWithVerticalLayout:self.verticalLayout];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
 
     // 如果我们在屏幕上动画，设置一个标志，这样我们可以手动控制状态栏淡出计时
@@ -111,7 +115,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewDidAppear:(BOOL)animated
+{
     [super viewDidAppear:animated];
 
     self.inTransition = NO;
@@ -135,7 +140,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
 
     self.inTransition = YES;
@@ -147,21 +153,27 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated
+{
     [super viewDidDisappear:animated];
 
     self.inTransition = NO;
     [self setNeedsStatusBarAppearanceUpdate];
 }
 
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    if (self.navigationController) { return UIStatusBarStyleLightContent; }
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    if (self.navigationController) {
+        return UIStatusBarStyleLightContent;
+    }
     return UIStatusBarStyleDefault;
 }
 
-- (BOOL)prefersStatusBarHidden {
-    if (!self.overrideStatusBar) { return self.statusBarHidden; }
+- (BOOL)prefersStatusBarHidden
+{
+    if (!self.overrideStatusBar) {
+        return self.statusBarHidden;
+    }
 
     BOOL hidden = YES;
     hidden      = hidden && !(self.inTransition);
@@ -169,17 +181,20 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     return hidden;
 }
 
-- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures {
+- (UIRectEdge)preferredScreenEdgesDeferringSystemGestures
+{
     return UIRectEdgeAll;
 }
 
-- (void)viewSafeAreaInsetsDidChange {
+- (void)viewSafeAreaInsetsDidChange
+{
     [super viewSafeAreaInsetsDidChange];
     [self adjustCropViewInsets];
     [self adjustToolbarInsets];
 }
 
-- (void)viewDidLayoutSubviews {
+- (void)viewDidLayoutSubviews
+{
     [super viewDidLayoutSubviews];
 
     self.cropView.frame = [self frameForCropViewWithVerticalLayout:self.verticalLayout];
@@ -200,7 +215,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 
 #pragma mark ====== Rotation Handling
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                duration:(NSTimeInterval)duration {
+                                duration:(NSTimeInterval)duration
+{
     self.toolbarSnapshotView       = [self.toolbar snapshotViewAfterScreenUpdates:NO];
     self.toolbarSnapshotView.frame = self.toolbar.frame;
 
@@ -214,7 +230,7 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     [self.view addSubview:self.toolbarSnapshotView];
 
     CGRect frame = [self
-                    frameForToolbarWithVerticalLayout:UIInterfaceOrientationIsPortrait(toInterfaceOrientation)];
+    frameForToolbarWithVerticalLayout:UIInterfaceOrientationIsPortrait(toInterfaceOrientation)];
     if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation)) {
         frame.origin.x = -frame.size.width;
     } else {
@@ -228,17 +244,20 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     [self.cropView prepareforRotation];
     self.cropView.frame =
     [self frameForCropViewWithVerticalLayout:!UIInterfaceOrientationIsPortrait(
-                                                                               toInterfaceOrientation)];
+                                             toInterfaceOrientation)];
     self.cropView.simpleRenderMode       = YES;
     self.cropView.internalLayoutDisabled = YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-                                         duration:(NSTimeInterval)duration {
+                                         duration:(NSTimeInterval)duration
+{
     self.toolbar.frame = [self frameForToolbarWithVerticalLayout:!UIInterfaceOrientationIsLandscape(
-                                                                                                    toInterfaceOrientation)];
+                                                                 toInterfaceOrientation)];
     [self.toolbar.layer removeAllAnimations];
-    for (CALayer * sublayer in self.toolbar.layer.sublayers) { [sublayer removeAllAnimations]; }
+    for (CALayer * sublayer in self.toolbar.layer.sublayers) {
+        [sublayer removeAllAnimations];
+    }
 
     //在ios11上，由于这些布局调用会多次执行，如果我们不从当前状态聚合，动画就会中断
     [UIView animateWithDuration:duration
@@ -246,11 +265,11 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
                         options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{
                          self.cropView.frame = [self
-                                                frameForCropViewWithVerticalLayout:!UIInterfaceOrientationIsLandscape(
-                                                                                                                      toInterfaceOrientation)];
+                         frameForCropViewWithVerticalLayout:!UIInterfaceOrientationIsLandscape(
+                                                            toInterfaceOrientation)];
                          self.toolbar.frame = [self
-                                               frameForToolbarWithVerticalLayout:UIInterfaceOrientationIsPortrait(
-                                                                                                                  toInterfaceOrientation)];
+                         frameForToolbarWithVerticalLayout:UIInterfaceOrientationIsPortrait(
+                                                           toInterfaceOrientation)];
                          [self.cropView performRelayoutForRotation];
                      }
                      completion:nil];
@@ -259,7 +278,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     self.toolbar.alpha             = 1.0f;
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
     [self.toolbarSnapshotView removeFromSuperview];
     self.toolbarSnapshotView = nil;
 
@@ -268,27 +288,34 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
-       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
+{
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
-    if (CGSizeEqualToSize(size, self.view.bounds.size)) { return; }
+    if (CGSizeEqualToSize(size, self.view.bounds.size)) {
+        return;
+    }
 
     UIInterfaceOrientation orientation = UIInterfaceOrientationPortrait;
     CGSize currentSize                 = self.view.bounds.size;
-    if (currentSize.width < size.width) { orientation = UIInterfaceOrientationLandscapeLeft; }
+    if (currentSize.width < size.width) {
+        orientation = UIInterfaceOrientationLandscapeLeft;
+    }
 
     [self willRotateToInterfaceOrientation:orientation duration:coordinator.transitionDuration];
     [coordinator animateAlongsideTransition:^(
-                                              id<UIViewControllerTransitionCoordinatorContext> context) {
+                 id<UIViewControllerTransitionCoordinatorContext> context) {
         [self willAnimateRotationToInterfaceOrientation:orientation
                                                duration:coordinator.transitionDuration];
-    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+    }
+    completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
         [self didRotateFromInterfaceOrientation:orientation];
     }];
 }
 
 #pragma mark - Private Method
-- (CGRect)frameForToolbarWithVerticalLayout:(BOOL)verticalLayout {
+- (CGRect)frameForToolbarWithVerticalLayout:(BOOL)verticalLayout
+{
     UIEdgeInsets insets = self.statusBarSafeInsets;
 
     CGRect frame = CGRectZero;
@@ -308,7 +335,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     return frame;
 }
 
-- (CGRect)frameForCropViewWithVerticalLayout:(BOOL)verticalLayout {
+- (CGRect)frameForCropViewWithVerticalLayout:(BOOL)verticalLayout
+{
     UIView * view = nil;
     if (self.parentViewController == nil) {
         view = self.view;
@@ -334,20 +362,25 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     return frame;
 }
 
-- (CGRect)frameForTitleLabelWithSize:(CGSize)size verticalLayout:(BOOL)verticalLayout {
+- (CGRect)frameForTitleLabelWithSize:(CGSize)size verticalLayout:(BOOL)verticalLayout
+{
     CGRect frame      = (CGRect){CGPointZero, size};
     CGFloat viewWidth = self.view.bounds.size.width;
     CGFloat x         = 0.0f;
 
     if (!verticalLayout) {
         x = kTOCropViewControllerTitleTopPadding;
-        if (@available(iOS 11.0, *)) { x += self.view.safeAreaInsets.left; }
+        if (@available(iOS 11.0, *)) {
+            x += self.view.safeAreaInsets.left;
+        }
 
         viewWidth -= x;
     }
 
     frame.origin.x = ceilf((viewWidth - frame.size.width) * 0.5f);
-    if (!verticalLayout) { frame.origin.x += x; }
+    if (!verticalLayout) {
+        frame.origin.x += x;
+    }
 
     // Work out vertical position
     if (@available(iOS 11.0, *)) {
@@ -359,7 +392,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     return frame;
 }
 
-- (void)adjustCropViewInsets {
+- (void)adjustCropViewInsets
+{
     UIEdgeInsets insets = self.statusBarSafeInsets;
 
     if (self.verticalLayout) {
@@ -369,7 +403,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 }
 
-- (void)adjustToolbarInsets {
+- (void)adjustToolbarInsets
+{
     UIEdgeInsets insets = UIEdgeInsetsZero;
 
     if (@available(iOS 11.0, *)) {
@@ -379,16 +414,17 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
             insets.bottom = self.view.safeAreaInsets.bottom;
         }
     } else {
-        if (!self.statusBarHidden) { insets.top = self.statusBarHeight; }
+        if (!self.statusBarHidden) {
+            insets.top = self.statusBarHeight;
+        }
     }
 
     [self.toolbar setNeedsLayout];
 }
 
-
-
 #pragma mark - Aspect Ratio Handling -
-- (void)showAspectRatioDialog {
+- (void)showAspectRatioDialog
+{
     if (self.cropView.aspectRatioLockEnabled) {
         self.cropView.aspectRatioLockEnabled = NO;
         return;
@@ -406,9 +442,9 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 
     UIAlertController * alertController =
-        [UIAlertController alertControllerWithTitle:nil
-                                            message:nil
-                                     preferredStyle:UIAlertControllerStyleActionSheet];
+    [UIAlertController alertControllerWithTitle:nil
+                                        message:nil
+                                 preferredStyle:UIAlertControllerStyleActionSheet];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消"
                                                         style:UIAlertActionStyleCancel
                                                       handler:nil]];
@@ -417,13 +453,13 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     NSInteger i = 0;
     for (NSString * item in items) {
         UIAlertAction * action = [UIAlertAction
-            actionWithTitle:item
-                      style:UIAlertActionStyleDefault
-                    handler:^(UIAlertAction * _Nonnull action) {
-                        [self setAspectRatioPreset:(WYACropViewControllerAspectRatioPreset)i
-                                          animated:YES];
-                        self.aspectRatioLockEnabled = YES;
-                    }];
+        actionWithTitle:item
+                  style:UIAlertActionStyleDefault
+                handler:^(UIAlertAction * _Nonnull action) {
+                    [self setAspectRatioPreset:(WYACropViewControllerAspectRatioPreset)i
+                                      animated:YES];
+                    self.aspectRatioLockEnabled = YES;
+                }];
         [alertController addAction:action];
 
         i++;
@@ -433,7 +469,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 }
 
 - (void)setAspectRatioPreset:(WYACropViewControllerAspectRatioPreset)aspectRatioPreset
-                    animated:(BOOL)animated {
+                    animated:(BOOL)animated
+{
     CGSize aspectRatio = CGSizeZero;
 
     _aspectRatioPreset = aspectRatioPreset;
@@ -469,8 +506,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 
     BOOL aspectRatioCanSwapDimensions =
-        !self.aspectRatioLockEnabled ||
-        (self.aspectRatioLockEnabled && self.aspectRatioLockDimensionSwapEnabled);
+    !self.aspectRatioLockEnabled ||
+    (self.aspectRatioLockEnabled && self.aspectRatioLockDimensionSwapEnabled);
 
     if (self.cropView.cropBoxAspectRatioIsPortrait && aspectRatioCanSwapDimensions) {
         CGFloat width      = aspectRatio.width;
@@ -482,28 +519,35 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 }
 
 #pragma mark - WYAImageCropViewDelegate
-- (void)cropViewDidBecomeResettable:(WYAImageCropView *)cropView {
+- (void)cropViewDidBecomeResettable:(WYAImageCropView *)cropView
+{
     //    self.toolbar.resetButtonEnabled = YES;
 }
 
-- (void)cropViewDidBecomeNonResettable:(WYAImageCropView *)cropView {
+- (void)cropViewDidBecomeNonResettable:(WYAImageCropView *)cropView
+{
     //    self.toolbar.resetButtonEnabled = NO;
 }
 
 #pragma mark - WYAImageCropToolBarDelegate
-- (void)rotatingAction {
+- (void)rotatingAction
+{
     [self.cropView rotateImageNinetyDegreesAnimated:YES clockwise:NO];
 }
 
-- (void)originalAction {
+- (void)originalAction
+{
     BOOL animated = (self.cropView.angle == 0);
 
-    if (self.resetAspectRatioEnabled) { self.aspectRatioLockEnabled = NO; }
+    if (self.resetAspectRatioEnabled) {
+        self.aspectRatioLockEnabled = NO;
+    }
 
     [self.cropView resetLayoutToDefaultAnimated:animated];
 }
 
-- (void)cancelAction {
+- (void)cancelAction
+{
     bool isDelegateOrCallbackHandled = NO;
 
     if ([self.delegate respondsToSelector:@selector(cropViewController:didFinishCancelled:)]) {
@@ -526,14 +570,15 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 }
 
-- (void)doneAction {
+- (void)doneAction
+{
     CGRect cropFrame = self.cropView.imageCropFrame;
     NSInteger angle  = self.cropView.angle;
 
     BOOL isCallbackOrDelegateHandled = NO;
 
     if ([self.delegate
-            respondsToSelector:@selector(cropViewController:didCropImageToRect:angle:)]) {
+        respondsToSelector:@selector(cropViewController:didCropImageToRect:angle:)]) {
         [self.delegate cropViewController:self didCropImageToRect:cropFrame angle:angle];
         isCallbackOrDelegateHandled = YES;
     }
@@ -544,19 +589,19 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
     }
 
     BOOL isCircularImageDelegateAvailable = [self.delegate
-        respondsToSelector:@selector(cropViewController:didCropToCircularImage:withRect:angle:)];
+    respondsToSelector:@selector(cropViewController:didCropToCircularImage:withRect:angle:)];
     BOOL isCircularImageCallbackAvailable = self.onDidCropToCircleImage != nil;
 
     BOOL isDidCropToImageDelegateAvailable = [self.delegate
-        respondsToSelector:@selector(cropViewController:didCropToImage:withRect:angle:)];
+    respondsToSelector:@selector(cropViewController:didCropToImage:withRect:angle:)];
     BOOL isDidCropToImageCallbackAvailable = self.onDidCropToRect != nil;
 
     if (self.croppingStyle == WYACropViewCroppingStyleCircular &&
         (isCircularImageDelegateAvailable || isCircularImageCallbackAvailable)) {
         UIImage * image =
-            [self.image wya_croppedImageWithFrame:cropFrame
-                                            angle:angle
-                                     circularClip:YES];
+        [self.image wya_croppedImageWithFrame:cropFrame
+                                        angle:angle
+                                 circularClip:YES];
 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.03f * NSEC_PER_SEC)),
                        dispatch_get_main_queue(), ^{
@@ -606,7 +651,8 @@ static const CGFloat kTOCropViewControllerToolbarHeight   = 100.0f;
 - (id<UIViewControllerAnimatedTransitioning>)
 animationControllerForPresentedController:(UIViewController *)presented
                      presentingController:(UIViewController *)presenting
-                         sourceController:(UIViewController *)source {
+                         sourceController:(UIViewController *)source
+{
     if (self.navigationController ||
         self.modalTransitionStyle == UIModalTransitionStyleCoverVertical) {
         return nil;
@@ -625,7 +671,9 @@ animationControllerForPresentedController:(UIViewController *)presented
             strongSelf.cropView.croppingViewsHidden = YES;
         }
 
-        if (strongSelf.prepareForTransitionHandler) { strongSelf.prepareForTransitionHandler(); }
+        if (strongSelf.prepareForTransitionHandler) {
+            strongSelf.prepareForTransitionHandler();
+        }
 
         strongSelf.prepareForTransitionHandler = nil;
     };
@@ -635,7 +683,8 @@ animationControllerForPresentedController:(UIViewController *)presented
 }
 
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:
-    (UIViewController *)dismissed {
+(UIViewController *)dismissed
+{
     if (self.navigationController ||
         self.modalTransitionStyle == UIModalTransitionStyleCoverVertical) {
         return nil;
@@ -652,43 +701,50 @@ animationControllerForPresentedController:(UIViewController *)presented
             strongSelf.cropView.simpleRenderMode = YES;
         }
 
-        if (strongSelf.prepareForTransitionHandler) { strongSelf.prepareForTransitionHandler(); }
+        if (strongSelf.prepareForTransitionHandler) {
+            strongSelf.prepareForTransitionHandler();
+        }
     };
 
     self.transitionController.isDismissing = YES;
     return self.transitionController;
 }
 
-
-
 #pragma mark - Setter
-- (void)setAspectRatioLockEnabled:(BOOL)aspectRatioLockEnabled {
+- (void)setAspectRatioLockEnabled:(BOOL)aspectRatioLockEnabled
+{
     self.cropView.aspectRatioLockEnabled = aspectRatioLockEnabled;
 }
 
-- (void)setAspectRatioLockDimensionSwapEnabled:(BOOL)aspectRatioLockDimensionSwapEnabled {
+- (void)setAspectRatioLockDimensionSwapEnabled:(BOOL)aspectRatioLockDimensionSwapEnabled
+{
     self.cropView.aspectRatioLockDimensionSwapEnabled = aspectRatioLockDimensionSwapEnabled;
 }
 
-- (void)setResetAspectRatioEnabled:(BOOL)resetAspectRatioEnabled {
+- (void)setResetAspectRatioEnabled:(BOOL)resetAspectRatioEnabled
+{
     self.cropView.resetAspectRatioEnabled = resetAspectRatioEnabled;
 }
 
-- (void)setCustomAspectRatio:(CGSize)customAspectRatio {
+- (void)setCustomAspectRatio:(CGSize)customAspectRatio
+{
     _customAspectRatio = customAspectRatio;
     [self setAspectRatioPreset:WYACropViewControllerAspectRatioPresetCustom animated:NO];
 }
 
-- (void)setAngle:(NSInteger)angle {
+- (void)setAngle:(NSInteger)angle
+{
     self.cropView.angle = angle;
 }
 
-- (void)setImageCropFrame:(CGRect)imageCropFrame {
+- (void)setImageCropFrame:(CGRect)imageCropFrame
+{
     self.cropView.imageCropFrame = imageCropFrame;
 }
 
 #pragma mark - Getter
-- (WYAImageCropView *)cropView {
+- (WYAImageCropView *)cropView
+{
     if (!_cropView) {
         _cropView =
         [[WYAImageCropView alloc] initWithCroppingStyle:self.croppingStyle
@@ -701,7 +757,8 @@ animationControllerForPresentedController:(UIViewController *)presented
     return _cropView;
 }
 
-- (WYAImageCropToolBar *)toolbar {
+- (WYAImageCropToolBar *)toolbar
+{
     if (!_toolbar) {
         _toolbar          = [[WYAImageCropToolBar alloc] initWithFrame:CGRectZero];
         _toolbar.delegate = self;
@@ -710,44 +767,62 @@ animationControllerForPresentedController:(UIViewController *)presented
     return _toolbar;
 }
 
-- (BOOL)aspectRatioLockEnabled {
+- (BOOL)aspectRatioLockEnabled
+{
     return self.cropView.aspectRatioLockEnabled;
 }
 
-- (BOOL)resetAspectRatioEnabled {
+- (BOOL)resetAspectRatioEnabled
+{
     return self.cropView.resetAspectRatioEnabled;
 }
 
-- (NSInteger)angle {
+- (NSInteger)angle
+{
     return self.cropView.angle;
 }
 
-- (CGRect)imageCropFrame {
+- (CGRect)imageCropFrame
+{
     return self.cropView.imageCropFrame;
 }
 
-- (BOOL)verticalLayout {
+- (BOOL)verticalLayout
+{
     return CGRectGetWidth(self.view.bounds) < CGRectGetHeight(self.view.bounds);
 }
 
-- (BOOL)overrideStatusBar {
-    if (self.navigationController) { return NO; }
+- (BOOL)overrideStatusBar
+{
+    if (self.navigationController) {
+        return NO;
+    }
 
-    if (self.presentingViewController.prefersStatusBarHidden) { return NO; }
-
-    return YES;
-}
-
-- (BOOL)statusBarHidden {
-    if (self.navigationController) { return self.navigationController.prefersStatusBarHidden; }
-
-    if (self.presentingViewController.prefersStatusBarHidden) { return YES; }
+    if (self.presentingViewController.prefersStatusBarHidden) {
+        return NO;
+    }
 
     return YES;
 }
 
-- (CGFloat)statusBarHeight {
-    if (self.statusBarHidden) { return 0.0f; }
+- (BOOL)statusBarHidden
+{
+    if (self.navigationController) {
+        return self.navigationController.prefersStatusBarHidden;
+    }
+
+    if (self.presentingViewController.prefersStatusBarHidden) {
+        return YES;
+    }
+
+    return YES;
+}
+
+- (CGFloat)statusBarHeight
+{
+    if (self.statusBarHidden) {
+        return 0.0f;
+    }
 
     CGFloat statusBarHeight = 0.0f;
     if (@available(iOS 11.0, *)) {
@@ -759,12 +834,15 @@ animationControllerForPresentedController:(UIViewController *)presented
     return statusBarHeight;
 }
 
-- (UIEdgeInsets)statusBarSafeInsets {
+- (UIEdgeInsets)statusBarSafeInsets
+{
     UIEdgeInsets insets = UIEdgeInsetsZero;
     if (@available(iOS 11.0, *)) {
         insets = self.view.safeAreaInsets;
 
-        if (insets.top <= 40.0f + FLT_EPSILON) { insets.top = self.statusBarHeight; }
+        if (insets.top <= 40.0f + FLT_EPSILON) {
+            insets.top = self.statusBarHeight;
+        }
     } else {
         insets.top = self.statusBarHeight;
     }

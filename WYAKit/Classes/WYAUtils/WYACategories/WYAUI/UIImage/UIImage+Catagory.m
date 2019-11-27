@@ -12,11 +12,14 @@
 
 @implementation UIImage (Catagory)
 
-+ (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image {
++ (UIImage *)wya_ImageSizeWithScreenImage:(UIImage *)image
+{
     CGFloat imageWidth  = image.size.width;
     CGFloat imageHeight = image.size.height;
 
-    if (imageWidth <= ScreenWidth && imageHeight <= ScreenHeight) { return image; }
+    if (imageWidth <= ScreenWidth && imageHeight <= ScreenHeight) {
+        return image;
+    }
 
     CGFloat max   = MAX(imageWidth, imageHeight);
     CGFloat scale = max / (ScreenHeight * 2.0);
@@ -30,7 +33,8 @@
     return newImage;
 }
 
-- (BOOL)hasAlpha {
+- (BOOL)hasAlpha
+{
     CGImageAlphaInfo alphaInfo = CGImageGetAlphaInfo(self.CGImage);
     return (alphaInfo == kCGImageAlphaFirst || alphaInfo == kCGImageAlphaLast ||
             alphaInfo == kCGImageAlphaPremultipliedFirst ||
@@ -39,7 +43,8 @@
 
 - (UIImage *)wya_croppedImageWithFrame:(CGRect)frame
                                  angle:(NSInteger)angle
-                          circularClip:(BOOL)circular {
+                          circularClip:(BOOL)circular
+{
     UIImage * croppedImage = nil;
     UIGraphicsBeginImageContextWithOptions(frame.size, ![self hasAlpha] && !circular, self.scale);
     {
@@ -57,10 +62,10 @@
             imageView.layer.minificationFilter  = kCAFilterNearest;
             imageView.layer.magnificationFilter = kCAFilterNearest;
             imageView.transform =
-                CGAffineTransformRotate(CGAffineTransformIdentity, angle * (M_PI / 180.0f));
+            CGAffineTransformRotate(CGAffineTransformIdentity, angle * (M_PI / 180.0f));
             CGRect rotatedRect = CGRectApplyAffineTransform(imageView.bounds, imageView.transform);
             UIView * containerView =
-                [[UIView alloc] initWithFrame:(CGRect){CGPointZero, rotatedRect.size}];
+            [[UIView alloc] initWithFrame:(CGRect){CGPointZero, rotatedRect.size}];
             [containerView addSubview:imageView];
             imageView.center = containerView.center;
             CGContextTranslateCTM(context, -frame.origin.x, -frame.origin.y);
@@ -79,7 +84,8 @@
                          orientation:UIImageOrientationUp];
 }
 
-+ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size {
++ (UIImage *)wya_ImageCompressFitSizeScale:(UIImage *)sourceImage targetSize:(CGSize)size
+{
     UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
     [sourceImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
     UIImage * scaledImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -91,18 +97,20 @@
 
 @implementation UIImage (Source)
 
-+ (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className {
++ (UIImage *)loadBundleImage:(NSString *)imageName ClassName:(NSString *)className
+{
     NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)]
-                                 .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
+                             .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
     NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
     UIImage * image =
-        [UIImage imageNamed:imageName
-                                 inBundle:resource_bundle
-            compatibleWithTraitCollection:nil];
+    [UIImage imageNamed:imageName
+                         inBundle:resource_bundle
+    compatibleWithTraitCollection:nil];
     return image;
 }
 
-+ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color {
++ (UIImage *)wya_createImageWithColor:(UIColor * _Nonnull)color
+{
     CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
 
@@ -116,24 +124,27 @@
     return tempImage;
 }
 
-+ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString {
++ (NSDictionary *)wya_imageInfoWithUrl:(NSString *)urlString
+{
     NSURL * url             = [NSURL URLWithString:urlString];
     CGImageSourceRef source = CGImageSourceCreateWithURL((CFURLRef)url, NULL);
     NSDictionary * imageHeader =
-        (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
+    (__bridge NSDictionary *)CGImageSourceCopyPropertiesAtIndex(source, 0, NULL);
     NSLog(@"Image header %@", imageHeader);
     return imageHeader;
 }
 
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size {
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size
+{
     SVGKImage * image = [SVGKImage imageNamed:name];
     image.size        = size;
     return image.UIImage;
 }
 
-+ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className {
++ (UIImage *)wya_svgImageName:(NSString *)name size:(CGSize)size ClassName:(NSString *)className
+{
     NSString * bundlePath = [[NSBundle bundleForClass:NSClassFromString(className)]
-                                 .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
+                             .resourcePath stringByAppendingPathComponent:@"/WYAKit.bundle"];
     NSBundle * resource_bundle = [NSBundle bundleWithPath:bundlePath];
     SVGKImage * image          = [SVGKImage imageNamed:name inBundle:resource_bundle];
     image.size                 = size;
@@ -141,7 +152,8 @@
 }
 
 // 获取视频第一帧
-+ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path {
++ (UIImage *)wya_getVideoPreViewImage:(NSURL *)path
+{
     AVURLAsset * asset                      = [[AVURLAsset alloc] initWithURL:path options:nil];
     AVAssetImageGenerator * assetGen        = [[AVAssetImageGenerator alloc] initWithAsset:asset];
     assetGen.appliesPreferredTrackTransform = YES;
@@ -154,7 +166,8 @@
     return videoImage;
 }
 
-+ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate {
++ (UIImage *)wya_imageWithColor:(UIColor *)color size:(CGSize)size rate:(CGFloat)rate
+{
     CGFloat imageW = size.width;
     CGFloat imageH = size.height;
     // 1.开启基于位图的图形上下文
@@ -162,8 +175,8 @@
 
     if (rate != 0) {
         UIBezierPath * path =
-            [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageW, imageH)
-                                       cornerRadius:rate];
+        [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, imageW, imageH)
+                                   cornerRadius:rate];
         CGContextRef ctx = UIGraphicsGetCurrentContext();
         CGContextAddPath(ctx, path.CGPath);
         CGContextClip(ctx);
@@ -183,7 +196,8 @@
 }
 
 /// 返回一张可以拉伸的图片
-+ (UIImage *)wya_resizeImageNamed:(NSString *)name {
++ (UIImage *)wya_resizeImageNamed:(NSString *)name
+{
     UIImage * normal = [UIImage imageNamed:name];
     CGFloat width    = normal.size.width * 0.5;
     CGFloat height   = normal.size.height * 0.5;
@@ -192,8 +206,8 @@
     return normal;
 }
 
-+ (UIImage *)wya_createViewImage:(UIView *)view {
-
++ (UIImage *)wya_createViewImage:(UIView *)view
+{
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, NO, [UIScreen mainScreen].scale);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage * image = UIGraphicsGetImageFromCurrentImageContext();

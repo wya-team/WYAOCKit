@@ -13,8 +13,11 @@
 @end
 
 @implementation NSString (MD5)
-- (NSString *)wya_md5WithString {
-    if (self == nil || [self length] == 0) { return nil; }
+- (NSString *)wya_md5WithString
+{
+    if (self == nil || [self length] == 0) {
+        return nil;
+    }
 
     const char * value = [self UTF8String];
 
@@ -30,8 +33,11 @@
     return outputString;
 }
 
-- (NSString *)wya_to16MD5 {
-    if (self == nil || [self length] == 0) { return nil; }
+- (NSString *)wya_to16MD5
+{
+    if (self == nil || [self length] == 0) {
+        return nil;
+    }
 
     return [[self wya_md5WithString] substringWithRange:NSMakeRange(8, 16)];
 }
@@ -39,40 +45,55 @@
 
 @implementation NSString (SHA)
 
-- (NSString *)wya_sha1 {
-    if (self == nil || [self length] == 0) { return nil; }
+- (NSString *)wya_sha1
+{
+    if (self == nil || [self length] == 0) {
+        return nil;
+    }
 
     unsigned char digest[CC_SHA1_DIGEST_LENGTH], i;
     CC_SHA1([self UTF8String], (int)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding], digest);
     NSMutableString * ms = [NSMutableString string];
 
-    for (i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) { [ms appendFormat:@"%02x", (int)(digest[i])]; }
+    for (i = 0; i < CC_SHA1_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", (int)(digest[i])];
+    }
 
     return [ms copy];
 }
 
-- (NSString *)wya_sha256 {
-    if (self == nil || [self length] == 0) { return nil; }
+- (NSString *)wya_sha256
+{
+    if (self == nil || [self length] == 0) {
+        return nil;
+    }
 
     unsigned char digest[CC_SHA256_DIGEST_LENGTH], i;
     CC_SHA256([self UTF8String], (int)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding],
               digest);
     NSMutableString * ms = [NSMutableString string];
 
-    for (i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) { [ms appendFormat:@"%02x", (int)(digest[i])]; }
+    for (i = 0; i < CC_SHA256_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", (int)(digest[i])];
+    }
 
     return [ms copy];
 }
 
-- (NSString *)wya_sha512 {
-    if (self == nil || [self length] == 0) { return nil; }
+- (NSString *)wya_sha512
+{
+    if (self == nil || [self length] == 0) {
+        return nil;
+    }
 
     unsigned char digest[CC_SHA512_DIGEST_LENGTH], i;
     CC_SHA512([self UTF8String], (int)[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding],
               digest);
     NSMutableString * ms = [NSMutableString string];
 
-    for (i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) { [ms appendFormat:@"%02x", (int)(digest[i])]; }
+    for (i = 0; i < CC_SHA512_DIGEST_LENGTH; i++) {
+        [ms appendFormat:@"%02x", (int)(digest[i])];
+    }
 
     return [ms copy];
 }

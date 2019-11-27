@@ -15,7 +15,8 @@
 
 @implementation WYAUploadViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
@@ -28,7 +29,8 @@
     [self.view addSubview:object];
 }
 
-- (void)uploadImage {
+- (void)uploadImage
+{
     NSString * path        = [[NSBundle mainBundle] pathForResource:@"aaa" ofType:@"png"];
     UIImage * image        = [[UIImage alloc] initWithContentsOfFile:path];
     NSString * path1       = [[NSBundle mainBundle] pathForResource:@"bbb" ofType:@"png"];
@@ -36,7 +38,8 @@
     WYAUploader * uploader = [WYAUploader sharedUpload];
     WYAUploadModel * model = [[WYAUploadModel alloc] init];
     model.uploadUrl        = @"https://gateway-mobile.wyawds.com//api/oss/get-sign.json";
-    model.uploadBefore     = ^NSDictionary * {
+    model.uploadBefore     = ^NSDictionary *
+    {
         return nil;
     };
     model.uploadAfter = ^(BOOL isfinish, NSMutableArray * _Nonnull resultArray) {

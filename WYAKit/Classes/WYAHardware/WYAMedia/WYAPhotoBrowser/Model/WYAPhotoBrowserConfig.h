@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 最大可以选择多少个
 @property (nonatomic, assign) NSInteger maxSelectCount;
-/// 是否是升序
+/// 是否是升序(NO: 从现在开始往之前的时间排， YES: 从之前往现在的时间排)
 @property (nonatomic, assign) BOOL sortAscending;
 /// 是否允许选择照片 默认YES
 @property (nonatomic, assign) BOOL allowSelectImage;
@@ -29,9 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL allowEditImage;
 /// 是否允许编辑视频，默认YES
 @property (nonatomic, assign) BOOL allowEditVideo;
+/// 是否允许相册中拍照
+@property (nonatomic, assign) BOOL canTakePicture;
+
 /// 编辑视频时最大裁剪时间，单位：秒，默认10s 且最低10s (当该参数为10s时，所选视频时长必须大于等于10s才允许进行编辑)
 @property (nonatomic, assign) NSInteger maxEditVideoTime;
-/// 允许选择视频的最大时长，单位：秒， 默认 120s
+/// 允许选择视频的最大时长，单位：秒， 默认 10s
 @property (nonatomic, assign) NSInteger maxVideoDuration;
 /// 录制视频及编辑视频时候的视频导出格式，默认WYAExportVideoTypeMov
 @property (nonatomic, assign) WYAExportVideoType exportVideoType;

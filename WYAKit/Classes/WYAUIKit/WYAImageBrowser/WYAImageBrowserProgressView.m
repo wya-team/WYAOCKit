@@ -5,7 +5,8 @@
 
 @implementation WYAImageBrowserProgressView
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor    = [UIColor clearColor];
@@ -16,7 +17,8 @@
     return self;
 }
 
-- (void)setProgress:(CGFloat)progress {
+- (void)setProgress:(CGFloat)progress
+{
     _progress = progress;
     [self setNeedsDisplay];
     if (progress >= 1) {
@@ -24,7 +26,8 @@
     }
 }
 
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect
+{
     CGContextRef ctx = UIGraphicsGetCurrentContext();
 
     CGFloat xCenter = rect.size.width * 0.5;

@@ -17,21 +17,24 @@
 @end
 
 @implementation WYADemoCameraViewController
-- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender {
+- (void)wya_customrRightBarButtonItemPressed:(UIButton *)sender
+{
     WYAReadMeViewController * vc = [[WYAReadMeViewController alloc] init];
     vc.readMeUrl                 = @"https://github.com/wya-team/WYAOCKit/blob/master/WYAKit/Classes/WYAHardware/"
                    @"WYACamera/README.md";
     vc.hk_iconImage = [UIImage imageNamed:@"0"];
     [self.navigationController pushViewController:vc animated:YES];
 }
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.navTitle = @"WYACamera";
     [self wya_addRightNavBarButtonWithNormalImage:@[ @"icon_help" ] highlightedImg:@[]];
     [self configUI];
 }
 
-- (void)configUI {
+- (void)configUI
+{
     WeakSelf(weakSelf);
     UIImageView * imageV          = [[UIImageView alloc] init];
     imageV.contentMode            = UIViewContentModeScaleAspectFit;
@@ -44,9 +47,13 @@
     [playButton addCallBackAction:^(UIButton * button) {
         button.selected = !button.selected;
         if (button.selected) {
-            if (weakSelf.player) { [weakSelf.player play]; }
+            if (weakSelf.player) {
+                [weakSelf.player play];
+            }
         } else {
-            if (weakSelf.player) { [weakSelf.player pause]; }
+            if (weakSelf.player) {
+                [weakSelf.player pause];
+            }
         }
 
     }];
@@ -203,8 +210,8 @@
         [weakSelf.view endEditing:YES];
         playButton.hidden = YES;
         WYACameraViewController * cameraVC =
-            [[WYACameraViewController alloc] initWithType:self.type
-                                        cameraOrientation:WYACameraOrientationBack];
+        [[WYACameraViewController alloc] initWithType:self.type
+                                    cameraOrientation:WYACameraOrientationBack];
         cameraVC.time      = [self.time floatValue];
         cameraVC.takePhoto = ^(UIImage * photo, NSString * imagePath) { imageV.image = photo; };
         StrongSelf(strongSelf);
@@ -213,7 +220,7 @@
             playButton.hidden   = NO;
             imageV.image        = nil;
             AVPlayerItem * item =
-                [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoPath]];
+            [AVPlayerItem playerItemWithURL:[NSURL fileURLWithPath:videoPath]];
             strongSelf.player     = [AVPlayer playerWithPlayerItem:item];
             AVPlayerLayer * layer = [AVPlayerLayer playerLayerWithPlayer:strongSelf.player];
             layer.frame           = imageV.bounds;
@@ -230,7 +237,7 @@
     CGFloat startButton_Width  = ScreenWidth - 20;
     CGFloat startButton_Height = 44 * SizeAdapter;
     startButton.frame =
-        CGRectMake(startButton_X, startButton_Y, startButton_Width, startButton_Height);
+    CGRectMake(startButton_X, startButton_Y, startButton_Width, startButton_Height);
 
     self.array = @[ button, button1, button2 ];
 
@@ -248,15 +255,17 @@
     CGFloat videoPathLabel_Width  = ScreenWidth - 20;
     CGFloat videoPathLabel_Height = 60 * SizeAdapter;
     videoPathLabel.frame =
-        CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
+    CGRectMake(videoPathLabel_X, videoPathLabel_Y, videoPathLabel_Width, videoPathLabel_Height);
 }
 
 #pragma mark - UITextFieldDelegate -
-- (void)textFieldDidEndEditing:(UITextField *)textField {
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
     self.time = textField.text;
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
     [self.view endEditing:YES];
 }
 

@@ -18,13 +18,17 @@
 
 @implementation WYACard
 
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+    }
     return self;
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker * make) {
@@ -68,13 +72,14 @@
 }
 
 #pragma mark--- Private Method
-- (void)createUI {
+- (void)createUI
+{
     self.backgroundColor = [UIColor whiteColor];
 
     self.iconImageView = [[UIImageView alloc] init];
     self.iconImageView.image =
-        [UIImage loadBundleImage:@"icon_qq"
-                       ClassName:NSStringFromClass(self.class)];
+    [UIImage loadBundleImage:@"icon_qq"
+                   ClassName:NSStringFromClass(self.class)];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.iconImageView];
 

@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIScrollView (Category)
 - (UIImage *)wya_captureScrollView;
 
-
 @end
 
 NS_ASSUME_NONNULL_END

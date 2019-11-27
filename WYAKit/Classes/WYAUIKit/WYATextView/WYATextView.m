@@ -18,19 +18,26 @@
 @implementation WYATextView {
     CGFloat _initialHeight;
 }
-- (instancetype)init {
+- (instancetype)init
+{
     self = [super init];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+    }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame {
+- (instancetype)initWithFrame:(CGRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) { [self createUI]; }
+    if (self) {
+        [self createUI];
+    }
     return self;
 }
 
-- (void)createUI {
+- (void)createUI
+{
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.titleLabel];
     [self addSubview:self.noteLabel];
@@ -42,7 +49,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange:) name:UITextViewTextDidChangeNotification object:self.textView];
 }
 
-- (void)layoutSubviews {
+- (void)layoutSubviews
+{
     [super layoutSubviews];
 
     CGFloat titleLabel_x      = 5 * SizeAdapter;
@@ -79,12 +87,14 @@
     self.textView.frame  = textView_rect;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
 }
 
 #pragma mark--- Private Method
-- (void)textChange:(NSNotification *) not{
+- (void)textChange:(NSNotification *) not
+{
     UITextView * textView = (UITextView *)not.object;
     [self recordTextViewInputWithTextView:textView];
 
@@ -93,7 +103,8 @@
     }
 }
 
-- (void)recordTextViewInputWithTextView:(UITextView *)textView {
+- (void)recordTextViewInputWithTextView:(UITextView *)textView
+{
     NSString * toBeString = textView.text;
 
     // 获取键盘输入模式
@@ -112,16 +123,16 @@
         if (!position) {
             if (toBeString.length > self.textViewWordsCount) {
                 textView.text = [toBeString
-                    substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
+                substringToIndex:self.textViewWordsCount]; //超出限制则截取最大限制的文本
                 if (self.showWordsCount) {
                     self.noteLabel.text = [NSString
-                                           stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                    stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
                 }
 
             } else {
                 if (self.showWordsCount) {
                     self.noteLabel.text = [NSString
-                                           stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
+                    stringWithFormat:@"%ld/%ld", toBeString.length, self.textViewWordsCount];
                 }
             }
         }
@@ -132,7 +143,7 @@
             textView.text = [toBeString substringToIndex:self.textViewWordsCount];
             if (self.showWordsCount) {
                 self.noteLabel.text = [NSString
-                                       stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
+                stringWithFormat:@"%ld/%ld", self.textViewWordsCount, self.textViewWordsCount];
             }
 
         } else {
@@ -147,7 +158,8 @@
     }
 }
 
-- (void)autoChnageTextViewHeightWithTextView:(UITextView *)textView {
+- (void)autoChnageTextViewHeightWithTextView:(UITextView *)textView
+{
     CGFloat maxHeight     = self.textViewMaxHeight;
     CGRect frame          = textView.frame;
     CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
@@ -186,24 +198,30 @@
 #pragma mark--- Public Method
 
 #pragma mark--- Setter
-- (void)setFrame:(CGRect)frame {
+- (void)setFrame:(CGRect)frame
+{
     [super setFrame:frame];
     if (!_initialHeight) {
         _initialHeight = frame.size.height;
     }
 }
 
-- (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount {
+- (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount
+{
     _textViewWordsCount = textViewWordsCount;
     self.noteLabel.text = [NSString stringWithFormat:@"0/%lu", (unsigned long)textViewWordsCount];
 }
 
-- (void)setTitle:(NSString *)title {
+- (void)setTitle:(NSString *)title
+{
     _title = title;
-    if (title) { self.titleLabel.text = title; }
+    if (title) {
+        self.titleLabel.text = title;
+    }
 }
 
-- (void)setShowTitle:(BOOL)showTitle {
+- (void)setShowTitle:(BOOL)showTitle
+{
     _showTitle = showTitle;
     if (showTitle == NO) {
         self.titleLabel.hidden = YES;
@@ -214,7 +232,8 @@
     [self layoutIfNeeded];
 }
 
-- (void)setShowWordsCount:(BOOL)showWordsCount {
+- (void)setShowWordsCount:(BOOL)showWordsCount
+{
     _showWordsCount = showWordsCount;
     if (showWordsCount == NO) {
         self.noteLabel.hidden = YES;
@@ -225,11 +244,12 @@
     [self layoutIfNeeded];
 }
 
-- (void)setText:(NSString *)text {
+- (void)setText:(NSString *)text
+{
     if (text) {
         self.textView.text  = text;
         self.noteLabel.text = [NSString
-            stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
+        stringWithFormat:@"%ld/%ld", text.length, self.textViewWordsCount];
         [self setNeedsLayout];
         [self layoutIfNeeded];
         CGFloat maxHeight     = self.textViewMaxHeight;
@@ -249,10 +269,10 @@
             }
         }
 
-        self.textView.frame     = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
-        CGFloat self_x     = self.cmam_left;
-        CGFloat self_y     = self.cmam_top;
-        CGFloat self_width = self.cmam_width;
+        self.textView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, size.height);
+        CGFloat self_x      = self.cmam_left;
+        CGFloat self_y      = self.cmam_top;
+        CGFloat self_width  = self.cmam_width;
         CGFloat self_height;
         if (self.showWordsCount) {
             self_height = size.height + self.noteLabel.cmam_height + self.textViewPadding * 2;
@@ -267,21 +287,25 @@
     }
 }
 
-- (void)setPlaceHoldString:(NSString *)placeHoldString {
+- (void)setPlaceHoldString:(NSString *)placeHoldString
+{
     self.textView.wya_placeHolder = placeHoldString;
 }
 
-- (void)setPlaceHoldColor:(UIColor *)placeHoldColor {
+- (void)setPlaceHoldColor:(UIColor *)placeHoldColor
+{
     self.textView.wya_placeHolderColor = placeHoldColor;
 }
 
-- (void)setTextViewPadding:(CGFloat)textViewPadding {
+- (void)setTextViewPadding:(CGFloat)textViewPadding
+{
     _textViewPadding = textViewPadding;
     [self layoutIfNeeded];
 }
 
 #pragma mark--- Getter
-- (UILabel *)titleLabel {
+- (UILabel *)titleLabel
+{
     if (!_titleLabel) {
         _titleLabel               = [[UILabel alloc] init];
         _titleLabel.font          = FONT(15);
@@ -290,7 +314,8 @@
     return _titleLabel;
 }
 
-- (UITextView *)textView {
+- (UITextView *)textView
+{
     if (!_textView) {
         _textView               = [[UITextView alloc] init];
         _textView.scrollEnabled = YES;
@@ -298,7 +323,8 @@
     return _textView;
 }
 
-- (UILabel *)noteLabel {
+- (UILabel *)noteLabel
+{
     if (!_noteLabel) {
         _noteLabel               = [[UILabel alloc] init];
         _noteLabel.textColor     = random(153, 153, 153, 1);
@@ -308,7 +334,8 @@
     return _noteLabel;
 }
 
-- (NSString *)text {
+- (NSString *)text
+{
     return self.textView.text;
 }
 

@@ -33,7 +33,6 @@ FOUNDATION_EXPORT const unsigned char WYAAppearanceVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <WYAAppearance/PublicHeader.h>
 
-
 #define WYA_APPEARANCE_SELECTOR UI_APPEARANCE_SELECTOR
 
 @protocol WYAAppearance <NSObject>

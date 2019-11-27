@@ -13,7 +13,8 @@
                  textFiledText:(NSString *)textFiledText
             instructionsString:(NSString * _Nullable)instructionsString
                           type:(nonnull NSString *)type
-                    imageNamed:(NSString * _Nullable)imageNamed {
+                    imageNamed:(NSString * _Nullable)imageNamed
+{
     WYAInputItemModel * model = [[WYAInputItemModel alloc] init];
     model.titleString         = titleString;
     model.TextFiledText       = textFiledText;

@@ -8,25 +8,26 @@
 
 #import "WYACalendarViewController.h"
 
-@interface WYACalendarViewController ()<WYACalendarDataSource>
+@interface WYACalendarViewController () <WYACalendarDataSource>
 
 @end
 
 @implementation WYACalendarViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.navTitle = @"日历";
     // Do any additional setup after loading the view.
     WYACalendarView * calendar = [[WYACalendarView alloc] initWithFrame:CGRectMake(0, WYATopHeight, ScreenWidth, 388) ScrollDirection:WYACalendarScrollHorizontal];
-//    calendar.backgroundImage = [UIImage imageNamed:@"1"];
-//    calendar.calenderDateTitleColor = [UIColor redColor];
-    calendar.dataSource = self;
-    calendar.calenderDateTitleFont = FONT(15);
+    //    calendar.backgroundImage = [UIImage imageNamed:@"1"];
+    //    calendar.calenderDateTitleColor = [UIColor redColor];
+    calendar.dataSource              = self;
+    calendar.calenderDateTitleFont   = FONT(15);
     calendar.calenderDateSelectColor = [UIColor redColor];
-//    calendar.canSelectMore = YES;
-    calendar.calenderDateTagColor = [UIColor redColor];
-    calendar.calenderTodayColor = [UIColor blueColor];
+    //    calendar.canSelectMore = YES;
+    calendar.calenderDateTagColor  = [UIColor redColor];
+    calendar.calenderTodayColor    = [UIColor blueColor];
     calendar.calenderTodayTagColor = [UIColor blueColor];
     [self.view addSubview:calendar];
 }
@@ -35,15 +36,18 @@
 //    return @[@(2019)];
 //}
 
-- (NSDate *)calendarMinimumDate{
+- (NSDate *)calendarMinimumDate
+{
     return [[NSDate date] wya_offsetMonths:-1];
 }
 
-- (NSDate *)calendarMaximumDate{
+- (NSDate *)calendarMaximumDate
+{
     return [[NSDate date] wya_offsetMonths:1];
 }
 
-- (UIImage *)calendarView:(WYACalendarView *)calendarView imageWithIndexPath:(NSIndexPath *)indexPath{
+- (UIImage *)calendarView:(WYACalendarView *)calendarView imageWithIndexPath:(NSIndexPath *)indexPath
+{
     return nil;
 }
 
@@ -52,11 +56,12 @@
 //    return text;
 //}
 
-- (NSDate *)getFormatterMonthDaysWithYear:(NSInteger)year section:(NSInteger)section row:(NSInteger)row{
+- (NSDate *)getFormatterMonthDaysWithYear:(NSInteger)year section:(NSInteger)section row:(NSInteger)row
+{
     NSDateFormatter * dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-    NSString * string = [NSString stringWithFormat:@"%d-%02d-%02d",year,section + 1,row+1];
-    NSDate * date = [dateFormatter dateFromString:string];
+    NSString * string = [NSString stringWithFormat:@"%d-%02d-%02d", year, section + 1, row + 1];
+    NSDate * date     = [dateFormatter dateFromString:string];
     return date;
 }
 

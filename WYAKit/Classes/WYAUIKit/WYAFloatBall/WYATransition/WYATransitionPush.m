@@ -16,11 +16,13 @@
 
 @implementation WYATransitionPush
 
-- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (NSTimeInterval)transitionDuration:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     return KAuration;
 }
 
-- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+- (void)animateTransition:(id<UIViewControllerContextTransitioning>)transitionContext
+{
     self.transitionContext = transitionContext;
 
     UIViewController * fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
@@ -53,14 +55,16 @@
 }
 #pragma mark - CABasicAnimation的Delegate
 
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
+{
     [self.transitionContext completeTransition:YES];
     [self.transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey].view.layer.mask = nil;
     [self.transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view.layer.mask   = nil;
     [self.coverView removeFromSuperview];
 }
 
-- (UIView *)coverView {
+- (UIView *)coverView
+{
     if (!_coverView) {
         _coverView                 = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
         _coverView.backgroundColor = [UIColor blackColor];

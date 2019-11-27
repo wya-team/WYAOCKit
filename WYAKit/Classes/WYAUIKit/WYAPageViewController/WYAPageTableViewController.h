@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, WYAPageTableControllerCachePolicy) {
 typedef NS_ENUM(NSUInteger, WYAPageTableControllerPreloadPolicy) {
     WYAPageTableControllerPreloadPolicyNever = 0, // Never pre-load controller.
     WYAPageTableControllerPreloadPolicyNeighbour =
-        1,                                      // Pre-load the controller next to the current.
+    1,                                          // Pre-load the controller next to the current.
     WYAPageTableControllerPreloadPolicyNear = 2 // Pre-load 2 controllers near the current.
 };
 
@@ -48,7 +48,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
  @return child controllers's count
  */
 - (NSInteger)wya_numbersOfChildControllersInPageController:
-    (WYAPageTableViewController *)pageController;
+(WYAPageTableViewController *)pageController;
 
 /**
  返回要在索引处显示的控制器。如果实现了这些方法，就可以轻松地设置属性。
@@ -144,8 +144,8 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
 @end
 
 @interface WYAPageTableViewController
-    : UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate,
-                        WYAPageTableControllerDelegate, WYAPageTableControllerDataSource>
+: UIViewController <WYAMenuViewDataSource, WYAMenuViewDelegate, UIScrollViewDelegate,
+                    WYAPageTableControllerDelegate, WYAPageTableControllerDataSource>
 @property (nonatomic, weak) id<WYAPageTableControllerDelegate> delegate;
 @property (nonatomic, weak) id<WYAPageTableControllerDataSource> dataSource;
 @property (nonatomic, strong) UITableView * tableView;
@@ -265,7 +265,7 @@ extern NSString * const WYATabControllerChildControllerChangeContentOffstNotific
  * 替换为 scrollView 或者在Controller.view 上添加了一个和自身 bounds 一样的 scrollView 也是OK的
  */
 @property (nonatomic, assign) BOOL rememberLocation __deprecated_msg(
-    "Because of the cache policy,this property can abondon now.");
+"Because of the cache policy,this property can abondon now.");
 
 /**
  缓存机制，默认无限制（如果收到内存警告，会自动切换）
