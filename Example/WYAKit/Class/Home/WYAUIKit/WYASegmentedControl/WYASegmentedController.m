@@ -109,8 +109,8 @@
                                    itemsTitleArray:@[ @"segment1", @"segment2" ]];
             object.delegate        = self;
             object.borderColor     = REDCOLOR;
-            object.itemSelectColor = WHITECOLOR;
-            object.itemNormalColor = REDCOLOR;
+            object.itemBgSelectColor = WHITECOLOR;
+            object.itemBgNormalColor = REDCOLOR;
             object;
         });
     }
