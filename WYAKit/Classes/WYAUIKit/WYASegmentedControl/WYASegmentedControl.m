@@ -42,6 +42,37 @@
     return self;
 }
 #pragma mark ======= setter
+
+- (void)setTitleBgNormalColor:(UIColor *)titleBgNormalColor{
+    _titleBgNormalColor = titleBgNormalColor;
+    for (UIView * tempView in self.subviews) {
+        if ([tempView isKindOfClass:[UIButton class]]) {
+            UIButton * button      = (UIButton *)tempView;
+            [button setTitleColor:_titleBgNormalColor forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (void)setTitleBgSelectColor:(UIColor *)titleBgSelectColor{
+    _titleBgSelectColor = titleBgSelectColor;
+    for (UIView * tempView in self.subviews) {
+        if ([tempView isKindOfClass:[UIButton class]]) {
+            UIButton * button      = (UIButton *)tempView;
+            [button setTitleColor:_titleBgSelectColor forState:UIControlStateSelected];
+        }
+    }
+}
+
+- (void)setTitleBgHighlightedColor:(UIColor *)titleBgHighlightedColor{
+    _titleBgHighlightedColor = titleBgHighlightedColor;
+    for (UIView * tempView in self.subviews) {
+        if ([tempView isKindOfClass:[UIButton class]]) {
+            UIButton * button      = (UIButton *)tempView;
+            [button setTitleColor:_titleBgHighlightedColor forState:UIControlStateHighlighted];
+        }
+    }
+}
+
 - (void)setItemsFont:(CGFloat)itemsFont
 {
     _itemsFont = itemsFont;
@@ -63,9 +94,7 @@
 {
     if (selectedSegmentIndex != self.selectTag) {
         UIButton * tempButton = [self viewWithTag:self.selectTag + SEGMENTEDBASEITEMSTAG];
-
         tempButton.selected = NO;
-
         _selectedSegmentIndex     = selectedSegmentIndex;
         UIButton * selectedButton = [self viewWithTag:selectedSegmentIndex + SEGMENTEDBASEITEMSTAG];
         selectedButton.selected   = !selectedButton.isSelected;
@@ -85,38 +114,35 @@
     }
 }
 
-- (void)setItemNormalColor:(UIColor *)itemNormalColor
+- (void)setItemBgNormalColor:(UIColor *)itemBgNormalColor
 {
-    _itemNormalColor = itemNormalColor;
+    _itemBgNormalColor = itemBgNormalColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
             UIButton * button = (UIButton *)tempView;
-            [button setTitleColor:_itemNormalColor forState:UIControlStateNormal];
-            [button wya_setBackgroundColor:_itemNormalColor forState:UIControlStateSelected];
-            [button wya_setBackgroundColor:_itemNormalColor forState:UIControlStateHighlighted];
+            [button wya_setBackgroundColor:_itemBgNormalColor forState:UIControlStateNormal];
         }
     }
 }
 
-- (void)setItemSelectColor:(UIColor *)itemSelectColor
+- (void)setItemBgSelectColor:(UIColor *)itemBgSelectColor
 {
-    _itemSelectColor = itemSelectColor;
+    _itemBgSelectColor = itemBgSelectColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
             UIButton * button = (UIButton *)tempView;
-            [button setTitleColor:_itemSelectColor forState:UIControlStateSelected];
-            [button wya_setBackgroundColor:_itemSelectColor forState:UIControlStateNormal];
+            [button wya_setBackgroundColor:_itemBgSelectColor forState:UIControlStateSelected];
         }
     }
 }
 
-- (void)setItemHighlightedColor:(UIColor *)itemHighlightedColor
+- (void)setItemBgHighlightedColor:(UIColor *)itemBgHighlightedColor
 {
-    _itemHighlightedColor = itemHighlightedColor;
+    _itemBgHighlightedColor = itemBgHighlightedColor;
     for (UIView * tempView in self.subviews) {
         if ([tempView isKindOfClass:[UIButton class]]) {
             UIButton * button = (UIButton *)tempView;
-            [button setTitleColor:_itemHighlightedColor forState:UIControlStateHighlighted];
+            [button setTitleColor:_itemBgHighlightedColor forState:UIControlStateHighlighted];
         }
     }
 }
@@ -135,9 +161,12 @@
     self.selectTag            = 0;
     self.borderColor          = [UIColor wya_hex:@"#108DE7"];
     self.itemsFont            = 15;
-    self.itemNormalColor      = [UIColor wya_hex:@"#108DE7"];
-    self.itemSelectColor      = [UIColor wya_hex:@"#FFFFFF"];
-    self.itemHighlightedColor = [UIColor wya_hex:@"#FFFFFF"];
+    self.itemBgNormalColor      = [UIColor wya_hex:@"#108DE7"];
+    self.itemBgSelectColor      = [UIColor wya_hex:@"#FFFFFF"];
+    self.itemBgHighlightedColor = [UIColor wya_hex:@"#FFFFFF"];
+    self.titleBgNormalColor = [UIColor wya_hex:@"#FFFFFF"];
+    self.titleBgSelectColor = [UIColor wya_hex:@"#108DE7"];
+    self.titleBgHighlightedColor = [UIColor wya_hex:@"#108DE7"];
 }
 
 // 标题按钮
@@ -153,16 +182,16 @@
         itemsButton.frame      = CGRectMake(i * (width), 0, width, height);
 
         [itemsButton setTitle:title forState:UIControlStateNormal];
-        [itemsButton setTitleColor:self.itemSelectColor forState:UIControlStateSelected];
-        [itemsButton setTitleColor:self.itemNormalColor forState:UIControlStateNormal];
-        [itemsButton setTitleColor:self.itemSelectColor forState:UIControlStateHighlighted];
+        [itemsButton setTitleColor:self.titleBgSelectColor forState:UIControlStateSelected];
+        [itemsButton setTitleColor:self.titleBgNormalColor forState:UIControlStateNormal];
+        [itemsButton setTitleColor:self.titleBgHighlightedColor forState:UIControlStateHighlighted];
         itemsButton.layer.borderColor = self.borderColor.CGColor;
         itemsButton.layer.borderWidth = 0.5;
         itemsButton.titleLabel.font   = FONT(self.itemsFont);
 
-        [itemsButton wya_setBackgroundColor:self.itemSelectColor forState:UIControlStateNormal];
-        [itemsButton wya_setBackgroundColor:self.itemNormalColor forState:UIControlStateSelected];
-        [itemsButton wya_setBackgroundColor:self.itemNormalColor
+        [itemsButton wya_setBackgroundColor:self.itemBgNormalColor forState:UIControlStateNormal];
+        [itemsButton wya_setBackgroundColor:self.itemBgSelectColor forState:UIControlStateSelected];
+        [itemsButton wya_setBackgroundColor:self.itemBgHighlightedColor
                                    forState:UIControlStateHighlighted];
         itemsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         if (i == self.selectTag) {

@@ -31,6 +31,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, assign) CGFloat cornerRadius;
 
+
+
+
 /**
  设置默认选择项索引,默认选中第一个只写
  */
@@ -48,17 +51,33 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  普通状态颜色默认蓝色
  */
-@property (nonatomic, strong) UIColor * itemNormalColor;
+@property (nonatomic, strong) UIColor * itemBgNormalColor;
 
 /**
  选中状态颜色默认白色
  */
-@property (nonatomic, strong) UIColor * itemSelectColor;
+@property (nonatomic, strong) UIColor * itemBgSelectColor;
 
 /**
  高亮颜色默认白色
  */
-@property (nonatomic, strong) UIColor * itemHighlightedColor;
+@property (nonatomic, strong) UIColor * itemBgHighlightedColor;
+
+/**
+ 普通状态颜色默认蓝色
+ */
+@property (nonatomic, strong) UIColor * titleBgNormalColor;
+
+/**
+ 选中状态颜色默认白色
+ */
+@property (nonatomic, strong) UIColor * titleBgSelectColor;
+
+/**
+ 高亮颜色默认白色
+ */
+@property (nonatomic, strong) UIColor * titleBgHighlightedColor;
+
 
 /**
  items字体大小默认15
