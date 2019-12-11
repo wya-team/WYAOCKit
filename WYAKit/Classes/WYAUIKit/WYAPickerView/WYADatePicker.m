@@ -1342,7 +1342,7 @@ static CGFloat titleHeight      = 44.0;
 
     WYADateCompare result      = [selectDate wya_dateCompareWithDate:self.datePickerMinDate];
     WYADateCompare otherResult = [selectDate wya_dateCompareWithDate:self.datePickerMaxDate];
-    NSAssert(result != WYADateCompareLess && otherResult != WYADateCompareGreater, @"选中的时间不在最大时间和最小时间范围内");
+//    NSAssert(result != WYADateCompareLess && otherResult != WYADateCompareGreater, @"选中的时间不在最大时间和最小时间范围内");
 
     self.datePickerManager.selectDate = selectDate;
     [self configDatePickeContentOffset];

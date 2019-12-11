@@ -18,14 +18,6 @@
 @implementation WYATextView {
     CGFloat _initialHeight;
 }
-- (instancetype)init
-{
-    self = [super init];
-    if (self) {
-        [self createUI];
-    }
-    return self;
-}
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -67,14 +59,29 @@
     CGRect noteLabel_rect    = CGRectMake(noteLabel_x, noteLabel_y, noteLabel_width, noteLabel_height);
     self.noteLabel.frame     = noteLabel_rect;
 
+    if (self.rightView) {
+        CGFloat rightView_x = self.cmam_width - self.rightView.bounds.size.width;
+        CGFloat rightView_y = (self.cmam_height - self.rightView.bounds.size.height) / 2;
+        CGFloat rightView_width = self.rightView.bounds.size.width;
+        CGFloat rightView_height = self.rightView.bounds.size.height;
+        CGRect rightView_rect = CGRectMake(rightView_x, rightView_y,  rightView_width, rightView_height);
+        self.rightView.frame = rightView_rect;
+    }
+
     CGFloat textView_x;
     CGFloat textView_width;
-    if (self.showTitle == NO) {
+    if (self.showTitle == NO && !self.rightView) {
         textView_x     = 0;
         textView_width = self.cmam_width;
     } else {
-        textView_x     = self.titleLabel.cmam_right;
-        textView_width = self.cmam_width - self.titleLabel.cmam_right;
+        if (self.showTitle && !self.rightView) {
+            textView_x     = self.titleLabel.cmam_right;
+            textView_width = self.cmam_width - self.titleLabel.cmam_right;
+        } else if (self.showTitle == NO && self.rightView){
+            textView_x     = 0;
+            textView_width = self.cmam_width - self.rightView.cmam_width;
+        }
+
     }
     CGFloat textView_y = self.textViewPadding;
     CGFloat textView_height;
@@ -206,6 +213,12 @@
     }
 }
 
+- (void)setInitHeight:(CGFloat)initHeight{
+    if (!_initialHeight) {
+        _initialHeight = initHeight;
+    }
+}
+
 - (void)setTextViewWordsCount:(NSUInteger)textViewWordsCount
 {
     _textViewWordsCount = textViewWordsCount;
@@ -301,6 +314,15 @@
 {
     _textViewPadding = textViewPadding;
     [self layoutIfNeeded];
+}
+
+- (void)setRightView:(UIView *)rightView{
+    _rightView = rightView;
+    if (rightView) {
+        [self addSubview:rightView];
+        [self setNeedsLayout];
+        [self layoutIfNeeded];
+    }
 }
 
 #pragma mark--- Getter

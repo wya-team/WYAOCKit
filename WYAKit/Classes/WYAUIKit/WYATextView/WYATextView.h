@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WYATextView : UIView
 
 @property (nonatomic, strong) UITextView * textView;
+@property (nonatomic, strong) UIView * rightView;
+@property (nonatomic, assign) CGFloat initHeight; // 初始高度
 /// 标题
 @property (nonatomic, copy) NSString * title UI_APPEARANCE_SELECTOR;
 /// 是否显示标题,default is YES
