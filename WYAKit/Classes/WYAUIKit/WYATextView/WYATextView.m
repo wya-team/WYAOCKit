@@ -10,8 +10,7 @@
 
 @interface WYATextView ()
 
-@property (nonatomic, strong) UILabel * titleLabel;
-@property (nonatomic, strong) UILabel * noteLabel;
+
 
 @end
 

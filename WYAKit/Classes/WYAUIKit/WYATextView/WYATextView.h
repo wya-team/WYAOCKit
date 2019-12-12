@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WYATextView : UIView
 
+@property (nonatomic, strong) UILabel * titleLabel;
+@property (nonatomic, strong) UILabel * noteLabel;
 @property (nonatomic, strong) UITextView * textView;
 @property (nonatomic, strong) UIView * rightView;
 @property (nonatomic, assign) CGFloat initHeight; // 初始高度
