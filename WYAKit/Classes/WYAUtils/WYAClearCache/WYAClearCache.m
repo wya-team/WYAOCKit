@@ -113,7 +113,7 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             //回调或者说是通知主线程刷新，
-            fileSize([self automaticCacheUnitWith:folderSize]);
+            fileSize([self automaticUnitWith:folderSize]);
         });
     });
 }
