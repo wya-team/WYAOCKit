@@ -23,9 +23,11 @@ typedef NS_ENUM(NSInteger, WYADateCompare) {
 + (NSDate *)wya_dateWithString:(NSString *)string format:(NSString *)format;
 
 /**
- * 根据TimeInterval获取时间字符串,带有时区偏移
+ * 根据TimeInterval获取时间字符串(13位时间戳)
  */
-+ (NSString *)wya_stringWithTimeInterval:(unsigned int)time Formatter:(NSString *)format;
++ (NSString *)wya_stringWithTimeInterval:(NSUInteger)time Formatter:(NSString *)format;
+
++ (NSDate *)wya_dateWithTimeInterval:(NSUInteger)time Formatter:(NSString *)format;
 /**
  * 根据字符串和格式获取TimeInterval时间,带有时区偏移
  */

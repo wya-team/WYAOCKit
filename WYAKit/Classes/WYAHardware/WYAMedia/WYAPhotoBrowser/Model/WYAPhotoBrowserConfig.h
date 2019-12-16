@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL allowEditVideo;
 /// 是否允许相册中拍照
 @property (nonatomic, assign) BOOL canTakePicture;
+/// 是否可以同时选择图片或者视频
+@property (nonatomic, assign) BOOL allowChoosePhotoAndVideo;
 
 /// 编辑视频时最大裁剪时间，单位：秒，默认10s 且最低10s (当该参数为10s时，所选视频时长必须大于等于10s才允许进行编辑)
 @property (nonatomic, assign) NSInteger maxEditVideoTime;
