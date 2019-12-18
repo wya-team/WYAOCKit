@@ -204,8 +204,9 @@
 
 - (void)selectCellImageWithModel:(WYAPhotoBrowserModel *)model select:(BOOL)select
 {
+
+
     if (select) {
-        //
         [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model
                                                                               isOriginal:selectOriginalImage
                                                                           allowSelectGif:[self config].allowSelectGif
@@ -236,6 +237,36 @@
     }
     [self changePreviewButtonState];
     [self changeDoneButtonState];
+
+    if (![self config].allowChoosePhotoAndVideo) {
+        BOOL isCannotSelectVideo = NO;
+        BOOL isCannotSelectImage = NO;
+        for (WYAPhotoBrowserModel * model in _preViewArray) {
+            if (model.type == WYAAssetMediaTypeImage) {
+                isCannotSelectVideo = YES;
+            } else if (model.type == WYAAssetMediaTypeVideo) {
+                isCannotSelectImage = YES;
+            }
+        }
+        if (isCannotSelectVideo == YES && model.type == WYAAssetMediaTypeImage) {
+            for (WYAPhotoBrowserModel * model in self.dataSource) {
+                if (model.type == WYAAssetMediaTypeVideo) {
+                    model.needCover = YES;
+                }
+            }
+            [self.collectionView reloadData];
+        }
+        if (isCannotSelectImage == YES && model.type == WYAAssetMediaTypeVideo) {
+            for (WYAPhotoBrowserModel * model in self.dataSource) {
+                WYAPhotoBrowserModel * firstModel = _preViewArray.firstObject;
+                if (model != firstModel) {
+                    model.needCover = YES;
+                }
+            }
+            [self.collectionView reloadData];
+            return;
+        }
+    }
 }
 
 - (void)changePreviewButtonState
@@ -351,6 +382,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
     if ([self config].canTakePicture) {
         if (indexPath.item == 0) {
             [self takePhoto];
+            return;
+        }
+    }
+
+    if (![self config].allowChoosePhotoAndVideo) {
+        WYAPhotoBrowserModel * model = self.dataSource[indexPath.item];
+        if (model.needCover = YES) {
             return;
         }
     }

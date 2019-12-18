@@ -89,10 +89,11 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
 @end
 
 typedef UIImage * (^PlaceHoldImageBlock)(WYAImageBrowser * browser, NSInteger index);
-typedef NSURL * (^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
+// 数组传递两个类型的数组，第一个示原图的URL，第二个是原图大小的字符串
+typedef NSArray * (^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
 typedef ALAsset * (^AssetBlock)(WYAImageBrowser * browser, NSInteger index);
 typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteger index);
-
+typedef void (^GoCameraBlock)(void);
 @interface WYAImageBrowser : UIView
 
 /// pagecontrol 样式，默认为WYAImageBrowserPageControlStyleClassic样式
@@ -124,7 +125,8 @@ typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteg
 @property (nonatomic, strong) UIImage * currentPageDotImage UI_APPEARANCE_SELECTOR;
 /// 其他分页控件小圆标图片
 @property (nonatomic, strong) UIImage * pageDotImage UI_APPEARANCE_SELECTOR;
-
+@property (nonatomic, strong) UIButton * goCameraButton;
+@property (nonatomic, copy) GoCameraBlock goCameraBlock;
 /**
  快速创建并进入图片浏览器 , 同时传入数据源对象
 

@@ -117,6 +117,7 @@
     [self setUpPageControl];
 
     [self addSubview:self.indexLabel];
+    [self addSubview:self.goCameraButton];
     [self addSubview:self.saveButton];
     [self addSubview:self.lookupButton];
 
@@ -172,6 +173,10 @@
     self.indexLabel.cmam_centerX       = self.cmam_width * 0.5;
     self.indexLabel.cmam_centerY       = WYAStatusBarHeight + 15;
     self.indexLabel.layer.cornerRadius = self.indexLabel.cmam_height * 0.5;
+
+    self.goCameraButton.bounds = CGRectMake(0, 0, 40, 40);
+    self.goCameraButton.cmam_right = self.cmam_right - 10;
+    self.goCameraButton.cmam_top = WYAStatusBarHeight;
 
     self.savaImageTipLabel.layer.cornerRadius = 5;
     self.savaImageTipLabel.clipsToBounds      = YES;
@@ -315,6 +320,11 @@
     self.currentZoomingScrollView = zoomingScrollView;
     UIImage * image = [zoomingScrollView getReloadImageWithUrl:[self highQualityImageURLForIndex:index]];
     if (!image) {
+        NSString * string = [self highQualityImageSizeForIndex:index];
+        if (string) {
+            [self.lookupButton setTitle:[NSString stringWithFormat:@"查看原图(%@)",string] forState:UIControlStateNormal];
+        }
+
         [zoomingScrollView setShowImage:[self placeholderImageForIndex:self.currentImageIndex]];
         self.lookupButton.hidden = NO;
     } else {
@@ -403,7 +413,8 @@
         }
         return url;
     } else if (self.highQualityImageURLBlock) {
-        NSURL * url = self.highQualityImageURLBlock(self, index);
+        NSArray * array = self.highQualityImageURLBlock(self, index);
+        NSURL * url = [array firstObject];
         if (!url) {
             NSLog(@"高清大图URL数据 为空,请检查代码 , 图片索引:%zd", index);
             return nil;
@@ -428,6 +439,13 @@
         }
     }
     return nil;
+}
+
+- (NSString *)highQualityImageSizeForIndex:(NSInteger)index{
+    if (self.highQualityImageURLBlock) {
+        NSArray * array = self.highQualityImageURLBlock(self, index);
+        return [array lastObject];
+    }
 }
 
 /**
@@ -665,6 +683,7 @@
     self.saveButton.hidden = YES;
     self.indexLabel.hidden = YES;
     self.lookupButton.hidden = YES;
+    self.goCameraButton.hidden = YES;
     if (pan.state == UIGestureRecognizerStateChanged) {
         pan.view.transform = CGAffineTransformTranslate(pan.view.transform, point.x, point.y);
         self.offset        = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
@@ -742,6 +761,7 @@
                 self.indexLabel.hidden = NO;
                 self.saveButton.hidden = NO;
                 self.lookupButton.hidden = NO;
+                self.goCameraButton.hidden = NO;
             }];
         }
     }
@@ -1122,9 +1142,10 @@
         _saveButton = [[UIButton alloc] init];
         [_saveButton setTitle:@"保存" forState:UIControlStateNormal];
         [_saveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _saveButton.backgroundColor    = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
-        _saveButton.layer.cornerRadius = 5;
-        _saveButton.clipsToBounds      = YES;
+//        _saveButton.backgroundColor    = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+        _saveButton.titleLabel.font = FONT(15);
+//        _saveButton.layer.cornerRadius = 5;
+//        _saveButton.clipsToBounds      = YES;
         [_saveButton addTarget:self action:@selector(saveImage) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveButton;
@@ -1136,6 +1157,7 @@
         [_lookupButton setTitle:@"查看原图" forState:UIControlStateNormal];
         [_lookupButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _lookupButton.backgroundColor    = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+        _lookupButton.titleLabel.font = FONT(13);
         _lookupButton.layer.cornerRadius = 5;
         _lookupButton.clipsToBounds      = YES;
         [_lookupButton addTarget:self action:@selector(lookupOriginalImage) forControlEvents:UIControlEventTouchUpInside];
@@ -1143,14 +1165,32 @@
     return _lookupButton;
 }
 
+- (UIButton *)goCameraButton{
+    if (!_goCameraButton) {
+        WeakSelf(weakSelf);
+        _goCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_goCameraButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [_goCameraButton setBackgroundColor:[UIColor redColor]];
+        _goCameraButton.layer.cornerRadius = 5;
+        _goCameraButton.clipsToBounds      = YES;
+        _goCameraButton.hidden = YES;
+        [_goCameraButton addCallBackAction:^(UIButton *button) {
+            if (self.goCameraBlock) {
+                self.goCameraBlock();
+            }
+        }];
+    }
+    return _goCameraButton;
+}
+
 - (UILabel *)savaImageTipLabel
 {
     if (_savaImageTipLabel == nil) {
         _savaImageTipLabel                 = [[UILabel alloc] init];
         _savaImageTipLabel.textColor       = [UIColor whiteColor];
-        _savaImageTipLabel.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+//        _savaImageTipLabel.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
         _savaImageTipLabel.textAlignment   = NSTextAlignmentCenter;
-        _savaImageTipLabel.font            = [UIFont boldSystemFontOfSize:17];
+        _savaImageTipLabel.font            = FONT(15);
     }
     return _savaImageTipLabel;
 }
