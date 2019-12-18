@@ -320,13 +320,18 @@
     self.currentZoomingScrollView = zoomingScrollView;
     UIImage * image = [zoomingScrollView getReloadImageWithUrl:[self highQualityImageURLForIndex:index]];
     if (!image) {
-        NSString * string = [self highQualityImageSizeForIndex:index];
-        if (string) {
-            [self.lookupButton setTitle:[NSString stringWithFormat:@"查看原图(%@)",string] forState:UIControlStateNormal];
+        if (self.browserStyle == WYAImageBrowserStyleSimple) {
+            NSString * string = [self highQualityImageSizeForIndex:index];
+            if (string) {
+                [self.lookupButton setTitle:[NSString stringWithFormat:@"查看原图(%@)",string] forState:UIControlStateNormal];
+            }
+            self.lookupButton.hidden = NO;
+        } else {
+            self.lookupButton.hidden = YES;
         }
 
         [zoomingScrollView setShowImage:[self placeholderImageForIndex:self.currentImageIndex]];
-        self.lookupButton.hidden = NO;
+
     } else {
         [zoomingScrollView setShowImage:image];
         self.lookupButton.hidden = YES;
@@ -446,6 +451,7 @@
         NSArray * array = self.highQualityImageURLBlock(self, index);
         return [array lastObject];
     }
+    return @"";
 }
 
 /**
@@ -574,11 +580,13 @@
             self.pageControl.hidden = NO;
             self.indexLabel.hidden  = YES;
             self.saveButton.hidden  = YES;
+            self.lookupButton.hidden = YES;
         } break;
         case WYAImageBrowserStyleSimple: {
             self.indexLabel.hidden  = NO;
             self.saveButton.hidden  = NO;
             self.pageControl.hidden = YES;
+            self.lookupButton.hidden = NO;
         } break;
         default:
             break;
@@ -640,10 +648,6 @@
     self.lookupButton.hidden = YES;
 }
 
-- (void)getImageSizeWithImage:(UIImage *)image{
-
-}
-
 #pragma mark - Notifation
 - (void)orientationDidChange
 {
@@ -683,7 +687,7 @@
     self.saveButton.hidden = YES;
     self.indexLabel.hidden = YES;
     self.lookupButton.hidden = YES;
-    self.goCameraButton.hidden = YES;
+//    self.goCameraButton.hidden = YES;
     if (pan.state == UIGestureRecognizerStateChanged) {
         pan.view.transform = CGAffineTransformTranslate(pan.view.transform, point.x, point.y);
         self.offset        = CGPointMake(self.offset.x + point.x, self.offset.y + point.y);
@@ -761,7 +765,7 @@
                 self.indexLabel.hidden = NO;
                 self.saveButton.hidden = NO;
                 self.lookupButton.hidden = NO;
-                self.goCameraButton.hidden = NO;
+//                self.goCameraButton.hidden = NO;
             }];
         }
     }
