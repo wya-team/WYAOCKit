@@ -615,7 +615,7 @@
 + (NSString *)wya_stringWithTimeInterval:(NSUInteger)time Formatter:(NSString *)format
 {
     NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     [formatter setDateFormat:format];
 //    NSTimeZone * localtimezone = [NSTimeZone systemTimeZone];
 //    NSInteger offset           = [localtimezone secondsFromGMT];
@@ -625,11 +625,12 @@
 }
 
 + (NSDate *)wya_dateWithTimeInterval:(NSUInteger)time Formatter:(NSString *)format{
-//    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
-//    [formatter setDateFormat:@"yyyy-MM-dd"];
-//    [formatter setDateFormat:format];
     NSDate * date              = [NSDate dateWithTimeIntervalSince1970:time/1000];
-    return date;
+    NSDateFormatter * formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:format];
+    NSString * formatDateString = [formatter stringFromDate:date];
+    NSDate * otherDate = [formatter dateFromString:formatDateString];
+    return otherDate;
 }
 
 + (NSTimeInterval)wya_now

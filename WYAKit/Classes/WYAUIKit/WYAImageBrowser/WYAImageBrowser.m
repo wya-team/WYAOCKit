@@ -613,7 +613,7 @@
 {
     WYAZoomingScrollView * zoomingScrollView = [self zoomingScrollViewAtIndex:self.currentImageIndex];
     if (zoomingScrollView.progress < 1.0) {
-        self.savaImageTipLabel.text = @" >_< 图片加载中,请稍后 ";
+        self.savaImageTipLabel.text = @" 图片加载中,请稍后 ";
         [self addSubview:self.savaImageTipLabel];
         [self.savaImageTipLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1.0];
         return;
@@ -628,9 +628,9 @@
     [self.indicatorView removeFromSuperview];
     [self addSubview:self.savaImageTipLabel];
     if (error) {
-        self.savaImageTipLabel.text = @" >_< 保存失败 ";
+        self.savaImageTipLabel.text = @" 保存失败 ";
     } else {
-        self.savaImageTipLabel.text = @" ^_^ 保存成功 ";
+        self.savaImageTipLabel.text = @" 保存成功 ";
     }
     [self.savaImageTipLabel performSelector:@selector(removeFromSuperview) withObject:nil afterDelay:1.0];
 }
@@ -1173,8 +1173,7 @@
     if (!_goCameraButton) {
         WeakSelf(weakSelf);
         _goCameraButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_goCameraButton setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
-        [_goCameraButton setBackgroundColor:[UIColor redColor]];
+        [_goCameraButton setImage:[UIImage loadBundleImage:@"icon-album" ClassName:NSStringFromClass([self class])] forState:UIControlStateNormal];
         _goCameraButton.layer.cornerRadius = 5;
         _goCameraButton.clipsToBounds      = YES;
         _goCameraButton.hidden = YES;
@@ -1192,9 +1191,11 @@
     if (_savaImageTipLabel == nil) {
         _savaImageTipLabel                 = [[UILabel alloc] init];
         _savaImageTipLabel.textColor       = [UIColor whiteColor];
-//        _savaImageTipLabel.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
+        _savaImageTipLabel.backgroundColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.1f alpha:0.90f];
         _savaImageTipLabel.textAlignment   = NSTextAlignmentCenter;
         _savaImageTipLabel.font            = FONT(15);
+        _savaImageTipLabel.layer.cornerRadius = 5 * SizeAdapter;
+        _savaImageTipLabel.layer.masksToBounds = YES;
     }
     return _savaImageTipLabel;
 }
