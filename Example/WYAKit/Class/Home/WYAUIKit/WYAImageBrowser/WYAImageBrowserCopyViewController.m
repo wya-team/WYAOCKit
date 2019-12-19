@@ -35,14 +35,9 @@
                                         placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
                                             return imageView.image;
                                         }
-                                        HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
+                                        HighQualityImageURLBlock:^NSArray *(WYAImageBrowser *browser, NSInteger index) {
                                             return nil;
-                                        }
-                                        AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
-                                            return nil;
-                                        }
-                                        SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
-
+                                        } AssetBlock:nil SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
                                             return imageView;
                                         }];
                                         WYAAlertButton * alertButton = [[WYAAlertButton alloc] initWithTitle:@"保存"

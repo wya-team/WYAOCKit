@@ -383,9 +383,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
         placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
             return arr[index];
         }
-        HighQualityImageURLBlock:^NSURL *(WYAImageBrowser * browser, NSInteger index) {
-            return nil;
-        }
+        HighQualityImageURLBlock:nil
         AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
             return nil;
         }
