@@ -40,7 +40,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) void (^textViewContentFrame)(void);
 /// 监听文本输入回调
 @property (nonatomic, copy) void (^textChange)(NSString * text);
-@property (nonatomic, copy) void (^textEndChange)(void);
 @end
 
 NS_ASSUME_NONNULL_END

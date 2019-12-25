@@ -38,7 +38,6 @@
     self.showWordsCount     = YES;
     self.textViewWordsCount = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange:) name:UITextViewTextDidChangeNotification object:self.textView];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textEndChange) name:UITextViewTextDidEndEditingNotification object:self.textView];
 }
 
 - (void)layoutSubviews
@@ -97,7 +96,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidChangeNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UITextViewTextDidEndEditingNotification object:nil];
 }
 
 #pragma mark--- Private Method
@@ -200,12 +198,6 @@
     self.frame       = self_rect;
     if (self.textViewContentFrame) {
         self.textViewContentFrame();
-    }
-}
-
-- (void)textEndChange{
-    if (self.textEndChange) {
-        self.textEndChange();
     }
 }
 
