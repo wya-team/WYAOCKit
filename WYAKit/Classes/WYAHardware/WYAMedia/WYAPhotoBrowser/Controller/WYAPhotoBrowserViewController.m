@@ -388,7 +388,7 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
     if (![self config].allowChoosePhotoAndVideo) {
         WYAPhotoBrowserModel * model = self.dataSource[indexPath.item];
-        if (model.needCover = YES) {
+        if (model.needCover == YES) {
             return;
         }
     }

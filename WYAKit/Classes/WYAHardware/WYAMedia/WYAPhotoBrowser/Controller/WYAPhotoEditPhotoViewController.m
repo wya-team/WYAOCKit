@@ -281,6 +281,12 @@
 - (void)rightBtnClick
 {
     WYAPhotoBrowserModel * model = [self photoBrowserModel];
+    if (![self config].allowChoosePhotoAndVideo) {
+        if (model.needCover) {
+            return;
+        }
+    }
+    
     model.selected               = !model.selected;
     _navRightButton.selected     = model.selected;
     if (model.selected) {

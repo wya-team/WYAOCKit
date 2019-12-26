@@ -342,10 +342,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 
                                                                         WYAPhotoBrowser * photo     = [[WYAPhotoBrowser alloc] init];
                                                                         photo.config.maxSelectCount = inter;
-                                                                        photo.config.sortAscending  = NO;
-            photo.config.canTakePicture = YES;
-            photo.config.maxEditVideoTime = 60;
-            photo.config.maxVideoDuration = 60;
+                                                                        photo.config.sortAscending       = NO;
+                                                                        photo.config.allowSelectGif      = NO;
+                                                                        photo.config.allowChoosePhotoAndVideo = NO;
+                                                                        photo.config.allowSelectVideo    = YES;
+                                                                        photo.config.allowEditVideo      = YES;
+                                                                        photo.config.maxVideoDuration = 60;
+                                                                        photo.config.maxEditVideoTime = 60;
                                                                         photo.callBackBlock         = ^(NSMutableArray<UIImage *> * _Nonnull medias, NSMutableArray<PHAsset *> * _Nonnull assets) {
                                                                             NSLog(@"images==%@", medias);
                                                                             videos                 = assets;
