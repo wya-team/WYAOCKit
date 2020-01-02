@@ -89,7 +89,7 @@ typedef NS_ENUM(NSUInteger, WYAImageBrowserPageControlStyle) {
 @end
 
 typedef UIImage * (^PlaceHoldImageBlock)(WYAImageBrowser * browser, NSInteger index);
-// 数组传递两个类型的数组，第一个示原图的URL，第二个是原图大小的字符串
+// 数组传递两个类型的一个数组，第一个示原图的URL，第二个是原图大小的字符串
 typedef NSArray * (^HighQualityImageURLBlock)(WYAImageBrowser * browser, NSInteger index);
 typedef ALAsset * (^AssetBlock)(WYAImageBrowser * browser, NSInteger index);
 typedef UIImageView * (^SourceImageViewBlock)(WYAImageBrowser * browser, NSInteger index);

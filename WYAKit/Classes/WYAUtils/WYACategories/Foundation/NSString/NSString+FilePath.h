@@ -59,4 +59,12 @@
  @return YES为文件夹，no文件路径
  */
 + (BOOL)wya_IsDirectory:(NSString *)filePath;
+
+/// 获取沙盒中视频的大小
+/// @param videoPath 视频路径
++ (NSInteger)getLocalVideoSizeWithPath:(NSString *)videoPath;
+
+/// 获取沙盒中视频时长
+/// @param videoPath 视频路径
++ (int)getLocalVideoTimeWithPath:(NSString *)videoPath;
 @end

@@ -54,4 +54,19 @@
     [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory];
     return isDirectory;
 }
+
++ (NSInteger)getLocalVideoSizeWithPath:(NSString *)videoPath{
+    AVURLAsset * asset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:videoPath]];
+    CMTime   time = [asset duration];
+    int seconds = ceil(time.value/time.timescale);
+    NSInteger   fileSize = [[NSFileManager defaultManager] attributesOfItemAtPath:videoPath error:nil].fileSize;
+    return fileSize;
+}
+
++ (int)getLocalVideoTimeWithPath:(NSString *)videoPath{
+    AVURLAsset * asset = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:videoPath]];
+    CMTime   time = [asset duration];
+    int seconds = ceil(time.value/time.timescale);
+    return seconds;
+}
 @end
