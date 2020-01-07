@@ -185,7 +185,7 @@
     self.savaImageTipLabel.cmam_width += 20;
     self.savaImageTipLabel.center = self.center;
 
-    self.lookupButton.bounds = CGRectMake(0, 0, 100, 30);
+    self.lookupButton.bounds = CGRectMake(0, 0, 130, 30);
     self.lookupButton.cmam_centerX = self.indexLabel.cmam_centerX;
     self.lookupButton.cmam_centerY = self.saveButton.cmam_centerY;
 

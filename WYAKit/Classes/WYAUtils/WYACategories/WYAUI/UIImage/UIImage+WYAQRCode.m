@@ -71,7 +71,8 @@
  * logo相对于父视图的缩放比（取值范围：0-1，0，代表不显示，1，代表与父视图大小相同）
  */
 + (UIImage *)wya_GenerateWithLogoQRCodeData:(NSString *)data
-                              logoImageName:(NSString *)logoImageName
+                                  logoImage:(UIImage * _Nullable)logoImage
+                              logoImageName:(NSString * _Nullable)logoImageName
                        logoScaleToSuperView:(CGFloat)logoScaleToSuperView
 {
     // 1、创建滤镜对象
@@ -105,8 +106,12 @@
     [start_image drawInRect:CGRectMake(0, 0, start_image.size.width, start_image.size.height)];
 
     // 再把小图片画上去
-    NSString * icon_imageName = logoImageName;
-    UIImage * icon_image      = [UIImage imageNamed:icon_imageName];
+    UIImage * icon_image;
+    if (logoImage) {
+        icon_image = logoImage;
+    } else {
+        icon_image = [UIImage imageNamed:logoImageName];
+    }
     CGFloat icon_imageW       = start_image.size.width * logoScaleToSuperView;
     CGFloat icon_imageH       = start_image.size.height * logoScaleToSuperView;
     CGFloat icon_imageX       = (start_image.size.width - icon_imageW) * 0.5;
