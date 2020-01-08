@@ -141,6 +141,7 @@ typedef void (^GoCameraBlock)(void);
  */
 + (instancetype)showImageBrowserWithCurrentImageIndex:(NSInteger)currentImageIndex
                                            imageCount:(NSUInteger)imageCount
+                                                style:(WYAImageBrowserStyle)style
                                            datasource:(id<WYAImageBrowserDatasource>)datasource
                                   placeHoldImageBlock:(PlaceHoldImageBlock)placeHoldimageBlock
                              HighQualityImageURLBlock:(HighQualityImageURLBlock)highQualityImageBlock

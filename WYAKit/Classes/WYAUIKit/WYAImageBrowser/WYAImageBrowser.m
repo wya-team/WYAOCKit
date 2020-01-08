@@ -95,7 +95,6 @@
     _hidesForSinglePage  = YES;
     _currentPageDotColor = [UIColor whiteColor];
     _pageDotColor        = [UIColor lightGrayColor];
-    _browserStyle        = WYAImageBrowserStylePageControl;
 
     self.currentImageIndex = 0;
     self.imageCount        = 0;
@@ -586,7 +585,7 @@
             self.indexLabel.hidden  = NO;
             self.saveButton.hidden  = NO;
             self.pageControl.hidden = YES;
-            self.lookupButton.hidden = NO;
+//            self.lookupButton.hidden = NO;
         } break;
         default:
             break;
@@ -798,6 +797,7 @@
 #pragma mark - Public Method
 + (instancetype)showImageBrowserWithCurrentImageIndex:(NSInteger)currentImageIndex
                                            imageCount:(NSUInteger)imageCount
+                                                style:(WYAImageBrowserStyle)style
                                            datasource:(id<WYAImageBrowserDatasource>)datasource
                                   placeHoldImageBlock:(PlaceHoldImageBlock)placeHoldimageBlock
                              HighQualityImageURLBlock:(HighQualityImageURLBlock)highQualityImageBlock
@@ -812,6 +812,7 @@
     browser.highQualityImageURLBlock = highQualityImageBlock;
     browser.assetBlock               = assetBlock;
     browser.sourceImageViewBlock     = sourceImageViewBlock;
+    browser.browserStyle = style;
     [browser show];
     return browser;
 }
