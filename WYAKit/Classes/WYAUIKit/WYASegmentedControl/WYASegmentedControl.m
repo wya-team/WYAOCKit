@@ -180,7 +180,7 @@
         UIButton * itemsButton = [UIButton buttonWithType:UIButtonTypeCustom];
         itemsButton.tag        = SEGMENTEDBASEITEMSTAG + i;
         itemsButton.frame      = CGRectMake(i * (width), 0, width, height);
-
+        
         [itemsButton setTitle:title forState:UIControlStateNormal];
         [itemsButton setTitleColor:self.titleBgSelectColor forState:UIControlStateSelected];
         [itemsButton setTitleColor:self.titleBgNormalColor forState:UIControlStateNormal];

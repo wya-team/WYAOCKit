@@ -193,13 +193,19 @@
     UIButton * tempButton = [rightButtons firstObject];
     NSString * title      = tempButton.titleLabel.text;
     UIImage * image       = tempButton.imageView.image;
+    UIColor * color = tempButton.titleLabel.textColor;
     [self.rightButtonOne setTitle:title forState:0];
     [self.rightButtonOne setImage:image forState:0];
+    [self.rightButtonOne setTitleColor:color forState:0];
+
     UIButton * tempButton2 = [rightButtons lastObject];
     NSString * title2      = tempButton2.titleLabel.text;
     UIImage * image2       = tempButton2.imageView.image;
+    UIColor * color2 = tempButton.titleLabel.textColor;
     [self.rightButtonTwo setTitle:title2 forState:0];
     [self.rightButtonTwo setImage:image2 forState:0];
+    [self.rightButtonTwo setTitleColor:color2 forState:0];
+
 }
 #pragma mark ======= public methods
 #pragma mark ======= right Button
