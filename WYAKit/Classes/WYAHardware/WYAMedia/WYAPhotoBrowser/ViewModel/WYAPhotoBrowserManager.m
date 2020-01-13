@@ -979,7 +979,7 @@ static BOOL _sortAscending;
 {
     NSString * format = (type == WYAExportVideoTypeMov ? @"mov" : @"mp4");
 
-    NSString * exportFilePath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", [self getUniqueStrByUUID], format]];
+    NSString * exportFilePath = [[NSString wya_libCachePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_%@.%@", [self getUniqueStrByUUID],[NSDate getNowTimeTimesSeconds], format]];
 
     return exportFilePath;
 }
