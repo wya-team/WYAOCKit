@@ -37,8 +37,8 @@ static const void * wya_placeHolderKey;
         CGFloat x                       = lineFragmentPadding + textContainerInset.left + self.layer.borderWidth;
         CGFloat width                   = CGRectGetWidth(self.bounds) - x - textContainerInset.right - 2 * self.layer.borderWidth;
         CGFloat height                  = [self.wya_placeHolderLabel sizeThatFits:CGSizeMake(width, 0)].height;
-//        CGFloat y                       = textContainerInset.top + self.layer.borderWidth;
-        CGFloat y                       = (self.frame.size.height - height) / 2;
+        CGFloat y                       = textContainerInset.top + self.layer.borderWidth;
+//        CGFloat y                       = (self.frame.size.height - height) / 2;
         self.wya_placeHolderLabel.frame = CGRectMake(x, y, width, height);
     }
     [self wyaPlaceHolder_swizzling_layoutSubviews];
