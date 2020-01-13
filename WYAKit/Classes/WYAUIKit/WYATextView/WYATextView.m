@@ -102,6 +102,7 @@
 - (void)textChange:(NSNotification *) not
 {
     UITextView * textView = (UITextView *)not.object;
+    [textView scrollRangeToVisible:textView.selectedRange];
     [self recordTextViewInputWithTextView:textView];
 
     if (self.autoChangeHeight) {
