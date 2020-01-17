@@ -291,12 +291,12 @@
     _navRightButton.selected     = model.selected;
     if (model.selected) {
         [self.selectedModels addObject:model];
-//        if (model.type == WYAAssetMediaTypeVideo) {
-//
-//        } else if (model.type == WYAAssetMediaTypeImage) {
-//
-//        }
-        [_videoAssetArray addObject:model.asset];
+        if (model.type == WYAAssetMediaTypeVideo) {
+            [_videoAssetArray addObject:model.asset];
+        } else if (model.type == WYAAssetMediaTypeImage) {
+
+        }
+
         if (!model.image) {
             [[WYAPhotoBrowserManager sharedPhotoBrowserManager] requestSelectedImageForAsset:model
                                                                                   isOriginal:selectOriginalImage
