@@ -29,33 +29,28 @@
 
     [imageView wya_AddTapGesturesWithTapStyle:WYATapGesturesStyleSingle
                                     TapHandle:^(UITapGestureRecognizer * _Nonnull gesture) {
-                                        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:0
-                                        imageCount:1
-                                        datasource:nil
-                                        placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
-                                            return imageView.image;
-                                        }
-                                        HighQualityImageURLBlock:^NSArray *(WYAImageBrowser *browser, NSInteger index) {
-                                            return nil;
-                                        } AssetBlock:nil SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
-                                            return imageView;
-                                        }];
-                                        WYAAlertButton * alertButton = [[WYAAlertButton alloc] initWithTitle:@"保存"
-                                                                                                   titleFont:FONT(15)
-                                                                                                  titleColor:[UIColor redColor]
-                                                                                                       image:nil
-                                                                                             backgroundImage:nil
-                                                                                                  clickBlock:^(WYAAlertButton * _Nonnull button){
+        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:0 imageCount:1 style:WYAImageBrowserStyleSimple datasource:nil placeHoldImageBlock:^UIImage *(WYAImageBrowser *browser, NSInteger index) {
+            return imageView.image;
+        } HighQualityImageURLBlock:nil AssetBlock:nil SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
+            return imageView;
+        }];
+        WYAAlertButton * alertButton = [[WYAAlertButton alloc] initWithTitle:@"保存"
+                                                                   titleFont:FONT(15)
+                                                                  titleColor:[UIColor redColor]
+                                                                       image:nil
+                                                             backgroundImage:nil
+                                                                  clickBlock:^(WYAAlertButton * _Nonnull button){
 
-                                                                                                  }];
-                                        //        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
-                                        //
-                                        //        }];
-                                        [imageBrowser addAlertSheetButton:alertButton];
-                                        //        [imageBrowser addAlertSheetButton:deleteButton];
-                                        imageBrowser.hidesForSinglePage = NO;
-                                        imageBrowser.browserStyle       = WYAImageBrowserStyleSimple;
-                                    }];
+                                                                  }];
+        //        WYAAlertButton * deleteButton = [[WYAAlertButton alloc]initWithTitle:@"删除" titleFont:FONT(15) titleColor:[UIColor blackColor] image:nil backgroundImage:nil clickBlock:^(WYAAlertButton * _Nonnull button) {
+        //
+        //        }];
+        [imageBrowser addAlertSheetButton:alertButton];
+        //        [imageBrowser addAlertSheetButton:deleteButton];
+        imageBrowser.hidesForSinglePage = NO;
+        imageBrowser.browserStyle       = WYAImageBrowserStyleSimple;
+
+    }];
 
     self.view.backgroundColor = [UIColor redColor];
 }
