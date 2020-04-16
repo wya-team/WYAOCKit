@@ -380,22 +380,13 @@ didSelectItemAtIndexPath:(NSIndexPath *)indexPath
             [arr addObject:model.image];
         }
 
-        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:indexPath.item
-        imageCount:arr.count
-        datasource:nil
-        placeHoldImageBlock:^UIImage *(WYAImageBrowser * browser, NSInteger index) {
+        WYAImageBrowser * imageBrowser = [WYAImageBrowser showImageBrowserWithCurrentImageIndex:indexPath.item imageCount:arr.count style:WYAImageBrowserStylePageControl datasource:nil placeHoldImageBlock:^UIImage *(WYAImageBrowser *browser, NSInteger index) {
             return arr[index];
-        }
-        HighQualityImageURLBlock:nil
-        AssetBlock:^ALAsset *(WYAImageBrowser * browser, NSInteger index) {
-            return nil;
-        }
-        SourceImageViewBlock:^UIImageView *(WYAImageBrowser * browser, NSInteger index) {
+        } HighQualityImageURLBlock:nil AssetBlock:nil SourceImageViewBlock:^UIImageView *(WYAImageBrowser *browser, NSInteger index) {
             WYAEditCameraCell * cell = (WYAEditCameraCell *)[collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
             return cell.imageView;
         }];
         imageBrowser.hidesForSinglePage = NO;
-        imageBrowser.browserStyle       = WYAImageBrowserStyleSimple;
     }
 }
 
