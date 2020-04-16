@@ -6,7 +6,6 @@
 //
 
 #import "WYAPhotoEditPhotoViewController.h"
-#import "WYAImageCropViewController.h"
 #import "WYAPhotoBrowser.h"
 #import "WYAPhotoBrowserModel.h"
 #import "WYAPhotoBrowserEditBottomBar.h"
