@@ -22,8 +22,6 @@
 #import "WYATextViewController.h"
 #import "WYAUIAlertViewController.h"
 
-#import "WYAReamlViewController.h"
-
 #import "WYADownloaderViewController.h"
 #import "WYANavBarViewController.h"
 #import "WYAPageViewController.h"
