@@ -1481,7 +1481,7 @@
 					"\"${PODS_ROOT}/NTYAmrConverter/Source/opencore-amrnb/lib\"",
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
-				MARKETING_VERSION = 0.1.47;
+				MARKETING_VERSION = 0.1.48;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.WYAKit-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1511,7 +1511,7 @@
 					"\"${PODS_ROOT}/NTYAmrConverter/Source/opencore-amrnb/lib\"",
 					"\"${PODS_ROOT}/Realm/core\"",
 				);
-				MARKETING_VERSION = 0.1.47;
+				MARKETING_VERSION = 0.1.48;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.WYAKit-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
