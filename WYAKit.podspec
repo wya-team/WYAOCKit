@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WYAKit'
-  s.version          = '0.1.46'
+  s.version          = '0.1.47'
   s.summary          = 'WYAKit组件库'
 
 # This description is used to generate tags and improve search results.
@@ -28,7 +28,7 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/wya-team/WYAOCKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.swift_version = '5.0'
   s.source_files = 'WYAKit/Classes/**/*.{h,m,pch}'
   
@@ -45,7 +45,7 @@ TODO: Add long description of the pod here.
   s.prefix_header_file = 'WYAKit/Classes/WYAHelp/WYAKitConfigePrefix.pch'
   
   s.dependency 'Masonry'
-  s.dependency 'FMDB'
+#  s.dependency 'FMDB'
   s.dependency 'JQFMDB'
 #  s.dependency 'YYKit'
   s.dependency 'YYText'
@@ -56,8 +56,8 @@ TODO: Add long description of the pod here.
   s.dependency 'SDWebImage', '~>4.4.6'
   s.dependency 'SDWebImage/GIF'
 #  s.dependency 'SDWebImageFLPlugin'
-  s.dependency 'Realm', '3.15.0'
-  s.dependency 'AFNetworking'
+#  s.dependency 'Realm', '3.15.0'
+  s.dependency 'AFNetworking','3.2.1'
   s.dependency 'NTYAmrConverter'
   s.dependency 'AliyunOSSiOS'
   s.dependency 'GPUImage'

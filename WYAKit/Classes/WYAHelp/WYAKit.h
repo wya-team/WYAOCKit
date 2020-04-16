@@ -53,7 +53,6 @@
 #import "WYATransitionPop.h"
 #import "WYATransitionPush.h"
 
-#import "WYARealmBaseManager.h"
 #import "WYACalendarView.h"
 #import "WYAWaterMark.h"
 #import "WYAPhotoBrowserManager.h"
