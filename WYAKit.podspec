@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'WYAKit'
-  s.version          = '0.1.48'
+  s.version          = '0.2.0'
   s.summary          = 'WYAKit组件库'
 
 # This description is used to generate tags and improve search results.
@@ -35,7 +35,7 @@ TODO: Add long description of the pod here.
   s.static_framework = true
   
   s.resource_bundles = {
-     'WYAKit' => ['WYAKit/Assets/*.xcassets', 'WYAKit/Classes/WYAHardware/WYAPhotoBrowser/PhotoBrowser/resource/ZLPhotoBrowser.bundle'],
+     'WYAKit' => ['WYAKit/Assets/*'],
   }
 
   s.resources = "WYAKit/Assets/Pusab.ttf"
